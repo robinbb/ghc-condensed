@@ -1,37 +1,7 @@
-The Glasgow Haskell Compiler
+GHC-Condensed
 ============================
 
-[![pipeline status](https://gitlab.haskell.org/ghc/ghc/badges/master/pipeline.svg?style=flat)](https://gitlab.haskell.org/ghc/ghc/commits/master)
-
-This is the source tree for [GHC][1], a compiler and interactive
-environment for the Haskell functional programming language.
-
 For more information, visit [GHC's web site][1].
-
-Information for developers of GHC can be found on the [GHC issue tracker][2], and you can also view [proposals for new GHC features][13].
-
-
-Getting the Source
-==================
-
-There are two ways to get a source tree:
-
- 1. *Download source tarballs*
-
-    Download the GHC source distribution:
-
-        ghc-<version>-src.tar.xz
-
-    which contains GHC itself and the "boot" libraries.
-
- 2. *Check out the source code from git*
-
-        $ git clone --recurse-submodules git@gitlab.haskell.org:ghc/ghc.git
-
-    Note: cloning GHC from Github requires a special setup. See [Getting a GHC
-    repository from Github][7].
-
-  *See the GHC team's working conventions regarding [how to contribute a patch to GHC](https://gitlab.haskell.org/ghc/ghc/wikis/working-conventions/fixing-bugs).* First time contributors are encouraged to get started by just sending a Merge Request.
 
 
 Building & Installing
