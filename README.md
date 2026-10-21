@@ -53,7 +53,37 @@ It can take a long time.  To customise the build, see the file `HACKING.md`.
 
 ## Nix
 
-If you are looking to use nix to develop on GHC, [check out the wiki for instructions](https://gitlab.haskell.org/ghc/ghc/-/wikis/building/preparation).
+This repository ships a `flake.nix` that provides a complete build
+environment through [ghc.nix][14], the GHC project's own Nix setup: a
+bootstrap GHC, `cabal-install`, `alex`, `happy`, the autotools, and the C
+libraries GHC links against. You need Nix with the `nix-command` and
+`flakes` experimental features enabled. Then:
+
+    $ git submodule update --init --recursive
+    $ nix develop                  # enter the build environment
+    $ ./boot && configure_ghc      # runs ./configure $CONFIGURE_ARGS
+    $ cabal update                 # Hadrian pins a recent index-state
+    $ hadrian/build -j             # as above; results land in _build/
+
+`configure_ghc` passes the `--with-gmp-*`, `--with-curses-*`, and similar
+flags that point `configure` at the Nix store paths of GHC's C
+dependencies. To add flags of your own, append them to `configure_ghc`,
+or call `./configure $CONFIGURE_ARGS ...` directly (in zsh, write
+`${=CONFIGURE_ARGS}`).
+
+The compiler you built is `_build/stage1/bin/ghc`. Run it from inside the
+shell, which supplies the C toolchain it needs for linking.
+
+The default shell is deliberately lean. Two variants add more:
+
+    $ nix develop .#ide            # + haskell-language-server and clangd
+    $ nix develop .#docs           # + Sphinx and XeLaTeX for the docs
+
+With [direnv][15], `echo 'use flake' > .envrc && direnv allow` loads the
+default shell automatically on entering the directory (`.envrc` and
+`.direnv/` are git-ignored). The ghc.nix revision, and through it the
+nixpkgs snapshot and the bootstrap GHC version, is pinned in `flake.lock`;
+`nix flake update` advances the pins.
 
 Filing bugs and feature requests
 ================================
@@ -108,3 +138,6 @@ as described in our [governance documentation](https://gitlab.haskell.org/ghc/gh
         "https://gitlab.haskell.org/ghc/ghc/wikis/team-ghc"
 [13]: https://github.com/ghc-proposals/ghc-proposals
         "https://github.com/ghc-proposals/ghc-proposals"
+[14]: https://gitlab.haskell.org/ghc/ghc.nix
+        "https://gitlab.haskell.org/ghc/ghc.nix"
+[15]: https://direnv.net/                "direnv.net"
