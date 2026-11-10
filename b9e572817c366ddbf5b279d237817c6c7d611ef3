@@ -365,3 +365,371 @@ local	T9872b	normal	compile_time/bytes allocated	1630879584
 local	T9872b_defer	normal	compile_time/bytes allocated	1643806376
 local	T9872c	normal	compile_time/bytes allocated	1353781432
 local	TcPlugin_RewritePerf	normal	compile_time/bytes allocated	1835451576
+
+local	LinkableUsage01	normal	compile_time/bytes allocated	111647296
+local	LinkableUsage01	normal	compile_time/max_bytes_used	17470728
+local	T3924	normal	runtime/bytes allocated	49712
+local	LinkableUsage02	normal	compile_time/bytes allocated	892745680
+local	LinkableUsage02	normal	compile_time/max_bytes_used	21038480
+local	CountDepsAst		deps	19
+local	CountDepsParser		deps	313
+local	T27383	normal	compile_time/bytes allocated	345742568
+local	T10858	normal	compile_time/bytes allocated	117288048
+local	T25196	optasm	compile_time/bytes allocated	1073497648
+local	if_name	normal	binary_size/if_compression(1)	5087
+local	if_name	normal	binary_size/if_compression(2)	5087
+local	if_name	normal	binary_size/if_compression(3)	5087
+local	if_faststring	normal	binary_size/if_compression(1)	3034
+local	if_faststring	normal	binary_size/if_compression(2)	3034
+local	if_faststring	normal	binary_size/if_compression(3)	3034
+local	if_ifacetype	normal	binary_size/if_compression(1)	201524
+local	if_ifacetype	normal	binary_size/if_compression(2)	51121
+local	if_ifacetype	normal	binary_size/if_compression(3)	6211
+local	T5030	normal	compile_time/bytes allocated	90570320
+local	T26426	normal	compile_time/bytes allocated	78409120
+local	parsing001	normal	compile_time/bytes allocated	381228224
+local	T4801	normal	compile_time/bytes allocated	252282472
+local	T5837	normal	compile_time/bytes allocated	29926696
+local	T6048	optasm	compile_time/bytes allocated	78359992
+local	T5321Fun	normal	compile_time/bytes allocated	240388744
+local	T27336	normal	compile_time/bytes allocated	37318504
+local	T5631	normal	compile_time/bytes allocated	500461512
+local	T13386	normal	compile_time/bytes allocated	35899864
+local	T5321FD	normal	compile_time/bytes allocated	225892112
+local	T9020	optasm	compile_time/bytes allocated	211780712
+local	T8095	normal	compile_time/bytes allocated	126817544
+local	T18730	optasm	compile_time/bytes allocated	126025424
+local	T10547	normal	compile_time/bytes allocated	28258264
+local	T9872d	normal	compile_time/bytes allocated	325949536
+local	T783	normal	compile_time/bytes allocated	324694640
+local	FamAppCachePerf	normal	compile_time/bytes allocated	192342352
+local	T3064	normal	compile_time/max_bytes_used	14004912
+local	T3064	normal	compile_time/peak_megabytes_allocated	38
+local	T3064	normal	compile_time/bytes allocated	163870088
+local	T12234	optasm	compile_time/bytes allocated	52126808
+local	T15703	normal	compile_time/bytes allocated	270595784
+local	T12425	optasm	compile_time/bytes allocated	76751976
+local	T9961	normal	compile_time/bytes allocated	290024304
+local	T12150	optasm	compile_time/bytes allocated	67870976
+local	T13035	normal	compile_time/bytes allocated	82536416
+local	T12227	normal	compile_time/bytes allocated	233549608
+local	T5642	normal	compile_time/bytes allocated	396535112
+local	T13056	optasm	compile_time/bytes allocated	258262568
+local	T13379	normal	compile_time/bytes allocated	305864584
+local	CoOpt_Singletons	normal	compile_time/bytes allocated	588880936
+local	CoOpt_Read	normal	compile_time/bytes allocated	713957984
+local	T12545	normal	compile_time/bytes allocated	420204176
+local	T9233	normal	compile_time/bytes allocated	603675904
+local	T12707	normal	compile_time/bytes allocated	753886760
+local	LargeRecord	normal	compile_time/bytes allocated	911477872
+local	SimplCastPerf	normal	compile_time/max_bytes_used	14394064
+local	SimplCastPerf	normal	compile_time/peak_megabytes_allocated	42
+local	SimplCastPerf	normal	compile_time/bytes allocated	147570216
+local	MultiComponentModules	normal	compile_time/bytes allocated	1846072472
+local	T9675	optasm	compile_time/max_bytes_used	17757312
+local	T9675	optasm	compile_time/peak_megabytes_allocated	44
+local	T9675	optasm	compile_time/bytes allocated	396737568
+local	MultiComponentModulesRecomp	normal	compile_time/bytes allocated	377197600
+local	ManyAlternatives	normal	compile_time/bytes allocated	624741496
+local	T1969	normal	compile_time/max_bytes_used	19842960
+local	T1969	normal	compile_time/peak_megabytes_allocated	49
+local	T1969	normal	compile_time/bytes allocated	667518984
+local	T15630	normal	compile_time/bytes allocated	121415408
+local	T15630a	normal	compile_time/bytes allocated	121634208
+local	T14697	normal	compile_time/bytes allocated	432499720
+local	WWRec	normal	compile_time/bytes allocated	488821768
+local	T15164	normal	compile_time/bytes allocated	976856304
+local	T3294	normal	compile_time/max_bytes_used	31516952
+local	T3294	normal	compile_time/peak_megabytes_allocated	81
+local	T3294	normal	compile_time/bytes allocated	1198462808
+local	T16190	normal	compile_time/bytes allocated	244021360
+local	T16473	normal	runtime/bytes allocated	51232
+local	T18304	normal	compile_time/bytes allocated	73064600
+local	T25723	normal	runtime/bytes allocated	51232
+local	T18282	normal	compile_time/bytes allocated	121432064
+local	T18140	normal	compile_time/bytes allocated	48994336
+local	T10421	normal	compile_time/bytes allocated	95638184
+local	T10421a	normal	compile_time/bytes allocated	72055880
+local	T13253-spj	normal	compile_time/bytes allocated	64085128
+local	ManyConstructors	normal	compile_time/bytes allocated	3711049888
+local	T13253	normal	compile_time/bytes allocated	315131928
+local	T17516	normal	compile_time/bytes allocated	961541280
+local	T9630	normal	compile_time/max_bytes_used	32767880
+local	T9630	normal	compile_time/peak_megabytes_allocated	83
+local	T9630	normal	compile_time/bytes allocated	715022600
+local	T18923	normal	compile_time/bytes allocated	57414880
+local	T14683	normal	compile_time/bytes allocated	2682540504
+local	T18223	normal	compile_time/bytes allocated	339929928
+local	T13820	normal	compile_time/peak_megabytes_allocated	25
+local	T13820	normal	compile_time/bytes allocated	30401576
+local	T9198	normal	compile_time/bytes allocated	42715984
+local	T14766	normal	compile_time/bytes allocated	674655200
+local	T20049	normal	compile_time/bytes allocated	67930120
+local	T16875	normal	compile_time/bytes allocated	33131424
+local	T11545	normal	compile_time/bytes allocated	76943784
+local	T11545	normal	compile_time/max_bytes_used	10759512
+local	T11545	normal	compile_time/peak_megabytes_allocated	31
+local	hard_hole_fits	normal	compile_time/bytes allocated	190253512
+local	T21839c	normal	compile_time/bytes allocated	350809992
+local	T20261	normal	compile_time/bytes allocated	531792984
+local	InfiniteListFusion	normal	runtime/bytes allocated	49992
+local	T13960	normal	compile_time/peak_megabytes_allocated	45
+local	T13960	normal	compile_time/bytes allocated	548768888
+local	RecordUpdPerf	normal	compile_time/bytes allocated	361074920
+local	T24582	normal	compile_time/bytes allocated	32154280
+local	LookupFusion	normal	runtime/bytes allocated	50288
+local	T19695	normal	compile_time/bytes allocated	1302114128
+local	T24984	normal	compile_time/bytes allocated	84678504
+local	MultilineStringsPerf	normal	compile_time/peak_megabytes_allocated	23
+local	MultilineStringsPerf	normal	compile_time/bytes allocated	31756128
+local	MultiLayerModulesDefsGhciWithCore	ghci	compile_time/max_bytes_used	15653208
+local	MultiLayerModulesDefsGhciWithCore	ghci	compile_time/peak_megabytes_allocated	39
+local	T25763	normal	compile_time/bytes allocated	1865357728
+local	interpreter_steplocal	ghci	compile_time/bytes allocated	457176464
+local	T26989	normal	compile_time/bytes allocated	571172000
+local	T18698a	normal	compile_time/max_bytes_used	13468136
+local	T18698a	normal	compile_time/peak_megabytes_allocated	38
+local	T18698a	normal	compile_time/bytes allocated	197937928
+local	haddock.base	normal	runtime/bytes allocated	29350965768
+local	haddock.Cabal	normal	runtime/bytes allocated	27389758008
+local	haddock.compiler	normal	runtime/bytes allocated	229068432544
+local	T13719	normal	compile_time/bytes allocated	5178113520
+local	T18698b	normal	compile_time/max_bytes_used	13799088
+local	T18698b	normal	compile_time/peak_megabytes_allocated	39
+local	T18698b	normal	compile_time/bytes allocated	178465976
+local	T15304	normal	compile_time/bytes allocated	1085281104
+local	T15304	normal	compile_time/max_bytes_used	28124288
+local	T15304	normal	compile_time/peak_megabytes_allocated	70
+local	MultiLayerModules	normal	compile_time/bytes allocated	3628140112
+local	join002	optasm	runtime/bytes allocated	2000049768
+local	MultiLayerModulesRecomp	normal	compile_time/bytes allocated	789750904
+local	large-project-makedepend-4000	normal	compile_time/bytes allocated	1308247936
+local	join003	optasm	runtime/bytes allocated	2000049768
+local	join004	optasm	runtime/bytes allocated	16049672
+local	join007	optasm	runtime/bytes allocated	49992
+local	T5835	normal	runtime/max_bytes_used	289496
+local	T5835	normal	runtime/peak_megabytes_allocated	2
+local	T24471	normal	compile_time/max_bytes_used	28656136
+local	T24471	normal	compile_time/peak_megabytes_allocated	73
+local	T24471	normal	compile_time/bytes allocated	744290576
+local	T12791	normal	runtime/max_bytes_used	289496
+local	T12791	normal	runtime/peak_megabytes_allocated	2
+local	T10359	normal	runtime/bytes allocated	321360
+local	T14955	normal	runtime/bytes allocated	48049672
+local	T3586	normal	runtime/max_bytes_used	44328
+local	T3586	normal	runtime/peak_megabytes_allocated	18
+local	T3586	normal	runtime/bytes allocated	16097472
+local	T4830	normal	runtime/bytes allocated	96936
+local	T11226	normal	runtime/max_bytes_used	44328
+local	T11226	normal	runtime/peak_megabytes_allocated	2
+local	lazy-bs-alloc	normal	runtime/bytes allocated	430480
+local	lazy-bs-alloc	normal	runtime/max_bytes_used	44792
+local	lazy-bs-alloc	normal	runtime/peak_megabytes_allocated	2
+local	T876	normal	runtime/bytes allocated	55752
+local	T3738	normal	runtime/max_bytes_used	44328
+local	T3738	normal	runtime/peak_megabytes_allocated	2
+local	T3738	normal	runtime/bytes allocated	49472
+local	MethSharing	normal	runtime/max_bytes_used	44328
+local	MethSharing	normal	runtime/peak_megabytes_allocated	2
+local	MethSharing	normal	runtime/bytes allocated	480096936
+local	T13701	normal	compile_time/bytes allocated	3227067488
+local	T5113	normal	runtime/bytes allocated	8057504
+local	MultiComponentModules100	normal	compile_time/bytes allocated	16887595960
+local	MultiLayerModulesTH_OneShot	normal	compile_time/bytes allocated	289278560
+local	T4978	normal	runtime/bytes allocated	90123304
+local	MultiLayerModulesTH_Make	normal	compile_time/bytes allocated	590515256
+local	large-project-makedepend-10000	normal	compile_time/bytes allocated	3260876104
+local	InstanceMatching1	normal	compile_time/bytes allocated	8460247920
+local	T1216	normal	runtime/bytes allocated	1829376
+local	T5237	normal	runtime/bytes allocated	102808
+local	T5205	normal	runtime/bytes allocated	52928
+local	T5536	normal	runtime/bytes allocated	889033296
+local	Conversions	normal	runtime/bytes allocated	105768
+local	T7436b	normal	runtime/max_bytes_used	44328
+local	T7436b	normal	runtime/peak_megabytes_allocated	2
+local	T7954	normal	runtime/bytes allocated	640049848
+local	T4474b	normal	runtime/bytes allocated	4831889000
+local	T7436	normal	runtime/max_bytes_used	60176
+local	T7436	normal	runtime/peak_megabytes_allocated	2
+local	T7797	normal	runtime/bytes allocated	480049504
+local	T5949	normal	runtime/bytes allocated	200240
+local	T4267	normal	runtime/bytes allocated	40224
+local	T7619	normal	runtime/bytes allocated	40224
+local	InlineArrayAlloc	normal	runtime/bytes allocated	1600040224
+local	T4474a	normal	runtime/bytes allocated	4831889000
+local	InlineByteArrayAlloc	normal	runtime/bytes allocated	1440040224
+local	T8472	normal	runtime/bytes allocated	49704
+local	T9203	normal	runtime/bytes allocated	42350384
+local	T12996	normal	runtime/bytes allocated	73320
+local	T9339	normal	runtime/bytes allocated	49712
+local	InlineCloneArrayAlloc	normal	runtime/bytes allocated	1600040384
+local	T13001	normal	runtime/bytes allocated	49616
+local	T8763	normal	runtime/bytes allocated	40224
+local	T4474c	normal	runtime/bytes allocated	4831889000
+local	T5549	normal	runtime/bytes allocated	5793138984
+local	T12990	normal	runtime/bytes allocated	20040256
+local	T15226	normal	runtime/bytes allocated	40264
+local	T13218	normal	runtime/bytes allocated	82027136
+local	T13218	normal	runtime/max_bytes_used	365312
+local	T13218	normal	runtime/peak_megabytes_allocated	2
+local	T15226a	normal	runtime/bytes allocated	40264
+local	T14936	normal	runtime/bytes allocated	50080
+local	T13623	normal	runtime/bytes allocated	49800
+local	DeriveNull	normal	runtime/bytes allocated	112049768
+local	T15263	normal	runtime/bytes allocated	1060304
+local	T15426	normal	runtime/bytes allocated	320040496
+local	T15185	normal	runtime/bytes allocated	40544
+local	T17123	normal	runtime/bytes allocated	3635168
+local	T19347	normal	runtime/bytes allocated	99872
+local	T14052Type	ghci	compile_time/bytes allocated	1186889536
+local	T18574	normal	runtime/bytes allocated	49704
+local	size_hello_obj	normal	size	3304
+local	T18964	normal	runtime/bytes allocated	1292854288
+local	T25055	normal	runtime/bytes allocated	8049800
+local	MultiComponentModulesRecomp100	normal	compile_time/bytes allocated	4404455488
+local	array_dir	normal	size	4396047
+local	base_dir	normal	size	24586218
+local	binary_dir	normal	size	5236889
+local	bytestring_dir	normal	size	11622135
+local	cabal_dir	normal	size	103968392
+local	cabal_syntax_dir	normal	size	116436343
+local	containers_dir	normal	size	26270816
+local	deepseq_dir	normal	size	1212917
+local	size_hello_artifact	normal	size	9459208
+local	T15578	normal	runtime/bytes allocated	400040464
+local	directory_dir	normal	size	4019881
+local	exceptions_dir	normal	size	2302772
+local	ghc_boot_dir	normal	size	4532350
+local	ghc_boot_th_dir	normal	size	3994563
+local	ghc_compact_dir	normal	size	332656
+local	ghc_dir	normal	size	787488527
+local	ghc_experimental_dir	normal	size	2732529
+local	ghc_heap_dir	normal	size	988506
+local	ghc_internal_dir	normal	size	129775926
+local	size_hello_unicode	normal	size	9464984
+local	ghc_platform_dir	normal	size	1136177
+local	ghc_prim_dir	normal	size	5545
+local	ghc_toolchain_dir	normal	size	6580736
+local	haskeline_dir	normal	size	11287568
+local	hpc_dir	normal	size	1313132
+local	integer_gmp_dir	normal	size	316645
+local	mtl_dir	normal	size	3217836
+local	os_string_dir	normal	size	3981361
+local	parsec_dir	normal	size	8412589
+local	pretty_dir	normal	size	3052298
+local	process_dir	normal	size	2068751
+local	time_dir	normal	size	13049879
+local	xhtml_dir	normal	size	4089779
+local	libdir	normal	size	2255349281
+local	unix_dir	normal	size	11343545
+local	terminfo_dir	normal	size	1605155
+local	array_so	normal	size	546736
+local	base_so	normal	size	2816048
+local	binary_so	normal	size	745704
+local	bytestring_so	normal	size	1525928
+local	T17949	normal	runtime/bytes allocated	40224
+local	cabal_so	normal	size	17019448
+local	cabal_syntax_so	normal	size	17595016
+local	containers_so	normal	size	3956824
+local	deepseq_so	normal	size	138080
+local	directory_so	normal	size	561176
+local	exceptions_so	normal	size	322112
+local	filepath_so	normal	size	482816
+local	ghc_boot_so	normal	size	728936
+local	ghc_boot_th_so	normal	size	643744
+local	ghc_experimental_so	normal	size	53368
+local	ghc_heap_so	normal	size	144080
+local	ghc_platform_so	normal	size	206944
+local	ghc_prim_so	normal	size	14000
+local	ghc_so	normal	size	129839144
+local	ghc_toolchain_so	normal	size	996400
+local	T23021	normal	runtime/bytes allocated	640062080
+local	SpecTyFamRun	optasm	runtime/bytes allocated	49672
+local	ghci_so	normal	size	2775960
+local	haskeline_so	normal	size	1708920
+local	hpc_so	normal	size	226488
+local	mtl_so	normal	size	337056
+local	os_string_so	normal	size	536456
+local	parsec_so	normal	size	1267736
+local	process_so	normal	size	310832
+local	rts_so	normal	size	797864
+local	template_haskell_so	normal	size	289792
+local	terminfo_so	normal	size	252144
+local	text_so	normal	size	2806072
+local	time_so	normal	size	1849136
+local	transformers_so	normal	size	1173664
+local	xhtml_so	normal	size	540200
+local	T21839r	normal	runtime/bytes allocated	2343488
+local	T21839r	normal	runtime/max_bytes_used	268464
+local	T21839r	normal	runtime/peak_megabytes_allocated	2
+local	T16577	normal	compile_time/bytes allocated	6401170848
+local	T14052	ghci	compile_time/bytes allocated	3399645976
+local	InstanceMatching	normal	compile_time/bytes allocated	670949488
+local	UniqLoop	normal	runtime/bytes allocated	800040344
+local	MultiLayerModulesDefsGhciWithBytecodeFiles	ghci	compile_time/max_bytes_used	37344704
+local	MultiLayerModulesDefsGhciWithBytecodeFiles	ghci	compile_time/peak_megabytes_allocated	93
+local	size_hello_unicode_gzip	normal	size	2050021
+local	size_hello_artifact_gzip	normal	size	2049166
+local	T2762	normal	runtime/max_bytes_used	35984
+local	T2762	normal	runtime/peak_megabytes_allocated	2
+local	T4334	normal	runtime/max_bytes_used	60640
+local	T4334	normal	runtime/peak_megabytes_allocated	2
+local	ByteCodeAsm	normal	runtime/bytes allocated	1519179592
+local	MultiLayerModulesDefsGhcWithCore	normal	compile_time/max_bytes_used	47690112
+local	MultiLayerModulesDefsGhcWithCore	normal	compile_time/peak_megabytes_allocated	118
+local	space_leak_001	normal	runtime/bytes allocated	9066571112
+local	space_leak_001	normal	runtime/max_bytes_used	463304
+local	space_leak_001	normal	runtime/peak_megabytes_allocated	3
+local	mhu-perf	normal	compile_time/bytes allocated	40535184
+local	T26425	normal	compile_time/bytes allocated	2505515224
+local	T26425	normal	compile_time/max_bytes_used	37465224
+local	T26425	normal	compile_time/peak_megabytes_allocated	98
+local	T7850	normal	runtime/max_bytes_used	1108680
+local	T7850	normal	runtime/peak_megabytes_allocated	3
+local	T4029	ghci	runtime/max_bytes_used	15324352
+local	T4029	ghci	runtime/peak_megabytes_allocated	41
+local	MultiLayerModulesNoCode	ghci	compile_time/max_bytes_used	42657608
+local	MultiLayerModulesNoCode	ghci	compile_time/peak_megabytes_allocated	109
+local	T11276	normal	compile_time/bytes allocated	82185240
+local	T11303b	normal	compile_time/bytes allocated	38483064
+local	T11822	normal	compile_time/bytes allocated	91781384
+local	T11374	normal	compile_time/bytes allocated	153915816
+local	T11195	normal	compile_time/bytes allocated	190281672
+local	T17096	normal	compile_time/bytes allocated	194526800
+local	T17977	normal	compile_time/bytes allocated	38846864
+local	T17836b	normal	compile_time/bytes allocated	35990008
+local	T17977b	normal	compile_time/bytes allocated	35321416
+local	T17836	normal	compile_time/bytes allocated	375901800
+local	T7257	normal	runtime/bytes allocated	1122958952
+local	T7257	normal	runtime/max_bytes_used	209871192
+local	T7257	normal	runtime/peak_megabytes_allocated	214
+local	T18478	normal	compile_time/bytes allocated	439760112
+local	pmcOrPats	normal	compile_time/bytes allocated	62680992
+local	PmSeriesS	normal	compile_time/bytes allocated	48169960
+local	PmSeriesG	normal	compile_time/bytes allocated	41587248
+local	PmSeriesV	normal	compile_time/bytes allocated	48664040
+local	PmSeriesT	normal	compile_time/bytes allocated	70314544
+local	DsIncompleteRecSel3	normal	compile_time/bytes allocated	426523792
+local	T10370	optasm	compile_time/max_bytes_used	23370120
+local	T10370	optasm	compile_time/peak_megabytes_allocated	62
+local	T10678	normal	runtime/bytes allocated	48040640
+local	MultiLayerModulesDefsGhci	ghci	compile_time/max_bytes_used	67418184
+local	MultiLayerModulesDefsGhci	ghci	compile_time/peak_megabytes_allocated	175
+local	T22744	normal	compile_time/peak_megabytes_allocated	338
+local	MultiLayerModulesDefsGhciReload	ghci	compile_time/max_bytes_used	69330968
+local	MultiLayerModulesDefsGhciReload	ghci	compile_time/peak_megabytes_allocated	183
+local	info_table_map_perf	normal	compile_time/bytes allocated	18822958624
+local	T7702	normal	compile_time/peak_megabytes_allocated	27
+local	T13536a	optasm	runtime/bytes allocated	49704
+local	T8766	normal	runtime/bytes allocated	16827024
+local	T9848	normal	runtime/bytes allocated	50544
+local	T17499	normal	runtime/bytes allocated	96040224
+local	T13191	normal	runtime/bytes allocated	185989704
+local	T3474	normal	runtime/max_bytes_used	44328
+local	encodingAllocations	normal	runtime/bytes allocated	392129752
+local	hie002	normal	compile_time/bytes allocated	7324740728
+local	T9872a	normal	compile_time/bytes allocated	1396060480
+local	T9872b	normal	compile_time/bytes allocated	1630869704
+local	T9872b_defer	normal	compile_time/bytes allocated	1643797000
+local	T9872c	normal	compile_time/bytes allocated	1353771704
+local	TcPlugin_RewritePerf	normal	compile_time/bytes allocated	1835335680
