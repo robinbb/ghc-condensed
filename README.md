@@ -63,7 +63,7 @@ libraries GHC links against. You need Nix with the `nix-command` and
     $ nix develop                  # enter the build environment
     $ ./boot && configure_ghc      # runs ./configure $CONFIGURE_ARGS
     $ cabal update                 # Hadrian pins a recent index-state
-    $ hadrian/build -j             # as above; results land in _build/
+    $ hadrian/build -j --flavour=default+late_ccs   # builds into _build/
 
 `configure_ghc` passes the `--with-gmp-*`, `--with-curses-*`, and similar
 flags that point `configure` at the Nix store paths of GHC's C
@@ -73,6 +73,24 @@ or call `./configure $CONFIGURE_ARGS ...` directly (in zsh, write
 
 The compiler you built is `_build/stage1/bin/ghc`. Run it from inside the
 shell, which supplies the C toolchain it needs for linking.
+
+The flavour matters for the testsuite. The default flavour builds the
+profiled libraries without `-fprof-late`, so thirteen profiling tests whose
+expected output contains late cost centres from `ghc-internal` fail. The
+`late_ccs` transformer adds that flag; the `perf` and `release` flavours
+include it too. Hadrian records the flavour in the build root, so later
+invocations can omit `--flavour`.
+
+To run the full testsuite:
+
+    $ hadrian/build test -j --skip-test=mostly-static
+
+`mostly-static` is skipped because it links against `libzstd.a`, and the
+zstd package that ghc.nix supplies ships only the shared library. With that
+one test skipped, the testsuite finishes with no unexpected failures in this
+environment (verified 2026-11-10: 11409 tests, about 10 minutes on 28 cores,
+after a 20-minute build). To run a single test, pass `--only=NAME`;
+`hadrian/doc/testsuite.md` lists the other options.
 
 The default shell is deliberately lean. Two variants add more:
 
