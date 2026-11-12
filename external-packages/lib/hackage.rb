@@ -18,7 +18,8 @@ module Hackage
     os-string file-io semaphore-compat hpc ghc-boot ghc-boot-th ghc-heap
     ghc-compact ghc-experimental ghci integer-gmp Cabal Cabal-syntax ghc rts
     ghc-platform ghc-toolchain template-haskell-lift
-    template-haskell-quasiquoter Win32
+    template-haskell-quasiquoter Win32 haddock-library haddock-api
+    libffi-clib system-cxx-std-lib
   ].to_set.freeze
 
   # Test dependencies that use the GHC API and break on development
@@ -128,12 +129,27 @@ end
       @latest.key?(name)
     end
 
-    def package(name)
-      return @packages[name] if @packages.key?(name)
+# The package at its chosen latest version, or at VERSION when given
+# (that cabal file is then read from the tarball on demand).
+def package(name, version: nil)
+  if version
+    entry = find_version(name, version)
+    return entry ? parse_package(name, *entry) : nil
+  end
+  return @packages[name] if @packages.key?(name)
 
-      entry = @latest[name]
-      @packages[name] = entry ? parse_package(name, *entry) : nil
-    end
+  entry = @latest[name]
+  @packages[name] = entry ? parse_package(name, *entry) : nil
+end
+
+def find_version(name, version)
+  want = Gem::Version.new(version)
+  found = nil
+  each_entry do |n, ver, e|
+    found = [ver, e.read, e.header.mtime] if n == name && ver == want
+  end
+  found
+end
 
     # Transitive closure over non-boot packages. Roots contribute their
     # runnable test-suite dependencies; everything else contributes build

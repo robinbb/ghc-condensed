@@ -14,6 +14,9 @@
 #   add.rb [--tier N] [--role root|dep] [--closure] [--dry-run]
 #          [--vendor] [--replace] NAME...
 #   add.rb --refresh [--dry-run]
+#   add.rb --remove NAME...
+#   add.rb --fetch
+#   add.rb --version V [options] NAME
 #
 # --closure adds the whole dependency closure of the named packages (which
 # become roots; everything else becomes a dep), skipping packages already
@@ -33,7 +36,7 @@ ROOT = __dir__
 REPO = File.expand_path('..', ROOT)
 
 opts = { tier: nil, role: nil, closure: false, dry_run: false, vendor: false,
-         replace: false, refresh: false }
+         replace: false, refresh: false, remove: false, version: nil, fetch: false }
 OptionParser.new do |o|
   o.banner = 'Usage: add.rb [options] NAME...'
   o.on('--tier N', Integer, 'Tier for the added packages (default 1, or that of the replaced entry)') { |v| opts[:tier] = v }
@@ -43,9 +46,12 @@ OptionParser.new do |o|
   o.on('--vendor', 'Vendor the sdist even when a git tag exists') { opts[:vendor] = true }
   o.on('--replace', 'Remove an existing entry (and its submodule or vendored copy) first') { opts[:replace] = true }
   o.on('--refresh', 'Advance submodules whose packages are behind their latest release, then exit') { opts[:refresh] = true }
+  o.on('--remove', 'Remove the named packages from the corpus, then exit') { opts[:remove] = true }
+  o.on('--fetch', 'Materialise every manifest entry missing from the working tree, apply patches, then exit') { opts[:fetch] = true }
+  o.on('--version V', 'Use this release instead of the latest (one package only)') { |v| opts[:version] = v }
 end.parse!
 names = ARGV
-abort 'add.rb: no package names given' if names.empty? && !opts[:refresh]
+abort 'add.rb: no package names given' if names.empty? && !opts[:refresh] && !opts[:fetch]
 
 def run(*cmd, chdir: REPO)
   out, err, st = Open3.capture3(*cmd, chdir: chdir)
@@ -309,6 +315,49 @@ if opts[:refresh]
   exit 0
 end
 
+# Rebuild the working tree from the manifest: submodules at their recorded
+# tags, vendored sdists, then the patches. The package sources are not
+# committed to this repository; the manifest is.
+if opts[:fetch]
+  manifest.packages.each do |e|
+    top = e['path'].split('/').first
+    next if Dir.exist?(File.join(ROOT, top))
+
+    src = e['source']
+    if src['git']
+      puts "submodule #{top} at #{src['tag']}"
+      add_submodule(src['git'], top, src['tag']) unless opts[:dry_run]
+    else
+      puts "sdist #{src['sdist']}"
+      vendor_sdist(e['name'], e['version']) unless opts[:dry_run]
+    end
+  end
+  Dir.glob(File.join(ROOT, 'patches', '*.patch')).sort.each do |p|
+    next if opts[:dry_run]
+
+    ok, = run('git', 'apply', '--check', p)
+    if ok
+      run!('git', 'apply', p)
+      puts "applied #{File.basename(p)}"
+    else
+      puts "#{File.basename(p)}: already applied or does not apply"
+    end
+  end
+  exit 0
+end
+
+if opts[:remove]
+  names.each do |n|
+    e = manifest.find(n)
+    next warn("#{n}: not in the manifest") unless e
+
+    remove(manifest, e)
+    puts "removed #{n}"
+  end
+  manifest.save
+  exit 0
+end
+
 members = if opts[:closure]
             index.closure(names)
           else
@@ -330,8 +379,9 @@ end
 
 todo = members.reject { |n, r| r == :missing || manifest.find(n) }
 puts "add.rb: #{todo.size} package(s) to add, #{members.size - todo.size - missing.size} already present"
+abort 'add.rb: --version takes exactly one package' if opts[:version] && todo.size != 1
 todo.each_with_index do |(name, role), i|
-  pkg = index.package(name)
+  pkg = index.package(name, version: opts[:version])
   tier = opts[:tier] || inherited.dig(name, :tier) || 1
   role = (opts[:role] || inherited.dig(name, :role) || role).to_sym
   puts "[#{i + 1}/#{todo.size}] #{name}-#{pkg.version} (#{role}, tier #{tier})"

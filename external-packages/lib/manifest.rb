@@ -11,6 +11,7 @@
 #     tier:     1, 2 or 3
 #     role:     root (chosen for coverage) or dep (pulled in by a root)
 #     tests:    whether its test suites are run
+#     flags:    cabal flags for the package, e.g. "+os-string" (optional)
 #     source:   { git: URL, tag: TAG } or { sdist: NAME-VERSION }
 #     expected: ok | build-failure | test-failure | flaky | unsolvable
 #               (flaky: the test suite passes or fails nondeterministically)

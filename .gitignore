@@ -268,5 +268,10 @@ dist-newstyle/
 /inplace/
 /tmp/
 
-# External package corpus build products (see external-packages/README.md)
-/external-packages/dist/
+# External package corpus (see external-packages/README.md): build
+# products and the package sources themselves are not committed; only
+# the tooling, manifest, project files and patches are.
+/external-packages/*/
+!/external-packages/lib/
+!/external-packages/patches/
+!/external-packages/patches/*.patch

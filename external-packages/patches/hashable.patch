@@ -1,0 +1,13 @@
+--- a/external-packages/vendored/hashable/hashable.cabal
++++ b/external-packages/vendored/hashable/hashable.cabal
+@@ -92,6 +92,10 @@
+   if impl(ghc <9.8)
+     build-depends: ghc-prim
+ 
++  -- GHC 10.1's base no longer re-exports the ghc-bignum modules.
++  if impl(ghc >=9.13)
++    build-depends: ghc-bignum
++
+   -- depend on os-string on newer GHCs only.
+   -- os-string has tight lower bound on bytestring, which prevents
+   -- using bundled version on older GHCs.

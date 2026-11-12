@@ -1,8 +1,13 @@
 # Patches
 
-Record of local changes to vendored packages, as `git diff` output
-against the pristine sdist. A package that needs a change is vendored
-(not a submodule) so that the change is a plain commit in this tree;
-the patch file exists so the change can be reapplied after re-vendoring
-a newer release: `git apply external-packages/patches/NAME.patch`.
-Each patched package carries a `patched:` line in `manifest.yaml`.
+Deliberate exceptions to the rule that corpus packages are not modified,
+as unified diffs against the pristine sdist with paths relative to the
+repository root. Each patched package carries a `patched:` line in
+`manifest.yaml` saying why. `add.rb --fetch` applies them after
+vendoring; by hand: `git apply external-packages/patches/NAME.patch`
+from the repository root.
+
+- `hashable.patch`: adds ghc-bignum to build-depends for GHC 9.13 and
+  later, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
+  and GHC.Num.Natural. Without it hashable, and the roughly half of the
+  corpus that depends on it, cannot be built at all.

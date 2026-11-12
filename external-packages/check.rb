@@ -66,11 +66,12 @@ def write_projects(manifest)
     lines << 'benchmarks: False'
     lines << "index-state: #{manifest.index_state}" if manifest.index_state
     lines << "allow-newer: #{ALLOW_NEWER}"
-    pkgs.select { |e| e['tests'] }.sort_by { |e| e['name'] }.each do |e|
-      lines << ''
-      lines << "package #{e['name']}"
-      lines << '  tests: True'
-    end
+pkgs.select { |e| e['tests'] || e['flags'] }.sort_by { |e| e['name'] }.each do |e|
+  lines << ''
+  lines << "package #{e['name']}"
+  lines << '  tests: True' if e['tests']
+  lines << "  flags: #{e['flags']}" if e['flags']
+end
     File.write(File.join(ROOT, project_file(tier)), lines.join("\n") + "\n")
   end
 end
@@ -147,7 +148,16 @@ if log_text =~ /Could not resolve dependencies|cabal: Could not/
   puts log_text.lines.last(40).join
   abort 'check.rb: dependency solving failed; fix the manifest (mark packages unsolvable or add missing ones)'
 end
-failed = log_text.scan(/Failed to build ([A-Za-z0-9-]+?)-[0-9.]+(?:\.|\s|$)/).flatten.uniq
+# "Failed to build PKG-VER" is a library failure; "Failed to build exe:X
+# from PKG-VER" (or lib:, flib:) is also a build failure of PKG. Test
+# components ("test:X from PKG-VER") are left to the test phase.
+failed = log_text.scan(/Failed to build (?:(?:exe|lib|flib):[A-Za-z0-9-]+ from )?([A-Za-z0-9-]+?)-[0-9.]+(?:\.|\s|$)/).flatten.uniq
+# A non-zero exit with no package failure is normal when only test
+# components failed; abort only when cabal never started building.
+if !ok && failed.empty? && log_text !~ /^Building /
+  puts log_text.lines.last(30).join
+  abort 'check.rb: cabal build failed before building anything; see the log above'
+end
 
 # Local packages in the plan and their dependency graph, to find packages
 # that were never attempted because a dependency failed.

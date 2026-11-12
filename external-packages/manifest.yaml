@@ -1,0 +1,5944 @@
+---
+index_state: '2026-11-10T18:10:59Z'
+packages:
+- name: adjunctions
+  version: 4.4.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: adjunctions
+  source:
+    git: https://github.com/ekmett/adjunctions.git
+    tag: v4.4.4
+  tests: false
+- name: aeson
+  version: 2.3.2.0
+  tier: 1
+  role: root
+  expected: ok
+  path: aeson
+  source:
+    git: https://github.com/haskell/aeson.git
+    tag: v2.3.2.0
+  tests: true
+- name: ansi-terminal
+  version: 1.1.5
+  tier: 1
+  role: dep
+  expected: ok
+  path: ansi-terminal/ansi-terminal
+  source:
+    git: https://github.com/UnkindPartition/ansi-terminal.git
+    tag: v1.1.5
+  tests: false
+- name: ansi-terminal-types
+  version: 1.1.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: ansi-terminal/ansi-terminal-types
+  source:
+    git: https://github.com/UnkindPartition/ansi-terminal.git
+    tag: v1.1.5
+  tests: false
+- name: assoc
+  version: 1.1.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: assoc
+  source:
+    git: https://github.com/phadej/assoc.git
+    tag: v1.1.1
+  tests: false
+- name: async
+  version: 2.2.6
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/async
+  source:
+    sdist: async-2.2.6
+  note: no tag for 2.2.6 in https://github.com/simonmar/async.git
+  tests: false
+- name: attoparsec
+  version: 0.14.4
+  tier: 1
+  role: root
+  expected: flaky
+  path: attoparsec
+  source:
+    git: https://github.com/haskell/attoparsec.git
+    tag: 0.14.4
+  tests: true
+  reason: >-
+    property t_iter iterates at a non-character boundary; text 2.1.4 classifies
+    continuation bytes as 2-byte leaders and reads past the array, so the two
+    buffers decode different garbage. Passes with text 2.1.2 on GHC 9.12.2
+- name: base-compat
+  version: 0.15.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: base-compat/base-compat
+  source:
+    git: https://github.com/haskell-compat/base-compat.git
+    tag: 0.15.0
+  tests: false
+- name: base-orphans
+  version: 0.9.4
+  tier: 1
+  role: root
+  expected: ok
+  path: base-orphans
+  source:
+    git: https://github.com/haskell-compat/base-orphans.git
+    tag: 0.9.4
+  tests: true
+- name: base16-bytestring
+  version: 1.0.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/base16-bytestring
+  source:
+    sdist: base16-bytestring-1.0.2.0
+  note: no tag for 1.0.2.0 in https://github.com/haskell/base16-bytestring.git
+  tests: false
+- name: base64-bytestring
+  version: 1.2.1.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/base64-bytestring
+  source:
+    sdist: base64-bytestring-1.2.1.0
+  note: no tag for 1.2.1.0 in https://github.com/haskell/base64-bytestring.git
+  tests: false
+- name: bifunctors
+  version: 5.6.3
+  tier: 1
+  role: root
+  expected: ok
+  path: bifunctors
+  source:
+    git: https://github.com/ekmett/bifunctors.git
+    tag: v5.6.3
+  tests: true
+- name: blaze-builder
+  version: 0.4.4.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: blaze-builder
+  source:
+    git: https://github.com/blaze-builder/blaze-builder.git
+    tag: v0.4.4.1
+  tests: false
+- name: blaze-html
+  version: 0.9.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: blaze-html
+  source:
+    git: https://github.com/jaspervdj/blaze-html.git
+    tag: v0.9.2.0
+  tests: false
+- name: blaze-markup
+  version: 0.8.3.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: blaze-markup
+  source:
+    git: https://github.com/jaspervdj/blaze-markup.git
+    tag: v0.8.3.0
+  tests: false
+- name: boring
+  version: 0.2.2.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: boring/boring
+  source:
+    git: https://github.com/phadej/boring.git
+    tag: v0.2.2.1
+  tests: false
+- name: call-stack
+  version: 0.4.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: call-stack
+  source:
+    git: https://github.com/sol/call-stack.git
+    tag: 0.4.0
+  tests: false
+- name: case-insensitive
+  version: 1.2.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/case-insensitive
+  source:
+    sdist: case-insensitive-1.2.2.0
+  note: no tag for 1.2.2.0 in https://github.com/basvandijk/case-insensitive.git
+  tests: false
+- name: character-ps
+  version: '0.1'
+  tier: 1
+  role: dep
+  expected: ok
+  path: character-ps
+  source:
+    git: https://github.com/phadej/character-ps.git
+    tag: v0.1
+  tests: false
+- name: ChasingBottoms
+  version: 1.3.1.17
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/ChasingBottoms
+  source:
+    sdist: ChasingBottoms-1.3.1.17
+  note: >-
+    no tag for 1.3.1.17 in https://www.cse.chalmers.se/~nad/repos/ChasingBottoms.git
+  tests: false
+- name: clock
+  version: 0.8.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: clock
+  source:
+    git: https://github.com/corsis/clock.git
+    tag: 0.8.4
+  tests: false
+- name: colour
+  version: 2.3.7
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/colour
+  source:
+    sdist: colour-2.3.7
+  note: no source repository listed
+  tests: false
+- name: comonad
+  version: 5.0.10
+  tier: 1
+  role: root
+  expected: ok
+  path: comonad
+  source:
+    git: https://github.com/ekmett/comonad.git
+    tag: v5.0.10
+  tests: false
+- name: constraints
+  version: 0.14.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: constraints
+  source:
+    git: https://github.com/ekmett/constraints.git
+    tag: v0.14.4
+  tests: false
+- name: contravariant
+  version: 1.5.6
+  tier: 1
+  role: root
+  expected: ok
+  path: contravariant
+  source:
+    git: https://github.com/ekmett/contravariant.git
+    tag: v1.5.6
+  tests: false
+- name: data-fix
+  version: 0.3.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: data-fix
+  source:
+    git: https://github.com/spell-music/data-fix.git
+    tag: v0.3.4
+  tests: false
+- name: Diff
+  version: 2.0.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: Diff
+  source:
+    git: https://github.com/seereason/Diff.git
+    tag: 2.0.1
+  tests: false
+- name: distributive
+  version: 0.6.3
+  tier: 1
+  role: root
+  expected: ok
+  path: distributive
+  source:
+    git: https://github.com/ekmett/distributive.git
+    tag: v0.6.3
+  tests: true
+- name: dlist
+  version: '1.0'
+  tier: 1
+  role: root
+  expected: test-failure
+  path: dlist
+  source:
+    git: https://github.com/spl/dlist.git
+    tag: v1.0
+  tests: true
+  reason: >-
+    test suite defines Arbitrary (NonEmpty a), which QuickCheck 2.19 now provides
+- name: enclosed-exceptions
+  version: 1.0.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: enclosed-exceptions
+  source:
+    git: https://github.com/jcristovao/enclosed-exceptions.git
+    tag: enclosed-exceptions-1.0.3
+  tests: false
+- name: extra
+  version: 1.8.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: extra
+  source:
+    git: https://github.com/ndmitchell/extra.git
+    tag: v1.8.1
+  tests: false
+- name: fgl
+  version: 5.8.3.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/fgl
+  source:
+    sdist: fgl-5.8.3.1
+  note: no tag for 5.8.3.1 in https://github.com/haskell/fgl.git
+  tests: false
+- name: file-embed
+  version: 0.0.16.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/file-embed
+  source:
+    sdist: file-embed-0.0.16.0
+  note: no tag for 0.0.16.0 in https://github.com/snoyberg/file-embed.git
+  tests: false
+- name: filepattern
+  version: 0.1.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: filepattern
+  source:
+    git: https://github.com/ndmitchell/filepattern.git
+    tag: v0.1.3
+  tests: false
+- name: free
+  version: '5.2'
+  tier: 1
+  role: root
+  expected: ok
+  path: free
+  source:
+    git: https://github.com/ekmett/free.git
+    tag: v5.2
+  tests: false
+- name: generic-deriving
+  version: 1.14.7
+  tier: 1
+  role: root
+  expected: ok
+  path: generic-deriving
+  source:
+    git: https://github.com/dreixel/generic-deriving.git
+    tag: 1.14.7
+  tests: true
+- name: generically
+  version: 0.1.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: generically
+  source:
+    git: https://github.com/haskell-compat/generically.git
+    tag: v0.1.1
+  tests: false
+- name: happstack-lite
+  version: 7.3.8
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/happstack-lite
+  source:
+    sdist: happstack-lite-7.3.8
+  note: no tag for 7.3.8 in https://github.com/Happstack/happstack-lite.git
+  tests: false
+- name: happstack-server
+  version: 7.9.5
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/happstack-server
+  source:
+    sdist: happstack-server-7.9.5
+  note: no tag for 7.9.5 in https://github.com/Happstack/happstack-server.git
+  tests: true
+- name: happstack-static-routing
+  version: 0.7.0.1
+  tier: 1
+  role: root
+  expected: ok
+  path: happstack-static-routing
+  source:
+    git: https://github.com/scrive/happstack-static-routing.git
+    tag: v0.7.0.1
+  tests: false
+- name: happy
+  version: '2.2'
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/happy
+  source:
+    sdist: happy-2.2
+  note: no tag for 2.2 in https://github.com/haskell/happy.git
+  tests: false
+- name: happy-lib
+  version: '2.2'
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/happy-lib
+  source:
+    sdist: happy-lib-2.2
+  note: no tag for 2.2 in https://github.com/haskell/happy.git
+  tests: false
+- name: hashable
+  version: 1.5.1.0
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/hashable
+  source:
+    sdist: hashable-1.5.1.0
+  note: no source repository listed
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: adds ghc-bignum to build-depends
+    for GHC >= 9.13, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
+    and GHC.Num.Natural
+- name: haskell-lexer
+  version: 1.2.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: haskell-lexer
+  source:
+    git: https://github.com/yav/haskell-lexer.git
+    tag: 1.2.1
+  tests: false
+- name: haskell-src-exts
+  version: 1.24.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: haskell-src-exts
+  source:
+    git: https://github.com/haskell-suite/haskell-src-exts.git
+    tag: 1.24.0
+  tests: false
+  note: >-
+    needs happy 2.2; happy 2.2.1 (deprecated on Hackage) rejects its %expect directive
+- name: haskell-src-meta
+  version: 0.8.16
+  tier: 1
+  role: dep
+  expected: ok
+  path: haskell-src-meta/haskell-src-meta
+  source:
+    git: https://github.com/haskell-party/haskell-src-meta.git
+    tag: 0.8.16
+  tests: false
+- name: heaps
+  version: 0.4.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: heaps
+  source:
+    git: https://github.com/ekmett/heaps.git
+    tag: v0.4.1
+  tests: false
+- name: hsc2hs
+  version: 0.68.10
+  tier: 1
+  role: dep
+  expected: ok
+  path: hsc2hs
+  source:
+    git: https://github.com/haskell/hsc2hs.git
+    tag: v0.68.10
+  tests: false
+- name: hslogger
+  version: 1.3.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslogger
+  source:
+    git: https://github.com/haskell-hvr/hslogger.git
+    tag: v1.3.2.0
+  tests: false
+- name: hslua
+  version: 2.5.0
+  tier: 1
+  role: root
+  expected: ok
+  path: hslua/hslua
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: true
+- name: hslua-aeson
+  version: 2.3.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-aeson
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-classes
+  version: 2.3.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-classes
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-core
+  version: 2.3.2.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-core
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-marshalling
+  version: 2.3.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-marshalling
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-objectorientation
+  version: 2.5.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-objectorientation
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-packaging
+  version: 2.4.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-packaging
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-typing
+  version: 0.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/hslua-typing
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hspec
+  version: 2.11.18
+  tier: 1
+  role: root
+  expected: ok
+  path: hspec
+  source:
+    git: https://github.com/hspec/hspec.git
+    tag: 2.11.18
+  tests: false
+- name: hspec-contrib
+  version: 0.5.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: hspec/hspec-contrib
+  source:
+    git: https://github.com/hspec/hspec.git
+    tag: 2.11.18
+  tests: false
+- name: hspec-core
+  version: 2.11.18
+  tier: 1
+  role: dep
+  expected: ok
+  path: hspec/hspec-core
+  source:
+    git: https://github.com/hspec/hspec.git
+    tag: 2.11.18
+  tests: false
+- name: hspec-discover
+  version: 2.11.18
+  tier: 1
+  role: dep
+  expected: ok
+  path: hspec/hspec-discover
+  source:
+    git: https://github.com/hspec/hspec.git
+    tag: 2.11.18
+  tests: false
+- name: hspec-expectations
+  version: 0.8.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: hspec-expectations
+  source:
+    git: https://github.com/hspec/hspec-expectations.git
+    tag: 0.8.4
+  tests: false
+- name: hsx2hs
+  version: 0.14.1.11
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/hsx2hs
+  source:
+    sdist: hsx2hs-0.14.1.11
+  note: no tag for 0.14.1.11 in https://github.com/seereason/hsx2hs.git
+  tests: false
+- name: html
+  version: 1.0.1.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/html
+  source:
+    sdist: html-1.0.1.2
+  note: no source repository listed
+  tests: false
+- name: HUnit
+  version: 1.6.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: HUnit
+  source:
+    git: https://github.com/hspec/HUnit.git
+    tag: 1.6.2.0
+  tests: false
+- name: indexed-traversable
+  version: 0.1.5
+  tier: 1
+  role: root
+  expected: ok
+  path: indexed-traversable/indexed-traversable
+  source:
+    git: https://github.com/haskellari/indexed-traversable.git
+    tag: indexed-traversable-0.1.5
+  tests: false
+- name: indexed-traversable-instances
+  version: 0.1.2.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: indexed-traversable/indexed-traversable-instances
+  source:
+    git: https://github.com/haskellari/indexed-traversable.git
+    tag: indexed-traversable-0.1.5
+  tests: false
+- name: integer-conversion
+  version: 0.1.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: integer-conversion
+  source:
+    git: https://github.com/phadej/integer-conversion.git
+    tag: v0.1.1
+  tests: false
+- name: integer-logarithms
+  version: 1.0.5
+  tier: 1
+  role: dep
+  expected: ok
+  path: integer-logarithms
+  source:
+    git: https://github.com/haskellari/integer-logarithms.git
+    tag: v1.0.5
+  tests: false
+- name: invariant
+  version: 0.6.5
+  tier: 1
+  role: dep
+  expected: ok
+  path: invariant-functors
+  source:
+    git: https://github.com/nfrisby/invariant-functors.git
+    tag: 0.6.5
+  tests: false
+- name: js-dgtable
+  version: 0.5.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: js-dgtable
+  source:
+    git: https://github.com/ndmitchell/js-dgtable.git
+    tag: v0.5.2
+  tests: false
+- name: js-flot
+  version: 0.8.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: js-flot
+  source:
+    git: https://github.com/ndmitchell/js-flot.git
+    tag: v0.8.3
+  tests: false
+- name: js-jquery
+  version: 3.7.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: js-jquery
+  source:
+    git: https://github.com/ndmitchell/js-jquery.git
+    tag: v3.7.1
+  tests: false
+- name: kan-extensions
+  version: 5.2.8
+  tier: 1
+  role: root
+  expected: ok
+  path: kan-extensions
+  source:
+    git: https://github.com/ekmett/kan-extensions.git
+    tag: v5.2.8
+  tests: false
+- name: lens
+  version: 5.3.6
+  tier: 1
+  role: root
+  expected: ok
+  path: lens
+  source:
+    git: https://github.com/ekmett/lens.git
+    tag: v5.3.6
+  tests: true
+- name: lifted-async
+  version: 0.11.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: lifted-async
+  source:
+    git: https://github.com/maoe/lifted-async.git
+    tag: v0.11.0
+  tests: false
+- name: lifted-base
+  version: 0.2.3.12
+  tier: 1
+  role: dep
+  expected: ok
+  path: lifted-base
+  source:
+    git: https://github.com/basvandijk/lifted-base.git
+    tag: 0.2.3.12
+  tests: false
+- name: list-tries
+  version: 0.6.7.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: list-tries
+  source:
+    git: https://github.com/arybczak/list-tries.git
+    tag: 0.6.7.1
+  tests: false
+- name: logict
+  version: 0.8.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: logict
+  source:
+    git: https://github.com/Bodigrim/logict.git
+    tag: 0.8.2.0
+  tests: false
+- name: lua
+  version: 2.3.4
+  tier: 1
+  role: root
+  expected: ok
+  path: hslua/lua
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: true
+- name: megaparsec
+  version: 9.8.3
+  tier: 1
+  role: root
+  expected: ok
+  path: megaparsec
+  source:
+    git: https://github.com/mrkkrp/megaparsec.git
+    tag: 9.8.3
+  tests: false
+- name: monad-control
+  version: 1.0.3.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/monad-control
+  source:
+    sdist: monad-control-1.0.3.1
+  note: no tag for 1.0.3.1 in https://github.com/basvandijk/monad-control.git
+  tests: false
+- name: network
+  version: 3.2.12.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/network
+  source:
+    sdist: network-3.2.12.0
+  note: 'not a git repository: https://github.com/haskell/network.git'
+  tests: false
+- name: network-bsd
+  version: 2.8.1.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: network-bsd
+  source:
+    git: https://github.com/haskell/network-bsd.git
+    tag: v2.8.1.0
+  tests: false
+- name: network-uri
+  version: 2.6.4.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: network-uri
+  source:
+    git: https://github.com/haskell/network-uri.git
+    tag: v2.6.4.2
+  tests: false
+- name: nothunks
+  version: 0.3.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/nothunks
+  source:
+    sdist: nothunks-0.3.2
+  note: no tag for 0.3.2 in https://github.com/input-output-hk/nothunks.git
+  tests: false
+- name: old-locale
+  version: 1.0.0.7
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/old-locale
+  source:
+    sdist: old-locale-1.0.0.7
+  note: no tag for 1.0.0.7 in https://github.com/haskell/old-locale.git
+  tests: false
+- name: old-time
+  version: 1.1.1.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/old-time
+  source:
+    sdist: old-time-1.1.1.0
+  note: 'not a git repository: https://github.com/haskell/old-time.git'
+  tests: false
+- name: OneTuple
+  version: 0.4.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: OneTuple
+  source:
+    git: https://github.com/phadej/OneTuple.git
+    tag: v0.4.3
+  tests: false
+- name: optparse-applicative
+  version: 0.19.0.0
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/optparse-applicative
+  source:
+    sdist: optparse-applicative-0.19.0.0
+  note: >-
+    no tag for 0.19.0.0 in https://github.com/pcapriotti/optparse-applicative.git
+  tests: true
+- name: parallel
+  version: 3.3.0.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/parallel
+  source:
+    sdist: parallel-3.3.0.0
+  note: no tag for 3.3.0.0 in https://github.com/haskell/parallel.git
+  tests: false
+- name: parser-combinators
+  version: 1.3.1
+  tier: 1
+  role: root
+  expected: ok
+  path: parser-combinators
+  source:
+    git: https://github.com/mrkkrp/parser-combinators.git
+    tag: 1.3.1
+  tests: false
+- name: prettyprinter
+  version: 1.7.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: prettyprinter/prettyprinter
+  source:
+    git: https://github.com/quchen/prettyprinter.git
+    tag: v1.7.2
+  tests: false
+- name: prettyprinter-ansi-terminal
+  version: 1.1.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: prettyprinter/prettyprinter-ansi-terminal
+  source:
+    git: https://github.com/quchen/prettyprinter.git
+    tag: ansi-terminal-v1.1.4
+  tests: false
+- name: primitive
+  version: 0.9.1.0
+  tier: 1
+  role: root
+  expected: test-failure
+  path: primitive
+  source:
+    git: https://github.com/haskell/primitive.git
+    tag: v0.9.1.0
+  tests: true
+  reason: test suite defines Arbitrary ByteArray, which QuickCheck 2.19 now provides
+- name: profunctors
+  version: 5.6.3
+  tier: 1
+  role: root
+  expected: ok
+  path: profunctors
+  source:
+    git: https://github.com/ekmett/profunctors.git
+    tag: v5.6.3
+  tests: false
+- name: QuickCheck
+  version: 2.19.0.0
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/QuickCheck
+  source:
+    sdist: QuickCheck-2.19.0.0
+  tests: false
+  reason: test suite test-quickcheck-instances needs hint
+- name: quickcheck-classes-base
+  version: 0.6.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/quickcheck-classes-base
+  source:
+    sdist: quickcheck-classes-base-0.6.2.0
+  note: no tag for 0.6.2.0 in https://github.com/andrewthad/quickcheck-classes.git
+  tests: false
+- name: quickcheck-instances
+  version: '0.4'
+  tier: 1
+  role: dep
+  expected: ok
+  path: qc-instances
+  source:
+    git: https://github.com/haskellari/qc-instances.git
+    tag: v0.4
+  tests: false
+- name: quickcheck-io
+  version: 0.2.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: quickcheck-io
+  source:
+    git: https://github.com/hspec/quickcheck-io.git
+    tag: 0.2.0
+  tests: false
+- name: quickcheck-unicode
+  version: 1.0.1.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: quickcheck-unicode
+  source:
+    git: https://github.com/bos/quickcheck-unicode.git
+    tag: 1.0.1.0
+  tests: false
+- name: random
+  version: 1.3.1
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/random
+  source:
+    sdist: random-1.3.1
+  tests: false
+  reason: >-
+    test suite spec creates a dependency cycle: it needs tasty-smallcheck and
+    tasty, tasty needs optparse-applicative, whose tests need QuickCheck, which
+    needs random
+- name: reflection
+  version: 2.1.9
+  tier: 1
+  role: dep
+  expected: ok
+  path: reflection
+  source:
+    git: https://github.com/ekmett/reflection.git
+    tag: v2.1.9
+  tests: false
+- name: regex-base
+  version: 0.94.0.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: regex-base
+  source:
+    git: https://github.com/haskell-hvr/regex-base.git
+    tag: v0.94.0.3
+  tests: false
+- name: regex-tdfa
+  version: 1.3.2.7
+  tier: 1
+  role: dep
+  expected: ok
+  path: regex-tdfa
+  source:
+    git: https://github.com/haskell-hvr/regex-tdfa.git
+    tag: v1.3.2.7
+  tests: false
+- name: safe
+  version: 0.3.21
+  tier: 1
+  role: dep
+  expected: ok
+  path: safe
+  source:
+    git: https://github.com/ndmitchell/safe.git
+    tag: v0.3.21
+  tests: false
+- name: scientific
+  version: 0.3.10.0
+  tier: 1
+  role: root
+  expected: ok
+  path: scientific
+  source:
+    git: https://github.com/basvandijk/scientific.git
+    tag: v0.3.10.0
+  tests: true
+- name: semialign
+  version: '1.4'
+  tier: 1
+  role: dep
+  expected: ok
+  path: these/semialign
+  source:
+    git: https://github.com/haskellari/these.git
+    tag: semialign-1.4
+  tests: false
+- name: semigroupoids
+  version: 6.0.2
+  tier: 1
+  role: root
+  expected: ok
+  path: semigroupoids
+  source:
+    git: https://github.com/ekmett/semigroupoids.git
+    tag: v6.0.2
+  tests: false
+- name: sendfile
+  version: 0.7.11.6
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/sendfile
+  source:
+    sdist: sendfile-0.7.11.6
+  note: no tag for 0.7.11.6 in https://github.com/Happstack/sendfile.git
+  tests: false
+- name: shake
+  version: 0.19.9
+  tier: 1
+  role: root
+  expected: test-failure
+  path: shake
+  source:
+    git: https://github.com/ndmitchell/shake.git
+    tag: v0.19.9
+  tests: true
+  reason: >-
+    shake-test type-checks code extracted from the documentation with whatever
+    ghc is on PATH, not the compiler under test, and the extraction fails on current
+    haddock output
+- name: shakespeare
+  version: 2.2.0
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/shakespeare
+  source:
+    sdist: shakespeare-2.2.0
+  note: no tag for 2.2.0 in https://github.com/yesodweb/shakespeare.git
+  tests: true
+- name: ShellCheck
+  version: 0.11.0
+  tier: 1
+  role: root
+  expected: ok
+  path: shellcheck
+  source:
+    git: https://github.com/koalaman/shellcheck.git
+    tag: v0.11.0
+  tests: true
+- name: shelly
+  version: 1.12.1.1
+  tier: 1
+  role: root
+  expected: ok
+  path: Shelly.hs
+  source:
+    git: https://github.com/gregwebs/Shelly.hs.git
+    tag: v1.12.1.1
+  tests: true
+- name: simple-reflect
+  version: 0.3.3
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/simple-reflect
+  source:
+    sdist: simple-reflect-0.3.3
+  note: no tag for 0.3.3 in https://github.com/twanvl/simple-reflect.git
+  tests: false
+- name: smallcheck
+  version: 1.2.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/smallcheck
+  source:
+    sdist: smallcheck-1.2.2
+  note: no tag for 1.2.2 in https://github.com/Bodigrim/smallcheck.git
+  tests: false
+- name: splitmix
+  version: 0.1.3.2
+  tier: 1
+  role: root
+  expected: ok
+  path: splitmix
+  source:
+    git: https://github.com/haskellari/splitmix.git
+    tag: v0.1.3.2
+  tests: true
+- name: StateVar
+  version: 1.2.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: StateVar
+  source:
+    git: https://github.com/haskell-opengl/StateVar.git
+    tag: v1.2.2
+  tests: false
+- name: strict
+  version: 0.5.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/strict
+  source:
+    sdist: strict-0.5.1
+  note: no source repository listed
+  tests: false
+- name: syb
+  version: 0.7.4
+  tier: 1
+  role: root
+  expected: ok
+  path: syb
+  source:
+    git: https://github.com/dreixel/syb.git
+    tag: syb-0.7.4
+  tests: true
+- name: system-filepath
+  version: 0.4.14.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: haskell-filesystem/system-filepath
+  source:
+    git: https://github.com/fpco/haskell-filesystem.git
+    tag: system-filepath/0.4.14.1
+  tests: false
+- name: tagged
+  version: '0.9'
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/tagged
+  source:
+    sdist: tagged-0.9
+  note: no tag for 0.9 in https://github.com/ekmett/tagged.git
+  tests: false
+- name: tasty
+  version: 1.5.5
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/tasty
+  source:
+    sdist: tasty-1.5.5
+  note: no tag for 1.5.5 in https://github.com/UnkindPartition/tasty.git
+  tests: false
+- name: tasty-golden
+  version: 2.3.6
+  tier: 1
+  role: dep
+  expected: ok
+  path: tasty-golden
+  source:
+    git: https://github.com/UnkindPartition/tasty-golden.git
+    tag: v2.3.6
+  tests: false
+- name: tasty-hslua
+  version: 1.1.1.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: hslua/tasty-hslua
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: tasty-hunit
+  version: 0.10.2
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/tasty-hunit
+  source:
+    sdist: tasty-hunit-0.10.2
+  note: no tag for 0.10.2 in https://github.com/UnkindPartition/tasty.git
+  tests: false
+- name: tasty-quickcheck
+  version: 0.11.1
+  tier: 1
+  role: root
+  expected: ok
+  path: vendored/tasty-quickcheck
+  source:
+    sdist: tasty-quickcheck-0.11.1
+  note: no tag for 0.11.1 in https://github.com/UnkindPartition/tasty.git
+  tests: true
+- name: tasty-smallcheck
+  version: 0.8.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/tasty-smallcheck
+  source:
+    sdist: tasty-smallcheck-0.8.2
+  note: no tag for 0.8.2 in https://github.com/feuerbach/tasty.git
+  tests: false
+- name: temporary
+  version: '1.3'
+  tier: 1
+  role: dep
+  expected: ok
+  path: temporary
+  source:
+    git: https://github.com/feuerbach/temporary.git
+    tag: v1.3
+  tests: false
+- name: terminal-size
+  version: 0.3.4
+  tier: 1
+  role: dep
+  expected: ok
+  path: terminal-size
+  source:
+    git: https://github.com/biegunka/terminal-size.git
+    tag: 0.3.4
+  tests: false
+- name: text-iso8601
+  version: 0.2.0.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: aeson/text-iso8601
+  source:
+    git: https://github.com/haskell/aeson.git
+    tag: v2.3.2.0
+  tests: false
+- name: text-short
+  version: 0.1.6.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: text-short
+  source:
+    git: https://github.com/hvr/text-short.git
+    tag: v0.1.6.1
+  tests: false
+- name: th-abstraction
+  version: 0.7.2.0
+  tier: 1
+  role: root
+  expected: ok
+  path: th-abstraction
+  source:
+    git: https://github.com/glguy/th-abstraction.git
+    tag: v0.7.2.0
+  tests: true
+- name: th-compat
+  version: 0.1.7
+  tier: 1
+  role: dep
+  expected: ok
+  path: th-compat
+  source:
+    git: https://github.com/haskell-compat/th-compat.git
+    tag: 0.1.7
+  tests: false
+- name: th-expand-syns
+  version: 0.4.12.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: th-expand-syns
+  source:
+    git: https://github.com/DanielSchuessler/th-expand-syns.git
+    tag: 0.4.12.0
+  tests: false
+- name: th-lift
+  version: 0.8.7
+  tier: 1
+  role: dep
+  expected: ok
+  path: th-lift
+  source:
+    git: https://github.com/RyanGlScott/th-lift.git
+    tag: v0.8.7
+  tests: false
+- name: th-orphans
+  version: 0.13.17
+  tier: 1
+  role: dep
+  expected: ok
+  path: th-orphans
+  source:
+    git: https://github.com/mgsloan/th-orphans.git
+    tag: v0.13.17
+  tests: false
+- name: th-reify-many
+  version: 0.1.10
+  tier: 1
+  role: dep
+  expected: ok
+  path: th-reify-many
+  source:
+    git: https://github.com/mgsloan/th-reify-many.git
+    tag: v0.1.10
+  tests: false
+- name: these
+  version: 1.2.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: these/these
+  source:
+    git: https://github.com/haskellari/these.git
+    tag: semialign-1.4
+  tests: false
+- name: threads
+  version: 0.5.1.8
+  tier: 1
+  role: dep
+  expected: ok
+  path: threads
+  source:
+    git: https://github.com/basvandijk/threads.git
+    tag: 0.5.1.8
+  tests: false
+- name: time-compat
+  version: 1.9.9
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/time-compat
+  source:
+    sdist: time-compat-1.9.9
+  note: no tag for 1.9.9 in https://github.com/haskellari/time-compat.git
+  tests: false
+- name: transformers-base
+  version: 0.4.6.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: transformers-base
+  source:
+    git: https://github.com/mvv/transformers-base.git
+    tag: v0.4.6.1
+  tests: false
+- name: transformers-compat
+  version: '0.8'
+  tier: 1
+  role: dep
+  expected: ok
+  path: transformers-compat
+  source:
+    git: https://github.com/ekmett/transformers-compat.git
+    tag: v0.8
+  tests: false
+- name: typed-process
+  version: 0.2.13.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/typed-process
+  source:
+    sdist: typed-process-0.2.13.0
+  note: no tag for 0.2.13.0 in https://github.com/fpco/typed-process.git
+  tests: false
+- name: unix-compat
+  version: 0.7.4.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: unix-compat
+  source:
+    git: https://github.com/haskell-pkg-janitors/unix-compat.git
+    tag: v0.7.4.1
+  tests: false
+- name: unliftio-core
+  version: 0.2.1.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/unliftio-core
+  source:
+    sdist: unliftio-core-0.2.1.0
+  note: no source repository listed
+  tests: false
+- name: unordered-containers
+  version: 0.2.21
+  tier: 1
+  role: root
+  expected: ok
+  path: unordered-containers
+  source:
+    git: https://github.com/haskell-unordered-containers/unordered-containers.git
+    tag: v0.2.21
+  tests: true
+- name: utf8-string
+  version: 1.0.2
+  tier: 1
+  role: dep
+  expected: ok
+  path: utf8-string
+  source:
+    git: https://github.com/glguy/utf8-string.git
+    tag: v1.0.2
+  tests: false
+- name: uuid-types
+  version: 1.0.6.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: uuid/uuid-types
+  source:
+    git: https://github.com/haskell-hvr/uuid.git
+    tag: uuid-types-1.0.6.1
+  tests: false
+- name: vector
+  version: 0.13.2.0
+  tier: 1
+  role: root
+  expected: ok
+  path: vector/vector
+  source:
+    git: https://github.com/haskell/vector.git
+    tag: vector-0.13.2.0
+  tests: false
+  reason: >-
+    test suite vector-doctest, vector-inspection needs doctest, tasty-inspection-testing
+- name: vector-stream
+  version: 0.1.0.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: vector/vector-stream
+  source:
+    git: https://github.com/haskell/vector.git
+    tag: vector-0.13.2.0
+  tests: false
+- name: wherefrom-compat
+  version: 0.2.0.0
+  tier: 1
+  role: dep
+  expected: ok
+  path: wherefrom-compat
+  source:
+    git: https://codeberg.org/teo/wherefrom-compat.git
+    tag: v0.2.0.0
+  tests: false
+- name: witherable
+  version: '0.5'
+  tier: 1
+  role: dep
+  expected: ok
+  path: vendored/witherable
+  source:
+    sdist: witherable-0.5
+  note: no tag for 0.5 in https://github.com/fumieval/witherable.git
+  tests: false
+- name: zlib
+  version: 0.7.1.1
+  tier: 1
+  role: dep
+  expected: ok
+  path: zlib/zlib
+  source:
+    git: https://github.com/haskell/zlib.git
+    tag: 0.7.1.1
+  tests: false
+- name: acid-state
+  version: 0.17.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: acid-state
+  source:
+    git: https://github.com/acid-state/acid-state.git
+    tag: v0.17.0
+  tests: false
+- name: aeson-pretty
+  version: 0.8.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: aeson-pretty
+  source:
+    git: https://github.com/informatikr/aeson-pretty.git
+    tag: v0.8.11
+  tests: false
+- name: alex
+  version: 3.5.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: alex
+  source:
+    git: https://github.com/haskell/alex.git
+    tag: v3.5.4.2
+  tests: false
+- name: ansi-wl-pprint
+  version: 1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: ansi-wl-pprint
+  source:
+    git: https://github.com/ekmett/ansi-wl-pprint.git
+    tag: v1.1.1
+  tests: false
+- name: ap-normalize
+  version: 0.1.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/ap-normalize
+  source:
+    sdist: ap-normalize-0.1.0.1
+  note: no source repository listed
+  tests: false
+- name: appar
+  version: 0.1.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: appar
+  source:
+    git: https://github.com/kazu-yamamoto/appar.git
+    tag: v0.1.8
+  tests: false
+- name: applicative-extras
+  version: 0.1.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/applicative-extras
+  source:
+    sdist: applicative-extras-0.1.8
+  note: no source repository listed
+  tests: false
+- name: asciidoc
+  version: 0.1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: asciidoc-hs
+  source:
+    git: https://github.com/jgm/asciidoc-hs.git
+    tag: 0.1.1.1
+  tests: false
+- name: asn1-encoding
+  version: 0.9.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-asn1/encoding
+  source:
+    git: https://github.com/vincenthz/hs-asn1.git
+    tag: asn1-types-v0.3.4
+  tests: false
+- name: asn1-parse
+  version: 0.9.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-asn1/parse
+  source:
+    git: https://github.com/vincenthz/hs-asn1.git
+    tag: asn1-types-v0.3.4
+  tests: false
+- name: asn1-types
+  version: 0.3.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-asn1/types
+  source:
+    git: https://github.com/vincenthz/hs-asn1.git
+    tag: asn1-types-v0.3.4
+  tests: false
+- name: attoparsec-aeson
+  version: 2.2.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: aeson/attoparsec-aeson
+  source:
+    git: https://github.com/haskell/aeson.git
+    tag: v2.3.2.0
+  tests: false
+- name: authenticate
+  version: 1.3.5.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: authenticate/authenticate
+  source:
+    git: https://github.com/yesodweb/authenticate.git
+    tag: authenticate-1.3.5.2
+  tests: false
+- name: authenticate-oauth
+  version: '1.7'
+  tier: 2
+  role: dep
+  expected: ok
+  path: authenticate/authenticate-oauth
+  source:
+    git: https://github.com/yesodweb/authenticate.git
+    tag: authenticate-1.3.5.2
+  tests: false
+- name: auto-update
+  version: 0.2.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/auto-update
+  source:
+    sdist: auto-update-0.2.8
+  note: no source repository listed
+  tests: false
+- name: barbies
+  version: 2.1.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/barbies
+  source:
+    sdist: barbies-2.1.1.0
+  note: no tag for 2.1.1.0 in https://github.com/jcpetruzza/barbies.git
+  tests: false
+- name: base-compat-batteries
+  version: 0.15.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: base-compat/base-compat-batteries
+  source:
+    git: https://github.com/haskell-compat/base-compat.git
+    tag: 0.15.0
+  tests: false
+- name: base-unicode-symbols
+  version: 0.2.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: base-unicode-symbols
+  source:
+    git: https://github.com/roelvandijk/base-unicode-symbols.git
+    tag: 0.2.4.2
+  tests: false
+- name: base16
+  version: '2.0'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/base16
+  source:
+    sdist: base16-2.0
+  note: no tag for 2.0 in https://github.com/emilypi/base16.git
+  tests: false
+- name: base64
+  version: '2.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/base64
+  source:
+    sdist: base64-2.1
+  note: no tag for 2.1 in https://github.com/emilypi/base64.git
+  tests: false
+- name: basement
+  version: 0.0.16
+  tier: 2
+  role: dep
+  expected: ok
+  path: foundation/basement
+  source:
+    git: https://github.com/haskell-foundation/foundation.git
+    tag: basement-v0.0.16
+  tests: false
+- name: bimap
+  version: 0.5.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/bimap
+  source:
+    sdist: bimap-0.5.0
+  note: no tag for 0.5.0 in https://github.com/joelwilliamson/bimap.git
+  tests: false
+- name: binary-orphans
+  version: 1.0.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: binary-orphans
+  source:
+    git: https://github.com/phadej/binary-orphans.git
+    tag: v1.0.6
+  tests: false
+- name: bitvec
+  version: 1.1.6.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: bitvec
+  source:
+    git: https://github.com/Bodigrim/bitvec.git
+    tag: 1.1.6.0
+  tests: false
+- name: boomerang
+  version: 1.4.9.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/boomerang
+  source:
+    sdist: boomerang-1.4.9.4
+  note: no tag for 1.4.9.4 in https://github.com/Happstack/boomerang.git
+  tests: false
+- name: brick
+  version: '3.0'
+  tier: 2
+  role: dep
+  expected: ok
+  path: brick
+  source:
+    git: https://github.com/jtdaugherty/brick.git
+    tag: '3.0'
+  tests: false
+- name: bsb-http-chunked
+  version: 0.0.0.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: bsb-http-chunked
+  source:
+    git: https://github.com/sjakobi/bsb-http-chunked.git
+    tag: v0.0.0.4
+  tests: false
+- name: byteable
+  version: 0.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-byteable
+  source:
+    git: https://github.com/vincenthz/hs-byteable.git
+    tag: v0.1.1
+  tests: false
+- name: byteorder
+  version: 1.0.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/byteorder
+  source:
+    sdist: byteorder-1.0.4
+  note: >-
+    no tag for 1.0.4 in https://community.haskell.org/~aslatter/code/byteorder.git
+  tests: false
+- name: bytes
+  version: 0.17.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: bytes
+  source:
+    git: https://github.com/ekmett/bytes.git
+    tag: v0.17.5
+  tests: false
+- name: bytestring-builder
+  version: 0.10.8.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: bytestring-builder
+  source:
+    git: https://github.com/lpsmith/bytestring-builder.git
+    tag: v0.10.8.2.0
+  tests: false
+- name: cabal-doctest
+  version: 1.0.13
+  tier: 2
+  role: dep
+  expected: ok
+  path: cabal-doctest
+  source:
+    git: https://github.com/ulidtko/cabal-doctest.git
+    tag: v1.0.13
+  tests: false
+- name: cassava
+  version: 0.5.4.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: cassava
+  source:
+    git: https://github.com/haskell-hvr/cassava.git
+    tag: v0.5.4.1
+  tests: false
+- name: cassava-megaparsec
+  version: 2.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: cassava-megaparsec
+  source:
+    git: https://github.com/stackbuilders/cassava-megaparsec.git
+    tag: 2.1.1
+  tests: false
+- name: cborg
+  version: 0.2.10.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: cborg/cborg
+  source:
+    git: https://github.com/well-typed/cborg.git
+    tag: cborg-0.2.10.0
+  tests: false
+- name: cereal
+  version: 0.5.8.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/cereal
+  source:
+    sdist: cereal-0.5.8.3
+  note: no tag for 0.5.8.3 in https://github.com/GaloisInc/cereal.git
+  tests: false
+- name: cgi
+  version: 3001.5.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: haskell-cgi
+  source:
+    git: https://github.com/cheecheeo/haskell-cgi.git
+    tag: 3001.5.2.0
+  tests: false
+- name: charset
+  version: 0.3.12
+  tier: 2
+  role: dep
+  expected: ok
+  path: charset
+  source:
+    git: https://github.com/ekmett/charset.git
+    tag: v0.3.12
+  tests: false
+- name: Chart
+  version: 1.9.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/Chart
+  source:
+    sdist: Chart-1.9.5
+  note: no tag for 1.9.5 in https://github.com/timbod7/haskell-chart.git
+  tests: false
+- name: citeproc
+  version: 0.14.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: citeproc
+  source:
+    git: https://github.com/jgm/citeproc.git
+    tag: 0.14.2
+  tests: false
+- name: clientsession
+  version: 0.9.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/clientsession
+  source:
+    sdist: clientsession-0.9.3.0
+  note: no tag for 0.9.3.0 in https://github.com/yesodweb/clientsession.git
+  tests: false
+- name: cmdargs
+  version: 0.10.22
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/cmdargs
+  source:
+    sdist: cmdargs-0.10.22
+  note: no tag for 0.10.22 in https://github.com/ndmitchell/cmdargs.git
+  tests: false
+- name: commonmark
+  version: 0.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: commonmark-hs/commonmark
+  source:
+    git: https://github.com/jgm/commonmark-hs.git
+    tag: 0.3.0.2
+  tests: false
+- name: commonmark-extensions
+  version: 0.2.7.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: commonmark-hs/commonmark-extensions
+  source:
+    git: https://github.com/jgm/commonmark-hs.git
+    tag: 0.3.0.2
+  tests: false
+- name: commonmark-pandoc
+  version: 0.3.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: commonmark-hs/commonmark-pandoc
+  source:
+    git: https://github.com/jgm/commonmark-hs.git
+    tag: 0.3.0.2
+  tests: false
+- name: concurrent-output
+  version: 1.10.21
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/concurrent-output
+  source:
+    sdist: concurrent-output-1.10.21
+  note: no tag for 1.10.21 in https://git.joeyh.name/concurrent-output.git
+  tests: false
+- name: conduit
+  version: 1.3.6.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/conduit
+  source:
+    sdist: conduit-1.3.6.1
+  note: no tag for 1.3.6.1 in https://github.com/snoyberg/conduit.git
+  tests: false
+- name: conduit-extra
+  version: 1.3.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/conduit-extra
+  source:
+    sdist: conduit-extra-1.3.8
+  note: 'not a git repository: git://github.com/snoyberg/conduit.git'
+  tests: false
+- name: config-ini
+  version: 0.2.7.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/config-ini
+  source:
+    sdist: config-ini-0.2.7.0
+  note: no tag for 0.2.7.0 in https://github.com/aisamanra/config-ini.git
+  tests: false
+- name: control-monad-free
+  version: 0.6.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: control-monad-free
+  source:
+    git: https://github.com/pepeiborra/control-monad-free.git
+    tag: 0.6.2
+  tests: false
+- name: convertible
+  version: 1.1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: convertible
+  source:
+    git: https://github.com/hdbc/convertible.git
+    tag: convertible-1.1.1.1
+  tests: false
+- name: cookie
+  version: 0.5.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/cookie
+  source:
+    sdist: cookie-0.5.1
+  note: no tag for 0.5.1 in https://github.com/snoyberg/cookie.git
+  tests: false
+- name: criterion-measurement
+  version: 0.2.5.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: criterion/criterion-measurement
+  source:
+    git: https://github.com/haskell/criterion.git
+    tag: criterion-measurement-0.2.5.0
+  tests: false
+- name: Crypto
+  version: 4.2.5.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/Crypto
+  source:
+    sdist: Crypto-4.2.5.2
+  note: no source repository listed
+  tests: false
+- name: crypto-api
+  version: 0.13.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/crypto-api
+  source:
+    sdist: crypto-api-0.13.3
+  note: no tag for 0.13.3 in https://github.com/TomMD/crypto-api.git
+  tests: false
+- name: crypto-pubkey-types
+  version: 0.4.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-crypto-pubkey-types
+  source:
+    git: https://github.com/vincenthz/hs-crypto-pubkey-types.git
+    tag: crypto-pubkey-types-v0.4.3
+  tests: false
+- name: cryptohash-md5
+  version: 0.11.101.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: cryptohash-md5
+  source:
+    git: https://github.com/haskell-hvr/cryptohash-md5.git
+    tag: v0.11.101.0
+  tests: false
+- name: crypton
+  version: 2.2.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton
+  source:
+    git: https://github.com/kazu-yamamoto/crypton.git
+    tag: crypton-v2.2.6
+  tests: false
+- name: crypton-asn1-encoding
+  version: 0.10.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-asn1/encoding
+  source:
+    git: https://github.com/mpilgrem/crypton-asn1.git
+    tag: crypton-asn1-types-v0.4.1
+  tests: false
+- name: crypton-asn1-parse
+  version: 0.10.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-asn1/parse
+  source:
+    git: https://github.com/mpilgrem/crypton-asn1.git
+    tag: crypton-asn1-types-v0.4.1
+  tests: false
+- name: crypton-asn1-types
+  version: 0.4.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-asn1/types
+  source:
+    git: https://github.com/mpilgrem/crypton-asn1.git
+    tag: crypton-asn1-types-v0.4.1
+  tests: false
+- name: crypton-connection
+  version: 0.4.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-connection
+  source:
+    git: https://github.com/kazu-yamamoto/crypton-connection.git
+    tag: v0.4.6
+  tests: false
+- name: crypton-pem
+  version: 0.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-pem
+  source:
+    git: https://github.com/mpilgrem/crypton-pem.git
+    tag: v0.3.0
+  tests: false
+- name: crypton-socks
+  version: 0.6.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: crypton-socks
+  source:
+    git: https://github.com/mpilgrem/crypton-socks.git
+    tag: v0.6.2
+  tests: false
+- name: crypton-x509
+  version: 1.10.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/crypton-x509
+  source:
+    sdist: crypton-x509-1.10.1
+  note: >-
+    no tag for 1.10.1 in https://github.com/kazu-yamamoto/crypton-certificate.git
+  tests: false
+- name: crypton-x509-store
+  version: 1.10.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/crypton-x509-store
+  source:
+    sdist: crypton-x509-store-1.10.0
+  note: >-
+    no tag for 1.10.0 in https://github.com/kazu-yamamoto/crypton-certificate.git
+  tests: false
+- name: crypton-x509-system
+  version: 1.10.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/crypton-x509-system
+  source:
+    sdist: crypton-x509-system-1.10.0
+  note: >-
+    no tag for 1.10.0 in https://github.com/kazu-yamamoto/crypton-certificate.git
+  tests: false
+- name: crypton-x509-validation
+  version: 1.10.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/crypton-x509-validation
+  source:
+    sdist: crypton-x509-validation-1.10.1
+  note: >-
+    no tag for 1.10.1 in https://github.com/kazu-yamamoto/crypton-certificate.git
+  tests: false
+- name: cryptonite
+  version: '0.30'
+  tier: 2
+  role: dep
+  expected: ok
+  path: cryptonite
+  source:
+    git: https://github.com/haskell-crypto/cryptonite.git
+    tag: cryptonite-v0.30
+  tests: false
+- name: cryptostore
+  version: 0.6.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: cryptostore
+  source:
+    git: https://codeberg.org/ocheron/cryptostore.git
+    tag: cryptostore-0.6.0.0
+  tests: false
+- name: css-text
+  version: 0.1.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/css-text
+  source:
+    sdist: css-text-0.1.3.0
+  note: css-text.cabal not found in css-text
+  tests: false
+- name: csv
+  version: 0.1.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/csv
+  source:
+    sdist: csv-0.1.2
+  note: no source repository listed
+  tests: false
+- name: data-clist
+  version: '0.2'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/data-clist
+  source:
+    sdist: data-clist-0.2
+  note: no tag for 0.2 in https://github.com/sw17ch/data-clist.git
+  tests: false
+- name: data-default
+  version: 0.8.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: data-default
+  source:
+    git: https://codeberg.org/mauke/data-default.git
+    tag: v0.8.0.2
+  tests: false
+- name: data-default-class
+  version: 0.2.0.0
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/data-default-class
+  source:
+    sdist: data-default-class-0.2.0.0
+  note: no tag for 0.2.0.0 in https://github.com/mauke/data-default.git
+  tests: false
+  reason: >-
+    declares no dependency on base, and GHC 10.1 implicitly imports GHC.Essentials
+    from base in every module
+- name: data-lens-light
+  version: 0.1.2.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: data-lens-light
+  source:
+    git: https://github.com/feuerbach/data-lens-light.git
+    tag: v0.1.2.4
+  tests: false
+- name: DebugTraceHelpers
+  version: '0.12'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/DebugTraceHelpers
+  source:
+    sdist: DebugTraceHelpers-0.12
+  note: no source repository listed
+  tests: false
+- name: dec
+  version: 0.0.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: dec
+  source:
+    git: https://github.com/phadej/dec.git
+    tag: v0.0.6
+  tests: false
+- name: Decimal
+  version: 0.5.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/Decimal
+  source:
+    sdist: Decimal-0.5.2
+  note: no source repository listed
+  tests: false
+- name: digest
+  version: 0.0.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/digest
+  source:
+    sdist: digest-0.0.2.1
+  note: vendored on request
+  tests: false
+- name: directory-tree
+  version: 0.12.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: directory-tree
+  source:
+    git: https://github.com/jberryman/directory-tree.git
+    tag: 0.12.1
+  tests: false
+- name: djot
+  version: 0.1.4.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: djoths
+  source:
+    git: https://github.com/jgm/djoths.git
+    tag: 0.1.4.3
+  tests: false
+- name: doclayout
+  version: '0.6'
+  tier: 2
+  role: dep
+  expected: ok
+  path: doclayout
+  source:
+    git: https://github.com/jgm/doclayout.git
+    tag: '0.6'
+  tests: false
+- name: docopt
+  version: 0.7.0.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: docopt.hs
+  source:
+    git: https://github.com/docopt/docopt.hs.git
+    tag: v0.7.0.8
+  tests: false
+- name: doctemplates
+  version: 0.11.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: doctemplates
+  source:
+    git: https://github.com/jgm/doctemplates.git
+    tag: 0.11.1
+  tests: false
+- name: easy-file
+  version: 0.2.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/easy-file
+  source:
+    sdist: easy-file-0.2.6
+  note: no tag for 0.2.6 in https://github.com/kazu-yamamoto/easy-file.git
+  tests: false
+- name: ech-config
+  version: 0.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-tls/ech-config
+  source:
+    git: https://github.com/haskell-tls/hs-tls.git
+    tag: tls-2.5.1
+  tests: false
+- name: either
+  version: 5.0.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: either
+  source:
+    git: https://github.com/ekmett/either.git
+    tag: v5.0.3
+  tests: false
+- name: email-validate
+  version: 2.3.2.21
+  tier: 2
+  role: dep
+  expected: ok
+  path: email-validate-hs
+  source:
+    git: https://github.com/Porges/email-validate-hs.git
+    tag: v2.3.2.21
+  tests: false
+- name: emojis
+  version: 0.1.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: emojis
+  source:
+    git: https://github.com/jgm/emojis.git
+    tag: 0.1.6
+  tests: false
+- name: encoding
+  version: 0.10.3
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/encoding
+  source:
+    sdist: encoding-0.10.3
+  note: no tag for 0.10.3 in https://github.com/dmwit/encoding.git
+  tests: false
+  reason: >-
+    ambiguous toList: containers 0.8, shipped with GHC 10.1, exports Data.Sequence.toList,
+    which clashes with its Data.Foldable import
+- name: entropy
+  version: 0.4.1.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: entropy
+  source:
+    git: https://github.com/TomMD/entropy.git
+    tag: v0.4.1.11
+  tests: false
+- name: erf
+  version: 2.0.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/erf
+  source:
+    sdist: erf-2.0.0.0
+  note: no source repository listed
+  tests: false
+- name: extensible-exceptions
+  version: 0.1.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/extensible-exceptions
+  source:
+    sdist: extensible-exceptions-0.1.1.4
+  note: no source repository listed
+  tests: false
+- name: fast-logger
+  version: 3.2.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/fast-logger
+  source:
+    sdist: fast-logger-3.2.9
+  note: no tag for 3.2.9 in https://github.com/kazu-yamamoto/logger.git
+  tests: false
+- name: fastcgi
+  version: 3001.0.2.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/fastcgi
+  source:
+    sdist: fastcgi-3001.0.2.5
+  note: no tag for 3001.0.2.5 in https://github.com/krangelov/fastcgi.git
+  tests: false
+- name: fay
+  version: 0.24.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/fay
+  source:
+    sdist: fay-0.24.2.0
+  note: 'not a git repository: https://github.com/faylang/fay.git'
+  tests: false
+- name: fay-base
+  version: 0.21.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/fay-base
+  source:
+    sdist: fay-base-0.21.2.0
+  note: 'not a git repository: https://github.com/faylang/fay.git'
+  tests: false
+- name: fay-jquery
+  version: 0.6.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: fay-jquery
+  source:
+    git: https://github.com/faylang/fay-jquery.git
+    tag: 0.6.1.0
+  tests: false
+- name: fay-text
+  version: 0.3.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: fay-text
+  source:
+    git: https://github.com/faylang/fay-text.git
+    tag: 0.3.2.2
+  tests: false
+- name: filelock
+  version: 0.1.1.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: filelock
+  source:
+    git: https://github.com/haskell-pkg-janitors/filelock.git
+    tag: v0.1.1.9
+  tests: false
+- name: FileManipCompat
+  version: '0.18'
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/FileManipCompat
+  source:
+    sdist: FileManipCompat-0.18
+  note: no source repository listed
+  tests: false
+  reason: >-
+    pre-Applicative-Monad code: no Applicative FindClause instance; unmaintained
+    since 2014
+- name: foldl
+  version: 1.4.18
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/foldl
+  source:
+    sdist: foldl-1.4.18
+  note: >-
+    no tag for 1.4.18 in https://github.com/Gabriella439/Haskell-Foldl-Library.git
+  tests: false
+- name: formlets
+  version: '0.8'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/formlets
+  source:
+    sdist: formlets-0.8
+  note: no tag for 0.8 in https://github.com/chriseidhof/formlets.git
+  tests: false
+- name: fsnotify
+  version: 0.4.4.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/fsnotify
+  source:
+    sdist: fsnotify-0.4.4.0
+  note: no source repository listed
+  tests: false
+- name: generic-data
+  version: 1.1.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: generic-data
+  source:
+    git: https://github.com/Lysxia/generic-data.git
+    tag: 1.1.0.2
+  tests: false
+- name: generics-sop
+  version: 0.5.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: generics-sop/generics-sop
+  source:
+    git: https://github.com/well-typed/generics-sop.git
+    tag: generics-sop-0.5.1.4
+  tests: false
+- name: ghc-hs-meta
+  version: 0.1.5.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/ghc-hs-meta
+  source:
+    sdist: ghc-hs-meta-0.1.5.0
+  note: no tag for 0.1.5.0 in https://github.com/zacwood9/ghc-hs-meta.git
+  tests: false
+- name: ghc-paths
+  version: 0.1.0.12
+  tier: 2
+  role: dep
+  expected: ok
+  path: ghc-paths
+  source:
+    git: https://github.com/simonmar/ghc-paths.git
+    tag: 0.1.0.12
+  tests: false
+- name: githash
+  version: 0.1.7.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/githash
+  source:
+    sdist: githash-0.1.7.0
+  note: githash.cabal not found in githash
+  tests: false
+- name: gitrev
+  version: 1.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: gitrev
+  source:
+    git: https://github.com/acfoltzer/gitrev.git
+    tag: 1.3.1
+  tests: false
+- name: Glob
+  version: 0.10.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: glob
+  source:
+    git: https://github.com/Deewiant/glob.git
+    tag: 0.10.2
+  tests: false
+- name: gridtables
+  version: 0.1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: gridtables
+  source:
+    git: https://github.com/tarleb/gridtables.git
+    tag: v0.1.1.1
+  tests: false
+- name: hakyll
+  version: 4.17.0.0
+  tier: 2
+  role: root
+  expected: ok
+  path: hakyll
+  source:
+    git: https://github.com/jaspervdj/hakyll.git
+    tag: v4.17.0.0
+  tests: true
+- name: half
+  version: 0.3.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: half
+  source:
+    git: https://github.com/ekmett/half.git
+    tag: v0.3.3
+  tests: false
+- name: happstack
+  version: 7.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/happstack
+  source:
+    sdist: happstack-7.0.2
+  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
+  tests: false
+- name: happstack-auth
+  version: 0.2.1.1
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-auth
+  source:
+    sdist: happstack-auth-0.2.1.1
+  note: no tag for 0.2.1.1 in https://github.com/mcmaniac/happstack-auth.git
+  tests: false
+- name: happstack-clientsession
+  version: 7.3.3
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-clientsession
+  source:
+    sdist: happstack-clientsession-7.3.3
+  note: no tag for 7.3.3 in https://github.com/Happstack/happstack-clientsession.git
+  tests: false
+  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
+    2021
+- name: happstack-contrib
+  version: 0.2.1
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-contrib
+  source:
+    sdist: happstack-contrib-0.2.1
+  note: no source repository listed
+  tests: false
+- name: happstack-data
+  version: 6.0.1
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-data
+  source:
+    sdist: happstack-data-6.0.1
+  note: no tag for 6.0.1 in https://patch-tag.com/r/mae/happstack.git
+  tests: false
+  reason: ambiguous show between Prelude and its own L.show; unmaintained since
+    2015
+- name: happstack-dlg
+  version: 0.1.2
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-dlg
+  source:
+    sdist: happstack-dlg-0.1.2
+  note: no source repository listed
+  tests: false
+- name: happstack-fastcgi
+  version: 0.1.5
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-fastcgi
+  source:
+    sdist: happstack-fastcgi-0.1.5
+  note: no source repository listed
+  tests: false
+- name: happstack-fay
+  version: 0.2.0
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-fay
+  source:
+    sdist: happstack-fay-0.2.0
+  note: no source repository listed
+  tests: false
+- name: happstack-fay-ajax
+  version: 0.2.0
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-fay-ajax
+  source:
+    sdist: happstack-fay-ajax-0.2.0
+  note: no source repository listed
+  tests: false
+- name: happstack-hamlet
+  version: 7.0.4
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-hamlet
+  source:
+    sdist: happstack-hamlet-7.0.4
+  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack/pullrepo'
+  tests: false
+- name: happstack-heist
+  version: 7.2.4
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-heist
+  source:
+    sdist: happstack-heist-7.2.4
+  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
+  tests: false
+  reason: >-
+    imports Control.Monad.Trans.Either, removed from the either package; unmaintained
+    since 2014
+- name: happstack-helpers
+  version: '0.56'
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-helpers
+  source:
+    sdist: happstack-helpers-0.56
+  note: no tag for 0.56 in https://patch-tag.com/r/tphyahoo/HAppSHelpers.git
+  tests: false
+- name: happstack-hstringtemplate
+  version: 7.0.4
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-hstringtemplate
+  source:
+    sdist: happstack-hstringtemplate-7.0.4
+  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
+  tests: false
+  reason: uses fail without a MonadFail constraint; unmaintained since 2014
+- name: happstack-ixset
+  version: 6.0.1
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-ixset
+  source:
+    sdist: happstack-ixset-6.0.1
+  note: no tag for 6.0.1 in https://patch-tag.com/r/mae/happstack.git
+  tests: false
+- name: happstack-jmacro
+  version: 7.0.12.6
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-jmacro
+  source:
+    sdist: happstack-jmacro-7.0.12.6
+  note: no tag for 7.0.12.6 in https://github.com/Happstack/happstack-jmacro.git
+  tests: false
+- name: happstack-monad-peel
+  version: '0.1'
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-monad-peel
+  source:
+    sdist: happstack-monad-peel-0.1
+  note: no source repository listed
+  tests: false
+  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
+    2013
+- name: happstack-plugins
+  version: 7.0.2
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-plugins
+  source:
+    sdist: happstack-plugins-7.0.2
+  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
+  tests: false
+- name: happstack-server-tls
+  version: 7.2.1.7
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-server-tls
+  source:
+    sdist: happstack-server-tls-7.2.1.7
+  note: no tag for 7.2.1.7 in https://github.com/Happstack/happstack-server-tls.git
+  tests: false
+- name: happstack-server-tls-cryptonite
+  version: 0.1.1
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-server-tls-cryptonite
+  source:
+    sdist: happstack-server-tls-cryptonite-0.1.1
+  note: >-
+    no tag for 0.1.1 in https://github.com/rblaze/happstack-server-tls-cryptonite.git
+  tests: false
+  reason: uses Network.Socket.sClose, removed in network 3; unmaintained since
+    2015
+- name: happstack-state
+  version: 6.1.4
+  tier: 2
+  role: root
+  expected: ok
+  path: vendored/happstack-state
+  source:
+    sdist: happstack-state-6.1.4
+  note: no tag for 6.1.4 in https://patch-tag.com/r/mae/happstack.git
+  tests: false
+- name: happstack-util
+  version: 6.0.3
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/happstack-util
+  source:
+    sdist: happstack-util-6.0.3
+  note: no tag for 6.0.3 in https://patch-tag.com/r/mae/happstack.git
+  tests: false
+  reason: uses inlinePerformIO, removed from bytestring; unmaintained since 2019
+- name: harp
+  version: 0.4.3.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/harp
+  source:
+    sdist: harp-0.4.3.6
+  note: no tag for 0.4.3.6 in https://github.com/seereason/harp.git
+  tests: false
+- name: hashtables
+  version: 1.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hashtables
+  source:
+    sdist: hashtables-1.4.2
+  note: no tag for 1.4.2 in https://github.com/gregorycollins/hashtables.git
+  tests: false
+- name: haskell-src
+  version: 1.0.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: haskell-src
+  source:
+    git: https://github.com/haskell-pkg-janitors/haskell-src.git
+    tag: v1.0.4.2
+  tests: false
+- name: haskell98
+  version: 2.0.0.3
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/haskell98
+  source:
+    sdist: haskell98-2.0.0.3
+  note: no tag for 2.0.0.3 in https://git.haskell.org/packages/haskell98.git
+  tests: false
+  reason: >-
+    exports fail as a method of Monad, which moved to MonadFail; unmaintained
+    since 2016
+- name: hedgehog
+  version: '1.7'
+  tier: 2
+  role: dep
+  expected: ok
+  path: haskell-hedgehog/hedgehog
+  source:
+    git: https://github.com/hedgehogqa/haskell-hedgehog.git
+    tag: '1.7'
+  tests: false
+- name: heist
+  version: 1.1.1.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: heist
+  source:
+    git: https://github.com/snapframework/heist.git
+    tag: 1.1.1.2
+  tests: false
+- name: hinotify
+  version: 0.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: hinotify
+  source:
+    git: https://github.com/kolmodin/hinotify.git
+    tag: 0.4.2
+  tests: false
+- name: hledger
+  version: 1.52.4
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger/hledger
+  source:
+    git: https://github.com/simonmichael/hledger.git
+    tag: 1.52.4
+  tests: true
+- name: hledger-api
+  version: '1.14'
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/hledger-api
+  source:
+    sdist: hledger-api-1.14
+  note: hledger-api.cabal not found in hledger
+  tests: false
+  reason: >-
+    uses GenericSourcePos, gone from current hledger-lib; unmaintained since 2019
+- name: hledger-chart
+  version: 0.16.1
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/hledger-chart
+  source:
+    sdist: hledger-chart-0.16.1
+  note: no tag for 0.16.1 in https://joyful.com/repos/hledger.git
+  tests: false
+  reason: >-
+    written against the 2011 hledger-lib API (progversionstr); unmaintained since
+    2011
+- name: hledger-diff
+  version: 0.2.0.14
+  tier: 2
+  role: root
+  expected: build-failure
+  path: hledger-diff
+  source:
+    git: https://github.com/gebner/hledger-diff.git
+    tag: 0.2.0.14
+  tests: false
+  reason: >-
+    defines readJournalFile', which current hledger-lib also exports; unmaintained
+    since 2018
+- name: hledger-flow
+  version: 0.18.0
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger-flow
+  source:
+    git: https://github.com/apauley/hledger-flow.git
+    tag: v0.18.0
+  tests: true
+- name: hledger-iadd
+  version: 1.3.23
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger-iadd
+  source:
+    git: https://github.com/hpdeifel/hledger-iadd.git
+    tag: v1.3.23
+  tests: true
+- name: hledger-interest
+  version: 1.6.7
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger-interest
+  source:
+    git: https://github.com/peti/hledger-interest.git
+    tag: v1.6.7
+  tests: false
+- name: hledger-irr
+  version: 0.1.1.16
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/hledger-irr
+  source:
+    sdist: hledger-irr-0.1.1.16
+  note: 'not a git repository: http://darcs.nomeata.de/hledger-irr'
+  tests: false
+  reason: >-
+    imports getOpt from both Hledger and System.Console.GetOpt; unmaintained since
+    2019
+- name: hledger-lib
+  version: 1.52.4
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger/hledger-lib
+  source:
+    git: https://github.com/simonmichael/hledger.git
+    tag: 1.52.4
+  tests: false
+  reason: test suite doctest needs doctest
+- name: hledger-makeitso
+  version: 0.10.0.0
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/hledger-makeitso
+  source:
+    sdist: hledger-makeitso-0.10.0.0
+  note: no tag for 0.10.0.0 in https://github.com/apauley/hledger-makeitso.git
+  tests: true
+  reason: >-
+    operator section with an operand of the same precedence, rejected by the parser;
+    unmaintained since 2019 (renamed hledger-flow)
+- name: hledger-stockquotes
+  version: 0.1.3.2
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger-stockquotes
+  source:
+    git: https://github.com/prikhi/hledger-stockquotes.git
+    tag: 0.1.3.2
+  tests: true
+- name: hledger-ui
+  version: 1.52.4
+  tier: 2
+  role: root
+  expected: build-failure
+  path: hledger/hledger-ui
+  source:
+    git: https://github.com/simonmichael/hledger.git
+    tag: 1.52.4
+  tests: false
+  reason: >-
+    requires brick < 3 while hledger-iadd 1.3.23 requires brick >= 3; the corpus
+    holds one brick (3.0), under which hledger-ui has an ambiguous char
+- name: hledger-vty
+  version: 0.16.1
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/hledger-vty
+  source:
+    sdist: hledger-vty-0.16.1
+  note: no tag for 0.16.1 in https://joyful.com/repos/hledger.git
+  tests: false
+  reason: >-
+    written against the 2011 hledger-lib API (progversionstr); unmaintained since
+    2011
+- name: hledger-web
+  version: 1.52.4
+  tier: 2
+  role: root
+  expected: ok
+  path: hledger/hledger-web
+  source:
+    git: https://github.com/simonmichael/hledger.git
+    tag: 1.52.4
+  tests: true
+- name: hostname
+  version: '1.0'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hostname
+  source:
+    sdist: hostname-1.0
+  note: no source repository listed
+  tests: false
+- name: hourglass
+  version: 0.2.12
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hourglass
+  source:
+    sdist: hourglass-0.2.12
+  note: 'not a git repository: https://github.com/vincenthz/hs-hourglass'
+  tests: false
+- name: hpke
+  version: 0.4.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hpke
+  source:
+    sdist: hpke-0.4.0
+  note: no source repository listed
+  tests: false
+- name: hscolour
+  version: '1.25'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hscolour
+  source:
+    sdist: hscolour-1.25
+  note: no tag for 1.25 in https://code.haskell.org/~malcolm/hscolour.git
+  tests: false
+- name: HSH
+  version: 2.1.3
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/HSH
+  source:
+    sdist: HSH-2.1.3
+  note: no source repository listed
+  tests: false
+  reason: >-
+    calls openFd with the pre-unix-2.8 four-argument signature; unmaintained since
+    2018
+- name: hslua-cli
+  version: 1.4.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-cli
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-list
+  version: 1.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-list
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-module-doclayout
+  version: 1.2.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua-module-doclayout
+  source:
+    git: https://github.com/hslua/hslua-module-doclayout.git
+    tag: 1.2.1.1
+  tests: false
+- name: hslua-module-path
+  version: 1.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-module-path
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-module-system
+  version: 1.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-module-system
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-module-text
+  version: 1.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-module-text
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-module-version
+  version: 1.2.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-module-version
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: hslua-module-zip
+  version: 1.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/hslua-module-zip
+  source:
+    sdist: hslua-module-zip-1.2.1
+  note: 'not a git repository: https://github.com/hslua/hslua'
+  tests: false
+- name: hslua-repl
+  version: 0.1.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/hslua-repl
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: HsOpenSSL
+  version: 0.11.7.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/HsOpenSSL
+  source:
+    sdist: HsOpenSSL-0.11.7.11
+  note: >-
+    no tag for 0.11.7.11 in https://github.com/haskell-cryptography/HsOpenSSL.git
+  tests: false
+- name: HStringTemplate
+  version: 0.8.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/HStringTemplate
+  source:
+    sdist: HStringTemplate-0.8.8
+  note: 'not a git repository: http://hub.darcs.net/sterlingclover/hstringtemplate'
+  tests: false
+- name: HStringTemplateHelpers
+  version: 0.0.14
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/HStringTemplateHelpers
+  source:
+    sdist: HStringTemplateHelpers-0.0.14
+  note: no source repository listed
+  tests: false
+- name: hsx
+  version: 0.10.5
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/hsx
+  source:
+    sdist: hsx-0.10.5
+  note: no tag for 0.10.5 in https://patch-tag.com/r/nibro/hsx.git
+  tests: false
+  reason: uses the pre-1.14 haskell-src-exts API (SrcLoc); unmaintained since
+    2014
+- name: html-conduit
+  version: 1.3.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/html-conduit
+  source:
+    sdist: html-conduit-1.3.2.2
+  note: no tag for 1.3.2.2 in https://github.com/snoyberg/xml.conduit.git
+  tests: false
+- name: HTTP
+  version: 4000.5.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: HTTP
+  source:
+    git: https://github.com/haskell/HTTP.git
+    tag: 4000.5.0
+  tests: false
+- name: http-api-data
+  version: '0.7'
+  tier: 2
+  role: dep
+  expected: ok
+  path: http-api-data
+  source:
+    git: https://github.com/fizruk/http-api-data.git
+    tag: v0.7
+  tests: false
+- name: http-client
+  version: 0.7.19
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/http-client
+  source:
+    sdist: http-client-0.7.19
+  note: no source repository listed
+  tests: false
+- name: http-client-tls
+  version: 0.4.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/http-client-tls
+  source:
+    sdist: http-client-tls-0.4.0
+  note: no source repository listed
+  tests: false
+- name: http-conduit
+  version: 2.3.9.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/http-conduit
+  source:
+    sdist: http-conduit-2.3.9.1
+  note: no tag for 2.3.9.1 in https://github.com/snoyberg/http-client.git
+  tests: false
+- name: http-date
+  version: 0.0.13
+  tier: 2
+  role: dep
+  expected: ok
+  path: http-date
+  source:
+    git: https://github.com/kazu-yamamoto/http-date.git
+    tag: v0.0.13
+  tests: false
+- name: http-media
+  version: 0.8.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: http-media
+  source:
+    git: https://github.com/zmthy/http-media.git
+    tag: v0.8.1.1
+  tests: false
+- name: http-semantics
+  version: 0.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: http-semantics
+  source:
+    git: https://github.com/kazu-yamamoto/http-semantics.git
+    tag: v0.4.2
+  tests: false
+- name: http-types
+  version: 0.12.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: http-types
+  source:
+    git: https://github.com/Vlix/http-types.git
+    tag: v0.12.6
+  tests: false
+- name: http2
+  version: 5.4.13
+  tier: 2
+  role: dep
+  expected: ok
+  path: http2
+  source:
+    git: https://github.com/kazu-yamamoto/http2.git
+    tag: v5.4.13
+  tests: false
+- name: iconv
+  version: 0.4.1.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/iconv
+  source:
+    sdist: iconv-0.4.1.3
+  note: no tag for 0.4.1.3 in https://code.haskell.org/iconv.git
+  tests: false
+- name: indexed-profunctors
+  version: 0.1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: optics/indexed-profunctors
+  source:
+    git: https://github.com/well-typed/optics.git
+    tag: optics-core-0.4.2
+  tests: false
+- name: insert-ordered-containers
+  version: 0.3.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/insert-ordered-containers
+  source:
+    sdist: insert-ordered-containers-0.3.0.1
+  note: no tag for 0.3.0.1 in https://github.com/erikd/insert-ordered-containers.git
+  tests: false
+- name: interpolatedstring-perl6
+  version: 1.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/interpolatedstring-perl6
+  source:
+    sdist: interpolatedstring-perl6-1.0.2
+  note: no tag for 1.0.2 in https://github.com/audreyt/interpolatedstring-perl6.git
+  tests: false
+- name: iproute
+  version: 1.8.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: iproute
+  source:
+    git: https://github.com/kazu-yamamoto/iproute.git
+    tag: v1.8.0
+  tests: false
+- name: ipynb
+  version: '0.2'
+  tier: 2
+  role: dep
+  expected: ok
+  path: ipynb
+  source:
+    git: https://github.com/jgm/ipynb.git
+    tag: '0.2'
+  tests: false
+- name: isocline
+  version: 1.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: isocline
+  source:
+    git: https://github.com/daanx/isocline.git
+    tag: v1.1.0
+  tests: false
+- name: ixset-typed
+  version: '0.6'
+  tier: 2
+  role: dep
+  expected: ok
+  path: ixset-typed
+  source:
+    git: https://github.com/well-typed/ixset-typed.git
+    tag: ixset-typed-0.6
+  tests: false
+- name: jira-wiki-markup
+  version: 1.5.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/jira-wiki-markup
+  source:
+    sdist: jira-wiki-markup-1.5.1
+  note: no tag for 1.5.1 in https://github.com/tarleb/jira-wiki-markup.git
+  tests: false
+- name: jmacro
+  version: 0.6.18
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/jmacro
+  source:
+    sdist: jmacro-0.6.18
+  note: no tag for 0.6.18 in https://github.com/Happstack/jmacro.git
+  tests: false
+- name: json
+  version: '0.11'
+  tier: 2
+  role: dep
+  expected: ok
+  path: json
+  source:
+    git: https://github.com/GaloisInc/json.git
+    tag: json-0.11
+  tests: false
+- name: JuicyPixels
+  version: 3.3.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/JuicyPixels
+  source:
+    sdist: JuicyPixels-3.3.9
+  note: no tag for 3.3.9 in https://github.com/Twinside/Juicy.Pixels.git
+  tests: false
+- name: jwt
+  version: 0.12.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/jwt
+  source:
+    sdist: jwt-0.12.0
+  note: no tag for 0.12.0 in https://github.com/puffnfresh/haskell-jwt.git
+  tests: false
+- name: language-ecmascript
+  version: 0.19.1.0
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: language-ecmascript
+  source:
+    git: https://github.com/jswebtools/language-ecmascript.git
+    tag: 0.19.1.0
+  tests: false
+  reason: >-
+    uses liftM via the Control.Monad re-export that mtl 2.3 dropped; unmaintained
+    since 2019
+- name: libyaml
+  version: 0.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/libyaml
+  source:
+    sdist: libyaml-0.1.4
+  note: 'not a git repository: https://github.com/snoyberg/yaml'
+  tests: false
+- name: libyaml-clib
+  version: 0.2.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/libyaml-clib
+  source:
+    sdist: libyaml-clib-0.2.5
+  note: no tag for 0.2.5 in https://github.com/hasufell/streamly-yaml.git
+  tests: false
+- name: lift-type
+  version: 0.1.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/lift-type
+  source:
+    sdist: lift-type-0.1.2.0
+  note: no tag for 0.1.2.0 in https://github.com/parsonsmatt/lift-type.git
+  tests: false
+- name: linear
+  version: 1.23.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: linear
+  source:
+    git: https://github.com/ekmett/linear.git
+    tag: v1.23.3
+  tests: false
+- name: lpeg
+  version: 1.1.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: hslua/lpeg
+  source:
+    git: https://github.com/hslua/hslua.git
+    tag: hslua-packaging-2.4.1
+  tests: false
+- name: lrucache
+  version: 1.2.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: lrucache
+  source:
+    git: https://github.com/chowells79/lrucache.git
+    tag: 1.2.0.1
+  tests: false
+- name: lucid
+  version: 2.11.20260427
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/lucid
+  source:
+    sdist: lucid-2.11.20260427
+  note: no tag for 2.11.20260427 in https://github.com/chrisdone/lucid.git
+  tests: false
+- name: managed
+  version: 1.0.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/managed
+  source:
+    sdist: managed-1.0.11
+  note: no tag for 1.0.11 in https://github.com/Gabriella439/managed.git
+  tests: false
+- name: map-syntax
+  version: '0.3'
+  tier: 2
+  role: dep
+  expected: ok
+  path: map-syntax
+  source:
+    git: https://github.com/mightybyte/map-syntax.git
+    tag: '0.3'
+  tests: false
+- name: math-functions
+  version: 0.3.4.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: math-functions
+  source:
+    git: https://github.com/bos/math-functions.git
+    tag: 0.3.4.4
+  tests: false
+- name: memory
+  version: 0.18.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-memory
+  source:
+    git: https://github.com/vincenthz/hs-memory.git
+    tag: memory-v0.18.0
+  tests: false
+- name: microlens
+  version: 0.5.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: microlens/microlens
+  source:
+    git: https://github.com/stevenfontanella/microlens.git
+    tag: microlens-0.5.0.0
+  tests: false
+- name: microlens-ghc
+  version: 0.4.15.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: microlens/microlens-ghc
+  source:
+    git: https://github.com/stevenfontanella/microlens.git
+    tag: microlens-0.5.0.0
+  tests: false
+- name: microlens-mtl
+  version: 0.2.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: microlens/microlens-mtl
+  source:
+    git: https://github.com/stevenfontanella/microlens.git
+    tag: microlens-0.5.0.0
+  tests: false
+- name: microlens-platform
+  version: 0.4.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: microlens/microlens-platform
+  source:
+    git: https://github.com/stevenfontanella/microlens.git
+    tag: microlens-0.5.0.0
+  tests: false
+- name: microlens-th
+  version: 0.4.3.18
+  tier: 2
+  role: dep
+  expected: ok
+  path: microlens/microlens-th
+  source:
+    git: https://github.com/stevenfontanella/microlens.git
+    tag: microlens-0.5.0.0
+  tests: false
+- name: mime-mail
+  version: 0.5.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: mime-mail/mime-mail
+  source:
+    git: https://github.com/snoyberg/mime-mail.git
+    tag: mime-mail-0.5.2
+  tests: false
+- name: mime-types
+  version: 0.1.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/mime-types
+  source:
+    sdist: mime-types-0.1.2.2
+  note: no tag for 0.1.2.2 in https://github.com/yesodweb/wai.git
+  tests: false
+- name: MissingH
+  version: 1.6.0.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: missingh
+  source:
+    git: https://github.com/haskell-hvr/missingh.git
+    tag: v1.6.0.3
+  tests: false
+- name: mmorph
+  version: 1.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/mmorph
+  source:
+    sdist: mmorph-1.2.2
+  note: >-
+    no tag for 1.2.2 in https://github.com/Gabriella439/Haskell-MMorph-Library.git
+  tests: false
+- name: modern-uri
+  version: 0.3.6.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: modern-uri
+  source:
+    git: https://github.com/mrkkrp/modern-uri.git
+    tag: 0.3.6.1
+  tests: false
+- name: monad-logger
+  version: 0.3.42
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/monad-logger
+  source:
+    sdist: monad-logger-0.3.42
+  note: no tag for 0.3.42 in https://github.com/snoyberg/monad-logger.git
+  tests: false
+- name: monad-loops
+  version: 0.4.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/monad-loops
+  source:
+    sdist: monad-loops-0.4.3
+  note: no tag for 0.4.3 in https://github.com/mokus0/monad-loops.git
+  tests: false
+- name: monad-peel
+  version: '0.3'
+  tier: 2
+  role: dep
+  expected: ok
+  path: monad-peel
+  source:
+    git: https://github.com/l29ah/monad-peel.git
+    tag: '0.3'
+  tests: false
+- name: mono-traversable
+  version: 1.0.21.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/mono-traversable
+  source:
+    sdist: mono-traversable-1.0.21.0
+  note: no tag for 1.0.21.0 in https://github.com/snoyberg/mono-traversable.git
+  tests: false
+- name: mtl-compat
+  version: 0.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: mtl-compat
+  source:
+    git: https://github.com/haskell-compat/mtl-compat.git
+    tag: 0.2.2
+  tests: false
+- name: multipart
+  version: 0.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: multipart
+  source:
+    git: https://github.com/silkapp/multipart.git
+    tag: 0.2.1
+  tests: false
+- name: network-byte-order
+  version: 0.1.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/network-byte-order
+  source:
+    sdist: network-byte-order-0.1.9
+  note: no tag for 0.1.9 in https://github.com/kazu-yamamoto/network-byte-order.git
+  tests: false
+- name: network-control
+  version: 0.1.7
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/network-control
+  source:
+    sdist: network-control-0.1.7
+  note: no source repository listed
+  tests: false
+- name: network-run
+  version: 0.8.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: network-run
+  source:
+    git: https://github.com/kazu-yamamoto/network-run.git
+    tag: v0.8.0
+  tests: false
+- name: Only
+  version: '0.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/Only
+  source:
+    sdist: Only-0.1
+  note: no tag for 0.1 in https://github.com/haskell-hvr/Only.git
+  tests: false
+- name: operational
+  version: 0.2.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: operational
+  source:
+    git: https://github.com/HeinrichApfelmus/operational.git
+    tag: v0.2.4.2
+  tests: false
+- name: optics-core
+  version: 0.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: optics/optics-core
+  source:
+    git: https://github.com/well-typed/optics.git
+    tag: optics-core-0.4.2
+  tests: false
+- name: optics-extra
+  version: 0.4.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: optics/optics-extra
+  source:
+    git: https://github.com/well-typed/optics.git
+    tag: optics-core-0.4.2
+  tests: false
+- name: optics-th
+  version: 0.4.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: optics/optics-th
+  source:
+    git: https://github.com/well-typed/optics.git
+    tag: optics-core-0.4.2
+  tests: false
+- name: optional-args
+  version: 1.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/optional-args
+  source:
+    sdist: optional-args-1.0.2
+  note: >-
+    no tag for 1.0.2 in https://github.com/Gabriella439/Haskell-Optional-Args-Library.git
+  tests: false
+- name: ordered-containers
+  version: 0.2.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/ordered-containers
+  source:
+    sdist: ordered-containers-0.2.5
+  note: no tag for 0.2.5 in https://github.com/dmwit/ordered-containers.git
+  tests: false
+- name: pandoc
+  version: '3.13'
+  tier: 2
+  role: root
+  expected: build-failure
+  path: vendored/pandoc
+  source:
+    sdist: pandoc-3.13
+  note: vendored on request
+  tests: true
+  reason: >-
+    this GHC tree bundles haddock-library 1.11.0 with a Text-based parseParas
+    and Text document fields, unlike Hackage's 1.11.0 with String; the Haddock
+    reader does not type-check against it
+- name: pandoc-cli
+  version: '3.13'
+  tier: 2
+  role: root
+  expected: ok
+  path: pandoc/pandoc-cli
+  source:
+    git: https://github.com/jgm/pandoc.git
+    tag: '3.13'
+  tests: false
+- name: pandoc-lua-engine
+  version: 0.5.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: pandoc/pandoc-lua-engine
+  source:
+    git: https://github.com/jgm/pandoc.git
+    tag: '3.13'
+  tests: false
+- name: pandoc-lua-marshal
+  version: 0.3.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: pandoc-lua-marshal
+  source:
+    git: https://github.com/pandoc/pandoc-lua-marshal.git
+    tag: 0.3.2.1
+  tests: false
+- name: pandoc-server
+  version: 0.1.4.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: pandoc/pandoc-server
+  source:
+    git: https://github.com/jgm/pandoc.git
+    tag: '3.13'
+  tests: false
+- name: pandoc-types
+  version: 1.23.1.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: pandoc-types
+  source:
+    git: https://github.com/jgm/pandoc-types.git
+    tag: 1.23.1.2
+  tests: false
+- name: parseargs
+  version: 0.2.0.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: parseargs
+  source:
+    git: https://github.com/BartMassey/parseargs.git
+    tag: v0.2.0.9
+  tests: false
+- name: path
+  version: 0.9.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/path
+  source:
+    sdist: path-0.9.6
+  note: >-
+    allow-newer relaxes the filepath < 1.5 bound its automatic os-string flag
+    is keyed on, so the flag is forced
+  tests: false
+  flags: "+os-string"
+- name: path-io
+  version: 1.8.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: path-io
+  source:
+    git: https://github.com/mrkkrp/path-io.git
+    tag: 1.8.2
+  tests: false
+- name: path-pieces
+  version: 0.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: path-pieces
+  source:
+    git: https://github.com/yesodweb/path-pieces.git
+    tag: path-pieces/0.2.1
+  tests: false
+- name: PBKDF2
+  version: 0.3.1.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/PBKDF2
+  source:
+    sdist: PBKDF2-0.3.1.5
+  note: no tag for 0.3.1.5 in https://github.com/silkapp/PBKDF2.git
+  tests: false
+- name: pem
+  version: 0.2.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-pem
+  source:
+    git: https://github.com/vincenthz/hs-pem.git
+    tag: pem-v0.2.4
+  tests: false
+- name: persistent
+  version: 2.18.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/persistent
+  source:
+    sdist: persistent-2.18.1.0
+  note: no tag for 2.18.1.0 in https://github.com/yesodweb/persistent.git
+  tests: false
+- name: persistent-template
+  version: 2.12.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: persistent/persistent-template
+  source:
+    git: https://github.com/yesodweb/persistent.git
+    tag: persistent-template-2.12.0.0
+  tests: false
+- name: plugins
+  version: 1.6.2.1
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/plugins
+  source:
+    sdist: plugins-1.6.2.1
+  note: no tag for 1.6.2.1 in https://github.com/stepcut/plugins.git
+  tests: false
+  reason: imports the pre-9.0 GHC API module HscTypes; unmaintained since 2017
+- name: plugins-auto
+  version: 0.0.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/plugins-auto
+  source:
+    sdist: plugins-auto-0.0.4
+  note: no tag for 0.0.4 in https://patch-tag.com/r/facundo/plugins-auto.git
+  tests: false
+- name: pretty-show
+  version: '1.10'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/pretty-show
+  source:
+    sdist: pretty-show-1.10
+  note: no tag for 1.10 in https://github.com/yav/pretty-show.git
+  tests: false
+- name: pretty-simple
+  version: 4.1.4.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: pretty-simple
+  source:
+    git: https://github.com/cdepillabout/pretty-simple.git
+    tag: v4.1.4.0
+  tests: false
+- name: prettyprinter-compat-ansi-wl-pprint
+  version: 1.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: prettyprinter/prettyprinter-compat-ansi-wl-pprint
+  source:
+    git: https://github.com/quchen/prettyprinter.git
+    tag: ansi-terminal-v1.1.4
+  tests: false
+- name: psqueues
+  version: 0.2.8.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: psqueues
+  source:
+    git: https://github.com/jaspervdj/psqueues.git
+    tag: v0.2.8.3
+  tests: false
+- name: pureMD5
+  version: 2.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/pureMD5
+  source:
+    sdist: pureMD5-2.1.4
+  note: no tag for 2.1.4 in https://github.com/TomMD/pureMD5.git
+  tests: false
+- name: pwstore-purehaskell
+  version: 2.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/pwstore-purehaskell
+  source:
+    sdist: pwstore-purehaskell-2.1.4
+  note: no source repository listed
+  tests: false
+- name: quote-quot
+  version: 0.2.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/quote-quot
+  source:
+    sdist: quote-quot-0.2.2.0
+  note: no tag for 0.2.2.0 in https://github.com/Bodigrim/quote-quot.git
+  tests: false
+- name: ram
+  version: 0.22.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/ram
+  source:
+    sdist: ram-0.22.1
+  note: no tag for 0.22.1 in https://github.com/jappeace/ram.git
+  tests: false
+- name: raw-strings-qq
+  version: '1.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: raw-strings-qq
+  source:
+    git: https://github.com/23Skidoo/raw-strings-qq.git
+    tag: '1.1'
+  tests: false
+- name: recv
+  version: 0.1.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/recv
+  source:
+    sdist: recv-0.1.3
+  note: no source repository listed
+  tests: false
+- name: reform
+  version: 0.2.7.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/reform
+  source:
+    sdist: reform-0.2.7.6
+  note: no tag for 0.2.7.6 in https://github.com/Happstack/reform.git
+  tests: false
+- name: reform-happstack
+  version: 0.2.5.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/reform-happstack
+  source:
+    sdist: reform-happstack-0.2.5.8
+  note: no tag for 0.2.5.8 in https://github.com/Happstack/reform-happstack.git
+  tests: false
+- name: regex-compat
+  version: 0.95.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: regex-compat
+  source:
+    git: https://github.com/haskell-hvr/regex-compat.git
+    tag: v0.95.2.2
+  tests: false
+- name: regex-posix
+  version: 0.96.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: regex-posix
+  source:
+    git: https://github.com/haskell-hvr/regex-posix.git
+    tag: v0.96.0.2
+  tests: false
+- name: replace-megaparsec
+  version: 1.5.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: replace-megaparsec
+  source:
+    git: https://github.com/jamesdbrock/replace-megaparsec.git
+    tag: v1.5.0.1
+  tests: false
+- name: req
+  version: 3.13.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: req
+  source:
+    git: https://github.com/mrkkrp/req.git
+    tag: 3.13.4
+  tests: false
+- name: resource-pool
+  version: 0.5.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: pool
+  source:
+    git: https://github.com/scrive/pool.git
+    tag: 0.5.1.0
+  tests: false
+- name: resourcet
+  version: 1.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: conduit/resourcet
+  source:
+    git: https://github.com/snoyberg/conduit.git
+    tag: resourcet-1.3.0
+  tests: false
+- name: retry
+  version: 0.9.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: retry
+  source:
+    git: https://github.com/Soostone/retry.git
+    tag: 0.9.3.1
+  tests: false
+- name: RJson
+  version: 0.3.7
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/RJson
+  source:
+    sdist: RJson-0.3.7
+  note: no source repository listed
+  tests: false
+  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
+    2011
+- name: RSA
+  version: 2.4.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/RSA
+  source:
+    sdist: RSA-2.4.1
+  note: no tag for 2.4.1 in https://github.com/GaloisInc/RSA.git
+  tests: false
+- name: safe-exceptions
+  version: 0.1.7.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: safe-exceptions
+  source:
+    git: https://github.com/fpco/safe-exceptions.git
+    tag: safe-exceptions-0.1.7.4
+  tests: false
+- name: safecopy
+  version: 0.10.4.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: safecopy
+  source:
+    git: https://github.com/acid-state/safecopy.git
+    tag: v0.10.4.3
+  tests: false
+- name: sdl2
+  version: 2.5.6.1
+  tier: 2
+  role: root
+  expected: test-failure
+  path: vendored/sdl2
+  source:
+    sdist: sdl2-2.5.6.1
+  note: no tag for 2.5.6.1 in https://github.com/haskell-game/sdl2.git
+  tests: true
+  reason: sdl-space needs a display and fails silently without one
+- name: semigroups
+  version: 0.20.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: semigroups
+  source:
+    git: https://github.com/ekmett/semigroups.git
+    tag: v0.20.1
+  tests: false
+- name: serialise
+  version: 0.2.6.1
+  tier: 2
+  role: dep
+  expected: build-failure
+  path: vendored/serialise
+  source:
+    sdist: serialise-0.2.6.1
+  note: vendored on request
+  tests: false
+  reason: >-
+    base 4.23 replaced the KindRepTYPE RuntimeRep constructor of Type.Reflection.Unsafe
+    by a nullary KindRepType and added KindRepConstraint; release 0.2.6.1 predates
+    it
+- name: servant
+  version: 0.20.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: servant/servant
+  source:
+    git: https://github.com/haskell-servant/servant.git
+    tag: servant-0.20.3.0
+  tests: false
+- name: servant-server
+  version: 0.20.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: servant/servant-server
+  source:
+    git: https://github.com/haskell-servant/servant.git
+    tag: servant-server-0.20.3.0
+  tests: false
+- name: servant-swagger
+  version: 1.2.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/servant-swagger
+  source:
+    sdist: servant-swagger-1.2.3
+  note: 'not a git repository: https://github.com/haskell-servant/servant.git'
+  tests: false
+- name: setenv
+  version: 0.1.1.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: setenv
+  source:
+    git: https://github.com/sol/setenv.git
+    tag: 0.1.1.3
+  tests: false
+- name: SHA
+  version: 1.6.4.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/SHA
+  source:
+    sdist: SHA-1.6.4.4
+  note: no tag for 1.6.4.4 in https://github.com/GaloisInc/SHA.git
+  tests: false
+- name: show-combinators
+  version: 0.2.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: show-combinators
+  source:
+    git: https://github.com/Lysxia/show-combinators.git
+    tag: 0.2.0.0
+  tests: false
+- name: silently
+  version: 1.2.5.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: silently
+  source:
+    git: https://github.com/hspec/silently.git
+    tag: v1.2.5.4
+  tests: false
+- name: simple-sendfile
+  version: 0.2.33
+  tier: 2
+  role: dep
+  expected: ok
+  path: simple-sendfile
+  source:
+    git: https://github.com/kazu-yamamoto/simple-sendfile.git
+    tag: v0.2.33
+  tests: false
+- name: singleton-bool
+  version: 0.1.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/singleton-bool
+  source:
+    sdist: singleton-bool-0.1.8
+  note: no tag for 0.1.8 in https://github.com/phadej/singleton-bool.git
+  tests: false
+- name: skein
+  version: 1.0.9.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/skein
+  source:
+    sdist: skein-1.0.9.4
+  note: no tag for 1.0.9.4 in https://github.com/meteficha/skein.git
+  tests: false
+- name: skylighting
+  version: 0.15.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/skylighting
+  source:
+    sdist: skylighting-0.15.0.1
+  note: vendored on request
+  tests: false
+- name: skylighting-core
+  version: 0.15.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-core
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: skylighting-format-ansi
+  version: '0.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-format-ansi
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: skylighting-format-blaze-html
+  version: 0.1.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-format-blaze-html
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: skylighting-format-context
+  version: 0.1.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-format-context
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: skylighting-format-latex
+  version: '0.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-format-latex
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: skylighting-format-typst
+  version: '0.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: skylighting/skylighting-format-typst
+  source:
+    git: https://github.com/jgm/skylighting.git
+    tag: 0.15.0.1
+  tests: false
+- name: some
+  version: '1.1'
+  tier: 2
+  role: dep
+  expected: ok
+  path: some
+  source:
+    git: https://github.com/haskellari/some.git
+    tag: v1.1
+  tests: false
+- name: sop-core
+  version: 0.5.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: generics-sop/sop-core
+  source:
+    git: https://github.com/well-typed/generics-sop.git
+    tag: generics-sop-0.5.1.4
+  tests: false
+- name: sourcemap
+  version: 0.1.7
+  tier: 2
+  role: dep
+  expected: ok
+  path: sourcemap
+  source:
+    git: https://github.com/juhp/sourcemap.git
+    tag: v0.1.7
+  tests: false
+- name: split
+  version: 0.2.5.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/split
+  source:
+    sdist: split-0.2.5.1
+  note: no tag for 0.2.5.1 in https://github.com/byorgey/split.git
+  tests: false
+- name: spoon
+  version: 0.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/spoon
+  source:
+    sdist: spoon-0.3.1
+  note: no source repository listed
+  tests: false
+- name: stm-chans
+  version: 3.0.0.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: stm-chans
+  source:
+    git: https://github.com/wrengr/stm-chans.git
+    tag: v3.0.0.11
+  tests: false
+- name: streaming-commons
+  version: 0.2.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: streaming-commons
+  source:
+    git: https://github.com/fpco/streaming-commons.git
+    tag: v0.2.3.1
+  tests: false
+- name: string-interpolate
+  version: 1.0.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: string-interpolate
+  source:
+    git: https://www.gitlab.com/williamyaoh/string-interpolate.git
+    tag: v1.0.0.0
+  tests: false
+- name: string-qq
+  version: 0.0.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/string-qq
+  source:
+    sdist: string-qq-0.0.6
+  note: no tag for 0.0.6 in https://github.com/audreyt/string-qq.git
+  tests: false
+- name: stringsearch
+  version: 0.3.6.6
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/stringsearch
+  source:
+    sdist: stringsearch-0.3.6.6
+  note: no tag for 0.3.6.6 in https://bitbucket.org/dafis/stringsearch.git
+  tests: false
+- name: swagger2
+  version: 2.9.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/swagger2
+  source:
+    sdist: swagger2-2.9.1
+  note: no tag for 2.9.1 in https://github.com/GetShopTV/swagger2.git
+  tests: false
+- name: syb-with-class
+  version: 0.6.1.14
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/syb-with-class
+  source:
+    sdist: syb-with-class-0.6.1.14
+  note: no tag for 0.6.1.14 in https://github.com/Happstack/syb-with-class.git
+  tests: false
+- name: syb-with-class-instances-text
+  version: 0.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/syb-with-class-instances-text
+  source:
+    sdist: syb-with-class-instances-text-0.0.1
+  note: >-
+    no tag for 0.0.1 in https://src.seereason.com/syb-with-class-instances-text.git
+  tests: false
+- name: tabular
+  version: 0.2.2.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: tabular
+  source:
+    git: https://github.com/bgamari/tabular.git
+    tag: 0.2.2.8
+  tests: false
+- name: tagsoup
+  version: 0.14.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: tagsoup
+  source:
+    git: https://github.com/ndmitchell/tagsoup.git
+    tag: v0.14.8
+  tests: false
+- name: tasty-hedgehog
+  version: 1.4.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: tasty-hedgehog
+  source:
+    git: https://github.com/qfpl/tasty-hedgehog.git
+    tag: 1.4.0.2
+  tests: false
+- name: texmath
+  version: 0.13.3.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: texmath
+  source:
+    git: https://github.com/jgm/texmath.git
+    tag: 0.13.3.4
+  tests: false
+- name: text-ansi
+  version: 0.3.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/text-ansi
+  source:
+    sdist: text-ansi-0.3.0.1
+  note: no tag for 0.3.0.1 in https://github.com/awkward-squad/text-ansi.git
+  tests: false
+- name: text-builder
+  version: 1.0.0.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: text-builder
+  source:
+    git: https://github.com/nikita-volkov/text-builder.git
+    tag: 1.0.0.5
+  tests: false
+- name: text-builder-core
+  version: 0.1.1.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: text-builder-core
+  source:
+    git: https://github.com/nikita-volkov/text-builder-core.git
+    tag: 0.1.1.3
+  tests: false
+- name: text-builder-linear
+  version: 0.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/text-builder-linear
+  source:
+    sdist: text-builder-linear-0.1.4
+  note: no tag for 0.1.4 in https://github.com/Bodigrim/linear-builder.git
+  tests: false
+- name: text-conversions
+  version: 0.3.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/text-conversions
+  source:
+    sdist: text-conversions-0.3.1.1
+  note: no tag for 0.3.1.1 in https://github.com/cjdev/text-conversions.git
+  tests: false
+- name: text-zipper
+  version: '0.13'
+  tier: 2
+  role: dep
+  expected: ok
+  path: text-zipper
+  source:
+    git: https://github.com/jtdaugherty/text-zipper.git
+    tag: '0.13'
+  tests: false
+- name: th-lift-instances
+  version: 0.1.20
+  tier: 2
+  role: dep
+  expected: ok
+  path: th-lift-instances
+  source:
+    git: https://github.com/bennofs/th-lift-instances.git
+    tag: v0.1.20
+  tests: false
+- name: time-hourglass
+  version: 0.3.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: time-hourglass
+  source:
+    git: https://github.com/mpilgrem/time-hourglass.git
+    tag: time-hourglass-v0.3.0
+  tests: false
+- name: time-locale-compat
+  version: 0.1.1.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/time-locale-compat
+  source:
+    sdist: time-locale-compat-0.1.1.5
+  note: >-
+    no tag for 0.1.1.5 in https://github.com/khibino/haskell-time-locale-compat.git
+  tests: false
+- name: time-manager
+  version: 0.5.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/time-manager
+  source:
+    sdist: time-manager-0.5.2
+  note: no source repository listed
+  tests: false
+- name: timeit
+  version: '2.0'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/timeit
+  source:
+    sdist: timeit-2.0
+  note: 'not a git repository: ssh://github.com:merijn/timeit.git'
+  tests: false
+- name: tls
+  version: 2.5.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-tls/tls
+  source:
+    git: https://github.com/haskell-tls/hs-tls.git
+    tag: tls-2.5.1
+  tests: false
+- name: toml-parser
+  version: 2.0.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: toml-parser
+  source:
+    git: https://github.com/glguy/toml-parser.git
+    tag: toml-parser-2.0.2.0
+  tests: false
+- name: traverse-with-class
+  version: 1.0.1.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: traverse-with-class
+  source:
+    git: https://github.com/feuerbach/traverse-with-class.git
+    tag: v1.0.1.1
+  tests: false
+- name: turtle
+  version: 1.6.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/turtle
+  source:
+    sdist: turtle-1.6.2
+  note: no tag for 1.6.2 in https://github.com/Gabriella439/turtle.git
+  tests: false
+- name: typst
+  version: 0.12.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: typst-hs
+  source:
+    git: https://github.com/jgm/typst-hs.git
+    tag: 0.12.1
+  tests: false
+- name: typst-symbols
+  version: '0.3'
+  tier: 2
+  role: dep
+  expected: ok
+  path: typst-symbols
+  source:
+    git: https://github.com/jgm/typst-symbols.git
+    tag: '0.3'
+  tests: false
+- name: uglymemo
+  version: 0.1.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/uglymemo
+  source:
+    sdist: uglymemo-0.1.0.1
+  note: no source repository listed
+  tests: false
+- name: unicode-collation
+  version: 0.1.3.7
+  tier: 2
+  role: dep
+  expected: ok
+  path: unicode-collation
+  source:
+    git: https://github.com/jgm/unicode-collation.git
+    tag: 0.1.3.7
+  tests: false
+- name: unicode-data
+  version: 0.9.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: unicode-data/unicode-data
+  source:
+    git: https://github.com/composewell/unicode-data.git
+    tag: v0.9.0
+  tests: false
+- name: unicode-transforms
+  version: 0.4.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: unicode-transforms
+  source:
+    git: https://github.com/composewell/unicode-transforms.git
+    tag: v0.4.0.1
+  tests: false
+- name: uniplate
+  version: 1.6.13
+  tier: 2
+  role: dep
+  expected: ok
+  path: uniplate
+  source:
+    git: https://github.com/ndmitchell/uniplate.git
+    tag: v1.6.13
+  tests: false
+- name: unix-time
+  version: 0.6.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: unix-time
+  source:
+    git: https://github.com/kazu-yamamoto/unix-time.git
+    tag: v0.6.0
+  tests: false
+- name: unliftio
+  version: 0.2.25.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/unliftio
+  source:
+    sdist: unliftio-0.2.25.1
+  note: no source repository listed
+  tests: false
+- name: userid
+  version: 0.1.3.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/userid
+  source:
+    sdist: userid-0.1.3.8
+  note: no tag for 0.1.3.8 in https://github.com/Happstack/userid.git
+  tests: false
+- name: utility-ht
+  version: 0.0.17.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/utility-ht
+  source:
+    sdist: utility-ht-0.0.17.2
+  note: no tag for 0.0.17.2 in https://code.haskell.org/~thielema/utility.git
+  tests: false
+- name: vault
+  version: 0.3.2.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vault
+  source:
+    git: https://github.com/HeinrichApfelmus/vault.git
+    tag: v0.3.2.0
+  tests: false
+- name: vector-algorithms
+  version: 0.9.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vector-algorithms
+  source:
+    git: https://github.com/erikd/vector-algorithms.git
+    tag: v0.9.1.0
+  tests: false
+- name: void
+  version: 0.7.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: void
+  source:
+    git: https://github.com/ekmett/void.git
+    tag: v0.7.4
+  tests: false
+- name: vty
+  version: '6.7'
+  tier: 2
+  role: dep
+  expected: ok
+  path: vty
+  source:
+    git: https://github.com/jtdaugherty/vty.git
+    tag: '6.7'
+  tests: false
+- name: vty-crossplatform
+  version: 0.5.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/vty-crossplatform
+  source:
+    sdist: vty-crossplatform-0.5.0.0
+  note: no source repository listed
+  tests: false
+- name: vty-unix
+  version: 0.5.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vty-unix
+  source:
+    git: https://github.com/jtdaugherty/vty-unix.git
+    tag: 0.5.0.0
+  tests: false
+- name: wai
+  version: 3.2.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai/wai
+  source:
+    git: https://github.com/yesodweb/wai.git
+    tag: warp-tls/3.4.18
+  tests: false
+- name: wai-app-static
+  version: 3.2.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai/wai-app-static
+  source:
+    git: https://github.com/yesodweb/wai.git
+    tag: warp-tls/3.4.18
+  tests: false
+- name: wai-cors
+  version: 0.2.7
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai-cors
+  source:
+    git: https://github.com/larskuhtz/wai-cors.git
+    tag: 0.2.7
+  tests: false
+- name: wai-extra
+  version: 3.1.18
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai/wai-extra
+  source:
+    git: https://github.com/yesodweb/wai.git
+    tag: warp-tls/3.4.18
+  tests: false
+- name: wai-handler-launch
+  version: 3.0.3.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai-handlers/wai-handler-launch
+  source:
+    git: https://github.com/yesodweb/wai-handlers.git
+    tag: wai-handler-launch/3.0.3.1
+  tests: false
+- name: wai-logger
+  version: 2.5.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/wai-logger
+  source:
+    sdist: wai-logger-2.5.1
+  note: no tag for 2.5.1 in https://github.com/kazu-yamamoto/logger.git
+  tests: false
+- name: warp
+  version: 3.5.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: wai/warp
+  source:
+    git: https://github.com/yesodweb/wai.git
+    tag: warp-tls/3.4.18
+  tests: false
+- name: web-routes
+  version: 0.27.16
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/web-routes
+  source:
+    sdist: web-routes-0.27.16
+  note: no tag for 0.27.16 in https://github.com/Happstack/web-routes.git
+  tests: false
+- name: web-routes-boomerang
+  version: 0.28.4.5
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/web-routes-boomerang
+  source:
+    sdist: web-routes-boomerang-0.28.4.5
+  note: no tag for 0.28.4.5 in https://github.com/happstack/web-routes-boomerang.git
+  tests: false
+- name: web-routes-happstack
+  version: 0.23.12.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/web-routes-happstack
+  source:
+    sdist: web-routes-happstack-0.23.12.4
+  note: >-
+    no tag for 0.23.12.4 in https://github.com/Happstack/web-routes-happstack.git
+  tests: false
+- name: web-routes-mtl
+  version: 0.20.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/web-routes-mtl
+  source:
+    sdist: web-routes-mtl-0.20.1
+  note: no tag for 0.20.1 in https://src.seereason.com/web-routes.git
+  tests: false
+- name: web-routes-th
+  version: 0.22.8.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/web-routes-th
+  source:
+    sdist: web-routes-th-0.22.8.3
+  note: no tag for 0.22.8.3 in https://github.com/happstack/web-routes-th.git
+  tests: false
+- name: weigh
+  version: 0.0.18
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/weigh
+  source:
+    sdist: weigh-0.0.18
+  note: no source repository listed
+  tests: false
+- name: wizards
+  version: 1.0.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/wizards
+  source:
+    sdist: wizards-1.0.3
+  note: no tag for 1.0.3 in https://github.com/liamoc/wizards.git
+  tests: false
+- name: wl-pprint-annotated
+  version: 0.1.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/wl-pprint-annotated
+  source:
+    sdist: wl-pprint-annotated-0.1.0.2
+  note: no tag for 0.1.0.2 in https://github.com/minad/wl-pprint-annotated.git
+  tests: false
+- name: wl-pprint-text
+  version: 1.2.0.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: wl-pprint-text
+  source:
+    git: https://github.com/ivan-m/wl-pprint-text.git
+    tag: 1.2.0.2
+  tests: false
+- name: word-wrap
+  version: '0.5'
+  tier: 2
+  role: dep
+  expected: ok
+  path: word-wrap
+  source:
+    git: https://github.com/jtdaugherty/word-wrap.git
+    tag: '0.5'
+  tests: false
+- name: word8
+  version: 0.1.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: word8
+  source:
+    git: https://github.com/kazu-yamamoto/word8.git
+    tag: v0.1.4
+  tests: false
+- name: x509
+  version: 1.7.7
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/x509
+  source:
+    sdist: x509-1.7.7
+  note: 'not a git repository: git://github.com/vincenthz/hs-certificate'
+  tests: false
+- name: x509-store
+  version: 1.6.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-certificate/x509-store
+  source:
+    git: https://github.com/vincenthz/hs-certificate.git
+    tag: x509-v1.7.7
+  tests: false
+- name: x509-validation
+  version: 1.6.12
+  tier: 2
+  role: dep
+  expected: ok
+  path: hs-certificate/x509-validation
+  source:
+    git: https://github.com/vincenthz/hs-certificate.git
+    tag: x509-v1.7.7
+  tests: false
+- name: xdg-basedir
+  version: 0.2.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/xdg-basedir
+  source:
+    sdist: xdg-basedir-0.2.2
+  note: no tag for 0.2.2 in https://github.com/willdonnelly/xdg-basedir.git
+  tests: false
+- name: xml
+  version: 1.3.14
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/xml
+  source:
+    sdist: xml-1.3.14
+  note: no tag for 1.3.14 in https://github.com/GaloisInc/xml.git
+  tests: false
+- name: xml-conduit
+  version: 1.10.1.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: xml/xml-conduit
+  source:
+    git: https://github.com/snoyberg/xml.git
+    tag: xml-conduit/1.10.1.0
+  tests: false
+- name: xml-types
+  version: 0.3.8
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/xml-types
+  source:
+    sdist: xml-types-0.3.8
+  note: no tag for 0.3.8 in https://git.singpolyma.net/xml-types-haskell.git
+  tests: false
+- name: xmlhtml
+  version: 0.2.5.4
+  tier: 2
+  role: dep
+  expected: ok
+  path: xmlhtml
+  source:
+    git: https://github.com/snapframework/xmlhtml.git
+    tag: 0.2.5.4
+  tests: false
+- name: xss-sanitize
+  version: 0.3.7.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/xss-sanitize
+  source:
+    sdist: xss-sanitize-0.3.7.2
+  note: xss-sanitize.cabal not found in haskell-xss-sanitize
+  tests: false
+- name: yaml
+  version: 0.11.11.2
+  tier: 2
+  role: dep
+  expected: ok
+  path: yaml/yaml
+  source:
+    git: https://github.com/snoyberg/yaml.git
+    tag: yaml-0.11.11.2
+  tests: false
+- name: yamlet
+  version: 1.0.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: yamlet
+  source:
+    git: https://github.com/arybczak/yamlet.git
+    tag: yamlet-1.0.0.1
+  tests: false
+- name: yamlet-aeson
+  version: 1.0.0.1
+  tier: 2
+  role: dep
+  expected: ok
+  path: yamlet/yamlet-aeson
+  source:
+    git: https://github.com/arybczak/yamlet.git
+    tag: yamlet-1.0.0.1
+  tests: false
+- name: yesod
+  version: 1.6.2.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/yesod
+  source:
+    sdist: yesod-1.6.2.3
+  note: no tag for 1.6.2.3 in https://github.com/yesodweb/yesod.git
+  tests: false
+- name: yesod-core
+  version: 1.7.0.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/yesod-core
+  source:
+    sdist: yesod-core-1.7.0.0
+  note: no tag for 1.7.0.0 in https://github.com/yesodweb/yesod.git
+  tests: false
+- name: yesod-form
+  version: 1.7.11
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/yesod-form
+  source:
+    sdist: yesod-form-1.7.11
+  note: no tag for 1.7.11 in https://github.com/yesodweb/yesod.git
+  tests: false
+- name: yesod-persistent
+  version: 1.6.0.9
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/yesod-persistent
+  source:
+    sdist: yesod-persistent-1.6.0.9
+  note: no tag for 1.6.0.9 in https://github.com/yesodweb/yesod.git
+  tests: false
+- name: yesod-test
+  version: 1.7.0.3
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/yesod-test
+  source:
+    sdist: yesod-test-1.7.0.3
+  note: no tag for 1.7.0.3 in https://github.com/yesodweb/yesod.git
+  tests: false
+- name: zip-archive
+  version: '0.5'
+  tier: 2
+  role: dep
+  expected: ok
+  path: zip-archive
+  source:
+    git: https://github.com/jgm/zip-archive.git
+    tag: '0.5'
+  tests: false
+- name: aws
+  version: 0.25.3
+  tier: 3
+  role: dep
+  expected: ok
+  path: aws
+  source:
+    git: https://github.com/haskell-pkg-janitors/aws.git
+    tag: 0.25.3
+  tests: false
+- name: bencode
+  version: 0.6.1.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: bencode
+  source:
+    git: https://github.com/creichert/bencode.git
+    tag: v0.6.1.1
+  tests: false
+- name: blake3
+  version: 0.3.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/blake3
+  source:
+    sdist: blake3-0.3.1
+  note: no source repository listed
+  tests: false
+- name: bloomfilter
+  version: 2.0.1.3
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/bloomfilter
+  source:
+    sdist: bloomfilter-2.0.1.3
+  note: tag 2.0.1.3 carries version 2.0.1.2, not 2.0.1.3
+  tests: false
+- name: code-page
+  version: 0.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: code-page
+  source:
+    git: https://github.com/RyanGlScott/code-page.git
+    tag: 0.2.1
+  tests: false
+- name: criterion
+  version: 1.6.5.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: criterion
+  source:
+    git: https://github.com/haskell/criterion.git
+    tag: criterion-measurement-0.2.5.0
+  tests: false
+- name: crypto-token
+  version: 0.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: crypto-token
+  source:
+    git: https://github.com/kazu-yamamoto/crypto-token.git
+    tag: v0.2.1
+  tests: false
+- name: cryptohash-sha1
+  version: 0.11.101.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: cryptohash-sha1
+  source:
+    git: https://github.com/haskell-hvr/cryptohash-sha1.git
+    tag: v0.11.101.0
+  tests: false
+- name: crypton-conduit
+  version: 0.3.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/crypton-conduit
+  source:
+    sdist: crypton-conduit-0.3.1
+  note: no tag for 0.3.1 in https://github.com/psibi/crypton-conduit.git
+  tests: false
+- name: DAV
+  version: 1.3.4
+  tier: 3
+  role: dep
+  expected: ok
+  path: DAV
+  source:
+    git: https://salsa.debian.org/clint/DAV.git
+    tag: DAV/1.3.4
+  tests: false
+- name: dbus
+  version: 1.4.3
+  tier: 3
+  role: dep
+  expected: ok
+  path: haskell-dbus
+  source:
+    git: https://github.com/rblaze/haskell-dbus.git
+    tag: v1.4.3
+  tests: false
+- name: dense-linear-algebra
+  version: 0.1.0.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/dense-linear-algebra
+  source:
+    sdist: dense-linear-algebra-0.1.0.0
+  note: no tag for 0.1.0.0 in https://github.com/bos/statistics.git
+  tests: false
+- name: disk-free-space
+  version: 0.1.0.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: disk-free-space
+  source:
+    git: https://github.com/redneb/disk-free-space.git
+    tag: v0.1.0.1
+  tests: false
+- name: edit-distance
+  version: 0.2.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: edit-distance
+  source:
+    git: https://github.com/phadej/edit-distance.git
+    tag: v0.2.2.1
+  tests: false
+- name: fdo-notify
+  version: 0.3.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/fdo-notify
+  source:
+    sdist: fdo-notify-0.3.1
+  note: no source repository listed
+  tests: false
+- name: feed
+  version: 1.3.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: feed
+  source:
+    git: https://github.com/haskell-party/feed.git
+    tag: 1.3.2.1
+  tests: false
+- name: filepath-bytestring
+  version: 1.5.2.0.5
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/filepath-bytestring
+  source:
+    sdist: filepath-bytestring-1.5.2.0.5
+  note: >-
+    submodule add failed: git submodule add --depth 1 -- https://git.joeyh.name/git/haskell-filepath-bytestring.git
+    external-packages/haskell-filepath-bytestring failed:
+  tests: false
+- name: git-annex
+  version: '10.20261026'
+  tier: 3
+  role: root
+  expected: build-failure
+  path: vendored/git-annex
+  source:
+    sdist: git-annex-10.20261026
+  note: >-
+    the Memory flag selects memory with crypton < 1.1; allow-newer relaxes that
+    bound, so the flag is forced off to get the ram branch that crypton 2 needs
+  tests: false
+  flags: "-memory"
+  reason: >-
+    its ram branch (crypton >= 1.1) still imports "memory" Data.ByteArray.Encoding
+    and Data.Memory.Endian unconditionally, while the memory branch needs crypton
+    < 1.1 and tls 2.5.1 needs crypton >= 2.1.9; Annex/Magic.hs also targets an
+    older magic API
+- name: git-lfs
+  version: 1.2.5
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/git-lfs
+  source:
+    sdist: git-lfs-1.2.5
+  note: no tag for 1.2.5 in https://git.joeyh.name/haskell-git-lfs.git
+  tests: false
+- name: hjsmin
+  version: 0.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/hjsmin
+  source:
+    sdist: hjsmin-0.2.1
+  note: no tag for 0.2.1 in https://github.com/erikd/hjsmin.git
+  tests: false
+- name: http-client-restricted
+  version: 0.1.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/http-client-restricted
+  source:
+    sdist: http-client-restricted-0.1.1
+  note: >-
+    submodule add failed: git submodule add --depth 1 -- https://git.joeyh.name/git/haskell-http-client-restricted.git
+    external-packages/haskell-http-client-restricted failed:
+  tests: false
+- name: IfElse
+  version: '0.85'
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/IfElse
+  source:
+    sdist: IfElse-0.85
+  note: no source repository listed
+  tests: false
+- name: js-chart
+  version: 2.9.4.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/js-chart
+  source:
+    sdist: js-chart-2.9.4.1
+  note: no tag for 2.9.4.1 in https://github.com/jonascarpay/js-chart.git
+  tests: false
+- name: language-javascript
+  version: 0.7.1.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/language-javascript
+  source:
+    sdist: language-javascript-0.7.1.0
+  note: no tag for 0.7.1.0 in https://github.com/erikd/language-javascript.git
+  tests: false
+- name: magic
+  version: 2.0.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: magic-haskell
+  source:
+    git: https://github.com/philippedev101/magic-haskell.git
+    tag: v2.0.0
+  tests: false
+- name: microstache
+  version: 1.0.3.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: microstache
+  source:
+    git: https://github.com/haskellari/microstache.git
+    tag: v1.0.3.1
+  tests: false
+- name: mountpoints
+  version: 1.0.2
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/mountpoints
+  source:
+    sdist: mountpoints-1.0.2
+  note: no tag for 1.0.2 in https://git.joeyh.name/haskell-mountpoints.git
+  tests: false
+- name: mwc-random
+  version: 0.15.3.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: mwc-random
+  source:
+    git: https://github.com/haskell/mwc-random.git
+    tag: 0.15.3.0
+  tests: false
+- name: network-info
+  version: 0.2.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: network-info
+  source:
+    git: https://github.com/jacobstanley/network-info.git
+    tag: 0.2.1
+  tests: false
+- name: persistent-sqlite
+  version: 2.13.3.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/persistent-sqlite
+  source:
+    sdist: persistent-sqlite-2.13.3.1
+  note: vendored on request
+  tests: false
+- name: SafeSemaphore
+  version: 0.10.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/SafeSemaphore
+  source:
+    sdist: SafeSemaphore-0.10.1
+  note: no source repository listed
+  tests: false
+- name: sandi
+  version: '0.5'
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/sandi
+  source:
+    sdist: sandi-0.5
+  note: sandi.cabal not found in sandi
+  tests: false
+- name: servant-client
+  version: 0.20.3.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: servant/servant-client
+  source:
+    git: https://github.com/haskell-servant/servant.git
+    tag: servant-0.20.3.0
+  tests: false
+- name: servant-client-core
+  version: 0.20.3.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: servant/servant-client-core
+  source:
+    git: https://github.com/haskell-servant/servant.git
+    tag: servant-0.20.3.0
+  tests: false
+- name: socks
+  version: 0.6.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/socks
+  source:
+    sdist: socks-0.6.1
+  note: no tag for 0.6.1 in https://github.com/vincenthz/hs-socks.git
+  tests: false
+- name: statistics
+  version: 0.16.5.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: statistics
+  source:
+    git: https://github.com/haskell/statistics.git
+    tag: 0.16.5.0
+  tests: false
+- name: tasty-rerun
+  version: 1.1.20
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/tasty-rerun
+  source:
+    sdist: tasty-rerun-1.1.20
+  note: no tag for 1.1.20 in https://github.com/ocharles/tasty-rerun.git
+  tests: false
+- name: tasty-tap
+  version: 0.1.0
+  tier: 3
+  role: dep
+  expected: ok
+  path: tasty-tap
+  source:
+    git: https://github.com/michaelxavier/tasty-tap.git
+    tag: 0.1.0
+  tests: false
+- name: tls-session-manager
+  version: 0.1.2
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/tls-session-manager
+  source:
+    sdist: tls-session-manager-0.1.2
+  note: no source repository listed
+  tests: false
+- name: torrent
+  version: 10000.1.3
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/torrent
+  source:
+    sdist: torrent-10000.1.3
+  note: no tag for 10000.1.3 in https://git.joeyh.name/haskell-torrent.git
+  tests: false
+- name: unbounded-delays
+  version: 0.1.1.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: unbounded-delays
+  source:
+    git: https://github.com/basvandijk/unbounded-delays.git
+    tag: 0.1.1.1
+  tests: false
+- name: uuid
+  version: 1.3.16.1
+  tier: 3
+  role: dep
+  expected: ok
+  path: uuid/uuid
+  source:
+    git: https://github.com/haskell-hvr/uuid.git
+    tag: uuid-1.3.16.1
+  tests: false
+- name: vector-binary-instances
+  version: 0.2.5.2
+  tier: 3
+  role: dep
+  expected: ok
+  path: vector-binary-instances
+  source:
+    git: https://github.com/haskell/vector-binary-instances.git
+    tag: 0.2.5.2
+  tests: false
+- name: vector-th-unbox
+  version: 0.2.2
+  tier: 3
+  role: dep
+  expected: ok
+  path: vector-th-unbox
+  source:
+    git: https://github.com/tsurucapital/vector-th-unbox.git
+    tag: v0.2.2
+  tests: false
+- name: warp-tls
+  version: 3.4.18
+  tier: 3
+  role: dep
+  expected: ok
+  path: wai/warp-tls
+  source:
+    git: https://github.com/yesodweb/wai.git
+    tag: warp-tls/3.4.18
+  tests: false
+- name: xml-hamlet
+  version: 0.5.0.3
+  tier: 3
+  role: dep
+  expected: ok
+  path: vendored/xml-hamlet
+  source:
+    sdist: xml-hamlet-0.5.0.3
+  note: no source repository listed
+  tests: false
+- name: yesod-static
+  version: 1.6.1.3
+  tier: 3
+  role: dep
+  expected: build-failure
+  path: vendored/yesod-static
+  source:
+    sdist: yesod-static-1.6.1.3
+  note: vendored on request
+  tests: false
+  reason: >-
+    imports Data.ByteArray from memory while crypton 2.x takes its ByteArrayAccess
+    class from the ram package, so the Digest instance is not found
