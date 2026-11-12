@@ -28,7 +28,6 @@ packages:
   contravariant
   data-fix
   distributive
-  dlist
   enclosed-exceptions
   extra
   filepattern
@@ -78,7 +77,6 @@ packages:
   parser-combinators
   prettyprinter/prettyprinter
   prettyprinter/prettyprinter-ansi-terminal
-  primitive
   profunctors
   qc-instances
   quickcheck-io
@@ -121,6 +119,7 @@ packages:
   vendored/base64-bytestring
   vendored/case-insensitive
   vendored/colour
+  vendored/dlist
   vendored/fgl
   vendored/file-embed
   vendored/happstack-lite
@@ -137,6 +136,7 @@ packages:
   vendored/old-time
   vendored/optparse-applicative
   vendored/parallel
+  vendored/primitive
   vendored/quickcheck-classes-base
   vendored/random
   vendored/sendfile

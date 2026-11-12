@@ -275,3 +275,4 @@ dist-newstyle/
 !/external-packages/lib/
 !/external-packages/patches/
 !/external-packages/patches/*.patch
+/external-packages/.ghc.environment*

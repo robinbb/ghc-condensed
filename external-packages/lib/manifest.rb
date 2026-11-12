@@ -12,6 +12,10 @@
 #     role:     root (chosen for coverage) or dep (pulled in by a root)
 #     tests:    whether its test suites are run
 #     flags:    cabal flags for the package, e.g. "+os-string" (optional)
+#     env:      environment variables for its test run, e.g. {CI: 'true'}
+#               (optional)
+#     test_runs: argument strings for the test executable, one cabal test
+#               run each, when a subset of its tests is wanted (optional)
 #     source:   { git: URL, tag: TAG } or { sdist: NAME-VERSION }
 #     expected: ok | build-failure | test-failure | flaky | unsolvable
 #               (flaky: the test suite passes or fails nondeterministically)

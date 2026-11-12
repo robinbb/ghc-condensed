@@ -82,7 +82,6 @@ packages:
   disk-free-space
   distributive
   djoths
-  dlist
   doclayout
   docopt.hs
   doctemplates
@@ -238,7 +237,6 @@ packages:
   prettyprinter/prettyprinter
   prettyprinter/prettyprinter-ansi-terminal
   prettyprinter/prettyprinter-compat-ansi-wl-pprint
-  primitive
   profunctors
   psqueues
   qc-instances
@@ -384,6 +382,7 @@ packages:
   vendored/data-default-class
   vendored/dense-linear-algebra
   vendored/digest
+  vendored/dlist
   vendored/easy-file
   vendored/encoding
   vendored/erf
@@ -488,6 +487,7 @@ packages:
   vendored/plugins
   vendored/plugins-auto
   vendored/pretty-show
+  vendored/primitive
   vendored/pureMD5
   vendored/pwstore-purehaskell
   vendored/quickcheck-classes-base

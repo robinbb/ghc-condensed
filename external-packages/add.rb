@@ -3,9 +3,10 @@
 
 # Add packages to the corpus. For each package: look up its latest
 # non-deprecated Hackage release in the local index, add the upstream git
-# repository as a shallow submodule checked out at the release tag (or
+# repository as a shallow clone of the upstream repository at the release tag (or
 # reuse the submodule if the repository is already present), and record
-# the package in manifest.yaml. Packages without a usable git repository
+# the package in manifest.yaml. Package sources are never tracked by this
+# repository; the manifest is. Packages without a usable git repository
 # or tag, packages with build-type Configure (whose git checkouts lack the
 # generated configure script), and tags whose cabal file carries another
 # version are vendored as unpacked sdists under vendored/.
@@ -86,20 +87,24 @@ def owner_repo(url)
   [m[1].to_s.tr('/', '-'), m[2]]
 end
 
-def submodule_url(relpath)
-  ok, out, = run('git', 'config', '-f', '.gitmodules', "submodule.#{relpath}.url")
+# Origin URL of an existing checkout under external-packages/, or nil.
+def checkout_url(dirname)
+  dir = File.join(ROOT, dirname)
+  return nil unless File.exist?(File.join(dir, '.git'))
+
+  ok, out, = run('git', 'remote', 'get-url', 'origin', chdir: dir)
   ok ? out.strip : nil
 end
 
 # Directory under external-packages/ for a repository, reusing an existing
-# submodule for the same URL and avoiding collisions between repositories
+# checkout of the same URL and avoiding collisions between repositories
 # that share a basename. Returns [dirname, :existing | :new].
 def repo_dir(url)
   owner, repo = owner_repo(url)
   [repo, "#{owner}-#{repo}"].each do |cand|
-    existing = submodule_url("external-packages/#{cand}")
-    return [cand, :new] if existing.nil?
-    return [cand, :existing] if existing.sub(/\.git$/, '') == url.sub(/\.git$/, '')
+    existing = checkout_url(cand)
+    return [cand, :new] if existing.nil? && !Dir.exist?(File.join(ROOT, cand))
+    return [cand, :existing] if existing && existing.sub(/\.git$/, '') == url.sub(/\.git$/, '')
   end
   raise "cannot pick a directory name for #{url}"
 end
@@ -133,22 +138,18 @@ def cabal_version(file)
   File.read(file)[/^version\s*:\s*(\S+)/i, 1]
 end
 
+# Shallow clone at the release tag. Package sources are not tracked by
+# this repository (see .gitignore), so no submodule and no git add.
 def add_submodule(url, dirname, tag)
-  rel = "external-packages/#{dirname}"
-  run!('git', 'submodule', 'add', '--depth', '1', '--', url, rel)
-  run!('git', 'config', '-f', '.gitmodules', "submodule.#{rel}.shallow", 'true')
-  sub = File.join(REPO, rel)
-  run!('git', 'fetch', '--depth', '1', 'origin', 'tag', tag, chdir: sub)
-  run!('git', 'checkout', '-q', tag, chdir: sub)
-  run!('git', 'add', '.gitmodules', rel)
+  dir = File.join(ROOT, dirname)
+  run!('git', 'clone', '--quiet', '--depth', '1', '--branch', tag, '--', url, dir)
 end
 
 def remove_submodule(dirname)
-  rel = "external-packages/#{dirname}"
-  run('git', 'submodule', 'deinit', '-f', '-q', rel)
-  run('git', 'rm', '-q', '-f', rel)
-  FileUtils.rm_rf(File.join(REPO, '.git', 'modules', rel))
-  FileUtils.rm_rf(File.join(REPO, rel))
+  FileUtils.rm_rf(File.join(ROOT, dirname))
+  # Older checkouts were git submodules; drop any leftover registration.
+  run('git', 'config', '-f', '.gitmodules', '--remove-section', "submodule.external-packages/#{dirname}")
+  FileUtils.rm_rf(File.join(REPO, '.git', 'modules', 'external-packages', dirname))
 end
 
 # Move an existing submodule to TAG and update the recorded version and tag
@@ -157,7 +158,6 @@ def advance_submodule(manifest, dirname, url, tag)
   sub = File.join(ROOT, dirname)
   run!('git', 'fetch', '--depth', '1', 'origin', 'tag', tag, chdir: sub)
   run!('git', 'checkout', '-q', tag, chdir: sub)
-  run!('git', 'add', "external-packages/#{dirname}")
   manifest.packages.each do |e|
     next unless e['path'].split('/').first == dirname && e['source'].key?('git')
 
@@ -182,7 +182,6 @@ def vendor_sdist(name, version)
 
   run!('cabal', 'get', "#{name}-#{version}", '--destdir', dest, chdir: ROOT)
   FileUtils.mv(File.join(dest, "#{name}-#{version}"), target)
-  run!('git', 'add', "external-packages/vendored/#{name}")
   target
 end
 
@@ -276,7 +275,6 @@ def remove(manifest, entry)
   top = path.split('/').first
   shared = manifest.packages.any? { |e| !e.equal?(entry) && e['path'].split('/').first == top }
   if entry['source'].key?('sdist')
-    run('git', 'rm', '-r', '-q', '--cached', "external-packages/#{path}")
     FileUtils.rm_rf(File.join(ROOT, path))
   elsif !shared
     remove_submodule(top)
@@ -325,7 +323,7 @@ if opts[:fetch]
 
     src = e['source']
     if src['git']
-      puts "submodule #{top} at #{src['tag']}"
+      puts "clone #{top} at #{src['tag']}"
       add_submodule(src['git'], top, src['tag']) unless opts[:dry_run]
     else
       puts "sdist #{src['sdist']}"

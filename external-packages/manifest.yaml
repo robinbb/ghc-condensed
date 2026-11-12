@@ -290,14 +290,16 @@ packages:
   version: '1.0'
   tier: 1
   role: root
-  expected: test-failure
-  path: dlist
+  expected: ok
+  path: vendored/dlist
   source:
-    git: https://github.com/spl/dlist.git
-    tag: v1.0
+    sdist: dlist-1.0
+  note: vendored on request
   tests: true
-  reason: >-
-    test suite defines Arbitrary (NonEmpty a), which QuickCheck 2.19 now provides
+  patched: >-
+    test suite: its Arbitrary1 NonEmpty and Arbitrary (NonEmpty a) instances are
+    guarded by #if !MIN_VERSION_QuickCheck(2,19,0), since QuickCheck 2.19 provides
+    them (patches/dlist.patch)
 - name: enclosed-exceptions
   version: 1.0.3
   tier: 1
@@ -959,13 +961,16 @@ packages:
   version: 0.9.1.0
   tier: 1
   role: root
-  expected: test-failure
-  path: primitive
+  expected: ok
+  path: vendored/primitive
   source:
-    git: https://github.com/haskell/primitive.git
-    tag: v0.9.1.0
+    sdist: primitive-0.9.1.0
+  note: vendored on request
   tests: true
-  reason: test suite defines Arbitrary ByteArray, which QuickCheck 2.19 now provides
+  patched: >-
+    test suite: its Arbitrary instances for ByteArray, Down and the Semigroup
+    First, Last, Min and Max wrappers are guarded by #if !MIN_VERSION_QuickCheck(2,19,0),
+    since QuickCheck 2.19 provides them (patches/primitive.patch)
 - name: profunctors
   version: 5.6.3
   tier: 1
@@ -1123,16 +1128,34 @@ packages:
   version: 0.19.9
   tier: 1
   role: root
-  expected: test-failure
+  expected: ok
   path: shake
   source:
     git: https://github.com/ndmitchell/shake.git
     tag: v0.19.9
   tests: true
-  reason: >-
-    shake-test type-checks code extracted from the documentation with whatever
-    ghc is on PATH, not the compiler under test, and the extraction fails on current
-    haddock output
+  env:
+    CI: 'true'
+  note: >-
+    core subset of its own harness, one named test per invocation; the full suite
+    spends three minutes in random testing, and its CI (the neil action, CI set)
+    skips docs, self and selfmake. The errors test is left out: shake only extracts
+    call stacks from exceptions for GHC < 9.12, so its expected 'at cmd, called
+    at' line never appears on 9.12 or later (verified on 9.12.2 too); fsatrace
+    is in the shell as on its CI
+  test_runs:
+  - basic test
+  - command test
+  - files test
+  - filepath test
+  - filepattern test
+  - oracle test
+  - journal test
+  - cache test
+  - digest test
+  - directory test
+  - util test
+  - verbosity test
 - name: shakespeare
   version: 2.2.0
   tier: 1

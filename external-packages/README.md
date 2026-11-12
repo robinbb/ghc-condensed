@@ -1,7 +1,8 @@
 # External package corpus
 
-This directory holds real-world Haskell packages, vendored as git
-submodules, that are built and tested with the compiler produced by
+This directory holds real-world Haskell packages, checked out from
+their upstream repositories or unpacked from Hackage, that are built and
+tested with the compiler produced by
 `hadrian/build`. The GHC testsuite exercises the compiler on small
 programs; this corpus checks it against the kind of code people actually
 compile with it.
@@ -67,7 +68,7 @@ unsolvable packages of a higher tier must not block a lower one.
   executable instead of a test suite (git-annex) are build-only.
 - **Versions.** Each package is pinned at its latest Hackage release that
   Hackage's preferred-versions list does not deprecate (so network-uri is
-  2.6.4.2, not the deprecated 2.7.0.0). Submodules check out the matching
+  2.6.4.2, not the deprecated 2.7.0.0). Clones check out the matching
   git tag. Where a repository hosts several packages, `add.rb --refresh`
   moves it once to the newest tag any of its packages asks for. When no
   tag exists, or the tag's cabal file carries a different version, the
@@ -80,6 +81,15 @@ unsolvable packages of a higher tier must not block a lower one.
   with this compiler, not to validate bounds. Lower bounds still apply.
   A package that genuinely fails against a newer dependency shows up as
   a build failure and is recorded as such.
+- **Environment.** A package's `env:` field sets variables for its test
+  run, used where the package's own CI selects tests that way (shake
+  skips its docs, self and selfmake tests when `CI` is set, as GitHub
+  sets it).
+- **Test subsets.** A package's `test_runs:` field lists argument
+  strings for its test executable; the driver runs `cabal test` once per
+  entry and requires all to pass. shake's harness runs one named test
+  per invocation and its full suite takes minutes (three of them in
+  random testing alone), so shake runs a core subset.
 - **Flags.** When a package's automatic cabal flag is keyed on a bound
   that `allow-newer` relaxes (path chooses its os-string branch by
   `filepath < 1.5`), the manifest's `flags:` field forces the right
@@ -99,7 +109,8 @@ unsolvable packages of a higher tier must not block a lower one.
 
 - `manifest.yaml`: the single source of truth. One entry per package with
   name, version, path, tier, role, tests, source, expected, and a reason,
-  note or flags field where needed. `index_state` is written into
+  note, flags, env or test_runs field where needed. `index_state` is
+  written into
   the project files.
 - `cabal.project`, `cabal.project.tier2`, `cabal.project.tier3`:
   generated from the manifest by `check.rb`; committed so that plain
@@ -116,14 +127,15 @@ unsolvable packages of a higher tier must not block a lower one.
 
 Only the tooling, this documentation, `manifest.yaml`, the generated
 project files and `patches/` are committed. The package sources are
-not: submodules and vendored sdists live in the working tree only, so
-that the repository's history carries neither the code of several
-hundred upstream packages nor `.gitmodules` entries for them. On a
+not: the clones and vendored sdists live in the working tree only,
+ignored by git, so that the repository's history carries neither the
+code of several hundred upstream packages nor submodule entries for
+them. On a
 fresh clone, inside `nix develop` with network access:
 
     $ ruby external-packages/add.rb --fetch
 
-adds every submodule at its recorded tag, vendors every sdist, and
+clones every repository at its recorded tag, vendors every sdist, and
 applies the patches. It skips whatever is already present, so it is
 safe to rerun.
 
@@ -134,8 +146,8 @@ Inside `nix develop`, with network access:
     $ ruby external-packages/add.rb --tier 2 --closure PKG...
 
 adds the named packages as roots of the given tier together with every
-missing package in their dependency closure, as submodules at the
-release tags (shallow) or as vendored sdists. Then run `check.rb
+missing package in their dependency closure, as shallow clones at the
+release tags or as vendored sdists. Then run `check.rb
 --write-project`, `cabal build --dry-run` for the tier, add whatever the
 solver still asks for, and run the check. Record each new failure in
 the manifest with a reason. `add.rb --refresh` moves multi-package

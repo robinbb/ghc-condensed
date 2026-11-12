@@ -1,0 +1,18 @@
+--- a/external-packages/vendored/dlist/tests/QuickCheckUtil.hs
++++ b/external-packages/vendored/dlist/tests/QuickCheckUtil.hs
+@@ -55,6 +55,8 @@
+ 
+ -}
+ 
++-- QuickCheck 2.19 provides these instances itself.
++#if !MIN_VERSION_QuickCheck(2,19,0)
+ instance Arbitrary1 NonEmpty where
+   liftArbitrary arb = liftA2 (:|) arb (liftArbitrary arb)
+   liftShrink shr (x :| xs) = mapMaybe nonEmpty . liftShrink shr $ x : xs
+@@ -64,5 +66,6 @@
+   arbitrary = arbitrary1
+   {-# INLINABLE shrink #-}
+   shrink = shrink1
++#endif
+ 
+ #endif

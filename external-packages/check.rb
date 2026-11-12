@@ -115,16 +115,23 @@ roots.select! { |e| opts[:only].include?(e['name']) } if opts[:only]
 abort 'check.rb: no roots selected' if roots.empty?
 project = File.join(ROOT, project_file(opts[:tier]))
 
+# Test suites that shell out to `ghc` (shake's documentation test, for
+# one) must get the compiler under test, not whatever the shell has on
+# PATH, and must see the corpus packages: PATH is prefixed with the
+# build root's bin directory, and cabal writes a GHC environment file
+# that a bare ghc picks up from any directory under this one.
+ENV['PATH'] = "#{File.dirname(ghc)}:#{ENV['PATH']}"
 common = ['cabal', '--offline', "--project-file=#{project}", "--builddir=#{builddir}",
-          "--with-compiler=#{ghc}", "--with-hc-pkg=#{ghc_pkg}"]
+          "--with-compiler=#{ghc}", "--with-hc-pkg=#{ghc_pkg}",
+          '--write-ghc-environment-files=always']
 
 # Run a command, streaming its output to a log file and echoing lines that
 # match the filter. Returns [success, seconds].
-def stream(cmd, log, echo: nil)
+def stream(cmd, log, echo: nil, env: {})
   t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   File.open(log, 'w') do |f|
-    f.puts "$ #{cmd.join(' ')}"
-    Open3.popen2e(*cmd, chdir: ROOT) do |_in, out, wait|
+    f.puts "$ #{env.map { |k, v| "#{k}=#{v} " }.join}#{cmd.join(' ')}"
+    Open3.popen2e(env, *cmd, chdir: ROOT) do |_in, out, wait|
       out.each_line do |line|
         f.write(line)
         puts line if echo && line =~ echo
@@ -205,12 +212,28 @@ if opts[:tests]
       test_status[name] = 'skipped'
       next
     end
-    log = File.join(logdir, "test-#{name}.log")
-    puts "testing #{name}; log: #{log}"
-    ok, secs = stream(common + ['test', '--test-show-details=direct', name], log,
-                      echo: /^(Test suite .* (passed|failed)|Failed|Error)/)
-    test_status[name] = ok ? 'pass' : 'FAIL'
-    test_secs[name] = secs
+# Per-package environment for the test run, e.g. CI=true where the
+# package's own CI relies on it to select tests.
+env = (e['env'] || {}).to_h { |k, v| [k.to_s, v.to_s] }
+# `test_runs` lists argument strings for the test executable; each
+# becomes one `cabal test --test-options=...` run, and all must pass.
+# Used where a package's harness runs one named test per invocation
+# and the full suite is too slow or too broad for a sanity check.
+runs = e['test_runs'] ? e['test_runs'].map(&:to_s) : [nil]
+total = 0.0
+status = 'pass'
+runs.each_with_index do |args, i|
+  log = File.join(logdir, runs.size > 1 ? "test-#{name}-#{i + 1}.log" : "test-#{name}.log")
+  puts "testing #{name}#{args ? " (#{args})" : ''}; log: #{log}"
+  cmd = common + ['test', '--test-show-details=direct']
+  cmd << "--test-options=#{args}" if args
+  cmd << name
+  ok, secs = stream(cmd, log, echo: /^(Test suite .* (passed|failed)|Failed|Error)/, env: env)
+  total += secs
+  status = 'FAIL' unless ok
+end
+test_status[name] = status
+test_secs[name] = total
   end
 end
 

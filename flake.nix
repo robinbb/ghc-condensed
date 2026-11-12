@@ -29,7 +29,9 @@
         let pkgs = ghc-nix.inputs.nixpkgs.legacyPackages.${system};
         in {
           buildInputs = with pkgs; [ zlib SDL2 openssl fcgi file ];
-          nativeBuildInputs = [ pkgs.pkg-config ];
+          # fsatrace: shake's test suite traces commands through it, as its
+          # own CI does.
+          nativeBuildInputs = with pkgs; [ pkg-config fsatrace ];
         };
 
       mkShell = system: extra:
