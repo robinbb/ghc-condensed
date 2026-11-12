@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/hledger-ui/Hledger/UI/ErrorScreen.hs
++++ b/external-packages/vendored/hledger-ui/Hledger/UI/ErrorScreen.hs
+@@ -17,7 +17,7 @@
+  )
+ where
+ 
+-import Brick
++import Brick hiding (char) -- brick 3.0 added a char widget; this module uses megaparsec's
+ -- import Brick.Widgets.Border ("border")
+ import Control.Monad.IO.Class (liftIO)
+ import Data.Time.Calendar (Day)

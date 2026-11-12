@@ -83,8 +83,6 @@ packages:
   enclosed-exceptions
   entropy
   extra
-  fay-jquery
-  fay-text
   filelock
   filepattern
   foundation/basement
@@ -111,14 +109,12 @@ packages:
   heaps
   heist
   hinotify
-  hledger-diff
   hledger-flow
   hledger-iadd
   hledger-interest
   hledger-stockquotes
   hledger/hledger
   hledger/hledger-lib
-  hledger/hledger-ui
   hledger/hledger-web
   hs-asn1/encoding
   hs-asn1/parse
@@ -177,7 +173,6 @@ packages:
   js-jquery
   json
   kan-extensions
-  language-ecmascript
   lens
   lifted-async
   lifted-base
@@ -307,22 +302,15 @@ packages:
   vendored/Chart
   vendored/ChasingBottoms
   vendored/Crypto
-  vendored/DebugTraceHelpers
   vendored/Decimal
-  vendored/FileManipCompat
-  vendored/HSH
   vendored/HStringTemplate
-  vendored/HStringTemplateHelpers
   vendored/HsOpenSSL
   vendored/JuicyPixels
   vendored/Only
-  vendored/PBKDF2
   vendored/QuickCheck
-  vendored/RJson
   vendored/RSA
   vendored/SHA
   vendored/ap-normalize
-  vendored/applicative-extras
   vendored/async
   vendored/auto-update
   vendored/barbies
@@ -360,55 +348,31 @@ packages:
   vendored/extensible-exceptions
   vendored/fast-logger
   vendored/fastcgi
-  vendored/fay
-  vendored/fay-base
   vendored/fgl
   vendored/file-embed
   vendored/foldl
-  vendored/formlets
   vendored/fsnotify
   vendored/ghc-hs-meta
   vendored/githash
+  vendored/haddock-library
   vendored/happstack
-  vendored/happstack-auth
-  vendored/happstack-clientsession
-  vendored/happstack-contrib
-  vendored/happstack-data
-  vendored/happstack-dlg
   vendored/happstack-fastcgi
-  vendored/happstack-fay
-  vendored/happstack-fay-ajax
   vendored/happstack-hamlet
-  vendored/happstack-heist
-  vendored/happstack-helpers
-  vendored/happstack-hstringtemplate
-  vendored/happstack-ixset
   vendored/happstack-jmacro
   vendored/happstack-lite
-  vendored/happstack-monad-peel
-  vendored/happstack-plugins
   vendored/happstack-server
   vendored/happstack-server-tls
-  vendored/happstack-server-tls-cryptonite
-  vendored/happstack-state
-  vendored/happstack-util
   vendored/happy
   vendored/happy-lib
   vendored/harp
   vendored/hashable
   vendored/hashtables
-  vendored/haskell98
-  vendored/hledger-api
-  vendored/hledger-chart
-  vendored/hledger-irr
-  vendored/hledger-makeitso
-  vendored/hledger-vty
+  vendored/hledger-ui
   vendored/hostname
   vendored/hourglass
   vendored/hpke
   vendored/hscolour
   vendored/hslua-module-zip
-  vendored/hsx
   vendored/hsx2hs
   vendored/html
   vendored/html-conduit
@@ -445,12 +409,9 @@ packages:
   vendored/parallel
   vendored/path
   vendored/persistent
-  vendored/plugins
-  vendored/plugins-auto
   vendored/pretty-show
   vendored/primitive
   vendored/pureMD5
-  vendored/pwstore-purehaskell
   vendored/quickcheck-classes-base
   vendored/quote-quot
   vendored/ram
@@ -469,13 +430,11 @@ packages:
   vendored/skylighting
   vendored/smallcheck
   vendored/split
-  vendored/spoon
   vendored/strict
   vendored/string-qq
   vendored/stringsearch
   vendored/swagger2
   vendored/syb-with-class
-  vendored/syb-with-class-instances-text
   vendored/tagged
   vendored/tasty
   vendored/tasty-hunit
@@ -500,7 +459,6 @@ packages:
   vendored/web-routes
   vendored/web-routes-boomerang
   vendored/web-routes-happstack
-  vendored/web-routes-mtl
   vendored/web-routes-th
   vendored/weigh
   vendored/witherable
@@ -582,9 +540,6 @@ package hledger-flow
   tests: True
 
 package hledger-iadd
-  tests: True
-
-package hledger-makeitso
   tests: True
 
 package hledger-stockquotes

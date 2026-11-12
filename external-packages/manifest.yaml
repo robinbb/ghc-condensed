@@ -1031,6 +1031,7 @@ packages:
     git: https://github.com/bos/quickcheck-unicode.git
     tag: 1.0.1.0
   tests: false
+  note: test dependency of attoparsec
 - name: random
   version: 1.3.1
   tier: 1
@@ -1194,7 +1195,7 @@ packages:
   path: vendored/simple-reflect
   source:
     sdist: simple-reflect-0.3.3
-  note: no tag for 0.3.3 in https://github.com/twanvl/simple-reflect.git
+  note: test dependency of lens
   tests: false
 - name: smallcheck
   version: 1.2.2
@@ -1647,16 +1648,6 @@ packages:
   source:
     git: https://github.com/kazu-yamamoto/appar.git
     tag: v0.1.8
-  tests: false
-- name: applicative-extras
-  version: 0.1.8
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/applicative-extras
-  source:
-    sdist: applicative-extras-0.1.8
-  note: no source repository listed
   tests: false
 - name: asciidoc
   version: 0.1.1.1
@@ -2337,15 +2328,16 @@ packages:
   version: 0.2.0.0
   tier: 2
   role: dep
-  expected: build-failure
+  expected: ok
   path: vendored/data-default-class
   source:
     sdist: data-default-class-0.2.0.0
   note: no tag for 0.2.0.0 in https://github.com/mauke/data-default.git
   tests: false
-  reason: >-
-    declares no dependency on base, and GHC 10.1 implicitly imports GHC.Essentials
-    from base in every module
+  patched: >-
+    adds base to build-depends: GHC 10.1 implicitly imports the known-names module
+    GHC.Essentials from base, so a package with no base dependency no longer compiles
+    (patches/data-default-class.patch)
 - name: data-lens-light
   version: 0.1.2.4
   tier: 2
@@ -2355,16 +2347,6 @@ packages:
   source:
     git: https://github.com/feuerbach/data-lens-light.git
     tag: v0.1.2.4
-  tests: false
-- name: DebugTraceHelpers
-  version: '0.12'
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/DebugTraceHelpers
-  source:
-    sdist: DebugTraceHelpers-0.12
-  note: no source repository listed
   tests: false
 - name: dec
   version: 0.0.6
@@ -2500,15 +2482,15 @@ packages:
   version: 0.10.3
   tier: 2
   role: dep
-  expected: build-failure
+  expected: ok
   path: vendored/encoding
   source:
     sdist: encoding-0.10.3
   note: no tag for 0.10.3 in https://github.com/dmwit/encoding.git
   tests: false
-  reason: >-
-    ambiguous toList: containers 0.8, shipped with GHC 10.1, exports Data.Sequence.toList,
-    which clashes with its Data.Foldable import
+  patched: >-
+    hides Data.Sequence.toList, which containers 0.8 (shipped with GHC 10.1) newly
+    exports and which clashed with the Data.Foldable import (patches/encoding.patch)
 - name: entropy
   version: 0.4.1.11
   tier: 2
@@ -2519,6 +2501,14 @@ packages:
     git: https://github.com/TomMD/entropy.git
     tag: v0.4.1.11
   tests: false
+  note: >-
+    custom Setup probes rdrand/getrandom/getentropy (all detected) and injects
+    -D flags through the program db; in builds run with the driver environment
+    (PATH prefix, GHC environment file) those flags do not reach the C or Haskell
+    compiles, so the portable /dev/urandom fallback is built. Builds, links and
+    runs; a build where only entropy had stale macro-less C objects next to macro-aware
+    Haskell objects failed to link until entropy was rebuilt clean, so never mix
+    manual cabal runs into the driver dist directory
 - name: erf
   version: 2.0.0.0
   tier: 2
@@ -2559,46 +2549,6 @@ packages:
     sdist: fastcgi-3001.0.2.5
   note: no tag for 3001.0.2.5 in https://github.com/krangelov/fastcgi.git
   tests: false
-- name: fay
-  version: 0.24.2.0
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/fay
-  source:
-    sdist: fay-0.24.2.0
-  note: 'not a git repository: https://github.com/faylang/fay.git'
-  tests: false
-- name: fay-base
-  version: 0.21.2.0
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/fay-base
-  source:
-    sdist: fay-base-0.21.2.0
-  note: 'not a git repository: https://github.com/faylang/fay.git'
-  tests: false
-- name: fay-jquery
-  version: 0.6.1
-  tier: 2
-  role: dep
-  expected: ok
-  path: fay-jquery
-  source:
-    git: https://github.com/faylang/fay-jquery.git
-    tag: 0.6.1.0
-  tests: false
-- name: fay-text
-  version: 0.3.2.2
-  tier: 2
-  role: dep
-  expected: ok
-  path: fay-text
-  source:
-    git: https://github.com/faylang/fay-text.git
-    tag: 0.3.2.2
-  tests: false
 - name: filelock
   version: 0.1.1.9
   tier: 2
@@ -2609,19 +2559,6 @@ packages:
     git: https://github.com/haskell-pkg-janitors/filelock.git
     tag: v0.1.1.9
   tests: false
-- name: FileManipCompat
-  version: '0.18'
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/FileManipCompat
-  source:
-    sdist: FileManipCompat-0.18
-  note: no source repository listed
-  tests: false
-  reason: >-
-    pre-Applicative-Monad code: no Applicative FindClause instance; unmaintained
-    since 2014
 - name: foldl
   version: 1.4.18
   tier: 2
@@ -2632,16 +2569,6 @@ packages:
     sdist: foldl-1.4.18
   note: >-
     no tag for 1.4.18 in https://github.com/Gabriella439/Haskell-Foldl-Library.git
-  tests: false
-- name: formlets
-  version: '0.8'
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/formlets
-  source:
-    sdist: formlets-0.8
-  note: no tag for 0.8 in https://github.com/chriseidhof/formlets.git
   tests: false
 - name: fsnotify
   version: 0.4.4.0
@@ -2733,6 +2660,16 @@ packages:
     git: https://github.com/tarleb/gridtables.git
     tag: v0.1.1.1
   tests: false
+- name: haddock-library
+  version: 1.11.0
+  tier: 2
+  role: dep
+  expected: ok
+  path: vendored/haddock-library
+  source:
+    sdist: haddock-library-1.11.0
+  note: vendored on request
+  tests: false
 - name: hakyll
   version: 4.17.0.0
   tier: 2
@@ -2763,60 +2700,6 @@ packages:
     sdist: happstack-7.0.2
   note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
   tests: false
-- name: happstack-auth
-  version: 0.2.1.1
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-auth
-  source:
-    sdist: happstack-auth-0.2.1.1
-  note: no tag for 0.2.1.1 in https://github.com/mcmaniac/happstack-auth.git
-  tests: false
-- name: happstack-clientsession
-  version: 7.3.3
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-clientsession
-  source:
-    sdist: happstack-clientsession-7.3.3
-  note: no tag for 7.3.3 in https://github.com/Happstack/happstack-clientsession.git
-  tests: false
-  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
-    2021
-- name: happstack-contrib
-  version: 0.2.1
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-contrib
-  source:
-    sdist: happstack-contrib-0.2.1
-  note: no source repository listed
-  tests: false
-- name: happstack-data
-  version: 6.0.1
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-data
-  source:
-    sdist: happstack-data-6.0.1
-  note: no tag for 6.0.1 in https://patch-tag.com/r/mae/happstack.git
-  tests: false
-  reason: ambiguous show between Prelude and its own L.show; unmaintained since
-    2015
-- name: happstack-dlg
-  version: 0.1.2
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-dlg
-  source:
-    sdist: happstack-dlg-0.1.2
-  note: no source repository listed
-  tests: false
 - name: happstack-fastcgi
   version: 0.1.5
   tier: 2
@@ -2825,26 +2708,6 @@ packages:
   path: vendored/happstack-fastcgi
   source:
     sdist: happstack-fastcgi-0.1.5
-  note: no source repository listed
-  tests: false
-- name: happstack-fay
-  version: 0.2.0
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-fay
-  source:
-    sdist: happstack-fay-0.2.0
-  note: no source repository listed
-  tests: false
-- name: happstack-fay-ajax
-  version: 0.2.0
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-fay-ajax
-  source:
-    sdist: happstack-fay-ajax-0.2.0
   note: no source repository listed
   tests: false
 - name: happstack-hamlet
@@ -2857,50 +2720,6 @@ packages:
     sdist: happstack-hamlet-7.0.4
   note: 'not a git repository: http://hub.darcs.net/stepcut/happstack/pullrepo'
   tests: false
-- name: happstack-heist
-  version: 7.2.4
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-heist
-  source:
-    sdist: happstack-heist-7.2.4
-  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
-  tests: false
-  reason: >-
-    imports Control.Monad.Trans.Either, removed from the either package; unmaintained
-    since 2014
-- name: happstack-helpers
-  version: '0.56'
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-helpers
-  source:
-    sdist: happstack-helpers-0.56
-  note: no tag for 0.56 in https://patch-tag.com/r/tphyahoo/HAppSHelpers.git
-  tests: false
-- name: happstack-hstringtemplate
-  version: 7.0.4
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-hstringtemplate
-  source:
-    sdist: happstack-hstringtemplate-7.0.4
-  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
-  tests: false
-  reason: uses fail without a MonadFail constraint; unmaintained since 2014
-- name: happstack-ixset
-  version: 6.0.1
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-ixset
-  source:
-    sdist: happstack-ixset-6.0.1
-  note: no tag for 6.0.1 in https://patch-tag.com/r/mae/happstack.git
-  tests: false
 - name: happstack-jmacro
   version: 7.0.12.6
   tier: 2
@@ -2910,28 +2729,6 @@ packages:
   source:
     sdist: happstack-jmacro-7.0.12.6
   note: no tag for 7.0.12.6 in https://github.com/Happstack/happstack-jmacro.git
-  tests: false
-- name: happstack-monad-peel
-  version: '0.1'
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-monad-peel
-  source:
-    sdist: happstack-monad-peel-0.1
-  note: no source repository listed
-  tests: false
-  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
-    2013
-- name: happstack-plugins
-  version: 7.0.2
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-plugins
-  source:
-    sdist: happstack-plugins-7.0.2
-  note: 'not a git repository: http://hub.darcs.net/stepcut/happstack'
   tests: false
 - name: happstack-server-tls
   version: 7.2.1.7
@@ -2943,40 +2740,6 @@ packages:
     sdist: happstack-server-tls-7.2.1.7
   note: no tag for 7.2.1.7 in https://github.com/Happstack/happstack-server-tls.git
   tests: false
-- name: happstack-server-tls-cryptonite
-  version: 0.1.1
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-server-tls-cryptonite
-  source:
-    sdist: happstack-server-tls-cryptonite-0.1.1
-  note: >-
-    no tag for 0.1.1 in https://github.com/rblaze/happstack-server-tls-cryptonite.git
-  tests: false
-  reason: uses Network.Socket.sClose, removed in network 3; unmaintained since
-    2015
-- name: happstack-state
-  version: 6.1.4
-  tier: 2
-  role: root
-  expected: ok
-  path: vendored/happstack-state
-  source:
-    sdist: happstack-state-6.1.4
-  note: no tag for 6.1.4 in https://patch-tag.com/r/mae/happstack.git
-  tests: false
-- name: happstack-util
-  version: 6.0.3
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/happstack-util
-  source:
-    sdist: happstack-util-6.0.3
-  note: no tag for 6.0.3 in https://patch-tag.com/r/mae/happstack.git
-  tests: false
-  reason: uses inlinePerformIO, removed from bytestring; unmaintained since 2019
 - name: harp
   version: 0.4.3.6
   tier: 2
@@ -3007,19 +2770,6 @@ packages:
     git: https://github.com/haskell-pkg-janitors/haskell-src.git
     tag: v1.0.4.2
   tests: false
-- name: haskell98
-  version: 2.0.0.3
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/haskell98
-  source:
-    sdist: haskell98-2.0.0.3
-  note: no tag for 2.0.0.3 in https://git.haskell.org/packages/haskell98.git
-  tests: false
-  reason: >-
-    exports fail as a method of Monad, which moved to MonadFail; unmaintained
-    since 2016
 - name: hedgehog
   version: '1.7'
   tier: 2
@@ -3060,44 +2810,6 @@ packages:
     git: https://github.com/simonmichael/hledger.git
     tag: 1.52.4
   tests: true
-- name: hledger-api
-  version: '1.14'
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/hledger-api
-  source:
-    sdist: hledger-api-1.14
-  note: hledger-api.cabal not found in hledger
-  tests: false
-  reason: >-
-    uses GenericSourcePos, gone from current hledger-lib; unmaintained since 2019
-- name: hledger-chart
-  version: 0.16.1
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/hledger-chart
-  source:
-    sdist: hledger-chart-0.16.1
-  note: no tag for 0.16.1 in https://joyful.com/repos/hledger.git
-  tests: false
-  reason: >-
-    written against the 2011 hledger-lib API (progversionstr); unmaintained since
-    2011
-- name: hledger-diff
-  version: 0.2.0.14
-  tier: 2
-  role: root
-  expected: build-failure
-  path: hledger-diff
-  source:
-    git: https://github.com/gebner/hledger-diff.git
-    tag: 0.2.0.14
-  tests: false
-  reason: >-
-    defines readJournalFile', which current hledger-lib also exports; unmaintained
-    since 2018
 - name: hledger-flow
   version: 0.18.0
   tier: 2
@@ -3128,19 +2840,6 @@ packages:
     git: https://github.com/peti/hledger-interest.git
     tag: v1.6.7
   tests: false
-- name: hledger-irr
-  version: 0.1.1.16
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/hledger-irr
-  source:
-    sdist: hledger-irr-0.1.1.16
-  note: 'not a git repository: http://darcs.nomeata.de/hledger-irr'
-  tests: false
-  reason: >-
-    imports getOpt from both Hledger and System.Console.GetOpt; unmaintained since
-    2019
 - name: hledger-lib
   version: 1.52.4
   tier: 2
@@ -3152,19 +2851,6 @@ packages:
     tag: 1.52.4
   tests: false
   reason: test suite doctest needs doctest
-- name: hledger-makeitso
-  version: 0.10.0.0
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/hledger-makeitso
-  source:
-    sdist: hledger-makeitso-0.10.0.0
-  note: no tag for 0.10.0.0 in https://github.com/apauley/hledger-makeitso.git
-  tests: true
-  reason: >-
-    operator section with an operand of the same precedence, rejected by the parser;
-    unmaintained since 2019 (renamed hledger-flow)
 - name: hledger-stockquotes
   version: 0.1.3.2
   tier: 2
@@ -3179,28 +2865,16 @@ packages:
   version: 1.52.4
   tier: 2
   role: root
-  expected: build-failure
-  path: hledger/hledger-ui
+  expected: ok
+  path: vendored/hledger-ui
   source:
-    git: https://github.com/simonmichael/hledger.git
-    tag: 1.52.4
+    sdist: hledger-ui-1.52.4
+  note: vendored on request
   tests: false
-  reason: >-
-    requires brick < 3 while hledger-iadd 1.3.23 requires brick >= 3; the corpus
-    holds one brick (3.0), under which hledger-ui has an ambiguous char
-- name: hledger-vty
-  version: 0.16.1
-  tier: 2
-  role: root
-  expected: build-failure
-  path: vendored/hledger-vty
-  source:
-    sdist: hledger-vty-0.16.1
-  note: no tag for 0.16.1 in https://joyful.com/repos/hledger.git
-  tests: false
-  reason: >-
-    written against the 2011 hledger-lib API (progversionstr); unmaintained since
-    2011
+  patched: >-
+    Hledger/UI/ErrorScreen.hs imports Brick hiding (char): brick 3.0 added a char
+    widget that clashes with the megaparsec char the module uses; hledger-ui 1.52.4
+    bounds brick below 3 while hledger-iadd 1.3.23 requires 3 (patches/hledger-ui.patch)
 - name: hledger-web
   version: 1.52.4
   tier: 2
@@ -3251,19 +2925,6 @@ packages:
     sdist: hscolour-1.25
   note: no tag for 1.25 in https://code.haskell.org/~malcolm/hscolour.git
   tests: false
-- name: HSH
-  version: 2.1.3
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/HSH
-  source:
-    sdist: HSH-2.1.3
-  note: no source repository listed
-  tests: false
-  reason: >-
-    calls openFd with the pre-unix-2.8 four-argument signature; unmaintained since
-    2018
 - name: hslua-cli
   version: 1.4.4
   tier: 2
@@ -3375,28 +3036,6 @@ packages:
     sdist: HStringTemplate-0.8.8
   note: 'not a git repository: http://hub.darcs.net/sterlingclover/hstringtemplate'
   tests: false
-- name: HStringTemplateHelpers
-  version: 0.0.14
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/HStringTemplateHelpers
-  source:
-    sdist: HStringTemplateHelpers-0.0.14
-  note: no source repository listed
-  tests: false
-- name: hsx
-  version: 0.10.5
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/hsx
-  source:
-    sdist: hsx-0.10.5
-  note: no tag for 0.10.5 in https://patch-tag.com/r/nibro/hsx.git
-  tests: false
-  reason: uses the pre-1.14 haskell-src-exts API (SrcLoc); unmaintained since
-    2014
 - name: html-conduit
   version: 1.3.2.2
   tier: 2
@@ -3637,19 +3276,6 @@ packages:
     sdist: jwt-0.12.0
   note: no tag for 0.12.0 in https://github.com/puffnfresh/haskell-jwt.git
   tests: false
-- name: language-ecmascript
-  version: 0.19.1.0
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: language-ecmascript
-  source:
-    git: https://github.com/jswebtools/language-ecmascript.git
-    tag: 0.19.1.0
-  tests: false
-  reason: >-
-    uses liftM via the Control.Monad re-export that mtl 2.3 dropped; unmaintained
-    since 2019
 - name: libyaml
   version: 0.1.4
   tier: 2
@@ -4026,16 +3652,17 @@ packages:
   version: '3.13'
   tier: 2
   role: root
-  expected: build-failure
+  expected: test-failure
   path: vendored/pandoc
   source:
     sdist: pandoc-3.13
-  note: vendored on request
+  note: >-
+    built against the corpus haddock-library 1.11.0; the tree ships 1.12.0 with
+    a Text-based API
   tests: true
   reason: >-
-    this GHC tree bundles haddock-library 1.11.0 with a Text-based parseParas
-    and Text document fields, unlike Hackage's 1.11.0 with String; the Haddock
-    reader does not type-check against it
+    2 of 4488 tests fail: citeproc punctuation placement (period inside versus
+    outside quotes) differs with the newer citeproc that allow-newer admits
 - name: pandoc-cli
   version: '3.13'
   tier: 2
@@ -4129,16 +3756,6 @@ packages:
     git: https://github.com/yesodweb/path-pieces.git
     tag: path-pieces/0.2.1
   tests: false
-- name: PBKDF2
-  version: 0.3.1.5
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/PBKDF2
-  source:
-    sdist: PBKDF2-0.3.1.5
-  note: no tag for 0.3.1.5 in https://github.com/silkapp/PBKDF2.git
-  tests: false
 - name: pem
   version: 0.2.4
   tier: 2
@@ -4168,27 +3785,6 @@ packages:
   source:
     git: https://github.com/yesodweb/persistent.git
     tag: persistent-template-2.12.0.0
-  tests: false
-- name: plugins
-  version: 1.6.2.1
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/plugins
-  source:
-    sdist: plugins-1.6.2.1
-  note: no tag for 1.6.2.1 in https://github.com/stepcut/plugins.git
-  tests: false
-  reason: imports the pre-9.0 GHC API module HscTypes; unmaintained since 2017
-- name: plugins-auto
-  version: 0.0.4
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/plugins-auto
-  source:
-    sdist: plugins-auto-0.0.4
-  note: no tag for 0.0.4 in https://patch-tag.com/r/facundo/plugins-auto.git
   tests: false
 - name: pretty-show
   version: '1.10'
@@ -4239,16 +3835,6 @@ packages:
   source:
     sdist: pureMD5-2.1.4
   note: no tag for 2.1.4 in https://github.com/TomMD/pureMD5.git
-  tests: false
-- name: pwstore-purehaskell
-  version: 2.1.4
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/pwstore-purehaskell
-  source:
-    sdist: pwstore-purehaskell-2.1.4
-  note: no source repository listed
   tests: false
 - name: quote-quot
   version: 0.2.2.0
@@ -4380,18 +3966,6 @@ packages:
     git: https://github.com/Soostone/retry.git
     tag: 0.9.3.1
   tests: false
-- name: RJson
-  version: 0.3.7
-  tier: 2
-  role: dep
-  expected: build-failure
-  path: vendored/RJson
-  source:
-    sdist: RJson-0.3.7
-  note: no source repository listed
-  tests: false
-  reason: imports Control.Monad.Error, removed in mtl 2.3; unmaintained since
-    2011
 - name: RSA
   version: 2.4.1
   tier: 2
@@ -4447,16 +4021,16 @@ packages:
   version: 0.2.6.1
   tier: 2
   role: dep
-  expected: build-failure
+  expected: ok
   path: vendored/serialise
   source:
     sdist: serialise-0.2.6.1
   note: vendored on request
   tests: false
-  reason: >-
-    base 4.23 replaced the KindRepTYPE RuntimeRep constructor of Type.Reflection.Unsafe
-    by a nullary KindRepType and added KindRepConstraint; release 0.2.6.1 predates
-    it
+  patched: >-
+    base 4.23 replaced the KindRepTYPE RuntimeRep constructor by a nullary KindRepType
+    and added KindRepConstraint; the Serialise KindRep instance gets a CPP branch
+    for base >= 4.23 (patches/serialise.patch)
 - name: servant
   version: 0.20.3.0
   tier: 2
@@ -4667,16 +4241,6 @@ packages:
     sdist: split-0.2.5.1
   note: no tag for 0.2.5.1 in https://github.com/byorgey/split.git
   tests: false
-- name: spoon
-  version: 0.3.1
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/spoon
-  source:
-    sdist: spoon-0.3.1
-  note: no source repository listed
-  tests: false
 - name: stm-chans
   version: 3.0.0.11
   tier: 2
@@ -4746,17 +4310,6 @@ packages:
   source:
     sdist: syb-with-class-0.6.1.14
   note: no tag for 0.6.1.14 in https://github.com/Happstack/syb-with-class.git
-  tests: false
-- name: syb-with-class-instances-text
-  version: 0.0.1
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/syb-with-class-instances-text
-  source:
-    sdist: syb-with-class-instances-text-0.0.1
-  note: >-
-    no tag for 0.0.1 in https://src.seereason.com/syb-with-class-instances-text.git
   tests: false
 - name: tabular
   version: 0.2.2.8
@@ -5219,16 +4772,6 @@ packages:
     sdist: web-routes-happstack-0.23.12.4
   note: >-
     no tag for 0.23.12.4 in https://github.com/Happstack/web-routes-happstack.git
-  tests: false
-- name: web-routes-mtl
-  version: 0.20.1
-  tier: 2
-  role: dep
-  expected: ok
-  path: vendored/web-routes-mtl
-  source:
-    sdist: web-routes-mtl-0.20.1
-  note: no tag for 0.20.1 in https://src.seereason.com/web-routes.git
   tests: false
 - name: web-routes-th
   version: 0.22.8.3

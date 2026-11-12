@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/encoding/Data/Encoding.hs
++++ b/external-packages/vendored/encoding/Data/Encoding.hs
+@@ -28,7 +28,7 @@
+ import Data.Encoding.ByteSink
+ import Data.Encoding.Exception
+ 
+-import Data.Sequence
++import Data.Sequence hiding (toList) -- containers 0.8 exports its own
+ import Data.Foldable(toList)
+ import Data.Char
+ 

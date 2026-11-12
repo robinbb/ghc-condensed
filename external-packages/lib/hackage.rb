@@ -18,7 +18,7 @@ module Hackage
     os-string file-io semaphore-compat hpc ghc-boot ghc-boot-th ghc-heap
     ghc-compact ghc-experimental ghci integer-gmp Cabal Cabal-syntax ghc rts
     ghc-platform ghc-toolchain template-haskell-lift
-    template-haskell-quasiquoter Win32 haddock-library haddock-api
+    template-haskell-quasiquoter Win32 haddock-api
     libffi-clib system-cxx-std-lib
   ].to_set.freeze
 

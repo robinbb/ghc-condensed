@@ -1,0 +1,10 @@
+--- a/external-packages/vendored/data-default-class/data-default-class.cabal
++++ b/external-packages/vendored/data-default-class/data-default-class.cabal
+@@ -20,5 +20,7 @@
+ 
+ library
+     build-depends:     data-default ^>=0.8
++                     -- GHC 10.1 implicitly imports GHC.Essentials from base
++                     , base
+     exposed-modules:   Data.Default.Class
+     default-language:  Haskell98

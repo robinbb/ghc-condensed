@@ -1,0 +1,30 @@
+--- a/external-packages/vendored/serialise/src/Codec/Serialise/Class.hs
++++ b/external-packages/vendored/serialise/src/Codec/Serialise/Class.hs
+@@ -1269,7 +1269,14 @@
+       KindRepVar bndr       -> encodeListLen 2 <> encodeWord 1 <> encode bndr
+       KindRepApp a b        -> encodeListLen 3 <> encodeWord 2 <> encode a <> encode b
+       KindRepFun a b        -> encodeListLen 3 <> encodeWord 3 <> encode a <> encode b
++#if MIN_VERSION_base(4,23,0)
++      -- base 4.23 replaced KindRepTYPE RuntimeRep by nullary KindRepType
++      -- and added KindRepConstraint.
++      KindRepType           -> encodeListLen 1 <> encodeWord 4
++      KindRepConstraint     -> encodeListLen 1 <> encodeWord 6
++#else
+       KindRepTYPE r         -> encodeListLen 2 <> encodeWord 4 <> encode r
++#endif
+       KindRepTypeLit sort r -> encodeListLen 3 <> encodeWord 5 <> encode sort <> encode r
+ 
+   decode = do
+@@ -1280,7 +1287,12 @@
+       1 | len == 2 -> KindRepVar <$> decode
+       2 | len == 3 -> KindRepApp <$> decode <*> decode
+       3 | len == 3 -> KindRepFun <$> decode <*> decode
++#if MIN_VERSION_base(4,23,0)
++      4 | len == 1 -> pure KindRepType
++      6 | len == 1 -> pure KindRepConstraint
++#else
+       4 | len == 2 -> KindRepTYPE <$> decode
++#endif
+       5 | len == 3 -> KindRepTypeLit <$> decode <*> decode
+       _            -> fail "Data.Serialise.Binary.CBOR.getKindRep: invalid tag"
+ 

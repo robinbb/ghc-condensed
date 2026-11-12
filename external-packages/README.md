@@ -51,12 +51,13 @@ unsolvable packages of a higher tier must not block a lower one.
 - **Closed corpus.** Every transitive dependency, test-suite
   dependencies included, is a boot package or a package in this
   directory. The solver is the authority: if `cabal build --dry-run`
-  wants something from Hackage, it is added here. Packages that the
-  compiler's own global package database already provides (the boot
-  packages, haddock-library, haddock-api) are never added: cabal gives
-  local packages the same `-inplace` unit-id suffix that Hadrian gives
-  in-tree ones, so the two copies are indistinguishable to cabal's
-  rebuild logic. After removing such a package, delete `dist/`.
+wants something from Hackage, it is added here. A package that the
+compiler's own global package database already provides at the same
+version is never added: cabal gives local packages the same
+`-inplace` unit-id suffix that Hadrian gives in-tree ones, so the two
+copies would be indistinguishable to cabal's rebuild logic. At a
+different version it is fine (the corpus holds Hackage's
+haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
 - **Roots and deps.** A *root* is a package chosen for coverage; its
   test suites run. A *dep* is only built. Running a dep's tests would
   pull in its own test dependencies and so on without end.
