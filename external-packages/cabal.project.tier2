@@ -572,9 +572,6 @@ package primitive
 package scientific
   tests: True
 
-package sdl2
-  tests: True
-
 package shake
   tests: True
 

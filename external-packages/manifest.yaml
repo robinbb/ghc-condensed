@@ -4000,13 +4000,13 @@ packages:
   version: 2.5.6.1
   tier: 2
   role: root
-  expected: test-failure
+  expected: ok
   path: vendored/sdl2
   source:
     sdist: sdl2-2.5.6.1
   note: no tag for 2.5.6.1 in https://github.com/haskell-game/sdl2.git
-  tests: true
-  reason: sdl-space needs a display and fails silently without one
+  tests: false
+  reason: sdl-space needs a working SDL video renderer, which the nix shell does not provide
 - name: semigroups
   version: 0.20.1
   tier: 2
