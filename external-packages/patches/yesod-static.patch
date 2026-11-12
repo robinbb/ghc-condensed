@@ -1,0 +1,22 @@
+--- a/external-packages/vendored/yesod-static/yesod-static.cabal
++++ b/external-packages/vendored/yesod-static/yesod-static.cabal
+@@ -45,7 +45,8 @@
+                    , hashable              >= 1.1
+                    , hjsmin
+                    , http-types            >= 0.7
+-                   , memory
++                   -- crypton 2 takes Data.ByteArray from ram, not memory
++                   , ram
+                    , mime-types            >= 0.1
+                    , process
+                    , template-haskell
+@@ -106,7 +107,8 @@
+                    , filepath
+                    , hjsmin
+                    , http-types
+-                   , memory
++                   -- crypton 2 takes Data.ByteArray from ram, not memory
++                   , ram
+                    , mime-types
+                    , process
+                    , template-haskell

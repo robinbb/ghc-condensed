@@ -5199,7 +5199,7 @@ packages:
   version: '10.20261026'
   tier: 3
   role: root
-  expected: build-failure
+  expected: ok
   path: vendored/git-annex
   source:
     sdist: git-annex-10.20261026
@@ -5208,11 +5208,11 @@ packages:
     bound, so the flag is forced off to get the ram branch that crypton 2 needs
   tests: false
   flags: "-memory"
-  reason: >-
-    its ram branch (crypton >= 1.1) still imports "memory" Data.ByteArray.Encoding
-    and Data.Memory.Endian unconditionally, while the memory branch needs crypton
-    < 1.1 and tls 2.5.1 needs crypton >= 2.1.9; Annex/Magic.hs also targets an
-    older magic API
+  patched: >-
+    adds memory to the build-depends of the ram branch (Memory flag off): Utility.IPAddress,
+    Utility.AuthToken and Utility.Hash.Types import from "memory" unconditionally
+    while Utility.Hash.Crypton switches to "ram" for crypton >= 1.1; magic is
+    pinned at 1.1 to honour its magic <= 1.1 bound (patches/git-annex.patch)
 - name: git-lfs
   version: 1.2.5
   tier: 3
@@ -5276,14 +5276,14 @@ packages:
   note: no tag for 0.7.1.0 in https://github.com/erikd/language-javascript.git
   tests: false
 - name: magic
-  version: 2.0.0
+  version: '1.1'
   tier: 3
   role: dep
   expected: ok
-  path: magic-haskell
+  path: vendored/magic
   source:
-    git: https://github.com/philippedev101/magic-haskell.git
-    tag: v2.0.0
+    sdist: magic-1.1
+  note: no source repository listed
   tests: false
 - name: microstache
   version: 1.0.3.1
@@ -5499,12 +5499,12 @@ packages:
   version: 1.6.1.3
   tier: 3
   role: dep
-  expected: build-failure
+  expected: ok
   path: vendored/yesod-static
   source:
     sdist: yesod-static-1.6.1.3
   note: vendored on request
   tests: false
-  reason: >-
-    imports Data.ByteArray from memory while crypton 2.x takes its ByteArrayAccess
-    class from the ram package, so the Digest instance is not found
+  patched: >-
+    depends on ram instead of memory: crypton 2.x takes its Data.ByteArray classes
+    from ram, so the ByteArrayAccess instance of Digest comes from there (patches/yesod-static.patch)

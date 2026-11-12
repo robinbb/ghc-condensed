@@ -1,0 +1,13 @@
+--- a/external-packages/vendored/git-annex/git-annex.cabal
++++ b/external-packages/vendored/git-annex/git-annex.cabal
+@@ -326,7 +326,9 @@
+   if flag(Memory)
+     Build-Depends: memory, crypton (< 1.1.0)
+   else
+-    Build-Depends: ram, crypton (>= 1.1.0)
++    -- Utility.IPAddress, Utility.AuthToken and Utility.Hash.Types import
++    -- from "memory" unconditionally, so this branch needs it too.
++    Build-Depends: ram, memory, crypton (>= 1.1.0)
+ 
+   -- Fully optimize for production.
+   if flag(Production)

@@ -38,3 +38,14 @@ from the repository root.
   clashes with the megaparsec `char` the module uses in its error-message
   parser. hledger-ui 1.52.4 bounds brick below 3, but hledger-iadd 1.3.23
   requires 3 and the corpus holds one brick.
+- `yesod-static.patch`: depends on `ram` instead of `memory` in both
+  stanzas. crypton 2.x takes its `Data.ByteArray` classes from `ram`,
+  so with `memory` in scope the `ByteArrayAccess` instance of `Digest`
+  is a different class and is not found. Unblocks git-annex.
+- `git-annex.patch`: adds `memory` to the build-depends of the `ram`
+  branch (the Memory flag is forced off in the manifest). Three modules
+  import from `"memory"` unconditionally while `Utility.Hash.Crypton`
+  switches to `"ram"` for crypton 1.1 and later, so under crypton 2
+  that branch needs both packages. `magic` is pinned at 1.1, the newest
+  release inside git-annex's own `magic <= 1.1` bound, which needs no
+  source change.

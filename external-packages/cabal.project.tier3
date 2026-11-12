@@ -191,7 +191,6 @@ packages:
   list-tries
   logict
   lrucache
-  magic-haskell
   map-syntax
   math-functions
   megaparsec
@@ -426,6 +425,7 @@ packages:
   vendored/libyaml-clib
   vendored/lift-type
   vendored/lucid
+  vendored/magic
   vendored/managed
   vendored/mime-types
   vendored/mmorph
