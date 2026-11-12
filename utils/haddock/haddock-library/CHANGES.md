@@ -1,3 +1,12 @@
+## Changes in version 1.12.0
+
+  * The parser and the document types now use `Text` where they used
+    `String`: `parseParas` and `parseString` take `Text` (`parseString`
+    keeps a `String` wrapper), and the fields of `DocString`, `DocAName`,
+    `DocProperty`, `DocMathInline`, `DocMathDisplay`, `Hyperlink`,
+    `ModLink`, `Picture` and `Example` are `Text`. Code written against
+    1.11 does not compile unchanged, hence the major bump.
+
 ## Changes in version 1.11.0
 
   * Add support for linking identifiers with a quote between backticks (#1408)
