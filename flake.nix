@@ -22,8 +22,24 @@
         withIde = false; # haskell-language-server: see `ide`
       };
 
+      # System libraries needed by packages in external-packages/ (see
+      # external-packages/README.md), taken from ghc.nix's own nixpkgs so
+      # that everything in the shell comes from one snapshot.
+      externalLibs = system:
+        let pkgs = ghc-nix.inputs.nixpkgs.legacyPackages.${system};
+        in {
+          buildInputs = with pkgs; [ zlib SDL2 openssl fcgi file ];
+          nativeBuildInputs = [ pkgs.pkg-config ];
+        };
+
       mkShell = system: extra:
-        ghc-nix.legacy ({ inherit system; } // common // extra);
+        (ghc-nix.legacy ({ inherit system; } // common // extra)).overrideAttrs
+          (old: {
+            buildInputs = (old.buildInputs or [ ])
+              ++ (externalLibs system).buildInputs;
+            nativeBuildInputs = (old.nativeBuildInputs or [ ])
+              ++ (externalLibs system).nativeBuildInputs;
+          });
     in
     {
       devShells = ghc-nix.lib.perSystem (system: {

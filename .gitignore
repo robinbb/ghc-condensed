@@ -267,3 +267,6 @@ dist-newstyle/
 /ghc-*/
 /inplace/
 /tmp/
+
+# External package corpus build products (see external-packages/README.md)
+/external-packages/dist/

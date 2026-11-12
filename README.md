@@ -92,6 +92,16 @@ environment (verified 2026-11-10: 11409 tests, about 10 minutes on 28 cores,
 after a 20-minute build). To run a single test, pass `--only=NAME`;
 `hadrian/doc/testsuite.md` lists the other options.
 
+A second check builds and tests a corpus of real-world Haskell packages
+(aeson, lens, pandoc, hledger, and several hundred more, vendored as git
+submodules under `external-packages/`) with the compiler you just built:
+
+    $ ruby external-packages/check.rb          # tier 1, a few minutes
+    $ ruby external-packages/check.rb --all    # every tier, hours
+
+`external-packages/README.md` explains the tiers, the policies, and how
+to add packages.
+
 The default shell is deliberately lean. Two variants add more:
 
     $ nix develop .#ide            # + haskell-language-server and clangd
