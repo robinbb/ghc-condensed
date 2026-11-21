@@ -1,4 +1,3 @@
-{-# LANGUAGE AlternativeLayoutRule #-}
 {-# LANGUAGE LambdaCase            #-}
 
 isOne :: Int -> Bool

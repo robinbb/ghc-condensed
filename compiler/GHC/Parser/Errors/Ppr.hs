@@ -70,13 +70,6 @@ instance Diagnostic PsMessage where
                  then text ""
                  else text ", and in" <+> speakNOf (fromIntegral (tc - 1)) (text "further location"))
              <> text "."
-    PsWarnTransitionalLayout reason
-      -> mkSimpleDecorated $
-            text "transitional layout will not be accepted in the future:"
-            $$ (case reason of
-               TransLayout_Where -> text "`where' clause at the same depth as implicit layout block"
-               TransLayout_Pipe  -> text "`|' at the same depth as implicit layout block"
-            )
     PsWarnOperatorWhitespaceExtConflict sym
       -> let mk_prefix_msg extension_name syntax_meaning =
                   text "The prefix use of a" <+> quotes (pprOperatorWhitespaceSymbol sym)
@@ -594,7 +587,6 @@ instance Diagnostic PsMessage where
     PsHeaderMessage  m                            -> psHeaderMessageReason m
     PsWarnBidirectionalFormatChars{}              -> WarningWithFlag Opt_WarnUnicodeBidirectionalFormatCharacters
     PsWarnTab{}                                   -> WarningWithFlag Opt_WarnTabs
-    PsWarnTransitionalLayout{}                    -> WarningWithFlag Opt_WarnAlternativeLayoutRuleTransitional
     PsWarnOperatorWhitespaceExtConflict{}         -> WarningWithFlag Opt_WarnOperatorWhitespaceExtConflict
     PsWarnOperatorWhitespace{}                    -> WarningWithFlag Opt_WarnOperatorWhitespace
     PsWarnHaddockInvalidPos                       -> WarningWithFlag Opt_WarnInvalidHaddock
@@ -721,7 +713,6 @@ instance Diagnostic PsMessage where
     PsHeaderMessage  m                            -> psHeaderMessageHints m
     PsWarnBidirectionalFormatChars{}              -> noHints
     PsWarnTab{}                                   -> [SuggestUseSpaces]
-    PsWarnTransitionalLayout{}                    -> noHints
     PsWarnOperatorWhitespaceExtConflict sym       -> [SuggestUseWhitespaceAfter sym]
     PsWarnOperatorWhitespace sym occ              -> [SuggestUseWhitespaceAround (unpackFS sym) occ]
     PsWarnHaddockInvalidPos                       -> noHints

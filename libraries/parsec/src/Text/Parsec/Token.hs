@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE PolymorphicComponents #-}
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE Safe #-}
 
 -----------------------------------------------------------------------------
@@ -10,7 +10,7 @@
 --
 -- Maintainer  :  derek.a.elkins@gmail.com
 -- Stability   :  provisional
--- Portability :  non-portable (uses local universal quantification: PolymorphicComponents)
+-- Portability :  non-portable (uses local universal quantification: RankNTypes)
 --
 -- A helper module to parse lexical elements (tokens). See 'makeTokenParser'
 -- for a description of how to use it.

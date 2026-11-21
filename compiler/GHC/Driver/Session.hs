@@ -2345,7 +2345,6 @@ wWarningFlagsDeps :: [(Deprecation, FlagSpec WarningFlag)]
 wWarningFlagsDeps = [minBound..maxBound] >>= \x -> case x of
 -- See Note [Updating flag description in the User's Guide]
 -- See Note [Supporting CLI completion]
-  Opt_WarnAlternativeLayoutRuleTransitional -> depWarnSpec x "AlternativeLayoutRule has been deprecated"
   Opt_WarnAmbiguousFields -> warnSpec x
   Opt_WarnAutoOrphans -> depWarnSpec x "it has no effect"
   Opt_WarnCPPUndef -> warnSpec x

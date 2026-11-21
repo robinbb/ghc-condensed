@@ -95,27 +95,6 @@ data PsMessage
    -}
    | PsWarnTab !Word -- ^ Number of other occurrences other than the first one
 
-   {-| PsWarnTransitionalLayout is a warning (controlled by the
-       -Walternative-layout-rule-transitional flag) that occurs when pipes ('|')
-       or 'where' are at the same depth of an implicit layout block.
-
-       Example(s):
-
-          f :: IO ()
-          f
-           | True = do
-           let x = ()
-               y = ()
-           return ()
-           | True = return ()
-
-       Test case(s): layout/layout006
-                     layout/layout003
-                     layout/layout001
-
-   -}
-   | PsWarnTransitionalLayout !TransLayoutReason
-
    -- | Unrecognised pragma. First field is the actual pragma name which
    -- might be empty. Second field is the set of valid candidate pragmas.
    | PsWarnUnrecognisedPragma !String ![String]
@@ -642,10 +621,6 @@ data CmmParserError
    | CmmUnknownCConv        !String     -- ^ Unknown calling convention
    | CmmUnrecognisedSafety  !String     -- ^ Unrecognised safety
    | CmmUnrecognisedHint    !String     -- ^ Unrecognised hint
-
-data TransLayoutReason
-   = TransLayout_Where -- ^ "`where' clause at the same depth as implicit layout block"
-   | TransLayout_Pipe  -- ^ "`|' at the same depth as implicit layout block")
 
 
 data FileHeaderPragmaType

@@ -163,9 +163,8 @@ data RealSrcLoc
 -- analogous guarantee about higher line/column numbers.
 --
 -- This is due to #line and {-# LINE ... #-} pragmas that can arbitrarily
--- modify 'RealSrcLoc'. Notice how 'setSrcLoc' and 'resetAlrLastLoc' in
--- "GHC.Parser.Lexer" update 'PsLoc', modifying 'RealSrcLoc' but preserving
--- 'BufPos'.
+-- modify 'RealSrcLoc'. Notice how 'setSrcLoc' in "GHC.Parser.Lexer" updates
+-- 'PsLoc', modifying 'RealSrcLoc' but preserving 'BufPos'.
 --
 -- Monotonicity makes 'BufPos' useful to determine the order in which syntactic
 -- elements appear in the source. Consider this example (haddockA041 in the test suite):

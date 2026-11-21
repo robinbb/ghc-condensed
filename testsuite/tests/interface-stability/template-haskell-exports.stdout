@@ -227,8 +227,6 @@ module Language.Haskell.TH where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | AlternativeLayoutRule
-    | AlternativeLayoutRuleTransitional
     | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout
@@ -835,8 +833,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | AlternativeLayoutRule
-    | AlternativeLayoutRuleTransitional
     | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout
@@ -1578,8 +1574,6 @@ module Language.Haskell.TH.Syntax where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | AlternativeLayoutRule
-    | AlternativeLayoutRuleTransitional
     | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout

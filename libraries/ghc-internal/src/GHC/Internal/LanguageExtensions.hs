@@ -128,8 +128,6 @@ data Extension
    | ExplicitNamespaces
    | PackageImports
    | ExplicitForAll
-   | AlternativeLayoutRule
-   | AlternativeLayoutRuleTransitional
    | DatatypeContexts
    | NondecreasingIndentation
    | RelaxedLayout

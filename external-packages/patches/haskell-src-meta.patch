@@ -28,3 +28,12 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
+@@ -291,8 +288,6 @@
+   TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
+   TH.PackageImports                    -> Just Exts.PackageImports
+   TH.ExplicitForAll                    -> Just Exts.ExplicitForAll
+-  TH.AlternativeLayoutRule             -> Nothing
+-  TH.AlternativeLayoutRuleTransitional -> Nothing
+   TH.DatatypeContexts                  -> Just Exts.DatatypeContexts
+   TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
+   TH.RelaxedLayout                     -> Nothing

@@ -92,7 +92,7 @@ library
     FlexibleContexts
     FlexibleInstances
     FunctionalDependencies
-    PolymorphicComponents
+    RankNTypes
     Safe
     StandaloneDeriving
     Trustworthy

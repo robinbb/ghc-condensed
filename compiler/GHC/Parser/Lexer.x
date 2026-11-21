@@ -2034,15 +2034,7 @@ do_bol span _str _len _buf2 = do
 -- certain keywords put us in the "layout" state, where we might
 -- add an opening curly brace.
 maybe_layout :: Token -> P ()
-maybe_layout t = do -- If the alternative layout rule is enabled then
-                    -- we never create an implicit layout context here.
-                    -- Layout is handled XXX instead.
-                    -- The code for closing implicit contexts, or
-                    -- inserting implicit semi-colons, is therefore
-                    -- irrelevant as it only applies in an implicit
-                    -- context.
-                    alr <- getBit AlternativeLayoutRuleBit
-                    unless alr $ f t
+maybe_layout t = f t
     where f (ITdo _)    = pushLexState layout_do
           f (ITmdo _)   = pushLexState layout_do
           f ITof        = pushLexState layout
@@ -2109,7 +2101,6 @@ setLineAndFile code (PsSpan span _) buf len _buf2 = do
               -- System.FilePath.normalise before printing out
               -- filenames and it does not remove duplicate
               -- backslashes after the drive letter (should it?).
-  resetAlrLastLoc file
   setSrcLoc (mkRealSrcLoc file (fromIntegral linenum - 1) (srcSpanEndCol span))
       -- subtract one: the line number refers to the *following* line
   addSrcFile file
@@ -2127,12 +2118,6 @@ setColumn (PsSpan span _) buf len _buf2 = do
                           (fromIntegral (column :: Integer)))
   _ <- popLexState
   lexToken
-
-alrInitialLoc :: FastString -> RealSrcSpan
-alrInitialLoc file = mkRealSrcSpan loc loc
-    where -- This is a hack to ensure that the first line in a file
-          -- looks like it is after the initial location:
-          loc = mkRealSrcLoc file (-1) (-1)
 
 -- -----------------------------------------------------------------------------
 -- Options, includes and language pragmas.
@@ -2513,25 +2498,6 @@ data PState = PState {
         context    :: [LayoutContext],
         lex_state  :: [Int],
         srcfiles   :: [FastString],
-        -- Used in the alternative layout rule:
-        -- These tokens are the next ones to be sent out. They are
-        -- just blindly emitted, without the rule looking at them again:
-        alr_pending_implicit_tokens :: [PsLocated Token],
-        -- This is the next token to be considered or, if it is Nothing,
-        -- we need to get the next token from the input stream:
-        alr_next_token :: Maybe (PsLocated Token),
-        -- This is what we consider to be the location of the last token
-        -- emitted:
-        alr_last_loc :: PsSpan,
-        -- The stack of layout contexts:
-        alr_context :: [ALRContext],
-        -- Are we expecting a '{'? If it's Just, then the ALRLayout tells
-        -- us what sort of layout the '{' will open:
-        alr_expecting_ocurly :: Maybe ALRLayout,
-        -- Have we just had the '}' for a let block? If so, than an 'in'
-        -- token doesn't need to close anything:
-        alr_justClosedExplicitLetBlock :: Bool,
-
         -- The next three are used to implement Annotations giving the
         -- locations of 'noise' tokens in the source, so that users of
         -- the GHC API can do source to source conversions.
@@ -2557,14 +2523,6 @@ data PState = PState {
         -- calling the action in the token.  So from the perspective
         -- of the action, it is the *current* token.  Do I understand
         -- correctly?
-
-data ALRContext = ALRNoLayout Bool{- does it contain commas? -}
-                              Bool{- is it a 'let' block? -}
-                | ALRLayout ALRLayout Int
-data ALRLayout = ALRLayoutLet
-               | ALRLayoutWhere
-               | ALRLayoutOf
-               | ALRLayoutDo
 
 -- | The parsing monad, isomorphic to @StateT PState Maybe@.
 newtype P a = P { unP :: PState -> ParseResult a }
@@ -2699,70 +2657,12 @@ popLexState = P $ \s@PState{ lex_state=ls:l } -> POk s{ lex_state=l } ls
 getLexState :: P Int
 getLexState = P $ \s@PState{ lex_state=ls:_ } -> POk s ls
 
-popNextToken :: P (Maybe (PsLocated Token))
-popNextToken
-    = P $ \s@PState{ alr_next_token = m } ->
-              POk (s {alr_next_token = Nothing}) m
-
+-- | Is a layout context still open, or a layout keyword still waiting for
+-- its block? GHCi asks this at the end of a line of multiline input to
+-- decide whether to prompt for another.
 activeContext :: P Bool
-activeContext = do
-  ctxt <- getALRContext
-  expc <- getAlrExpectingOCurly
-  impt <- implicitTokenPending
-  case (ctxt,expc) of
-    ([],Nothing) -> return impt
-    _other       -> return True
-
-resetAlrLastLoc :: FastString -> P ()
-resetAlrLastLoc file =
-  P $ \s@(PState {alr_last_loc = PsSpan _ buf_span}) ->
-  POk s{ alr_last_loc = PsSpan (alrInitialLoc file) buf_span } ()
-
-setAlrLastLoc :: PsSpan -> P ()
-setAlrLastLoc l = P $ \s -> POk (s {alr_last_loc = l}) ()
-
-getAlrLastLoc :: P PsSpan
-getAlrLastLoc = P $ \s@(PState {alr_last_loc = l}) -> POk s l
-
-getALRContext :: P [ALRContext]
-getALRContext = P $ \s@(PState {alr_context = cs}) -> POk s cs
-
-setALRContext :: [ALRContext] -> P ()
-setALRContext cs = P $ \s -> POk (s {alr_context = cs}) ()
-
-getJustClosedExplicitLetBlock :: P Bool
-getJustClosedExplicitLetBlock
- = P $ \s@(PState {alr_justClosedExplicitLetBlock = b}) -> POk s b
-
-setJustClosedExplicitLetBlock :: Bool -> P ()
-setJustClosedExplicitLetBlock b
- = P $ \s -> POk (s {alr_justClosedExplicitLetBlock = b}) ()
-
-setNextToken :: PsLocated Token -> P ()
-setNextToken t = P $ \s -> POk (s {alr_next_token = Just t}) ()
-
-implicitTokenPending :: P Bool
-implicitTokenPending
-    = P $ \s@PState{ alr_pending_implicit_tokens = ts } ->
-              case ts of
-              [] -> POk s False
-              _  -> POk s True
-
-popPendingImplicitToken :: P (Maybe (PsLocated Token))
-popPendingImplicitToken
-    = P $ \s@PState{ alr_pending_implicit_tokens = ts } ->
-              case ts of
-              [] -> POk s Nothing
-              (t : ts') -> POk (s {alr_pending_implicit_tokens = ts'}) (Just t)
-
-setPendingImplicitTokens :: [PsLocated Token] -> P ()
-setPendingImplicitTokens ts = P $ \s -> POk (s {alr_pending_implicit_tokens = ts}) ()
-
-getAlrExpectingOCurly :: P (Maybe ALRLayout)
-getAlrExpectingOCurly = P $ \s@(PState {alr_expecting_ocurly = b}) -> POk s b
-
-setAlrExpectingOCurly :: Maybe ALRLayout -> P ()
-setAlrExpectingOCurly b = P $ \s -> POk (s {alr_expecting_ocurly = b}) ()
+activeContext = P $ \s@PState{ context = ctx, lex_state = ls } ->
+  POk s (not (null ctx) || any (`elem` [layout, layout_do, layout_if]) ls)
 
 -- | For reasons of efficiency, boolean parsing flags (eg, language extensions
 -- or whether we are currently in a @RULE@ pragma) are represented by a bitmap
@@ -2808,8 +2708,6 @@ data ExtBits
   | TransformComprehensionsBit
   | QqBit -- enable quasiquoting
   | RawTokenStreamBit -- producing a token stream with all comments included
-  | AlternativeLayoutRuleBit
-  | ALRTransitionalBit
   | RelaxedLayoutBit
   | NondecreasingIndentationBit
   | SafeHaskellBit
@@ -2894,8 +2792,6 @@ mkParserOpts extensionFlags diag_opts
       .|. DatatypeContextsBit         `xoptBit` LangExt.DatatypeContexts
       .|. TransformComprehensionsBit  `xoptBit` LangExt.TransformListComp
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
-      .|. AlternativeLayoutRuleBit    `xoptBit` LangExt.AlternativeLayoutRule
-      .|. ALRTransitionalBit          `xoptBit` LangExt.AlternativeLayoutRuleTransitional
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout
       .|. NondecreasingIndentationBit `xoptBit` LangExt.NondecreasingIndentation
       .|. TraditionalRecordSyntaxBit  `xoptBit` LangExt.TraditionalRecordSyntax
@@ -2971,12 +2867,6 @@ initParserState options buf loc =
       context       = [],
       lex_state     = [bol, 0],
       srcfiles      = [],
-      alr_pending_implicit_tokens = [],
-      alr_next_token = Nothing,
-      alr_last_loc = PsSpan (alrInitialLoc (fsLit "<no file>")) (BufSpan (BufPos 0) (BufPos 0)),
-      alr_context = [],
-      alr_expecting_ocurly = Nothing,
-      alr_justClosedExplicitLetBlock = False,
       eof_pos = Strict.Nothing,
       header_comments = Strict.Nothing,
       comment_q = [],
@@ -3207,9 +3097,7 @@ lexError e = do
 lexer, lexerDbg :: Bool -> (Located Token -> P a) -> P a
 
 lexer queueComments cont = do
-  alr <- getBit AlternativeLayoutRuleBit
-  let lexTokenFun = if alr then lexTokenAlr else lexToken
-  (L span tok) <- lexTokenFun
+  (L span tok) <- lexToken
   --trace ("token: " ++ show tok) $ do
 
   if (queueComments && isComment tok)
@@ -3220,221 +3108,6 @@ lexer queueComments cont = do
 lexerDbg queueComments cont = lexer queueComments contDbg
   where
     contDbg tok = trace ("token: " ++ show (unLoc tok)) (cont tok)
-
-lexTokenAlr :: P (PsLocated Token)
-lexTokenAlr = do mPending <- popPendingImplicitToken
-                 t <- case mPending of
-                      Nothing ->
-                          do mNext <- popNextToken
-                             t <- case mNext of
-                                  Nothing -> lexToken
-                                  Just next -> return next
-                             alternativeLayoutRuleToken t
-                      Just t ->
-                          return t
-                 setAlrLastLoc (getLoc t)
-                 case unLoc t of
-                     ITwhere  -> setAlrExpectingOCurly (Just ALRLayoutWhere)
-                     ITlet    -> setAlrExpectingOCurly (Just ALRLayoutLet)
-                     ITof     -> setAlrExpectingOCurly (Just ALRLayoutOf)
-                     ITlcase  -> setAlrExpectingOCurly (Just ALRLayoutOf)
-                     ITlcases -> setAlrExpectingOCurly (Just ALRLayoutOf)
-                     ITdo  _  -> setAlrExpectingOCurly (Just ALRLayoutDo)
-                     ITmdo _  -> setAlrExpectingOCurly (Just ALRLayoutDo)
-                     ITrec    -> setAlrExpectingOCurly (Just ALRLayoutDo)
-                     _        -> return ()
-                 return t
-
-alternativeLayoutRuleToken :: PsLocated Token -> P (PsLocated Token)
-alternativeLayoutRuleToken t
-    = do context <- getALRContext
-         lastLoc <- getAlrLastLoc
-         mExpectingOCurly <- getAlrExpectingOCurly
-         transitional <- getBit ALRTransitionalBit
-         justClosedExplicitLetBlock <- getJustClosedExplicitLetBlock
-         setJustClosedExplicitLetBlock False
-         let thisLoc = getLoc t
-             thisCol = srcSpanStartCol (psRealSpan thisLoc)
-             newLine = srcSpanStartLine (psRealSpan thisLoc) > srcSpanEndLine (psRealSpan lastLoc)
-         case (unLoc t, context, mExpectingOCurly) of
-             -- This case handles a GHC extension to the original H98
-             -- layout rule...
-             (ITocurly, _, Just alrLayout) ->
-                 do setAlrExpectingOCurly Nothing
-                    let isLet = case alrLayout of
-                                ALRLayoutLet -> True
-                                _ -> False
-                    setALRContext (ALRNoLayout (containsCommas ITocurly) isLet : context)
-                    return t
-             -- ...and makes this case unnecessary
-             {-
-             -- I think our implicit open-curly handling is slightly
-             -- different to John's, in how it interacts with newlines
-             -- and "in"
-             (ITocurly, _, Just _) ->
-                 do setAlrExpectingOCurly Nothing
-                    setNextToken t
-                    lexTokenAlr
-             -}
-             (_, ALRLayout _ col : _ls, Just expectingOCurly)
-              | (thisCol > col) ||
-                (thisCol == col &&
-                 isNonDecreasingIndentation expectingOCurly) ->
-                 do setAlrExpectingOCurly Nothing
-                    setALRContext (ALRLayout expectingOCurly thisCol : context)
-                    setNextToken t
-                    return (L thisLoc ITvocurly)
-              | otherwise ->
-                 do setAlrExpectingOCurly Nothing
-                    setPendingImplicitTokens [L lastLoc ITvccurly]
-                    setNextToken t
-                    return (L lastLoc ITvocurly)
-             (_, _, Just expectingOCurly) ->
-                 do setAlrExpectingOCurly Nothing
-                    setALRContext (ALRLayout expectingOCurly thisCol : context)
-                    setNextToken t
-                    return (L thisLoc ITvocurly)
-             -- We do the [] cases earlier than in the spec, as we
-             -- have an actual EOF token
-             (ITeof, ALRLayout _ _ : ls, _) ->
-                 do setALRContext ls
-                    setNextToken t
-                    return (L thisLoc ITvccurly)
-             (ITeof, _, _) ->
-                 return t
-             -- the other ITeof case omitted; general case below covers it
-             (ITin, _, _)
-              | justClosedExplicitLetBlock ->
-                 return t
-             (ITin, ALRLayout ALRLayoutLet _ : ls, _)
-              | newLine ->
-                 do setPendingImplicitTokens [t]
-                    setALRContext ls
-                    return (L thisLoc ITvccurly)
-             -- This next case is to handle a transitional issue:
-             (ITwhere, ALRLayout _ col : ls, _)
-              | newLine && thisCol == col && transitional ->
-                 do addPsMessage
-                      (mkSrcSpanPs thisLoc)
-                      (PsWarnTransitionalLayout TransLayout_Where)
-                    setALRContext ls
-                    setNextToken t
-                    -- Note that we use lastLoc, as we may need to close
-                    -- more layouts, or give a semicolon
-                    return (L lastLoc ITvccurly)
-             -- This next case is to handle a transitional issue:
-             (ITvbar, ALRLayout _ col : ls, _)
-              | newLine && thisCol == col && transitional ->
-                 do addPsMessage
-                      (mkSrcSpanPs thisLoc)
-                      (PsWarnTransitionalLayout TransLayout_Pipe)
-                    setALRContext ls
-                    setNextToken t
-                    -- Note that we use lastLoc, as we may need to close
-                    -- more layouts, or give a semicolon
-                    return (L lastLoc ITvccurly)
-             (_, ALRLayout _ col : ls, _)
-              | newLine && thisCol == col ->
-                 do setNextToken t
-                    let loc = psSpanStart thisLoc
-                        zeroWidthLoc = mkPsSpan loc loc
-                    return (L zeroWidthLoc ITsemi)
-              | newLine && thisCol < col ->
-                 do setALRContext ls
-                    setNextToken t
-                    -- Note that we use lastLoc, as we may need to close
-                    -- more layouts, or give a semicolon
-                    return (L lastLoc ITvccurly)
-             -- We need to handle close before open, as 'then' is both
-             -- an open and a close
-             (u, _, _)
-              | isALRclose u ->
-                 case context of
-                 ALRLayout _ _ : ls ->
-                     do setALRContext ls
-                        setNextToken t
-                        return (L thisLoc ITvccurly)
-                 ALRNoLayout _ isLet : ls ->
-                     do let ls' = if isALRopen u
-                                     then ALRNoLayout (containsCommas u) False : ls
-                                     else ls
-                        setALRContext ls'
-                        when isLet $ setJustClosedExplicitLetBlock True
-                        return t
-                 [] ->
-                     do let ls = if isALRopen u
-                                    then [ALRNoLayout (containsCommas u) False]
-                                    else []
-                        setALRContext ls
-                        -- XXX This is an error in John's code, but
-                        -- it looks reachable to me at first glance
-                        return t
-             (u, _, _)
-              | isALRopen u ->
-                 do setALRContext (ALRNoLayout (containsCommas u) False : context)
-                    return t
-             (ITin, ALRLayout ALRLayoutLet _ : ls, _) ->
-                 do setALRContext ls
-                    setPendingImplicitTokens [t]
-                    return (L thisLoc ITvccurly)
-             (ITin, ALRLayout _ _ : ls, _) ->
-                 do setALRContext ls
-                    setNextToken t
-                    return (L thisLoc ITvccurly)
-             -- the other ITin case omitted; general case below covers it
-             (ITcomma, ALRLayout _ _ : ls, _)
-              | topNoLayoutContainsCommas ls ->
-                 do setALRContext ls
-                    setNextToken t
-                    return (L thisLoc ITvccurly)
-             (ITwhere, ALRLayout ALRLayoutDo _ : ls, _) ->
-                 do setALRContext ls
-                    setPendingImplicitTokens [t]
-                    return (L thisLoc ITvccurly)
-             -- the other ITwhere case omitted; general case below covers it
-             (_, _, _) -> return t
-
-isALRopen :: Token -> Bool
-isALRopen ITcase          = True
-isALRopen ITif            = True
-isALRopen ITthen          = True
-isALRopen IToparen        = True
-isALRopen ITobrack        = True
-isALRopen ITocurly        = True
--- GHC Extensions:
-isALRopen IToubxparen     = True
-isALRopen _               = False
-
-isALRclose :: Token -> Bool
-isALRclose ITof     = True
-isALRclose ITthen   = True
-isALRclose ITelse   = True
-isALRclose ITcparen = True
-isALRclose ITcbrack = True
-isALRclose ITccurly = True
--- GHC Extensions:
-isALRclose ITcubxparen = True
-isALRclose _        = False
-
-isNonDecreasingIndentation :: ALRLayout -> Bool
-isNonDecreasingIndentation ALRLayoutDo = True
-isNonDecreasingIndentation _           = False
-
-containsCommas :: Token -> Bool
-containsCommas IToparen = True
-containsCommas ITobrack = True
--- John doesn't have {} as containing commas, but records contain them,
--- which caused a problem parsing Cabal's Distribution.Simple.InstallDirs
--- (defaultInstallDirs).
-containsCommas ITocurly = True
--- GHC Extensions:
-containsCommas IToubxparen = True
-containsCommas _        = False
-
-topNoLayoutContainsCommas :: [ALRContext] -> Bool
-topNoLayoutContainsCommas [] = False
-topNoLayoutContainsCommas (ALRLayout _ _ : ls) = topNoLayoutContainsCommas ls
-topNoLayoutContainsCommas (ALRNoLayout b _ : _) = b
 
 #ifdef MIN_TOOL_VERSION_alex
 #if !MIN_TOOL_VERSION_alex(3,5,2)

@@ -55,5 +55,8 @@ expectedCabalOnlyExtensions = ["Generics",
                                "ConstrainedClassMethods",
                                "MultiParamTypeClasses",
                                "NullaryTypeClasses",
-                               "Rank2Types"
+                               "Rank2Types",
+                               "PolymorphicComponents",
+                               "AlternativeLayoutRule",
+                               "AlternativeLayoutRuleTransitional"
                               ]

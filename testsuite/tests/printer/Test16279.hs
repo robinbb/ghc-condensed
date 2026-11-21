@@ -1,4 +1,3 @@
-{-# LANGUAGE AlternativeLayoutRule #-}
 {-# LANGUAGE LambdaCase            #-}
 -- duplicate of T13087.hs
 

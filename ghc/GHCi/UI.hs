@@ -1515,8 +1515,7 @@ runOneCommand eh gCmd = do
 checkInputForLayout
   :: GhciMonad m => String -> m (Maybe String) -> m (Maybe String)
 checkInputForLayout stmt getStmt = do
-   dflags' <- getDynFlags
-   let dflags = xopt_set dflags' LangExt.AlternativeLayoutRule
+   dflags <- getDynFlags
    st0 <- getGHCiState
    let buf'   =  stringToStringBuffer stmt
        loc    = mkRealSrcLoc (fsLit (progname st0)) (line_number st0) 1
@@ -1544,11 +1543,28 @@ checkInputForLayout stmt getStmt = do
            then return $ Just stmt
            else do
              checkInputForLayout (stmt++"\n"++str) getStmt
-     where goToEnd = do
+     where -- Lex to the end of the input, counting the brackets and
+           -- keyword pairs still open; the lexer tracks the layout
+           -- contexts itself.
+           goToEnd = go (0 :: Int)
+           go open = do
              eof <- Lexer.nextIsEOF
              if eof
-               then Lexer.activeContext
-               else Lexer.lexer False return >> goToEnd
+               then (|| open > 0) <$> Lexer.activeContext
+               else Lexer.lexer False $ \t ->
+                      go (max 0 (open + delta (unLoc t)))
+           delta tok = case tok of
+             Lexer.IToparen    ->  1
+             Lexer.ITobrack    ->  1
+             Lexer.IToubxparen ->  1
+             Lexer.ITif        ->  1
+             Lexer.ITcase      ->  1
+             Lexer.ITcparen    -> -1
+             Lexer.ITcbrack    -> -1
+             Lexer.ITcubxparen -> -1
+             Lexer.ITelse      -> -1
+             Lexer.ITof        -> -1
+             _                 ->  0
 
 enqueueCommands :: GhciMonad m => [String] -> m ()
 enqueueCommands cmds = do

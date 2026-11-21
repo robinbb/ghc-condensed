@@ -12,12 +12,15 @@
 module Strip
   # The extensions this compiler has removed. Their behaviour is always
   # on, so dropping the name changes nothing for the package.
-  REMOVED = %w[ConstrainedClassMethods MultiParamTypeClasses NullaryTypeClasses].freeze
+  REMOVED = %w[
+    AlternativeLayoutRule AlternativeLayoutRuleTransitional
+    ConstrainedClassMethods MultiParamTypeClasses NullaryTypeClasses
+  ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
-  RENAMED = { 'Rank2Types' => 'RankNTypes' }.freeze
+  RENAMED = { 'PolymorphicComponents' => 'RankNTypes', 'Rank2Types' => 'RankNTypes' }.freeze
 
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
 

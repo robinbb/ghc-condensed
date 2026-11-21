@@ -115,10 +115,6 @@ deprecation _ = Deprecated
 
 extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
 extensionDeprecation = \case
-  LangExt.AlternativeLayoutRule             -> ExtensionFlagDeprecated
-                                                 "It has never been fully implemented or adequately documented."
-  LangExt.AlternativeLayoutRuleTransitional -> ExtensionFlagDeprecated
-                                                 "It has never been fully implemented or adequately documented."
   LangExt.AutoDeriveTypeable                -> ExtensionFlagDeprecatedCond turnOn
                                                  "Typeable instances are created automatically for all types since GHC 8.2."
   LangExt.DatatypeContexts                  -> ExtensionFlagDeprecatedCond turnOn
@@ -137,7 +133,6 @@ extensionDeprecation = \case
 -- constructors.)
 extensionDeprecatedNames :: LangExt.Extension -> [String]
 extensionDeprecatedNames = \case
-  LangExt.RankNTypes          -> ["PolymorphicComponents"]
   LangExt.RecursiveDo         -> ["DoRec"]
   LangExt.NamedFieldPuns      -> ["RecordPuns"]
   LangExt.ScopedTypeVariables -> ["PatternSignatures"]
@@ -240,8 +235,6 @@ extensionName = \case
   LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
   LangExt.PackageImports -> "PackageImports"
   LangExt.ExplicitForAll -> "ExplicitForAll"
-  LangExt.AlternativeLayoutRule -> "AlternativeLayoutRule"
-  LangExt.AlternativeLayoutRuleTransitional -> "AlternativeLayoutRuleTransitional"
   LangExt.DatatypeContexts -> "DatatypeContexts"
   LangExt.NondecreasingIndentation -> "NondecreasingIndentation"
   LangExt.RelaxedLayout -> "RelaxedLayout"
@@ -1061,7 +1054,6 @@ data WarningFlag =
    | Opt_WarnDodgyForeignImports
    | Opt_WarnUnusedDoBind
    | Opt_WarnWrongDoBind
-   | Opt_WarnAlternativeLayoutRuleTransitional
    | Opt_WarnUnsafe
    | Opt_WarnSafe
    | Opt_WarnTrustworthySafe
@@ -1146,7 +1138,6 @@ data WarningFlag =
 -- the "preferred one" that will be displayed in warning messages.
 warnFlagNames :: WarningFlag -> NonEmpty String
 warnFlagNames wflag = case wflag of
-  Opt_WarnAlternativeLayoutRuleTransitional       -> "alternative-layout-rule-transitional" :| []
   Opt_WarnAmbiguousFields                         -> "ambiguous-fields" :| []
   Opt_WarnAutoOrphans                             -> "auto-orphans" :| []
   Opt_WarnTermVariableCapture                     -> "term-variable-capture" :| []
@@ -1384,7 +1375,6 @@ standardWarnings -- see Note [Documenting warning flags]
         Opt_WarnUnsupportedCallingConventions,
         Opt_WarnDodgyForeignImports,
         Opt_WarnInlineRuleShadowing,
-        Opt_WarnAlternativeLayoutRuleTransitional,
         Opt_WarnUnsupportedLlvmVersion,
         Opt_WarnMissedExtraSharedLib,
         Opt_WarnTabs,

@@ -2,9 +2,6 @@
 --backpack
 --show-packages
 -Onot
--Walternative-layout-rule-transitional
--XAlternativeLayoutRule
--XAlternativeLayoutRuleTransitional
 -XAutoDeriveTypeable
 -XDoRec
 -XJavaScriptFFI
