@@ -1,7 +1,7 @@
 -- trac #2307
 -- This was accepted due to a bug in GHC
 
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              UndecidableInstances, IncoherentInstances,
              FlexibleInstances #-}
 

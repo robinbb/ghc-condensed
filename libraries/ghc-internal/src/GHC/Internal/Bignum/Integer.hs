@@ -1524,8 +1524,7 @@ we have N inter-convertible numeric types (Word, Word8, Word32, Int, etc.).
 would require N^2 functions: wordToWord8, wordToInt, word8ToWord32...
 
 - The following kind of class would allow us to have a single conversion
-function but at the price of N^2 instances and of the use of
-MultiParamTypeClasses extension.
+function but at the price of N^2 instances.
 
     class Convert a b where
       convert :: a -> b

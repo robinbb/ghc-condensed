@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE UndecidableInstances, FlexibleInstances,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 
 module Foo  where
 

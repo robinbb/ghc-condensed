@@ -7,7 +7,6 @@
 {-# Language KindSignatures #-}
 {-# Language FlexibleInstances #-}
 {-# Language UndecidableInstances #-}
-{-# Language MultiParamTypeClasses #-}
 {-# Language RankNTypes #-}
 {-# Language ConstraintKinds #-}
 

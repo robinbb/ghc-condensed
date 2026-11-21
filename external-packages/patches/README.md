@@ -7,6 +7,12 @@ repository root. Each patched package carries a `patched:` line in
 vendoring; by hand: `git apply external-packages/patches/NAME.patch`
 from the repository root.
 
+Language extensions this compiler has removed are not patched away one
+package at a time: `add.rb --fetch` strips their names from every
+package's LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions
+fields (`lib/strip.rb` lists them). Their behaviour is always on, so
+the stripped package means the same thing.
+
 - `hashable.patch`: adds ghc-bignum to build-depends for GHC 9.13 and
   later, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
   and GHC.Num.Natural. Without it hashable, and the roughly half of the
@@ -49,15 +55,14 @@ from the repository root.
   that branch needs both packages. `magic` is pinned at 1.1, the newest
   release inside git-annex's own `magic <= 1.1` bound, which needs no
   source change.
-- `semigroupoids.patch`: removes the `ConstrainedClassMethods` LANGUAGE
-  pragma from `Data.Functor.Alt`. This compiler has no such extension
-  (its behaviour is always on), so the pragma is an unsupported-extension
-  error. Blocks free, lens, aeson and about a hundred packages above
-  them.
-- `mono-traversable.patch`: the same pragma removed from
-  `Data.MonoTraversable`. Blocks conduit and everything above it.
 - `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
-  haskell-src-exts `ConstrainedClassMethods` to `Nothing` and drops the
-  template-haskell constructor from the reverse mapping, since this
-  compiler's template-haskell no longer has it. Blocks hsx2hs, jmacro,
-  interpolatedstring-perl6 and persistent-qq.
+  haskell-src-exts `ConstrainedClassMethods` and `MultiParamTypeClasses`
+  to `Nothing` and drops those constructors and `NullaryTypeClasses` from
+  the reverse mapping, since this compiler's template-haskell no longer
+  has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
+  persistent-qq.
+- `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
+  `MultiParamTypeClasses` among the extensions its Template Haskell code
+  requires, since template-haskell lost that constructor with this
+  compiler (and the extension is always on). Blocks the yesod family,
+  hledger-web, persistent-sqlite and git-annex.

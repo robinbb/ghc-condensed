@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, KindSignatures,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 
 -- Program from Josef Svenningsson
 

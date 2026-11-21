@@ -1,5 +1,5 @@
 
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
 
 --
 -- Test case adopted from the HList library

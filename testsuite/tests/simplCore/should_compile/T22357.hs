@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FunctionalDependencies #-}
 module T22358
   ( FunctorWithIndex(..)

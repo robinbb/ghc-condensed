@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies, FlexibleInstances, FlexibleContexts, UndecidableInstances,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
 module T10139 where

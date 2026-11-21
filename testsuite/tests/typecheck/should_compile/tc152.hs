@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              UndecidableInstances #-}
 -- -XUndecidableInstances now needed because the Coverage Condition fails
 

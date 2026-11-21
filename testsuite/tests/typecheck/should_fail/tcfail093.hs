@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, UndecidableInstances, FlexibleContexts #-}
 -- UndecidableInstances now needed because the Coverage Condition fails
 

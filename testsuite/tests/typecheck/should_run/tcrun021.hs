@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              TypeSynonymInstances, FlexibleInstances #-}
 
 -- This bizarre program failed because GHC.Tc.Solver built a loop of

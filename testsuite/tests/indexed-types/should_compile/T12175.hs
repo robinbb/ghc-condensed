@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, MultiParamTypeClasses, TypeFamilies,
+{-# LANGUAGE ConstraintKinds, TypeFamilies,
              UndecidableInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
 

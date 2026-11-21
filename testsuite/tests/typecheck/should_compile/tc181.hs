@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, FlexibleContexts, UndecidableInstances #-}
 
 -- Example of improvement, due to George Russel

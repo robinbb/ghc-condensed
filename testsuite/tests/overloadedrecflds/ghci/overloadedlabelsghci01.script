@@ -1,7 +1,7 @@
 :set -XOverloadedLabels
 :t #x
 :m + GHC.OverloadedLabels
-:seti -XFlexibleInstances -XFlexibleContexts -XTypeFamilies -XMultiParamTypeClasses
+:seti -XFlexibleInstances -XFlexibleContexts -XTypeFamilies
 instance IsLabel x [Char] where fromLabel = "hello"
 instance {-# OVERLAPS #-} (s ~ [Char]) => IsLabel x (s -> [Char]) where fromLabel = (++ " world")
 #x :: String

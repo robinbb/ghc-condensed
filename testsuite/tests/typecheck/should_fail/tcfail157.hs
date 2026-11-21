@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances #-}
 -- NB: *no* UndecidableInstances
 

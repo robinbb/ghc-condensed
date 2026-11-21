@@ -1,5 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies,
-             MultiParamTypeClasses #-}
+{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies #-}
 
 module T11648 where
 

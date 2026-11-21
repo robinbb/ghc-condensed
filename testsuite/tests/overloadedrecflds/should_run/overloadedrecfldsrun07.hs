@@ -3,7 +3,6 @@
            , FlexibleContexts
            , FlexibleInstances
            , GADTs
-           , MultiParamTypeClasses
            , OverloadedLabels
            , ScopedTypeVariables
            , TypeApplications

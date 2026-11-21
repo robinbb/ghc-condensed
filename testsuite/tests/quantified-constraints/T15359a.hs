@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE MultiParamTypeClasses, GADTs, RankNTypes,
+{-# LANGUAGE GADTs, RankNTypes,
              ConstraintKinds, QuantifiedConstraints, TypeOperators,
              UndecidableInstances #-}
 

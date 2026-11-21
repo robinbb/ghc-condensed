@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, MultiParamTypeClasses, UndecidableInstances #-}
+{-# LANGUAGE ConstraintKinds, UndecidableInstances #-}
 module TcFail where
 
 class cls (A cls) => A cls c where

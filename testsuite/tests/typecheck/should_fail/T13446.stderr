@@ -1,5 +1,4 @@
-
-T13446.hs:34:17: error: [GHC-83865]
+T13446.hs:33:17: error: [GHC-83865]
     • Couldn't match expected type ‘Dict (JReference (JComparable a))’
                   with actual type ‘Char’
     • In the first argument of ‘Sub’, namely ‘'a'’
@@ -7,4 +6,5 @@ T13446.hs:34:17: error: [GHC-83865]
       In an equation for ‘lifting’: lifting = Sub 'a'
     • Relevant bindings include
         lifting :: JReference a :- JReference (JComparable a)
-          (bound at T13446.hs:34:3)
+          (bound at T13446.hs:33:3)
+

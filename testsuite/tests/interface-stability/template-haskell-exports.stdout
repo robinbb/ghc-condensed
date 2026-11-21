@@ -205,8 +205,6 @@ module Language.Haskell.TH where
     | TypeSynonymInstances
     | FlexibleContexts
     | FlexibleInstances
-    | MultiParamTypeClasses
-    | NullaryTypeClasses
     | FunctionalDependencies
     | UnicodeSyntax
     | ExistentialQuantification
@@ -815,8 +813,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | TypeSynonymInstances
     | FlexibleContexts
     | FlexibleInstances
-    | MultiParamTypeClasses
-    | NullaryTypeClasses
     | FunctionalDependencies
     | UnicodeSyntax
     | ExistentialQuantification
@@ -1560,8 +1556,6 @@ module Language.Haskell.TH.Syntax where
     | TypeSynonymInstances
     | FlexibleContexts
     | FlexibleInstances
-    | MultiParamTypeClasses
-    | NullaryTypeClasses
     | FunctionalDependencies
     | UnicodeSyntax
     | ExistentialQuantification

@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 
 module Distribution.FieldGrammar.Pretty
   ( PrettyFieldGrammar

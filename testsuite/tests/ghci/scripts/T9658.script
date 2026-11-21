@@ -1,4 +1,3 @@
 :set -XTypeOperators
-:set -XMultiParamTypeClasses
 class a :-: b where op :: a -> b
 :t op

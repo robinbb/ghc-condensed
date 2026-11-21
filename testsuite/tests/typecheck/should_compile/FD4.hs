@@ -1,5 +1,4 @@
 {-# LANGUAGE
-    MultiParamTypeClasses,
     FunctionalDependencies,
     UndecidableInstances,
     FlexibleInstances,

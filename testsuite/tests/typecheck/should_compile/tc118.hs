@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              UndecidableInstances #-}
 
 -- !!! An instance decl with a context containing a free type variable

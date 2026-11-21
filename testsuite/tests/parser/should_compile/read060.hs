@@ -1,6 +1,5 @@
 
 {-# OPTIONS_GHC -XFunctionalDependencies #-}
-{-# OPTIONS_GHC -XMultiParamTypeClasses #-}
 
 module Foo where
 

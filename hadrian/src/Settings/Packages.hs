@@ -42,8 +42,15 @@ packageArgs = do
     stageVersion <- readVersion <$> (expr $ ghcVersionStage stage)
 
     mconcat
+        -- This compiler has no MultiParamTypeClasses extension: classes may
+        -- have any number of parameters, so no source in the tree names it.
+        -- The bootstrap compiler still wants it for the stage 0 packages
+        -- that use Haskell2010 and multi-parameter classes (mtl, parsec,
+        -- array, Cabal-syntax and others).
+        [ stage0 ? builder (Ghc CompileHs) ? arg "-XMultiParamTypeClasses"
+
         --------------------------------- base ---------------------------------
-        [ package base ? mconcat
+        , package base ? mconcat
           [ -- This fixes the 'unknown symbol stat' issue.
             -- See: https://github.com/snowleopard/hadrian/issues/259.
             builder (Ghc CompileCWithGhc) ? arg "-optc-O2" ]

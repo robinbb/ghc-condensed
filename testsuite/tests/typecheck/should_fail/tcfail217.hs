@@ -1,5 +1,5 @@
 -- Test we can't hide cycles with type synonyms
-{-# LANGUAGE ConstraintKinds, MultiParamTypeClasses, UndecidableInstances #-}
+{-# LANGUAGE ConstraintKinds, UndecidableInstances #-}
 module TcFail where
 
 type Aish = A

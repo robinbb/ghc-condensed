@@ -49,7 +49,6 @@ docs:
          TypeSynonymInstances
          FlexibleContexts
          FlexibleInstances
-         MultiParamTypeClasses
          ExistentialQuantification
          EmptyDataDecls
          KindSignatures

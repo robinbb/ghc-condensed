@@ -1,4 +1,4 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving, MultiParamTypeClasses, FlexibleInstances, FunctionalDependencies, FlexibleContexts, UndecidableInstances, StandaloneDeriving #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, FlexibleInstances, FunctionalDependencies, FlexibleContexts, UndecidableInstances, StandaloneDeriving #-}
 module T3621 where
 
 -- This one is ok, even though the deriving clause mentions 'a'

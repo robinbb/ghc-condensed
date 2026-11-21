@@ -1,6 +1,5 @@
 {-# LANGUAGE  DeriveDataTypeable,
               FlexibleContexts, FlexibleInstances,
-              MultiParamTypeClasses,
               OverlappingInstances, UndecidableInstances,
               RankNTypes, KindSignatures, EmptyDataDecls, GHC2021 #-}
 

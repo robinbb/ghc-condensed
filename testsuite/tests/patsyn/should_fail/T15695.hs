@@ -1,5 +1,5 @@
 {-# Language RankNTypes, PatternSynonyms, DataKinds, PolyKinds, GADTs,
-             TypeOperators, MultiParamTypeClasses, TypeFamilies,
+             TypeOperators, TypeFamilies,
              TypeSynonymInstances, FlexibleInstances, InstanceSigs, FlexibleContexts #-}
 
 {-# Options_GHC -fdefer-type-errors #-}

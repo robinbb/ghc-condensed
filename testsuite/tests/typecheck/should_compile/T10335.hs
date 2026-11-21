@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, ConstraintKinds #-}
+{-# LANGUAGE FlexibleInstances, ConstraintKinds #-}
 
 module Foo where
 

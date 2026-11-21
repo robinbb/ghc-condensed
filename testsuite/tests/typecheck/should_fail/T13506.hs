@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, FunctionalDependencies, MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleInstances, FunctionalDependencies #-}
 module Bug where
 
 class FunDep lista a | lista -> a

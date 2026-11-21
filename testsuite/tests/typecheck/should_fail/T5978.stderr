@@ -1,4 +1,4 @@
-T5978.hs:22:11: error: [GHC-39999]
+T5978.hs:21:11: error: [GHC-39999]
     • No instance for ‘C Double Char’ arising from a use of ‘polyBar’
       Insoluble functional dependencies wrt top-level instances
     • In the expression: polyBar id monoFoo

@@ -4,7 +4,6 @@
   , RankNTypes
   , MagicHash
   , UnboxedTuples
-  , MultiParamTypeClasses
   , FlexibleInstances
   , FlexibleContexts
   , UnliftedFFITypes

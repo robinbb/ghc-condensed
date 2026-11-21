@@ -1,5 +1,4 @@
-
-T9872b.hs:19:8: error: [GHC-39999]
+T9872b.hs:18:8: error: [GHC-39999]
     • No instance for ‘Show
                          (Proxy
                             [['Cube G B W R B G, 'Cube W G B W R R, 'Cube R W R B G R,
@@ -22,3 +21,4 @@ T9872b.hs:19:8: error: [GHC-39999]
     • In the expression: print (Proxy :: Proxy (Solutions Cubes))
       In an equation for ‘main’:
           main = print (Proxy :: Proxy (Solutions Cubes))
+

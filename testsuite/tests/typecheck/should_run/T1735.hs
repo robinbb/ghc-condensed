@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
              ScopedTypeVariables, GADTs, RankNTypes, FlexibleContexts,
-             MultiParamTypeClasses, GeneralizedNewtypeDeriving,
+             GeneralizedNewtypeDeriving,
              DeriveDataTypeable,
              OverlappingInstances, UndecidableInstances, CPP, GHC2021 #-}
 

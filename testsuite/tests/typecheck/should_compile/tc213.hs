@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes, ScopedTypeVariables, FlexibleInstances,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 
 -- This tests scoped type variables, used in an expression
 -- type signature in t1 and t2

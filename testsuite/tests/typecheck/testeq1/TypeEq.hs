@@ -1,5 +1,5 @@
 
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts,
+{-# LANGUAGE FlexibleContexts,
              FlexibleInstances, OverlappingInstances, UndecidableInstances #-}
 
 --

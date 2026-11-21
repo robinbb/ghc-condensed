@@ -2,7 +2,6 @@
 :set -XDataKinds
 :set -XUndecidableInstances
 :set -XPolyKinds
-:set -XMultiParamTypeClasses
 
 -- IA = injectivity annotation `| foo -> bar`
 

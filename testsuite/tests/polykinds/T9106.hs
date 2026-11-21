@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, DataKinds, FunctionalDependencies,
+{-# LANGUAGE DataKinds, FunctionalDependencies,
    KindSignatures, PolyKinds, FlexibleInstances, FlexibleContexts,
    UndecidableInstances #-}
 

@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 {-# LANGUAGE Arrows, FunctionalDependencies, FlexibleContexts, 
-             MultiParamTypeClasses, RecordWildCards  #-}
+             RecordWildCards  #-}
 
 module T5045 where
 

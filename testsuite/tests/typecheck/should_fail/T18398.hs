@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              ExistentialQuantification, GADTSyntax, FlexibleContexts #-}
 {-# OPTIONS_GHC -ddump-types #-}
 

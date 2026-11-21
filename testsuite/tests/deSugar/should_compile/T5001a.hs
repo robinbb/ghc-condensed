@@ -1,4 +1,3 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
 
 module T5001a (Comorphism(..)) where
 

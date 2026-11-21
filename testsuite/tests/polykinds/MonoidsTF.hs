@@ -1,7 +1,6 @@
 -- From a blog post: http://www.jonmsterling.com/posts/2012-01-12-unifying-monoids-and-monads-with-polymorphic-kinds.html
 
 {-# LANGUAGE PolyKinds #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}

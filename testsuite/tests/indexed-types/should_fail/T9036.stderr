@@ -1,4 +1,4 @@
-T9036.hs:18:17: error: [GHC-83865]
+T9036.hs:17:17: error: [GHC-83865]
     • Couldn't match type: GetMonad t0
                      with: GetMonad t
       Expected: Maybe (GetMonad t after) -> Curried t [t]

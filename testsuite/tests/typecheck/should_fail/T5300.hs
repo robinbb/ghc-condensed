@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE FunctionalDependencies, MultiParamTypeClasses #-}
+{-# LANGUAGE FunctionalDependencies #-}
 module T5300 where
 
 import Control.Monad.Trans.State (StateT)

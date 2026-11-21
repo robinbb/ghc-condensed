@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, TypeSynonymInstances #-}
 
 -- This one made GHC 6.4 loop because Unify.unify

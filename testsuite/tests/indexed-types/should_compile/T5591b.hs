@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies, KindSignatures, 
+{-# LANGUAGE FunctionalDependencies, KindSignatures, 
     GADTs, FlexibleInstances, FlexibleContexts #-}
 module T5591b where
 

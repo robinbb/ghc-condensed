@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wno-redundant-constraints -Wno-simplifiable-class-constraints #-}
 {-# LANGUAGE TypeFamilies, EmptyDataDecls, FlexibleContexts #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
 
 module NonLinearLHS where

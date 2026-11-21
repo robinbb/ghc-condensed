@@ -9,7 +9,6 @@
 {-# Language FlexibleInstances     #-}
 {-# Language GADTs                 #-}
 {-# Language UndecidableInstances  #-}
-{-# Language MultiParamTypeClasses #-}
 {-# Language FlexibleContexts      #-}
 
 module Bug where

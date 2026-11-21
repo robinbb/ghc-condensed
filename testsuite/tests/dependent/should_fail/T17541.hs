@@ -1,7 +1,6 @@
 {-# LANGUAGE
              MagicHash,
              FlexibleInstances,
-             MultiParamTypeClasses,
              TypeFamilies,
              PolyKinds,
              DataKinds,

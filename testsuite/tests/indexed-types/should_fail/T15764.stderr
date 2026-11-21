@@ -1,4 +1,4 @@
-T15764.hs:14:2: error: [GHC-87279]
+T15764.hs:13:2: error: [GHC-87279]
     • The kind of ‘T6’ is ill-scoped
         Inferred kind: T6 :: forall {a :: k} k (b :: Proxy a).
                              Proxy '(k, b) -> *

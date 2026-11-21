@@ -18,7 +18,6 @@
  * :extension:`KindSignatures`
  * :extension:`LiberalTypeSynonyms`
  * :extension:`MagicHash`
- * :extension:`MultiParamTypeClasses`
  * :extension:`ParallelListComp`
  * :extension:`PatternGuards`
  * :extension:`PostfixOperators`

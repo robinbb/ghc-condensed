@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, DataKinds, MultiParamTypeClasses,
+{-# LANGUAGE PolyKinds, DataKinds,
               FunctionalDependencies
   #-}
 

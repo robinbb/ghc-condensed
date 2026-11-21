@@ -4,7 +4,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE PolymorphicComponents #-}
 {-# LANGUAGE Safe #-}
 {-# LANGUAGE StandaloneDeriving #-}

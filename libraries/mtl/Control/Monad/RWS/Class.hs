@@ -1,6 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 -- Search for UndecidableInstances to see why this is needed
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE Safe #-}

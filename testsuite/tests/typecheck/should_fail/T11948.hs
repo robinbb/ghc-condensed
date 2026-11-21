@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, TypeFamilies, NoMonoLocalBinds #-}
+{-# LANGUAGE TypeFamilies, NoMonoLocalBinds #-}
 -- The NoMonoLocalBinds is crucial to making inference fail
 -- See #11948 comment:2
 {-# LANGUAGE FlexibleContexts, ScopedTypeVariables #-}

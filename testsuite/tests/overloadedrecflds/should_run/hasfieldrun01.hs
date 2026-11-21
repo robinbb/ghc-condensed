@@ -2,7 +2,6 @@
            , DatatypeContexts
            , FlexibleInstances
            , GADTs
-           , MultiParamTypeClasses
            , TypeFamilies
            , TypeApplications
   #-}

@@ -7,7 +7,6 @@
            , FlexibleInstances
            , GADTs
            , KindSignatures
-           , MultiParamTypeClasses
            , NoMonomorphismRestriction
            , OverlappingInstances
            , ScopedTypeVariables

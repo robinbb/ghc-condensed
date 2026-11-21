@@ -1,9 +1,8 @@
-{-#LANGUAGE TypeApplications#-}
-{-#LANGUAGE MultiParamTypeClasses #-}
-{-#LANGUAGE AllowAmbiguousTypes #-}
-{-#LANGUAGE FlexibleInstances #-}
-{-#LANGUAGE ScopedTypeVariables #-}
-{-#LANGUAGE DefaultSignatures #-}
+{-# LANGUAGE TypeApplications#-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE DefaultSignatures #-}
 module T12220 where
 
 -- | Type a is only used for

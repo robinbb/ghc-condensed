@@ -68,7 +68,7 @@ showing how an overloaded label can be used as a record selector:
 
 ::
 
-    {-# LANGUAGE DataKinds, KindSignatures, MultiParamTypeClasses,
+    {-# LANGUAGE DataKinds, KindSignatures,
                  FunctionalDependencies, FlexibleInstances,
                  OverloadedLabels, ScopedTypeVariables #-}
 
@@ -108,7 +108,6 @@ GHC 9.6:
 ::
 
     {-# LANGUAGE DataKinds             #-}
-    {-# LANGUAGE MultiParamTypeClasses #-}
     {-# LANGUAGE OverloadedLabels      #-}
     {-# LANGUAGE MagicHash             #-}
 

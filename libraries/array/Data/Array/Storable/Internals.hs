@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, RoleAnnotations #-}
+{-# LANGUAGE FlexibleInstances, RoleAnnotations #-}
 {-# OPTIONS_HADDOCK not-home #-}
 -----------------------------------------------------------------------------
 -- |

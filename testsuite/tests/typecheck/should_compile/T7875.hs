@@ -3,7 +3,6 @@
      FlexibleContexts
    , FlexibleInstances
    , FunctionalDependencies
-   , MultiParamTypeClasses
    , KindSignatures
    , UndecidableInstances #-}
 

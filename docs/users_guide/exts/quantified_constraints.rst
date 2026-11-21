@@ -109,7 +109,7 @@ The ``context =>`` part is optional.  That is the only syntactic change to the l
 
 Notes:
 
-- Where GHC allows extensions in instance declarations we allow exactly the same extensions to this new form of ``class``.  Specifically, with :extension:`ExplicitForAll` and :extension:`MultiParamTypeClasses` the syntax becomes
+- Where GHC allows extensions in instance declarations we allow exactly the same extensions to this new form of ``class``.  Specifically, with :extension:`ExplicitForAll` the syntax becomes
 
   .. code-block:: none
 

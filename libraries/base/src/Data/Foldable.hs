@@ -1078,7 +1078,7 @@ import GHC.Internal.Data.Foldable
 -- `Foldable') can employ the `elem` linear search as a last resort, when
 -- faster search is not supported.
 --
--- > {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
+-- > {-# LANGUAGE FlexibleInstances #-}
 -- >
 -- > import qualified Data.Set as Set
 -- >

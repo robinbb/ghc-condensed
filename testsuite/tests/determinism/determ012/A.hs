@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE PolyKinds, FunctionalDependencies,
              UndecidableInstances, FlexibleInstances #-}
 
 module T10109 where

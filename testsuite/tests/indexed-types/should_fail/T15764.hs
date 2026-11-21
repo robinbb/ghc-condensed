@@ -2,7 +2,6 @@
 {-# Language TypeFamilies #-}
 {-# Language KindSignatures #-}
 {-# Language DataKinds #-}
-{-# Language MultiParamTypeClasses #-}
 
 module T15764 where
 

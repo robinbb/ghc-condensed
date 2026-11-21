@@ -150,7 +150,6 @@ which really behave differently for the newtype and its representation.
 
       * :extension:`UnboxedTuples`
       * :extension:`PolyKinds`
-      * :extension:`MultiParamTypeClasses`
       * :extension:`FlexibleContexts`
 
 .. _precise-gnd-specification:

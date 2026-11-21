@@ -1,5 +1,5 @@
 {-# LANGUAGE PolyKinds #-}
-{-# LANGUAGE MultiParamTypeClasses, StandaloneDeriving, GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE StandaloneDeriving, GeneralizedNewtypeDeriving #-}
 
 module T7269 where
 

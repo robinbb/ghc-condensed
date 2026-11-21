@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE MultiParamTypeClasses, PolyKinds, ConstraintKinds #-}
+{-# LANGUAGE PolyKinds, ConstraintKinds #-}
 
 module SAKS_004 where
 

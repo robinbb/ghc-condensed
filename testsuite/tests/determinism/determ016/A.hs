@@ -1,5 +1,5 @@
 
-{-# LANGUAGE UnicodeSyntax, MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE UnicodeSyntax, FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS -w #-}
 

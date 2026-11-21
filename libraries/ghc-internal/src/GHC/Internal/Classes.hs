@@ -1,7 +1,7 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, StandaloneDeriving, BangPatterns,
              KindSignatures, DataKinds, ConstraintKinds,
-             MultiParamTypeClasses, FunctionalDependencies,
+             FunctionalDependencies,
              UnboxedTuples #-}
 
 {-# LANGUAGE UndecidableSuperClasses #-}

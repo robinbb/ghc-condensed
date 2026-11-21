@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances, KindSignatures #-}
+{-# LANGUAGE FlexibleContexts, FlexibleInstances, UndecidableInstances, KindSignatures #-}
 
 -- #1470
 

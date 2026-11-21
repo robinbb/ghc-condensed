@@ -6,7 +6,6 @@
 {-# Language GADTs                 #-}
 {-# Language ImpredicativeTypes    #-}
 {-# Language KindSignatures        #-}
-{-# Language MultiParamTypeClasses #-}
 {-# Language PolyKinds             #-}
 {-# Language QuantifiedConstraints #-}
 {-# Language RankNTypes            #-}

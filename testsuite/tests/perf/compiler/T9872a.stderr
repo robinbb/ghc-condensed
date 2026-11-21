@@ -1,5 +1,4 @@
-
-T9872a.hs:17:8: error: [GHC-39999]
+T9872a.hs:16:8: error: [GHC-39999]
     • No instance for ‘Show
                          (Proxy
                             (Cons
@@ -64,3 +63,4 @@ T9872a.hs:17:8: error: [GHC-39999]
     • In the expression: print (Proxy :: Proxy (Solutions Cubes))
       In an equation for ‘main’:
           main = print (Proxy :: Proxy (Solutions Cubes))
+

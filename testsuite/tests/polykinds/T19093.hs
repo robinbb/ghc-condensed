@@ -1,6 +1,6 @@
 {-# Language RankNTypes, TypeApplications, PolyKinds, DataKinds,
              TypeOperators, StandaloneKindSignatures, TypeFamilies,
-             FlexibleInstances, MultiParamTypeClasses #-}
+             FlexibleInstances #-}
 
 module T19093 where
 

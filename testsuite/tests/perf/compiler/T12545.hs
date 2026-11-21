@@ -1,7 +1,6 @@
 {-# LANGUAGE EmptyDataDecls #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 
 module T12545 where
 

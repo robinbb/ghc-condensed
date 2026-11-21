@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, MultiParamTypeClasses, TypeFamilies,
+{-# LANGUAGE TemplateHaskell, TypeFamilies,
              FlexibleInstances #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}
 

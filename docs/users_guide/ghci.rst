@@ -3314,7 +3314,7 @@ option, you can set the reverse option:
 
 .. code-block:: none
 
-    ghci> :set -Wno-incomplete-patterns -XNoMultiParamTypeClasses
+    ghci> :set -Wno-incomplete-patterns -XNoScopedTypeVariables
 
 :ref:`flag-reference` lists the reverse for each option where
 applicable.
@@ -3429,7 +3429,7 @@ three subdirectories A, B and C, you might put the following lines in
 
 .. code-block:: none
 
-    :set -XMultiParamTypeClasses -XScopedTypeVariables -cpp
+    :set -XScopedTypeVariables -cpp
     :set -iA:B:C
 
 (Note that strictly speaking the :ghc-flag:`-i` flag is a static one, but in

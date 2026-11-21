@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies, PolyKinds, ConstraintKinds #-}
 
 module SAKS_006 where

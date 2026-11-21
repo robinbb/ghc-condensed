@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -w -fno-warn-redundant-constraints #-}
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleContexts, FlexibleInstances,
              OverlappingInstances, UndecidableInstances,
              KindSignatures #-}

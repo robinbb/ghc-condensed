@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, MultiParamTypeClasses, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE GADTs, FlexibleInstances, FlexibleContexts #-}
 module T7205 where
 
 data Abs env g v where

@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, FlexibleInstances, MultiParamTypeClasses #-}
+{-# LANGUAGE DeriveDataTypeable, FlexibleInstances #-}
 {-# LANGUAGE RoleAnnotations #-}
 
 {-# OPTIONS_HADDOCK hide #-}

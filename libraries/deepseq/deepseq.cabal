@@ -53,7 +53,6 @@ library
     FlexibleContexts
     FlexibleInstances
     GADTs
-    MultiParamTypeClasses
     PolyKinds
     Safe
     TypeOperators

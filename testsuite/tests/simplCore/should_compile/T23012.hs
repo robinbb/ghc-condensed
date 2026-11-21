@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, FlexibleInstances, MultiParamTypeClasses #-}
+{-# LANGUAGE BangPatterns, FlexibleInstances #-}
 
 module T23012 where
 

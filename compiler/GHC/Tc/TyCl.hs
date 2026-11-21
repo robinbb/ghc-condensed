@@ -5358,17 +5358,9 @@ checkNewDataCon con
 -------------------------------
 checkValidClass :: Class -> TcM ()
 checkValidClass cls
-  = do  { multi_param_type_classes  <- xoptM LangExt.MultiParamTypeClasses
-        ; nullary_type_classes      <- xoptM LangExt.NullaryTypeClasses
-        ; fundep_classes            <- xoptM LangExt.FunctionalDependencies
+  = do  { fundep_classes            <- xoptM LangExt.FunctionalDependencies
         ; undecidable_super_classes <- xoptM LangExt.UndecidableSuperClasses
 
-        -- Check that the class is unary, unless multiparameter type classes
-        -- are enabled; also recognize deprecated nullary type classes
-        -- extension (subsumed by multiparameter type classes, #8993)
-        ; checkTc (multi_param_type_classes || cls_arity == 1 ||
-                    (nullary_type_classes && cls_arity == 0))
-                  (TcRnClassExtensionDisabled cls (MultiParamDisabled cls_arity))
         ; unless (fundep_classes || null fundeps) $
                  addErrTc (TcRnClassExtensionDisabled cls FunDepsDisabled)
 

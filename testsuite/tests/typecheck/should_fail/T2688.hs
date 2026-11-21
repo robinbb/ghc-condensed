@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XFunctionalDependencies -XMultiParamTypeClasses #-}
+{-# OPTIONS_GHC -XFunctionalDependencies #-}
 
 module T2688 where
 

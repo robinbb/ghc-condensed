@@ -9,7 +9,7 @@
 -- 7. I reported this earlier on the mailing lists, but I have further
 -- simplified the test case here.
 
-{-# LANGUAGE TypeFamilies, MultiParamTypeClasses
+{-# LANGUAGE TypeFamilies
   , FlexibleContexts, FlexibleInstances, UndecidableInstances
   , TypeSynonymInstances, GeneralizedNewtypeDeriving
   #-}

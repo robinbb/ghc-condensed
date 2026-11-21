@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances
+{-# LANGUAGE FlexibleContexts, FlexibleInstances
            , DataKinds, NoMonomorphismRestriction, UndecidableInstances
            , TypeFamilies #-}
 

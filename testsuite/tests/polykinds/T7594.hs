@@ -1,6 +1,5 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE UndecidableInstances  #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# LANGUAGE KindSignatures        #-}
 {-# LANGUAGE TypeOperators         #-}

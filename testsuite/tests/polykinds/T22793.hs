@@ -1,6 +1,5 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 
 module T22793 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, MultiParamTypeClasses, TypeFamilies #-}
+{-# LANGUAGE FlexibleContexts, TypeFamilies #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
     -- The type of sizeT is indeed ambiguous
 

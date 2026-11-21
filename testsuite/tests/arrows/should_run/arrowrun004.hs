@@ -1,4 +1,4 @@
-{-# LANGUAGE Arrows, MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE Arrows, FlexibleInstances #-}
 
 -- Simple expression parser
 -- (uses do-notation and operators)

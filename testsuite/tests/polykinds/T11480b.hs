@@ -5,7 +5,6 @@
 {-# language RankNTypes #-}
 {-# language NoImplicitPrelude #-}
 {-# language FlexibleContexts #-}
-{-# language MultiParamTypeClasses #-}
 {-# language GADTs #-}
 {-# language ConstraintKinds #-}
 {-# language FlexibleInstances #-}

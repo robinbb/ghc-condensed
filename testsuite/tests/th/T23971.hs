@@ -1,4 +1,4 @@
-{-# LANGUAGE Haskell2010, MultiParamTypeClasses, TypeOperators, TemplateHaskell #-}
+{-# LANGUAGE Haskell2010, TypeOperators, TemplateHaskell #-}
 
 import Language.Haskell.TH (runQ)
 import Language.Haskell.TH.Ppr (pprint)

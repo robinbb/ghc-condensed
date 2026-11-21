@@ -1,6 +1,6 @@
 {-# language KindSignatures, PolyKinds, TypeFamilies,
   NoImplicitPrelude, FlexibleContexts,
-  MultiParamTypeClasses, GADTs,
+  GADTs,
   ConstraintKinds, FlexibleInstances, UndecidableInstances,
   FunctionalDependencies, UndecidableSuperClasses #-}
 

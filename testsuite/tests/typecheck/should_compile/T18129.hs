@@ -8,7 +8,6 @@
 {-# LANGUAGE TypeFamilies            #-}
 {-# LANGUAGE ConstraintKinds         #-}
 {-# LANGUAGE FlexibleContexts        #-}
-{-# LANGUAGE MultiParamTypeClasses   #-}
 {-# LANGUAGE TypeOperators           #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE UndecidableSuperClasses #-}

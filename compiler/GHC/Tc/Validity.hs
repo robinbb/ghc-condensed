@@ -1647,11 +1647,6 @@ check_special_inst_head dflags hs_src ctxt clas cls_args
       , not (all tcInstHeadTyAppAllTyVars ty_args)
       = Just InstHeadNonTyVarArgs
 
-      | length ty_args /= 1
-      , not (xopt LangExt.MultiParamTypeClasses dflags)
-      , not (xopt LangExt.NullaryTypeClasses dflags && null ty_args)
-      = Just InstHeadMultiParam
-
       | otherwise
       = Nothing
 

@@ -106,8 +106,6 @@ data Extension
    | TypeSynonymInstances
    | FlexibleContexts
    | FlexibleInstances
-   | MultiParamTypeClasses
-   | NullaryTypeClasses
    | FunctionalDependencies
    | UnicodeSyntax
    | ExistentialQuantification

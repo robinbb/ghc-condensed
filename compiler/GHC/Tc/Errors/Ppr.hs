@@ -3286,8 +3286,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnCommonFieldTypeMismatch{}
       -> noHints
-    TcRnClassExtensionDisabled _ MultiParamDisabled{}
-      -> [suggestExtension LangExt.MultiParamTypeClasses]
     TcRnClassExtensionDisabled _ FunDepsDisabled{}
       -> [suggestExtension LangExt.FunctionalDependencies]
     TcRnDataConParentTypeMismatch{}
@@ -6368,11 +6366,6 @@ pprRoleValidationFailedReason role = \case
 
 pprDisabledClassExtension :: Class -> DisabledClassExtension -> SDoc
 pprDisabledClassExtension cls = \case
-  MultiParamDisabled n ->
-    text howMany <+> text "parameters for class" <+> quotes (ppr cls)
-    where
-      howMany | n == 0 = "No"
-              | otherwise = "Too many"
   FunDepsDisabled ->
     text "Fundeps in class" <+> quotes (ppr cls)
 
@@ -6961,8 +6954,6 @@ pprIllegalInstanceHeadReason head_ty = \case
     text "All instance types must be of the form (T a1 ... an)",
     text "where a1 ... an are *distinct type variables*,",
     text "and each type variable appears at most once in the instance head."]
-  InstHeadMultiParam -> with_illegal_instance_header head_ty $ parens $
-    text "Only one type can be given in an instance head."
   InstHeadAbstractClass cls ->
     text "Cannot define instance for abstract class" <+>
     quotes (ppr cls)
@@ -7074,8 +7065,6 @@ illegalInstanceHeadHints = \case
     [suggestExtension LangExt.TypeSynonymInstances]
   InstHeadNonTyVarArgs ->
     [suggestExtension LangExt.FlexibleInstances]
-  InstHeadMultiParam ->
-    [suggestExtension LangExt.MultiParamTypeClasses]
   InstHeadAbstractClass {} ->
     noHints
   InstHeadNonClassHead {} ->
@@ -7093,8 +7082,6 @@ illegalInstanceHeadReason = \case
   InstHeadTySynArgs ->
     ErrorWithoutFlag
   InstHeadNonTyVarArgs ->
-    ErrorWithoutFlag
-  InstHeadMultiParam ->
     ErrorWithoutFlag
 
 illegalHasFieldInstanceHints :: IllegalHasFieldInstance -> [GhcHint]

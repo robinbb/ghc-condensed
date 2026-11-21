@@ -1,5 +1,4 @@
 {-# LANGUAGE DataKinds, PolyKinds, GADTs, TypeOperators #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 
 module T5771 where
 

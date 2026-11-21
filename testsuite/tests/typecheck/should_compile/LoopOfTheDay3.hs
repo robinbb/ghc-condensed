@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-redundant-constraints -Wno-simplifiable-class-constraints #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
              UndecidableInstances, FlexibleContexts #-}
 
 -- Instances compile fine but instance selection loops in GHC 6.2.

@@ -1,4 +1,4 @@
-{-# LANGUAGE QuantifiedConstraints, MultiParamTypeClasses,
+{-# LANGUAGE QuantifiedConstraints,
              KindSignatures, FlexibleInstances, TypeFamilies #-}
 
 module T17564 where

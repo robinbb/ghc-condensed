@@ -2,7 +2,6 @@
         FlexibleContexts,
         RankNTypes,
         TypeFamilies,
-        MultiParamTypeClasses,
         FlexibleInstances #-}
 
 -- See #4178

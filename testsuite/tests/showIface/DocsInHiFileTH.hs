@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, TypeFamilies, DataKinds, GHC2021 #-}
-{-# LANGUAGE MultiParamTypeClasses, StandaloneKindSignatures, PolyKinds #-}
+{-# LANGUAGE StandaloneKindSignatures, PolyKinds #-}
 {-# LANGUAGE PatternSynonyms #-}
 
 -- |This is the module header

@@ -113,7 +113,12 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
 - **Packages are not modified.** The point is to discover which packages do
   not build or pass with this compiler, so sources stay as released, except
   where the manifest's `patched` field records a deliberate exception
-  (hashable, which half the corpus sits on). Packages that do not build or
+  (hashable, which half the corpus sits on). One mechanical exception
+  applies to every package: the names of language extensions this
+  compiler has removed (listed in `lib/strip.rb`) are stripped from
+  LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions fields by
+  `add.rb --fetch`, because the compiler rejects the names while their
+  behaviour is always on. Packages that do not build or
   whose tests fail are kept, with `expected: build-failure`, `test-failure`,
   `flaky` or `unsolvable` and the cause in the manifest. The driver reports
   them as known and fails only on unexpected results, including a known
@@ -156,8 +161,9 @@ fresh clone, inside `nix develop` with network access:
     $ ruby external-packages/add.rb --fetch
 
 clones every repository at its recorded tag or commit, vendors every
-sdist and every standalone project's private copies, and applies the
-patches. It skips whatever is already present, so it is safe to rerun.
+sdist and every standalone project's private copies, strips the removed
+extensions and applies the patches. It skips whatever is already
+present, so it is safe to rerun.
 
 ## Adding or bumping a package
 

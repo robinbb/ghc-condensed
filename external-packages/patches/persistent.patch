@@ -1,0 +1,10 @@
+--- a/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
++++ b/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
+@@ -3572,7 +3572,6 @@
+             , GeneralizedNewtypeDeriving
+             , StandaloneDeriving
+             , UndecidableInstances
+-            , MultiParamTypeClasses
+             ]
+ 
+ mkSymbolToFieldInstances

@@ -1,5 +1,5 @@
 {-# LANGUAGE PolyKinds, DataKinds #-}
-{-# LANGUAGE MultiParamTypeClasses, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module CatPairs where
 
 import Prelude hiding (id, (.))

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE ConstraintKinds, MultiParamTypeClasses #-}
+{-# LANGUAGE ConstraintKinds #-}
 
 module T8359 where
 

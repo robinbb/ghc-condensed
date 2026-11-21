@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE ExistentialQuantification, MultiParamTypeClasses,
+{-# LANGUAGE ExistentialQuantification,
              FunctionalDependencies, RankNTypes #-}
 
 module Q where

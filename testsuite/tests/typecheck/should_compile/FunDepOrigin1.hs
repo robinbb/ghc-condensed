@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE FunctionalDependencies, FlexibleContexts #-}
 
 module FunDepOrigin1 where
 

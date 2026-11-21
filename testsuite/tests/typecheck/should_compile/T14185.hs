@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, UnboxedTuples, MultiParamTypeClasses, TypeFamilies,
+{-# LANGUAGE MagicHash, UnboxedTuples, TypeFamilies,
   FunctionalDependencies, KindSignatures, PolyKinds, DataKinds,
   UndecidableInstances #-}
 module T14185 where

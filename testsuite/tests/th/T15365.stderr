@@ -1,4 +1,4 @@
-T15365.hs:(9,2)-(31,7): Splicing declarations
+T15365.hs:(8,2)-(30,7): Splicing declarations
     [d| (&&&) :: Bool -> Bool -> Bool
         (&&&) = (&&)
         pattern (:!!!) :: Bool

@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE TypeOperators, GADTs, MultiParamTypeClasses, FlexibleContexts #-}
+{-# LANGUAGE TypeOperators, GADTs, FlexibleContexts #-}
 -- | This documentation refers to '~', ':-:', ':+:', '<=>', and '|||'.
 module TypeOperators where
 

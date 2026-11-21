@@ -1,5 +1,5 @@
 {-# LANGUAGE RebindableSyntax, NPlusKPatterns, FlexibleInstances,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 
 module Main where
         {

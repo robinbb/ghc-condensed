@@ -1,4 +1,4 @@
-{-# LANGUAGE Haskell2010, DeriveAnyClass, MultiParamTypeClasses, QuantifiedConstraints, TemplateHaskell #-}
+{-# LANGUAGE Haskell2010, DeriveAnyClass, QuantifiedConstraints, TemplateHaskell #-}
 
 import Control.Monad.Reader (MonadReader)
 import Language.Haskell.TH (runQ)

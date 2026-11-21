@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, TypeFamilies, MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE CPP, TypeFamilies, FunctionalDependencies,
       FlexibleContexts, FlexibleInstances, UndecidableInstances, OverlappingInstances,
       TypeSynonymInstances, GeneralizedNewtypeDeriving #-}
 -----------------------------------------------------------------------------

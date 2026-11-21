@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, GeneralizedNewtypeDeriving #-}
 
 -- Test deriving of a multi-parameter class for

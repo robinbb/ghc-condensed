@@ -291,12 +291,17 @@ same context. For example, this is fine: ::
       g :: Ord a => a -> Bool
       g y = (y <= y) || f True
 
-.. _infelicities-class-method-types:
+.. _infelicities-class-declarations:
 
-Class method types
+Class declarations
 ^^^^^^^^^^^^^^^^^^
 
-The Haskell Report says that the type of a class method may not constrain
+The Haskell Report gives a class exactly one parameter. GHC accepts any
+number, zero included, in every language mode; the
+``MultiParamTypeClasses`` and ``NullaryTypeClasses`` extensions that once
+allowed this no longer exist. See :ref:`multi-param-type-classes`.
+
+The Report also says that the type of a class method may not constrain
 only the class type variables: in ::
 
     class C a where

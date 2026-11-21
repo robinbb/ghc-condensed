@@ -1,4 +1,4 @@
-{-# LANGUAGE RebindableSyntax, MultiParamTypeClasses,
+{-# LANGUAGE RebindableSyntax,
              FlexibleInstances, FlexibleContexts #-}
 
 -- Tests of the do-notation for the restricted monads

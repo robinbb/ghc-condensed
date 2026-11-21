@@ -2,7 +2,6 @@
 {-# language FlexibleContexts #-}
 {-# language FlexibleInstances #-}
 {-# language InstanceSigs #-}
-{-# language MultiParamTypeClasses #-}
 {-# language PolyKinds #-}
 {-# language QuantifiedConstraints #-}
 {-# language ScopedTypeVariables #-}

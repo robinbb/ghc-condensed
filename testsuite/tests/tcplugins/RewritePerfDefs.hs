@@ -4,7 +4,6 @@
 
 {-# OPTIONS_GHC -freduction-depth=400 #-}
 
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DataKinds, KindSignatures, PolyKinds #-}

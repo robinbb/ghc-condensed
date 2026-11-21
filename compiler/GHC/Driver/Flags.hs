@@ -123,7 +123,6 @@ extensionDeprecation = \case
                                                  "Typeable instances are created automatically for all types since GHC 8.2."
   LangExt.DatatypeContexts                  -> ExtensionFlagDeprecatedCond turnOn
                                                  "It was widely considered a misfeature, and has been removed from the Haskell language."
-  LangExt.NullaryTypeClasses                -> ExtensionDeprecatedFor [LangExt.MultiParamTypeClasses]
   LangExt.OverlappingInstances              -> ExtensionFlagDeprecated
                                                  "instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS"
   LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
@@ -219,8 +218,6 @@ extensionName = \case
   LangExt.TypeSynonymInstances -> "TypeSynonymInstances"
   LangExt.FlexibleContexts -> "FlexibleContexts"
   LangExt.FlexibleInstances -> "FlexibleInstances"
-  LangExt.MultiParamTypeClasses -> "MultiParamTypeClasses"
-  LangExt.NullaryTypeClasses -> "NullaryTypeClasses"
   LangExt.FunctionalDependencies -> "FunctionalDependencies"
   LangExt.UnicodeSyntax -> "UnicodeSyntax"
   LangExt.ExistentialQuantification -> "ExistentialQuantification"
@@ -306,7 +303,6 @@ impliedXFlags
     , (LangExt.LiberalTypeSynonyms,       On LangExt.ExplicitForAll)
     , (LangExt.ExistentialQuantification, On LangExt.ExplicitForAll)
     , (LangExt.FlexibleInstances,         On LangExt.TypeSynonymInstances)
-    , (LangExt.FunctionalDependencies,    On LangExt.MultiParamTypeClasses)
     , (LangExt.TypeFamilyDependencies,    On LangExt.TypeFamilies)
 
     , (LangExt.RebindableSyntax, Off LangExt.ImplicitPrelude)      -- NB: turn off!
@@ -421,7 +417,6 @@ glasgowExtsFlags = [
            , LangExt.KindSignatures
            , LangExt.LiberalTypeSynonyms
            , LangExt.MagicHash
-           , LangExt.MultiParamTypeClasses
            , LangExt.ParallelListComp
            , LangExt.PatternGuards
            , LangExt.PostfixOperators

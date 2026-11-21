@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, MultiParamTypeClasses
+{-# LANGUAGE TypeFamilies
   , FlexibleContexts, FlexibleInstances, UndecidableInstances
   , TypeSynonymInstances, GeneralizedNewtypeDeriving
   #-}

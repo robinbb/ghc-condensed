@@ -79,7 +79,6 @@ Library
                 FlexibleContexts, ExistentialQuantification
                 ScopedTypeVariables, GeneralizedNewtypeDeriving
                 StandaloneDeriving
-                MultiParamTypeClasses,
                 UndecidableInstances
                 ScopedTypeVariables, CPP, DeriveDataTypeable,
                 PatternGuards

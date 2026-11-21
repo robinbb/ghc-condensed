@@ -1,6 +1,6 @@
 -- | Default for a partially applied constraint doesn't trigger panic
 
-{-# LANGUAGE Haskell2010, ConstraintKinds, MultiParamTypeClasses, NamedDefaults #-}
+{-# LANGUAGE Haskell2010, ConstraintKinds, NamedDefaults #-}
 
 import Data.Functor.Identity (Identity (Identity))
 

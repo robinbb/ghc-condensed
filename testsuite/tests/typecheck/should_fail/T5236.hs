@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies, FlexibleContexts  #-}
+{-# LANGUAGE FunctionalDependencies, FlexibleContexts  #-}
 
 module T5236 where
 

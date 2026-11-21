@@ -1,5 +1,5 @@
 
-{-# LANGUAGE TypeFamilies, GADTs, FlexibleContexts, MultiParamTypeClasses #-}
+{-# LANGUAGE TypeFamilies, GADTs, FlexibleContexts #-}
 
 module T7474 where
 

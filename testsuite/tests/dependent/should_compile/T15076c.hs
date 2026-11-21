@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, MultiParamTypeClasses, GADTs, ScopedTypeVariables,
+{-# LANGUAGE PolyKinds, GADTs, ScopedTypeVariables,
              TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 

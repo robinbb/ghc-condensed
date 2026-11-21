@@ -4,7 +4,7 @@
 --             type variables
 
 {-# LANGUAGE FlexibleInstances, UndecidableInstances, RankNTypes, FlexibleContexts,
-             MultiParamTypeClasses, FunctionalDependencies #-}
+             FunctionalDependencies #-}
 
 module Problem where
 

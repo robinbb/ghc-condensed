@@ -1,4 +1,4 @@
-{-# LANGUAGE  MultiParamTypeClasses, RankNTypes #-}
+{-# LANGUAGE  RankNTypes #-}
 
 module T15438 where
 

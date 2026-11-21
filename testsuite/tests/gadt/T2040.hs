@@ -1,5 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, FlexibleContexts,
-             MultiParamTypeClasses #-}
+{-# LANGUAGE GADTs, ScopedTypeVariables, FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module T2040 where

@@ -4,7 +4,6 @@
 {-# Language GADTs                    #-}
 {-# Language ImpredicativeTypes       #-}
 {-# Language InstanceSigs             #-}
-{-# Language MultiParamTypeClasses    #-}
 {-# Language PolyKinds                #-}
 {-# Language PolyKinds                #-}
 {-# Language PolyKinds                #-}

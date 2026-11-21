@@ -40,6 +40,7 @@ require 'open3'
 require 'fileutils'
 require_relative 'lib/hackage'
 require_relative 'lib/manifest'
+require_relative 'lib/strip'
 
 ROOT = __dir__
 REPO = File.expand_path('..', ROOT)
@@ -411,6 +412,15 @@ if opts[:fetch]
       vendor_private(proj, name, version) unless opts[:dry_run]
     end
   end
+# Extensions this compiler has removed must not be named where a
+# package enables them (see lib/strip.rb). Every package present is
+# stripped, so a checkout older than a removal is caught too.
+unless opts[:dry_run]
+  dirs = manifest.packages.map { |e| File.join(ROOT, e['path']) }.select { |d| Dir.exist?(d) }
+  dirs += Dir.glob(File.join(ROOT, 'projects', '*', 'vendored', '*')).select { |d| File.directory?(d) }
+  stripped = dirs.sum { |d| Strip.tree(d).size }
+  puts "stripped removed extensions from #{stripped} file(s)" if stripped.positive?
+end
   Dir.glob(File.join(ROOT, 'patches', '*.patch')).sort.each do |p|
     next if opts[:dry_run]
 

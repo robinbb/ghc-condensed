@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, MultiParamTypeClasses,
+{-# LANGUAGE TypeFamilies, PolyKinds,
              FlexibleInstances, DataKinds #-}
 
 module T7938 where

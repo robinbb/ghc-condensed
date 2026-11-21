@@ -1,5 +1,5 @@
 
-{-# LANGUAGE UnicodeSyntax, MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE UnicodeSyntax, FlexibleInstances #-}
 
 module T2902_B_PairingSum (Sum(..), PSum) where
 

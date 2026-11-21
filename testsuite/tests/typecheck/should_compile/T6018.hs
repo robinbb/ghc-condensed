@@ -1,5 +1,4 @@
 {-# LANGUAGE DataKinds                 #-}
-{-# LANGUAGE MultiParamTypeClasses     #-}
 {-# LANGUAGE PolyKinds                 #-}
 {-# LANGUAGE TypeAbstractions          #-}
 {-# LANGUAGE TypeFamilyDependencies    #-}

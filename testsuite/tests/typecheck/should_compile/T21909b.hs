@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE UndecidableSuperClasses, FunctionalDependencies, MultiParamTypeClasses, GADTs #-}
+{-# LANGUAGE UndecidableSuperClasses, FunctionalDependencies, GADTs #-}
 
 module T21909b where
 

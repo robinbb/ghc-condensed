@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, TypeFamilies, MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleInstances, TypeFamilies #-}
 
 module T10423 where
 

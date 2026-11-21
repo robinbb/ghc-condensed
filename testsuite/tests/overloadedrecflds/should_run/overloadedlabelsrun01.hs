@@ -4,7 +4,6 @@
            , DataKinds
            , FlexibleContexts
            , FlexibleInstances
-           , MultiParamTypeClasses
            , NoMonomorphismRestriction
   #-}
 

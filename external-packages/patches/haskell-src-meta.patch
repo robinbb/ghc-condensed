@@ -1,5 +1,14 @@
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
+@@ -31,7 +31,7 @@
+   Exts.DoRec                      -> Nothing
+   Exts.RecursiveDo                -> Just TH.RecursiveDo
+   Exts.ParallelListComp           -> Just TH.ParallelListComp
+-  Exts.MultiParamTypeClasses      -> Just TH.MultiParamTypeClasses
++  Exts.MultiParamTypeClasses      -> Nothing
+   Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
+   Exts.FunctionalDependencies     -> Just TH.FunctionalDependencies
+   Exts.Rank2Types                 -> Nothing
 @@ -88,7 +88,7 @@
    Exts.ExtendedDefaultRules       -> Just TH.ExtendedDefaultRules
    Exts.UnboxedTuples              -> Just TH.UnboxedTuples
@@ -9,11 +18,13 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -266,7 +266,6 @@
+@@ -266,9 +266,6 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
 -  TH.ConstrainedClassMethods           -> Just Exts.ConstrainedClassMethods
-   TH.MultiParamTypeClasses             -> Just Exts.MultiParamTypeClasses
-   TH.NullaryTypeClasses                -> Nothing
+-  TH.MultiParamTypeClasses             -> Just Exts.MultiParamTypeClasses
+-  TH.NullaryTypeClasses                -> Nothing
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
+   TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
+   TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification

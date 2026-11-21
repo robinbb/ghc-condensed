@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, GADTs, TypeOperators #-}
+{-# LANGUAGE GADTs, TypeOperators #-}
 module Foo where
 
 class (a ~ b) => C a b where

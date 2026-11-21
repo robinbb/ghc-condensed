@@ -2033,7 +2033,6 @@ data TcRnMessage where
 
       Example:
         {-# LANGUAGE Haskell2010 #-}
-        {-# LANGUAGE MultiParamTypeClasses #-}
 
         module T3265 where
 
@@ -4946,14 +4945,6 @@ data IllegalInstanceHeadReason
   --
   -- Test cases: mod41, mod42, tcfail044, tcfail047.
   | InstHeadNonTyVarArgs
-  -- | Multi-param instance without -XMultiParamTypeClasses.
-  --
-  -- Example:
-  --
-  --  instance C a b where {..}
-  --
-  -- Test case: IllegalMultiParamInstance
-  | InstHeadMultiParam
   deriving Generic
 
 
@@ -6483,13 +6474,6 @@ data RoleValidationFailedReason
   deriving (Generic)
 
 data DisabledClassExtension where
-  {-| MultiParamTypeClasses is required.
-
-    Test cases:
-    readFail037, TcNoNullaryTC
-  -}
-  MultiParamDisabled :: !Int -- ^ The arity
-                     -> DisabledClassExtension
   {-| FunctionalDependencies is required.
 
     Test cases:

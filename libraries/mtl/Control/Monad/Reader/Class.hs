@@ -1,7 +1,6 @@
 {-# LANGUAGE Safe #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 -- Search for UndecidableInstances to see why this is needed
 {-# LANGUAGE UndecidableInstances #-}
 -- Needed because the CPSed versions of Writer and State are secretly State

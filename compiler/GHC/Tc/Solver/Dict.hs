@@ -759,7 +759,6 @@ The following four modules produce a program whose output would change depending
 on whether we apply this optimization when IncoherentInstances is in effect:
 
 =========
-    {-# LANGUAGE MultiParamTypeClasses #-}
     module A where
 
     class A a where
@@ -770,7 +769,6 @@ on whether we apply this optimization when IncoherentInstances is in effect:
 
 =========
     {-# LANGUAGE FlexibleInstances     #-}
-    {-# LANGUAGE MultiParamTypeClasses #-}
     module B where
 
     import A
@@ -785,7 +783,6 @@ on whether we apply this optimization when IncoherentInstances is in effect:
     {-# LANGUAGE FlexibleContexts      #-}
     {-# LANGUAGE FlexibleInstances     #-}
     {-# LANGUAGE IncoherentInstances   #-}
-    {-# LANGUAGE MultiParamTypeClasses #-}
     module C where
 
     import A

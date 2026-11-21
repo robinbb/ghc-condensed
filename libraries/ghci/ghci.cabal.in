@@ -49,7 +49,6 @@ library
         GeneralizedNewtypeDeriving
         InstanceSigs
         MagicHash
-        MultiParamTypeClasses
         RecordWildCards
         ScopedTypeVariables
         StandaloneDeriving

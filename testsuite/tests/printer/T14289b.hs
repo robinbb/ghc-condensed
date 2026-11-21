@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -ddump-splices -dsuppress-uniques #-}
@@ -17,7 +16,6 @@ Note: to debug
 ~/inplace/bin/ghc-stage2 --interactive
 load the following
 ----------------------------------------
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -ddump-splices -dsuppress-uniques #-}
 

@@ -19,7 +19,7 @@
 
 -- | Module "Trampoline" defines the pipe computations and their basic building blocks.
 
-{-# LANGUAGE ScopedTypeVariables, RankNTypes, MultiParamTypeClasses,
+{-# LANGUAGE ScopedTypeVariables, RankNTypes,
              TypeFamilies, KindSignatures, FlexibleContexts,
              FlexibleInstances, OverlappingInstances, UndecidableInstances
  #-}

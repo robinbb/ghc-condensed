@@ -725,7 +725,7 @@ type family GhcDiagnosticCode c = n | n -> c where
   GhcDiagnosticCode "BadCoercionRole"                               = 92834
 
   -- TcRnClassExtensionDisabled/DisabledClassExtension
-  GhcDiagnosticCode "MultiParamDisabled"                            = 28349
+  GhcDiagnosticCode "MultiParamDisabled"                            = Outdated 28349
   GhcDiagnosticCode "FunDepsDisabled"                               = 15708
   GhcDiagnosticCode "ConstrainedClassMethodsDisabled"               = Outdated 25079
 
@@ -828,7 +828,7 @@ type family GhcDiagnosticCode c = n | n -> c where
   GhcDiagnosticCode "InstHeadNonClassHead"                          = 53946
   GhcDiagnosticCode "InstHeadTySynArgs"                             = 93557
   GhcDiagnosticCode "InstHeadNonTyVarArgs"                          = 48406
-  GhcDiagnosticCode "InstHeadMultiParam"                            = 91901
+  GhcDiagnosticCode "InstHeadMultiParam"                            = Outdated 91901
 
     -- IllegalHasFieldInstance
   GhcDiagnosticCode "IllegalHasFieldInstanceNotATyCon"              = 88994

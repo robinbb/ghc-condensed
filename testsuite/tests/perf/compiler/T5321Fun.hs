@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -freduction-depth=1000 #-} 
 {-# LANGUAGE 
      FlexibleContexts, FlexibleInstances, FunctionalDependencies, 
-     MultiParamTypeClasses, TypeSynonymInstances, 
+     TypeSynonymInstances, 
      TypeOperators, UndecidableInstances, TypeFamilies #-} 
 module T5321Fun where
 

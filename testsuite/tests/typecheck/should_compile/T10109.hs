@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, MultiParamTypeClasses, FunctionalDependencies,
+{-# LANGUAGE PolyKinds, FunctionalDependencies,
              UndecidableInstances, FlexibleInstances #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 

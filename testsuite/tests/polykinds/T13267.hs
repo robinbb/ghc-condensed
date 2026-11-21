@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses #-}
+{-# LANGUAGE ConstraintKinds, FlexibleContexts, FlexibleInstances #-}
 module T13267 where
 
 type C1 a = (Show (a -> Bool))

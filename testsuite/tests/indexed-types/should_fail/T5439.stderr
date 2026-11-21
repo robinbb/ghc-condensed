@@ -1,4 +1,4 @@
-T5439.hs:83:28: error: [GHC-83865]
+T5439.hs:82:28: error: [GHC-83865]
     • Couldn't match type: Attempt (HElemOf rs)
                      with: Attempt (HHead (HDrop n0 l0)) -> Attempt (HElemOf l0)
       Expected: f (Attempt (HHead (HDrop n0 l0)) -> Attempt (HElemOf l0))
@@ -8,15 +8,15 @@ T5439.hs:83:28: error: [GHC-83865]
       In the expression: complete ev $ inj $ Failure (e :: SomeException)
     • Relevant bindings include
         register :: Bool -> Peano n -> WaitOps (HDrop n rs) -> IO Bool
-          (bound at T5439.hs:65:9)
+          (bound at T5439.hs:64:9)
         ev :: f (Attempt (WaitOpResult (WaitOps rs)))
-          (bound at T5439.hs:62:22)
-        ops :: WaitOps rs (bound at T5439.hs:62:18)
+          (bound at T5439.hs:61:22)
+        ops :: WaitOps rs (bound at T5439.hs:61:18)
         registerWaitOp :: WaitOps rs
                           -> f (Attempt (WaitOpResult (WaitOps rs))) -> IO Bool
-          (bound at T5439.hs:62:3)
+          (bound at T5439.hs:61:3)
 
-T5439.hs:83:39: error: [GHC-83865]
+T5439.hs:82:39: error: [GHC-83865]
     • Couldn't match expected type: Peano n0
                   with actual type: Attempt α0
     • In the second argument of ‘($)’, namely

@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, FlexibleInstances, MultiParamTypeClasses,
+{-# LANGUAGE TemplateHaskell, FlexibleInstances,
              UndecidableInstances, OverlappingInstances, CPP #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- This is a module full of orphans, so don't warn about them

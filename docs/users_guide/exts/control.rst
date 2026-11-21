@@ -100,7 +100,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`LambdaCase`
      * :extension:`MonoLocalBinds`
      * :extension:`MonomorphismRestriction`
-     * :extension:`MultiParamTypeClasses`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
      * :extension:`NumericUnderscores`
@@ -169,7 +168,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`InstanceSigs`
      * :extension:`KindSignatures`
      * :extension:`MonomorphismRestriction`
-     * :extension:`MultiParamTypeClasses`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
      * :extension:`NumericUnderscores`

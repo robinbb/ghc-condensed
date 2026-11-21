@@ -1,4 +1,4 @@
-{-# Language GADTs, MultiParamTypeClasses, QuantifiedConstraints #-}
+{-# Language GADTs, QuantifiedConstraints #-}
 
 module T15625 where
 

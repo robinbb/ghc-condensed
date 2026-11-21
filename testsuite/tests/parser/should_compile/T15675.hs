@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, MultiParamTypeClasses, ExistentialQuantification #-}
+{-# LANGUAGE TypeOperators, ExistentialQuantification #-}
 
 module T15675 where
 

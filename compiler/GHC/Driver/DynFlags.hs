@@ -1470,7 +1470,6 @@ languageExtensions (Just GHC2021)
        LangExt.ImportQualifiedPost,
        LangExt.InstanceSigs,
        LangExt.KindSignatures,
-       LangExt.MultiParamTypeClasses,
        LangExt.NamedFieldPuns,
        LangExt.NamedWildCards,
        LangExt.NumericUnderscores,
