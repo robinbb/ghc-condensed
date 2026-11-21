@@ -137,7 +137,7 @@ extensionDeprecation = \case
 -- constructors.)
 extensionDeprecatedNames :: LangExt.Extension -> [String]
 extensionDeprecatedNames = \case
-  LangExt.RankNTypes          -> ["Rank2Types", "PolymorphicComponents"]
+  LangExt.RankNTypes          -> ["PolymorphicComponents"]
   LangExt.RecursiveDo         -> ["DoRec"]
   LangExt.NamedFieldPuns      -> ["RecordPuns"]
   LangExt.ScopedTypeVariables -> ["PatternSignatures"]

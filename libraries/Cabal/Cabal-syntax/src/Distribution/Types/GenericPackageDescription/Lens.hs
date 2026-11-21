@@ -1,4 +1,4 @@
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE RankNTypes #-}
 
 module Distribution.Types.GenericPackageDescription.Lens
   ( GenericPackageDescription

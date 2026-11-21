@@ -54,5 +54,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "MonoPatBinds",
                                "ConstrainedClassMethods",
                                "MultiParamTypeClasses",
-                               "NullaryTypeClasses"
+                               "NullaryTypeClasses",
+                               "Rank2Types"
                               ]

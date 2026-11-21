@@ -1,15 +1,23 @@
 # frozen_string_literal: true
 
-# Removes language extensions that this compiler no longer has from
-# package sources: a LANGUAGE pragma, an OPTIONS_GHC -X flag, a cabal
-# extensions field or a cabal ghc-options -X flag naming one would be
-# rejected as unsupported. Only the names are removed; the surrounding
-# layout is kept, and a pragma, flag or field left with nothing in it
-# goes with its line.
+# Rewrites the names of language extensions that this compiler no longer
+# accepts in package sources: a LANGUAGE pragma, an OPTIONS_GHC -X flag,
+# a cabal extensions field or a cabal ghc-options -X flag naming one
+# would be rejected as unsupported. A removed extension's name is
+# dropped, in either polarity. A renamed extension (a deprecated alias
+# the compiler no longer accepts) takes its current name, or is dropped
+# when the same polarity of that name is already there. Only the names
+# change; the surrounding layout is kept, and a pragma, flag or field
+# left with nothing in it goes with its line.
 module Strip
   # The extensions this compiler has removed. Their behaviour is always
   # on, so dropping the name changes nothing for the package.
   REMOVED = %w[ConstrainedClassMethods MultiParamTypeClasses NullaryTypeClasses].freeze
+
+  # Deprecated aliases this compiler has removed, with the name it still
+  # accepts. The alias meant exactly the current name, so renaming it
+  # changes nothing for the package either.
+  RENAMED = { 'Rank2Types' => 'RankNTypes' }.freeze
 
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
 
@@ -18,28 +26,28 @@ module Strip
   module_function
 
   # Rewrites every source and cabal file under dir. Returns the changed paths.
-  def tree(dir, names = REMOVED)
+  def tree(dir, names = REMOVED, renamed = RENAMED)
     Dir.glob(File.join(dir, SOURCE_GLOB), File::FNM_DOTMATCH)
        .reject { |f| f.include?('/dist') || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
-       .sort.select { |f| file(f, names) }
+       .sort.select { |f| file(f, names, renamed) }
   end
 
   # Rewrites one file. Returns whether it changed.
-  def file(path, names = REMOVED)
+  def file(path, names = REMOVED, renamed = RENAMED)
     # Bytes in, bytes out: the names are ASCII, so a source in any
     # encoding comes through unchanged apart from them.
     old = File.binread(path)
-    new = text(old, names, cabal: path.end_with?('.cabal', '.cabal.in'))
+    new = text(old, names, renamed, cabal: path.end_with?('.cabal', '.cabal.in'))
     return false if new == old
 
     File.binwrite(path, new)
     true
   end
 
-  def text(text, names = REMOVED, cabal: false)
-    return text unless names.any? { |n| text.include?(n) }
+  def text(text, names = REMOVED, renamed = RENAMED, cabal: false)
+    return text unless (names + renamed.keys).any? { |n| text.include?(n) }
 
-    out = cabal ? cabal_text(text, names) : haskell_text(text, names)
+    out = cabal ? cabal_text(text, names, renamed) : haskell_text(text, names, renamed)
     drop_marked_lines(out)
   end
 
@@ -48,18 +56,44 @@ module Strip
   # The pragma name is case-insensitive to GHC, so {-# Language ... #-} too.
   PRAGMA = /\{-#\s*(LANGUAGE|OPTIONS_GHC|OPTIONS)\b(.*?)#-\}/mi
 
-  def haskell_text(text, names)
+  def haskell_text(text, names, renamed)
     text.gsub(PRAGMA) do
-      kind, body = Regexp.last_match(1), Regexp.last_match(2)
-      new_body = kind.casecmp?('LANGUAGE') ? drop_names(body, names) : drop_flags(body, names)
-      new_body.nil? ? MARK : "{-# #{kind}#{new_body}#-}"
+      whole, kind, body = Regexp.last_match(0), Regexp.last_match(1), Regexp.last_match(2)
+      language = kind.casecmp?('LANGUAGE')
+      new_body = rewrite(body, names, renamed, flags: !language)
+      if new_body.nil? then MARK
+      elsif new_body == body then whole
+      else "{-# #{kind}#{new_body}#-}"
+      end
     end
   end
 
-  # Removes the names from a comma-separated list that may span lines.
+  # Renames the aliases in a list of names or of -X flags, then drops the
+  # removed names and the aliases whose current name was already there.
   # Returns nil when nothing is left.
+  def rewrite(body, names, renamed, flags:)
+    # A name starts at a word boundary, a flag at its -X.
+    prefix = flags ? '-X' : ''
+    open = flags ? '-X' : '\b'
+    drop = names.dup
+    renamed.each do |old, new|
+      body = body.gsub(/#{open}(No)?#{old}\b/) do
+        polarity = Regexp.last_match(1)
+        if body.match?(/#{open}#{polarity}#{new}\b/)
+          drop << "#{polarity}#{old}"
+          "#{prefix}#{polarity}#{old}"
+        else
+          "#{prefix}#{polarity}#{new}"
+        end
+      end
+    end
+    flags ? drop_flags(body, drop) : drop_names(body, drop)
+  end
+
+  # Removes the names, in either polarity, from a comma-separated list
+  # that may span lines. Returns nil when nothing is left.
   def drop_names(body, names)
-    pats = names.select { |n| body.match?(/\b#{n}\b/) }.map { |n| /\b#{n}\b/ }
+    pats = names.map { |n| /\b(No)?#{n}\b/ }.select { |p| body.match?(p) }
     return body if pats.empty?
 
     lines = body.split("\n", -1)
@@ -93,9 +127,10 @@ module Strip
     end
   end
 
-  # Removes -XName flags from an OPTIONS body. nil when nothing is left.
+  # Removes -XName and -XNoName flags from an OPTIONS body. nil when
+  # nothing is left.
   def drop_flags(body, names)
-    names.each { |n| body = body.gsub(/\s*-X#{n}\b/, '') }
+    names.each { |n| body = body.gsub(/\s*-X(No)?#{n}\b/, '') }
     body.match?(/\A\s*\z/) ? nil : body
   end
 
@@ -103,7 +138,7 @@ module Strip
 
   FIELDS = /\A([ \t]*)(default-extensions|other-extensions|extensions|ghc-options)[ \t]*:/i
 
-  def cabal_text(text, names)
+  def cabal_text(text, names, renamed)
     lines = text.split("\n", -1)
     out = []
     i = 0
@@ -122,7 +157,7 @@ module Strip
       value_start = m[0].size
       head = field[0][0, value_start]
       body = ([field[0][value_start..]] + field[1..]).join("\n")
-      new_body = m[2].casecmp?('ghc-options') ? drop_flags(body, names) : drop_names(body, names)
+      new_body = rewrite(body, names, renamed, flags: m[2].casecmp?('ghc-options'))
       if new_body.nil?
         # nothing left in the field
       elsif new_body == body

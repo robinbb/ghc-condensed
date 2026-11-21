@@ -259,7 +259,6 @@ library
     GeneralizedNewtypeDeriving
     MagicHash
     OverloadedStrings
-    Rank2Types
     RankNTypes
     RecordWildCards
     Safe

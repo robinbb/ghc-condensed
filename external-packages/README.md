@@ -114,11 +114,12 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   not build or pass with this compiler, so sources stay as released, except
   where the manifest's `patched` field records a deliberate exception
   (hashable, which half the corpus sits on). One mechanical exception
-  applies to every package: the names of language extensions this
-  compiler has removed (listed in `lib/strip.rb`) are stripped from
-  LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions fields by
-  `add.rb --fetch`, because the compiler rejects the names while their
-  behaviour is always on. Packages that do not build or
+  applies to every package: `add.rb --fetch` rewrites the names of
+  language extensions this compiler no longer accepts (listed in
+  `lib/strip.rb`) in LANGUAGE pragmas, OPTIONS_GHC flags and cabal
+  extensions fields, dropping a removed extension, whose behaviour is
+  always on, and renaming a removed alias such as Rank2Types to the
+  name the compiler keeps. Packages that do not build or
   whose tests fail are kept, with `expected: build-failure`, `test-failure`,
   `flaky` or `unsolvable` and the cause in the manifest. The driver reports
   them as known and fails only on unexpected results, including a known

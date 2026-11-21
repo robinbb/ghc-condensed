@@ -74,7 +74,7 @@ Library
       , exceptions   == 0.10.*
     Default-Language: Haskell98
     Default-Extensions:
-                ForeignFunctionInterface, Rank2Types, FlexibleInstances,
+                ForeignFunctionInterface, RankNTypes, FlexibleInstances,
                 TypeSynonymInstances
                 FlexibleContexts, ExistentialQuantification
                 ScopedTypeVariables, GeneralizedNewtypeDeriving

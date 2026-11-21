@@ -75,17 +75,9 @@ arguments. As the types of ``h1`` and ``k1`` are not allowed in Haskell-98, we a
 require users to enable :extension:`RankNTypes` to write them (which seems more
 sensible than inventing a separate extension just for this case).
 
-The deprecated language options :extension:`Rank2Types` and
-:extension:`PolymorphicComponents` are synonyms for :extension:`RankNTypes`.
-They used to specify finer distinctions that GHC no longer makes.
-
-.. extension:: Rank2Types
-    :shortdesc: Enable rank-N types.
-
-    :since: 6.8.1
-    :status: Deprecated
-
-    A deprecated alias of :extension:`RankNTypes`.
+The deprecated language option :extension:`PolymorphicComponents` is a
+synonym for :extension:`RankNTypes`. It used to specify a finer
+distinction that GHC no longer makes.
 
 .. extension:: PolymorphicComponents
     :shortdesc: Enable rank-N types.

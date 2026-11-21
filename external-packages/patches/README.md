@@ -7,11 +7,13 @@ repository root. Each patched package carries a `patched:` line in
 vendoring; by hand: `git apply external-packages/patches/NAME.patch`
 from the repository root.
 
-Language extensions this compiler has removed are not patched away one
-package at a time: `add.rb --fetch` strips their names from every
-package's LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions
-fields (`lib/strip.rb` lists them). Their behaviour is always on, so
-the stripped package means the same thing.
+Language extensions this compiler no longer accepts are not patched
+away one package at a time: `add.rb --fetch` rewrites every package's
+LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions fields
+(`lib/strip.rb` lists the names). A removed extension's name is
+dropped, since its behaviour is always on; a removed alias such as
+Rank2Types takes the name the compiler keeps, RankNTypes. The rewritten
+package means the same thing.
 
 - `hashable.patch`: adds ghc-bignum to build-depends for GHC 9.13 and
   later, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
