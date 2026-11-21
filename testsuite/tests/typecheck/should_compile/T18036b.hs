@@ -1,5 +1,4 @@
 -- https://gitlab.haskell.org/ghc/ghc/-/issues/19865
-{-# LANGUAGE ConstrainedClassMethods #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}

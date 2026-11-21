@@ -36,7 +36,6 @@ docs:
          TypeSynonymInstances
          FlexibleContexts
          FlexibleInstances
-         ConstrainedClassMethods
          MultiParamTypeClasses
          ExistentialQuantification
          EmptyDataDecls

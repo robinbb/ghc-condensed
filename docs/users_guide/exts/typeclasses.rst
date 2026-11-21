@@ -14,7 +14,6 @@ space <https://research.microsoft.com/~simonpj/Papers/type-class-design-space/>`
 
     multi_param_type_classes
     undecidable_super_classes
-    constrained_class_methods
     default_signatures
     nullary_type_classes
     functional_dependencies

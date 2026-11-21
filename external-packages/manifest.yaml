@@ -476,6 +476,10 @@ packages:
     git: https://github.com/haskell-party/haskell-src-meta.git
     tag: 0.8.16
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Language.Haskell.Meta.Extensions
+    no longer maps ConstrainedClassMethods to or from template-haskell, whose
+    Extension type lost that constructor with this compiler
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -1115,6 +1119,10 @@ packages:
     git: https://github.com/ekmett/semigroupoids.git
     tag: v6.0.2
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: drops the ConstrainedClassMethods
+    LANGUAGE pragma from Data.Functor.Alt, since this compiler has no such extension
+    and rejects the pragma
 - name: sendfile
   version: 0.7.11.6
   tier: 1
@@ -3527,6 +3535,10 @@ packages:
     sdist: mono-traversable-1.0.21.0
   note: no tag for 1.0.21.0 in https://github.com/snoyberg/mono-traversable.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: drops the ConstrainedClassMethods
+    LANGUAGE pragma from Data.MonoTraversable, since this compiler has no such
+    extension and rejects the pragma
 - name: mtl-compat
   version: 0.2.2
   tier: 2

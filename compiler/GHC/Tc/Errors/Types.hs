@@ -192,7 +192,7 @@ import GHC.Tc.Types.Origin ( CtOrigin (ProvCtxtOrigin), SkolemInfoAnon (SigSkol)
 import GHC.Tc.Types.CtLoc( CtLoc, ctLocOrigin, SubGoalDepth )
 import GHC.Tc.Types.Rank (Rank)
 import GHC.Tc.Types.TH
-import GHC.Tc.Utils.TcType (TcType, TcSigmaType, TcPredType,
+import GHC.Tc.Utils.TcType (TcType, TcSigmaType,
                             PatersonCondFailure, PatersonCondFailureContext)
 
 import GHC.Types.Basic
@@ -6496,14 +6496,6 @@ data DisabledClassExtension where
     readFail041
   -}
   FunDepsDisabled :: DisabledClassExtension
-  {-| ConstrainedClassMethods is required.
-
-    Test cases:
-    mod39, tcfail150
-  -}
-  ConstrainedClassMethodsDisabled :: !Id
-                                  -> !TcPredType
-                                  -> DisabledClassExtension
   deriving (Generic)
 
 data TyFamsDisabledReason

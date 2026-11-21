@@ -1,0 +1,7 @@
+--- a/external-packages/vendored/mono-traversable/src/Data/MonoTraversable.hs
++++ b/external-packages/vendored/mono-traversable/src/Data/MonoTraversable.hs
+@@ -1,4 +1,3 @@
+-{-# LANGUAGE ConstrainedClassMethods #-}
+ {-# LANGUAGE CPP                     #-}
+ {-# LANGUAGE DefaultSignatures       #-}
+ {-# LANGUAGE DerivingStrategies      #-}

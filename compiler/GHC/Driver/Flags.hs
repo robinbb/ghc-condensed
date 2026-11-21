@@ -219,7 +219,6 @@ extensionName = \case
   LangExt.TypeSynonymInstances -> "TypeSynonymInstances"
   LangExt.FlexibleContexts -> "FlexibleContexts"
   LangExt.FlexibleInstances -> "FlexibleInstances"
-  LangExt.ConstrainedClassMethods -> "ConstrainedClassMethods"
   LangExt.MultiParamTypeClasses -> "MultiParamTypeClasses"
   LangExt.NullaryTypeClasses -> "NullaryTypeClasses"
   LangExt.FunctionalDependencies -> "FunctionalDependencies"
@@ -308,7 +307,6 @@ impliedXFlags
     , (LangExt.ExistentialQuantification, On LangExt.ExplicitForAll)
     , (LangExt.FlexibleInstances,         On LangExt.TypeSynonymInstances)
     , (LangExt.FunctionalDependencies,    On LangExt.MultiParamTypeClasses)
-    , (LangExt.MultiParamTypeClasses,     On LangExt.ConstrainedClassMethods)  -- c.f. #7854
     , (LangExt.TypeFamilyDependencies,    On LangExt.TypeFamilies)
 
     , (LangExt.RebindableSyntax, Off LangExt.ImplicitPrelude)      -- NB: turn off!
@@ -406,8 +404,7 @@ impliedOffGFlags = [(Opt_Strictness, turnOff, Opt_WorkerWrapper)]
 -- Please keep @docs/users_guide/what_glasgow_exts_does.rst@ up to date with this list.
 glasgowExtsFlags :: [LangExt.Extension]
 glasgowExtsFlags = [
-             LangExt.ConstrainedClassMethods
-           , LangExt.DeriveDataTypeable
+             LangExt.DeriveDataTypeable
            , LangExt.DeriveFoldable
            , LangExt.DeriveFunctor
            , LangExt.DeriveGeneric

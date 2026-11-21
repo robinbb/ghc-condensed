@@ -1,6 +1,10 @@
 # Changelog for [`template-haskell` package](http://hackage.haskell.org/package/template-haskell)
 
 ## 2.25.0.0
+  * Remove the `ConstrainedClassMethods` constructor of `Extension`. GHC no
+    longer has that extension: class methods may always constrain the class
+    type variables.
+
   * Introduce `namedDefaultQuasiQuoter` and `defaultQuasiQuoter`, which fail with a helpful error when used in an inappropriate context.
 
 ## 2.24.0.0

@@ -1,0 +1,8 @@
+--- a/external-packages/semigroupoids/src/Data/Functor/Alt.hs
++++ b/external-packages/semigroupoids/src/Data/Functor/Alt.hs
+@@ -1,5 +1,4 @@
+ {-# LANGUAGE CPP #-}
+-{-# LANGUAGE ConstrainedClassMethods #-}
+ {-# LANGUAGE FlexibleContexts #-}
+ {-# LANGUAGE TypeOperators #-}
+ {-# LANGUAGE RankNTypes #-}

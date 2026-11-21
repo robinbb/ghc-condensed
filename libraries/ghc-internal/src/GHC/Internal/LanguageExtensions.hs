@@ -106,7 +106,6 @@ data Extension
    | TypeSynonymInstances
    | FlexibleContexts
    | FlexibleInstances
-   | ConstrainedClassMethods
    | MultiParamTypeClasses
    | NullaryTypeClasses
    | FunctionalDependencies

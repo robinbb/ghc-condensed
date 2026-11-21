@@ -3290,8 +3290,6 @@ instance Diagnostic TcRnMessage where
       -> [suggestExtension LangExt.MultiParamTypeClasses]
     TcRnClassExtensionDisabled _ FunDepsDisabled{}
       -> [suggestExtension LangExt.FunctionalDependencies]
-    TcRnClassExtensionDisabled _ ConstrainedClassMethodsDisabled{}
-      -> [suggestExtension LangExt.ConstrainedClassMethods]
     TcRnDataConParentTypeMismatch{}
       -> noHints
     TcRnGADTsDisabled{}
@@ -6377,10 +6375,6 @@ pprDisabledClassExtension cls = \case
               | otherwise = "Too many"
   FunDepsDisabled ->
     text "Fundeps in class" <+> quotes (ppr cls)
-  ConstrainedClassMethodsDisabled sel_id pred ->
-    vcat [ hang (text "Constraint" <+> quotes (ppr pred)
-                 <+> text "in the type of" <+> quotes (ppr sel_id))
-              2 (text "constrains only the class type variables")]
 
 pprImportLookup :: ImportLookupReason -> SDoc
 pprImportLookup = \case

@@ -1,6 +1,5 @@
 .. hlist::
 
- * :extension:`ConstrainedClassMethods`
  * :extension:`DeriveDataTypeable`
  * :extension:`DeriveFoldable`
  * :extension:`DeriveFunctor`

@@ -291,6 +291,22 @@ same context. For example, this is fine: ::
       g :: Ord a => a -> Bool
       g y = (y <= y) || f True
 
+.. _infelicities-class-method-types:
+
+Class method types
+^^^^^^^^^^^^^^^^^^
+
+The Haskell Report says that the type of a class method may not constrain
+only the class type variables: in ::
+
+    class C a where
+      op :: Eq a => a -> a
+
+the context ``Eq a`` is illegal, because ``a`` is bound by the class
+declaration. GHC accepts such method types in every language mode. Earlier
+versions accepted them only with the ``ConstrainedClassMethods`` extension,
+which no longer exists.
+
 .. _infelicities-default-exports:
 
 Default Module headers with -main-is

@@ -1451,7 +1451,6 @@ languageExtensions (Just GHC2021)
        -- Now the new extensions (not in Haskell2010)
        LangExt.BangPatterns,
        LangExt.BinaryLiterals,
-       LangExt.ConstrainedClassMethods,
        LangExt.ConstraintKinds,
        LangExt.DeriveDataTypeable,
        LangExt.DeriveFoldable,

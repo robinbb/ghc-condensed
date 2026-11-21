@@ -727,7 +727,7 @@ type family GhcDiagnosticCode c = n | n -> c where
   -- TcRnClassExtensionDisabled/DisabledClassExtension
   GhcDiagnosticCode "MultiParamDisabled"                            = 28349
   GhcDiagnosticCode "FunDepsDisabled"                               = 15708
-  GhcDiagnosticCode "ConstrainedClassMethodsDisabled"               = 25079
+  GhcDiagnosticCode "ConstrainedClassMethodsDisabled"               = Outdated 25079
 
   -- TcRnTyFamsDisabled/TyFamsDisabledReason
   GhcDiagnosticCode "TyFamsDisabledFamily"                          = 39191

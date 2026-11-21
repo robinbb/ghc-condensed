@@ -49,3 +49,15 @@ from the repository root.
   that branch needs both packages. `magic` is pinned at 1.1, the newest
   release inside git-annex's own `magic <= 1.1` bound, which needs no
   source change.
+- `semigroupoids.patch`: removes the `ConstrainedClassMethods` LANGUAGE
+  pragma from `Data.Functor.Alt`. This compiler has no such extension
+  (its behaviour is always on), so the pragma is an unsupported-extension
+  error. Blocks free, lens, aeson and about a hundred packages above
+  them.
+- `mono-traversable.patch`: the same pragma removed from
+  `Data.MonoTraversable`. Blocks conduit and everything above it.
+- `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
+  haskell-src-exts `ConstrainedClassMethods` to `Nothing` and drops the
+  template-haskell constructor from the reverse mapping, since this
+  compiler's template-haskell no longer has it. Blocks hsx2hs, jmacro,
+  interpolatedstring-perl6 and persistent-qq.

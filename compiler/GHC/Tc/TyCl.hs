@@ -5358,8 +5358,7 @@ checkNewDataCon con
 -------------------------------
 checkValidClass :: Class -> TcM ()
 checkValidClass cls
-  = do  { constrained_class_methods <- xoptM LangExt.ConstrainedClassMethods
-        ; multi_param_type_classes  <- xoptM LangExt.MultiParamTypeClasses
+  = do  { multi_param_type_classes  <- xoptM LangExt.MultiParamTypeClasses
         ; nullary_type_classes      <- xoptM LangExt.NullaryTypeClasses
         ; fundep_classes            <- xoptM LangExt.FunctionalDependencies
         ; undecidable_super_classes <- xoptM LangExt.UndecidableSuperClasses
@@ -5388,7 +5387,7 @@ checkValidClass cls
         -- But only if there have been no earlier errors
         -- See Note [Abort when superclass cycle is detected]
         ; whenNoErrs $
-          mapM_ (check_op constrained_class_methods) op_stuff
+          mapM_ check_op op_stuff
 
         -- Check the associated type defaults are well-formed and instantiated
         ; mapM_ check_at at_stuff  }
@@ -5398,7 +5397,7 @@ checkValidClass cls
        -- Ignore invisible variables
     cls_tv_set = mkVarSet tyvars
 
-    check_op constrained_class_methods (sel_id, dm)
+    check_op (sel_id, dm)
       = setSrcSpan (getSrcSpan sel_id) $
         addErrCtxt (ClassOpCtxt sel_id op_ty) $ do
         { traceTc "class op type" (ppr op_ty)
@@ -5415,9 +5414,6 @@ checkValidClass cls
         --
         -- Test case: rep-poly/RepPolyClassMethod.
 
-        ; unless constrained_class_methods $
-          mapM_ check_constraint op_theta
-
         ; check_dm ctxt sel_id cls_pred tau2 dm
         }
         where
@@ -5426,15 +5422,7 @@ checkValidClass cls
           op_ty   = idType sel_id
           (_,cls_pred,tau1) = tcSplitMethodTy op_ty
           -- See Note [Splitting nested sigma types in class type signatures]
-          (_,op_theta,tau2) = tcSplitNestedSigmaTys tau1
-
-          check_constraint :: TcPredType -> TcM ()
-          check_constraint pred -- See Note [Class method constraints]
-            = when (not (isEmptyVarSet pred_tvs) &&
-                    pred_tvs `subVarSet` cls_tv_set)
-                   (addErrTc (TcRnClassExtensionDisabled cls (ConstrainedClassMethodsDisabled sel_id pred)))
-            where
-              pred_tvs = tyCoVarsOfType pred
+          (_,_,tau2) = tcSplitNestedSigmaTys tau1
 
     check_at (ATI fam_tc m_dflt_rhs)
       = do { traceTc "ati" (ppr fam_tc $$ ppr tyvars $$ ppr fam_tvs)
@@ -5559,22 +5547,7 @@ checkResultSigFlag tc_name (TyVarSig _ tvb)
        ; unless ty_fam_deps $ addErrTc (TcRnTyFamResultDisabled tc_name tvb) }
 checkResultSigFlag _ _ = return ()  -- other cases OK
 
-{- Note [Class method constraints]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Haskell 2010 is supposed to reject
-  class C a where
-    op :: Eq a => a -> a
-where the method type constrains only the class variable(s).  (The extension
--XConstrainedClassMethods switches off this check.)  But regardless
-we should not reject
-  class C a where
-    op :: (?x::Int) => a -> a
-as pointed out in #11793. So the test here rejects the program if
-  * -XConstrainedClassMethods is off
-  * the tyvars of the constraint are non-empty
-  * all the tyvars are class tyvars, none are locally quantified
-
-Note [Abort when superclass cycle is detected]
+{- Note [Abort when superclass cycle is detected]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We must avoid doing the ambiguity check for the methods (in
 checkValidClass.check_op) when there are already errors accumulated.
