@@ -17,6 +17,7 @@
 #   add.rb --refresh [--dry-run]
 #   add.rb --remove NAME...
 #   add.rb --fetch
+#   add.rb --freeze PROJECT [--build-root DIR]
 #   add.rb --version V [options] NAME
 #
 # --closure adds the whole dependency closure of the named packages (which
@@ -26,6 +27,13 @@
 # --refresh moves multi-package submodules forward when one of their
 # packages is behind its latest release. Run inside `nix develop` so that
 # cabal and git are available. Needs network access.
+#
+# A standalone project (manifest entries with a `project` field, living
+# under projects/NAME/) is solved on its own: --freeze records the exact
+# dependency versions its own bounds select in projects/NAME/
+# cabal.project.freeze, and --fetch then vendors private copies of them
+# under projects/NAME/vendored/, applying the corpus patches to copies of
+# the same package versions.
 
 require 'optparse'
 require 'open3'
@@ -37,7 +45,8 @@ ROOT = __dir__
 REPO = File.expand_path('..', ROOT)
 
 opts = { tier: nil, role: nil, closure: false, dry_run: false, vendor: false,
-         replace: false, refresh: false, remove: false, version: nil, fetch: false }
+         replace: false, refresh: false, remove: false, version: nil, fetch: false,
+         freeze: nil, build_root: '_build' }
 OptionParser.new do |o|
   o.banner = 'Usage: add.rb [options] NAME...'
   o.on('--tier N', Integer, 'Tier for the added packages (default 1, or that of the replaced entry)') { |v| opts[:tier] = v }
@@ -50,9 +59,11 @@ OptionParser.new do |o|
   o.on('--remove', 'Remove the named packages from the corpus, then exit') { opts[:remove] = true }
   o.on('--fetch', 'Materialise every manifest entry missing from the working tree, apply patches, then exit') { opts[:fetch] = true }
   o.on('--version V', 'Use this release instead of the latest (one package only)') { |v| opts[:version] = v }
+  o.on('--freeze PROJECT', 'Record the exact dependency versions of a standalone project, then exit') { |v| opts[:freeze] = v }
+  o.on('--build-root DIR', 'Hadrian build root whose compiler --freeze solves with (default _build)') { |v| opts[:build_root] = v }
 end.parse!
 names = ARGV
-abort 'add.rb: no package names given' if names.empty? && !opts[:refresh] && !opts[:fetch]
+abort 'add.rb: no package names given' if names.empty? && !opts[:refresh] && !opts[:fetch] && !opts[:freeze]
 
 def run(*cmd, chdir: REPO)
   out, err, st = Open3.capture3(*cmd, chdir: chdir)
@@ -185,6 +196,57 @@ def vendor_sdist(name, version)
   target
 end
 
+# Directory holding a manifest entry's checkout: the repository
+# directory under external-packages/, or under projects/NAME/ for a
+# standalone project's package.
+def checkout_dir(e)
+  parts = e['path'].split('/')
+  e['project'] ? parts[0, 3].join('/') : parts.first
+end
+
+# Shallow checkout of one commit; `git clone --branch` only takes refs.
+def clone_commit(url, dirname, sha)
+  dir = File.join(ROOT, dirname)
+  FileUtils.mkdir_p(dir)
+  run!('git', 'init', '-q', chdir: dir)
+  run!('git', 'remote', 'add', 'origin', url, chdir: dir)
+  run!('git', 'fetch', '-q', '--depth', '1', 'origin', sha, chdir: dir)
+  run!('git', 'checkout', '-q', 'FETCH_HEAD', chdir: dir)
+end
+
+# The exact versions a standalone project's freeze file records, as
+# { name => version }, or nil when there is no freeze file yet.
+def frozen_versions(project)
+  file = File.join(ROOT, 'projects', project, 'cabal.project.freeze')
+  return nil unless File.exist?(file)
+
+  File.read(file).scan(/any\.([A-Za-z0-9-]+) ==([0-9.]+)/).to_h
+end
+
+# Vendor one private dependency copy of a standalone project.
+def vendor_private(project, name, version)
+  dest = File.join(ROOT, 'projects', project, 'vendored')
+  FileUtils.mkdir_p(dest)
+  target = File.join(dest, "#{name}-#{version}")
+  return target if Dir.exist?(target)
+
+  run!('cabal', 'get', "#{name}-#{version}", '--destdir', dest, chdir: ROOT)
+  target
+end
+
+# Apply a corpus patch, whose diffs are against external-packages/<corpus
+# path>/, to another copy of the same package version. Returns whether
+# it applied.
+def apply_patch_in(patch, corpus_path, dir)
+  strip = 2 + corpus_path.split('/').size
+  rel = File.join('external-packages', dir)
+  ok, = run('git', 'apply', '--check', "-p#{strip}", "--directory=#{rel}", patch)
+  return false unless ok
+
+  run!('git', 'apply', "-p#{strip}", "--directory=#{rel}", patch)
+  true
+end
+
 # Returns a manifest entry for the package, obtaining its source first.
 def obtain(manifest, pkg, role, tier, dry_run, vendor: false)
   entry = { 'name' => pkg.name, 'version' => pkg.version, 'tier' => tier,
@@ -313,21 +375,40 @@ if opts[:refresh]
   exit 0
 end
 
-# Rebuild the working tree from the manifest: submodules at their recorded
-# tags, vendored sdists, then the patches. The package sources are not
+# Rebuild the working tree from the manifest: clones at their recorded
+# tags or commits, vendored sdists, the private dependency copies of the
+# standalone projects, then the patches. The package sources are not
 # committed to this repository; the manifest is.
 if opts[:fetch]
   manifest.packages.each do |e|
-    top = e['path'].split('/').first
-    next if Dir.exist?(File.join(ROOT, top))
+    dir = checkout_dir(e)
+    next if Dir.exist?(File.join(ROOT, dir))
 
     src = e['source']
-    if src['git']
-      puts "clone #{top} at #{src['tag']}"
-      add_submodule(src['git'], top, src['tag']) unless opts[:dry_run]
+    if src['commit']
+      puts "clone #{dir} at commit #{src['commit'][0, 12]}"
+      clone_commit(src['git'], dir, src['commit']) unless opts[:dry_run]
+    elsif src['git']
+      puts "clone #{dir} at #{src['tag']}"
+      add_submodule(src['git'], dir, src['tag']) unless opts[:dry_run]
     else
       puts "sdist #{src['sdist']}"
       vendor_sdist(e['name'], e['version']) unless opts[:dry_run]
+    end
+  end
+  manifest.projects.each do |proj|
+    versions = frozen_versions(proj)
+    if versions.nil?
+      puts "#{proj}: no cabal.project.freeze yet; run add.rb --freeze #{proj}"
+      next
+    end
+    own = manifest.project_entries(proj).map { |e| e['name'] }
+    versions.each do |name, version|
+      next if own.include?(name) || Hackage::BOOT.include?(name)
+      next if Dir.exist?(File.join(ROOT, 'projects', proj, 'vendored', "#{name}-#{version}"))
+
+      puts "#{proj}: sdist #{name}-#{version}"
+      vendor_private(proj, name, version) unless opts[:dry_run]
     end
   end
   Dir.glob(File.join(ROOT, 'patches', '*.patch')).sort.each do |p|
@@ -340,7 +421,67 @@ if opts[:fetch]
     else
       puts "#{File.basename(p)}: already applied or does not apply"
     end
+    # The same patch applies to a standalone project's private copy of
+    # the same package version.
+    name = File.basename(p, '.patch')
+    corpus = manifest.find(name)
+    next unless corpus
+
+    manifest.projects.each do |proj|
+      version = (frozen_versions(proj) || {})[name]
+      next unless version == corpus['version']
+
+      dir = File.join('projects', proj, 'vendored', "#{name}-#{version}")
+      next unless Dir.exist?(File.join(ROOT, dir))
+
+      applied = apply_patch_in(p, corpus['path'], dir)
+      puts(applied ? "applied #{File.basename(p)} to #{dir}" : "#{File.basename(p)}: already applied to #{dir} or does not apply")
+    end
   end
+  exit 0
+end
+
+# Record the exact dependency versions of a standalone project: solve
+# its packages' own bounds, relaxed only on boot packages, against the
+# index with the compiler under test, and keep the non-boot results.
+if opts[:freeze]
+  proj = opts[:freeze]
+  entries = manifest.project_entries(proj)
+  abort "add.rb: no packages belong to project #{proj}" if entries.empty?
+  entries.each do |e|
+    next if Dir.exist?(File.join(ROOT, checkout_dir(e)))
+
+    abort "add.rb: #{checkout_dir(e)} is missing; run add.rb --fetch first"
+  end
+  build_root = File.expand_path(opts[:build_root], REPO)
+  ghc = File.join(build_root, 'stage1', 'bin', 'ghc')
+  ghc_pkg = File.join(build_root, 'stage1', 'bin', 'ghc-pkg')
+  abort "add.rb: #{ghc} not found; run hadrian/build first" unless File.exist?(ghc)
+  run!('ruby', File.join(ROOT, 'check.rb'), '--write-project')
+  dir = File.join(ROOT, 'projects', proj)
+  freeze = File.join(dir, 'cabal.project.freeze')
+  # Solve from a copy of the project file without the vendored copies:
+  # cabal does not freeze local packages, and the previous freeze must
+  # not constrain the new one.
+  solve = File.join(dir, 'cabal.project.solve')
+  File.write(solve, File.read(File.join(dir, 'cabal.project')).lines.reject { |l| l.start_with?('optional-packages:') }.join)
+  FileUtils.rm_f("#{solve}.freeze")
+  run!('cabal', 'freeze', '--offline', "--project-file=#{solve}",
+       "--builddir=#{File.join(ROOT, 'dist', "freeze-#{proj}")}",
+       "--with-compiler=#{ghc}", "--with-hc-pkg=#{ghc_pkg}", chdir: dir)
+  own = entries.map { |e| e['name'] }
+  block = File.read("#{solve}.freeze")[/^constraints:(.*?)(?=^\S|\z)/m, 1].to_s
+  FileUtils.rm_f([solve, "#{solve}.freeze"])
+  keep = block.split(',').map(&:strip).reject(&:empty?).reject do |item|
+    name = item.sub(/^any\./, '').split(' ').first
+    own.include?(name) || Hackage::BOOT.include?(name)
+  end
+  lines = ["-- Generated by add.rb --freeze #{proj}: the exact dependency versions",
+           "-- that the project's own bounds select, boot packages excluded.",
+           '-- `add.rb --fetch` vendors them under vendored/.',
+           "constraints: #{keep.join(",\n             ")}"]
+  File.write(freeze, lines.join("\n") + "\n")
+  puts "#{proj}: #{keep.count { |k| k.start_with?('any.') }} package(s) frozen in #{freeze.sub("#{ROOT}/", '')}"
   exit 0
 end
 

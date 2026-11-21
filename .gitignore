@@ -276,3 +276,8 @@ dist-newstyle/
 !/external-packages/patches/
 !/external-packages/patches/*.patch
 /external-packages/.ghc.environment*
+# Standalone projects (projects/NAME/): their project and freeze files
+# are tracked, their clones and vendored sdists are not.
+!/external-packages/projects/
+/external-packages/projects/*/*/
+/external-packages/projects/*/.ghc.environment*

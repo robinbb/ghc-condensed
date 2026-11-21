@@ -39,12 +39,14 @@ Other options: `--jobs N`, `--only pkg,...` (restrict to some roots),
 |---|---|---|
 | 1 | feature-coverage libraries and light applications | minutes |
 | 2 | pandoc, hakyll, sdl2, hledger, happstack and their closures | an hour or more |
-| 3 | git-annex | tier 2 plus about 20 minutes |
+| 3 | git-annex and purescript | tier 2 plus about 30 minutes |
 
 `--tier N` runs tiers 1 to N. Each tier has its own generated project
 file (`cabal.project` for tier 1, `cabal.project.tierN` otherwise),
 because cabal solves for every package in a project at once and the
-unsolvable packages of a higher tier must not block a lower one.
+unsolvable packages of a higher tier must not block a lower one. A
+standalone project (see the policies) is built after the tier build,
+in its own project file and build directory.
 
 ## Policies
 
@@ -82,6 +84,19 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   with this compiler, not to validate bounds. Lower bounds still apply.
   A package that genuinely fails against a newer dependency shows up as
   a build failure and is recorded as such.
+- **Standalone projects.** A root whose own constraints cannot be met
+  inside the single-version corpus gets a cabal project of its own under
+  `projects/NAME/`. purescript is one: it pins the happy build tool at
+  2.0, which `allow-newer` does not relax, while the corpus holds happy
+  2.2. Its manifest entries carry `project: NAME`; `add.rb --freeze
+  NAME` records in `projects/NAME/cabal.project.freeze` the exact
+  dependency versions that the project's own bounds select, relaxing
+  only the bounds on packages the compiler ships, since those versions
+  are fixed by the compiler under test; and `add.rb --fetch` vendors
+  private copies of them under `projects/NAME/vendored/`, applying the
+  corpus patches to copies of the same package versions. A `constraints:`
+  field on an entry adds solver constraints to its project. The private
+  copies are built alongside the root but not reported individually.
 - **Environment.** A package's `env:` field sets variables for its test
   run, used where the package's own CI selects tests that way (shake
   skips its docs, self and selfmake tests when `CI` is set, as GitHub
@@ -122,12 +137,16 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   and writes the manifest.
 - `vendored/`: unpacked sdists for packages without a git repository
   (not committed; see below).
+- `projects/NAME/`: a standalone project's generated `cabal.project` and
+  its `cabal.project.freeze`, both committed; its clones and its
+  `vendored/` copies are not.
 - `patches/`: the deliberate exceptions, as diffs (see its README).
 
 ## What is committed
 
 Only the tooling, this documentation, `manifest.yaml`, the generated
-project files and `patches/` are committed. The package sources are
+project files, the standalone projects' freeze files and `patches/` are
+committed. The package sources are
 not: the clones and vendored sdists live in the working tree only,
 ignored by git, so that the repository's history carries neither the
 code of several hundred upstream packages nor submodule entries for
@@ -136,9 +155,9 @@ fresh clone, inside `nix develop` with network access:
 
     $ ruby external-packages/add.rb --fetch
 
-clones every repository at its recorded tag, vendors every sdist, and
-applies the patches. It skips whatever is already present, so it is
-safe to rerun.
+clones every repository at its recorded tag or commit, vendors every
+sdist and every standalone project's private copies, and applies the
+patches. It skips whatever is already present, so it is safe to rerun.
 
 ## Adding or bumping a package
 
@@ -154,3 +173,10 @@ solver still asks for, and run the check. Record each new failure in
 the manifest with a reason. `add.rb --refresh` moves multi-package
 repositories forward, `add.rb --replace [--vendor] [--version V] NAME`
 swaps a package's source, and `add.rb --remove NAME` drops one.
+
+A standalone project is added by hand: write its manifest entries with
+`project: NAME` and paths under `projects/NAME/`, run `add.rb --fetch`
+for the clones, `add.rb --freeze NAME --build-root DIR` for the freeze
+file, and `add.rb --fetch` again for the private copies. To re-freeze
+after a bump, run `--freeze` again and remove the stale directories
+under `projects/NAME/vendored/`.

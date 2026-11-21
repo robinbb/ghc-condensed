@@ -12,11 +12,19 @@
 #     role:     root (chosen for coverage) or dep (pulled in by a root)
 #     tests:    whether its test suites are run
 #     flags:    cabal flags for the package, e.g. "+os-string" (optional)
+#     constraints: extra solver constraints for the package's project,
+#               e.g. "any.happy ==2.0.2" (optional)
 #     env:      environment variables for its test run, e.g. {CI: 'true'}
 #               (optional)
 #     test_runs: argument strings for the test executable, one cabal test
 #               run each, when a subset of its tests is wanted (optional)
-#     source:   { git: URL, tag: TAG } or { sdist: NAME-VERSION }
+#     source:   { git: URL, tag: TAG }, { git: URL, commit: SHA } or
+#               { sdist: NAME-VERSION }
+#     project:  name of the standalone project the package belongs to
+#               (optional). Such packages live under projects/NAME/ and
+#               are solved and built in their own cabal project, with the
+#               exact dependency versions recorded in that project's
+#               cabal.project.freeze, instead of in the tier projects.
 #     expected: ok | build-failure | test-failure | flaky | unsolvable
 #               (flaky: the test suite passes or fails nondeterministically)
 #     reason:   free text; required when expected is not ok, or when a
@@ -68,7 +76,17 @@ class Manifest
   end
 
   # Packages that take part in dependency solving for the given tier.
+  # Standalone projects solve on their own.
   def solvable(max_tier)
-    @packages.select { |e| e['tier'] <= max_tier && e['expected'] != 'unsolvable' }
+    @packages.select { |e| e['tier'] <= max_tier && e['expected'] != 'unsolvable' && !e['project'] }
+  end
+
+  # Names of the standalone projects with a package in tiers 1..max_tier.
+  def projects(max_tier = Float::INFINITY)
+    @packages.select { |e| e['project'] && e['tier'] <= max_tier }.map { |e| e['project'] }.uniq.sort
+  end
+
+  def project_entries(project)
+    @packages.select { |e| e['project'] == project }
   end
 end

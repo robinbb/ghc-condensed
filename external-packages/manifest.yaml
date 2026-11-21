@@ -4006,7 +4006,9 @@ packages:
     sdist: sdl2-2.5.6.1
   note: no tag for 2.5.6.1 in https://github.com/haskell-game/sdl2.git
   tests: false
-  reason: sdl-space needs a working SDL video renderer, which the nix shell does not provide
+  reason: >-
+    sdl-space needs a working SDL video renderer, which the nix shell does not
+    provide
 - name: semigroups
   version: 0.20.1
   tier: 2
@@ -5063,6 +5065,19 @@ packages:
     sdist: bloomfilter-2.0.1.3
   note: tag 2.0.1.3 carries version 2.0.1.2, not 2.0.1.3
   tests: false
+- name: cheapskate
+  version: 0.1.1.2
+  tier: 3
+  role: dep
+  expected: ok
+  path: projects/purescript/cheapskate
+  project: purescript
+  source:
+    git: https://github.com/purescript/cheapskate.git
+    commit: 633c69024e061ad956f1aecfc137fb99a7a7a20b
+  tests: false
+  note: >-
+    the fork purescript pins in its cabal.project; the Hackage release is unmaintained
 - name: code-page
   version: 0.2.1
   tier: 3
@@ -5335,6 +5350,26 @@ packages:
     sdist: persistent-sqlite-2.13.3.1
   note: vendored on request
   tests: false
+- name: purescript
+  version: 0.15.16
+  tier: 3
+  role: root
+  expected: ok
+  path: projects/purescript/purescript
+  project: purescript
+  source:
+    git: https://github.com/purescript/purescript.git
+    tag: v0.15.16
+  tests: false
+  reason: >-
+    the test suite runs npm install and bower and executes compiled code with
+    node
+  note: >-
+    GitHub release; Hackage stops at 0.15.15. Built in its own project with its
+    own dependency versions, because it pins the happy build tool at 2.0 (allow-newer
+    does not relax build-tool-depends) while the corpus holds 2.2; language-javascript
+    accepts any happy, so one copy serves both
+  constraints: any.happy ==2.0.2
 - name: SafeSemaphore
   version: 0.10.1
   tier: 3
