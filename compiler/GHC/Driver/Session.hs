@@ -1088,10 +1088,6 @@ dynamic_flags_deps = [
         "The -n flag is deprecated and no longer has any effect"
   , make_ord_flag defFlag "cpp"      (NoArg (setExtensionFlag LangExt.Cpp))
   , make_ord_flag defFlag "F"        (NoArg (setGeneralFlag Opt_Pp))
-  , (Deprecated, defFlag "#include"
-      (HasArg (\_s ->
-         deprecate ("-#include and INCLUDE pragmas are " ++
-                    "deprecated: They no longer have any effect"))))
   , make_ord_flag defFlag "v"        (OptIntSuffix setVerbosity)
 
   , make_ord_flag defGhcFlag "j"     (OptIntSuffix
