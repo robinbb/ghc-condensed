@@ -47,6 +47,34 @@ whitespace:
 				utils/hpc\
 				utils/unlit\
 				utils/haddock\
+				libraries/Cabal\
+				libraries/Win32\
+				libraries/array\
+				libraries/binary\
+				libraries/bytestring\
+				libraries/containers\
+				libraries/deepseq\
+				libraries/directory\
+				libraries/exceptions\
+				libraries/file-io\
+				libraries/filepath\
+				libraries/haskeline\
+				libraries/hpc\
+				libraries/mtl\
+				libraries/os-string\
+				libraries/parsec\
+				libraries/pretty\
+				libraries/process\
+				libraries/semaphore-compat\
+				libraries/stm\
+				libraries/template-haskell-lift\
+				libraries/template-haskell-quasiquoter\
+				libraries/terminfo\
+				libraries/text\
+				libraries/time\
+				libraries/transformers\
+				libraries/unix\
+				libraries/xhtml\
 			--ignore-files\
 				libraries/base/GHC/IO/Encoding/CodePage/Table.hs\
 				libraries/base/Control/Concurrent/QSem.hs\

@@ -1,3 +1,4 @@
+import Data.List (isPrefixOf)
 import qualified Data.Set as S
 import System.Process
 import System.Environment
@@ -54,8 +55,23 @@ main = do
         let excludeList =
               [ "testsuite/tests/linters/notes.stdout"
               , "linters/lint-notes/test" ]
+            -- The library submodules absorbed into the tree keep their own
+            -- Notes; references inside them are not GHC's to check.
+            absorbedLibraries =
+              [
+              "libraries/Cabal/", "libraries/Win32/", "libraries/array/",
+              "libraries/binary/", "libraries/bytestring/", "libraries/containers/",
+              "libraries/deepseq/", "libraries/directory/", "libraries/exceptions/",
+              "libraries/file-io/", "libraries/filepath/", "libraries/haskeline/",
+              "libraries/hpc/", "libraries/mtl/", "libraries/os-string/",
+              "libraries/parsec/", "libraries/pretty/", "libraries/process/",
+              "libraries/semaphore-compat/", "libraries/stm/", "libraries/template-haskell-lift/",
+              "libraries/template-haskell-quasiquoter/", "libraries/terminfo/", "libraries/text/",
+              "libraries/time/", "libraries/transformers/", "libraries/unix/",
+              "libraries/xhtml/" ]
+            excluded f = f `elem` excludeList || any (`isPrefixOf` f) absorbedLibraries
         files <- lines <$> readProcess "git" ["ls-tree", "--name-only", "-r", "HEAD"] ""
-        return (parseMode mode, filter (`notElem` excludeList) files)
+        return (parseMode mode, filter (not . excluded) files)
       _ -> usage
 
     case mode of

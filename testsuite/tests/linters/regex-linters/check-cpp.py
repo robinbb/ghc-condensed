@@ -6,6 +6,18 @@
 from pathlib import Path
 from linter import run_linters, RegexpLinter
 
+# The library submodules absorbed into the tree keep their own
+# conventions and are not linted.
+ABSORBED_LIBRARIES = {
+    'Cabal', 'Win32', 'array', 'binary',
+    'bytestring', 'containers', 'deepseq', 'directory',
+    'exceptions', 'file-io', 'filepath', 'haskeline',
+    'hpc', 'mtl', 'os-string', 'parsec',
+    'pretty', 'process', 'semaphore-compat', 'stm',
+    'template-haskell-lift', 'template-haskell-quasiquoter', 'terminfo', 'text',
+    'time', 'transformers', 'unix', 'xhtml',
+}
+
 linters = [
     RegexpLinter(r'WARN\s+\(',
                  message='CPP macros should not have a space between the macro name and their argument list'),
@@ -33,6 +45,9 @@ for l in linters:
     l.add_path_filter(lambda path: not path.name == 'core-spec.pdf')
     # Don't lint the linter itself
     l.add_path_filter(lambda path: not path.name == 'check-cpp.py')
+    # Don't lint the absorbed library submodules
+    l.add_path_filter(lambda path: not (len(path.parts) > 1 and path.parts[0] == 'libraries'
+                                        and path.parts[1] in ABSORBED_LIBRARIES))
 
 if __name__ == '__main__':
     run_linters(linters)
