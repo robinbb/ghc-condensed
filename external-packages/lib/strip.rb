@@ -20,7 +20,12 @@ module Strip
   # Deprecated aliases this compiler has removed, with the name it still
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
-  RENAMED = { 'PolymorphicComponents' => 'RankNTypes', 'Rank2Types' => 'RankNTypes' }.freeze
+  RENAMED = {
+    'DoRec' => 'RecursiveDo',
+    'PolymorphicComponents' => 'RankNTypes',
+    'Rank2Types' => 'RankNTypes',
+    'RecordPuns' => 'NamedFieldPuns'
+  }.freeze
 
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
 

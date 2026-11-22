@@ -1,4 +1,4 @@
-{-# LANGUAGE DoRec #-}
+{-# LANGUAGE RecursiveDo #-}
 
 main :: IO ()
 main = do x <- return (length [1 .. 42 :: Int])

@@ -58,5 +58,7 @@ expectedCabalOnlyExtensions = ["Generics",
                                "Rank2Types",
                                "PolymorphicComponents",
                                "AlternativeLayoutRule",
-                               "AlternativeLayoutRuleTransitional"
+                               "AlternativeLayoutRuleTransitional",
+                               "DoRec",
+                               "RecordPuns"
                               ]

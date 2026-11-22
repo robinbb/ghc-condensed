@@ -1,5 +1,5 @@
 
-{-# LANGUAGE RecursiveDo, DoRec #-}
+{-# LANGUAGE RecursiveDo #-}
 {-# OPTIONS_GHC -fno-warn-deprecated-flags #-}
 
 module M where
