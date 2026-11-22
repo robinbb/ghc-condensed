@@ -5,7 +5,6 @@
 -XAutoDeriveTypeable
 -XJavaScriptFFI
 -XParallelArrays
--XPatternSignatures
 -XRelaxedLayout
 -copy-libs-when-linking
 -dannot-lint

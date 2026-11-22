@@ -22,6 +22,7 @@ module Strip
   # changes nothing for the package either.
   RENAMED = {
     'DoRec' => 'RecursiveDo',
+    'PatternSignatures' => 'ScopedTypeVariables',
     'PolymorphicComponents' => 'RankNTypes',
     'Rank2Types' => 'RankNTypes',
     'RecordPuns' => 'NamedFieldPuns'

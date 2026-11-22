@@ -127,15 +127,6 @@ extensionDeprecation = \case
   LangExt.TypeInType                        -> ExtensionDeprecatedFor [LangExt.DataKinds, LangExt.PolyKinds]
   _                                         -> ExtensionNotDeprecated
 
--- | Was this extension known by any other names in the past, which have now
--- been deprecated? (This does not imply that the main extension itself has been
--- deprecated. It lists only names that do not correspond to 'LangExt.Extension'
--- constructors.)
-extensionDeprecatedNames :: LangExt.Extension -> [String]
-extensionDeprecatedNames = \case
-  LangExt.ScopedTypeVariables -> ["PatternSignatures"]
-  _ -> []
-
 extensionName :: LangExt.Extension -> String
 extensionName = \case
   LangExt.Cpp -> "CPP"
@@ -281,9 +272,8 @@ extensionAlternateNames = \case
 
 -- | All the names by which an extension is known.
 extensionNames :: LangExt.Extension -> [ (ExtensionDeprecation, String) ]
-extensionNames ext = mk (extensionDeprecation ext)     (extensionName ext : extensionAlternateNames ext)
-                  ++ mk (ExtensionDeprecatedFor [ext]) (extensionDeprecatedNames ext)
-  where mk depr = map (\name -> (depr, name))
+extensionNames ext = [ (extensionDeprecation ext, name)
+                     | name <- extensionName ext : extensionAlternateNames ext ]
 
 impliedXFlags :: [(LangExt.Extension, OnOff LangExt.Extension)]
 impliedXFlags

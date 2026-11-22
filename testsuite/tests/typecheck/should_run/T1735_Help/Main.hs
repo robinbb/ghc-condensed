@@ -1,6 +1,6 @@
 
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
-             PatternSignatures, GADTs, RankNTypes, FlexibleContexts,
+             GADTs, RankNTypes, FlexibleContexts,
              GeneralizedNewtypeDeriving,
              DeriveDataTypeable,
              OverlappingInstances, UndecidableInstances, CPP #-}
