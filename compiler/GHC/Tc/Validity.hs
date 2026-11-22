@@ -546,7 +546,6 @@ typeOrKindCtxt (SpecInstCtxt {})    = OnlyTypeCtxt
 typeOrKindCtxt (GenSigCtxt {})      = OnlyTypeCtxt
 typeOrKindCtxt (ClassSCCtxt {})     = OnlyTypeCtxt
 typeOrKindCtxt (SigmaCtxt {})       = OnlyTypeCtxt
-typeOrKindCtxt (DataTyCtxt {})      = OnlyTypeCtxt
 typeOrKindCtxt (DerivClauseCtxt {}) = OnlyTypeCtxt
 typeOrKindCtxt (ConArgCtxt {})      = OnlyTypeCtxt
   -- Although data constructors can be promoted with DataKinds, we always
@@ -1349,14 +1348,11 @@ check_class_pred env dflags ctxt pred cls tys
 checkSimplifiableClassConstraint :: TidyEnv -> DynFlags -> UserTypeCtxt
                                  -> Class -> [TcType] -> TcM ()
 -- See Note [Simplifiable given constraints]
-checkSimplifiableClassConstraint env dflags ctxt cls tys
+checkSimplifiableClassConstraint env dflags _ctxt cls tys
   | not (wopt Opt_WarnSimplifiableClassConstraints dflags)
   = return ()
   | xopt LangExt.MonoLocalBinds dflags
   = return ()
-
-  | DataTyCtxt {} <- ctxt   -- Don't do this check for the "stupid theta"
-  = return ()               -- of a data type declaration
 
   | cls `hasKey` coercibleTyConKey
   = return ()   -- Oddly, we treat (Coercible t1 t2) as unconditionally OK
@@ -1420,7 +1416,6 @@ okIPCtxt (ConArgCtxt {})        = True
 okIPCtxt (ForSigCtxt {})        = True  -- ??
 okIPCtxt (GhciCtxt {})          = True
 okIPCtxt SigmaCtxt              = True
-okIPCtxt (DataTyCtxt {})        = True
 okIPCtxt (PatSynCtxt {})        = True
 okIPCtxt (TySynCtxt {})         = True   -- e.g.   type Blah = ?x::Int
                                          -- #11466

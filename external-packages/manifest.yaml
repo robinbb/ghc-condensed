@@ -1624,6 +1624,9 @@ packages:
     git: https://github.com/haskell/alex.git
     tag: v3.5.4.2
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: drops the datatype context
+    of Data.Ranged.RangedSet.RSet, which this compiler no longer accepts
 - name: ansi-wl-pprint
   version: 1.1.1
   tier: 2
@@ -2236,6 +2239,9 @@ packages:
   note: >-
     no tag for 1.10.1 in https://github.com/kazu-yamamoto/crypton-certificate.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: drops the datatype contexts
+    of Data.X509.Signed.Signed and SignedExact, which this compiler no longer accepts
 - name: crypton-x509-store
   version: 1.10.0
   tier: 2

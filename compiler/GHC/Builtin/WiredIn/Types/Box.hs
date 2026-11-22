@@ -303,7 +303,6 @@ mkWiredInNewTyCon tc_name dc_name nt_co_uniq bndrs roles nt_fld_ty =
            bndrs 0 liftedTypeKind
            roles
            Nothing   -- no CType
-           []        -- no stupid theta
            (NewTyCon { data_con     = dc
                      , nt_rhs       = nt_fld_ty
                      , nt_etad_rhs  = (tvs, nt_fld_ty)
@@ -563,7 +562,6 @@ boxSumTyCon = tc
                     (mkTyConKind bndrs liftedTypeKind) bndrs 0 liftedTypeKind
                     [Nominal]  -- rs occurs under the type family (!!)
                     Nothing    -- no CType
-                    []         -- no stupid theta
                     (mkDataTyConRhs (map mk_dc [0 .. mAX_SUM_SIZE - 1]))
                     (VanillaAlgTyCon (mkPrelTyConRepName boxSumTyConName))
                     False      -- not declared with GADT syntax

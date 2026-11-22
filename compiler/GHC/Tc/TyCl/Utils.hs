@@ -547,8 +547,7 @@ irTyCon tc
        ; unless (all (== Nominal) old_roles) $  -- also catches data families,
                                                 -- which don't want or need role inference
          irTcTyVars tc $
-         do { mapM_ (irType emptyVarSet) (tyConStupidTheta tc)  -- See #8958
-            ; whenIsJust (tyConClass_maybe tc) irClass
+         do { whenIsJust (tyConClass_maybe tc) irClass
             ; mapM_ irDataCon (visibleDataCons $ algTyConRhs tc) }}
 
   | Just ty <- synTyConRhs_maybe tc
@@ -918,8 +917,6 @@ mkOneRecordSelector all_cons idDetails fl has_sel
 
     sel_ty | is_naughty = unitTy  -- See Note [Naughty record selectors]
            | otherwise  = mkForAllTys sel_tvbs $
-                          -- Urgh! See Note [The stupid context] in GHC.Core.DataCon
-                          mkPhiTy (conLikeStupidTheta con1) $
                           -- req_theta is empty for normal DataCon
                           mkPhiTy req_theta                 $
                           mkVisFunTyMany data_ty            $

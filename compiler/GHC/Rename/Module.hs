@@ -2047,21 +2047,15 @@ rnTySyn doc rhs = rnLHsType doc rhs
 
 rnDataDefn :: HsDocContext -> HsDataDefn GhcPs
            -> RnM (HsDataDefn GhcRn, FreeNames)
-rnDataDefn doc (HsDataDefn { dd_cType = cType, dd_ctxt = context, dd_cons = condecls
+rnDataDefn doc (HsDataDefn { dd_cType = cType, dd_cons = condecls
                            , dd_kindSig = m_sig, dd_derivs = derivs })
-  = do  { -- DatatypeContexts (i.e., stupid contexts) can't be combined with
-          -- GADT syntax. See Note [The stupid context] in GHC.Core.DataCon.
-          checkTc (h98_style || null (hsc_ctxt $ fromMaybeContext context))
-                  (TcRnStupidThetaInGadt doc)
-
-        -- Check restrictions on "type data" declarations.
+  = do  { -- Check restrictions on "type data" declarations.
         -- See Note [Type data declarations].
         ; when (isTypeDataDefnCons condecls) check_type_data
 
         ; (m_sig', sig_fvs) <- case m_sig of
              Just sig -> first Just <$> rnLHsKind doc sig
              Nothing  -> return (Nothing, emptyFNs)
-        ; (context', fvs1) <- rnMaybeContext doc context
         ; (derivs',  fvs3) <- rn_derivs derivs
 
         -- For the constructor declarations, drop the LocalRdrEnv
@@ -2074,11 +2068,10 @@ rnDataDefn doc (HsDataDefn { dd_cType = cType, dd_ctxt = context, dd_cons = cond
            -- No need to check for duplicate constructor decls
            -- since that is done by GHC.Rename.Names.extendGlobalRdrEnvRn
 
-        ; let all_fvs = fvs1 `plusFN` fvs3 `plusFN`
+        ; let all_fvs = fvs3 `plusFN`
                         con_fvs `plusFN` sig_fvs
         ; return ( HsDataDefn { dd_ext = noAnn
                               , dd_cType = fmap rn_ctype <$> cType
-                              , dd_ctxt = context'
                               , dd_kindSig = m_sig'
                               , dd_cons = condecls'
                               , dd_derivs = derivs' }
@@ -2087,7 +2080,7 @@ rnDataDefn doc (HsDataDefn { dd_cType = cType, dd_ctxt = context, dd_cons = cond
   where
     rn_ctype :: CType GhcPs -> CType GhcRn
     rn_ctype (CType x y z) = CType x (renameHeader <$> y) z
-    h98_style = not $ anyLConIsGadt condecls  -- Note [Stupid theta]
+    h98_style = not $ anyLConIsGadt condecls
 
     rn_derivs ds
       = do { deriv_strats_ok <- xoptM LangExt.DerivingStrategies
@@ -2101,8 +2094,6 @@ rnDataDefn doc (HsDataDefn { dd_cType = cType, dd_ctxt = context, dd_cons = cond
     -- on the declaration.  See Note [Type data declarations].
     check_type_data
       = do { unlessXOptM LangExt.TypeData $ failWith TcRnIllegalTypeData
-           ; unless (null (hsc_ctxt $ fromMaybeContext context)) $
-               failWith $ TcRnTypeDataForbids TypeDataForbidsDatatypeContexts
            ; mapM_ (addLocM check_type_data_condecl) condecls
            ; unless (null derivs) $
                failWith $ TcRnTypeDataForbids TypeDataForbidsDerivingClauses
@@ -2165,8 +2156,7 @@ preceded by `type`, with the following restrictions:
 (R0) 'data' decls only, not 'newtype' decls.  This is checked by
      the parser.
 
-(R1) There are no data type contexts (even with the DatatypeContexts
-     extension).
+(R1) There are no data type contexts.
 
 (R2) There are no labelled fields.  Perhaps these could be supported
      using type families, but they are omitted for now.
@@ -2572,17 +2562,6 @@ rnInjectivityAnn _ _ (L srcSpan (InjectivityAnn x injFrom injTo)) =
      injTo'   <- mapM rnLTyVar injTo
      return $ L srcSpan (InjectivityAnn x (fmap greName injFrom') (fmap (fmap greName) injTo'))
    return $ injDecl'
-
-{-
-Note [Stupid theta]
-~~~~~~~~~~~~~~~~~~~
-#3850 complains about a regression wrt 6.10 for
-     data Show a => T a
-There is no reason not to allow the stupid theta if there are no data
-constructors.  It's still stupid, but does no harm, and I don't want
-to cause programs to break unnecessarily (notably HList).  So if there
-are no data constructors we allow h98_style = True
--}
 
 
 {- *****************************************************

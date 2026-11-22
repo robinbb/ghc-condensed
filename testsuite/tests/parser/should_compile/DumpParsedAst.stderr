@@ -125,7 +125,6 @@
          (EpaSpan { DumpParsedAst.hs:7:12 })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L
@@ -836,7 +835,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { DumpParsedAst.hs:15:19 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons
@@ -1805,7 +1803,6 @@
           (EpTok (EpaSpan { <no location info> }))
           (EpTok
            (EpaSpan { <no location info> })))
-         (Nothing)
          (Nothing)
          (Just
           (L

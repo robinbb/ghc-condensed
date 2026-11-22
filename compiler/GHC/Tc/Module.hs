@@ -1339,16 +1339,13 @@ checkBootTyCon boot_or_sig tc1 tc2
        ; check (injInfo1 == injInfo2) TyConInjectivityMismatch }
 
   | isAlgTyCon tc1 && isAlgTyCon tc2
-  , Just env <- eqVarBndrs emptyRnEnv2 (tyConTyVars tc1) (tyConTyVars tc2)
+  , Just _env <- eqVarBndrs emptyRnEnv2 (tyConTyVars tc1) (tyConTyVars tc2)
   = assert (tc1 == tc2) $
   do { check_roles
      ; let rhs1 = algTyConRhs tc1
            rhs2 = algTyConRhs tc2
      ; embedErrs (TyConMismatchedData rhs1 rhs2) $
-  do { check (liftEq (eqTypeX env)
-                     (tyConStupidTheta tc1) (tyConStupidTheta tc2))
-                      MismatchedDatatypeContexts
-     ; compatAlgRhs rhs1 rhs2 } }
+       compatAlgRhs rhs1 rhs2 }
 
   | otherwise = bootErr TyConsVeryDifferent
                 -- two very different types;

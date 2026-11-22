@@ -628,7 +628,6 @@ pcTyCon name cType tyvars cons
   = mkAlgTyCon name (mkTyConKind bndrs res_kind) bndrs 0 res_kind
                 (map (const Representational) tyvars)
                 cType
-                []              -- No stupid theta
                 (mkDataTyConRhs cons)
                 (VanillaAlgTyCon (mkPrelTyConRepName name))
                 False           -- Not in GADT syntax
@@ -730,7 +729,6 @@ pcDataConWithFixity' declared_infix dc_name wrk_key rri
                 rri
                 tycon
                 (lookupNameEnv_NF tag_map dc_name)
-                []      -- No stupid theta
                 (mkDataConWorkId wrk_name data_con)
                 NoDataConRep    -- Wired-in types are too simple to need wrappers
 

@@ -11,7 +11,7 @@
 module GHC.Tc.Utils.Instantiate (
      topSkolemise, skolemiseRequired,
      topInstantiate,
-     instCall, instDFunType, instStupidTheta, instTyVarsWith,
+     instCall, instDFunType, instWantedTheta, instTyVarsWith,
      newWanted, newWanteds,
 
      tcInstType, tcInstTypeBndrs,
@@ -439,10 +439,10 @@ instDFunType dfun_id dfun_inst_tys
     go _ _ _ = pprPanic "instDFunTypes" (ppr dfun_id $$ ppr dfun_inst_tys)
 
 ----------------
-instStupidTheta :: CtOrigin -> TcThetaType -> TcM ()
--- Similar to instCall, but only emit the constraints in the LIE
--- Used exclusively for the 'stupid theta' of a data constructor
-instStupidTheta orig theta
+instWantedTheta :: CtOrigin -> TcThetaType -> TcM ()
+-- Similar to instCall, but only emit the constraints in the LIE;
+-- used for the Integral constraint of an n+k pattern
+instWantedTheta orig theta
   = do  { _co <- instCallConstraints orig theta -- Discard the coercion
         ; return () }
 

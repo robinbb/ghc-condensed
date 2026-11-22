@@ -19,7 +19,6 @@ module GHC.Core.ConLike (
         , conLikeUserTyVarBinders
         , conLikeExTyCoVars
         , conLikeName
-        , conLikeStupidTheta
         , conLikeImplBangs
         , conLikeFullSig
         , conLikeResTy
@@ -172,15 +171,6 @@ conLikeExTyCoVars (PatSynCon psyn1)   = patSynExTyVars psyn1
 conLikeName :: ConLike -> Name
 conLikeName (RealDataCon data_con) = dataConName data_con
 conLikeName (PatSynCon pat_syn)    = patSynName pat_syn
-
--- | The \"stupid theta\" of the 'ConLike', such as @data Eq a@ in:
---
--- > data Eq a => T a = ...
--- It is empty for `PatSynCon` as they do not allow such contexts.
--- See @Note [The stupid context]@ in "GHC.Core.DataCon".
-conLikeStupidTheta :: ConLike -> ThetaType
-conLikeStupidTheta (RealDataCon data_con) = dataConStupidTheta data_con
-conLikeStupidTheta (PatSynCon {})         = []
 
 -- | 'conLikeHasBuilder' returns True except for
 -- uni-directional pattern synonyms, which have no builder

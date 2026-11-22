@@ -86,7 +86,6 @@ module GHC.Core.TyCon(
         tyConDataCons, tyConDataCons_maybe,
         tyConSingleDataCon_maybe, tyConSingleDataCon,
         tyConFamilySize,
-        tyConStupidTheta,
         tyConArity,
         tyConNullaryTy, mkTyConTy,
         tyConRoles,
@@ -141,7 +140,7 @@ import GHC.Prelude
 import GHC.Platform
 
 import {-# SOURCE #-} GHC.Core.TyCo.Rep
-   ( Kind, Type, PredType, mkForAllTy, mkNakedFunTy, mkNakedTyConTy )
+   ( Kind, Type, mkForAllTy, mkNakedFunTy, mkNakedTyConTy )
 import {-# SOURCE #-} GHC.Core.TyCo.FVs
    ( noFreeVarsOfType )
 import {-# SOURCE #-} GHC.Core.TyCo.Ppr
@@ -825,9 +824,8 @@ data TyConDetails =
     AlgTyCon {
               -- The tyConTyVars scope over:
               --
-              -- 1. The 'algTcStupidTheta'
-              -- 2. The cached types in algTyConRhs.NewTyCon
-              -- 3. The family instance types if present
+              -- 1. The cached types in algTyConRhs.NewTyCon
+              -- 2. The family instance types if present
               --
               -- Note that it does /not/ scope over the data
               -- constructors.
@@ -842,15 +840,6 @@ data TyConDetails =
                                     -- true GADT; only that the "where" form
                                     -- was used.  This field is used only to
                                     -- guide pretty-printing
-
-        algTcStupidTheta :: [PredType], -- ^ The \"stupid theta\" for the data
-                                        -- type (always empty for GADTs).  A
-                                        -- \"stupid theta\" is the context to
-                                        -- the left of an algebraic type
-                                        -- declaration, e.g. @Eq a@ in the
-                                        -- declaration @data Eq a => T a ...@.
-                                        -- See @Note [The stupid context]@ in
-                                        -- "GHC.Core.DataCon".
 
         algTcRhs    :: AlgTyConRhs, -- ^ Contains information about the
                                     -- data constructors of the algebraic type
@@ -2093,16 +2082,14 @@ mkAlgTyCon :: Name
            -> [Role]              -- ^ The roles for each TyVar
            -> Maybe (CType GhcTc) -- ^ The C type this type corresponds to
                                   --   when using the CAPI FFI
-           -> [PredType]          -- ^ Stupid theta: see 'algTcStupidTheta'
            -> AlgTyConRhs         -- ^ Information about data constructors
            -> AlgTyConFlav        -- ^ What flavour is it?
                                   -- (e.g. vanilla, type family)
            -> Bool                -- ^ Was the 'TyCon' declared with GADT syntax?
            -> TyCon
-mkAlgTyCon name kind binders nb_eta_bndrs res_kind roles cType stupid rhs parent gadt_syn
+mkAlgTyCon name kind binders nb_eta_bndrs res_kind roles cType rhs parent gadt_syn
   = mkTyCon name kind binders nb_eta_bndrs res_kind roles $
     AlgTyCon { tyConCType       = cType
-             , algTcStupidTheta = stupid
              , algTcRhs         = rhs
              , algTcFields      = fieldsOfAlgTcRhs rhs
              , algTcFlavour     = assertPpr (okParent name parent)
@@ -2118,7 +2105,7 @@ mkClassTyCon :: Name
              -> Class
              -> Name -> TyCon
 mkClassTyCon name kind binders roles rhs clas tc_rep_name
-  = mkAlgTyCon name kind binders 0 constraintKind roles Nothing [] rhs
+  = mkAlgTyCon name kind binders 0 constraintKind roles Nothing rhs
                (ClassTyCon clas tc_rep_name)
                False
 
@@ -2134,7 +2121,6 @@ mkTupleTyCon name binders res_kind con sort parent
             (constRoles binders Representational) $
     AlgTyCon { tyConCType       = Nothing
              , algTcGadtSyntax  = False
-             , algTcStupidTheta = []
              , algTcRhs         = TupleTyCon { data_con = con
                                              , tup_sort = sort }
              , algTcFields      = M.empty
@@ -2154,7 +2140,6 @@ mkSumTyCon name binders res_kind cons parent
             (constRoles binders Representational) $
     AlgTyCon { tyConCType       = Nothing
              , algTcGadtSyntax  = False
-             , algTcStupidTheta = []
              , algTcRhs         = mkSumTyConRhs cons
              , algTcFields      = M.empty
              , algTcFlavour     = parent }
@@ -3021,16 +3006,6 @@ newTyConDataCon_maybe :: TyCon -> Maybe DataCon
 newTyConDataCon_maybe (TyCon { tyConDetails = details })
   | AlgTyCon {algTcRhs = NewTyCon { data_con = con }} <- details = Just con
   | otherwise                                                    = Nothing
-
--- | Find the \"stupid theta\" of the 'TyCon'. A \"stupid theta\" is the context
--- to the left of an algebraic type declaration, e.g. @Eq a@ in the declaration
--- @data Eq a => T a ...@. See @Note [The stupid context]@ in "GHC.Core.DataCon".
-tyConStupidTheta :: TyCon -> [PredType]
-tyConStupidTheta tc@(TyCon { tyConDetails = details })
-  | AlgTyCon {algTcStupidTheta = stupid} <- details = stupid
-  | PrimTyCon {} <- details                         = []
-  | PromotedDataCon {} <- details                   = []
-  | otherwise = pprPanic "tyConStupidTheta" (ppr tc)
 
 -- | Extract the 'TyVar's bound by a vanilla type synonym
 -- and the corresponding (unsubstituted) right hand side.

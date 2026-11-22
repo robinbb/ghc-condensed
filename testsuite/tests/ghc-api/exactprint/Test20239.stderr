@@ -139,7 +139,6 @@
            (EpaSpan { Test20239.hs:5:34 })))
          (Nothing)
          (Nothing)
-         (Nothing)
          (DataTypeCons
           (False)
           [(L

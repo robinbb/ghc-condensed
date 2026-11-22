@@ -89,19 +89,6 @@ are generated for each datatype definition:
 
      instance (t ~ [v], b ~ Maybe v) => HasField "unGadt" (Gadt t) b
 
--  If a record type has an old-fashioned datatype context, the ``HasField``
-   constraint will be reduced to solving the constraints from the context.
-   For example, ::
-
-     {-# LANGUAGE DatatypeContexts #-}
-     data Eq a => Silly a = MkSilly { unSilly :: a }
-
-   gives rise to a selector ``unSilly :: Eq a => Silly a -> a``, so
-   the solver will reduce the constraint ``HasField "unSilly" (Silly a) b`` to
-   ``Eq a`` (and unify ``a`` with ``b``), rather as if we had an instance ::
-
-     instance (Eq a, a ~ b) => HasField "unSilly" (Silly a) b
-
 See :ref:`overloaded-record-dot` for an application of solving ``HasField`` constraints to implementing "record dot syntax".
 
 .. _virtual-record-fields:

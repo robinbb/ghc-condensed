@@ -200,9 +200,6 @@ fail to compile:
 
 #. A data type has no type parameters (e.g., ``data Nothing = Nothing``).
 
-#. A data type's last type variable is used in a :extension:`DatatypeContexts`
-   constraint (e.g., ``data Ord a => O a = O a``).
-
 #. A data type's last type variable is used in an
    :extension:`ExistentialQuantification` constraint, or is refined in a GADT. For
    example, ::

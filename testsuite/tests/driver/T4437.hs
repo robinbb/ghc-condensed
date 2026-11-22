@@ -62,5 +62,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "DoRec",
                                "RecordPuns",
                                "PatternSignatures",
-                               "AutoDeriveTypeable"
+                               "AutoDeriveTypeable",
+                               "DatatypeContexts"
                               ]

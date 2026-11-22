@@ -28,7 +28,6 @@ test('T20423', normal, compile_fail, [''])
 test('T20423b', normal, compile_fail, [''])
 test('T20426', normal, compile_fail, [''])
 test('T21239', normal, compile, [''])
-test('T21544', normal, compile, ['-Wno-deprecated-flags'])
 test('T21906', normal, compile_fail, [''])
 test('T22291', normal, compile, [''])
 test('T22291b', normal, compile, [''])
@@ -46,8 +45,6 @@ test('T26528', normal, compile, [''])
 test('T27639', normal, compile, [''])
 
 test('EtaExpandDataCon', normal, compile, ['-O'])
-test('EtaExpandStupid1', normal, compile, ['-Wno-deprecated-flags'])
-test('EtaExpandStupid2', normal, compile_fail, ['-Wno-deprecated-flags'])
 test('LevPolyDataToTag1', normal, compile, [''])
 test('LevPolyDataToTag2', normal, compile_fail, [''])
 test('LevPolyLet', normal, compile_fail, [''])
@@ -99,8 +96,6 @@ test('RepPolyTupleSection', normal, compile_fail, [''])
 test('RepPolyUnboxedPatterns', normal, compile_fail, [''])
 test('RepPolyUnliftedDatatype', normal, compile, [''])
 test('RepPolyUnliftedDatatype2', normal, compile, ['-O'])
-test('RepPolyUnliftedNewtype', normal, compile,
-     ['-fno-warn-partial-type-signatures -fno-warn-deprecated-flags'])
 # js_skip: RepPolyUnsafeCoerce1 coerces from UnliftedRep to an unknown rep r
 # for which the JS backend can't compute a PrimRep.
 # Came up in https://gitlab.haskell.org/ghc/ghc/-/merge_requests/10088#note_499218
@@ -126,8 +121,6 @@ test('T17536b', normal, compile, [''])                                       ##
 test('T20363', normal, compile, [''])                                        ##
 test('T20363b', normal, compile, [''])                                       ##
 test('T20363c', normal, compile, [''])                                       ##
-test('T21650_a', js_broken(26578), compile, ['-Wno-deprecated-flags'])       ##
-test('T21650_b', js_broken(26578), compile, ['-Wno-deprecated-flags'])       ##
 test('T26072', js_broken(26578), compile, [''])                              ##
 test('T26072b', js_broken(26578), compile, [''])                             ##
 test('RepPolyArgument2', normal, compile, [''])                              ##

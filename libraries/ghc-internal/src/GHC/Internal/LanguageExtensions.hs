@@ -127,7 +127,6 @@ data Extension
    | ExplicitNamespaces
    | PackageImports
    | ExplicitForAll
-   | DatatypeContexts
    | NondecreasingIndentation
    | RelaxedLayout
    | TraditionalRecordSyntax

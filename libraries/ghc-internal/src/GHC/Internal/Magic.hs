@@ -136,7 +136,7 @@ runRW# m = m realWorld#
 type DataToTag :: forall {lev :: Levity}. TYPE (BoxedRep lev) -> Constraint
 -- See Note [DataToTag overview] in GHC.Tc.Instance.Class.
 --
--- Ignoring DatatypeContexts, any generated DataToTag instance is
+-- Ignoring datatype contexts, any generated DataToTag instance is
 -- equivalent to a function the user could have written themselves.
 -- So it does not get its own Unsafe module, unlike WithDict.
 class DataToTag a where

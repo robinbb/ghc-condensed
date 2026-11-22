@@ -135,7 +135,6 @@
          (EpaSpan { T20452.hs:5:24 })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L
@@ -264,7 +263,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { T20452.hs:6:24 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons

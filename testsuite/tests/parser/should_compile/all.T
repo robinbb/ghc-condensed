@@ -22,7 +22,6 @@ test('read014', normal, compile, ['-Wall -fno-warn-orphans'])
 test('read015', normal, compile, [''])
 test('read016', normal, compile, [''])
 test('read017', normal, compile, [''])
-test('read018', normal, compile, [''])
 test('read019', normal, compile, [''])
 
 # Missing:

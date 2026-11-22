@@ -18,7 +18,6 @@ docs:
          ImplicitPrelude
          NPlusKPatterns
          PatternGuards
-         DatatypeContexts
          NondecreasingIndentation
          TraditionalRecordSyntax
          StarIsType

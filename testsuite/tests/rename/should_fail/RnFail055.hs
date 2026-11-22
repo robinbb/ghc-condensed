@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes,ExistentialQuantification,DatatypeContexts #-}
+{-# LANGUAGE RankNTypes,ExistentialQuantification #-}
 module RnFail055 where
 
 import RnFail055_aux
@@ -21,7 +21,7 @@ type S3 a = [a]
 data T1 a b = T1 [b] [a]
 
 -- datatype with different stupid theta
-data (Eq b) => T2 a b = T2 a
+data T2 a b = T2 a
 
 -- different constructor name
 data T3' = T3

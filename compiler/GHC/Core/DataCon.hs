@@ -33,7 +33,6 @@ module GHC.Core.DataCon (
         dataConConcreteTyVars,
         dataConUserTyVars, dataConUserTyVarBinders,
         dataConTheta,
-        dataConStupidTheta,
         dataConOtherTheta,
         dataConInstArgTys, dataConOrigArgTys, dataConOrigResTy,
         dataConInstOrigArgTys, dataConRepArgTys, dataConResRepTyArgs,
@@ -220,9 +219,6 @@ Note [Data constructor workers and wrappers]
 * See Note [Data Constructor Naming] for how the worker and wrapper
   are named
 
-* The workers don't take the dcStupidTheta dicts as arguments, while the
-  wrappers currently do
-
 * The wrapper (if it exists) takes dcOrigArgTys as its arguments.
   The worker takes dataConRepArgTys as its arguments
   If the wrapper is absent, dataConRepArgTys is the same as dcOrigArgTys
@@ -266,108 +262,6 @@ in wrapper_reqd in GHC.Types.Id.Make.mkDataConRep.
 
 * Type variables may be permuted; see MkId
   Note [Data con wrappers and GADT syntax]
-
-* Datatype contexts require dropping some dictionary arguments.
-  See Note [Instantiating stupid theta].
-
-Note [The stupid context]
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Data types can have a context:
-
-        data (Eq a, Ord b) => T a b = T1 a b | T2 a
-
-And that makes the constructors have a context too. A constructor's context
-isn't necessarily the same as the data type's context, however. Per the
-Haskell98 Report, the part of the datatype context that is used in a data
-constructor is the largest subset of the datatype context that constrains
-only the type variables free in the data constructor's field types. For
-example, here are the types of T1 and T2:
-
-        T1 :: (Eq a, Ord b) => a -> b -> T a b
-        T2 :: (Eq a) => a -> T a b
-
-Notice that T2's context is "thinned". Since its field is of type `a`, only
-the part of the datatype context that mentions `a`—that is, `Eq a`—is
-included in T2's context. On the other hand, T1's fields mention both `a`
-and `b`, so T1's context includes all of the datatype context.
-
-Furthermore, this context pops up when pattern matching
-(though GHC hasn't implemented this, but it is in H98, and
-I've fixed GHC so that it now does):
-
-        f (T2 x) = x
-gets inferred type
-        f :: Eq a => T a b -> a
-
-I say the context is "stupid" because the dictionaries passed
-are immediately discarded -- they do nothing and have no benefit.
-(See Note [Instantiating stupid theta].)
-It's a flaw in the language.
-
-GHC has made some efforts to correct this flaw. In GHC, datatype contexts
-are not available by default. Instead, one must explicitly opt in to them by
-using the DatatypeContexts extension. To discourage their use, GHC has
-deprecated DatatypeContexts.
-
-Some other notes about stupid contexts:
-
-* Stupid contexts can interact badly with `deriving`. For instance, it's
-  unclear how to make this derived Functor instance typecheck:
-
-    data Eq a => T a = MkT a
-      deriving Functor
-
-  This is because the derived instance would need to look something like
-  `instance Functor T where ...`, but there is nowhere to mention the
-  requisite `Eq a` constraint. For this reason, GHC will throw an error if a
-  user attempts to derive an instance for Functor (or a Functor-like class)
-  where the last type variable is used in a datatype context. For Generic(1),
-  the requirements are even harsher, as stupid contexts are not allowed at all
-  in derived Generic(1) instances. (We could consider relaxing this requirement
-  somewhat, although no one has asked for this yet.)
-
-  Stupid contexts are permitted when deriving instances of non-Functor-like
-  classes, or when deriving instances of Functor-like classes where the last
-  type variable isn't mentioned in the stupid context. For example, the
-  following is permitted:
-
-    data Show a => T a = MkT deriving Eq
-
-  Note that because of the "thinning" behavior mentioned above, the generated
-  Eq instance should not mention `Show a`, as the type of MkT doesn't require
-  it. That is, the following should be generated (#20501):
-
-    instance Eq (T a) where
-      (MkT == MkT) = True
-
-* It's not obvious how stupid contexts should interact with GADTs. For this
-  reason, GHC disallows combining datatype contexts with GADT syntax. As a
-  result, dcStupidTheta is always empty for data types defined using GADT
-  syntax.
-
-Note [Instantiating stupid theta]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Consider a data type with a "stupid theta" (see
-Note [The stupid context]):
-
-  data Ord a => T a = MkT (Maybe a)
-
-We want to generate an Ord constraint for every use of MkT; but
-we also want to allow visible type application, such as
-
-   MkT @Int
-
-To achieve this, the wrapper for a data (or newtype) constructor
-with a datatype context contains a lambda which drops the dictionary
-argments corresponding to the datatype context:
-
-   /\a \(_d:Ord a). MkT @a
-
-Notice that the wrapper discards the dictionary argument d.
-We don't need it; it was only there to generate a Wanted constraint.
-(That is why it is stupid.)
-
-This all happens in GHC.Types.Id.Make.mkDataConRep.
 
 ************************************************************************
 *                                                                      *
@@ -484,22 +378,6 @@ data DataCon
         dcOtherTheta :: ThetaType,  -- The other constraints in the data con's type
                                     -- other than those in the dcEqSpec
 
-        dcStupidTheta :: ThetaType,     -- The context of the data type declaration
-                                        --      data Eq a => T a = ...
-                                        -- or, rather, a "thinned" version thereof
-                -- "Thinned", because the Report says
-                -- to eliminate any constraints that don't mention
-                -- tyvars free in the arg types for this constructor.
-                -- See Note [The stupid context].
-                --
-                -- INVARIANT: the free tyvars of dcStupidTheta are a subset of dcUnivTyVars
-                -- Reason: dcStupidTeta is gotten by thinning the stupid theta from the tycon
-                --
-                -- "Stupid", because the dictionaries aren't used for anything.
-                -- Indeed, [as of March 02] they are no longer in the type of
-                -- the wrapper Id, because that makes it harder to use the wrap-id
-                -- to rebuild values after record selection or in generics.
-
         dcOrigArgTys :: [Scaled Type],  -- Original argument types
                                         -- (before unboxing and flattening of strict fields)
         dcOrigResTy :: Type,            -- Original result type, as seen by the user
@@ -602,9 +480,8 @@ arity (`dcSourceArity`) and the core representation arity (`dcRepArity`) may
 differ too.
 
 Note that the source arity isn't exactly the number of arguments the data con
-/wrapper/ has, since `dcSourceArity` doesn't count constraints -- which may
-appear in the wrapper through `DatatypeContexts`, or if the constructor stores a
-dictionary. In this sense, the source arity counts the number of non-constraint
+/wrapper/ has, since `dcSourceArity` doesn't count constraints -- which
+appear in the wrapper when the constructor stores a dictionary. In this sense, the source arity counts the number of non-constraint
 arguments that appear at the source level.
   On the other hand, the Core representation arity is the number of arguments
 of the data constructor in its Core representation, which is also the number
@@ -1106,8 +983,6 @@ mkDataCon :: Name
           -> PromDataConInfo    -- ^ See comments on 'GHC.Core.TyCon.PromDataConInfo'
           -> KnotTied TyCon     -- ^ Representation type constructor
           -> ConTag             -- ^ Constructor tag
-          -> ThetaType          -- ^ The "stupid theta", context of the data
-                                -- declaration e.g. @data Eq a => T a ...@
           -> Id                 -- ^ Worker Id
           -> DataConRep         -- ^ Representation
           -> DataCon
@@ -1121,7 +996,7 @@ mkDataCon name declared_infix prom_info
           univ_tvs ex_tvs conc_tvs user_tvbs
           eq_spec theta
           orig_arg_tys orig_res_ty rep_info rep_tycon tag
-          stupid_theta work_id rep
+          work_id rep
 -- Warning: mkDataCon is not a good place to check certain invariants.
 -- If the programmer writes the wrong result type in the decl, thus:
 --      data T a where { MkT :: S }
@@ -1144,7 +1019,6 @@ mkDataCon name declared_infix prom_info
                   dcUserTyVarBinders = user_tvbs,
                   dcEqSpec = eq_spec,
                   dcOtherTheta = theta,
-                  dcStupidTheta = stupid_theta,
                   dcOrigArgTys = orig_arg_tys, dcOrigResTy = orig_res_ty,
                   dcRepTyCon = rep_tycon,
                   dcSrcBangs = arg_stricts, dcImplBangs = impl_bangs,
@@ -1473,14 +1347,6 @@ dataConFullSig (MkData {dcUnivTyVars = univ_tvs, dcExTyCoVars = ex_tvs,
 dataConOrigResTy :: DataCon -> Type
 dataConOrigResTy dc = dcOrigResTy dc
 
--- | The \"stupid theta\" of the 'DataCon', such as @data Eq a@ in:
---
--- > data Eq a => T a = ...
---
--- See @Note [The stupid context]@.
-dataConStupidTheta :: DataCon -> ThetaType
-dataConStupidTheta dc = dcStupidTheta dc
-
 {-
 Note [Displaying linear fields]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1515,10 +1381,9 @@ dataConWrapperType :: DataCon -> Type
 -- mentions the family tycon, not the internal one.
 dataConWrapperType (MkData { dcUserTyVarBinders = user_tvbs,
                              dcOtherTheta = theta, dcOrigArgTys = arg_tys,
-                             dcOrigResTy = res_ty,
-                             dcStupidTheta = stupid_theta })
+                             dcOrigResTy = res_ty })
   = mkForAllTys user_tvbs $
-    mkInvisFunTys (stupid_theta ++ theta) $
+    mkInvisFunTys theta $
     mkScaledFunTys arg_tys $
     res_ty
 

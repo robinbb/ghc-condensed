@@ -743,10 +743,8 @@ mkDataConRep platform dc_bang_opts fam_envs wrap_name data_con
 
   | otherwise
   = do { wrap_args <- mapM (newLocal (fsLit "conrep")) wrap_arg_tys
-       ; wrap_body <- mk_rep_app (dropList stupid_theta wrap_args `zip` dropList eq_spec unboxers)
+       ; wrap_body <- mk_rep_app (wrap_args `zip` dropList eq_spec unboxers)
                                  initial_wrap_app
-                        -- Drop the stupid theta arguments, as per
-                        -- Note [Instantiating stupid theta] in GHC.Core.DataCon.
 
        ; let wrap_id = mkGlobalId (DataConWrapId data_con) wrap_name wrap_ty wrap_info
              wrap_info = noCafIdInfo
@@ -774,7 +772,7 @@ mkDataConRep platform dc_bang_opts fam_envs wrap_name data_con
                                                       -- LFInfo stores post-unarisation arity
 
              wrap_arg_dmds =
-               replicate (length stupid_theta + length theta) topDmd
+               replicate (length theta) topDmd
                  ++ map mk_dmd arg_ibangs
                -- Don't forget the dictionary arguments when building
                -- the strictness signature (#14290, #26748).
@@ -816,7 +814,6 @@ mkDataConRep platform dc_bang_opts fam_envs wrap_name data_con
   where
     (univ_tvs, ex_tvs, eq_spec, theta, orig_arg_tys, _orig_res_ty)
                  = dataConFullSig data_con
-    stupid_theta = dataConStupidTheta data_con
     wrap_tvbs    = dataConUserTyVarBinders data_con
     res_ty_args  = dataConResRepTyArgs data_con
 
@@ -831,9 +828,9 @@ mkDataConRep platform dc_bang_opts fam_envs wrap_name data_con
       | new_tycon
       -- See Wrinkle [Unlifted newtypes with wrappers]
       -- in Note [Desugaring unlifted newtypes] in GHC.Core.SimpleOpt.
-      = map unrestricted stupid_theta
+      = []
       | otherwise
-      = (map unrestricted $ stupid_theta ++ theta) ++ orig_arg_tys
+      = map unrestricted theta ++ orig_arg_tys
     non_wrap_arg_ty
       | new_tycon
       , [arg_ty] <- map unrestricted theta ++ orig_arg_tys
@@ -902,11 +899,6 @@ mkDataConRep platform dc_bang_opts fam_envs wrap_name data_con
                      --
                      -- NB: All GADTs return true from this function, but there
                      -- is one exception that we must check below.
-
-      || not (null stupid_theta)
-                     -- If the data constructor has a datatype context,
-                     -- we need a wrapper in order to drop the stupid arguments.
-                     -- See Note [Instantiating stupid theta] in GHC.Core.DataCon.
 
     initial_wrap_app = Var (dataConWorkId data_con)
                        `mkTyApps`  res_ty_args

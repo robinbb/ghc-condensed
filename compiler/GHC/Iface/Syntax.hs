@@ -209,7 +209,6 @@ data IfaceDecl
                 ifResKind    :: IfaceType,      -- Result kind of type constructor
                 ifCType      :: Maybe (CType GhcTc), -- C type for CAPI FFI
                 ifRoles      :: [Role],         -- Roles
-                ifCtxt       :: IfaceContext,   -- The "stupid theta"
                 ifCons       :: IfaceConDecls,  -- Includes new/data/data family info
                 ifGadtSyntax :: Bool,           -- True <=> declared using
                                                 -- GADT syntax
@@ -377,7 +376,7 @@ data IfaceConDecl
           --
           -- See Note [DataCon user type variable binders] in GHC.Core.DataCon
         ifConEqSpec  :: IfaceEqSpec,        -- Equality constraints
-        ifConCtxt    :: IfaceContext,       -- Non-stupid context
+        ifConCtxt    :: IfaceContext,       -- Constructor context
         ifConArgTys  :: [(IfaceMult, IfaceType)],-- Arg types
         ifConFields  :: [FieldLabel],  -- ...ditto... (field labels)
         ifConStricts :: [IfaceBang],
@@ -1204,7 +1203,7 @@ pprIfaceDecl :: ShowSub -> IfaceDecl -> SDoc
 -- NB: pprIfaceDecl is also used for pretty-printing TyThings in GHCi
 --     See Note [Pretty printing via Iface syntax] in GHC.Types.TyThing.Ppr
 pprIfaceDecl ss decl@(IfaceData { ifName = tycon, ifCType = ctype,
-                                  ifCtxt = context, ifKind = kind, ifResKind = res_kind,
+                                  ifKind = kind, ifResKind = res_kind,
                                   ifRoles = roles, ifCons = condecls,
                                   ifParent = parent,
                                   ifGadtSyntax = gadt,
@@ -1234,7 +1233,7 @@ pprIfaceDecl ss decl@(IfaceData { ifName = tycon, ifCType = ctype,
     pp_kind    = ppUnless (ki_sig_printable || isIfaceLiftedTypeKind res_kind)
                           (dcolon <+> ppr res_kind)
 
-    decl_head = pprIfaceDeclHead decl suppress_bndr_sig context ss tycon binders
+    decl_head = pprIfaceDeclHead decl suppress_bndr_sig [] ss tycon binders
 
     pp_lhs = case parent of
                IfNoParent -> decl_head
@@ -1950,12 +1949,11 @@ freeNamesIfDecl (IfaceId { ifType = t, ifIdDetails = d, ifIdInfo = i})
     freeNamesIfIdDetails d
 
 freeNamesIfDecl (IfaceData { ifKind = kind, ifBinders = bndrs, ifResKind = res_k
-                           , ifParent = p, ifCtxt = ctxt, ifCons = cons })
+                           , ifParent = p, ifCons = cons })
   = freeNamesIfKind kind &&&
     freeNamesIfVarBndrs bndrs &&&
     freeNamesIfType res_k &&&
     freeNamesIfaceTyConParent p &&&
-    freeNamesIfContext ctxt &&&
     freeNamesIfConDecls cons
 
 freeNamesIfDecl (IfaceSynonym { ifKind = kind, ifBinders = bndrs, ifResKind = res_k
@@ -2303,14 +2301,13 @@ instance Binary IfaceDecl where
         lazyPut bh (ty, details, idinfo)
         -- See Note [Lazy deserialization of IfaceId]
 
-    put_ bh (IfaceData a1 a10 a2 a11 a3 a4 a5 a6 a7 a8 a9) = do
+    put_ bh (IfaceData a1 a10 a2 a11 a3 a4 a5 a7 a8 a9) = do
         putByte bh 2
         putIfaceTopBndr bh a1
         put_ bh a2
         put_ bh a3
         put_ bh a4
         put_ bh a5
-        put_ bh a6
         put_ bh a7
         put_ bh a8
         put_ bh a9
@@ -2411,13 +2408,12 @@ instance Binary IfaceDecl where
                     a3  <- get bh
                     a4  <- get bh
                     a5  <- get bh
-                    a6  <- get bh
                     a7  <- get bh
                     a8  <- get bh
                     a9  <- get bh
                     a10 <- get bh
                     a11 <- get bh
-                    return (IfaceData a1 a10 a2 a11 a3 a4 a5 a6 a7 a8 a9)
+                    return (IfaceData a1 a10 a2 a11 a3 a4 a5 a7 a8 a9)
             3 -> do a1 <- getIfaceTopBndr bh
                     a2 <- get bh
                     a3 <- get bh
@@ -3129,9 +3125,9 @@ instance NFData IfaceDecl where
     IfaceId f1 f2 f3 f4 ->
       rnf f1 `seq` rnf f2 `seq` rnf f3 `seq` rnf f4
 
-    IfaceData f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 ->
+    IfaceData f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 ->
       rnf f1 `seq` rnf f2 `seq` rnf f3 `seq` rnf f4 `seq` rnf f5 `seq`
-      rnf f6 `seq` rnf f7 `seq` rnf f8 `seq` rnf f9 `seq` rnf f10 `seq` rnf f11
+      rnf f6 `seq` rnf f7 `seq` rnf f8 `seq` rnf f9 `seq` rnf f10
 
     IfaceSynonym f1 f2 f3 f4 f5 f6 ->
       rnf f1 `seq` rnf f2 `seq` rnf f3 `seq` rnf f4 `seq` rnf f5 `seq` rnf f6

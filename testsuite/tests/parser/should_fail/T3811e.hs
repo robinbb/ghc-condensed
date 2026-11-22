@@ -1,5 +1,4 @@
 
-{-# LANGUAGE NoDatatypeContexts #-}
 
 module T3811e where
 

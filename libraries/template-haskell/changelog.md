@@ -2,11 +2,13 @@
 
 ## 2.25.0.0
   * Remove the `AlternativeLayoutRule`, `AlternativeLayoutRuleTransitional`,
-    `AutoDeriveTypeable`, `ConstrainedClassMethods`, `MultiParamTypeClasses`
-    and `NullaryTypeClasses` constructors of `Extension`. GHC no longer has
-    those extensions: there is one layout rule, every type has a `Typeable`
-    instance, class methods may always constrain the class type variables,
-    and a class may have any number of parameters.
+    `AutoDeriveTypeable`, `ConstrainedClassMethods`, `DatatypeContexts`,
+    `MultiParamTypeClasses` and `NullaryTypeClasses` constructors of
+    `Extension`. GHC no longer has those extensions: there is one layout
+    rule, every type has a `Typeable` instance, a data type declaration
+    never has a context (a `DataD` or `NewtypeD` with one is refused),
+    class methods may always constrain the class type variables, and a
+    class may have any number of parameters.
 
   * Introduce `namedDefaultQuasiQuoter` and `defaultQuasiQuoter`, which fail with a helpful error when used in an inappropriate context.
 

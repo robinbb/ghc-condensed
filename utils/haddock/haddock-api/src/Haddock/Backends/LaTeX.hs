@@ -1105,19 +1105,16 @@ ppDataHeader
   ( DataDecl
       { tcdLName = L _ name
       , tcdTyVars = tyvars
-      , tcdDataDefn = HsDataDefn{dd_cons = cons, dd_ctxt = ctxt}
+      , tcdDataDefn = HsDataDefn{dd_cons = cons}
       }
     )
-  unicode =
+  _unicode =
     -- newtype or data
     ( case cons of
         NewTypeCon _ -> keyword "newtype"
         DataTypeCons False _ -> keyword "data"
         DataTypeCons True _ -> keyword "type" <+> keyword "data"
     )
-      <+>
-      -- context
-      ppLContext ctxt unicode
       <+>
       -- T a b c ..., or a :+: b
       ppAppDocNameNames False name (tyvarNames tyvars)

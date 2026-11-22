@@ -529,14 +529,12 @@ rnIfaceDecl = \case
     , ifResKind    = res_kind0
     , ifCType      = ctype
     , ifRoles      = roles
-    , ifCtxt       = ctxt0
     , ifCons       = cons0
     , ifGadtSyntax = gadt
     , ifParent     = parent0
     } -> do
     name     <- rnIfaceGlobal name0
     binders  <- mapM rnIfaceTyConBinder binders0
-    ctxt     <- mapM rnIfaceType ctxt0
     cons     <- rnIfaceConDecls cons0
     kind     <- rnIfaceType kind0
     res_kind <- rnIfaceType res_kind0
@@ -550,7 +548,6 @@ rnIfaceDecl = \case
         , ifResKind    = res_kind
         , ifCType      = ctype
         , ifRoles      = roles
-        , ifCtxt       = ctxt
         , ifCons       = cons
         , ifGadtSyntax = gadt
         , ifParent     = parent

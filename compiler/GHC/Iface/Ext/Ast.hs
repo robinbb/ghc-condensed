@@ -1624,7 +1624,7 @@ instance ToHie (LocatedA (TyClDecl GhcRn)) where
         , toHie defn
         ]
         where
-          quant_scope = mkScope $ fromMaybe (noLocA (HsContext noAnn [])) $ dd_ctxt defn
+          quant_scope = NoScope
           rhs_scope = sig_sc `combineScopes` con_sc `combineScopes` deriv_sc
           sig_sc = maybe NoScope mkScope $ dd_kindSig defn
           con_sc = foldr combineScopes NoScope $ mkScope <$> dd_cons defn
@@ -1722,9 +1722,8 @@ instance ToHie (LocatedAn NoEpAnns (InjectivityAnn GhcRn)) where
         ]
 
 instance ToHie (HsDataDefn GhcRn) where
-  toHie (HsDataDefn _ ctx _ mkind cons derivs) = concatM
-    [ toHie ctx
-    , toHie mkind
+  toHie (HsDataDefn _ _ mkind cons derivs) = concatM
+    [ toHie mkind
     , toHie cons
     , toHie derivs
     ]

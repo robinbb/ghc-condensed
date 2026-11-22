@@ -279,7 +279,6 @@ synifyTyCon prr _coax tc
                 -- No constructors; arbitrary lie, they are neither
                 -- algebraic data nor newtype:
                 , dd_cons = DataTypeCons False []
-                , dd_ctxt = Nothing
                 , dd_cType = Nothing
                 , dd_kindSig =
                     let res_kind = tyConResKind tc
@@ -355,13 +354,6 @@ synifyTyCon _prr coax tc
   -- (closed) newtype and data
   | otherwise = do
       let
-        -- This should not always be `Just`, since `Just` of an empty
-        -- context causes pretty printing to print `()` for the context
-        alg_ctx =
-          case tyConStupidTheta tc of
-            [] -> Nothing
-            th -> Just $ synifyCtx th
-
         -- Data families are named according to their CoAxioms, not their TyCons
         name = case coax of
           Just a -> synifyNameN a
@@ -406,7 +398,6 @@ synifyTyCon _prr coax tc
         defn =
           HsDataDefn
             { dd_ext = noAnn
-            , dd_ctxt = alg_ctx
             , dd_cType = Nothing
             , dd_kindSig = kindSig
             , dd_cons = cons

@@ -3,7 +3,6 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE DatatypeContexts #-}
 
 module ShouldCompile where
 
@@ -30,7 +29,7 @@ data NotPrimitivelyRecursive a
     | S2 a
   deriving (Functor,Eq)
 
-data Eq a => StupidConstraint a b = Stupid a b
+data StupidConstraint a b = Stupid a b
   deriving (Functor)
 
 -- requires Functor constraint on f and g

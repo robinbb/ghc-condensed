@@ -2316,8 +2316,8 @@ reifyTyCon tc
   = mkDataConI dc
 
   | otherwise
-  = do  { cxt <- reifyCxt (tyConStupidTheta tc)
-        ; let tvs      = tyConTyVars tc
+  = do  { let cxt      = []
+              tvs      = tyConTyVars tc
               dataCons = tyConDataCons tc
               isGadt   = isGadtSyntaxTyCon tc
         ; cons <- mapM (reifyDataCon isGadt (mkTyVarTys tvs)) dataCons

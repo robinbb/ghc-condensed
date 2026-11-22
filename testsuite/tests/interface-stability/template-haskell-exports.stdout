@@ -226,7 +226,6 @@ module Language.Haskell.TH where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout
     | TraditionalRecordSyntax
@@ -831,7 +830,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout
     | TraditionalRecordSyntax
@@ -1571,7 +1569,6 @@ module Language.Haskell.TH.Syntax where
     | ExplicitNamespaces
     | PackageImports
     | ExplicitForAll
-    | DatatypeContexts
     | NondecreasingIndentation
     | RelaxedLayout
     | TraditionalRecordSyntax

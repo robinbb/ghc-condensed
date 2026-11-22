@@ -3432,18 +3432,6 @@ data TcRnMessage where
     -> TcRnNoDerivStratSpecifiedInfo
     -> TcRnMessage
 
-  {-| TcRnStupidThetaInGadt is an error triggered by data contexts in GADT-style
-      data declaration
-
-      Example:
-
-        data (Eq a) => D a where
-          MkD :: D Int
-
-      Test cases: rename/should_fail/RnStupidThetaInGadt
-  -}
-  TcRnStupidThetaInGadt :: HsDocContext -> TcRnMessage
-
   {-| TcRnShadowedTyVarNameInFamResult is an error triggered by type variable in
       type family result that shadows type variable from left hand side
 
@@ -3808,13 +3796,6 @@ data TcRnMessage where
   -}
   TcRnExistentialQuantificationDisabled :: !DataCon -- ^ The constructor
                                         -> TcRnMessage
-
-  {-| TcRnGADTDataContext is an error indicating that a GADT was declared with a
-    data type context.
-    This error is emitted in the tc, but it is also caught in the renamer.
-  -}
-  TcRnGADTDataContext :: !Name -- ^ The data type name
-                      -> TcRnMessage
 
   {-| TcRnMultipleConForNewtype is an error indicating that a newtype was
     declared with multiple constructors.
@@ -4544,14 +4525,12 @@ data ZonkerMessage where
 -- | Things forbidden in @type data@ declarations.
 -- See Note [Type data declarations]
 data TypeDataForbids
-  = TypeDataForbidsDatatypeContexts
-  | TypeDataForbidsLabelledFields
+  = TypeDataForbidsLabelledFields
   | TypeDataForbidsFieldAnnotations
   | TypeDataForbidsDerivingClauses
   deriving Generic
 
 instance Outputable TypeDataForbids where
-  ppr TypeDataForbidsDatatypeContexts = text "Data type contexts"
   ppr TypeDataForbidsLabelledFields   = text "Labelled fields"
   ppr TypeDataForbidsFieldAnnotations = text "Strictness, unpackedness or multiplicity annotations"
   ppr TypeDataForbidsDerivingClauses  = text "Deriving clauses"
@@ -4803,8 +4782,6 @@ data DeriveInstanceErrReason
   | DerivErrMustHaveExactlyOneConstructor !TyCon
   -- | The given data type must have some parameters.
   | DerivErrMustHaveSomeParameters !TyCon
-  -- | The given data type must not have a class context.
-  | DerivErrMustNotHaveClassContext !TyCon !ThetaType
   -- | We couldn't derive an instance for a particular data constructor
   -- for a variety of reasons.
   | DerivErrBadConstructor !(Maybe HasWildcard) [DeriveInstanceBadConstructor]
@@ -4839,11 +4816,9 @@ data DeriveInstanceBadConstructor
   | DerivErrBadConHasHigherRankType !DataCon
 
 data DeriveGenericsErrReason
-  = -- | The type must not have some datatype context.
-    DerivErrGenericsMustNotHaveDatatypeContext !TyCon
-    -- | The data constructor must not have exotic unlifted
+  = -- | The data constructor must not have exotic unlifted
     -- or polymorphic arguments.
-  | DerivErrGenericsMustNotHaveExoticArgs !DataCon
+    DerivErrGenericsMustNotHaveExoticArgs !DataCon
     -- | The data constructor must be a vanilla constructor.
   | DerivErrGenericsMustBeVanillaDataCon  !DataCon
     -- | The type must have some type parameters.
@@ -5370,8 +5345,6 @@ data BootDataMismatch
   = MismatchedNewtypeVsData
   -- | The constructors don't match.
   | MismatchedConstructors !(BootListMismatches DataCon BootDataConMismatch)
-  -- | The datatype contexts differ.
-  | MismatchedDatatypeContexts
 
 -- | A mismatch in a data constrcutor, between its declaration in an hs-boot
 -- file or signature file, and its implementation in a source Haskell module.
@@ -6402,7 +6375,6 @@ data LevelCheckReason
 
 data UninferrableTyVarCtx
   = UninfTyCtx_ClassContext [TcType]
-  | UninfTyCtx_DataContext [TcType]
   | UninfTyCtx_ProvidedContext [TcType]
   | UninfTyCtx_TyFamRhs TcType
   | UninfTyCtx_TySynRhs TcType
@@ -7127,6 +7099,7 @@ data ConversionFailReason
   | MalformedType !TypeOrKind !TH.Type
   | IllegalLastStatement !HsDoFlavour !(LStmt GhcPs (LHsExpr GhcPs))
   | KindSigsOnlyAllowedOnGADTs
+  | DataDeclWithContext !TH.Cxt
   | IllegalDeclaration !THDeclDescriptor !IllegalDecls
   | CannotMixGADTConsWith98Cons
   | EmptyStmtListInDoBlock

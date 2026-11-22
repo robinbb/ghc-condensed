@@ -15,7 +15,6 @@ module GHC.Tc.Gen.Pat
    , LetBndrSpec(..)
    , tcCheckPat, tcCheckPat_O, tcInferPat
    , tcMatchPats
-   , addDataConStupidTheta
    , zipPatsBndrs
    )
 where
@@ -966,7 +965,7 @@ AST is used for the subtraction operation.
       -- but it's silly to insist on this in the RebindableSyntax case
       ; unlessM (xoptM LangExt.RebindableSyntax) $
         do { icls <- tcLookupKnownKeyClass integralClassKey
-           ; instStupidTheta orig [mkClassPred icls [pat_ty]] }
+           ; instWantedTheta orig [mkClassPred icls [pat_ty]] }
 
       ; res <- tcExtendIdEnv1 name bndr_id thing_inside
 
@@ -1189,9 +1188,6 @@ tcDataConPat (L con_span con_name) data_con pat_ty_scaled
           -- and building a wrapper
         ; (wrap, ctxt_res_tys) <- matchExpectedConTy penv tycon pat_ty_scaled
         ; pat_ty <- readExpType (scaledThing pat_ty_scaled)
-
-          -- Add the stupid theta
-        ; setSrcSpanA con_span $ addDataConStupidTheta data_con ctxt_res_tys
 
         -- Check that this isn't a GADT pattern match
         -- in situations in which that isn't allowed.
@@ -1955,24 +1951,6 @@ withFixedRuntimeRepPat frr_ctxt ty thing_inside
        ; let co = mkGReflRightMCo Representational ty kco
              -- co :: ty ~R# (ty |> kco)
        ; return (mkLHsWrapPat (mkWpCastR co) pat' ty, res) }
-
-addDataConStupidTheta :: DataCon -> [TcType] -> TcM ()
--- Instantiate the "stupid theta" of the data con, and throw
--- the constraints into the constraint set.
--- See Note [The stupid context] in GHC.Core.DataCon.
-addDataConStupidTheta data_con inst_tys
-  | null stupid_theta = return ()
-  | otherwise         = instStupidTheta origin inst_theta
-  where
-    origin = OccurrenceOf (dataConName data_con)
-        -- The origin should always report "occurrence of C"
-        -- even when C occurs in a pattern
-    stupid_theta = dataConStupidTheta data_con
-    univ_tvs     = dataConUnivTyVars data_con
-    tenv = zipTvSubst univ_tvs (takeList univ_tvs inst_tys)
-         -- NB: inst_tys can be longer than the univ tyvars
-         --     because the constructor might have existentials
-    inst_theta = substTheta tenv stupid_theta
 
 {-
 Note [Arrows and patterns]

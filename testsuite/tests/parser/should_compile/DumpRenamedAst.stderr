@@ -183,7 +183,6 @@
            (EpaSpan { <no location info> })))
          (Nothing)
          (Nothing)
-         (Nothing)
          (DataTypeCons
           (False)
           [(L
@@ -1041,7 +1040,6 @@
           (EpTok (EpaSpan { <no location info> }))
           (EpTok
            (EpaSpan { <no location info> })))
-         (Nothing)
          (Nothing)
          (Nothing)
          (DataTypeCons
@@ -2315,7 +2313,6 @@
             (EpTok (EpaSpan { <no location info> }))
             (EpTok
              (EpaSpan { <no location info> })))
-           (Nothing)
            (Nothing)
            (Just
             (L

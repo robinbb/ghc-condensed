@@ -1,9 +1,3 @@
-RnFail055.hs:2:51: warning: [GHC-53692] [-Wdeprecated-flags (in -Wdefault)]
-    -XDatatypeContexts is deprecated: It was widely considered a misfeature, and has been removed from the Haskell language.
-
-RnFail055.hs-boot:2:51: warning: [GHC-53692] [-Wdeprecated-flags (in -Wdefault)]
-    -XDatatypeContexts is deprecated: It was widely considered a misfeature, and has been removed from the Haskell language.
-
 RnFail055.hs-boot:7:1: error: [GHC-15843]
     • Type constructor ‘S1’ has conflicting definitions in the module
       and its hs-boot file.
@@ -34,21 +28,6 @@ RnFail055.hs-boot:13:1: error: [GHC-15843]
                    data T1 a b = T1 [a] [b]
       The constructors do not match: The types for ‘T1’ differ.
     • In the data type declaration for ‘T1’
-
-RnFail055.hs-boot:15:1: error: [GHC-15843]
-    • Type constructor ‘T2’ has conflicting definitions in the module
-      and its hs-boot file.
-      Main module: type role T2 representational nominal
-                   type T2 :: * -> * -> *
-                   data Eq b => T2 a b = T2 a
-        Boot file: type role T2 nominal phantom
-                   type T2 :: * -> * -> *
-                   data Eq a => T2 a b = T2 a
-      The roles do not match.
-      Note: Roles on abstract types default to ‘representational’ in hs-boot files.
-      The datatype contexts do not match.
-      The constructors do not match: The types for ‘T2’ differ.
-    • In the data type declaration for ‘T2’
 
 RnFail055.hs-boot:17:1: error: [GHC-15843]
     • Type constructor ‘T3’ has conflicting definitions in the module

@@ -712,7 +712,6 @@ tcDataFamInstDecl mb_clsinfo tv_skol_env
              , feqn_tycon  = lfam_name@(L _ fam_name)
              , feqn_fixity = fixity
              , feqn_rhs    = HsDataDefn { dd_cType   = cType
-                                        , dd_ctxt    = hs_ctxt
                                         , dd_cons    = hs_cons
                                         , dd_kindSig = m_ksig
                                         , dd_derivs  = derivs } }}))
@@ -726,13 +725,13 @@ tcDataFamInstDecl mb_clsinfo tv_skol_env
        ; checkTc (isDataFamilyTyCon fam_tc) $
           TcRnIllegalInstance $ IllegalFamilyInstance $
             FamilyCategoryMismatch fam_tc
-       ; gadt_syntax <- dataDeclChecks fam_name hs_ctxt hs_cons
+       ; gadt_syntax <- dataDeclChecks fam_name hs_cons
           -- Do /not/ check that the number of patterns = tyConArity fam_tc
           -- See [Arity of data families] in GHC.Core.FamInstEnv
        ; skol_info <- mkSkolemInfo FamInstSkol
-       ; (qtvs, non_user_tvs, pats, tc_res_kind, stupid_theta)
+       ; (qtvs, non_user_tvs, pats, tc_res_kind)
              <- tcDataFamInstHeader mb_clsinfo skol_info fam_tc outer_bndrs fixity
-                                    hs_ctxt hs_pats m_ksig hs_cons
+                                    hs_pats m_ksig hs_cons
 
        -- Eta-reduce the axiom if possible
        -- Quite tricky: see Note [Implementing eta reduction for data families]
@@ -780,20 +779,19 @@ tcDataFamInstDecl mb_clsinfo tv_skol_env
               , text "eta_tcbs" <+> ppr eta_tcbs ]
 
        -- Zonk the patterns etc into the Type world
-       ; (ty_binders, res_kind, all_pats, eta_pats, stupid_theta,
+       ; (ty_binders, res_kind, all_pats, eta_pats,
            zonked_post_eta_qtvs, zonked_eta_tvs) <-
          initZonkEnv NoFlexi $
          runZonkBndrT (zonkTyVarBindersX tc_ty_binders) $ \ ty_binders ->
            do { res_kind             <- zonkTcTypeToTypeX   tc_res_kind
               ; all_pats             <- zonkTcTypesToTypesX all_pats
               ; eta_pats             <- zonkTcTypesToTypesX eta_pats
-              ; stupid_theta         <- zonkTcTypesToTypesX stupid_theta
               ; zonked_post_eta_qtvs <- mapM lookupTyVarX   post_eta_qtvs
               ; zonked_eta_tvs       <- mapM lookupTyVarX   eta_tvs
                     -- All these qtvs are in ty_binders, and hence will be in
                     -- the ZonkEnv, ze.  We need the zonked (TyVar) versions to
                     -- put in the CoAxiom that we are about to build.
-              ; return (ty_binders, res_kind, all_pats, eta_pats, stupid_theta,
+              ; return (ty_binders, res_kind, all_pats, eta_pats,
                          zonked_post_eta_qtvs, zonked_eta_tvs) }
 
        ; traceTc "tcDataFamInstDecl" $
@@ -838,7 +836,7 @@ tcDataFamInstDecl mb_clsinfo tv_skol_env
                                           ty_binders (length extra_tcbs)
                                           res_kind
                                           (map (const Nominal) ty_binders)
-                                          (fmap (typeCheckCType . unLoc) cType) stupid_theta
+                                          (fmap (typeCheckCType . unLoc) cType)
                                           tc_rhs parent
                                           gadt_syntax
                  -- We always assume that indexed types are recursive.  Why?
@@ -940,22 +938,21 @@ TyVarEnv will simply be empty, and there is nothing to worry about.
 -----------------------
 tcDataFamInstHeader
     :: AssocInstInfo -> SkolemInfo -> TyCon -> HsOuterFamEqnTyVarBndrs GhcRn
-    -> LexicalFixity -> Maybe (LHsContext GhcRn)
+    -> LexicalFixity
     -> HsFamEqnPats GhcRn -> Maybe (LHsKind GhcRn) -> DataDefnCons (LConDecl GhcRn)
-    -> TcM ([TcTyVar], TyVarSet, [TcType], TcKind, TcThetaType)
+    -> TcM ([TcTyVar], TyVarSet, [TcType], TcKind)
          -- All skolem TcTyVars, all zonked so it's clear what the free vars are
 -- The "header" of a data family instance is the part other than
 -- the data constructors themselves
 --    e.g.  data instance D [a] :: * -> * where ...
 -- Here the "header" is the bit before the "where"
 tcDataFamInstHeader mb_clsinfo skol_info fam_tc hs_outer_bndrs fixity
-                    hs_ctxt hs_pats m_ksig hs_cons
+                    hs_pats m_ksig hs_cons
   = do { traceTc "tcDataFamInstHeader {" (ppr fam_tc <+> ppr hs_pats)
-       ; (tclvl, wanted, (outer_bndrs, (stupid_theta, lhs_ty, master_res_kind, instance_res_kind)))
+       ; (tclvl, wanted, (outer_bndrs, (lhs_ty, master_res_kind, instance_res_kind)))
             <- pushLevelAndSolveEqualitiesX "tcDataFamInstHeader" $
                bindOuterFamEqnTKBndrs skol_info hs_outer_bndrs    $  -- Binds skolem TcTyVars
-               do { stupid_theta <- tcHsContext hs_ctxt
-                  ; (lhs_ty, lhs_kind) <- tcFamTyPats fam_tc hs_pats
+               do { (lhs_ty, lhs_kind) <- tcFamTyPats fam_tc hs_pats
                   ; (lhs_applied_ty, lhs_applied_kind)
                       <- tcInstInvisibleTyBinders lhs_ty lhs_kind
                       -- See Note [Data family/instance return kinds]
@@ -980,8 +977,7 @@ tcDataFamInstHeader mb_clsinfo skol_info fam_tc hs_outer_bndrs fixity
 
                   ; traceTc "tcDataFamInstHeader" $
                     vcat [ ppr fam_tc, ppr m_ksig, ppr lhs_applied_kind, ppr res_kind, ppr m_ksig]
-                  ; return ( stupid_theta
-                           , lhs_applied_ty
+                  ; return ( lhs_applied_ty
                            , lhs_applied_kind
                            , res_kind ) }
 
@@ -1003,15 +999,14 @@ tcDataFamInstHeader mb_clsinfo skol_info fam_tc hs_outer_bndrs fixity
              -- the outer_tvs.  See Note [Generalising in tcTyFamInstEqnGuts]
        ; reportUnsolvedEqualities skol_info final_tvs tclvl wanted
 
-       ; (final_tvs, non_user_tvs, lhs_ty, master_res_kind, instance_res_kind, stupid_theta) <-
+       ; (final_tvs, non_user_tvs, lhs_ty, master_res_kind, instance_res_kind) <-
           liftZonkM $ do
             { final_tvs         <- mapM zonkTcTyVarToTcTyVar final_tvs
             ; non_user_tvs      <- mapM zonkTcTyVarToTcTyVar qtvs
             ; lhs_ty            <- zonkTcType                lhs_ty
             ; master_res_kind   <- zonkTcType                master_res_kind
             ; instance_res_kind <- zonkTcType                instance_res_kind
-            ; stupid_theta      <- zonkTcTypes               stupid_theta
-            ; return (final_tvs, non_user_tvs, lhs_ty, master_res_kind, instance_res_kind, stupid_theta) }
+            ; return (final_tvs, non_user_tvs, lhs_ty, master_res_kind, instance_res_kind) }
 
        -- Check that res_kind is OK with checkDataKindSig.  We need to
        -- check that it's ok because res_kind can come from a user-written
@@ -1023,7 +1018,7 @@ tcDataFamInstHeader mb_clsinfo skol_info fam_tc hs_outer_bndrs fixity
        -- For the scopedSort see Note [Generalising in tcTyFamInstEqnGuts]
        ; let pats      = unravelFamInstPats lhs_ty
 
-       ; return (final_tvs, mkVarSet non_user_tvs, pats, master_res_kind, stupid_theta) }
+       ; return (final_tvs, mkVarSet non_user_tvs, pats, master_res_kind) }
   where
     fam_name  = tyConName fam_tc
     data_ctxt = DataKindCtxt fam_name

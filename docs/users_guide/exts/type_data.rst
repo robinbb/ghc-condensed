@@ -31,7 +31,7 @@ constructors.
 A ``type data`` declaration has the same syntax as a ``data`` declaration,
 either an ordinary algebraic data type or a GADT, prefixed with the keyword
 ``type``, except that it may not contain
-a datatype context (even with :extension:`DatatypeContexts`),
+a datatype context,
 labelled fields,
 :ref:`strictness <strict-haskell>`, :ref:`unpackedness <unpack-pragma>` or
 :ref:`multiplicity <linear-types>` annotations, or

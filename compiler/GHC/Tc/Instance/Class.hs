@@ -658,7 +658,7 @@ matchDataToTag dataToTagClass [levity, dty] = do
      -> do { addUsedDataCons rdr_env repTyCon   -- See wrinkles DTW2 and DTW3
            ; let mk_ev _ = evDictApp dataToTagClass [levity, dty] $
                            [methodRep `mkCast` methodCo]
-           ; pure (OneInst { cir_new_theta = [] -- (Ignore stupid theta.)
+           ; pure (OneInst { cir_new_theta = []
                            , cir_mk_ev     = mk_ev
                            , cir_canonical = EvCanonical
                            , cir_what = BuiltinInstance })}
@@ -1224,9 +1224,8 @@ matchHasField dflags short_cut clas tys mb_ct_loc
 
                          -- The first new wanted constraint equates the actual
                          -- type of the selector with the type (r -> a) within
-                         -- the HasField x r a dictionary.  The preds will
-                         -- typically be empty, but if the datatype has a
-                         -- "stupid theta" then we have to include it here.
+                         -- the HasField x r a dictionary.  The preds are
+                         -- typically empty.
                    ; let tvs   = mkTyVarTys (map snd tv_prs)
                          theta = mkNomEqPred sel_ty (mkVisFunTyMany r_ty a_ty) : preds
 

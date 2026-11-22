@@ -1,0 +1,5 @@
+ThDataDeclContext.hs:8:2: error: [GHC-86171]
+    A data type declaration may not have a context: [AppT (ConT GHC.Internal.Classes.Eq) (VarT a_6989586621679015458)]
+    When splicing a TH declaration:
+      data GHC.Internal.Classes.Eq a_0 => T a_0 = MkT a_0
+

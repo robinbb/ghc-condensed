@@ -25,6 +25,9 @@ T16270.hs:14:8: error: [GHC-06074]
       • Use parentheses.
       • Perhaps you intended to use the ‘BlockArguments’ extension
 
+T16270.hs:16:6: error: [GHC-87429]
+    Illegal datatype context: Num a =>
+
 T16270.hs:18:22: error: [GHC-65719]
     Illegal record syntax: {fst :: a, snd :: b}
     Suggested fix:

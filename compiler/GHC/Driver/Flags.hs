@@ -115,8 +115,6 @@ deprecation _ = Deprecated
 
 extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
 extensionDeprecation = \case
-  LangExt.DatatypeContexts                  -> ExtensionFlagDeprecatedCond turnOn
-                                                 "It was widely considered a misfeature, and has been removed from the Haskell language."
   LangExt.OverlappingInstances              -> ExtensionFlagDeprecated
                                                  "instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS"
   LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
@@ -221,7 +219,6 @@ extensionName = \case
   LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
   LangExt.PackageImports -> "PackageImports"
   LangExt.ExplicitForAll -> "ExplicitForAll"
-  LangExt.DatatypeContexts -> "DatatypeContexts"
   LangExt.NondecreasingIndentation -> "NondecreasingIndentation"
   LangExt.RelaxedLayout -> "RelaxedLayout"
   LangExt.TraditionalRecordSyntax -> "TraditionalRecordSyntax"

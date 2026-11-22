@@ -205,19 +205,6 @@ inferConstraintsStock dit@(DerivInstTys { dit_cls_tys     = cls_tys
                          <- get_arg_constraints (dataConUnivTyVars data_con)
                                                 orig arg_t_or_k arg_ty
                      ]
-                   -- Stupid constraints from DatatypeContexts. Note that we
-                   -- must gather these constraints from the data constructors,
-                   -- not from the parent type constructor, as the latter could
-                   -- lead to redundant constraints due to thinning.
-                   -- See Note [The stupid context] in GHC.Core.DataCon.
-                   stupid_theta =
-                     [ substTyWith (dataConUnivTyVars data_con)
-                                   (dataConInstUnivs data_con rep_tc_args)
-                                   stupid_pred
-                     | data_con <- tyConDataCons rep_tc
-                     , stupid_pred <- dataConStupidTheta data_con
-                     ]
-
                    preds = concat predss
                    -- If the constraints require a subtype to be of kind
                    -- (* -> *) (which is the case for functor-like
@@ -229,14 +216,11 @@ inferConstraintsStock dit@(DerivInstTys { dit_cls_tys     = cls_tys
                    unmapped_tvs = filter (\v -> v `notElemSubst` subst
                                              && not (v `isInScope` subst)) tvs
                    (subst', _)  = substTyVarBndrs subst unmapped_tvs
-                   stupid_theta_origin = mkDirectThetaSpec
-                                           deriv_origin TypeLevel
-                                           (substTheta subst' stupid_theta)
                    preds'       = map (substPredSpec subst') preds
                    inst_tys'    = substTys subst' inst_tys
                    dit'         = substDerivInstTys subst' dit
                    tvs'         = tyCoVarsOfTypesWellScoped inst_tys'
-               in ( stupid_theta_origin ++ preds'
+               in ( preds'
                   , tvs', inst_tys', dit' )
 
            is_generic  = main_cls `hasKey` genClassKey

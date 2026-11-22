@@ -14,7 +14,8 @@ module Strip
   # on, so dropping the name changes nothing for the package.
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
-    ConstrainedClassMethods MultiParamTypeClasses NullaryTypeClasses
+    ConstrainedClassMethods DatatypeContexts MultiParamTypeClasses
+    NullaryTypeClasses
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

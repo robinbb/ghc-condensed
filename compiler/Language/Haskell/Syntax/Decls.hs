@@ -805,7 +805,6 @@ data HsDataDefn pass   -- The payload of a data type defn
     --  data/newtype instance T [a] = <constrs>
     -- @
     HsDataDefn { dd_ext    :: XCHsDataDefn pass,
-                 dd_ctxt   :: Maybe (LHsContext pass), -- ^ Context
                  dd_cType  :: Maybe (XRec pass (CType pass)),
                  dd_kindSig:: Maybe (LHsKind pass),
                      -- ^ Optional kind signature.

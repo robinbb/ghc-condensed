@@ -1555,9 +1555,6 @@ instance Diagnostic TcRnMessage where
       text "Illegal use of multiple, consecutive deriving clauses"
     TcRnNoDerivStratSpecified{} -> mkSimpleDecorated $ text
       "No deriving strategy specified. Did you want stock, newtype, or anyclass?"
-    TcRnStupidThetaInGadt{} -> mkSimpleDecorated $
-      vcat [text "No context is allowed on a GADT-style data declaration",
-            text "(You can put a context on each constructor, though.)"]
     TcRnShadowedTyVarNameInFamResult resName -> mkSimpleDecorated $
        hsep [ text "Type variable", quotes (ppr resName) <> comma
             , text "naming a type family result,"
@@ -1739,8 +1736,6 @@ instance Diagnostic TcRnMessage where
         hang (text "Data constructor" <+> quotes (ppr con) <+>
               text "has existential type variables, a context, or a specialised result type")
            2 (ppr con <+> dcolon <+> ppr (dataConWrapperType con))
-    TcRnGADTDataContext tc_name -> mkSimpleDecorated $
-      text "A data type declared in GADT style cannot have a context:" <+> quotes (ppr tc_name)
     TcRnMultipleConForNewtype tycon n -> mkSimpleDecorated $
       sep [text "A newtype must have exactly one constructor,",
            nest 2 $ text "but" <+> quotes (ppr tycon) <+> text "has" <+> speakN n]
@@ -2331,7 +2326,6 @@ instance Diagnostic TcRnMessage where
            DerivErrMustBeEnumType{}                -> ErrorWithoutFlag
            DerivErrMustHaveExactlyOneConstructor{} -> ErrorWithoutFlag
            DerivErrMustHaveSomeParameters{}        -> ErrorWithoutFlag
-           DerivErrMustNotHaveClassContext{}       -> ErrorWithoutFlag
            DerivErrBadConstructor{}                -> ErrorWithoutFlag
            DerivErrGenerics{}                      -> ErrorWithoutFlag
            DerivErrEnumOrProduct{}                 -> ErrorWithoutFlag
@@ -2535,8 +2529,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnNoDerivStratSpecified{}
       -> WarningWithFlag Opt_WarnMissingDerivingStrategies
-    TcRnStupidThetaInGadt{}
-      -> ErrorWithoutFlag
     TcRnShadowedTyVarNameInFamResult{}
       -> ErrorWithoutFlag
     TcRnIncorrectTyVarOnLhsOfInjCond{}
@@ -2600,8 +2592,6 @@ instance Diagnostic TcRnMessage where
     TcRnGADTsDisabled{}
       -> ErrorWithoutFlag
     TcRnExistentialQuantificationDisabled{}
-      -> ErrorWithoutFlag
-    TcRnGADTDataContext{}
       -> ErrorWithoutFlag
     TcRnMultipleConForNewtype{}
       -> ErrorWithoutFlag
@@ -3228,8 +3218,6 @@ instance Diagnostic TcRnMessage where
             TcRnNoStandaloneDerivingStrategySpecified assumed_strategy deriv_sig ->
               SuggestExplicitStandaloneDerivingStrategy assumed_strategy deriv_sig
       explicit_strategy_hint : [suggestExtension LangExt.DerivingStrategies | not is_ds_enabled]
-    TcRnStupidThetaInGadt{}
-      -> noHints
     TcRnShadowedTyVarNameInFamResult{}
       -> noHints
     TcRnIncorrectTyVarOnLhsOfInjCond{}
@@ -3294,8 +3282,6 @@ instance Diagnostic TcRnMessage where
       -> [suggestExtension LangExt.GADTs]
     TcRnExistentialQuantificationDisabled{}
       -> [suggestAnyExtension [LangExt.ExistentialQuantification, LangExt.GADTs]]
-    TcRnGADTDataContext{}
-      -> noHints
     TcRnMultipleConForNewtype{}
       -> noHints
     TcRnKindSignaturesDisabled{}
@@ -3603,8 +3589,6 @@ deriveInstanceErrReasonHints cls newtype_deriving = \case
   DerivErrMustHaveExactlyOneConstructor{}
     -> noHints
   DerivErrMustHaveSomeParameters{}
-    -> noHints
-  DerivErrMustNotHaveClassContext{}
     -> noHints
   DerivErrBadConstructor wcard _
     -> case wcard of
@@ -4004,10 +3988,6 @@ derivErrDiagnosticMessage cls cls_tys mb_strat newtype_deriving pprHerald = \cas
   DerivErrMustHaveSomeParameters rep_tc
     -> cannotMakeDerivedInstanceHerald cls cls_tys mb_strat newtype_deriving pprHerald
          (text "Data type" <+> quotes (ppr rep_tc) <+> text "must have some type parameters")
-  DerivErrMustNotHaveClassContext rep_tc bad_stupid_theta
-    -> cannotMakeDerivedInstanceHerald cls cls_tys mb_strat newtype_deriving pprHerald
-         (text "Data type" <+> quotes (ppr rep_tc)
-           <+> text "must not have a class context:" <+> pprTheta bad_stupid_theta)
   DerivErrBadConstructor _ reasons
     -> let why = vcat $ map renderReason reasons
        in cannotMakeDerivedInstanceHerald cls cls_tys mb_strat newtype_deriving pprHerald why
@@ -4034,8 +4014,6 @@ derivErrDiagnosticMessage cls cls_tys mb_strat newtype_deriving pprHerald = \cas
        in cannotMakeDerivedInstanceHerald cls cls_tys mb_strat newtype_deriving pprHerald why
          where
            renderReason = \case
-             DerivErrGenericsMustNotHaveDatatypeContext tc_name
-                -> ppr tc_name <+> text "must not have a datatype context"
              DerivErrGenericsMustNotHaveExoticArgs dc
                 -> ppr dc <+> text "must not have exotic unlifted or polymorphic arguments"
              DerivErrGenericsMustBeVanillaDataCon dc
@@ -6239,6 +6217,8 @@ pprConversionFailReason = \case
          , text "(It should be an expression.)" ]
   KindSigsOnlyAllowedOnGADTs ->
     text "Kind signatures are only allowed on GADTs"
+  DataDeclWithContext ctxt ->
+    text "A data type declaration may not have a context:" <+> text (show ctxt)
   IllegalDeclaration declDescr bad_decls ->
     sep [ text "Illegal" <+> what <+> text "in" <+> descrDoc <> colon
         , nest 2 bads ]
@@ -6314,8 +6294,6 @@ pprUninferrableTyVarCtx :: UninferrableTyVarCtx -> SDoc
 pprUninferrableTyVarCtx = \case
   UninfTyCtx_ClassContext theta ->
     sep [ text "the class context:", pprTheta theta ]
-  UninfTyCtx_DataContext theta ->
-    sep [ text "the datatype context:", pprTheta theta ]
   UninfTyCtx_ProvidedContext theta ->
     sep [ text "the provided context:" , pprTheta theta ]
   UninfTyCtx_TyFamRhs rhs_ty ->
@@ -6877,8 +6855,6 @@ pprBootDataMismatch = \case
   MismatchedConstructors dc_errs ->
     pprBootListMismatches (text "The constructors do not match:")
       pprBootDataConMismatch dc_errs
-  MismatchedDatatypeContexts {} ->
-    text "The datatype contexts do not match."
 
 pprBootDataConMismatch :: BootListMismatch DataCon BootDataConMismatch
                        -> SDoc

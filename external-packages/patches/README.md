@@ -15,6 +15,12 @@ dropped, since its behaviour is always on; a removed alias such as
 Rank2Types takes the name the compiler keeps, RankNTypes. The rewritten
 package means the same thing.
 
+- `alex.patch`: drops the datatype context of `Data.Ranged.RangedSet.RSet`
+  (`newtype DiscreteOrdered v => RSet v`), which this compiler rejects. A
+  datatype context only adds a requirement at construction sites, so
+  nothing else changes. alex is a build tool of half the corpus.
+- `crypton-x509.patch`: the same for `Data.X509.Signed.Signed` and
+  `SignedExact`.
 - `hashable.patch`: adds ghc-bignum to build-depends for GHC 9.13 and
   later, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
   and GHC.Num.Natural. Without it hashable, and the roughly half of the
@@ -58,11 +64,11 @@ package means the same thing.
   release inside git-annex's own `magic <= 1.1` bound, which needs no
   source change.
 - `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
-  haskell-src-exts `ConstrainedClassMethods` and `MultiParamTypeClasses`
-  to `Nothing` and drops those constructors, `NullaryTypeClasses`,
-  `AutoDeriveTypeable` and the two `AlternativeLayoutRule` constructors
-  from the reverse mapping, since this compiler's template-haskell no
-  longer has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
+  haskell-src-exts `ConstrainedClassMethods`, `DatatypeContexts` and
+  `MultiParamTypeClasses` to `Nothing` and drops those constructors,
+  `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
+  `AlternativeLayoutRule` constructors from the reverse mapping, since
+  this compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
   persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` among the extensions its Template Haskell code

@@ -2011,13 +2011,11 @@ exactDataFamInstDecl
                     `debug` ("exactDataFamInstDecl: defn' derivs:" ++ showAst (dd_derivs defn'))
   where
     pp_hdr :: (Monad m, Monoid w)
-           => Maybe (LHsContext GhcPs)
-           -> EP w m ( ([EpToken "("], [EpToken ")"] )
+           => EP w m ( ([EpToken "("], [EpToken ")"] )
                      , LocatedN RdrName
                      , HsOuterTyVarBndrs () GhcPs
-                     , HsFamEqnPats GhcPs
-                     , Maybe (LHsContext GhcPs))
-    pp_hdr mctxt = exactHsFamInstLHS ops cps tycon bndrs pats fixity mctxt
+                     , HsFamEqnPats GhcPs)
+    pp_hdr = dropContext <$> exactHsFamInstLHS ops cps tycon bndrs pats fixity Nothing
 
 -- ---------------------------------------------------------------------
 
@@ -3747,7 +3745,7 @@ instance ExactPrint (TyClDecl GhcPs) where
                   , tcdFixity = fixity, tcdDataDefn = defn, tcdModifiers = mods }) = do
     mods' <- mapM markAnnotated mods
     (_,ltycon', tyvars', _, defn') <-
-      exactDataDefn (exactVanillaDeclHead ltycon tyvars fixity) defn
+      exactDataDefn (dropContext <$> exactVanillaDeclHead ltycon tyvars fixity Nothing) defn
     return (DataDecl { tcdDExt = x, tcdLName = ltycon', tcdTyVars = tyvars'
                      , tcdFixity = fixity, tcdDataDefn = defn', tcdModifiers = mods' })
 
@@ -3898,17 +3896,12 @@ exactFlavour (td,tt) (ClosedTypeFamily {}) = (td,)              <$> markEpToken 
 
 exactDataDefn
   :: (Monad m, Monoid w)
-  => (Maybe (LHsContext GhcPs) -> EP w m (r
-                                         , LocatedN RdrName
-                                         , a
-                                         , b
-                                         , Maybe (LHsContext GhcPs))) -- Printing the header
+  => EP w m (r, LocatedN RdrName, a, b) -- Printing the header
   -> HsDataDefn GhcPs
   -> EP w m ( r -- ^ from exactHdr
             , LocatedN RdrName, a, b, HsDataDefn GhcPs)
 exactDataDefn exactHdr
                  (HsDataDefn { dd_ext = AnnDataDefn ops cps t nt d i dc w oc cc eq
-                             , dd_ctxt = context
                              , dd_cType = mb_ct
                              , dd_kindSig = mb_sig
                              , dd_cons = condecls, dd_derivs = derivings }) = do
@@ -3930,7 +3923,7 @@ exactDataDefn exactHdr
 
   i' <- markEpToken i -- optional 'instance'
   mb_ct' <- mapM markAnnotated mb_ct
-  (anx, ln', tvs', b, mctxt') <- exactHdr context
+  (anx, ln', tvs', b) <- exactHdr
   (dc', mb_sig') <- case mb_sig of
     Nothing -> return (dc, Nothing)
     Just kind -> do
@@ -3951,11 +3944,15 @@ exactDataDefn exactHdr
   derivings' <- mapM markAnnotated derivings
   return (anx, ln', tvs', b,
                  (HsDataDefn { dd_ext = AnnDataDefn [] [] t' nt' d' i' dc' w' oc' cc' eq'
-                             , dd_ctxt = mctxt'
                              , dd_cType = mb_ct'
                              , dd_kindSig = mb_sig'
                              , dd_cons = condecls'', dd_derivs = derivings' }))
 
+
+-- | A data declaration has no context, so its header printer drops the
+-- one that 'exactVanillaDeclHead' and 'exactHsFamInstLHS' return.
+dropContext :: (r, n, a, b, c) -> (r, n, a, b)
+dropContext (r, n, a, b, _) = (r, n, a, b)
 
 exactVanillaDeclHead :: (Monad m, Monoid w)
                      => LocatedN RdrName

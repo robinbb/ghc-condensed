@@ -645,8 +645,7 @@ representation-polymorphism invariants). See Note [Eliminate casts in function p
 Wrinkle [Unlifted newtypes with wrappers]
 
   Usually, newtype constructors don't have wrappers; they only have a worker.
-  However, newtype family instances and newtypes with a stupid theta have a
-  wrapper in addition to a worker.
+  However, newtype family instances have a wrapper in addition to a worker.
 
   To avoid running into the above issue with **both** the wrapper and the worker,
   we make sure that the wrapper unfolding does not have such bad lambdas, by

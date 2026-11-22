@@ -263,7 +263,6 @@ mkDataDefn cType mcxt ksig data_cons maybe_deriv anns
   = do { checkDatatypeContext mcxt
        ; return (HsDataDefn { dd_ext = anns
                             , dd_cType = cType
-                            , dd_ctxt = mcxt
                             , dd_cons = data_cons
                             , dd_kindSig = ksig
                             , dd_derivs = maybe_deriv }) }
@@ -1019,9 +1018,7 @@ equalsDots = text "= ..."
 checkDatatypeContext :: Maybe (LHsContext GhcPs) -> P ()
 checkDatatypeContext Nothing = return ()
 checkDatatypeContext (Just c)
-    = do allowed <- getBit DatatypeContextsBit
-         unless allowed $ addError $ mkPlainErrorMsgEnvelope (getLocA c) $
-                                       (PsErrIllegalDataTypeContext c)
+    = addError $ mkPlainErrorMsgEnvelope (getLocA c) (PsErrIllegalDataTypeContext c)
 
 type LRuleTyTmVar = LocatedAn NoEpAnns RuleTyTmVar
 data RuleTyTmVar = RuleTyTmVar AnnTyVarBndr (LocatedN RdrName) (Maybe (LHsType GhcPs))

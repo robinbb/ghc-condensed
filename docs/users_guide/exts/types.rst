@@ -7,7 +7,6 @@ Types
     :maxdepth: 1
 
     nullary_types
-    datatype_contexts
     infix_tycons
     type_operators
     liberal_type_synonyms

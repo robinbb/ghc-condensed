@@ -280,7 +280,7 @@ ppSynonym sDocContext x = [out sDocContext x]
 
 ppData :: SDocContext -> TyClDecl GhcRn -> [(Name, DocForDecl Name)] -> [String]
 ppData sDocContext decl@DataDecl{tcdLName = name, tcdTyVars = tvs, tcdFixity = fixity, tcdDataDefn = defn} subdocs =
-  out sDocContext (ppDataDefnHeader (pp_vanilla_decl_head name tvs fixity) defn)
+  out sDocContext (ppDataDefnHeader (pp_vanilla_decl_head name tvs fixity Nothing) defn)
     : concatMap (ppCtor sDocContext decl subdocs . unLoc) (dd_cons defn)
 ppData _ _ _ = panic "ppData"
 

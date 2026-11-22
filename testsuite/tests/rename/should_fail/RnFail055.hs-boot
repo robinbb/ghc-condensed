@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes,ExistentialQuantification,DatatypeContexts #-}
+{-# LANGUAGE RankNTypes,ExistentialQuantification #-}
 module RnFail055 where
 
 f1 :: Float -> Int
@@ -12,7 +12,7 @@ type S3 t = [t]
 
 data T1 a b = T1 [a] [b]
 
-data (Eq a) => T2 a b = T2 a
+data T2 a b = T2 a
 
 data T3 = T3
 data T3' = T3'

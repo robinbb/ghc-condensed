@@ -87,7 +87,6 @@
          (EpaSpan { T24221.hs:5:3 })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L
@@ -422,7 +421,6 @@
          (EpaSpan { T24221.hs:11:11 })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L
@@ -589,7 +587,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { T24221.hs:14:11 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons
@@ -786,7 +783,6 @@
          (EpaSpan { T24221.hs:19:11 })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L
@@ -979,7 +975,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { T24221.hs:27:11 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons
@@ -1221,7 +1216,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { T24221.hs:31:11 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons
@@ -1476,7 +1470,6 @@
         (EpTok (EpaSpan { <no location info> }))
         (EpTok
          (EpaSpan { T24221.hs:36:11 })))
-       (Nothing)
        (Nothing)
        (Nothing)
        (DataTypeCons

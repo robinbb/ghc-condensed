@@ -116,7 +116,6 @@
          (EpaSpan { <no location info> })))
        (Nothing)
        (Nothing)
-       (Nothing)
        (DataTypeCons
         (False)
         [(L

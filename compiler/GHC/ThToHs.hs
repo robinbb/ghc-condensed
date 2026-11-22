@@ -302,13 +302,13 @@ cvtDec (DataD ctxt tc tvs ksig constrs derivs)
   = cvtDataDec ctxt tc tvs ksig constrs derivs
 
 cvtDec (NewtypeD ctxt tc tvs ksig constr derivs)
-  = do  { (ctxt', tc', tvs') <- cvt_tycl_hdr ctxt tc tvs
+  = do  { unless (null ctxt) $ failWith (DataDeclWithContext ctxt)
+        ; (_, tc', tvs') <- cvt_tycl_hdr ctxt tc tvs
         ; ksig' <- cvtKind `traverse` ksig
         ; con' <- cvtDataDefnCons False ksig $ NewTypeCon constr
         ; derivs' <- cvtDerivs derivs
         ; let defn = HsDataDefn { dd_ext = noAnn
                                 , dd_cType = Nothing
-                                , dd_ctxt = mkHsContextMaybe ctxt'
                                 , dd_kindSig = ksig'
                                 , dd_cons = con'
                                 , dd_derivs = derivs' }
@@ -376,13 +376,13 @@ cvtDec (DataFamilyD tc tvs kind)
          FamilyDecl noAnn (DataFamily noExtField) TopLevel tc' tvs' Prefix result Nothing }
 
 cvtDec (DataInstD ctxt bndrs tys ksig constrs derivs)
-  = do { (ctxt', tc', bndrs', typats') <- cvt_datainst_hdr ctxt bndrs tys
+  = do { unless (null ctxt) $ failWith (DataDeclWithContext ctxt)
+       ; (_, tc', bndrs', typats') <- cvt_datainst_hdr ctxt bndrs tys
        ; ksig' <- cvtKind `traverse` ksig
        ; cons' <- cvtDataDefnCons False ksig $ DataTypeCons False constrs
        ; derivs' <- cvtDerivs derivs
        ; let defn = HsDataDefn { dd_ext = noAnn
                                , dd_cType = Nothing
-                               , dd_ctxt = mkHsContextMaybe ctxt'
                                , dd_kindSig = ksig'
                                , dd_cons = cons'
                                , dd_derivs = derivs' }
@@ -398,13 +398,13 @@ cvtDec (DataInstD ctxt bndrs tys ksig constrs derivs)
                                   , feqn_fixity = Prefix } }}}
 
 cvtDec (NewtypeInstD ctxt bndrs tys ksig constr derivs)
-  = do { (ctxt', tc', bndrs', typats') <- cvt_datainst_hdr ctxt bndrs tys
+  = do { unless (null ctxt) $ failWith (DataDeclWithContext ctxt)
+       ; (_, tc', bndrs', typats') <- cvt_datainst_hdr ctxt bndrs tys
        ; ksig' <- cvtKind `traverse` ksig
        ; con' <- cvtDataDefnCons False ksig $ NewTypeCon constr
        ; derivs' <- cvtDerivs derivs
        ; let defn = HsDataDefn { dd_ext = noAnn
                                , dd_cType = Nothing
-                               , dd_ctxt = mkHsContextMaybe ctxt'
                                , dd_kindSig = ksig'
                                , dd_cons = con'
                                , dd_derivs = derivs' }
@@ -516,14 +516,14 @@ cvtGenDataDec :: Bool -> TH.Cxt -> TH.Name -> [TH.TyVarBndr TH.BndrVis]
     -> Maybe TH.Kind -> [TH.Con] -> [TH.DerivClause]
     -> CvtM (Maybe (LHsDecl GhcPs))
 cvtGenDataDec type_data ctxt tc tvs ksig constrs derivs
-  = do  { (ctxt', tc', tvs') <- cvt_tycl_hdr ctxt tc tvs
+  = do  { unless (null ctxt) $ failWith (DataDeclWithContext ctxt)
+        ; (_, tc', tvs') <- cvt_tycl_hdr ctxt tc tvs
         ; ksig' <- cvtKind `traverse` ksig
         ; cons' <- cvtDataDefnCons type_data ksig $
                    DataTypeCons type_data constrs
         ; derivs' <- cvtDerivs derivs
         ; let defn = HsDataDefn { dd_ext = noAnn
                                 , dd_cType = Nothing
-                                , dd_ctxt = mkHsContextMaybe ctxt'
                                 , dd_kindSig = ksig'
                                 , dd_cons = cons'
                                 , dd_derivs = derivs' }
@@ -2134,7 +2134,7 @@ mkHsQualTy ctxt loc ctxt' ty
 --
 -- This is much like 'mkHsQualTy', except that it returns a
 -- @'Maybe' ('LHsContext' 'GhcPs')@. This is used specifically for constructing
--- superclasses, datatype contexts (#20011), and contexts in GADT constructor
+-- superclasses and contexts in GADT constructor
 -- types (#20590). We wish to avoid using @'Just' []@ in the case of an empty
 -- contexts, as the pretty-printer always prints 'Just' contexts, even if
 -- they're empty.

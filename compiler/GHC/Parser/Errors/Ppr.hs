@@ -825,7 +825,7 @@ instance Diagnostic PsMessage where
     PsErrProcInFunAppExpr{}                       -> suggestParensAndBlockArgs
     PsErrMalformedTyOrClDecl{}                    -> noHints
     PsErrIllegalWhereInDataDecl                   -> [useExtensionInOrderTo "to enable syntax: data T where" LangExt.GADTSyntax]
-    PsErrIllegalDataTypeContext{}                 -> [suggestExtension LangExt.DatatypeContexts]
+    PsErrIllegalDataTypeContext{}                 -> noHints
     PsErrPrimStringInvalidChar                    -> noHints
     PsErrSuffixAT                                 -> noHints
     PsErrPrecedenceOutOfRange{}                   -> noHints

@@ -1,0 +1,11 @@
+--- a/external-packages/alex/src/Data/Ranged/RangedSet.hs
++++ b/external-packages/alex/src/Data/Ranged/RangedSet.hs
+@@ -41,7 +41,7 @@
+ 
+ -- | An RSet (for Ranged Set) is a list of ranges.  The ranges must be sorted
+ -- and not overlap.
+-newtype DiscreteOrdered v => RSet v = RSet {rSetRanges :: [Range v]}
++newtype RSet v = RSet {rSetRanges :: [Range v]}
+    deriving (Eq, Show, Ord)
+ 
+ instance DiscreteOrdered a => Semigroup (RSet a) where

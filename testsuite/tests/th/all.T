@@ -667,3 +667,4 @@ test('TH_cvt_InvalidCCallImpent', normal, compile_fail, ['-v0'])
 test('TH_cvt_SumAltArityExceeded', normal, compile_fail, ['-v0'])
 test('TH_cvt_IllegalSumAlt', normal, compile_fail, ['-v0'])
 
+test('ThDataDeclContext', normal, compile_fail, [''])

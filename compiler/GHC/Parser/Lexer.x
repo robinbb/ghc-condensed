@@ -2703,7 +2703,6 @@ data ExtBits
   | QualifiedDoBit -- .do and .mdo
   | UnicodeSyntaxBit -- the forall symbol, arrow symbols, etc
   | UnboxedParensBit -- (# and #)
-  | DatatypeContextsBit
   | MonadComprehensionsBit
   | TransformComprehensionsBit
   | QqBit -- enable quasiquoting
@@ -2789,7 +2788,6 @@ mkParserOpts extensionFlags diag_opts
       .|. QualifiedDoBit              `xoptBit` LangExt.QualifiedDo
       .|. UnicodeSyntaxBit            `xoptBit` LangExt.UnicodeSyntax
       .|. UnboxedParensBit            `orXoptsBit` [LangExt.UnboxedTuples, LangExt.UnboxedSums]
-      .|. DatatypeContextsBit         `xoptBit` LangExt.DatatypeContexts
       .|. TransformComprehensionsBit  `xoptBit` LangExt.TransformListComp
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout

@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DeriveFunctor, DatatypeContexts #-}
+{-# LANGUAGE DeriveFunctor #-}
 module ShouldFail where
 
 -- Derive Functor on a type that uses 'a' in the wrong places
@@ -17,7 +17,7 @@ newtype NoArguments = NoArguments Int
 
 -- Derive Functor on a type with extra stupid-constraints on 'a'
 
-data Eq a => StupidConstraint a = StupidType a
+data StupidConstraint a = StupidType a
    deriving (Functor)
 
 -- A missing Functor instance

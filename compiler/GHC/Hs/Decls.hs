@@ -565,7 +565,7 @@ instance (OutputableBndrId p) => Outputable (TyClDecl (GhcPass p)) where
     ppr (DataDecl { tcdLName = ltycon, tcdTyVars = tyvars, tcdFixity = fixity
                   , tcdDataDefn = defn, tcdModifiers = mods })
       = pprLHsModifiers mods
-        $$ pp_data_defn (pp_vanilla_decl_head ltycon tyvars fixity) defn
+        $$ pp_data_defn (pp_vanilla_decl_head ltycon tyvars fixity Nothing) defn
 
     ppr (ClassDecl {tcdCExt = ext,
                     tcdCtxt = context, tcdLName = lclas, tcdTyVars = tyvars,
@@ -897,15 +897,14 @@ hsConDeclTheta (Just (L _ (HsContext _ theta))) = theta
 
 ppDataDefnHeader
  :: (OutputableBndrId p)
- => (Maybe (LHsContext (GhcPass p)) -> SDoc)   -- Printing the header
+ => SDoc   -- The header
  -> HsDataDefn (GhcPass p)
  -> SDoc
 ppDataDefnHeader pp_hdr HsDataDefn
-  { dd_ctxt = context
-  , dd_cType = mb_ct
+  { dd_cType = mb_ct
   , dd_kindSig = mb_sig
   , dd_cons = condecls }
-  = pp_type <+> ppr (dataDefnConsNewOrData condecls) <+> pp_ct <+> pp_hdr context <+> pp_sig
+  = pp_type <+> ppr (dataDefnConsNewOrData condecls) <+> pp_ct <+> pp_hdr <+> pp_sig
   where
     pp_type
       | isTypeDataDefnCons condecls = text "type"
@@ -918,7 +917,7 @@ ppDataDefnHeader pp_hdr HsDataDefn
                Just kind -> dcolon <+> ppr kind
 
 pp_data_defn :: (OutputableBndrId p)
-                  => (Maybe (LHsContext (GhcPass p)) -> SDoc)   -- Printing the header
+                  => SDoc   -- The header
                   -> HsDataDefn (GhcPass p)
                   -> SDoc
 pp_data_defn pp_hdr defn@HsDataDefn
@@ -934,7 +933,7 @@ pp_data_defn pp_hdr defn@HsDataDefn
 
 instance OutputableBndrId p
        => Outputable (HsDataDefn (GhcPass p)) where
-   ppr d = pp_data_defn (\_ -> text "Naked HsDataDefn") d
+   ppr d = pp_data_defn (text "Naked HsDataDefn") d
 
 instance OutputableBndrId p
        => Outputable (StandaloneKindSig (GhcPass p)) where
@@ -1118,8 +1117,8 @@ pprDataFamInstDecl top_lvl (DataFamInstDecl { dfid_eqn =
                                     , feqn_rhs    = defn })})
   = pp_data_defn pp_hdr defn
   where
-    pp_hdr mctxt = ppr_instance_keyword top_lvl
-              <+> pprHsFamInstLHS tycon bndrs pats fixity mctxt
+    pp_hdr = ppr_instance_keyword top_lvl
+              <+> pprHsFamInstLHS tycon bndrs pats fixity Nothing
                   -- pp_data_defn pretty-prints the kind sig. See #14817.
 
 pprDataFamInstFlavour :: DataFamInstDecl (GhcPass p) -> SDoc

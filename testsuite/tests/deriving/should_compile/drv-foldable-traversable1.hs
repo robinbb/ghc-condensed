@@ -1,7 +1,7 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE DeriveFunctor, DeriveFoldable, DeriveTraversable #-}
 {-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE FlexibleContexts, DatatypeContexts #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module ShouldCompile where
 
@@ -26,7 +26,7 @@ data NotPrimitivelyRecursive a
     | S2 a
   deriving (Functor,Foldable,Traversable)
 
-data Eq a => StupidConstraint a b = Stupid a b
+data StupidConstraint a b = Stupid a b
   deriving (Functor,Foldable,Traversable)
 
 -- requires Foldable/Traversable constraint on f and g

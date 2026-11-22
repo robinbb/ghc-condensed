@@ -2164,7 +2164,7 @@ kcTyClDecl :: TyClDecl GhcRn -> MonoTcTyCon -> TcM ()
 --   kind inference (see GHC.Tc.TyCl Note [TcTyCon, MonoTcTyCon, and PolyTcTyCon])
 
 kcTyClDecl (DataDecl { tcdLName    = (L _ _name)
-                     , tcdDataDefn = HsDataDefn { dd_ctxt = ctxt, dd_cons = cons } })
+                     , tcdDataDefn = HsDataDefn { dd_cons = cons } })
            tycon
   = tcExtendNameTyVarEnv (tcTyConScopedTyVars tycon) $
        -- NB: binding these tyvars isn't necessary for GADTs, but it does no
@@ -2172,7 +2172,6 @@ kcTyClDecl (DataDecl { tcdLName    = (L _ _name)
        -- and the ones from this bindTyClTyVars are either not mentioned or
        -- (conceivably) shadowed.
     do { traceTc "kcTyClDecl" (ppr tycon $$ ppr (tyConTyVars tycon) $$ ppr (tyConResKind tycon))
-       ; _ <- tcHsContext ctxt
        ; kcConDecls (tyConResKind tycon) cons
        }
 
@@ -3558,36 +3557,21 @@ tcDataDefn :: HsCtxt -> RolesInfo -> Name
   -- NB: not used for newtype/data instances (whether associated or not)
 tcDataDefn err_ctxt roles_info tc_name
            (HsDataDefn { dd_cType = cType
-                       , dd_ctxt = ctxt
                        , dd_kindSig = mb_ksig  -- Already in tc's kind
                                                -- via inferInitialKinds
                        , dd_cons = cons
                        , dd_derivs = derivs })
   = bindTyClTyVars tc_name $ \ kind tc_bndrs nb_eta res_kind ->
        -- The TyCon tyvars must scope over
-       --    - the stupid theta (dd_ctxt)
        --    - for H98 constructors only, the ConDecl
        -- But it does no harm to bring them into scope
        -- over GADT ConDecls as well; and it's awkward not to
-    do { gadt_syntax <- dataDeclChecks tc_name ctxt cons
+    do { gadt_syntax <- dataDeclChecks tc_name cons
 
        ; tcg_env <- getGblEnv
        ; let hsc_src = tcg_src tcg_env
        ; unless (mk_permissive_kind hsc_src cons) $
          checkDataKindSig (DataDeclSort (dataDefnConsNewOrData cons)) res_kind
-
-       ; stupid_tc_theta <- pushLevelAndSolveEqualities skol_info tc_bndrs $
-                            tcHsContext ctxt
-
-       -- See Note [Error on unconstrained meta-variables] in GHC.Tc.Utils.TcMType
-       -- Example: (typecheck/should_fail/T17567StupidTheta)
-       --   data (forall a. a b ~ a c) => T b c
-       -- The kind of 'a' is unconstrained.
-       ; dvs <- candidateQTyVarsOfTypes stupid_tc_theta
-       ; let err_ctx tidy_env
-               = do { (tidy_env2, theta) <- zonkTidyTcTypes tidy_env stupid_tc_theta
-                    ; return (tidy_env2, UninfTyCtx_DataContext theta) }
-       ; doNotQuantifyTyVars dvs err_ctx
 
              -- Check that we don't use kind signatures without the extension
        ; kind_signatures <- xoptM LangExt.KindSignatures
@@ -3597,13 +3581,12 @@ tcDataDefn err_ctxt roles_info tc_name
             -> addErrTc $ TcRnKindSignaturesDisabled (Right (tc_name, ksig))
           _ -> return ()
 
-       ; (kind, bndrs, stupid_theta, res_kind) <-
+       ; (kind, bndrs, res_kind) <-
             initZonkEnv NoFlexi $ do
               kind <- zonkTcTypeToTypeX kind
               runZonkBndrT (zonkTyVarBindersX tc_bndrs) $ \ bndrs ->
-                do { stupid_theta   <- zonkTcTypesToTypesX stupid_tc_theta
-                   ; res_kind       <- zonkTcTypeToTypeX   res_kind
-                   ; return (kind, bndrs, stupid_theta, res_kind) }
+                do { res_kind       <- zonkTcTypeToTypeX   res_kind
+                   ; return (kind, bndrs, res_kind) }
 
        ; tycon <- fixM $ \ rec_tycon -> do
              { data_cons <- tcConDecls DDataType rec_tycon tc_bndrs res_kind cons
@@ -3614,7 +3597,7 @@ tcDataDefn err_ctxt roles_info tc_name
                                   res_kind
                                   (roles_info tc_name)
                                   (fmap (typeCheckCType . unLoc) cType)
-                                  stupid_theta tc_rhs
+                                  tc_rhs
                                   (VanillaAlgTyCon tc_rep_nm)
                                   gadt_syntax)
          }
@@ -3628,9 +3611,6 @@ tcDataDefn err_ctxt roles_info tc_name
        ; traceTc "tcDataDefn" (ppr tc_name $$ ppr tc_bndrs)
        ; return (tycon, [deriv_info]) }
   where
-    skol_info = TyConSkol flav tc_name
-    flav = newOrDataToFlavour (dataDefnConsNewOrData cons)
-
     -- Abstract data types in hsig files can have arbitrary kinds,
     -- because they may be implemented by type synonyms
     -- (which themselves can have arbitrary kinds, not just *). See #13955.
@@ -4010,20 +3990,13 @@ that 'a' must have that kind, and to bring 'k' into scope.
 ************************************************************************
 -}
 
-dataDeclChecks :: Name
-               -> Maybe (LHsContext GhcRn) -> DataDefnCons (LConDecl GhcRn)
-               -> TcM Bool
-dataDeclChecks tc_name mctxt cons
-  = do { let stupid_theta = hsc_ctxt $ fromMaybeContext mctxt
-         -- Check that we don't use GADT syntax in H98 world
+dataDeclChecks :: Name -> DataDefnCons (LConDecl GhcRn) -> TcM Bool
+dataDeclChecks tc_name cons
+  = do { -- Check that we don't use GADT syntax in H98 world
        ;  gadtSyntax_ok <- xoptM LangExt.GADTSyntax
        ; let gadt_syntax = anyLConIsGadt cons
        ; unless (gadtSyntax_ok || not gadt_syntax) $
          addErrTc (TcRnGADTsDisabled tc_name)
-
-           -- Check that the stupid theta is empty for a GADT-style declaration.
-           -- See Note [The stupid context] in GHC.Core.DataCon.
-       ; checkTc (null stupid_theta || not gadt_syntax) (TcRnGADTDataContext tc_name)
 
          -- Check that there's at least one condecl,
          -- or else we're reading an hs-boot file, or -XEmptyDataDecls
@@ -5017,10 +4990,7 @@ checkValidTyCon tc
                ; OpenTypeFamilyTyCon -> return () }
 
              | otherwise -> do
-               { -- Check the context on the data decl
-                 traceTc "cvtc1" (ppr tc)
-               ; checkValidTheta (DataTyCtxt name) (tyConStupidTheta tc)
-
+               { traceTc "cvtc1" (ppr tc)
                ; traceTc "cvtc2" (ppr tc)
 
                ; dflags          <- getDynFlags

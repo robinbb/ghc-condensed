@@ -1637,7 +1637,6 @@ ppDataHeader
       { tcdDataDefn =
         HsDataDefn
           { dd_cons = cons
-          , dd_ctxt = ctxt
           , dd_kindSig = ks
           }
       , tcdLName = L _ name
@@ -1652,9 +1651,6 @@ ppDataHeader
         DataTypeCons False _ -> keyword "data"
         DataTypeCons True _ -> keyword "type" <+> keyword "data"
     )
-      <+>
-      -- context
-      ppLContext ctxt unicode qual HideEmptyContexts
       <+>
       -- T a b c ..., or a :+: b
       ppAppDocNameTyVarBndrs summary unicode qual name (hsQTvExplicitBinders tvs)

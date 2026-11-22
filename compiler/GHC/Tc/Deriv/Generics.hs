@@ -133,9 +133,6 @@ following constraints are satisfied.
       constructor or it is equivalent to the head of a data family instance (up to
       alpha-renaming).
 
-  (b) D cannot have a "stupid context".
-      See Note [The stupid context] in GHC.Core.DataCon.
-
   (c) The right-hand side of D cannot include existential types, universally
       quantified types, or "exotic" unlifted types. An exotic unlifted type
       is one which is not listed in the definition of allowedUnliftedTy
@@ -172,20 +169,8 @@ canDoGenerics :: DerivInstTys -> Validity' [DeriveGenericsErrReason]
 -- It returns IsValid if deriving is possible. It returns (NotValid reason)
 -- if not.
 canDoGenerics dit@(DerivInstTys{dit_rep_tc = tc})
-  = mergeErrors (
-          -- Check (b) from Note [Requirements for deriving Generic and Rep].
-              (if (not (null (tyConStupidTheta tc)))
-                then (NotValid $ DerivErrGenericsMustNotHaveDatatypeContext tc_name)
-                else IsValid)
-          -- See comment below
-            : (map bad_con (tyConDataCons tc)))
+  = mergeErrors (map bad_con (tyConDataCons tc))
   where
-    -- The tc can be a representation tycon. When we want to display it to the
-    -- user (in an error message) we should print its parent
-    tc_name = case tyConDataFamInst_maybe tc of
-        Just (ptc, _) -> ptc
-        _             -> tc
-
         -- Check (c) from Note [Requirements for deriving Generic and Rep].
         --
         -- If any of the constructors has an exotic unlifted type as argument,
