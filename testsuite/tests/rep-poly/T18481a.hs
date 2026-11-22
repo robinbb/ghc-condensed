@@ -1,4 +1,4 @@
-{-# LANGUAGE UnliftedDatatypes, PolyKinds, DataKinds, TypeApplications #-}
+{-# LANGUAGE UnliftedDatatypes, PolyKinds, TypeApplications #-}
 
 module T18481a where
 

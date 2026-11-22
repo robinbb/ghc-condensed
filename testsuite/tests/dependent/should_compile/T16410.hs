@@ -1,4 +1,3 @@
-{-# Language DataKinds    #-}
 {-# Language GADTs        #-}
 {-# Language InstanceSigs #-}
 {-# Language PolyKinds    #-}

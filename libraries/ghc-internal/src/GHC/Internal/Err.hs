@@ -1,6 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, ImplicitParams #-}
-{-# LANGUAGE RankNTypes, PolyKinds, DataKinds #-}
+{-# LANGUAGE RankNTypes, PolyKinds #-}
 {-# LANGUAGE BangPatterns #-}
 {-# OPTIONS_HADDOCK not-home #-}
 

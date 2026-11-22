@@ -978,7 +978,7 @@ otherwise the type checker will get confused.  To do this we need to
 keep track of all the Names in scope, and the LocalRdrEnv does just that;
 we consult it with RdrName.inLocalRdrEnvScope.
 
-There is another wrinkle.  With TH and -XDataKinds, consider
+There is another wrinkle.  With TH and promoted data constructors, consider
    $( [d| data Nat = Zero
           data T = MkT (Proxy 'Zero)  |] )
 After splicing, but before renaming we get this:
@@ -1206,28 +1206,13 @@ lookup_demoted :: RdrName -> RnM GlobalRdrElt
 lookup_demoted rdr_name
   | Just demoted_rdr <- demoteRdrNameTcCls rdr_name
     -- Maybe it's the name of a *data* constructor
-  = do { data_kinds <- xoptM LangExt.DataKinds
-       ; star_is_type <- xoptM LangExt.StarIsType
+  = do { star_is_type <- xoptM LangExt.StarIsType
        ; let is_star_type = if star_is_type then StarIsType else StarIsNotType
              star_is_type_hints = noStarIsTypeHints is_star_type rdr_name
-             mk_unbound_name_GRE hint = unboundGREX looking_for rdr_name hint
-       ; if data_kinds
-            then do { mb_demoted_gre <- lookupOccRn_maybe demoted_rdr
-                    ; case mb_demoted_gre of
-                        Nothing -> mk_unbound_name_GRE star_is_type_hints
-                        Just demoted_gre -> return demoted_gre}
-            else do { -- We need to check if a data constructor of this name is
-                      -- in scope to give good error messages. However, we do
-                      -- not want to give an additional error if the data
-                      -- constructor happens to be out of scope! See #13947.
-                      mb_demoted_name <- discardErrs $
-                                         lookupOccRn_maybe demoted_rdr
-                    ; let suggestion | isJust mb_demoted_name
-                                     , let additional = text "to refer to the data constructor of that name?"
-                                     = [SuggestExtension $ SuggestSingleExtension additional LangExt.DataKinds]
-                                     | otherwise
-                                     = star_is_type_hints
-                    ; mk_unbound_name_GRE suggestion } }
+       ; mb_demoted_gre <- lookupOccRn_maybe demoted_rdr
+       ; case mb_demoted_gre of
+           Nothing -> unboundGREX looking_for rdr_name star_is_type_hints
+           Just demoted_gre -> return demoted_gre }
 
   | isQual rdr_name,
     Just demoted_rdr_name <- demoteRdrNameTv rdr_name
@@ -1844,7 +1829,7 @@ the correct one is.
 
 One example of this is in `lookupTypeOccRn` which first looks in the type
 constructor namespace before looking in the data constructor namespace to
-deal with `DataKinds`.
+deal with promoted data constructors.
 
 There is however, as always, one exception to this scheme. If we find
 an ambiguous occurrence of a record selector and DuplicateRecordFields

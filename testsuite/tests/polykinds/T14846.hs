@@ -5,7 +5,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE DataKinds, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 module T14846 where
 
 import Data.Kind

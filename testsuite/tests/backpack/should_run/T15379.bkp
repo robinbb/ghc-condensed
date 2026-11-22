@@ -1,5 +1,4 @@
 {-# LANGUAGE ConstraintKinds             #-}
-{-# LANGUAGE DataKinds                   #-}
 {-# LANGUAGE KindSignatures              #-}
 {-# LANGUAGE FlexibleInstances           #-}
 {-# LANGUAGE TypeFamilies                #-}

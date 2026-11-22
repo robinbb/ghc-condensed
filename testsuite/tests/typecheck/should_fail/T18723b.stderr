@@ -1,5 +1,4 @@
-
-T18723b.hs:7:2: error: [GHC-94803]
+T18723b.hs:6:2: error: [GHC-94803]
     • A 65-tuple is too large for GHC
         (max size is 64)
         Workaround: use nested tuples or define a data type
@@ -135,3 +134,4 @@ T18723b.hs:7:2: error: [GHC-94803]
                             Int,
                             Int))’
       In the definition of data constructor ‘MkT2’
+

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 
 -- Based on singleton-gadts
 module T12088sg3 where

@@ -1,4 +1,3 @@
-{-# Language DataKinds #-}
 {-# Language FlexibleContexts #-}
 {-# Language PolyKinds #-}
 {-# Language StandaloneKindSignatures #-}

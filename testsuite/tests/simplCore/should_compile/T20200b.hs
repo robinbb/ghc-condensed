@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs                  #-}
-{-# LANGUAGE DataKinds              #-}
 module T20200b where
 
 import Data.Kind

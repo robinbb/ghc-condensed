@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 -- The "bad case" in #11391

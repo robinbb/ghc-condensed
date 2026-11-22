@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, TypeFamilies, TypeOperators #-}
+{-# LANGUAGE PolyKinds, TypeFamilies, TypeOperators #-}
 
 module T8917 where
 

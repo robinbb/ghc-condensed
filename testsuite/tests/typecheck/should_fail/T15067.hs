@@ -1,5 +1,4 @@
 {-# LANGUAGE UnboxedSums #-}
-{-# LANGUAGE DataKinds #-}
 
 module T15067 where
 

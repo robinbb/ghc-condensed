@@ -1,4 +1,4 @@
-{-# language DataKinds, PolyKinds, GADTs, TypeFamilies, RankNTypes,
+{-# language PolyKinds, GADTs, TypeFamilies, RankNTypes,
              TypeOperators, ConstraintKinds #-}
 
 module DataInstanceKindsDefaults where

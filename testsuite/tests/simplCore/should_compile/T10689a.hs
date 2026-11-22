@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators
-           , DataKinds
            , PolyKinds
            , TypeFamilies
            , GADTs

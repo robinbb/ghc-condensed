@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, PolyKinds, TypeApplications #-}
+{-# LANGUAGE TypeFamilies, PolyKinds, TypeApplications #-}
 
 module T15245 where
 

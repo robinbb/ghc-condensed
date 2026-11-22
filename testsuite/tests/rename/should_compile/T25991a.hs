@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T25991a where
 

@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fplugin TyFamPlugin #-}
 
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, GADTs, ScopedTypeVariables #-}
+{-# LANGUAGE GADTs, ScopedTypeVariables #-}
 
 module TcPlugin_TyFam where
 

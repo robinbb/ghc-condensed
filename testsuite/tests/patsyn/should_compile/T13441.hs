@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, PatternSynonyms, DataKinds, PolyKinds,
+{-# LANGUAGE ScopedTypeVariables, PatternSynonyms, PolyKinds,
              GADTs, TypeOperators, TypeFamilies, TypeFamilyDependencies #-}
 
 module T13441 where

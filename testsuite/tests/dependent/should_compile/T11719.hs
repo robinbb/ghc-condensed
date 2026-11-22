@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeFamilies, TypeOperators, DataKinds, PolyKinds,
+{-# LANGUAGE RankNTypes, TypeFamilies, TypeOperators, PolyKinds,
              UndecidableInstances #-}
 
 module T11719 where

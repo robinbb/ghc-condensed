@@ -1,4 +1,4 @@
-{-# Language RankNTypes, PatternSynonyms, DataKinds, PolyKinds, GADTs,
+{-# Language RankNTypes, PatternSynonyms, PolyKinds, GADTs,
              TypeOperators, TypeFamilies,
              TypeSynonymInstances, FlexibleInstances, InstanceSigs, FlexibleContexts #-}
 

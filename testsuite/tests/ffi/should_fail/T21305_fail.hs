@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, GHCForeignImportPrim #-}
+{-# LANGUAGE GHCForeignImportPrim #-}
 
 module T21305_fail where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE PolyKinds, DataKinds #-}
+{-# LANGUAGE PolyKinds #-}
 
 module SAKS_Fail004 where
 

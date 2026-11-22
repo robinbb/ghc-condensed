@@ -10,7 +10,6 @@
 {-# language TypeFamilies #-}
 {-# language TypeOperators #-}
 {-# language UndecidableInstances #-}
-{-# language DataKinds #-}
 module T20996 (Generic1 (..), Rep1) where
 import GHC.Generics hiding (Generic1 (..))
 import Data.Kind

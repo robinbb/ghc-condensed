@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, NoPolyKinds #-}
+{-# LANGUAGE NoPolyKinds #-}
 
 module T11334b where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE DataKinds, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 module Main where
 
 import Data.Kind (Type)

@@ -1,5 +1,4 @@
-{-# LANGUAGE DataKinds
-           , PolyKinds
+{-# LANGUAGE PolyKinds
            , FlexibleContexts
            , FlexibleInstances
            , GADTs

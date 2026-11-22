@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module Unsatisfiable2 where
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# OPTIONS -ddump-parsed-ast #-}
 module T20452 where
 

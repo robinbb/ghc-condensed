@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE DataKinds, NoListTuplePuns #-}
+{-# LANGUAGE NoListTuplePuns #-}
 
 module T23501a where
 

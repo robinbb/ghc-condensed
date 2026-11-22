@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds                 #-}
 {-# LANGUAGE PolyKinds                 #-}
 {-# LANGUAGE TypeAbstractions          #-}
 {-# LANGUAGE TypeFamilyDependencies    #-}

@@ -1,4 +1,3 @@
-{-# Language DataKinds #-}
 {-# Language NoImplicitPrelude #-}
 {-# Language RebindableSyntax #-}
 

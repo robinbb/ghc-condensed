@@ -1,7 +1,6 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE DataKinds #-}
 
 module T11348 where
 

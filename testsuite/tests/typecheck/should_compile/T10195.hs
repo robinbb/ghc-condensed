@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-redundant-constraints -Wno-simplifiable-class-constraints #-}
 {-# LANGUAGE TypeFamilies, GADTs,
-             ConstraintKinds, DataKinds, KindSignatures,
+             ConstraintKinds, KindSignatures,
              FlexibleInstances #-}
 
 module T10195 where

@@ -1,4 +1,4 @@
-T15243.hs:(10,2)-(16,7): Splicing declarations
+T15243.hs:(9,2)-(15,7): Splicing declarations
     [d| type F :: k -> k
         
         type family F a where

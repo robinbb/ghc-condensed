@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilyDependencies, DataKinds, UndecidableInstances, PolyKinds,
+{-# LANGUAGE TypeFamilyDependencies, UndecidableInstances, PolyKinds,
              FlexibleInstances #-}
 
 module T6018fail where

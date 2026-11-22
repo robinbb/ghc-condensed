@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T13025 where
 import T13025a
 

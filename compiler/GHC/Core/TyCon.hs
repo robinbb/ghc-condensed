@@ -53,7 +53,7 @@ module GHC.Core.TyCon(
         tyConMustBeSaturated,
         isPromotedDataCon, isPromotedDataCon_maybe,
         isDataKindsPromotedDataCon,
-        isKindTyCon, isKindName, isLiftedTypeKindTyConName,
+        isLiftedTypeKindTyConName,
         isTauTyCon, isFamFreeTyCon, isForgetfulSynTyCon,
 
         isBoxedDataTyCon,
@@ -145,10 +145,7 @@ import {-# SOURCE #-} GHC.Core.TyCo.FVs
    ( noFreeVarsOfType )
 import {-# SOURCE #-} GHC.Core.TyCo.Ppr
    ( pprType )
-import {-# SOURCE #-} GHC.Builtin.WiredIn.Types
-   ( runtimeRepTyCon, constraintKind, levityTyCon
-   , multiplicityTyCon
-   , vecCountTyCon, vecElemTyCon )
+import {-# SOURCE #-} GHC.Builtin.WiredIn.Types ( constraintKind )
 import {-# SOURCE #-} GHC.Core.DataCon
    ( DataCon, dataConFieldLabels
    , dataConTyCon, dataConFullSig
@@ -171,7 +168,6 @@ import GHC.Types.Basic
 import GHC.Types.ForeignCall
 import GHC.Types.Name
 import GHC.Types.Name.Env
-import GHC.Types.Unique.Set
 import GHC.Types.FieldLabel
 
 import GHC.Builtin.Modules( gHC_PRIM, gHC_TYPES )
@@ -2670,7 +2666,7 @@ isPromotedDataCon (TyCon { tyConDetails = details })
   | otherwise                     = False
 
 -- | This function identifies PromotedDataCon's from data constructors in
--- `data T = K1 | K2`, promoted by -XDataKinds.  These type constructors
+-- `data T = K1 | K2`, promoted to the type level.  These type constructors
 -- are printed with a tick mark 'K1 and 'K2, and similarly have a tick
 -- mark added to their OccName's.
 --
@@ -2682,38 +2678,6 @@ isDataKindsPromotedDataCon (TyCon { tyConDetails = details })
   | PromotedDataCon { dataCon = dc } <- details
               = not (isTypeDataCon dc)
   | otherwise = False
-
--- | Is this 'TyCon' really meant for use at the kind level? That is,
--- should it be permitted without @DataKinds@?
-isKindTyCon :: TyCon -> Bool
-isKindTyCon = isKindUniquable
-
--- | This is 'Name' really meant for use at the kind level? That is,
--- should it be permitted wihout @DataKinds@?
-isKindName :: Name -> Bool
-isKindName = isKindUniquable
-
--- | The workhorse for 'isKindTyCon' and 'isKindName'.
-isKindUniquable :: Uniquable a => a -> Bool
-isKindUniquable thing = getUnique thing `memberUniqueSet` kindTyConKeys
-
--- | These TyCons should be allowed at the kind level, even without
--- -XDataKinds.
-kindTyConKeys :: UniqueSet
-kindTyConKeys = fromListUniqueSet $
-  -- Make sure to keep this in sync with the following:
-  --
-  -- - The Overview section in docs/users_guide/exts/data_kinds.rst in the GHC
-  --   User's Guide.
-  --
-  -- - The typecheck/should_compile/T22141f.hs test case, which ensures that all
-  --   of these can successfully be used without DataKinds.
-  [ liftedTypeKindTyConKey, liftedRepTyConKey, constraintKindTyConKey, tYPETyConKey, cONSTRAINTTyConKey ]
-  ++ concatMap tycon_with_datacons [ runtimeRepTyCon, levityTyCon
-                                   , multiplicityTyCon
-                                   , vecCountTyCon, vecElemTyCon ]
-  where
-    tycon_with_datacons tc = getUnique tc : map getUnique (tyConDataCons tc)
 
 isLiftedTypeKindTyConName :: Name -> Bool
 isLiftedTypeKindTyConName = (`hasKey` liftedTypeKindTyConKey)

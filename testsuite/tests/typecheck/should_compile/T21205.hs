@@ -1,6 +1,5 @@
 {-# language Haskell2010
            , AllowAmbiguousTypes
-           , DataKinds
            , PolyKinds
            , ScopedTypeVariables
            , StandaloneKindSignatures

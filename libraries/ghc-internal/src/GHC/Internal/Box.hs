@@ -1,6 +1,5 @@
 {-# LANGUAGE Trustworthy #-}
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NoImplicitPrelude #-}

@@ -1,4 +1,4 @@
-:set -XPolyKinds -XDataKinds
+:set -XPolyKinds
 import Data.Kind (Type)
 data Proxy (a :: k)
 f :: Proxy (a :: k) -> Proxy (b :: j) -> (); f = f

@@ -1,5 +1,4 @@
 {-# LANGUAGE ExplicitNamespaces #-}
-{-# LANGUAGE DataKinds #-}
 
 module T25901_imp_unused_4 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T12088g where
 

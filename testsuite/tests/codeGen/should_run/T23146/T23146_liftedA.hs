@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T23146_liftedA where
   

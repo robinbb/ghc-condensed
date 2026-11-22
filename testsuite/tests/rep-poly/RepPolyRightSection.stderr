@@ -1,4 +1,4 @@
-RepPolyRightSection.hs:14:11: error: [GHC-55287]
+RepPolyRightSection.hs:13:11: error: [GHC-55287]
     • The third argument of ‘rightSection’
       does not have a fixed runtime representation.
       Its type is:

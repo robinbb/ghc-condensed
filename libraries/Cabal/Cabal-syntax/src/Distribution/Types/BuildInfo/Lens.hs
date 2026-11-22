@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module Distribution.Types.BuildInfo.Lens
   ( BuildInfo

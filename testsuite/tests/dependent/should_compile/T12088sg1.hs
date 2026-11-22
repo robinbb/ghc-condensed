@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies, TemplateHaskell #-}
 
 -- Based on singleton-gadts
 module T12088sg1 where

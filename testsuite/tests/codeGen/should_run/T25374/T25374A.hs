@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE UnliftedDatatypes #-}
 
 module T25374A where

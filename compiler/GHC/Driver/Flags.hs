@@ -170,7 +170,6 @@ extensionName = \case
   LangExt.RebindableSyntax -> "RebindableSyntax"
   LangExt.ConstraintKinds -> "ConstraintKinds"
   LangExt.PolyKinds -> "PolyKinds"                -- Kind polymorphism
-  LangExt.DataKinds -> "DataKinds"                -- Datatype promotion
   LangExt.TypeData -> "TypeData"                 -- allow @type data@ definitions
   LangExt.InstanceSigs -> "InstanceSigs"
   LangExt.ApplicativeDo -> "ApplicativeDo"
@@ -315,7 +314,6 @@ impliedXFlags
     , (LangExt.UnboxedTuples, On LangExt.UnboxedSums)
 
     -- The extensions needed to declare an H98 unlifted data type
-    , (LangExt.UnliftedDatatypes, On LangExt.DataKinds)
     , (LangExt.UnliftedDatatypes, On LangExt.StandaloneKindSignatures)
 
     -- See (NVP3) in Note [Non-variable pattern bindings aren't linear] in GHC.Tc.Gen.Bind
@@ -1078,7 +1076,6 @@ data WarningFlag =
    | Opt_WarnIncompleteRecordSelectors               -- ^ @since 9.10
    | Opt_WarnBadlyLevelledTypes                      -- ^ @since 9.10
    | Opt_WarnInconsistentFlags                       -- ^ @since 9.8
-   | Opt_WarnDataKindsTC                             -- ^ @since 9.10
    | Opt_WarnDefaultedExceptionContext               -- ^ @since 9.10
    | Opt_WarnViewPatternSignatures                   -- ^ @since 9.12
    | Opt_WarnUselessSpecialisations                  -- ^ @since 9.14
@@ -1206,7 +1203,6 @@ warnFlagNames wflag = case wflag of
   Opt_WarnIncompleteRecordSelectors               -> "incomplete-record-selectors" :| []
   Opt_WarnBadlyLevelledTypes                      -> "badly-levelled-types" :| []
   Opt_WarnInconsistentFlags                       -> "inconsistent-flags" :| []
-  Opt_WarnDataKindsTC                             -> "data-kinds-tc" :| []
   Opt_WarnDefaultedExceptionContext               -> "defaulted-exception-context" :| []
   Opt_WarnViewPatternSignatures                   -> "view-pattern-signatures" :| []
   Opt_WarnUselessSpecialisations                  -> "useless-specialisations" :| ["useless-specializations"]

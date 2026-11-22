@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell, TypeApplications, PolyKinds
-             , TypeFamilies, DataKinds #-}
+             , TypeFamilies #-}
 
 module T12045TH2 where
 

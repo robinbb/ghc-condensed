@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, KindSignatures, TypeFamilies #-}
+{-# LANGUAGE KindSignatures, TypeFamilies #-}
 module T21289 where
 
 type family F (a :: Bool)

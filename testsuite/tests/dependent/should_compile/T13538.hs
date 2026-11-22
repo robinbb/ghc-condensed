@@ -1,6 +1,6 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE TypeFamilies, TypeFamilyDependencies #-}
-{-# LANGUAGE KindSignatures, DataKinds, PolyKinds #-}
+{-# LANGUAGE KindSignatures, PolyKinds #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeApplications     #-}
 module T13538 where

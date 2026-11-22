@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, LinearTypes, DataKinds, TypeOperators, GADTs,
+{-# LANGUAGE ScopedTypeVariables, LinearTypes, TypeOperators, GADTs,
              PolyKinds, ConstraintKinds, TypeApplications #-}
 
 module T18998b where

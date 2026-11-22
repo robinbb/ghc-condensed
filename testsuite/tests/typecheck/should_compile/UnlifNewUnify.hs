@@ -3,7 +3,6 @@
 {-# Language TypeApplications      #-}
 {-# Language PolyKinds             #-}
 {-# Language TypeOperators         #-}
-{-# Language DataKinds             #-}
 {-# Language TypeFamilies          #-}
 {-# Language TypeSynonymInstances  #-}
 {-# Language FlexibleInstances     #-}

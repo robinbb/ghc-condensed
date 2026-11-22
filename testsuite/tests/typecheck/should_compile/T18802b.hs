@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds #-}
+{-# LANGUAGE GADTs #-}
 
 module T18802b where
 

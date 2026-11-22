@@ -1,4 +1,4 @@
-ListTuplePunsTH.hs:14:2: warning: [GHC-39584]
+ListTuplePunsTH.hs:13:2: warning: [GHC-39584]
     forall a_0 . (a_0 :: Constraint)
 forall a_1 . (a_1 :: GHC.Internal.Types.List *)
 forall a_2 .

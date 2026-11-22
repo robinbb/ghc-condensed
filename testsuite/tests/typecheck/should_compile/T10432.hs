@@ -1,5 +1,5 @@
 {-# LANGUAGE ExistentialQuantification, PolyKinds,
-             DataKinds, RankNTypes, GADTs, TypeOperators #-}
+             RankNTypes, GADTs, TypeOperators #-}
 module T10432 where
 
 import Data.Kind (Type)

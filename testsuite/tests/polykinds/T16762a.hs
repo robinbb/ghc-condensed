@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, DataKinds, PolyKinds #-}
+{-# LANGUAGE TypeFamilies, GADTs, PolyKinds #-}
 
 module T16762a where
 

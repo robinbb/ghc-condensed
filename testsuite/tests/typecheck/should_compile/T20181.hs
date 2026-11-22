@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T20181 where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE DataKinds, PolyKinds, TypeApplications #-}
+{-# LANGUAGE PolyKinds, TypeApplications #-}
 
 module T16635b where
 

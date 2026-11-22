@@ -1,6 +1,5 @@
 {-# LANGUAGE RequiredTypeArguments #-}
 {-# LANGUAGE ExplicitNamespaces #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE StarIsType #-}
 

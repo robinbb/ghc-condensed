@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, PartialTypeSignatures #-}
+{-# LANGUAGE TypeFamilies, PartialTypeSignatures #-}
 {-# OPTIONS_GHC -fdefer-type-errors #-}
 module T23156 where
 

@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE DataKinds #-}
 module Foo where
 
 import Data.Typeable (Proxy(..), typeRep)

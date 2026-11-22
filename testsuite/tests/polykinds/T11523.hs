@@ -1,6 +1,5 @@
 {-# language KindSignatures #-}
 {-# language PolyKinds #-}
-{-# language DataKinds #-}
 {-# language TypeFamilies #-}
 {-# language RankNTypes #-}
 {-# language NoImplicitPrelude #-}

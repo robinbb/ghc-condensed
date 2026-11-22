@@ -6,7 +6,7 @@
 
 -- |
 --
--- GHC's @DataKinds@ language extension lifts data constructors, natural
+-- GHC lifts data constructors, natural
 -- numbers, and strings to the type level. This module provides the
 -- primitives needed for working with type-level numbers (the 'Nat' kind),
 -- strings (the 'Symbol' kind), and characters (the 'Char' kind). It also defines the 'TypeError' type
@@ -15,7 +15,7 @@
 --
 -- For now, this module is the API for working with type-level literals.
 -- However, please note that it is a work in progress and is subject to change.
--- Once the design of the @DataKinds@ feature is more stable, this will be
+-- Once the design of type-level data is more stable, this will be
 -- considered only an internal GHC module, and the programmer interface for
 -- working with type-level data will be defined in a separate library.
 --

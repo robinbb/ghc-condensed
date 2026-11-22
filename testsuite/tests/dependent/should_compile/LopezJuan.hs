@@ -12,7 +12,7 @@ would fail in an algorithm that required kind unification before
 type unification.
 -}
 
-{-# LANGUAGE TypeOperators, TypeApplications, DataKinds,
+{-# LANGUAGE TypeOperators, TypeApplications,
              StandaloneKindSignatures, PolyKinds, GADTs,
              TypeFamilies, NamedWildCards, PartialTypeSignatures #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}

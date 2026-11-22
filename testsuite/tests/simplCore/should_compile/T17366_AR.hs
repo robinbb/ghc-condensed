@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T17366_AR where
 
 import T17366_ARa

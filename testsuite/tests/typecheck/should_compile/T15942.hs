@@ -1,4 +1,3 @@
-{-# Language DataKinds           #-}
 {-# Language RankNTypes          #-}
 {-# Language TypeApplications    #-}
 {-# Language PolyKinds           #-}

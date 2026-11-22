@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T11342c where
 

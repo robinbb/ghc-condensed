@@ -1,6 +1,6 @@
-T18145.hs:9:44: error: [GHC-76037] Not in scope: type variable ‘a’
+T18145.hs:8:44: error: [GHC-76037] Not in scope: type variable ‘a’
 
-T18145.hs:13:41: error: [GHC-76037] Not in scope: type variable ‘a’
+T18145.hs:12:41: error: [GHC-76037] Not in scope: type variable ‘a’
 
-T18145.hs:16:41: error: [GHC-76037] Not in scope: type variable ‘a’
+T18145.hs:15:41: error: [GHC-76037] Not in scope: type variable ‘a’
 

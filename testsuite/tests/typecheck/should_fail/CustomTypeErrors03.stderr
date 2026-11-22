@@ -1,5 +1,5 @@
-
-CustomTypeErrors03.hs:6:6: error: [GHC-47403]
+CustomTypeErrors03.hs:5:6: error: [GHC-47403]
     • This is a type error
     • In the type signature:
         f :: TypeError (Text "This is a type error")
+

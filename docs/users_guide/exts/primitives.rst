@@ -390,7 +390,7 @@ Unlifted Datatypes
 .. extension:: UnliftedDatatypes
     :shortdesc: Allow the definition of unlifted data types.
 
-    :implies: :extension:`DataKinds`, :extension:`StandaloneKindSignatures`
+    :implies: :extension:`StandaloneKindSignatures`
     :since: 9.2.1
 
     Enable the declaration of data types with unlifted or levity-polymorphic

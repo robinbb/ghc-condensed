@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NamedDefaults #-}
 {-# LANGUAGE PolyKinds #-}

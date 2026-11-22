@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T21752 where
 
 import T21752A

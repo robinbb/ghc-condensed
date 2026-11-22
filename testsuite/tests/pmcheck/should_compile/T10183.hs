@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds, TypeOperators, UnicodeSyntax #-}
+{-# LANGUAGE GADTs, TypeOperators, UnicodeSyntax #-}
 
 module Foo where
 

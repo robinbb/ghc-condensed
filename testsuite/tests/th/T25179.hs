@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, DataKinds, NoListTuplePuns #-}
+{-# LANGUAGE TemplateHaskell, NoListTuplePuns #-}
 
 module T25179 where
 

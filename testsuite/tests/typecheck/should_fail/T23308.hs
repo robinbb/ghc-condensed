@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, UnliftedNewtypes, TypeFamilies #-}
+{-# LANGUAGE UnliftedNewtypes, TypeFamilies #-}
 
 module T23308 where
 

@@ -39,6 +39,7 @@ where
 import GHC.Prelude
 
 import GHC.Driver.DynFlags
+import qualified GHC.LanguageExtensions as LangExt
 import GHC.Driver.Ppr
 import GHC.Driver.Env (hsc_units)
 import GHC.Driver.Env.Types
@@ -53,7 +54,6 @@ import GHC.Utils.Panic (panic)
 import GHC.Data.Maybe
 import GHC.Data.FastString
 
-import qualified GHC.LanguageExtensions as LangExt
 
 import GHC.Types.Hint
   ( GhcHint (SuggestExtension, RemindFieldSelectorSuppressed, ImportSuggestion, SuggestSimilarNames)
@@ -264,7 +264,7 @@ similarNameSuggestions looking_for@(LF what_look where_look) dflags global_env
     tried_is_qual = isQual tried_rdr_name
 
     is_relevant sugg_occ =
-      suggestionIsRelevant dflags what_look sugg_occ
+      suggestionIsRelevant what_look sugg_occ
         && isSymOcc sugg_occ == tried_is_sym
         -- Treat operator and non-operators as non-matching
         -- This heuristic avoids things like
@@ -525,26 +525,21 @@ isGreOk (LF what_look where_look) gre = what_ok && where_ok
 --
 -- See Note [Related name spaces]
 suggestionIsRelevant
-  :: DynFlags    -- ^ to find out whether -XDataKinds is enabled
-  -> WhatLooking -- ^ What kind of name are we looking for?
+  :: WhatLooking -- ^ What kind of name are we looking for?
   -> OccName     -- ^ The suggestion
                  --
                  -- We only look at the suggestion's 'NameSpace',
                  -- but passing the whole 'OccName' is convenient
                  -- for debugging.
   -> Bool
-suggestionIsRelevant dflags what_looking suggestion =
-  relevantNameSpace data_kinds what_looking suggestion_ns
-    where
-      suggestion_ns = occNameSpace suggestion
-      data_kinds = xopt LangExt.DataKinds dflags
+suggestionIsRelevant what_looking suggestion =
+  relevantNameSpace what_looking (occNameSpace suggestion)
 
 -- | Is a 'NameSpace' relevant for what we are looking for?
-relevantNameSpace :: Bool        -- ^ is @-XDataKinds@ enabled?
-                  -> WhatLooking -- ^ what are we looking for?
+relevantNameSpace :: WhatLooking -- ^ what are we looking for?
                   -> NameSpace   -- ^ is this 'NameSpace' relevant?
                   -> Bool
-relevantNameSpace data_kinds = \case
+relevantNameSpace = \case
   WL_Anything         -> const True
   WL_TyCon            -> isTcClsNameSpace
   WL_TyCon_or_TermVar -> isTcClsNameSpace <||> isTermVarOrFieldNameSpace
@@ -554,9 +549,7 @@ relevantNameSpace data_kinds = \case
   WL_RecField         -> isFieldNameSpace
   WL_Term             -> isValNameSpace
   WL_TermVariable     -> isTermVarOrFieldNameSpace
-  WL_Type             -> if data_kinds
-                         then not . isTermVarOrFieldNameSpace
-                         else not . isValNameSpace
+  WL_Type             -> not . isTermVarOrFieldNameSpace
   WL_None             -> const False
 
 {- Note [Related name spaces]
@@ -577,8 +570,9 @@ It is unlikely that they mean to use `map`, since variables cannot be used here.
 Similarly, when we look for record fields, data constructors are not in a
 related namespace.
 
-Furthermore, with -XDataKinds, the data constructor name space is related to
-the type variable and type constructor name spaces.
+Furthermore, since data constructors are promoted to the type level, the
+data constructor name space is related to the type variable and type
+constructor name spaces.
 
 Note [When to show/hide the module-not-imported line]           -- #15611
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

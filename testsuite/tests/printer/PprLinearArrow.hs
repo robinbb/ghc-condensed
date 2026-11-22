@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, DataKinds, UnicodeSyntax #-}
+{-# LANGUAGE LinearTypes, UnicodeSyntax #-}
 
 module PprLinearArrow where
 

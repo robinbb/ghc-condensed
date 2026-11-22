@@ -108,7 +108,9 @@ and message, ignoring line numbers, and exits 1 when the log has a
 warning the baseline lacks. A change to the compiler rebuilds every
 stage-1 package, so that part of the list is complete after any such
 change; the stage-0 modules, which the bootstrap compiler builds, appear
-only when their own sources changed.
+only when their own sources changed. Use the log of a plain build: a
+`hadrian/build test` run also runs haddock over every package, and its
+typecheck-only pass reports selector warnings the build never emits.
 
 A second check builds and tests a corpus of real-world Haskell packages
 (aeson, lens, pandoc, hledger, and several hundred more, vendored as git

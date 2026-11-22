@@ -2625,7 +2625,7 @@ commonly used commands.
 
     .. code-block:: none
 
-        ghci>:set -XDataKinds -XUndecidableInstances
+        ghci>:set -XUndecidableInstances
         ghci>import GHC.TypeLits
         ghci>class A a
         ghci>instance (TypeError (Text "Not possible")) => A Bool

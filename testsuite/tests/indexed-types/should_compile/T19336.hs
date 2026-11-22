@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances
-           , DataKinds, NoMonomorphismRestriction, UndecidableInstances
+, NoMonomorphismRestriction, UndecidableInstances
            , TypeFamilies #-}
 
 {-# OPTIONS_GHC -Wall #-}

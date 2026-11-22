@@ -1,4 +1,4 @@
-T26176.hs:29:7: error: [GHC-64725]
+T26176.hs:28:7: error: [GHC-64725]
     • Cannot satisfy: FA t <= FB t
     • In the expression: bar @t
       In an equation for ‘x’: x = bar @t

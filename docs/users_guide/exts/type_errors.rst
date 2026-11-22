@@ -21,8 +21,8 @@ To solve this, GHC provides a single type-level function, ::
 
     type family TypeError (msg :: ErrorMessage) :: k
 
-along with a small type-level language (via :extension:`DataKinds`)
-for constructing pretty-printed error messages, ::
+along with a small type-level language (see :ref:`promotion`) for
+constructing pretty-printed error messages, ::
 
     -- ErrorMessage is intended to be used as a kind
     data ErrorMessage =
@@ -36,7 +36,6 @@ in the :base-ref:`GHC.TypeLits.` module.
 For instance, we might use this interface to provide a more useful error
 message for applications of ``show`` on unsaturated functions like this, ::
 
-    {-# LANGUAGE DataKinds #-}
     {-# LANGUAGE TypeOperators #-}
     {-# LANGUAGE UndecidableInstances #-}
 

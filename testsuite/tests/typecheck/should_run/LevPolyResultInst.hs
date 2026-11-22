@@ -1,5 +1,4 @@
 {-# language BangPatterns #-}
-{-# language DataKinds #-}
 {-# language MagicHash #-}
 {-# language PolyKinds #-}
 {-# language RankNTypes #-}

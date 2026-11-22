@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, DataKinds, TypeFamilies, ScopedTypeVariables, GADTs, RankNTypes #-}
+{-# LANGUAGE PolyKinds, TypeFamilies, ScopedTypeVariables, GADTs, RankNTypes #-}
 module T9574 where
 
 import Data.Kind (Type)

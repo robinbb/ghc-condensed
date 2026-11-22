@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, StandaloneKindSignatures, TypeApplications, TypeFamilies #-}
+{-# LANGUAGE StandaloneKindSignatures, TypeApplications, TypeFamilies #-}
 
 module RepPolyArgument2 where
 

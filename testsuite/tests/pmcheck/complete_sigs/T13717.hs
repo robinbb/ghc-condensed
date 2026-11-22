@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -Wincomplete-patterns #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GADTs #-}

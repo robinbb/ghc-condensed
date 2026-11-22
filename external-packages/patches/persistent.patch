@@ -1,6 +1,14 @@
 --- a/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
 +++ b/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
-@@ -3572,7 +3572,6 @@
+@@ -969,7 +969,6 @@
+         , [GeneralizedNewtypeDeriving]
+         , [StandaloneDeriving]
+         , [UndecidableInstances]
+-        , [DataKinds]
+         , [FlexibleInstances]
+         ]
+     persistFieldDecs <- fmap mconcat $ mapM (persistFieldFromEntity mps) ents
+@@ -3571,7 +3570,6 @@
              , GeneralizedNewtypeDeriving
              , StandaloneDeriving
              , UndecidableInstances

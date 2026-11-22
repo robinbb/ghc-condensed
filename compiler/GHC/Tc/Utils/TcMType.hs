@@ -2092,7 +2092,7 @@ We infer
   Mk :: forall k1 k2 (f :: k2 -> *) (g :: k1 -> k2) (a :: k1).
         f (g a) -> Compose k1 k2 f g a
 
-Now, in another module, we have -XNoPolyKinds -XDataKinds in effect.
+Now, in another module, we have -XNoPolyKinds in effect.
 What does 'Mk mean? Pre GHC-8.0 with -XNoPolyKinds,
 we just defaulted all kind variables to *. But that's no good here,
 because the kind variables in 'Mk aren't of kind *, so defaulting to *

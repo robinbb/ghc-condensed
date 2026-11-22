@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds, KindSignatures, FlexibleInstances #-}
+{-# LANGUAGE GADTs, KindSignatures, FlexibleInstances #-}
 
 module T8537 where
 

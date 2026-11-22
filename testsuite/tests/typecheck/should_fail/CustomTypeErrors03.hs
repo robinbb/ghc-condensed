@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T3 where
 
 import GHC.TypeLits

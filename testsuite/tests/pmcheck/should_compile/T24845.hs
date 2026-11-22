@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, GADTs #-}
+{-# LANGUAGE GADTs #-}
 {-# OPTIONS_GHC -Wall #-}
 module M where
 

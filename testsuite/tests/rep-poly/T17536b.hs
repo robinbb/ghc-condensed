@@ -1,6 +1,5 @@
 
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE StandaloneKindSignatures #-}

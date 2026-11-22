@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, StandaloneDeriving, TypeOperators, GADTs, FlexibleInstances #-}
+{-# LANGUAGE StandaloneDeriving, TypeOperators, GADTs, FlexibleInstances #-}
 
 module T11611 where
 

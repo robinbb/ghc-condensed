@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators, StarIsType
-           , DataKinds
            , PolyKinds
            , TypeFamilies
            , GADTs

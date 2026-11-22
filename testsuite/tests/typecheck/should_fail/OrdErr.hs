@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module OrdErr where
 
 import GHC.TypeNats

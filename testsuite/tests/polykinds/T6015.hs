@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
              PolyKinds, UndecidableInstances, ScopedTypeVariables #-}
 
 module T6015 where

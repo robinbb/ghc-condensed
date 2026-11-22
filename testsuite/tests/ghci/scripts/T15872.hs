@@ -1,5 +1,4 @@
 {-# Language RankNTypes #-}
-{-# Language DataKinds  #-}
 {-# Language PolyKinds  #-}
 {-# Language GADTs      #-}
 module T15872 where

@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, TypeOperators, PolyKinds, DataKinds,
+{-# LANGUAGE GADTs, TypeOperators, PolyKinds,
              TypeFamilyDependencies, RankNTypes, LambdaCase, EmptyCase,
              UndecidableInstances #-}
 

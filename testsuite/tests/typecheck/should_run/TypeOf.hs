@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, UnicodeSyntax #-}
+{-# LANGUAGE UnicodeSyntax #-}
 {-# OPTIONS -Wno-star-is-type #-}
 
 import Data.Typeable

@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T22785 where
 import Data.Proxy
 import Data.Tuple

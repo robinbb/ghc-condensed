@@ -1,5 +1,4 @@
-{-# LANGUAGE DataKinds
-           , FlexibleInstances
+{-# LANGUAGE FlexibleInstances
            , GADTs
            , TypeFamilies
            , TypeApplications

@@ -1,7 +1,6 @@
 -- To test with GHC before liftA2 was added to the Applicative
 -- class, remove the definition of liftA2 here, and import
 -- liftA2 separately from Control.Applicative.
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE StandaloneDeriving #-}

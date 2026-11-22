@@ -1,4 +1,4 @@
-{-# Language DataKinds, PolyKinds, TypeFamilies, UndecidableInstances #-}
+{-# Language PolyKinds, TypeFamilies, UndecidableInstances #-}
 
 module T15412 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilyDependencies, DataKinds #-}
+{-# LANGUAGE TypeFamilyDependencies #-}
 
 module T12088f where
 

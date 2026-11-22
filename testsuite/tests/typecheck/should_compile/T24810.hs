@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE RequiredTypeArguments, TypeAbstractions #-}
 
 module T24810 where

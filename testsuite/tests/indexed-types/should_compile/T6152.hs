@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, GADTs #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T6152 where
 

@@ -23,10 +23,10 @@ of length-indexed vectors: ::
       Nil  :: Vec a Zero
       Cons :: a -> Vec a n -> Vec a (Succ n)
 
-:extension:`TypeData` is a more fine-grained alternative to the
-:extension:`DataKinds` extension, which defines *all* the constructors
-in *all* ``data`` declarations as both data constructors and type
-constructors.
+:extension:`TypeData` is a more fine-grained alternative to ordinary data
+type promotion (see :ref:`promotion`), which defines *all* the
+constructors in *all* ``data`` declarations as both data constructors and
+type constructors.
 
 A ``type data`` declaration has the same syntax as a ``data`` declaration,
 either an ordinary algebraic data type or a GADT, prefixed with the keyword

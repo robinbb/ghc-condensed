@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T26860ppr_tylit where
 

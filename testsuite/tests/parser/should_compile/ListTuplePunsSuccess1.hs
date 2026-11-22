@@ -1,4 +1,4 @@
-{-# language TypeFamilies, DataKinds, UnboxedTuples, MagicHash #-}
+{-# language TypeFamilies, UnboxedTuples, MagicHash #-}
 
 module ListTuplePunsSuccess1 where
 

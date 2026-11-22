@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
              TypeFamilies #-}
 
 import GHC.Records (HasField(..))

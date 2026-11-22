@@ -1,6 +1,6 @@
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE PolyKinds #-}
-{-# LANGUAGE DataKinds #-}
+
 {-# LANGUAGE TypeOperators #-}
 module T14164 where
 

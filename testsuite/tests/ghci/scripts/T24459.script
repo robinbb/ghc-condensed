@@ -1,5 +1,5 @@
 :{
-{-# LANGUAGE TypeFamilies, TypeFamilyDependencies, DataKinds, TypeAbstractions, FunctionalDependencies, AllowAmbiguousTypes #-}
+{-# LANGUAGE TypeFamilies, TypeFamilyDependencies, TypeAbstractions, FunctionalDependencies, AllowAmbiguousTypes #-}
 
 import Data.Kind
 import Data.Data

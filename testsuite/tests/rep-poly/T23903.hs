@@ -1,4 +1,4 @@
-{-# LANGUAGE GHC2021, AllowAmbiguousTypes, DataKinds, MagicHash, TypeFamilies #-}
+{-# LANGUAGE GHC2021, AllowAmbiguousTypes, MagicHash, TypeFamilies #-}
 module T23903 where
 
 import Data.Kind(Type)

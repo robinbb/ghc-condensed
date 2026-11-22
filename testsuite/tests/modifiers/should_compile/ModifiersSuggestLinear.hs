@@ -1,4 +1,4 @@
-{-# LANGUAGE Modifiers, DataKinds #-}
+{-# LANGUAGE Modifiers #-}
 
 module ModifiersSuggestLinear where
 

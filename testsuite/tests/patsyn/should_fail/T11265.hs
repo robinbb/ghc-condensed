@@ -1,4 +1,4 @@
-{-# LANGUAGE PatternSynonyms, DataKinds #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 pattern A = True
 

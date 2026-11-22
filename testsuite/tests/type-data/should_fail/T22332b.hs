@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeData, DataKinds #-}
+{-# LANGUAGE TypeData #-}
 module T22332b where
 
 type data X1 = T

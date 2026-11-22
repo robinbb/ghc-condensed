@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 
 module T12104 where
 

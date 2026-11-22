@@ -1046,7 +1046,7 @@ We want a civilised error message from the occurrence of 'A'
 in the instance, yet 'A' really has not yet been type checked.
 
 Similarly (#9161)
-  {-# LANGUAGE PatternSynonyms, DataKinds #-}
+  {-# LANGUAGE PatternSynonyms #-}
   pattern A = ()
   b :: A
   b = undefined

@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE MagicHash #-}
 
 module RepPolyUnsafeCoerce1 where

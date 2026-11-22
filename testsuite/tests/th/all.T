@@ -224,7 +224,7 @@ test('T5700', [], multimod_compile,
 
 test('TH_PromotedTuple', normal, compile, ['-v0 -ddump-splices -dsuppress-uniques'])
 test('TH_PromotedList', normal, compile, ['-v0'])
-test('TH_Promoted1Tuple', normal, compile_fail, ['-v0'])
+test('TH_Promoted1Tuple', normal, compile, ['-v0'])
 test('TH_RichKinds', normal, compile, ['-v0'])
 test('TH_RichKinds2', normal, compile, ['-v0'])
 

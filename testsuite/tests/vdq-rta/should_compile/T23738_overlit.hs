@@ -1,6 +1,5 @@
 {-# LANGUAGE RequiredTypeArguments #-}
 {-# LANGUAGE ExplicitNamespaces #-}
-{-# LANGUAGE DataKinds #-}
 
 -- Non-overloaded string literals checked in T23738_basic.
 {-# LANGUAGE OverloadedStrings #-}

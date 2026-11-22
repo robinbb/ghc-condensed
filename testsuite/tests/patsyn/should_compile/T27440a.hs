@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PatternSynonyms, TypeAbstractions #-}
+{-# LANGUAGE PatternSynonyms, TypeAbstractions #-}
 module T27440a where
 
 import Data.Kind (Type)

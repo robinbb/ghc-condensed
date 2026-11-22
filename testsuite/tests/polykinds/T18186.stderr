@@ -1,4 +1,4 @@
-T18186.hs:15:32: error: [GHC-83865]
+T18186.hs:14:32: error: [GHC-83865]
     • Expected a type,
       but ‘B n 1’ has kind
       ‘GHC.Internal.Bignum.Natural.Natural’

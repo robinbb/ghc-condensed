@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, TypeFamilies, RankNTypes #-}
+{-# LANGUAGE PolyKinds, TypeFamilies, RankNTypes #-}
 
 module T14904 where
 

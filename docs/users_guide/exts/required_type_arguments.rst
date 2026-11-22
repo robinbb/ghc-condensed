@@ -308,8 +308,8 @@ A few limitations apply:
 
   What to do instead: use ``Type`` from the ``Data.Kind`` module.
 
-* The ``'`` syntax of :extension:`DataKinds` is not available due to a conflict
-  with :extension:`TemplateHaskell` name quotation.
+* The ``'`` promotion syntax is not available due to a conflict with
+  :extension:`TemplateHaskell` name quotation.
   What to do instead: simply omit the ``'``.
 
 Effect on implicit quantification
@@ -483,7 +483,7 @@ restrictions on where the data constructor may occur.  Examples:
       f2 (Typed Int n) = n*2
       f3 (Typed ((->) w Bool) g) = not . g
 
-* in types (with :extension:`DataKinds`) ::
+* in types ::
 
       type T1 = Typed Nat 42
       type T2 = Typed Symbol "hello"

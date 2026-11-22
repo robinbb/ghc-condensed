@@ -79,7 +79,6 @@ data Extension
    | RebindableSyntax
    | ConstraintKinds
    | PolyKinds                -- Kind polymorphism
-   | DataKinds                -- Datatype promotion
    | TypeData                 -- allow @type data@ definitions
    | InstanceSigs
    | ApplicativeDo

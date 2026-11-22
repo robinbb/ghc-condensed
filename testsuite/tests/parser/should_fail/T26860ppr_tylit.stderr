@@ -1,4 +1,4 @@
-T26860ppr_tylit.hs:10:10: error: [GHC-83865]
+T26860ppr_tylit.hs:9:10: error: [GHC-83865]
     • Expected a type,
       but ‘"first line \
                     \asdf\n\

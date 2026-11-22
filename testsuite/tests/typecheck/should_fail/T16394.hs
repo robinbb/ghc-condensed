@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}
+{-# LANGUAGE PolyKinds, TypeFamilies #-}
 
 class C a where
     type T (n :: a)

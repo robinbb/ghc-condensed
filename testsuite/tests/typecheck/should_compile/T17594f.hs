@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeFamilies,
              BlockArguments,
              QualifiedDo,
-             DataKinds,
              RequiredTypeArguments,
              ImpredicativeTypes,
              TypeAbstractions #-}

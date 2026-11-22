@@ -1,7 +1,6 @@
 {-# Language LiberalTypeSynonyms #-}
 {-# Language PolyKinds           #-}
 {-# Language RankNTypes          #-}
-{-# Language DataKinds           #-}
 
 import Data.Kind
 

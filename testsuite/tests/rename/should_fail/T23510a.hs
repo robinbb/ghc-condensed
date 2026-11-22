@@ -1,5 +1,4 @@
 {-# OPTIONS -Werror=implicit-rhs-quantification #-}
-{-# LANGUAGE DataKinds #-}
 module T23510a where
 
 import Data.Proxy

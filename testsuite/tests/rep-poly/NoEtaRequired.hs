@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, TypeFamilies, PolyKinds, StandaloneKindSignatures #-}
+{-# LANGUAGE TypeFamilies, PolyKinds, StandaloneKindSignatures #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeOperators #-}

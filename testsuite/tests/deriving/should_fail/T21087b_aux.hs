@@ -1,4 +1,3 @@
-{-# language DataKinds #-}
 {-# language DerivingVia #-}
 {-# language TypeFamilies #-}
 

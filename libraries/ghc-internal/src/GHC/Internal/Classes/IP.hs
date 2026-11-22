@@ -1,6 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, StandaloneDeriving, BangPatterns,
-             KindSignatures, DataKinds, ConstraintKinds,
+             KindSignatures, ConstraintKinds,
               FunctionalDependencies #-}
 
 {-# LANGUAGE AllowAmbiguousTypes, RoleAnnotations #-}

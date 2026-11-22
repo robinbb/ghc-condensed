@@ -1,5 +1,5 @@
 {-# OPTIONS -Wimplicit-rhs-quantification #-}
-{-# LANGUAGE DataKinds, TypeAbstractions #-}
+{-# LANGUAGE TypeAbstractions #-}
 module T23510b where
 
 import Data.Proxy

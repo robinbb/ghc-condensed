@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -O1 #-}
-{-# LANGUAGE DataKinds #-}
 
 module T23146_lifted_unliftedA where
 

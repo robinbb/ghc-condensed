@@ -1,4 +1,4 @@
-T12634.hs:15:58: error: [GHC-83865]
+T12634.hs:14:58: error: [GHC-83865]
     • Expected a type,
       but ‘'(t, m, m', r)’ has kind
       ‘(k0 -> k1 -> *, k2, k0, k1)’

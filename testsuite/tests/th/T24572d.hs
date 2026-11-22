@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, RequiredTypeArguments, DataKinds #-}
+{-# LANGUAGE TemplateHaskell, RequiredTypeArguments #-}
 module T24572d where
 
 idVis :: forall a -> a -> a

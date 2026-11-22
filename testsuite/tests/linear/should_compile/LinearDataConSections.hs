@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, LinearTypes, GADTSyntax #-}
+{-# LANGUAGE LinearTypes, GADTSyntax #-}
 
 module LinearDataConSections where
 

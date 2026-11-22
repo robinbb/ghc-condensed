@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, DataKinds, TypeOperators, GADTs #-}
+{-# LANGUAGE ConstraintKinds, TypeOperators, GADTs #-}
 {-# LANGUAGE TypeFamilies, KindSignatures, FlexibleInstances #-}
 module Reproducer where
 

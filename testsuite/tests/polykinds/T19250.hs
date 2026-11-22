@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, TypeFamilies, ConstraintKinds, PolyKinds, DataKinds, EmptyDataDecls #-}
+{-# LANGUAGE TypeOperators, TypeFamilies, ConstraintKinds, PolyKinds, EmptyDataDecls #-}
 
 module T19250 where
 

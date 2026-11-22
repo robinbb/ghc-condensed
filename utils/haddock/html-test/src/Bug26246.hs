@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module Bug26246 ( Effect, Env, Eff, State(..) ) where
 

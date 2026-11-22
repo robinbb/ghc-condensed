@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, TypeFamilies, StarIsType #-}
+{-# LANGUAGE TypeFamilies, StarIsType #-}
 module Bug466 where
 
 import Data.Kind (Type)

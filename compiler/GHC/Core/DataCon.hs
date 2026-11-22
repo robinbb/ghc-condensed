@@ -58,7 +58,6 @@ module GHC.Core.DataCon (
         classDataCon, dataConCannotMatch,
         dataConUserTyVarBindersNeedWrapper, checkDataConTyVars,
         isBanged, isUnpacked, isMarkedStrict, cbvFromStrictMark, eqHsBang, isSrcStrict, isSrcUnpacked,
-        specialPromotedDc,
 
         -- ** Promotion related functions
         promoteDataCon
@@ -1635,11 +1634,6 @@ Wrinkles:
   hence dcRepTyCon
 -}
 
-
--- | Should this DataCon be allowed in a type even without -XDataKinds?
--- Currently, only Lifted & Unlifted
-specialPromotedDc :: DataCon -> Bool
-specialPromotedDc = isKindTyCon . dataConTyCon
 
 classDataCon :: Class -> DataCon
 classDataCon clas = case tyConDataCons (classTyCon clas) of

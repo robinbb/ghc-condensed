@@ -2614,21 +2614,6 @@ of ``-W(no-)*``.
     issued. Another example is :ghc-flag:`-dynamic` is ignored when :ghc-flag:`-dynamic-too`
     is passed.
 
-.. ghc-flag:: -Wdata-kinds-tc
-    :shortdesc: *(deprecated)* Does nothing
-    :type: dynamic
-
-    :since: 9.10.1
-
-    This warning is deprecated. It no longer has any effect since GHC 9.14.
-
-    In the past, GHC 9.10 and 9.12 was overly permissive about which types or
-    kinds could be used without enabling the :extension:`DataKinds` extension.
-    In GHC 9.14 or later, however, GHC now consistently requires
-    :extension:`DataKinds`, and all :extension:`DataKinds` violations are now
-    errors. :ghc-flag:`-Wdata-kinds-tc` was used in the migration period before
-    the breaking change took place.
-
 .. ghc-flag:: -Wdefaulted-exception-context
     :shortdesc: warn when an :base-ref:`Control.Exception.Context.ExceptionContext`
                 implicit parameter is defaulted to

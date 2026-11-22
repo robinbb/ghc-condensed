@@ -1,4 +1,4 @@
-{-# LANGUAGE UnboxedTuples, UnliftedNewtypes, DataKinds, MagicHash #-}
+{-# LANGUAGE UnboxedTuples, UnliftedNewtypes, MagicHash #-}
 module T24306 where
 
 import GHC.Exts

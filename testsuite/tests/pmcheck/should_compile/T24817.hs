@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds #-}
+{-# LANGUAGE GADTs #-}
 
 module T24817 where
 

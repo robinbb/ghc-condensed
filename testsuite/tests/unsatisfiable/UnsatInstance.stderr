@@ -1,4 +1,4 @@
-
-UnsatInstance.hs:7:10: error: [GHC-97044]
+UnsatInstance.hs:6:10: error: [GHC-97044]
     • Class ‘Unsatisfiable’ does not support user-specified instances.
     • In the instance declaration for ‘Unsatisfiable (Text "hello")’
+

@@ -478,9 +478,11 @@ packages:
   tests: false
   patched: >-
     deliberate exception to the no-modification rule: Language.Haskell.Meta.Extensions
-    no longer maps ConstrainedClassMethods, MultiParamTypeClasses or NullaryTypeClasses
-    to or from template-haskell, whose Extension type lost those constructors
-    with this compiler
+    no longer maps the extensions this compiler removed (ConstrainedClassMethods,
+    DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
+    MultiParamTypeClasses, OverlappingInstances, TypeInType and the deprecated
+    aliases) to or from template-haskell, whose Extension type lost those
+    constructors
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -3789,8 +3791,8 @@ packages:
   tests: false
   patched: >-
     deliberate exception to the no-modification rule: Database.Persist.TH.Internal
-    no longer lists MultiParamTypeClasses among the extensions it requires, since
-    template-haskell lost that constructor with this compiler
+    no longer lists MultiParamTypeClasses or DataKinds among the extensions it
+    requires, since template-haskell lost those constructors with this compiler
 - name: persistent-template
   version: 2.12.0.0
   tier: 2

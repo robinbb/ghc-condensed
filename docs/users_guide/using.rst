@@ -1370,13 +1370,13 @@ messages and in GHCi:
           Actual type: ST s Bool
 
 .. ghc-flag:: -fprint-redundant-promotion-ticks
-    :shortdesc: Print redundant :extension:`DataKinds` promotion ticks
+    :shortdesc: Print redundant promotion ticks
     :type: dynamic
     :reverse: -fno-print-redundant-promotion-ticks
     :category: verbosity
 
-    The :extension:`DataKinds` extension allows us to use data constructors at
-    the type level::
+    Data constructors can be used at the type level (see
+    :ref:`promotion`)::
 
         type B = True     -- refers to the data constructor True (of type Bool)
 

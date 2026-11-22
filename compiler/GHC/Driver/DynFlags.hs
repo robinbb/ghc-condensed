@@ -1481,8 +1481,7 @@ languageExtensions (Just GHC2021)
 
 languageExtensions (Just GHC2024)
     = languageExtensions (Just GHC2021) ++
-      [LangExt.DataKinds,
-       LangExt.DerivingStrategies,
+      [LangExt.DerivingStrategies,
        LangExt.DisambiguateRecordFields,
        LangExt.ExplicitNamespaces,
        LangExt.GADTs,

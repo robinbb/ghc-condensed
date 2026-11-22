@@ -6,7 +6,6 @@
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
     -- Defines unsafeEqualityProof etc
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NoImplicitPrelude #-}

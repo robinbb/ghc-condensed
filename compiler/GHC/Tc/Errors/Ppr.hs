@@ -1793,17 +1793,6 @@ instance Diagnostic TcRnMessage where
            vcat [ text "Unused quantified type variable" <+> quotes (ppr tyVar)
                 , inHsDocContext doc ]
 
-    TcRnDataKindsError typeOrKind thing
-      -> case thing of
-           Left renamer_thing ->
-             mkSimpleDecorated $ msg renamer_thing
-           Right typechecker_thing ->
-             mkSimpleDecorated $ msg typechecker_thing
-      where
-        msg :: Outputable a => a -> SDoc
-        msg thing = text "Illegal" <+> text (levelString typeOrKind) <>
-                    colon <+> quotes (ppr thing)
-
     TcRnTypeSynonymCycle decl_or_tcs
       -> mkSimpleDecorated $
            sep [ text "Cycle in type synonym declarations:"
@@ -2618,8 +2607,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnUnusedQuantifiedTypeVar{}
       -> WarningWithFlag Opt_WarnUnusedForalls
-    TcRnDataKindsError{}
-      -> ErrorWithoutFlag
     TcRnTypeSynonymCycle{}
       -> ErrorWithoutFlag
     TcRnZonkerMessage msg
@@ -3307,8 +3294,6 @@ instance Diagnostic TcRnMessage where
       -> [suggestExtension LangExt.ScopedTypeVariables]
     TcRnUnusedQuantifiedTypeVar{}
       -> noHints
-    TcRnDataKindsError{}
-      -> [suggestExtension LangExt.DataKinds]
     TcRnTypeSynonymCycle{}
       -> noHints
     TcRnZonkerMessage msg

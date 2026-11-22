@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 -- This bug related to type trimming, and
 -- hence showed up only with -O0

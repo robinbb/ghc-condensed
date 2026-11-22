@@ -1,6 +1,5 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TypeFamilies              #-}
-{-# LANGUAGE DataKinds              #-}
 {-# LANGUAGE ExtendedDefaultRules      #-}
 
 module T12797 where

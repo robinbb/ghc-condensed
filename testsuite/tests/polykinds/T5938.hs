@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}
+{-# LANGUAGE PolyKinds, TypeFamilies #-}
 module T5938 where
 
 import Data.Kind (Type)

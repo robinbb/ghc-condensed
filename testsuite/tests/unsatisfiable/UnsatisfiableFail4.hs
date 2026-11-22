@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PartialTypeSignatures #-}
+{-# LANGUAGE PartialTypeSignatures #-}
 
 module UnsatisfiableFail4 where
 

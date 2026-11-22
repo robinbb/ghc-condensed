@@ -1,5 +1,4 @@
 {-# LANGUAGE UnliftedNewtypes #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE MagicHash #-}

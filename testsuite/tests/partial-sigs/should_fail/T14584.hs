@@ -2,7 +2,6 @@
 {-# Language PartialTypeSignatures #-}
 {-# Language TypeFamilyDependencies, KindSignatures #-}
 {-# Language PolyKinds #-}
-{-# Language DataKinds #-}
 {-# Language TypeFamilies #-}
 {-# Language RankNTypes #-}
 {-# Language NoImplicitPrelude #-}

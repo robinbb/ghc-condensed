@@ -1,4 +1,4 @@
-:set -XTemplateHaskell -XDataKinds -XMagicHash -XNegativeLiterals -XExtendedLiterals
+:set -XTemplateHaskell -XMagicHash -XNegativeLiterals -XExtendedLiterals
 [t|'x'#|]
 [t|"hello"#|]
 [t|1#|]

@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, FunctionalDependencies,
+{-# LANGUAGE FunctionalDependencies,
    KindSignatures, PolyKinds, FlexibleInstances, FlexibleContexts,
    UndecidableInstances #-}
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, GADTs, TypeOperators, PolyKinds, DataKinds, TypeFamilies, AllowAmbiguousTypes, UndecidableInstances #-}
+{-# LANGUAGE RankNTypes, GADTs, TypeOperators, PolyKinds, TypeFamilies, AllowAmbiguousTypes, UndecidableInstances #-}
 
 module T14246 where
 

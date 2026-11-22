@@ -1,4 +1,4 @@
-{-# LANGUAGE GHC2021, DataKinds, MagicHash, TypeFamilies, TypeData #-}
+{-# LANGUAGE GHC2021, MagicHash, TypeFamilies, TypeData #-}
 
 module DataToTagFails where
 

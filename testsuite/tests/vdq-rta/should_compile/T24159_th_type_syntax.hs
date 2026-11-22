@@ -1,4 +1,4 @@
-{-# LANGUAGE RequiredTypeArguments, LinearTypes, DataKinds, ImpredicativeTypes, TemplateHaskell #-}
+{-# LANGUAGE RequiredTypeArguments, LinearTypes, ImpredicativeTypes, TemplateHaskell #-}
 
 module T24159_th_type_syntax where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}
+{-# LANGUAGE PolyKinds, TypeFamilies #-}
 {-# LANGUAGE TypeOperators, GADTs, InstanceSigs #-}
 
 module T10041 where

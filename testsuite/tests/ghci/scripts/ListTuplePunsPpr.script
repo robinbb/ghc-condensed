@@ -1,5 +1,5 @@
 
-:set -XUnboxedTuples -XMagicHash -XNoListTuplePuns -XDataKinds
+:set -XUnboxedTuples -XMagicHash -XNoListTuplePuns
 import GHC.Tuple (Solo (MkSolo))
 import Data.Tuple.Experimental (Solo# (MkSolo#))
 

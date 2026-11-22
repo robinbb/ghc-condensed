@@ -1,5 +1,5 @@
 {-# LANGUAGE KindSignatures, StandaloneKindSignatures,
-             DataKinds, GADTs #-}
+             GADTs #-}
 
 module T18725a where
 

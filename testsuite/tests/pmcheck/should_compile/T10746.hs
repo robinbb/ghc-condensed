@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns  #-}
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE GADTs, DataKinds #-}
+{-# LANGUAGE GADTs #-}
 
 module Test where
 

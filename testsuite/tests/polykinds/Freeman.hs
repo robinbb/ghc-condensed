@@ -8,8 +8,8 @@ datatypes (specialized to kind Type), folds for nested datatypes
 (specialized to kind Type -> Type), and folds for mutually recursive data
 types (specialized to the product kind (Type, Type)). The approach should
 generalise easily enough to things such as types indexed by another
-kind (e.g. by specializing to kind Nat -> Type, using the XDataKinds
-extension), or higher order nested datatypes (e.g. by specializing to
+kind (e.g. by specializing to kind Nat -> Type, using a promoted data
+type), or higher order nested datatypes (e.g. by specializing to
 kind (Type -> Type) -> (Type -> Type)).
 
 The following will compile in the new GHC 7.4.1 release. We require
@@ -19,7 +19,6 @@ the following GHC extensions:
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE KindSignatures #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -186,7 +185,7 @@ of even length and produce a list of pairs.
 We cannot express type constructors in Haskell whose return kind is
 anything other than Type, so we cheat a little and emulate the product
 kind using an arrow kind Choice -> Type, where Choice is a two point
-kind, lifted using the XDataKinds extension: -}
+kind, lifted by data type promotion: -}
 
 data Choice = Fst | Snd
 

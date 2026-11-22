@@ -1,5 +1,5 @@
 
-{-# LANGUAGE GADTSyntax, StandaloneKindSignatures, NoDataKinds #-}
+{-# LANGUAGE GADTSyntax, StandaloneKindSignatures #-}
 
 module T20873 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds, PolyKinds #-}
+{-# LANGUAGE GADTs, PolyKinds #-}
 
 module KcConDeclSkolem2 where
 

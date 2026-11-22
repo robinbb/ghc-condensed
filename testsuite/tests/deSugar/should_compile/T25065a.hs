@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedLabels, TransformListComp, MonadComprehensions, MagicHash #-}
-{-# LANGUAGE DataKinds, FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module T25065a where
 import GHC.OverloadedLabels (IsLabel (..))

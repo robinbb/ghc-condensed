@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, DataKinds #-}
+{-# LANGUAGE MagicHash #-}
 -- See also TypeOf.hs
 
 import GHC.Exts

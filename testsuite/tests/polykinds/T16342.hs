@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, ScopedTypeVariables #-}
+{-# LANGUAGE PolyKinds, ScopedTypeVariables #-}
 
 module T16342 where
 

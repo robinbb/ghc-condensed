@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, GADTs #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T15561 where
 

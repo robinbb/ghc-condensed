@@ -1,6 +1,5 @@
 {-# LANGUAGE BangPatterns         #-}
 {-# LANGUAGE BlockArguments       #-}
-{-# LANGUAGE DataKinds            #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE FlexibleInstances    #-}

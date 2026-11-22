@@ -1,4 +1,4 @@
-{-# language TypeFamilies, FunctionalDependencies, GADTs, DataKinds, TypeOperators, ScopedTypeVariables, FlexibleInstances , UndecidableInstances, PartialTypeSignatures #-}
+{-# language TypeFamilies, FunctionalDependencies, GADTs, TypeOperators, ScopedTypeVariables, FlexibleInstances , UndecidableInstances, PartialTypeSignatures #-}
 
 module T17024 where
 

@@ -578,7 +578,7 @@ of exceptions, and finally I gave up the battle:
     Without -O, we previously tried to make interface files smaller
     by not including the data constructors of data types.  But
     there are a lot of exceptions, notably when Template Haskell is
-    involved or, more recently, DataKinds.
+    involved or promoted data constructors.
 
     However #7445 shows that even without TemplateHaskell, using
     the Data class and invoking Language.Haskell.TH.Quote.dataToExpQ
@@ -1437,13 +1437,12 @@ so it'd better be there.  Hence, brutally but simply, we switch off type
 constructor trimming if TH is enabled in this module.
 
 Second, data kinds.  Consider (#5912)
-     {-# LANGUAGE DataKinds #-}
      module M() where
      data UnaryTypeC a = UnaryDataC a
      type Bug = 'UnaryDataC
 We always export synonyms, so Bug is exposed, and that means that
 UnaryTypeC must be too, even though it's not explicitly exported.  In
-effect, DataKinds means that we'd need to do a full dependency analysis
+effect, promotion means that we'd need to do a full dependency analysis
 to see what data constructors are mentioned.  But we don't do that yet.
 
 In these two cases we just switch off type trimming altogether.

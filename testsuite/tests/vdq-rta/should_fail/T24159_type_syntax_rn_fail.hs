@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, DataKinds, ImpredicativeTypes #-}
+{-# LANGUAGE LinearTypes, ImpredicativeTypes #-}
 
 module T24159_type_syntax_rn_fail where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitLevelImports, DataKinds, TemplateHaskell #-}
+{-# LANGUAGE ExplicitLevelImports, TemplateHaskell #-}
 module T26098_quote where
 
 import splice T26098A_quote

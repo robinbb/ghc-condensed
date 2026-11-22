@@ -1,8 +1,8 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
-{-# LANGUAGE TypeFamilies, GADTs, PolyKinds, DataKinds
+{-# LANGUAGE TypeFamilies, GADTs, PolyKinds
            , EmptyCase, LambdaCase #-}
 
--- Newtypes, PolyKinds, DataKinds, GADTs, DataFamilies
+-- Newtypes, PolyKinds, promoted data types, GADTs, DataFamilies
 module EmptyCase010 where
 
 import Data.Kind (Type)

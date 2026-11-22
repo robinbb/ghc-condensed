@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, TypeFamilies, GADTs #-}
+{-# LANGUAGE PolyKinds, TypeFamilies, GADTs #-}
 
 module PolyKinds12 where
 

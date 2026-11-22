@@ -250,7 +250,6 @@ docs:
          DoAndIfThenElse
          ConstraintKinds
          PolyKinds
-         DataKinds
          InstanceSigs
          StandaloneDeriving
          DeriveDataTypeable

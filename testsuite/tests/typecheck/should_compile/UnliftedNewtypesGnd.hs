@@ -1,4 +1,3 @@
-{-# language DataKinds #-}
 {-# language DerivingStrategies #-}
 {-# language GeneralizedNewtypeDeriving #-}
 {-# language KindSignatures #-}

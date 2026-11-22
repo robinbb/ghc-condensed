@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T20531_defs where
 

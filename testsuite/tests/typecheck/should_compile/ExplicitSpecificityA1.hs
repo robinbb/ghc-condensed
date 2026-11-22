@@ -5,7 +5,6 @@
            , PatternSynonyms
            , ExistentialQuantification
            , StandaloneKindSignatures
-           , DataKinds
            , ExistentialQuantification
 #-}
 

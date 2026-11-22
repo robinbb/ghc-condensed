@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, ExistentialQuantification, MagicHash, RankNTypes,
+{-# LANGUAGE ExistentialQuantification, MagicHash, RankNTypes,
              TypeApplications #-}
 
 module HasFieldFail02 where

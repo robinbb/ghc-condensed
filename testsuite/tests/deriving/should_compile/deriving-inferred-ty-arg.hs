@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module DerivingInferredTyArg where
 
 import Data.Functor.Const

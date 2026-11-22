@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeData, DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeData, TypeFamilies #-}
 module Main where
 
 import Type.Reflection

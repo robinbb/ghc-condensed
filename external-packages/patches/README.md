@@ -77,14 +77,16 @@ exception.
   release inside git-annex's own `magic <= 1.1` bound, which needs no
   source change.
 - `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
-  haskell-src-exts `ConstrainedClassMethods`, `DatatypeContexts` and
-  `MultiParamTypeClasses` to `Nothing` and drops those constructors,
-  `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
+  haskell-src-exts constructors of the extensions this compiler removed
+  (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
+  `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
+  `OverlappingInstances` and `TypeInType`) to `Nothing`, and drops those
+  constructors, `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since
-  this compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
-  persistent-qq.
+  this compiler's template-haskell no longer has them. Blocks hsx2hs,
+  jmacro, interpolatedstring-perl6 and persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
-  `MultiParamTypeClasses` among the extensions its Template Haskell code
-  requires, since template-haskell lost that constructor with this
-  compiler (and the extension is always on). Blocks the yesod family,
-  hledger-web, persistent-sqlite and git-annex.
+  `MultiParamTypeClasses` or `DataKinds` among the extensions its
+  Template Haskell code requires, since template-haskell lost those
+  constructors with this compiler (and both are always on). Blocks the
+  yesod family, hledger-web, persistent-sqlite and git-annex.

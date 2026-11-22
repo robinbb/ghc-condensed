@@ -1,7 +1,6 @@
 -- This used to produce Core Lint errors
 
 {-# Language ConstraintKinds       #-}
-{-# Language DataKinds             #-}
 {-# Language FlexibleInstances     #-}
 {-# Language GADTs                 #-}
 {-# Language ImpredicativeTypes    #-}

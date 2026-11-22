@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, TypeFamilies #-}
+{-# LANGUAGE PolyKinds, TypeFamilies #-}
 module Kinds where
 
 import GHC.Types

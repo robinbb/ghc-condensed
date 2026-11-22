@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 newtype X = RollX (() -> X)
 

@@ -1,6 +1,6 @@
 {-# LANGUAGE Safe #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, UnboxedSums, NoListTuplePuns #-}
-{-# LANGUAGE StandaloneKindSignatures, PolyKinds, DataKinds, TypeFamilyDependencies #-}
+{-# LANGUAGE StandaloneKindSignatures, PolyKinds, TypeFamilyDependencies #-}
 
 {-
 Module      :  Data.Sum.Experimental

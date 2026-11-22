@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, MagicHash, UnboxedTuples #-}
+{-# LANGUAGE MagicHash, UnboxedTuples #-}
 
 module T22291b where
 

@@ -1,5 +1,4 @@
 {-# LANGUAGE LinearTypes #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE NoModifiers #-}
 module T18888 where
 

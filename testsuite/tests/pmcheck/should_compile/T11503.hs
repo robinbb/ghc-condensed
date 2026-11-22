@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}

@@ -1,6 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE StarIsType #-}
 module T15360b where
 

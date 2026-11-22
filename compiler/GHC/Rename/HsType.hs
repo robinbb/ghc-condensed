@@ -48,7 +48,6 @@ import GHC.Prelude
 import {-# SOURCE #-} GHC.Rename.Splice( rnSpliceType, checkThLocalTyName, checkThLocalNameNoLift )
 
 import GHC.Core.TyCo.FVs ( tyCoVarsOfTypeList )
-import GHC.Core.TyCon    ( isKindName )
 import GHC.Driver.Flags
 
 import GHC.Hs
@@ -607,7 +606,7 @@ rnHsTyKi env (HsQualTy { hst_ctxt = lctxt, hst_body = tau })
                           , hst_body =  tau' }
                 , fvs1 `plusFN` fvs2) }
 
-rnHsTyKi env tv@(HsTyVar _ ip (L loc rdr_name))
+rnHsTyKi env (HsTyVar _ ip (L loc rdr_name))
   = do { when (isRnKindLevel env && isRdrTyVar rdr_name) $
          unlessXOptM LangExt.PolyKinds $ addErr $
          TcRnWithHsDocContext (rtke_ctxt env) $
@@ -627,7 +626,7 @@ rnHsTyKi env tv@(HsTyVar _ ip (L loc rdr_name))
              -> checkThLocalTyName gre
 
              | otherwise -> pure ()
-       ; checkPromotedDataConName env tv Prefix ip $ greName gre
+       ; checkPromotedDataConName Prefix ip $ greName gre
        ; return (HsTyVar noAnn ip $ fmap greName <$> loc_gre_with_rdr, unitFN name) }
 
 rnHsTyKi env ty@(HsOpTy _ ty1 tyop ty2)
@@ -650,10 +649,8 @@ rnHsTyKi env (HsFunTy u mult ty1 ty2)
        ; return (HsFunTy u mult' ty1' ty2'
                 , plusFNs [fvs1, fvs2, w_fvs]) }
 
-rnHsTyKi env listTy@(HsListTy x ty)
-  = do { when (isRnKindLevel env) $
-           checkDataKinds env listTy
-       ; (ty', fvs) <- rnLHsTyKi env ty
+rnHsTyKi env (HsListTy x ty)
+  = do { (ty', fvs) <- rnLHsTyKi env ty
        ; return (HsListTy x ty', fvs) }
 
 rnHsTyKi env (HsKindSig x ty k)
@@ -666,21 +663,16 @@ rnHsTyKi env (HsKindSig x ty k)
 
 -- Unboxed tuples are allowed to have poly-typed arguments.  These
 -- sometimes crop up as a result of CPR worker-wrappering dictionaries.
-rnHsTyKi env tupleTy@(HsTupleTy x tup_con tys)
-  = do { when (isRnKindLevel env) $
-           checkDataKinds env tupleTy
-       ; (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
+rnHsTyKi env (HsTupleTy x tup_con tys)
+  = do { (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
        ; return (HsTupleTy x tup_con tys', fvs) }
 
-rnHsTyKi env sumTy@(HsSumTy x tys)
-  = do { when (isRnKindLevel env) $
-           checkDataKinds env sumTy
-       ; (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
+rnHsTyKi env (HsSumTy x tys)
+  = do { (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
        ; return (HsSumTy x tys', fvs) }
 
-rnHsTyKi env tyLit@(HsTyLit src lit)
-  = do { checkDataKinds env tyLit
-       ; return (HsTyLit src (convertLit lit), emptyFNs) }
+rnHsTyKi _ (HsTyLit src lit)
+  = return (HsTyLit src (convertLit lit), emptyFNs)
 
 rnHsTyKi env (HsAppTy _ ty1 ty2)
   = do { (ty1', fvs1) <- rnLHsTyKi env ty1
@@ -743,16 +735,14 @@ rnHsTyKi env ty@(XHsType (HsRecTy {})) = do
       TcRnIllegalRecordSyntax ty
   return (HsWildCardTy GHC.Hs.HoleError, emptyFNs) -- trick to avoid `failWithTc`
 
-rnHsTyKi env ty@(HsExplicitListTy _ ip tys)
-  = do { checkDataKinds env ty
-       ; (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
+rnHsTyKi env (HsExplicitListTy _ ip tys)
+  = do { (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
        ; unless (isPromoted ip) $
            addDiagnostic (TcRnUntickedPromotedThing $ UntickedExplicitList)
        ; return (HsExplicitListTy noExtField ip tys', fvs) }
 
-rnHsTyKi env ty@(HsExplicitTupleTy _ ip tys)
-  = do { checkDataKinds env ty
-       ; (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
+rnHsTyKi env (HsExplicitTupleTy _ ip tys)
+  = do { (tys', fvs) <- mapFvRn (rnLHsTyKi env) tys
        ; return (HsExplicitTupleTy noExtField ip tys', fvs) }
 
 rnHsTyKi env (HsWildCardTy h)
@@ -858,7 +848,7 @@ rnHsTyOp env overall_ty tyop
            if opName `hasKey` eqTyConKey -- See [eqTyCon (~) compatibility fallback] in GHC.Rename.Env
            then addDiagnostic TcRnTypeEqualityRequiresOperators
            else addErr $ TcRnIllegalTypeOperator (ppr overall_ty) op
-       ; checkPromotedDataConName env overall_ty Infix prom opName
+       ; checkPromotedDataConName Infix prom opName
        ; let tyop' = L l (HsTyVar ann prom (L loc (WithUserRdr op opName)))
        ; return (tyop', unitFN opName) }
   | otherwise
@@ -1773,25 +1763,9 @@ badKindSigErr doc (L loc ty)
     TcRnWithHsDocContext doc $
     TcRnKindSignaturesDisabled (Left ty)
 
--- | Check for DataKinds violations in a type context, as well as \"obvious\"
--- violations in kind contexts.
--- See @Note [Checking for DataKinds]@ in "GHC.Tc.Validity" for more on this.
-checkDataKinds :: RnTyKiEnv -> HsType GhcPs -> TcM ()
-checkDataKinds env thing
-  = do data_kinds <- xoptM LangExt.DataKinds
-       unless data_kinds $
-         addErr $ TcRnDataKindsError type_or_kind $ Left thing
-  where
-    type_or_kind | isRnKindLevel env = KindLevel
-                 | otherwise         = TypeLevel
-
--- | If a 'Name' is that of a promoted data constructor, perform various
--- validity checks on it.
+-- | If a 'Name' is that of a promoted data constructor written without a
+-- promotion tick, warn about it.
 checkPromotedDataConName ::
-  RnTyKiEnv ->
-  -- | The type that the 'Name' belongs to. This will always be an 'HsTyVar'
-  -- (for 'Prefix' names) or an 'HsOpTy' (for 'Infix' names).
-  HsType GhcPs ->
   -- | Whether the type is written 'Prefix' or 'Infix'.
   LexicalFixity ->
   -- | Whether the name was written with an explicit promotion tick or not.
@@ -1799,15 +1773,9 @@ checkPromotedDataConName ::
   -- | The name to check.
   Name ->
   TcM ()
-checkPromotedDataConName env ty fixity ip name
-  = do when (isDataConName name && not (isKindName name)) $
-         -- Any use of a promoted data constructor name (that is not
-         -- specifically exempted by isKindName) is illegal without the use
-         -- of DataKinds. See Note [Checking for DataKinds] in
-         -- GHC.Tc.Validity.
-         checkDataKinds env ty
-       when (isDataConName name && not (isPromoted ip)) $
-         addDiagnostic (TcRnUntickedPromotedThing $ UntickedConstructor fixity name)
+checkPromotedDataConName fixity ip name
+  = when (isDataConName name && not (isPromoted ip)) $
+      addDiagnostic (TcRnUntickedPromotedThing $ UntickedConstructor fixity name)
 
 warnUnusedForAll :: OutputableBndrFlag flag 'Renamed
                  => HsDocContext -> LHsTyVarBndr flag GhcRn -> FreeNames -> TcM ()

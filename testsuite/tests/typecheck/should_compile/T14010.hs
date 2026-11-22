@@ -1,4 +1,4 @@
-{-# LANGUAGE NoImplicitPrelude, PolyKinds, DataKinds, TypeFamilies,
+{-# LANGUAGE NoImplicitPrelude, PolyKinds, TypeFamilies,
              UndecidableSuperClasses, RankNTypes, TypeOperators,
              FlexibleContexts, TypeSynonymInstances, FlexibleInstances,
              UndecidableInstances #-}

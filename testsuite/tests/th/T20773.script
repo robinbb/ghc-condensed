@@ -1,4 +1,4 @@
-:seti -XDataKinds -XTemplateHaskell
+:seti -XTemplateHaskell
 import Language.Haskell.TH
 import Data.Proxy
 

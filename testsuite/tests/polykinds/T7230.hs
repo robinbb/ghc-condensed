@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
-{-# LANGUAGE DataKinds, PolyKinds, GADTs, TypeFamilies #-}
+{-# LANGUAGE PolyKinds, GADTs, TypeFamilies #-}
 {-# LANGUAGE TypeOperators, UndecidableInstances #-}
 module T7230 where
 

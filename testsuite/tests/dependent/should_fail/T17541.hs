@@ -3,7 +3,6 @@
              FlexibleInstances,
              TypeFamilies,
              PolyKinds,
-             DataKinds,
              FunctionalDependencies,
              TypeFamilyDependencies #-}
 module T17541 where

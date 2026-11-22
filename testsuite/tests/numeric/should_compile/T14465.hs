@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeApplications      #-}
 {-# LANGUAGE PolyKinds             #-}
-{-# LANGUAGE DataKinds             #-}
 
 module M where
 

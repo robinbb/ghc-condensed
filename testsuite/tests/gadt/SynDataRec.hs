@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, DataKinds, GADTs #-}
+{-# LANGUAGE KindSignatures, GADTs #-}
 
 module SynDataRec where
 

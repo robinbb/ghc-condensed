@@ -1,5 +1,4 @@
+T18888.hs:4:6: warning: [GHC-49969] [-Wunrecognised-modifiers (in -Wdefault)]
+    • Unrecognised modifier %001
+    • In the type signature: f :: a %001 -> b
 
-T18888.hs:4:9: error: [GHC-68567]
-    Illegal type: ‘001’
-    Suggested fix:
-      Perhaps you intended to use the ‘DataKinds’ extension (implied by ‘UnliftedDatatypes’)

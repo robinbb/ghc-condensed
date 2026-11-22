@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, UnicodeSyntax, GADTs, NoImplicitPrelude,
+{-# LANGUAGE PolyKinds, UnicodeSyntax, GADTs, NoImplicitPrelude,
              TypeOperators, TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 

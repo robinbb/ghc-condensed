@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module UnsatInstance where
 

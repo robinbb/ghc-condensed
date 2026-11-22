@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module M where
 
 import GHC.Exts

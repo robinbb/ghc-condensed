@@ -1,5 +1,4 @@
 {-# LANGUAGE
-    DataKinds,
     GADTs,
     QuantifiedConstraints,
     TypeFamilies

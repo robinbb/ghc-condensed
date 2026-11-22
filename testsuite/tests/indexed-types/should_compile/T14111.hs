@@ -3,7 +3,6 @@
 -- {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE PolyKinds #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs ,ExplicitNamespaces#-}
 {-# LANGUAGE UnboxedTuples #-}
 

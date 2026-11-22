@@ -1,7 +1,6 @@
 {-# LANGUAGE GADTs        #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE PolyKinds    #-}
-{-# LANGUAGE DataKinds    #-}
 
 module T6129 where
 

@@ -1,6 +1,5 @@
 {-# LANGUAGE GHC2021 #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedRecordDot #-}
 {-# LANGUAGE UndecidableInstances #-}
 import GHC.Records

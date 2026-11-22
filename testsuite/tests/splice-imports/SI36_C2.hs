@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE ExplicitLevelImports #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 

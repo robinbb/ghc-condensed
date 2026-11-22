@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeAbstractions,
              ExplicitNamespaces,
              RequiredTypeArguments,
-             DataKinds,
              NoListTuplePuns,
              OverloadedStrings #-}
 

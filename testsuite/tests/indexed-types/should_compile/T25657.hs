@@ -1,6 +1,6 @@
 {-# language AllowAmbiguousTypes #-}
 {-# language TypeData #-}
-{-# language DataKinds, TypeFamilyDependencies #-}
+{-# language TypeFamilyDependencies #-}
 
 {- This test checks that
      MyEq (Var A) (Var B) --> False

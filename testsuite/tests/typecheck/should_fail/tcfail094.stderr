@@ -1,4 +1,6 @@
-tcfail094.hs:8:14: error: [GHC-68567]
-    Illegal type: ‘1’
-    Suggested fix:
-      Perhaps you intended to use the ‘DataKinds’ extension (implied by ‘UnliftedDatatypes’)
+tcfail094.hs:8:10: error: [GHC-83865]
+    • Expected kind ‘GHC.Internal.Bignum.Natural.Natural -> k0’,
+        but ‘Int’ has kind ‘*’
+    • In the type ‘Int 1’
+      In the type synonym declaration for ‘A’
+

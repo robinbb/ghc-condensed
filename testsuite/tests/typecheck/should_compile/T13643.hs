@@ -1,7 +1,6 @@
 {-# Language TypeFamilyDependencies #-}
 {-# Language RankNTypes             #-}
 {-# Language KindSignatures         #-}
-{-# Language DataKinds              #-}
 {-# Language PolyKinds              #-}
 {-# Language GADTs                  #-}
 

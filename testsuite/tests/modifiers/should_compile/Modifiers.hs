@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, RequiredTypeArguments, DataKinds, TypeData #-}
+{-# LANGUAGE LinearTypes, RequiredTypeArguments, TypeData #-}
 
 module Modifiers where
 

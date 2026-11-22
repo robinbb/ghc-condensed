@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, DataKinds
+{-# LANGUAGE DuplicateRecordFields
            , OverloadedLabels, OverloadedRecordDot #-}
 
 module T23279 where

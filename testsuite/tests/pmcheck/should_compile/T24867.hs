@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, GADTs #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 {-# OPTIONS_GHC -Winaccessible-code -Werror #-}
 
 module T24867 where

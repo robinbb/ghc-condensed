@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module T23739_fail_case where

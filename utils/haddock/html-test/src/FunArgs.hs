@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes, DataKinds, TypeFamilies, TypeOperators #-}
+{-# LANGUAGE RankNTypes, TypeFamilies, TypeOperators #-}
 module FunArgs where
 
 f :: forall a. Ord a

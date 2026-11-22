@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T26246a ( Effect, Env, Eff, State(..) ) where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, InstanceSigs, DataKinds, PolyKinds, RankNTypes, LambdaCase #-}
+{-# LANGUAGE GADTs, InstanceSigs, PolyKinds, RankNTypes, LambdaCase #-}
 
 module T7908 where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, RankNTypes, PolyKinds, TypeApplications,
-             TypeAbstractions, ScopedTypeVariables, TypeFamilies, DataKinds #-}
+             TypeAbstractions, ScopedTypeVariables, TypeFamilies #-}
 
 module T18986b where
 

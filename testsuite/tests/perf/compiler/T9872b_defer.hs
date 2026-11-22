@@ -1,5 +1,5 @@
 {-
- - Instant Insanity using Closed Type Families and DataKinds.
+ - Instant Insanity using Closed Type Families and promoted data types.
  -
  - See:  http://stackoverflow.com/questions/26538595
  -}
@@ -8,7 +8,7 @@
 
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE DataKinds, KindSignatures, PolyKinds #-}
+{-# LANGUAGE KindSignatures, PolyKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
 import Prelude hiding (all, flip, map, filter )

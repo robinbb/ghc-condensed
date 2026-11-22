@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, MagicHash, TypeFamilies, TypeApplications #-}
+{-# LANGUAGE MagicHash, TypeFamilies, TypeApplications #-}
 
 import HasFieldFail01_A (T(MkT))
 

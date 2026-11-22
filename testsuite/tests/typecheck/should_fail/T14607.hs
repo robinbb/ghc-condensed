@@ -5,7 +5,6 @@
 {-# Language InstanceSigs #-}
 {-# Language KindSignatures #-}
 {-# Language TypeFamilies #-}
-{-# Language DataKinds #-}
 {-# Language FlexibleInstances #-}
 
 module T14607 where

@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T25125 where
 
 import GHC.TypeNats

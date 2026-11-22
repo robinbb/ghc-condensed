@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeOperators, PolyKinds, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE TypeOperators, PolyKinds, FlexibleInstances, FlexibleContexts #-}
 
 module T7095 where
 

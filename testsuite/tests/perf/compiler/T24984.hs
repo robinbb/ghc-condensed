@@ -2,7 +2,7 @@
 -- which (because of the lack of sharing in constraints) eventually
 -- build an exponentiallyy-sized coercion.
 
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE ImpredicativeTypes #-}  -- ImpredicativeTypes is vital to trigger the perf problem
 module Standalone where
 

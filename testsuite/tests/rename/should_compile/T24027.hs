@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeData #-}
+{-# LANGUAGE TypeData #-}
 module T24027(Foo(Foo1, Foo2)) where
 
 import qualified T24027_aux

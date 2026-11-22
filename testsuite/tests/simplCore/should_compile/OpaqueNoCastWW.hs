@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -O0 #-}
 module OpaqueNoCastWW where
 

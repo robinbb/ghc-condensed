@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T18723b where
 
 import Data.Proxy

@@ -1,5 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE DataKinds, TypeData #-}
+{-# LANGUAGE TypeData #-}
 module T22315a.Lib where
 
 data TermLevel = Mk

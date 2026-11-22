@@ -7,7 +7,6 @@
 {-# LANGUAGE TypeFamilies              #-}
 {-# LANGUAGE TypeFamilyDependencies    #-}
 {-# LANGUAGE PolyKinds                 #-}
-{-# LANGUAGE DataKinds                 #-}
 {-# LANGUAGE TypeOperators             #-}
 {-# LANGUAGE UndecidableInstances      #-}
 {-# LANGUAGE QuantifiedConstraints     #-}

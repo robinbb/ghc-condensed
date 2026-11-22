@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 
 module T5792 where
 

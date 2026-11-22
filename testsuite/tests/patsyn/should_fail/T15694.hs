@@ -1,4 +1,4 @@
-{-# Language RankNTypes, PatternSynonyms, TypeOperators, DataKinds, PolyKinds, KindSignatures, GADTs #-}
+{-# Language RankNTypes, PatternSynonyms, TypeOperators, PolyKinds, KindSignatures, GADTs #-}
 
 module T15694 where
 

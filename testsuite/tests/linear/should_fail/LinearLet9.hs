@@ -1,5 +1,4 @@
 {-# LANGUAGE LinearTypes #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE NoMonoLocalBinds #-}
 
 module LinearLet where

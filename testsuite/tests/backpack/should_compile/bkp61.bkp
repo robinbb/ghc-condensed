@@ -1,6 +1,5 @@
 -- Check that we can implement abstract data using a data family.
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 
 unit p where

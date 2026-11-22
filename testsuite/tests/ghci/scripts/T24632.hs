@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE DataKinds             #-}
 
 module T24632 where
 

@@ -1,6 +1,5 @@
 {-# LANGUAGE
     ScopedTypeVariables
-  , DataKinds
   , GADTs
   , RankNTypes
   , TypeOperators

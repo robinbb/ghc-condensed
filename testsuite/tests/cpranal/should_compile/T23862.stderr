@@ -1,5 +1,4 @@
-
-T23862.hs:17:12: warning: [GHC-40564] [-Winaccessible-code (in -Wdefault)]
+T23862.hs:16:12: warning: [GHC-40564] [-Winaccessible-code (in -Wdefault)]
     • Inaccessible code in
         a pattern with constructor: Unchecked :: CheckSingleton False,
         in a case alternative
@@ -11,8 +10,9 @@ T23862.hs:17:12: warning: [GHC-40564] [-Winaccessible-code (in -Wdefault)]
             | CheckedResult x <- UncheckedResult (\ _ -> True)
             -> CheckedResult (x True)
 
-T23862.hs:18:6: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
+T23862.hs:17:6: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
     Pattern match has inaccessible right hand side
     In a case alternative:
         (Checked, Unchecked) | CheckedResult x <- UncheckedResult
                                                     (\ _ -> True) -> ...
+

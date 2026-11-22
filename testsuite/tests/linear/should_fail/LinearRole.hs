@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, GADTs, DataKinds #-}
+{-# LANGUAGE LinearTypes, GADTs #-}
 
 module LinearRole where -- #18799
 

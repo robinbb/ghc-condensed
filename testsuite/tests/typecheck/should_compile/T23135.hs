@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, TypeFamilyDependencies #-}
+{-# LANGUAGE TypeFamilies, TypeFamilyDependencies #-}
 module T23135 where
 
 import Data.Kind

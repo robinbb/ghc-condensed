@@ -1,4 +1,4 @@
-:set -XTypeApplications -XDataKinds
+:set -XTypeApplications
 import GHC.Records
 data X = X { name :: String }
 data Y = Y { name :: String }

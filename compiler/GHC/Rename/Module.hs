@@ -2145,8 +2145,8 @@ or equivalently in GADT style:
 
 This defines the constructors `Zero` and `Succ` in the TcCls namespace
 (type constructors and classes) instead of the Data namespace (data
-constructors).  This contrasts with the DataKinds extension, which
-allows constructors defined in the Data namespace to be promoted to the
+constructors).  This contrasts with an ordinary data declaration, whose
+constructors are defined in the Data namespace and promoted to the
 TcCls namespace at the point of use in a type.
 
 Type data declarations have the syntax of `data` declarations (but not
@@ -2267,7 +2267,7 @@ The main parts of the implementation are:
   the `type data` constructors (`Zero` and `Succ` in our example) are
   added to the type-checker environment as `APromotionErr TyConPE` by
   GHC.Tc.TyCl.mkPromotionErrorEnv, so they cannot be used within the
-  recursive group.  This mirrors the DataKinds behaviour described
+  recursive group.  This mirrors the promotion behaviour described
   at Note [Recursion and promoting data constructors] in GHC.Tc.TyCl.
   For example, this is rejected:
 
@@ -2292,7 +2292,7 @@ The main parts of the implementation are:
 
 * GHC.Core.TyCon.isDataKindsPromotedDataCon ignores promoted constructors
   from `type data`, which do not use the distinguishing quote mark added
-  to constructors promoted by DataKinds.
+  to promoted constructors of ordinary data types.
 
 * GHC.Core.TyCon.isBoxedDataTyCon ignores types coming from a `type data`
   declaration (by checking the `is_type_data` field), so that these do

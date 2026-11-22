@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-
- - Instant Insanity using Closed Type Families, but no DataKinds
+ - Instant Insanity using Closed Type Families, but no promoted data types
  -
  - See:  http://stackoverflow.com/questions/26538595
  -}

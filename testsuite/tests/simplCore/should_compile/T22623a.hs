@@ -1,5 +1,4 @@
 {-# LANGUAGE GHC2021 #-}
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 module T22623a where
 

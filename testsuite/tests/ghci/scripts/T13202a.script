@@ -1,4 +1,4 @@
 :set -XHaskell2010
 import GHC.Records
-:set -XTypeApplications -XDataKinds
+:set -XTypeApplications
 let foo = getField @"name"

@@ -1,6 +1,6 @@
-{-# LANGUAGE GADTs, EmptyDataDecls, TypeFamilies, TypeOperators, DataKinds, FlexibleInstances #-}
+{-# LANGUAGE GADTs, EmptyDataDecls, TypeFamilies, TypeOperators, FlexibleInstances #-}
 
-{- Defines a C-like printf function using DataKinds extensions. -}
+{- Defines a C-like printf function using promoted data types. -}
 
 module T13659 where
 

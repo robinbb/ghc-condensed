@@ -17,7 +17,7 @@ module Strip
   # on, so dropping the name changes nothing for the package.
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
-    ConstrainedClassMethods DatatypeContexts ExplicitForAll
+    ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
     IncoherentInstances MultiParamTypeClasses NullaryTypeClasses
     OverlappingInstances TypeInType
   ].freeze

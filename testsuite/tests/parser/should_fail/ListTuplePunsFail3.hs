@@ -1,4 +1,4 @@
-{-# language TypeFamilies, DataKinds #-}
+{-# language TypeFamilies #-}
 
 module ListTuplePunsFail3 where
 

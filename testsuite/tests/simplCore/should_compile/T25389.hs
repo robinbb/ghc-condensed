@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE DataKinds #-}
 
 {-# OPTIONS_GHC -Wno-useless-specialisations #-}
 

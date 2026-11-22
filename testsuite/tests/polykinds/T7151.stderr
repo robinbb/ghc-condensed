@@ -1,4 +1,0 @@
-T7151.hs:4:12: error: [GHC-68567]
-    Illegal type: ‘[Int, String]’
-    Suggested fix:
-      Perhaps you intended to use the ‘DataKinds’ extension (implied by ‘UnliftedDatatypes’)

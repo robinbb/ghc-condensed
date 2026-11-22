@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, UndecidableInstances #-}
+{-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE TypeFamilies, TypeOperators, FlexibleContexts #-}
 module T2 where
 

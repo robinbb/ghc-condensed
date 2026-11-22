@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module SI36_A ( C1, C2, C3 ) where
 
 import Data.Kind

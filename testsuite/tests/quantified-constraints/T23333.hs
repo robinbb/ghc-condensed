@@ -1,5 +1,5 @@
 {-# LANGUAGE QuantifiedConstraints #-}
-{-# LANGUAGE GADTs, DataKinds #-}
+{-# LANGUAGE GADTs #-}
 module T23333 where
 
 import Data.Kind

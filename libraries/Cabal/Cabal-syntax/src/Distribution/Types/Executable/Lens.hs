@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module Distribution.Types.Executable.Lens
   ( Executable

@@ -1,4 +1,4 @@
-{-# LANGUAGE RequiredTypeArguments, LinearTypes, DataKinds, ImpredicativeTypes #-}
+{-# LANGUAGE RequiredTypeArguments, LinearTypes, ImpredicativeTypes #-}
 
 module T24159_type_syntax_tc_fail where
 

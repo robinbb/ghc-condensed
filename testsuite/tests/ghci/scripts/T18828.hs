@@ -1,5 +1,4 @@
 {-# Language ConstraintKinds          #-}
-{-# Language DataKinds                #-}
 {-# Language GADTs                    #-}
 {-# Language PolyKinds                #-}
 {-# Language RankNTypes               #-}

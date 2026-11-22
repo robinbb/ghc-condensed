@@ -1,4 +1,4 @@
-{-# Language TypeOperators, DataKinds, PolyKinds, GADTs #-}
+{-# Language TypeOperators, PolyKinds, GADTs #-}
 
 
 module T14555 where

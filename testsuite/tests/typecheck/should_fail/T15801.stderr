@@ -1,4 +1,4 @@
-T15801.hs:51:10: error: [GHC-18872]
+T15801.hs:50:10: error: [GHC-18872]
     • Couldn't match kind ‘*’ with ‘Op (*)’
       When matching types
         b :: Op (*)

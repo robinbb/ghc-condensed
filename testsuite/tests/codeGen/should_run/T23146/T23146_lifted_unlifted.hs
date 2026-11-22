@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DataKinds #-}
+{-# LANGUAGE GADTs #-}
 
 import T23146_lifted_unliftedA
 

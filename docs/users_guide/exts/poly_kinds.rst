@@ -993,7 +993,7 @@ Here is an example of this in action: ::
     -- inferred kind: Compose :: (b -> Type) -> (a -> b) -> a -> Type
 
   -- separate module having imported the first
-  {-# LANGUAGE NoPolyKinds, DataKinds #-}
+  {-# LANGUAGE NoPolyKinds #-}
   z = Proxy :: Proxy MkCompose
 
 In the last line, we use the promoted constructor ``MkCompose``, which has

@@ -446,7 +446,7 @@ data IfaceTyConInfo   -- Used only to guide pretty-printing
   = IfaceTyConInfo { ifaceTyConIsPromoted :: PromotionFlag
                       -- A PromotionFlag value of IsPromoted indicates
                       -- that the type constructor came from a data
-                      -- constructor promoted by -XDataKinds, and thus
+                      -- constructor promoted to the type level, and thus
                       -- should be printed as 'D to distinguish it from
                       -- an existing type constructor D.
                    , ifaceTyConSort       :: IfaceTyConSort }

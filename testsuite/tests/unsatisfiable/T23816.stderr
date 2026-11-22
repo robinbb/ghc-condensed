@@ -1,6 +1,6 @@
 T23816: Uncaught exception ghc-internal:GHC.Internal.Control.Exception.Base.TypeError:
 
-T23816.hs:18:15: error: [GHC-22250]
+T23816.hs:17:15: error: [GHC-22250]
     • Msg
     • In the first argument of ‘print’, namely ‘(meth1 'x')’
       In the expression: print (meth1 'x')
@@ -8,5 +8,5 @@ T23816.hs:18:15: error: [GHC-22250]
 (deferred type error)
 
 HasCallStack backtrace:
-  throw, called at libraries/ghc-internal/src/GHC/Internal/Control/Exception/Base.hs:435:30 in ghc-internal:GHC.Internal.Control.Exception.Base
+  throw, called at libraries/ghc-internal/src/GHC/Internal/Control/Exception/Base.hs:439:30 in ghc-internal:GHC.Internal.Control.Exception.Base
 

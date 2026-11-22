@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, GADTs #-}
+{-# LANGUAGE GADTs #-}
 module T6025a (Other (..)) where
 
 data Other a where

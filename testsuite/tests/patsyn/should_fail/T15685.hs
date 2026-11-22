@@ -1,4 +1,4 @@
-{-# Language DataKinds, TypeOperators, PolyKinds, GADTs, PatternSynonyms #-}
+{-# Language TypeOperators, PolyKinds, GADTs, PatternSynonyms #-}
 
 module T15685 where
 

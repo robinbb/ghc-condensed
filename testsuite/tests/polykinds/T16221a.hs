@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, ExistentialQuantification #-}
+{-# LANGUAGE PolyKinds, ExistentialQuantification #-}
 
 module T16221a where
 

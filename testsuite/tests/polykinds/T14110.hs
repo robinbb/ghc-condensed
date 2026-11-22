@@ -1,4 +1,4 @@
-{-# Language TypeFamilies, ScopedTypeVariables, PolyKinds, DataKinds #-}
+{-# Language TypeFamilies, ScopedTypeVariables, PolyKinds #-}
 
 import Data.Kind
 

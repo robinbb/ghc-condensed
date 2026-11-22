@@ -1,4 +1,4 @@
-T14561.hs:16:9: error: [GHC-55287]
+T14561.hs:15:9: error: [GHC-55287]
     • The first argument of ‘unsafeCoerce#’
       does not have a fixed runtime representation.
       Its type is:

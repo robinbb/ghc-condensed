@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, UndecidableInstances #-}
+{-# LANGUAGE UndecidableInstances #-}
 module T1 where
 import GHC.TypeLits
 

@@ -1,4 +1,4 @@
-{-# language UnboxedTuples, UnboxedSums, MagicHash, DataKinds #-}
+{-# language UnboxedTuples, UnboxedSums, MagicHash #-}
 
 module ListTuplePunsFamilies where
 

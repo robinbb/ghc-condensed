@@ -1,6 +1,6 @@
 {-# Language RankNTypes, ConstraintKinds, QuantifiedConstraints,
              PolyKinds, GADTs,
-             DataKinds, FlexibleInstances #-}
+             FlexibleInstances #-}
 
 module T15625a where
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# OPTIONS_HADDOCK redact-type-synonyms #-}
 module RedactTypeSynonyms (

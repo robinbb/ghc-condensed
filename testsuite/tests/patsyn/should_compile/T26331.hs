@@ -1,6 +1,5 @@
 {-# LANGUAGE DeepSubsumption #-}
 
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}

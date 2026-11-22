@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE LinearTypes #-}
 
 module OmitFieldPat where

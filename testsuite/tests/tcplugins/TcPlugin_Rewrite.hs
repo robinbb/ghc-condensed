@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fplugin RewritePlugin #-}
 
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, ScopedTypeVariables, TypeFamilies, TypeOperators #-}
+{-# LANGUAGE ScopedTypeVariables, TypeFamilies, TypeOperators #-}
 
 module TcPlugin_Rewrite where
 

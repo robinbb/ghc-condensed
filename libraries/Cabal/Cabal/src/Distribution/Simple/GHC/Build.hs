@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module Distribution.Simple.GHC.Build where
 

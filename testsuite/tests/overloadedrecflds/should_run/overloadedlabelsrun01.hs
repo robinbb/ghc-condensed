@@ -1,7 +1,6 @@
 -- Basic tests of overloaded labels
 
 {-# LANGUAGE OverloadedLabels
-           , DataKinds
            , FlexibleContexts
            , FlexibleInstances
            , NoMonomorphismRestriction

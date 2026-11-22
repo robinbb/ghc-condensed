@@ -1,4 +1,4 @@
-{-# Language PolyKinds, DataKinds, KindSignatures, GADTs, ConstraintKinds #-}
+{-# Language PolyKinds, KindSignatures, GADTs, ConstraintKinds #-}
 module T14845_fail1 where
 
 import Data.Kind

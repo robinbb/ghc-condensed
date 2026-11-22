@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, TypeOperators, TypeFamilies,
+{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies,
              UndecidableInstances, ConstraintKinds #-}
 module KindSubstitutions where
 

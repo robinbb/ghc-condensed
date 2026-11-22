@@ -1,4 +1,3 @@
-:set -XDataKinds
 import Data.Proxy
 undefined :: '()
 undefined :: Proxy '() Int

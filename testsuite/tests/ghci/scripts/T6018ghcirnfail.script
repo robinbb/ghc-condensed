@@ -1,5 +1,4 @@
 :set -XTypeFamilyDependencies
-:set -XDataKinds
 :set -XUndecidableInstances
 :set -XPolyKinds
 

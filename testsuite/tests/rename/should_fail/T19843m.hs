@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 
 module T19843m where
 

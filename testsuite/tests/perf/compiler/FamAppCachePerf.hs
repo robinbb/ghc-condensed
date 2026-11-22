@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, DataKinds, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 {-# OPTIONS_GHC -freduction-depth=0 #-}
 
 module FamAppCachePerf where

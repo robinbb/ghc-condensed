@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, MagicHash, GHCForeignImportPrim, UnliftedFFITypes, UnboxedTuples #-}
+{-# LANGUAGE MagicHash, GHCForeignImportPrim, UnliftedFFITypes, UnboxedTuples #-}
 
 module Main where
 -- Here we ensure that foreign imports with boxed Any-typed

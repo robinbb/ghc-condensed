@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, PolyKinds, GADTs, TypeOperators, TypeFamilies #-}
+{-# LANGUAGE PolyKinds, GADTs, TypeOperators, TypeFamilies #-}
 {-# OPTIONS_GHC -fwarn-unticked-promoted-constructors #-}
 
 module RaeBlogPost where

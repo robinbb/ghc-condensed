@@ -40,7 +40,6 @@ main = do
         let dflags = raw_dflags `xopt_set` LangExt.MagicHash
                          `xopt_set` LangExt.StandaloneKindSignatures
                          `xopt_set` LangExt.UnliftedDatatypes
-                         `xopt_set` LangExt.DataKinds
                          `dopt_set` Opt_D_no_debug_output
         setSessionDynFlags dflags
         groups <- mapM loadPath files

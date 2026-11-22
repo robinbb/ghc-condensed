@@ -85,8 +85,8 @@ modifiers:
 * The modifier ``%1`` is handled as a special case. It's renamed and typechecked
   the same as ``%One`` (using the ``One :: GHC.Types.Multiplicity`` from
   ``base``), even if it appears somewhere that linear modifiers aren't expected.
-  If you want to refer to the type ``1 :: Nat`` (with :extension:`DataKinds`),
-  that can be written as either ``%(1 :: Nat)`` or ``%01``.
+  If you want to refer to the type ``1 :: Nat``, that can be written as
+  either ``%(1 :: Nat)`` or ``%01``.
 
 * The linear arrow ``a ⊸ b`` has the same meaning as ``a %1 -> b``. Other
   modifiers are accepted: ``a %X ⊸ b`` has the same meaning as ``a %X %1 -> b``.

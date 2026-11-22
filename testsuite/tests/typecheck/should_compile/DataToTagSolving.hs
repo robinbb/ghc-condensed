@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, MagicHash, PartialTypeSignatures, TypeFamilies #-}
+{-# LANGUAGE MagicHash, PartialTypeSignatures, TypeFamilies #-}
 module DataToTagSolving where
 
 import GHC.Exts

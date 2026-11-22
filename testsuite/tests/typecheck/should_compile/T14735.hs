@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# Language QuantifiedConstraints #-}
 {-# Language StandaloneDeriving #-}
-{-# Language DataKinds #-}
 {-# Language TypeOperators #-}
 {-# Language GADTs #-}
 {-# Language KindSignatures #-}

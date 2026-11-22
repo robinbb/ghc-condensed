@@ -142,7 +142,7 @@ data BranchFlag = Branched | Unbranched
 type Branched = 'Branched
 type Unbranched = 'Unbranched
 -- By using type synonyms for the promoted constructors, we avoid needing
--- DataKinds and the promotion quote in client modules. This also means that
+-- the promotion quote in client modules. This also means that
 -- we don't need to export the term-level constructors, which should never be used.
 
 newtype Branches (br :: BranchFlag)

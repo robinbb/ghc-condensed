@@ -580,7 +580,7 @@ type family GhcDiagnosticCode c = n | n -> c where
   GhcDiagnosticCode "TcRnIllegalKind"                               = 64861
   GhcDiagnosticCode "TcRnUnexpectedPatSigType"                      = 74097
   GhcDiagnosticCode "TcRnIllegalKindSignature"                      = Outdated 91382   -- superseded by TcRnKindSignaturesDisabled
-  GhcDiagnosticCode "TcRnDataKindsError"                            = 68567
+  GhcDiagnosticCode "TcRnDataKindsError"                            = Outdated 68567
 
   GhcDiagnosticCode "TcRnIllegalHsigDefaultMethods"                 = 93006
   GhcDiagnosticCode "TcRnHsigFixityMismatch"                        = 93007

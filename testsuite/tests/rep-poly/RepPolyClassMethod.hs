@@ -1,5 +1,5 @@
 
-{-# LANGUAGE DataKinds, StandaloneKindSignatures #-}
+{-# LANGUAGE StandaloneKindSignatures #-}
 
 module RepPolyClassMethod where
 

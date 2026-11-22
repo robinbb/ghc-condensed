@@ -6,7 +6,7 @@
 
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE DataKinds, KindSignatures, PolyKinds #-}
+{-# LANGUAGE KindSignatures, PolyKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
 module RewritePerfDefs where

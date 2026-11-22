@@ -73,7 +73,6 @@ import GHC.Types.Literal   ( inCharRange )
 import GHC.Types.GREInfo   ( ConInfo(..), conInfoFields, ConFieldInfo (..) )
 import GHC.Builtin.WiredIn.Types   ( nilDataCon )
 import GHC.Core.DataCon
-import GHC.Core.TyCon      ( isKindName )
 import qualified GHC.LanguageExtensions as LangExt
 
 import Control.Monad       ( when, ap, guard, unless )
@@ -1337,13 +1336,8 @@ rn_tyop_pat tyop
 -- For the difference between `rn_ty_pat` and `rnHsTyKi` see Note [CpsRn monad]
 -- and Note [Implicit and explicit type variable binders]
 rn_ty_pat :: HsType GhcPs -> TPRnM (HsType GhcRn)
-rn_ty_pat tv@(HsTyVar an prom lrdr) = do
+rn_ty_pat (HsTyVar an prom lrdr) = do
   L l (WithUserRdr _ name) <- rn_ty_pat_var lrdr
-  when (isDataConName name && not (isKindName name)) $
-    -- Any use of a promoted data constructor name (that is not specifically
-    -- exempted by isKindName) is illegal without the use of DataKinds.
-    -- See Note [Checking for DataKinds] in GHC.Tc.Validity.
-    check_data_kinds tv
   pure (HsTyVar an prom (L l $ WithUserRdr (unLoc lrdr) name))
 
 rn_ty_pat (HsForAllTy an tele body) = liftTPRnRaw $ \ctxt locals thing_inside ->
@@ -1415,22 +1409,18 @@ rn_ty_pat (HsDocTy an ty haddock_doc) = do
   haddock_doc' <- liftRn $ rnLHsDoc haddock_doc
   pure (HsDocTy an ty' haddock_doc')
 
-rn_ty_pat ty@(HsExplicitListTy _ prom tys) = do
-  check_data_kinds ty
-
+rn_ty_pat (HsExplicitListTy _ prom tys) = do
   unless (isPromoted prom) $
     liftRn $ addDiagnostic (TcRnUntickedPromotedThing $ UntickedExplicitList)
 
   tys' <- mapM rn_lty_pat tys
   pure (HsExplicitListTy noExtField prom tys')
 
-rn_ty_pat ty@(HsExplicitTupleTy _ prom tys) = do
-  check_data_kinds ty
+rn_ty_pat (HsExplicitTupleTy _ prom tys) = do
   tys' <- mapM rn_lty_pat tys
   pure (HsExplicitTupleTy noExtField prom tys')
 
-rn_ty_pat tyLit@(HsTyLit src lit) = do
-  check_data_kinds tyLit
+rn_ty_pat (HsTyLit src lit) =
   pure (HsTyLit src (convertLit lit))
 
 rn_ty_pat (HsWildCardTy h) =
@@ -1478,12 +1468,6 @@ rn_ty_pat_modified_fun_arr (HsModifiedFunArr _ mods arr) = do
         HsStandardArr _ -> HsStandardArr noExtField
         HsLinearArr _ -> HsLinearArr noExtField
   pure $ HsModifiedFunArr noExtField mods' arr'
-
-check_data_kinds :: HsType GhcPs -> TPRnM ()
-check_data_kinds thing = liftRn $ do
-  data_kinds <- xoptM LangExt.DataKinds
-  unless data_kinds $
-    addErr $ TcRnDataKindsError TypeLevel $ Left thing
 
 {- Note [Locally bound names in type patterns]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

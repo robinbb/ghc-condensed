@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures, PatternSynonyms, DataKinds, GADTs  #-}
+{-# LANGUAGE PolyKinds, KindSignatures, PatternSynonyms, GADTs  #-}
 
 module T8966 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeAbstractions #-}
+{-# LANGUAGE TypeAbstractions #-}
 {-# OPTIONS_GHC -Werror=unticked-promoted-constructors #-}
 module T where
 

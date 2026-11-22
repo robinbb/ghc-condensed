@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, OverloadedRecordDot, DataKinds #-}
+{-# LANGUAGE GADTs, OverloadedRecordDot #-}
 
 module T24891 where
 

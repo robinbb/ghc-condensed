@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 
 {-# OPTIONS_GHC -O2 -fspecialise-aggressively #-}

@@ -1,5 +1,4 @@
 {-# LANGUAGE GHC2021             #-}
-{-# LANGUAGE DataKinds           #-}
 {-# LANGUAGE ScopedTypeVariables, FlexibleContexts #-}
 {-# LANGUAGE TypeOperators       #-}
 

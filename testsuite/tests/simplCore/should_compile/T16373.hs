@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -ddump-simpl -dsuppress-all -dno-typeable-binds -O2 #-}
 
 module Test2 where

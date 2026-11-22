@@ -1,4 +1,4 @@
-{-# Language TypeOperators, KindSignatures, DataKinds, PolyKinds,
+{-# Language TypeOperators, KindSignatures, PolyKinds,
              TypeFamilies, GADTs #-}
 
 module T14162 where

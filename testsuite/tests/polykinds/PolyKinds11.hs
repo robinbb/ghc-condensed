@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds                  #-}
 {-# LANGUAGE GADTs                      #-}
 
 module PolyKinds11 where

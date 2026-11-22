@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, TypeFamilies, GADTs, DataKinds #-}
+{-# LANGUAGE KindSignatures, TypeFamilies, GADTs #-}
 
 module T12444a where
 

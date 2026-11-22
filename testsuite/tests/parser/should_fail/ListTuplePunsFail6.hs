@@ -1,4 +1,4 @@
-{-# language DataKinds, MagicHash, UnboxedTuples #-}
+{-# language MagicHash, UnboxedTuples #-}
 
 module ListTuplePunsFail6 where
 

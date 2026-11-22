@@ -7,7 +7,6 @@ GHC supports numeric, string, and character literals at the type level, giving
 convenient access to a large number of predefined type-level constants.
 Numeric literals are of kind ``Natural``, string literals are of kind ``Symbol``,
 and character literals are of kind ``Char``.
-This feature is enabled by the :extension:`DataKinds` language extension.
 
 The kinds of the literals and all other low-level operations for this
 feature are defined in modules ``GHC.TypeLits`` and ``GHC.TypeNats``.
@@ -28,8 +27,8 @@ safe interface to a low-level function: ::
     clearPage :: ArrPtr 4096 Word8 -> IO ()
     clearPage (ArrPtr p) = ...
 
-Also type-level naturals could be promoted from the ``Natural`` data type
-using `DataKinds`, for example: ::
+Also type-level naturals could be promoted from the ``Natural`` data type,
+for example: ::
 
     data Point = MkPoint Natural Natural
     type MyCoordinates = MkPoint 95 101

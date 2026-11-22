@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 applicate :: Bool -> [Stmt] -> ExpQ
 applicate rawPatterns stmt = do

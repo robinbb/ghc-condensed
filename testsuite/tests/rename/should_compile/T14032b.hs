@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, NoStarIsType, ExplicitNamespaces #-}
+{-# LANGUAGE NoStarIsType, ExplicitNamespaces #-}
 
 module Main where
 

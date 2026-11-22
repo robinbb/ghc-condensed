@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE UnliftedDatatypes #-}
 
 module T23146_liftedeqA where

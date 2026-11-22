@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 module T17366_ARa where
 
 import Control.Monad.IO.Class

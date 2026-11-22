@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, QuantifiedConstraints, UndecidableInstances #-}
+{-# LANGUAGE QuantifiedConstraints, UndecidableInstances #-}
 module T25243 where
 
 import GHC.Exts

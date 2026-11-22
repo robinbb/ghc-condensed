@@ -1,4 +1,4 @@
-{-# LANGUAGE DeepSubsumption, RankNTypes, PolyKinds, DataKinds, GADTs, TypeOperators, ScopedTypeVariables #-}
+{-# LANGUAGE DeepSubsumption, RankNTypes, PolyKinds, GADTs, TypeOperators, ScopedTypeVariables #-}
 module T27639 where
 
 import GHC.Exts

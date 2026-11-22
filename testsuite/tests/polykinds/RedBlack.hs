@@ -3,7 +3,6 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DataKinds#-}
 {-# LANGUAGE KindSignatures#-}
 module RedBlackTree where
 

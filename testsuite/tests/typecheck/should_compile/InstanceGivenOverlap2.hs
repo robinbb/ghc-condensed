@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables, AllowAmbiguousTypes, TypeApplications,
-             TypeFamilies, PolyKinds, DataKinds, FlexibleInstances,
+             TypeFamilies, PolyKinds, FlexibleInstances,
              FlexibleContexts, PartialTypeSignatures #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
 

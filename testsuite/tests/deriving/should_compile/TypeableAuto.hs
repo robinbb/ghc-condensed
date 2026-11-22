@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DataKinds          #-}
 {-# LANGUAGE PolyKinds          #-}
 
 module TypeableAuto where

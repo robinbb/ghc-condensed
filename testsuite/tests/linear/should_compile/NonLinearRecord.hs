@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, DataKinds #-}
+{-# LANGUAGE LinearTypes #-}
 module NonLinearRecord where
 
 import GHC.Exts (Multiplicity(..))

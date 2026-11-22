@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, FlexibleContexts, FlexibleInstances, GADTs #-}
+{-# LANGUAGE FlexibleContexts, FlexibleInstances, GADTs #-}
 {-# LANGUAGE KindSignatures, TypeFamilies,
              TypeOperators #-}
 

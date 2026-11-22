@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DataKinds, RankNTypes, TypeFamilies #-}
+{-# LANGUAGE RankNTypes, TypeFamilies #-}
 module T7805 where
 
 data HigherRank = HR (forall a. a -> a)

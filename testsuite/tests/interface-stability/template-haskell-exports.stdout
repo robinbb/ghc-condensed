@@ -180,7 +180,6 @@ module Language.Haskell.TH where
     | RebindableSyntax
     | ConstraintKinds
     | PolyKinds
-    | DataKinds
     | TypeData
     | InstanceSigs
     | ApplicativeDo
@@ -780,7 +779,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | RebindableSyntax
     | ConstraintKinds
     | PolyKinds
-    | DataKinds
     | TypeData
     | InstanceSigs
     | ApplicativeDo
@@ -1515,7 +1513,6 @@ module Language.Haskell.TH.Syntax where
     | RebindableSyntax
     | ConstraintKinds
     | PolyKinds
-    | DataKinds
     | TypeData
     | InstanceSigs
     | ApplicativeDo

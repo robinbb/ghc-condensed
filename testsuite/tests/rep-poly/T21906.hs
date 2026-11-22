@@ -1,6 +1,6 @@
 
 
-{-# LANGUAGE DataKinds, MagicHash, NoImplicitPrelude, UnboxedTuples #-}
+{-# LANGUAGE MagicHash, NoImplicitPrelude, UnboxedTuples #-}
 
 module T21906 where
 

@@ -1,4 +1,4 @@
-{-# Language RankNTypes, TypeApplications, PolyKinds, DataKinds,
+{-# Language RankNTypes, TypeApplications, PolyKinds,
              TypeOperators, StandaloneKindSignatures, TypeFamilies,
              FlexibleInstances #-}
 

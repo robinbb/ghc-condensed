@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, StandaloneDeriving #-}
+{-# LANGUAGE StandaloneDeriving #-}
 
 module T8950 where
 

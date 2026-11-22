@@ -1,6 +1,5 @@
 {-# LANGUAGE PolyKinds,
              GADTs,
-             DataKinds,
              KindSignatures
  #-}
 

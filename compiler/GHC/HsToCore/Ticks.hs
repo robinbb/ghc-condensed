@@ -1,4 +1,4 @@
-{-# LANGUAGE NondecreasingIndentation, DataKinds, ViewPatterns #-}
+{-# LANGUAGE NondecreasingIndentation, ViewPatterns #-}
 
 {-# OPTIONS_GHC -Wno-incomplete-record-updates #-}
 

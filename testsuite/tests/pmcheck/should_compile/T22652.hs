@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, TypeFamilies, GADTs #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 {-# OPTIONS_GHC -Wincomplete-patterns -Werror #-}
 
 module T22652 where
