@@ -1,0 +1,26 @@
+# Warnings in build-efa.log, extracted 2026-11-22 at 959f17b7c3
+compiler/GHC/Driver/Main/Passes.hs:1415:45: warning: [GHC-63394] [-Wx-internalPprMessages] In the use of ‘internalPprMessages’
+compiler/GHC/Unit/Module/Deps.hs:515:21: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_mod’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:519:32: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_unit_id’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:519:48: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_mod_name’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:523:30: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_file_path’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:527:30: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_dir_path’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:531:32: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_unit_id’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:531:48: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_mod_name’ may fail for the following constructors:
+compiler/GHC/Unit/Module/Deps.hs:535:21: warning: [GHC-17335] [-Wincomplete-record-selectors] Selecting the record field ‘usg_mod’ may fail for the following constructors:
+happy:0:0: warning: unused terminals: 1
+libraries/Cabal/Cabal/src/Distribution/Backpack/Id.hs:17:40: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Backpack/Id.hs:17:54: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Flag.hs:22:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Flag.hs:23:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/GHC/Internal.hs:71:61: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Setup.hs:123:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Setup.hs:124:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Setup/Common.hs:37:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/Setup/Common.hs:38:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/Cabal/Cabal/src/Distribution/Simple/SetupHooks/Rule.hs:163:5: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.
+libraries/ghc-boot-th/GHC/Boot/TH/Ppr.hs:1:14: warning: [GHC-19244] [-Wtrustworthy-safe] ‘GHC.Boot.TH.Ppr’ is marked as Trustworthy but has been inferred as safe!
+libraries/ghc-internal/src/GHC/Internal/LanguageExtensions.hs:11:34: warning: [GHC-19244] [-Wtrustworthy-safe] ‘GHC.Internal.LanguageExtensions’ is marked as Trustworthy but has been inferred as safe!
+libraries/ghc-internal/src/GHC/Internal/STM.hs:49:1: warning: [GHC-66111] [-Wunused-imports] The import of ‘GHC.Internal.Exception’ is redundant
+libraries/ghc-internal/src/GHC/Internal/STM.hs:50:1: warning: [GHC-66111] [-Wunused-imports] The import of ‘GHC.Internal.IO’ is redundant
+utils/haddock/haddock-api/src/Haddock/Backends/Hyperlinker.hs:19:92: warning: [GHC-68383] [-Wpattern-namespace-specifier] The ‘pattern’ namespace specifier is deprecated.

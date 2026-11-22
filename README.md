@@ -92,6 +92,24 @@ environment (verified 2026-11-10: 11409 tests, about 10 minutes on 28 cores,
 after a 20-minute build). To run a single test, pass `--only=NAME`;
 `hadrian/doc/testsuite.md` lists the other options.
 
+The build log is worth keeping too. Hadrian prints every warning the
+compilers emit, and `build-warnings/warnings.rb` extracts them from a
+saved log and compares two such lists, so a change can be checked for
+new warnings:
+
+    $ hadrian/build -j > build.log 2>&1
+    $ ruby build-warnings/warnings.rb \
+        compare build-warnings/baseline.txt build.log
+
+`build-warnings/baseline.txt` is the list from the current tree; replace
+it with the output of `warnings.rb extract build.log` after a change that
+is meant to alter it. The comparison counts warning sites per file, flag
+and message, ignoring line numbers, and exits 1 when the log has a
+warning the baseline lacks. A change to the compiler rebuilds every
+stage-1 package, so that part of the list is complete after any such
+change; the stage-0 modules, which the bootstrap compiler builds, appear
+only when their own sources changed.
+
 A second check builds and tests a corpus of real-world Haskell packages
 (aeson, lens, pandoc, hledger, and several hundred more, vendored as git
 submodules under `external-packages/`) with the compiler you just built:
