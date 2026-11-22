@@ -1,5 +1,4 @@
 {-# LANGUAGE UnliftedNewtypes #-}
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE PolyKinds #-}
 module T17360 where
 

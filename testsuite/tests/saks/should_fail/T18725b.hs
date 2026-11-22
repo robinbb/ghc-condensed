@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitForAll, KindSignatures, StandaloneKindSignatures,
+{-# LANGUAGE KindSignatures, StandaloneKindSignatures,
              DataKinds, GADTs #-}
 
 module T18725b where

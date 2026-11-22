@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, ExplicitForAll #-}
+{-# LANGUAGE TypeFamilies, PolyKinds #-}
 
 module Foo where
 

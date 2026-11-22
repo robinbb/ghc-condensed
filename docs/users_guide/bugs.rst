@@ -41,12 +41,10 @@ Lexical syntax
    as a single qualified operator rather than the two lexemes ``M`` and
    ``.\``.
 
--  ``forall`` is always a reserved keyword. This is contrary to the
-   Haskell Report, which allows variables and type variables to be named
-   ``forall``. Note that this does not imply that GHC always enables the
-   :extension:`ExplicitForAll` extension. Even without this extension enabled,
-   reserving ``forall`` as a keyword has significance. For instance, GHC will
-   not parse the type signature ``foo :: forall x``.
+-  ``forall`` is always a reserved keyword, and explicit universal
+   quantification with it is always allowed (see :ref:`explicit-foralls`).
+   This is contrary to the Haskell Report, which allows variables and type
+   variables to be named ``forall``.
 
 -  The ``(!)`` operator, when written in prefix form (preceded by whitespace
    and not followed by whitespace, as in ``f !x = ...``), is interpreted as a

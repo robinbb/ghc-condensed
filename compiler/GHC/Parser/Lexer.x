@@ -1611,11 +1611,8 @@ mkHdkCommentSection :: PsSpan -> Int -> (HsDocStringDecorator -> HsDocString Ghc
 mkHdkCommentSection loc n mkDS = (HdkCommentSection n ds, ITdocComment ds loc)
   where ds = mkDS (HsDocStringGroup n)
 
--- RULES pragmas turn on the forall and '.' keywords, and we turn them
--- off again at the end of the pragma.
 rulePrag :: Action
 rulePrag span buf len _buf2 = do
-  setExts (.|. xbit InRulePragBit)
   let !src = lexemeToFastString buf len
   return (L span (ITrules_prag (SourceText src)))
 
@@ -1640,9 +1637,7 @@ columnPrag span buf len buf2 = do
          in return (L span (ITcolumn_prag (SourceText src)))
 
 endPrag :: Action
-endPrag span _buf _len _buf2 = do
-  setExts (.&. complement (xbit InRulePragBit))
-  return (L span ITclose_prag)
+endPrag span _buf _len _buf2 = return (L span ITclose_prag)
 
 -- docCommentEnd
 -------------------------------------------------------------------------------
@@ -2693,7 +2688,6 @@ data ExtBits
   | ThQuotesBit
   | IpBit
   | OverloadedLabelsBit -- #x overloaded labels
-  | ExplicitForallBit -- the 'forall' keyword
   | BangPatBit -- Tells the parser to understand bang-patterns
                -- (doesn't affect the lexer)
   | PatternSynonymsBit -- pattern synonyms
@@ -2740,7 +2734,6 @@ data ExtBits
   | QualifiedStringsBit
 
   -- Flags that are updated once parsing starts
-  | InRulePragBit
   | InNestedCommentBit -- See Note [Nested comment line pragmas]
   | UsePosPragsBit
     -- ^ If this is enabled, '{-# LINE ... -#}' and '{-# COLUMN ... #-}'
@@ -2781,7 +2774,6 @@ mkParserOpts extensionFlags diag_opts
       .|. QqBit                       `xoptBit` LangExt.QuasiQuotes
       .|. IpBit                       `xoptBit` LangExt.ImplicitParams
       .|. OverloadedLabelsBit         `xoptBit` LangExt.OverloadedLabels
-      .|. ExplicitForallBit           `xoptBit` LangExt.ExplicitForAll
       .|. BangPatBit                  `xoptBit` LangExt.BangPatterns
       .|. MagicHashBit                `xoptBit` LangExt.MagicHash
       .|. RecursiveDoBit              `xoptBit` LangExt.RecursiveDo
@@ -2885,10 +2877,10 @@ class Monad m => MonadP m where
   -- | Add a non-fatal error. Use this when the parser can produce a result
   --   despite the error.
   --
-  --   For example, when GHC encounters a @forall@ in a type,
-  --   but @-XExplicitForAll@ is disabled, the parser constructs @ForAllTy@
-  --   as if @-XExplicitForAll@ was enabled, adding a non-fatal error to
-  --   the accumulator.
+  --   For example, when GHC encounters a qualified @do@ block but
+  --   @-XQualifiedDo@ is disabled, the parser constructs the block as if
+  --   @-XQualifiedDo@ was enabled, adding a non-fatal error to the
+  --   accumulator.
   --
   --   Control flow wise, non-fatal errors act like warnings: they are added
   --   to the accumulator and parsing continues. This allows GHC to report

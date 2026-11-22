@@ -269,10 +269,8 @@ Explicit "forall"s in foreign types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The type variables in the type of a foreign declaration may be quantified with
-an explicit ``forall`` by using the :extension:`ExplicitForAll` language
-extension, as in the following example: ::
+an explicit ``forall``, as in the following example: ::
 
-       {-# LANGUAGE ExplicitForAll #-}
        foreign import ccall "mmap" c_mmap :: forall a. CSize -> IO (Ptr a)
 
 Note that an explicit ``forall`` must appear at the front of the type signature

@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, ExplicitForAll, PolyKinds, TypeApplications #-}
+{-# LANGUAGE TemplateHaskell, PolyKinds, TypeApplications #-}
 
 module T19709b where
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 
 module T22537 where
 

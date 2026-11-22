@@ -4,7 +4,6 @@
 {-# language ForeignFunctionInterface #-}
 {-# language MagicHash #-}
 {-# language UnboxedTuples #-}
-{-# language ExplicitForAll #-}
 
 -- Test for shims when passing an array of lifted values
 -- to a foreign function.

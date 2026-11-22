@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, KindSignatures, ExplicitForAll #-}
+{-# LANGUAGE DataKinds, KindSignatures #-}
 module T where
 
 import GHC.Exts

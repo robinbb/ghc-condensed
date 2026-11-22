@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, ExplicitForAll #-}
+{-# LANGUAGE TypeApplications #-}
 
 module T24359a where
 

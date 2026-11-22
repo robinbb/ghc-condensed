@@ -27,11 +27,13 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -106,7 +106,7 @@
+@@ -105,8 +105,8 @@
+   Exts.NPlusKPatterns             -> Just TH.NPlusKPatterns
    Exts.DoAndIfThenElse            -> Just TH.DoAndIfThenElse
    Exts.RebindableSyntax           -> Just TH.RebindableSyntax
-   Exts.ExplicitForAll             -> Just TH.ExplicitForAll
+-  Exts.ExplicitForAll             -> Just TH.ExplicitForAll
 -  Exts.DatatypeContexts           -> Just TH.DatatypeContexts
++  Exts.ExplicitForAll             -> Nothing
 +  Exts.DatatypeContexts           -> Nothing
    Exts.MonoLocalBinds             -> Just TH.MonoLocalBinds
    Exts.DeriveFunctor              -> Just TH.DeriveFunctor
@@ -86,10 +88,11 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
-@@ -291,9 +279,6 @@
+@@ -290,10 +278,6 @@
+   TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
-   TH.ExplicitForAll                    -> Just Exts.ExplicitForAll
+-  TH.ExplicitForAll                    -> Just Exts.ExplicitForAll
 -  TH.AlternativeLayoutRule             -> Nothing
 -  TH.AlternativeLayoutRuleTransitional -> Nothing
 -  TH.DatatypeContexts                  -> Just Exts.DatatypeContexts

@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, TypeApplications, ExplicitForAll, StarIsType #-}
+{-# LANGUAGE TemplateHaskell, TypeApplications, StarIsType #-}
 {-# OPTIONS -Wno-star-is-type #-}
 
 module TH_PprStar where

@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 
 module Dead1(foo) where
 

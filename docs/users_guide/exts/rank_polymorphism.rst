@@ -6,7 +6,6 @@ Arbitrary-rank polymorphism
 .. extension:: RankNTypes
     :shortdesc: Allow types of rank greater than one.
 
-    :implies: :extension:`ExplicitForAll`
     :since: 6.8.1
     :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
 
@@ -34,8 +33,7 @@ the left of the function arrow can be overloaded.
 The function ``f3`` has a rank-3 type; it has rank-2 types on the left
 of a function arrow.
 
-The language option :extension:`RankNTypes` (which implies
-:extension:`ExplicitForAll`) enables higher-rank
+The language option :extension:`RankNTypes` enables higher-rank
 types. That is, you can nest ``forall``\ s arbitrarily deep in function
 arrows. For example, a forall-type (also called a "type scheme"),
 including a type-class context, is legal:

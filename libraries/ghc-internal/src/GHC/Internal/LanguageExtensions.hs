@@ -123,7 +123,6 @@ data Extension
    | TypeOperators
    | ExplicitNamespaces
    | PackageImports
-   | ExplicitForAll
    | NondecreasingIndentation
    | RelaxedLayout
    | TraditionalRecordSyntax

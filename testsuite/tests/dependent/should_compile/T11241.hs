@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitForAll, KindSignatures, PartialTypeSignatures #-}
+{-# LANGUAGE KindSignatures, PartialTypeSignatures #-}
 
 module T11241 where
 

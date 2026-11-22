@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -fdefer-type-errors #-}
-{-# LANGUAGE ExplicitForAll
-           , TypeApplications
+{-# LANGUAGE TypeApplications
            , KindSignatures
            , ScopedTypeVariables
 #-}

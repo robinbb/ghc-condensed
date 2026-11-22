@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE DataKinds #-}

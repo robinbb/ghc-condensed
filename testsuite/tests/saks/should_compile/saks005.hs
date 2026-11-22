@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE GADTs, PolyKinds, ExplicitForAll #-}
+{-# LANGUAGE GADTs, PolyKinds #-}
 
 module SAKS_005 where
 

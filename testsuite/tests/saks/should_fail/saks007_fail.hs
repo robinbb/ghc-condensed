@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE TypeFamilies, GADTs, PolyKinds, DataKinds, ExplicitForAll #-}
+{-# LANGUAGE TypeFamilies, GADTs, PolyKinds, DataKinds #-}
 
 -- See also: saks007.hs
 module SAKS_007_fail where

@@ -1204,7 +1204,7 @@ messages and in GHCi:
 
 .. ghc-flag:: -fprint-explicit-foralls
     :shortdesc: Print explicit ``forall`` quantification in types.
-        See also :extension:`ExplicitForAll`
+        See also :ref:`explicit-foralls`
     :type: dynamic
     :reverse: -fno-print-explicit-foralls
     :category: verbosity

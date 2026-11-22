@@ -1968,8 +1968,8 @@ of ``-W(no-)*``.
 
         type instance F _x _y = []
 
-    When :extension:`ExplicitForAll` is enabled, explicitly quantified type
-    variables may also be identified as unused. For instance: ::
+    Explicitly quantified type variables may also be identified as unused.
+    For instance: ::
 
         type instance forall x y. F x y = []
 

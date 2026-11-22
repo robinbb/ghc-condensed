@@ -1,6 +1,5 @@
 {-# LANGUAGE AllowAmbiguousTypes
            , DataKinds
-           , ExplicitForAll
            , KindSignatures
            , OverloadedLabels
            , RebindableSyntax

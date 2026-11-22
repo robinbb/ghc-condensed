@@ -80,7 +80,6 @@ Library
         DeriveDataTypeable
         DeriveGeneric
         ExistentialQuantification
-        ExplicitForAll
         FlexibleContexts
         FlexibleInstances
         FunctionalDependencies

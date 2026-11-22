@@ -150,8 +150,8 @@ instance for ``GMap`` is ::
 In this example, the declaration has only one variant. In general, it
 can be any number.
 
-When :extension:`ExplicitForAll` is enabled, type and kind variables used on
-the left hand side can be explicitly bound. For example: ::
+Type and kind variables used on the left hand side can be explicitly
+bound. For example: ::
 
     data instance forall a (b :: Proxy a). F (Proxy b) = FProxy Bool
 
@@ -174,8 +174,8 @@ This resembles the wildcards that can be used in
 No error messages reporting the inferred types are generated, nor does
 the extension :extension:`PartialTypeSignatures` have any effect.
 
-A type or kind variable explicitly bound using :extension:`ExplicitForAll` but
-not used on the left hand side will generate an error, not a warning.
+A type or kind variable explicitly bound with ``forall`` but not used on
+the left hand side will generate an error, not a warning.
 
 Data and newtype instance declarations are only permitted when an
 appropriate family declaration is in scope - just as a class instance
@@ -365,9 +365,8 @@ with underscores to avoid warnings when the
 :ghc-flag:`-Wunused-type-patterns` flag is enabled. The same rules apply
 as for :ref:`data-instance-declarations`.
 
-Also in the same way as :ref:`data-instance-declarations`, when
-:extension:`ExplicitForAll` is enabled, type and kind variables can be
-explicitly bound in a type instance declaration.
+Also in the same way as :ref:`data-instance-declarations`, type and kind
+variables can be explicitly bound in a type instance declaration.
 
 Type family instance declarations are only legitimate when an
 appropriate family declaration is in scope - just like class instances
@@ -404,9 +403,9 @@ their code, GHC will not be able to simplify the type. After all, ``a``
 might later be instantiated with ``Int``.
 
 A closed type family's equations have the same restrictions and extensions as
-the equations for open type family instances. For instance, when
-:extension:`ExplicitForAll` is enabled, type or kind variables used on the
-left hand side of an equation can be explicitly bound, such as in: ::
+the equations for open type family instances. For instance, type or kind
+variables used on the left hand side of an equation can be explicitly
+bound, such as in: ::
 
   type family R a where
     forall t a. R (t a) = [a]
@@ -798,8 +797,8 @@ Note the following points:
    facility is most useful when the free indexed parameter is of a kind
    with a finite number of alternatives (unlike ``Type``).
 
--  When :extension:`ExplicitForAll` is enabled, type and kind variables can be
-   explicitly bound in associated data or type family instances in the same way
+-  Type and kind variables can be explicitly bound in associated data or
+   type family instances in the same way
    (and with the same restrictions) as :ref:`data-instance-declarations` or
    :ref:`type-instance-declarations`. For example, adapting the above, the
    following is accepted: ::
@@ -845,8 +844,7 @@ Note the following points:
    to mention kind variables that are implicitly bound on the left hand side.
 
    Like with :ref:`assoc-inst`, it is possible to explicitly bind type and kind
-   variables in default declarations with a ``forall`` by using the
-   :extension:`ExplicitForAll` language extension.
+   variables in default declarations with a ``forall``.
 
 -  Unlike the associated type family declaration itself, the type variables of
    the default instance are independent of those of the parent class.

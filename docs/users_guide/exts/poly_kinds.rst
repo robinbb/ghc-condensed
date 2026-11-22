@@ -806,7 +806,7 @@ As a counterpart, the ``k`` binder in ``forall k. k -> Type`` can be thought
 of as an *invisible*, dependent quantifier.
 
 GHC permits writing kinds with this syntax, provided that the
-``ExplicitForAll`` and ``PolyKinds`` language extensions are enabled. Just
+``PolyKinds`` language extension is enabled. Just
 like the invisible ``forall``, one can put explicit kind signatures on visibly
 bound kind variables, so the following is syntactically valid: ::
 

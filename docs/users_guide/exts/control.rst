@@ -83,7 +83,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`EmptyDataDecls`
      * :extension:`EmptyDataDeriving`
      * :extension:`ExistentialQuantification`
-     * :extension:`ExplicitForAll`
      * :extension:`ExplicitNamespaces`
      * :extension:`FieldSelectors`
      * :extension:`FlexibleContexts`
@@ -155,7 +154,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`EmptyDataDecls`
      * :extension:`EmptyDataDeriving`
      * :extension:`ExistentialQuantification`
-     * :extension:`ExplicitForAll`
      * :extension:`FieldSelectors`
      * :extension:`FlexibleContexts`
      * :extension:`FlexibleInstances`

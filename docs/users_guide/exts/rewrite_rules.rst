@@ -90,8 +90,7 @@ From a syntactic point of view:
 
    Since ``g`` has a polymorphic type, it must have a type signature.
 
--  If :extension:`ExplicitForAll` is enabled, type/kind variables can also be
-   explicitly bound. For example: ::
+-  Type/kind variables can also be explicitly bound. For example: ::
 
        {-# RULES "id" forall a. forall (x :: a). id @a x = x #-}
 

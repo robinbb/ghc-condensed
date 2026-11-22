@@ -1,8 +1,7 @@
-
-tcfail183.hs:5:30: error: [GHC-25955]
-    Illegal symbol ‘forall’ in type
+tcfail183.hs:5:19: error: [GHC-91510]
+    • Illegal polymorphic type: forall a. Ord a => [a] -> [a]
+    • In the definition of data constructor ‘MkSwizzle’
+      In the newtype declaration for ‘Swizzle’
     Suggested fix:
-      Use the ‘ExplicitForAll’ extension (implied by ‘RankNTypes’,
-                                                     ‘QuantifiedConstraints’, ‘ScopedTypeVariables’,
-                                                     ‘LiberalTypeSynonyms’ and ‘ExistentialQuantification’)
-      to enable syntax: forall <tvs>. <type>
+      Perhaps you intended to use the ‘RankNTypes’ extension (implied by ‘ImpredicativeTypes’)
+

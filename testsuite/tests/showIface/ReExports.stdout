@@ -52,7 +52,6 @@ docs:
          PatternGuards
          RankNTypes
          TypeOperators
-         ExplicitForAll
          TraditionalRecordSyntax
          BinaryLiterals
          HexFloatLiterals

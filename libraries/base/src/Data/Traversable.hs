@@ -91,7 +91,6 @@ import GHC.Internal.Data.Traversable
 -- >>> import Data.Maybe
 -- >>> import Data.Either
 -- >>> import qualified Data.List as List
--- >>> :set -XExplicitForAll
 
 -- $overview
 --

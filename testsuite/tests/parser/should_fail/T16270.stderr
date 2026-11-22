@@ -38,14 +38,6 @@ T16270.hs:19:5: error: [GHC-65719]
     Suggested fix:
       Perhaps you intended to use the ‘TraditionalRecordSyntax’ extension
 
-T16270.hs:21:6: error: [GHC-25955]
-    Illegal symbol ‘forall’ in type
-    Suggested fix:
-      Use the ‘ExplicitForAll’ extension (implied by ‘RankNTypes’,
-                                                     ‘QuantifiedConstraints’, ‘ScopedTypeVariables’,
-                                                     ‘LiberalTypeSynonyms’ and ‘ExistentialQuantification’)
-      to enable syntax: forall <tvs>. <type>
-
 T16270.hs:22:8: error: [GHC-75254]
     Unexpected semi-colons in conditional:
         if True; then (); else ()

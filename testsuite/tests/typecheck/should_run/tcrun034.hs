@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitForAll, TypeOperators #-}
+{-# LANGUAGE TypeOperators #-}
 
 module Main where
 

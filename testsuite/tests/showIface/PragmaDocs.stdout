@@ -60,7 +60,6 @@ docs:
          RankNTypes
          TypeOperators
          ExplicitNamespaces
-         ExplicitForAll
          TraditionalRecordSyntax
          LambdaCase
          BinaryLiterals
@@ -77,3 +76,4 @@ docs:
          ListTuplePuns
          ImplicitStagePersistence
 extensible fields:
+

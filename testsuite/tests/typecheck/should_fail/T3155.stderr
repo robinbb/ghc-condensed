@@ -1,8 +1,7 @@
-
-T3155.hs:14:9: error: [GHC-25955]
-    Illegal symbol ‘forall’ in type
+T3155.hs:14:8: error: [GHC-91510]
+    • Illegal polymorphic type: forall ix. r ix -> ix
+    • In the type signature:
+        unR :: (forall ix. r ix -> ix) -> AnyR s r -> Any s
     Suggested fix:
-      Use the ‘ExplicitForAll’ extension (implied by ‘RankNTypes’,
-                                                     ‘QuantifiedConstraints’, ‘ScopedTypeVariables’,
-                                                     ‘LiberalTypeSynonyms’ and ‘ExistentialQuantification’)
-      to enable syntax: forall <tvs>. <type>
+      Perhaps you intended to use the ‘RankNTypes’ extension (implied by ‘ImpredicativeTypes’)
+

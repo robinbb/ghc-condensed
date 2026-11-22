@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 module T10519 where
 

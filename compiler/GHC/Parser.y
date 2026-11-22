@@ -1555,8 +1555,7 @@ ty_fam_inst_eqns :: { Located [LTyFamInstEqn GhcPs] }
 
 ty_fam_inst_eqn :: { LTyFamInstEqn GhcPs }
         : 'forall' tv_bndrs '.' type '=' ktype
-              {% do { hintExplicitForall $1
-                    ; tvbs <- fromSpecTyVarBndrs $2
+              {% do { tvbs <- fromSpecTyVarBndrs $2
                     ; let loc = comb2 $1 $>
                     ; !cs <- getCommentsFor loc
                     ; mkTyFamInstEqn loc (mkHsOuterExplicit (EpAnn (glEE $1 $3) (epUniTok $1, epTok $3) cs) tvbs) $4 $6 (epTok $5) }}
@@ -1693,15 +1692,13 @@ tycl_hdr :: { Located (Maybe (LHsContext GhcPs), LHsType GhcPs) }
         | type                      { sL1 $1 (Nothing, $1) }
 
 datafam_inst_hdr :: { Located (Maybe (LHsContext GhcPs), HsOuterFamEqnTyVarBndrs GhcPs, LHsType GhcPs) }
-        : 'forall' tv_bndrs '.' context '=>' type   {% hintExplicitForall $1
-                                                       >> fromSpecTyVarBndrs $2
+        : 'forall' tv_bndrs '.' context '=>' type   {% fromSpecTyVarBndrs $2
                                                          >>= \tvbs ->
                                                              (acs (comb2 $1 $>) (\loc cs -> (L loc
                                                                                   (Just ( addTrailingDarrowA $4 (epUniTok $5) cs)
                                                                                         , mkHsOuterExplicit (EpAnn (glEE $1 $3) (epUniTok $1, epTok $3) emptyComments) tvbs, $6))))
                                                     }
-        | 'forall' tv_bndrs '.' type   {% do { hintExplicitForall $1
-                                             ; tvbs <- fromSpecTyVarBndrs $2
+        | 'forall' tv_bndrs '.' type   {% do { tvbs <- fromSpecTyVarBndrs $2
                                              ; let loc = comb2 $1 $>
                                              ; !cs <- getCommentsFor loc
                                              ; return (sL loc (Nothing, mkHsOuterExplicit (EpAnn (glEE $1 $3) (epUniTok $1, epTok $3) cs) tvbs, $4))
@@ -2029,8 +2026,7 @@ rule_explicit_activation :: { ( ActivationAnn
 
 rule_foralls :: { Maybe (RuleBndrs GhcPs) }
         : 'forall' rule_vars '.' 'forall' rule_vars '.'
-              {% hintExplicitForall $1
-                 >> checkRuleTyVarBndrNames $2
+              {% checkRuleTyVarBndrNames $2
                  >> let ann = HsRuleBndrsAnn
                                 (Just (epUniTok $1,epTok $3))
                                 (Just (epUniTok $4,epTok $6))
@@ -2266,11 +2262,9 @@ unpackedness :: { Located UnpackednessPragma }
         | '{-# NOUNPACK' '#-}' { sLL $1 $> (UnpackednessPragma (glR $1, epTok $2) (getNOUNPACK_PRAGs $1) SrcNoUnpack) }
 
 forall_telescope :: { Located (HsForAllTelescope GhcPs) }
-        : 'forall' tv_bndrs '.'  {% do { hintExplicitForall $1
-                                       ; acs (comb2 $1 $>) (\loc cs -> (L loc $
+        : 'forall' tv_bndrs '.'  {% do { acs (comb2 $1 $>) (\loc cs -> (L loc $
                                            mkHsForAllInvisTele (EpAnn (glEE $1 $>) (epUniTok $1,epTok $3) cs) $2 )) }}
-        | 'forall' tv_bndrs '->' {% do { hintExplicitForall $1
-                                       ; req_tvbs <- fromSpecTyVarBndrs $2
+        | 'forall' tv_bndrs '->' {% do { req_tvbs <- fromSpecTyVarBndrs $2
                                        ; acs (comb2 $1 $>) (\loc cs -> (L loc $
                                            mkHsForAllVisTele (EpAnn (glEE $1 $>) (epUniTok $1,epUniTok $3) cs) req_tvbs )) }}
 
@@ -4542,15 +4536,6 @@ hintMultiWayIf :: SrcSpan -> P ()
 hintMultiWayIf span = do
   mwiEnabled <- getBit MultiWayIfBit
   unless mwiEnabled $ addError $ mkPlainErrorMsgEnvelope span PsErrMultiWayIf
-
--- Hint about explicit-forall
-hintExplicitForall :: Located Token -> P ()
-hintExplicitForall tok = do
-    explicit_forall_enabled <- getBit ExplicitForallBit
-    in_rule_prag <- getBit InRulePragBit
-    unless (explicit_forall_enabled || in_rule_prag) $
-      addError $ mkPlainErrorMsgEnvelope (getLoc tok) $
-        PsErrExplicitForall (isUnicode tok)
 
 -- Hint about qualified-do
 hintQualifiedDo :: Located Token -> P ()

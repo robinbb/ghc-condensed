@@ -3,20 +3,8 @@
 Explicit universal quantification (forall)
 ------------------------------------------
 
-.. extension:: ExplicitForAll
-    :shortdesc: Allow explicit universal quantification.
-
-    :implied by: :extension:`ScopedTypeVariables`, :extension:`LiberalTypeSynonyms`,
-        :extension:`RankNTypes`, :extension:`ExistentialQuantification`
-    :since: 6.12.1
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow use of the ``forall`` keyword in places where universal quantification
-    is implicit.
-
-Haskell type signatures are implicitly quantified. When the language
-option :extension:`ExplicitForAll` is used, the keyword ``forall`` allows us to
-say exactly what this means. For example: ::
+Haskell type signatures are implicitly quantified. The keyword ``forall``
+allows us to say exactly what this means. For example: ::
 
     g :: b -> b
 
@@ -27,7 +15,7 @@ means this: ::
 The two are treated identically, except that the latter may bring type variables
 into scope (see :ref:`scoped-type-variables`).
 
-This extension also enables explicit quantification of type and kind variables
+Type and kind variables can also be quantified explicitly
 in :ref:`data-instance-declarations`, :ref:`type-instance-declarations`,
 :ref:`closed-type-families`, :ref:`assoc-inst`, and :ref:`rewrite-rules`.
 

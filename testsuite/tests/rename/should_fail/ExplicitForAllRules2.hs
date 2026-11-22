@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE TypeApplications #-}
 
 module ExplicitForAllRules2 where

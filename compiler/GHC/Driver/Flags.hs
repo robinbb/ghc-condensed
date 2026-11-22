@@ -212,7 +212,6 @@ extensionName = \case
   LangExt.TypeOperators -> "TypeOperators"
   LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
   LangExt.PackageImports -> "PackageImports"
-  LangExt.ExplicitForAll -> "ExplicitForAll"
   LangExt.NondecreasingIndentation -> "NondecreasingIndentation"
   LangExt.RelaxedLayout -> "RelaxedLayout"
   LangExt.TraditionalRecordSyntax -> "TraditionalRecordSyntax"
@@ -266,12 +265,7 @@ extensionNames ext = [ (extensionDeprecation ext, name)
 impliedXFlags :: [(LangExt.Extension, OnOff LangExt.Extension)]
 impliedXFlags
 -- See Note [Updating flag description in the User's Guide]
-  = [ (LangExt.RankNTypes,                On LangExt.ExplicitForAll)
-    , (LangExt.QuantifiedConstraints,     On LangExt.ExplicitForAll)
-    , (LangExt.ScopedTypeVariables,       On LangExt.ExplicitForAll)
-    , (LangExt.LiberalTypeSynonyms,       On LangExt.ExplicitForAll)
-    , (LangExt.ExistentialQuantification, On LangExt.ExplicitForAll)
-    , (LangExt.FlexibleInstances,         On LangExt.TypeSynonymInstances)
+  = [ (LangExt.FlexibleInstances,         On LangExt.TypeSynonymInstances)
     , (LangExt.TypeFamilyDependencies,    On LangExt.TypeFamilies)
 
     , (LangExt.RebindableSyntax, Off LangExt.ImplicitPrelude)      -- NB: turn off!

@@ -6,7 +6,6 @@ Liberalised type synonyms
 .. extension:: LiberalTypeSynonyms
     :shortdesc: Relax many of Haskell 98's rules on type synonym definitions.
 
-    :implies: :extension:`ExplicitForAll`
     :since: 6.8.1
 
     Relax many of the Haskell 98 rules on type synonym definitions.

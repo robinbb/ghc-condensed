@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, GADTs, ExplicitForAll, KindSignatures,
+{-# LANGUAGE TemplateHaskell, GADTs, KindSignatures,
              TypeFamilies, DataKinds #-}
 
 module T10828 where

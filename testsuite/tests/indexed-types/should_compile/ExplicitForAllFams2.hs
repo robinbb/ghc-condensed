@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module ExplicitForAllFams2 where

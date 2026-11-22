@@ -222,8 +222,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Illegal export form"
     PsErrOverloadedRecordUpdateNoQualifiedFields
       -> mkSimpleDecorated $ text "Fields cannot be qualified when OverloadedRecordUpdate is enabled"
-    PsErrExplicitForall is_unicode
-      -> mkSimpleDecorated $ text "Illegal symbol" <+> quotes (forallSym is_unicode) <+> text "in type"
     PsErrIllegalQualifiedDo qdoDoc
       -> mkSimpleDecorated $
            text "Illegal qualified" <+> quotes qdoDoc <+> text "block"
@@ -618,7 +616,6 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> ErrorWithoutFlag
     PsErrIllegalPatSynExport                      -> ErrorWithoutFlag
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> ErrorWithoutFlag
-    PsErrExplicitForall{}                         -> ErrorWithoutFlag
     PsErrIllegalQualifiedDo{}                     -> ErrorWithoutFlag
     PsErrIllegalMultilineStrings{}                -> ErrorWithoutFlag
     PsErrQualifiedDoInCmd{}                       -> ErrorWithoutFlag
@@ -763,8 +760,6 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> noHints
     PsErrIllegalPatSynExport                      -> [suggestExtension LangExt.PatternSynonyms]
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> noHints
-    PsErrExplicitForall is_unicode                -> [useExtensionInOrderTo info LangExt.ExplicitForAll]
-      where info = "to enable syntax:" <+> forallSym is_unicode <+> angleBrackets "tvs" <> dot <+> angleBrackets "type"
     PsErrIllegalQualifiedDo{}                     -> [suggestExtension LangExt.QualifiedDo]
     PsErrIllegalMultilineStrings{}                -> [suggestExtension LangExt.MultilineStrings]
     PsErrQualifiedDoInCmd{}                       -> noHints
@@ -955,10 +950,6 @@ pp_unexpected_fun_app e a =
 
 parse_error_in_pat :: SDoc
 parse_error_in_pat = text "Parse error in pattern:"
-
-forallSym :: Bool -> SDoc
-forallSym True  = text "∀"
-forallSym False = text "forall"
 
 pprFileHeaderPragmaType :: FileHeaderPragmaType -> SDoc
 pprFileHeaderPragmaType OptionsPrag    = text "OPTIONS"

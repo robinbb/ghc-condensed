@@ -428,10 +428,6 @@ data PsMessage
    -- | Multi-way if-expression found but MultiWayIf not enabled
    | PsErrMultiWayIf
 
-   -- | Explicit forall found but no extension allowing it is enabled
-   | PsErrExplicitForall !Bool
-                         -- ^ is Unicode forall?
-
    -- | Found qualified-do without QualifiedDo enabled
    | PsErrIllegalQualifiedDo !SDoc
 

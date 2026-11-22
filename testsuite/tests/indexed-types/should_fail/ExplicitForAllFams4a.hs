@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module ExplicitForAllFams4a where

@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE TypeFamilyDependencies, PolyKinds, ExplicitForAll #-}
+{-# LANGUAGE TypeFamilyDependencies, PolyKinds #-}
 
 module SAKS_003 where
 

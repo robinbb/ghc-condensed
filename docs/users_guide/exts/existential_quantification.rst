@@ -6,7 +6,6 @@ Existentially quantified data constructors
 .. extension:: ExistentialQuantification
     :shortdesc: Allow existentially quantified type variables in types.
 
-    :implies: :extension:`ExplicitForAll`
     :since: 6.8.1
     :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
 

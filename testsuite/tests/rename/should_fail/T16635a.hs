@@ -1,4 +1,4 @@
-{-# LANGUAGE NoScopedTypeVariables, ExplicitForAll #-}
+{-# LANGUAGE NoScopedTypeVariables #-}
 {-# LANGUAGE DataKinds, PolyKinds, TypeApplications #-}
 
 module T16635a where

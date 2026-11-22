@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitForAll, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 
 module T15264 where
 

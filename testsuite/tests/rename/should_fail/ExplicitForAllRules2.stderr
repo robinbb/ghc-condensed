@@ -1,10 +1,10 @@
-
-ExplicitForAllRules2.hs:6:41: error: [GHC-76037]
+ExplicitForAllRules2.hs:5:41: error: [GHC-76037]
     Not in scope: type variable ‘b’
 
-ExplicitForAllRules2.hs:7:11: error: [GHC-65669]
+ExplicitForAllRules2.hs:6:11: error: [GHC-65669]
     Rule "new5":
     Forall'd variable ‘x’ does not appear on left hand side
 
-ExplicitForAllRules2.hs:8:49: error: [GHC-76037]
+ExplicitForAllRules2.hs:7:49: error: [GHC-76037]
     Not in scope: type variable ‘c’
+

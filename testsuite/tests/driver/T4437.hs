@@ -66,5 +66,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "DatatypeContexts",
                                "OverlappingInstances",
                                "IncoherentInstances",
-                               "TypeInType"
+                               "TypeInType",
+                               "ExplicitForAll"
                               ]

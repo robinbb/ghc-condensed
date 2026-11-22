@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 
 module ShouldCompile where
 

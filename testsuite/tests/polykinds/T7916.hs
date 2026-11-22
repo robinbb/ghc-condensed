@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, ExplicitForAll #-}
+{-# LANGUAGE PolyKinds #-}
 module T7916 where
 
 import Data.Kind (Type)

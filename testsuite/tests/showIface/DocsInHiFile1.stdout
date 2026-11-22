@@ -131,7 +131,6 @@ docs:
          RankNTypes
          TypeOperators
          ExplicitNamespaces
-         ExplicitForAll
          TraditionalRecordSyntax
          BinaryLiterals
          HexFloatLiterals

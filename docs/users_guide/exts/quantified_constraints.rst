@@ -6,7 +6,6 @@ Quantified constraints
 .. extension:: QuantifiedConstraints
     :shortdesc: Allow ``forall`` quantifiers in constraints.
 
-    :implies: :extension:`ExplicitForAll`
     :since: 8.6.1
 
     Allow constraints to quantify over types.
@@ -109,7 +108,7 @@ The ``context =>`` part is optional.  That is the only syntactic change to the l
 
 Notes:
 
-- Where GHC allows extensions in instance declarations we allow exactly the same extensions to this new form of ``class``.  Specifically, with :extension:`ExplicitForAll` the syntax becomes
+- Where GHC allows extensions in instance declarations we allow exactly the same extensions to this new form of ``class``.  Specifically, with an explicit ``forall`` the syntax becomes
 
   .. code-block:: none
 

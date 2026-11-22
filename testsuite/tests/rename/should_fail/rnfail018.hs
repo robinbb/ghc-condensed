@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitForAll #-}
 
 module ShouldFail where
 

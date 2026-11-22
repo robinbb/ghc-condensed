@@ -2,7 +2,7 @@
  -}
 
 {-# LANGUAGE TypeOperators, TypeFamilies, TypeApplications, AllowAmbiguousTypes,
-             ExplicitForAll, ScopedTypeVariables, GADTs, TypeFamilyDependencies,
+             ScopedTypeVariables, GADTs, TypeFamilyDependencies,
              DataKinds, PolyKinds , ConstraintKinds, UndecidableInstances,
              FlexibleInstances, FunctionalDependencies,
              FlexibleContexts, StandaloneDeriving, InstanceSigs,
