@@ -21,12 +21,17 @@ module Strip
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
   RENAMED = {
+    'AutoDeriveTypeable' => 'DeriveDataTypeable',
     'DoRec' => 'RecursiveDo',
     'PatternSignatures' => 'ScopedTypeVariables',
     'PolymorphicComponents' => 'RankNTypes',
     'Rank2Types' => 'RankNTypes',
     'RecordPuns' => 'NamedFieldPuns'
   }.freeze
+
+  # Renamed extensions whose only effect was to imply the new name: their
+  # No form did nothing, so it is dropped rather than renamed.
+  IMPLIED_ONLY = %w[AutoDeriveTypeable].freeze
 
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
 
@@ -63,16 +68,16 @@ module Strip
   # ---- Haskell sources -------------------------------------------------
 
   # The pragma name is case-insensitive to GHC, so {-# Language ... #-} too.
-  PRAGMA = /\{-#\s*(LANGUAGE|OPTIONS_GHC|OPTIONS)\b(.*?)#-\}/mi
+  PRAGMA = /(\{-#\s*)(LANGUAGE|OPTIONS_GHC|OPTIONS)\b(.*?)#-\}/mi
 
   def haskell_text(text, names, renamed)
     text.gsub(PRAGMA) do
-      whole, kind, body = Regexp.last_match(0), Regexp.last_match(1), Regexp.last_match(2)
+      whole, opener, kind, body = Regexp.last_match(0), Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3)
       language = kind.casecmp?('LANGUAGE')
       new_body = rewrite(body, names, renamed, flags: !language)
       if new_body.nil? then MARK
       elsif new_body == body then whole
-      else "{-# #{kind}#{new_body}#-}"
+      else "#{opener}#{kind}#{new_body}#-}"
       end
     end
   end
@@ -88,7 +93,7 @@ module Strip
     renamed.each do |old, new|
       body = body.gsub(/#{open}(No)?#{old}\b/) do
         polarity = Regexp.last_match(1)
-        if body.match?(/#{open}#{polarity}#{new}\b/)
+        if (polarity && IMPLIED_ONLY.include?(old)) || body.match?(/#{open}#{polarity}#{new}\b/)
           drop << "#{polarity}#{old}"
           "#{prefix}#{polarity}#{old}"
         else

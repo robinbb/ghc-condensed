@@ -2,7 +2,7 @@
 {-# LANGUAGE DataKinds          #-}
 {-# LANGUAGE PolyKinds          #-}
 
-module AutoDeriveTypeable where
+module TypeableAuto where
 
 import Data.Typeable
 

@@ -192,7 +192,6 @@ module Language.Haskell.TH where
     | RequiredTypeArguments
     | StandaloneDeriving
     | DeriveDataTypeable
-    | AutoDeriveTypeable
     | DeriveFunctor
     | DeriveTraversable
     | DeriveFoldable
@@ -798,7 +797,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | RequiredTypeArguments
     | StandaloneDeriving
     | DeriveDataTypeable
-    | AutoDeriveTypeable
     | DeriveFunctor
     | DeriveTraversable
     | DeriveFoldable
@@ -1539,7 +1537,6 @@ module Language.Haskell.TH.Syntax where
     | RequiredTypeArguments
     | StandaloneDeriving
     | DeriveDataTypeable
-    | AutoDeriveTypeable
     | DeriveFunctor
     | DeriveTraversable
     | DeriveFoldable

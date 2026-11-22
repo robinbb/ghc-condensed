@@ -115,8 +115,6 @@ deprecation _ = Deprecated
 
 extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
 extensionDeprecation = \case
-  LangExt.AutoDeriveTypeable                -> ExtensionFlagDeprecatedCond turnOn
-                                                 "Typeable instances are created automatically for all types since GHC 8.2."
   LangExt.DatatypeContexts                  -> ExtensionFlagDeprecatedCond turnOn
                                                  "It was widely considered a misfeature, and has been removed from the Haskell language."
   LangExt.OverlappingInstances              -> ExtensionFlagDeprecated
@@ -189,7 +187,6 @@ extensionName = \case
   LangExt.RequiredTypeArguments -> "RequiredTypeArguments"    -- Visible forall (VDQ) in types of terms
   LangExt.StandaloneDeriving -> "StandaloneDeriving"
   LangExt.DeriveDataTypeable -> "DeriveDataTypeable"
-  LangExt.AutoDeriveTypeable -> "AutoDeriveTypeable"       -- Automatic derivation of Typeable
   LangExt.DeriveFunctor -> "DeriveFunctor"
   LangExt.DeriveTraversable -> "DeriveTraversable"
   LangExt.DeriveFoldable -> "DeriveFoldable"
@@ -304,9 +301,6 @@ impliedXFlags
 
     -- Standalone kind signatures are a replacement for CUSKs.
     , (LangExt.StandaloneKindSignatures, Off LangExt.CUSKs)
-
-    -- AutoDeriveTypeable is not very useful without DeriveDataTypeable
-    , (LangExt.AutoDeriveTypeable, On LangExt.DeriveDataTypeable)
 
     -- We turn this on so that we can export associated type
     -- type synonyms in subordinates (e.g. MyClass(type AssocType))

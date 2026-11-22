@@ -92,7 +92,6 @@ data Extension
 
    | StandaloneDeriving
    | DeriveDataTypeable
-   | AutoDeriveTypeable       -- Automatic derivation of Typeable
    | DeriveFunctor
    | DeriveTraversable
    | DeriveFoldable

@@ -61,5 +61,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "AlternativeLayoutRuleTransitional",
                                "DoRec",
                                "RecordPuns",
-                               "PatternSignatures"
+                               "PatternSignatures",
+                               "AutoDeriveTypeable"
                               ]

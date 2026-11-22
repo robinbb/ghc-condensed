@@ -4,7 +4,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 #endif
 #if __GLASGOW_HASKELL__ >= 710 && __GLASGOW_HASKELL__ < 802
-{-# LANGUAGE AutoDeriveTypeable #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 #endif
 -----------------------------------------------------------------------------
 -- |

@@ -45,7 +45,7 @@ test('T1133', [], makefile_test, [])
 test('T7704', normal, compile, [''])
 test('T7710', normal, compile, [''])
 
-test('AutoDeriveTypeable', normal, compile, [''])
+test('TypeableAuto', normal, compile, [''])
 
 test('T8128', normal, compile, [''])
 test('T8165', normal, compile, [''])

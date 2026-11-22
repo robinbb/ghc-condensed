@@ -2,7 +2,6 @@
 --backpack
 --show-packages
 -Onot
--XAutoDeriveTypeable
 -XJavaScriptFFI
 -XParallelArrays
 -XRelaxedLayout

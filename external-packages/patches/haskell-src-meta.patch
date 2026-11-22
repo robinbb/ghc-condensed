@@ -18,7 +18,15 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -266,9 +266,6 @@
+@@ -254,7 +254,6 @@
+   TH.ApplicativeDo                     -> Nothing
+   TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
+   TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
+-  TH.AutoDeriveTypeable                -> Nothing
+   TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
+   TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
+   TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
+@@ -266,9 +265,6 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -28,7 +36,7 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
-@@ -291,8 +288,6 @@
+@@ -291,8 +287,6 @@
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
    TH.ExplicitForAll                    -> Just Exts.ExplicitForAll
