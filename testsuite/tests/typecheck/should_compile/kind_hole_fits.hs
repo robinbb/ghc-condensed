@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds, PolyKinds, TypeOperators, TypeFamilies,
              UndecidableInstances, ConstraintKinds #-}
-module TypeInTypeSubstitutions where
+module KindSubstitutions where
 
 import GHC.TypeLits as L
 import Data.Type.Bool

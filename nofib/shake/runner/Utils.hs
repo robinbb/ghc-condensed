@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
+
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}

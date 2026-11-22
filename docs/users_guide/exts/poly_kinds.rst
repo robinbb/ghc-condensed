@@ -1,19 +1,7 @@
-.. _type-in-type:
 .. _kind-polymorphism:
 
 Kind polymorphism
 ==================================
-
-.. extension:: TypeInType
-    :shortdesc: Deprecated. Enable kind polymorphism and datatype promotion.
-
-    :implies: :extension:`PolyKinds`, :extension:`DataKinds`, :extension:`KindSignatures`
-    :since: 8.0.1
-    :status: Deprecated
-
-    The extension :extension:`TypeInType` is now deprecated: its sole effect is
-    to switch on :extension:`PolyKinds`
-    (and hence :extension:`KindSignatures`) and :extension:`DataKinds`.
 
 .. extension:: PolyKinds
     :shortdesc: Allow kind polymorphism.

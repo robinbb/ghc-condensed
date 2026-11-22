@@ -4,9 +4,3 @@ ExplicitLevelImports
 ImplicitStagePersistence
 -----
 
-Cabal-only flags: Unexpected flags
------
-OverlappingInstances
-IncoherentInstances
------
-

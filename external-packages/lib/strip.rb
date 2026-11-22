@@ -19,6 +19,7 @@ module Strip
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
     ConstrainedClassMethods DatatypeContexts IncoherentInstances
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
+    TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

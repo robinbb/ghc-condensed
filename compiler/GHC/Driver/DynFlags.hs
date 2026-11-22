@@ -1272,7 +1272,7 @@ validHoleFitDefaults
 -- Note [When is StarIsType enabled]
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- The StarIsType extension determines whether to treat '*' as a regular type
--- operator or as a synonym for 'Data.Kind.Type'. Many existing pre-TypeInType
+-- operator or as a synonym for 'Data.Kind.Type'. Many existing older
 -- programs expect '*' to be synonymous with 'Type', so by default StarIsType is
 -- enabled.
 --

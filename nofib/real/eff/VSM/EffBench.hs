@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes, BangPatterns, ScopedTypeVariables,
-  MultiParamTypeClasses, FlexibleInstances, FlexibleContexts #-}
+  FlexibleInstances, FlexibleContexts #-}
 
 {-# OPTIONS -fexpose-all-unfoldings #-}
 

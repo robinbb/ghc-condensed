@@ -63,7 +63,6 @@ data Extension
    | BangPatterns
    | TypeFamilies
    | TypeFamilyDependencies
-   | TypeInType               -- Deprecated
    | OverloadedStrings
    | OverloadedLists
    | NumDecimals

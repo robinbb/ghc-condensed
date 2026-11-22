@@ -36,6 +36,15 @@
    Exts.MonoLocalBinds             -> Just TH.MonoLocalBinds
    Exts.DeriveFunctor              -> Just TH.DeriveFunctor
    Exts.DeriveGeneric              -> Just TH.DeriveGeneric
+@@ -135,7 +135,7 @@
+   Exts.DerivingStrategies         -> Just TH.DerivingStrategies
+   Exts.UnboxedSums                -> Just TH.UnboxedSums
+ #if MIN_VERSION_haskell_src_exts(1,21,0)
+-  Exts.TypeInType                 -> Just TH.TypeInType
++  Exts.TypeInType                 -> Nothing
+ #endif
+   Exts.Strict                     -> Just TH.Strict
+   Exts.StrictData                 -> Just TH.StrictData
 @@ -187,9 +187,7 @@
  fromExtension :: TH.Extension -> Maybe Exts.KnownExtension
  fromExtension e = case e of
@@ -46,7 +55,20 @@
    TH.UndecidableSuperClasses           -> Nothing
    TH.MonomorphismRestriction           -> Just Exts.MonomorphismRestriction
  #if !MIN_VERSION_template_haskell(2,18,0)
-@@ -254,7 +252,6 @@
+@@ -218,12 +216,6 @@
+   TH.BangPatterns                      -> Just Exts.BangPatterns
+   TH.TypeFamilies                      -> Just Exts.TypeFamilies
+   TH.TypeFamilyDependencies            -> Just Exts.TypeFamilyDependencies
+-  TH.TypeInType                        ->
+-#if MIN_VERSION_haskell_src_exts(1,21,0)
+-    Just Exts.TypeInType
+-#else
+-    Nothing
+-#endif
+   TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
+   TH.OverloadedLists                   -> Nothing
+   TH.NumDecimals                       -> Nothing
+@@ -254,7 +246,6 @@
    TH.ApplicativeDo                     -> Nothing
    TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
    TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
@@ -54,7 +76,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,9 +263,6 @@
+@@ -266,9 +257,6 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -64,7 +86,7 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
-@@ -291,9 +285,6 @@
+@@ -291,9 +279,6 @@
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
    TH.ExplicitForAll                    -> Just Exts.ExplicitForAll

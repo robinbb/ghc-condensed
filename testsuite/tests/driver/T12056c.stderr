@@ -2,5 +2,5 @@ on the commandline: warning: [GHC-93741] [-Wunrecognised-warning-flags (in -Wdef
     unrecognised warning flag: -Wbar
 
 on the commandline: warning: [GHC-53692] [-Wdeprecated-flags (in -Wdefault)]
-    -XTypeInType is deprecated: use -XDataKinds and -XPolyKinds instead
+    -XParallelArrays is deprecated: use -XParallelListComp or pragma {-# LANGUAGE ParallelListComp #-} instead
 

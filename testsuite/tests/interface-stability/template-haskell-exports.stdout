@@ -164,7 +164,6 @@ module Language.Haskell.TH where
     | BangPatterns
     | TypeFamilies
     | TypeFamilyDependencies
-    | TypeInType
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals
@@ -766,7 +765,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | BangPatterns
     | TypeFamilies
     | TypeFamilyDependencies
-    | TypeInType
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals
@@ -1503,7 +1501,6 @@ module Language.Haskell.TH.Syntax where
     | BangPatterns
     | TypeFamilies
     | TypeFamilyDependencies
-    | TypeInType
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals

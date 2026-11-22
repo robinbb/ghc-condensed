@@ -118,7 +118,6 @@ extensionDeprecation = \case
   LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
   LangExt.RelaxedPolyRec                    -> ExtensionFlagDeprecatedCond turnOff
                                                  "You can't turn off RelaxedPolyRec any more"
-  LangExt.TypeInType                        -> ExtensionDeprecatedFor [LangExt.DataKinds, LangExt.PolyKinds]
   _                                         -> ExtensionNotDeprecated
 
 extensionName :: LangExt.Extension -> String
@@ -155,7 +154,6 @@ extensionName = \case
   LangExt.BangPatterns -> "BangPatterns"
   LangExt.TypeFamilies -> "TypeFamilies"
   LangExt.TypeFamilyDependencies -> "TypeFamilyDependencies"
-  LangExt.TypeInType -> "TypeInType"               -- Deprecated
   LangExt.OverloadedStrings -> "OverloadedStrings"
   LangExt.OverloadedLists -> "OverloadedLists"
   LangExt.NumDecimals -> "NumDecimals"
@@ -287,10 +285,6 @@ impliedXFlags
     , (LangExt.TypeFamilies,     On LangExt.KindSignatures)  -- Type families use kind signatures
     , (LangExt.PolyKinds,        On LangExt.KindSignatures)  -- Ditto polymorphic kinds
 
-    -- TypeInType is now just a synonym for a couple of other extensions.
-    , (LangExt.TypeInType,       On LangExt.DataKinds)
-    , (LangExt.TypeInType,       On LangExt.PolyKinds)
-    , (LangExt.TypeInType,       On LangExt.KindSignatures)
 
     -- Standalone kind signatures are a replacement for CUSKs.
     , (LangExt.StandaloneKindSignatures, Off LangExt.CUSKs)

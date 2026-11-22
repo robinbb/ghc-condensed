@@ -3,7 +3,6 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -fobject-code #-}
 
 module Random.Lehmer64Mut (Gen, gen, GenState, mkGenState) where

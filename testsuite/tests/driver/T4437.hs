@@ -63,5 +63,8 @@ expectedCabalOnlyExtensions = ["Generics",
                                "RecordPuns",
                                "PatternSignatures",
                                "AutoDeriveTypeable",
-                               "DatatypeContexts"
+                               "DatatypeContexts",
+                               "OverlappingInstances",
+                               "IncoherentInstances",
+                               "TypeInType"
                               ]
