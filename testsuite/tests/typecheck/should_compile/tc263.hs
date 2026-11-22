@@ -1,4 +1,4 @@
-{-# LANGUAGE IncoherentInstances, FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 -- Get a non-incoherent instance from that file
 import Tc263_Help

@@ -1,6 +1,6 @@
 {-# LANGUAGE  DeriveDataTypeable,
               FlexibleContexts, FlexibleInstances,
-              OverlappingInstances, UndecidableInstances,
+              UndecidableInstances,
               RankNTypes, KindSignatures, EmptyDataDecls, GHC2021 #-}
 
 {-# OPTIONS_GHC -Wall #-}

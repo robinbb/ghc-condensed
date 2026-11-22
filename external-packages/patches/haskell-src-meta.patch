@@ -1,6 +1,15 @@
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
-@@ -31,7 +31,7 @@
+@@ -24,14 +24,14 @@
+ -- | Returns @Nothing@ when the extension is not supported by template-haskell.
+ toExtension :: Exts.KnownExtension -> Maybe TH.Extension
+ toExtension e = case e of
+-  Exts.OverlappingInstances       -> Just TH.OverlappingInstances
++  Exts.OverlappingInstances       -> Nothing
+   Exts.UndecidableInstances       -> Just TH.UndecidableInstances
+-  Exts.IncoherentInstances        -> Just TH.IncoherentInstances
++  Exts.IncoherentInstances        -> Nothing
+   Exts.InstanceSigs               -> Just TH.InstanceSigs
    Exts.DoRec                      -> Nothing
    Exts.RecursiveDo                -> Just TH.RecursiveDo
    Exts.ParallelListComp           -> Just TH.ParallelListComp
@@ -27,7 +36,17 @@
    Exts.MonoLocalBinds             -> Just TH.MonoLocalBinds
    Exts.DeriveFunctor              -> Just TH.DeriveFunctor
    Exts.DeriveGeneric              -> Just TH.DeriveGeneric
-@@ -254,7 +254,6 @@
+@@ -187,9 +187,7 @@
+ fromExtension :: TH.Extension -> Maybe Exts.KnownExtension
+ fromExtension e = case e of
+   TH.Cpp                               -> Just Exts.CPP
+-  TH.OverlappingInstances              -> Just Exts.OverlappingInstances
+   TH.UndecidableInstances              -> Just Exts.UndecidableInstances
+-  TH.IncoherentInstances               -> Just Exts.IncoherentInstances
+   TH.UndecidableSuperClasses           -> Nothing
+   TH.MonomorphismRestriction           -> Just Exts.MonomorphismRestriction
+ #if !MIN_VERSION_template_haskell(2,18,0)
+@@ -254,7 +252,6 @@
    TH.ApplicativeDo                     -> Nothing
    TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
    TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
@@ -35,7 +54,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,9 +265,6 @@
+@@ -266,9 +263,6 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -45,7 +64,7 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
-@@ -291,9 +287,6 @@
+@@ -291,9 +285,6 @@
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
    TH.ExplicitForAll                    -> Just Exts.ExplicitForAll

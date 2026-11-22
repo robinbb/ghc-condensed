@@ -1,7 +1,7 @@
 
 {-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, FlexibleContexts,
-             OverlappingInstances, UndecidableInstances #-}
+             UndecidableInstances #-}
 
 --
 -- Test case adopted from the HList library
@@ -53,7 +53,7 @@ instance TypeEq' () x y b => TypeEq x y b
 -- instance TypeEq' () x x HTrue
 -- There were some problems however with GHC CVS 6.3.
 -- So we favour the following, more stable (?) instance instead.
-instance TypeCast b HTrue => TypeEq' () x x b
+instance {-# OVERLAPPING #-} TypeCast b HTrue => TypeEq' () x x b
 instance TypeEq'' q x y b => TypeEq' q x y b
 instance TypeEq'' () x y HFalse
 

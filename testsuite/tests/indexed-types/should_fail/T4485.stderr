@@ -1,4 +1,3 @@
-
 T4485.hs:51:15: error: [GHC-43085]
     • Overlapping instances for EmbedAsChild
                                   (IdentityT IO) (XMLGenT m0 (XML m0))
@@ -13,8 +12,8 @@ T4485.hs:51:15: error: [GHC-43085]
           -- Defined at T4485.hs:46:30
       (The choice depends on the instantiation of ‘m0’
        and the result of evaluating ‘XML’
-       To pick the first instance above, use IncoherentInstances
-       when compiling the other instance declarations)
+       To pick the first instance above, mark the other
+       instance declarations {-# INCOHERENT #-})
     • In the first argument of ‘($)’, namely ‘asChild’
       In the expression: asChild $ (genElement "foo")
       In an equation for ‘asChild’:
@@ -30,3 +29,4 @@ T4485.hs:51:26: error: [GHC-39999]
       In the expression: asChild $ (genElement "foo")
       In an equation for ‘asChild’:
           asChild b = asChild $ (genElement "foo")
+

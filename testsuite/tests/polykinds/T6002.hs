@@ -1,4 +1,4 @@
--- This module should compile with -XIncoherentInstances, but didn't in 7.4
+-- This module should compile with incoherent instances, but didn't in 7.4
 
 
 {- Here we define all the stuff that is needed for our singleton
@@ -10,7 +10,7 @@ These are basically the constructs from Many,
 reimplemented in Haskell for our purposes. -}
 
 {-# LANGUAGE GADTs, KindSignatures, StandaloneDeriving,
-             RankNTypes, TypeFamilies, FlexibleInstances, IncoherentInstances #-}
+             RankNTypes, TypeFamilies, FlexibleInstances #-}
 module TypeMachinery where
 
 import Data.Kind (Type)

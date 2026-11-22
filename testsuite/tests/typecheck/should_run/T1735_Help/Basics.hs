@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, OverlappingInstances, RankNTypes,
+{-# LANGUAGE UndecidableInstances, RankNTypes,
     KindSignatures, EmptyDataDecls, CPP,
     NoMonoLocalBinds #-}
 

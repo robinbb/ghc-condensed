@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE IncoherentInstances #-}
 unit p where
     signature A where
         data K a
@@ -7,7 +6,7 @@ unit p where
 unit q where
     signature A where
         data K a
-        instance Show a => Show (K a)
+        instance {-# INCOHERENT #-} Show a => Show (K a)
 unit r where
     dependency p[A=<A>]
     dependency q[A=<A>]

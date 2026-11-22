@@ -3,7 +3,7 @@
              GADTs, RankNTypes, FlexibleContexts,
              GeneralizedNewtypeDeriving,
              DeriveDataTypeable,
-             OverlappingInstances, UndecidableInstances, CPP #-}
+             UndecidableInstances, CPP #-}
 
 module Main (main) where
 

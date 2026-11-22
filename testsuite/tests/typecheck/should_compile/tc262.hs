@@ -1,10 +1,10 @@
-{-# LANGUAGE IncoherentInstances, FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
--- Liberated IncoherentInstances behavior (#8141)
+-- Liberated incoherent-instance behaviour (#8141)
 
 class C a b where foo :: (a,b)
 
-instance C Int b where foo = undefined
+instance {-# INCOHERENT #-} C Int b where foo = undefined
 instance C a Int where foo = undefined
 
 x :: (Int, Int)

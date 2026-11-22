@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE Unsafe #-}
-{-# LANGUAGE OverlappingInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 -- | We allow this overlap to succeed since the module is regarded as

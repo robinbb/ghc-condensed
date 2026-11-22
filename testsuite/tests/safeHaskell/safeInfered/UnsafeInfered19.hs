@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# OPTIONS_GHC -fwarn-unsafe -Werror #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE IncoherentInstances #-}
 module UnsafeInfered19 where
 
 class C a where

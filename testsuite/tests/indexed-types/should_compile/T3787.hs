@@ -17,7 +17,7 @@
 -- | Module "Trampoline" defines the trampoline computations and their basic building blocks.
 
 {-# LANGUAGE ScopedTypeVariables, RankNTypes, TypeFamilies, KindSignatures,
-             FlexibleContexts, FlexibleInstances, OverlappingInstances, UndecidableInstances
+             FlexibleContexts, FlexibleInstances, UndecidableInstances
  #-}
 
 module T3787 where

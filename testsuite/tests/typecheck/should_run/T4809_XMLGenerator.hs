@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP, TypeFamilies, FunctionalDependencies,
-      FlexibleContexts, FlexibleInstances, UndecidableInstances, OverlappingInstances,
+      FlexibleContexts, FlexibleInstances, UndecidableInstances,
       TypeSynonymInstances, GeneralizedNewtypeDeriving #-}
 -----------------------------------------------------------------------------
 -- |

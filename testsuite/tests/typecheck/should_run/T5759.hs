@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, OverlappingInstances,
+{-# LANGUAGE FlexibleInstances,
     UndecidableInstances, FunctionalDependencies #-}
 
 module Main where
@@ -11,7 +11,7 @@ data Cont a = Cont a deriving (Show, Eq)
 instance Container (Cont a) a where
     make x = Cont x
 
-instance (Container a b, Show a, Eq a, Num b) => Num a where
+instance {-# OVERLAPPABLE #-} (Container a b, Show a, Eq a, Num b) => Num a where
     fromInteger x = make (fromInteger x)
 
 d = fromInteger 3 :: Cont Integer

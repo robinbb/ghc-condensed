@@ -1,4 +1,4 @@
-{-# LANGUAGE RoleAnnotations, IncoherentInstances #-}
+{-# LANGUAGE RoleAnnotations #-}
 
 module Roles12 where
 

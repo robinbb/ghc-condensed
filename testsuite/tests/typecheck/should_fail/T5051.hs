@@ -18,7 +18,7 @@ foo x = x >= x
 --      instance Eq a => Eq [a] -- Defined in GHC.Classes
 --      instance [overlap ok] Eq [T] -- Defined at T5051.hs:9:10-15
 --    (The choice depends on the instantiation of `a'
---     To pick the first instance above, use -XIncoherentInstances
+--     To pick the first instance above, mark the other instance INCOHERENT
 --     when compiling the other instance declarations)
 --    In the expression: x > x
 --

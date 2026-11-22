@@ -9,8 +9,8 @@ T5095.hs:9:11: error: [GHC-43085]
         ...plus six instances involving out-of-scope types
         (use -fprint-potential-instances to see them all)
       (The choice depends on the instantiation of ‘a’
-       To pick the first instance above, use IncoherentInstances
-       when compiling the other instance declarations)
+       To pick the first instance above, mark the other
+       instance declarations {-# INCOHERENT #-})
     • In the expression: x == y
       In an equation for ‘f’: f x y = x == y
 

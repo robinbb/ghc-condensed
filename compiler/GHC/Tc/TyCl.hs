@@ -5738,15 +5738,6 @@ checkValidRoleAnnots role_annots tc
           ; checkTc (vis_vars `equalLength` the_role_annots)
                     (TcRnRoleCountMismatch (length vis_vars) decl)
           ; _ <- zipWith3M checkRoleAnnot vis_vars the_role_annots vis_roles
-          -- Representational or phantom roles for class parameters
-          -- quickly lead to incoherence. So, we require
-          -- IncoherentInstances to have them. See #8773, #14292
-          ; incoherent_roles_ok <- xoptM LangExt.IncoherentInstances
-          ; checkTc (  incoherent_roles_ok
-                    || (not $ isClassTyCon tc)
-                    || (all (== Nominal) vis_roles))
-                    (TcRnIncoherentRoles tc)
-
           ; lint <- goptM Opt_DoCoreLinting
           ; when lint $ checkValidRoles tc }
 

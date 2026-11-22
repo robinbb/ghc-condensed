@@ -115,8 +115,6 @@ deprecation _ = Deprecated
 
 extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
 extensionDeprecation = \case
-  LangExt.OverlappingInstances              -> ExtensionFlagDeprecated
-                                                 "instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS"
   LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
   LangExt.RelaxedPolyRec                    -> ExtensionFlagDeprecatedCond turnOff
                                                  "You can't turn off RelaxedPolyRec any more"
@@ -126,9 +124,7 @@ extensionDeprecation = \case
 extensionName :: LangExt.Extension -> String
 extensionName = \case
   LangExt.Cpp -> "CPP"
-  LangExt.OverlappingInstances -> "OverlappingInstances"
   LangExt.UndecidableInstances -> "UndecidableInstances"
-  LangExt.IncoherentInstances -> "IncoherentInstances"
   LangExt.UndecidableSuperClasses -> "UndecidableSuperClasses"
   LangExt.MonomorphismRestriction -> "MonomorphismRestriction"
   LangExt.MonoLocalBinds -> "MonoLocalBinds"

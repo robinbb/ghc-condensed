@@ -1,6 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
               UndecidableInstances,
-              IncoherentInstances,
               FlexibleInstances #-}
 
 -- #2307

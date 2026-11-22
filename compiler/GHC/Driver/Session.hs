@@ -2764,12 +2764,8 @@ fLangFlagsDeps = [
     (deprecatedForExtension "ImplicitParams"),
   depFlagSpec' "scoped-type-variables"          LangExt.ScopedTypeVariables
     (deprecatedForExtension "ScopedTypeVariables"),
-  depFlagSpec' "allow-overlapping-instances"    LangExt.OverlappingInstances
-    (deprecatedForExtension "OverlappingInstances"),
   depFlagSpec' "allow-undecidable-instances"    LangExt.UndecidableInstances
-    (deprecatedForExtension "UndecidableInstances"),
-  depFlagSpec' "allow-incoherent-instances"     LangExt.IncoherentInstances
-    (deprecatedForExtension "IncoherentInstances")
+    (deprecatedForExtension "UndecidableInstances")
   ]
 
 supportedLanguages :: [String]
@@ -2846,12 +2842,8 @@ extensionEffect :: LangExt.Extension -> (TurnOnFlag -> DynP ())
 extensionEffect = \case
   LangExt.TemplateHaskell
     -> checkTemplateHaskellOk
-  LangExt.OverlappingInstances
-    -> setOverlappingInsts
   LangExt.GeneralizedNewtypeDeriving
     -> setGenDeriving
-  LangExt.IncoherentInstances
-    -> setIncoherentInsts
   LangExt.DerivingVia
     -> setDeriveVia
   _ -> nop
@@ -2902,18 +2894,6 @@ setGenDeriving False = return ()
 setDeriveVia :: TurnOnFlag -> DynP ()
 setDeriveVia True  = getCurLoc >>= \l -> upd (\d -> d { deriveViaOnLoc = l })
 setDeriveVia False = return ()
-
-setOverlappingInsts :: TurnOnFlag -> DynP ()
-setOverlappingInsts False = return ()
-setOverlappingInsts True = do
-  l <- getCurLoc
-  upd (\d -> d { overlapInstLoc = l })
-
-setIncoherentInsts :: TurnOnFlag -> DynP ()
-setIncoherentInsts False = return ()
-setIncoherentInsts True = do
-  l <- getCurLoc
-  upd (\d -> d { incoherentOnLoc = l })
 
 checkTemplateHaskellOk :: TurnOnFlag -> DynP ()
 checkTemplateHaskellOk _turn_on

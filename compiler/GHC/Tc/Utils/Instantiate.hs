@@ -75,7 +75,6 @@ import GHC.Types.Var.Env
 import GHC.Types.Id
 import GHC.Types.Name
 import GHC.Types.Var
-import qualified GHC.LanguageExtensions as LangExt
 
 import GHC.Utils.Misc
 import GHC.Utils.Panic
@@ -815,11 +814,10 @@ mkOverLit (HsIsString sLit)
 
 getOverlapFlag :: Maybe (OverlapMode GhcTc) -- User pragma if any
                -> TcM OverlapFlag
--- Construct the OverlapFlag from the global module flags,
--- but if the overlap_mode argument is (Just m),
---     set the OverlapMode to 'm'
+-- Construct the OverlapFlag from the user pragma on the instance decl,
+-- if any; without one the instance neither overlaps nor is incoherent.
 --
--- The overlap_mode argument comes from a user pragma on the instance decl:
+-- The overlap_mode argument comes from the pragma:
 --    Pragma                      overlap_mode_prag
 --    -----------------------------------------
 --    {-# OVERLAPPABLE #-}        Overlappable
@@ -831,14 +829,10 @@ getOverlapFlag :: Maybe (OverlapMode GhcTc) -- User pragma if any
 
 getOverlapFlag overlap_mode_prag
   = do  { dflags <- getDynFlags
-        ; let overlap_ok               = xopt LangExt.OverlappingInstances dflags
-              incoherent_ok            = xopt LangExt.IncoherentInstances  dflags
-              noncanonical_incoherence = not $ gopt Opt_SpecialiseIncoherents dflags
+        ; let noncanonical_incoherence = not $ gopt Opt_SpecialiseIncoherents dflags
 
               overlap_mode
                 | Just m <- overlap_mode_prag = m
-                | incoherent_ok               = Incoherent noAnn
-                | overlap_ok                  = Overlaps   noAnn
                 | otherwise                   = NoOverlap  noAnn
 
               -- final_overlap_mode: the `-fspecialise-incoherents` flag controls the

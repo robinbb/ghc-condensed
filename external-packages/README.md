@@ -118,8 +118,12 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   language extensions this compiler no longer accepts (listed in
   `lib/strip.rb`) in LANGUAGE pragmas, OPTIONS_GHC flags and cabal
   extensions fields, dropping a removed extension, whose behaviour is
-  always on, and renaming a removed alias such as Rank2Types to the
-  name the compiler keeps. Packages that do not build or
+  always on, renaming a removed alias such as Rank2Types to the name
+  the compiler keeps. A module-wide instance default
+  (OverlappingInstances, IncoherentInstances) is dropped like a removed
+  extension; the per-instance pragmas a package then needs, found by
+  building it and reading the overlap errors, are a patch. Packages
+  that do not build or
   whose tests fail are kept, with `expected: build-failure`, `test-failure`,
   `flaky` or `unsolvable` and the cause in the manifest. The driver reports
   them as known and fails only on unexpected results, including a known

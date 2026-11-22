@@ -256,9 +256,9 @@ test('T11763', normal, compile_and_run, ['-fno-version-macros'])
 test('T10320', [], makefile_test, [])
 
 test('T12056a', normal, compile, ['-w -Wfoo -Wbar'])
-test('T12056b', normal, compile, ['-w -XOverlappingInstances -Wfoo -Wunrecognised-warning-flags -Wbar'])
+test('T12056b', normal, compile, ['-w -XTypeInType -Wfoo -Wunrecognised-warning-flags -Wbar'])
 test('T12056c', normal, compile,
-     ['-w -Wdeprecated-flags -XOverlappingInstances -Wfoo -Wunrecognised-warning-flags -Wbar'])
+     ['-w -Wdeprecated-flags -XTypeInType -Wfoo -Wunrecognised-warning-flags -Wbar'])
 
 test('T12135', [expect_broken(12135)], makefile_test, [])
 

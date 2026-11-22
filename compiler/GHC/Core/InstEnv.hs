@@ -601,21 +601,17 @@ The willingness to be overlapped or incoherent is a property of the
 instance declaration itself, controlled by its `OverlapMode`, as follows
 
  * An instance is "incoherent" (OverlapMode = `Incoherent` or `NonCanonical`)
-   if it has an `INCOHERENT` pragma, or
-   if it appears in a module compiled with `-XIncoherentInstances`.
-   In those cases:
+   if it has an `INCOHERENT` pragma. In that case:
       -fspecialise-incoherents on  => Incoherent
       -fspecialise-incoherents off => NonCanonical
    NB: it is on by default
 
  * An instance is "overlappable" (OverlapMode = `Overlappable` or `Overlaps`)
    if it has an `OVERLAPPABLE` or `OVERLAPS` pragma, or
-   if it appears in a module compiled with `-XOverlappingInstances`, or
    if the instance is incoherent.
 
  * An instance is "overlapping" (OverlapMode = `Overlapping` or `Overlaps`)
    if it has an `OVERLAPPING` or `OVERLAPS` pragma, or
-   if it appears in a module compiled with `-XOverlappingInstances`, or
    if the instance is incoherent.
 
 Now suppose that, in some client module, we are searching for an instance
@@ -623,7 +619,7 @@ of the target constraint (C ty1 .. tyn). The search works like this.
 
 (IL0) If there are any local Givens that match (potentially unifying
       any metavariables, even untouchable ones) the target constraint,
-      the search fails unless -XIncoherentInstances is enabled. See
+      the search fails. See
       Note [Instance and Given overlap] in GHC.Tc.Solver.Dict.  This is
       implemented by the first guard in matchClassInst.
 
@@ -1622,13 +1618,13 @@ is good. E.g. consider
         g (x::Int) = opD x x  -- Wanted: D Int Int
 
 For such classes this should work (without having to add an "instance D Int
-Int", and using -XOverlappingInstances, which would then work). This is what
--XIncoherentInstances is for: Telling GHC "I don't care which instance you use;
+Int" marked as overlapping, which would then work). This is what the
+INCOHERENT pragma is for: Telling GHC "I don't care which instance you use;
 if you can use one, use it."
 
 Should this logic only work when *all* candidates have the incoherent flag, or
 even when all but one have it? The right choice is the latter, which can be
-justified by comparing the behaviour with how -XIncoherentInstances worked when
+justified by comparing the behaviour with how incoherent instances worked when
 it was only about the unify-check (Note [Overlapping instances]):
 
 Example:

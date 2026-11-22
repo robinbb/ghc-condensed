@@ -246,7 +246,7 @@ following properties:
   have the same meaning in both cases. That is, importing a module written in
   the safe language cannot change the meaning of existing code that isn't
   dependent on that module. So, for example, there are some restrictions placed
-  on the use of :ref:`OverlappingInstances <instance-overlap>`, as these can
+  on the use of :ref:`overlapping instances <instance-overlap>`, as these can
   violate this property.
 
 - *Strict subset* — The safe language is strictly a subset of Haskell as
@@ -274,7 +274,7 @@ Furthermore, we restrict the following features:
   :extension:`Safe` are dropped. Rules defined in Trustworthy modules that
   ``M`` imports are still valid and will fire as usual.
 
-- :extension:`OverlappingInstances` — There is no restriction on the creation
+- Overlapping instances — There is no restriction on the creation
   of overlapping instances, but we do restrict their use at a particular call
   site. This is a detailed restriction, please refer to :ref:`Safe Overlapping
   Instances <safe-overlapping-instances>` for details.

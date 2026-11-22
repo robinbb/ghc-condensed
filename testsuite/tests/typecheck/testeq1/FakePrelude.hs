@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
-             OverlappingInstances, UndecidableInstances #-}
+             UndecidableInstances #-}
 
 --
 -- Test case adopted from the HList library

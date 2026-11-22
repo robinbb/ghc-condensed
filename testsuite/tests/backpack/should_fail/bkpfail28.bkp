@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE FlexibleInstances #-}
 -- This doesn't work: GHC MUST pick the wrong one!
--- {-# LANGUAGE IncoherentInstances #-}
 unit p where
     signature A where
         data K a

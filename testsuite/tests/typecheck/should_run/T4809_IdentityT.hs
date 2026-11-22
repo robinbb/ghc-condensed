@@ -38,7 +38,7 @@ instance (Functor m, Monad m) => HSX.XMLGen (IdentityT m) where
                                   do children' <- HSX.unXMLGenT (fmap (map unIChild . concat) (sequence children))
                                      return (Element n [] children')
 
-instance (Monad m, MonadIO m, Functor m) => EmbedAsChild (IdentityT m) String where
+instance {-# OVERLAPPING #-} (Monad m, MonadIO m, Functor m) => EmbedAsChild (IdentityT m) String where
     asChild s = 
         do liftIO $ putStrLn "EmbedAsChild (IdentityT m) String"
            XMLGenT . return . (:[]) . IChild . CDATA True $ s

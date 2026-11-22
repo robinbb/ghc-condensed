@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# OPTIONS_GHC -fwarn-unsafe #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverlappingInstances #-}
 module UnsafeInfered18 where
 
 class C a where

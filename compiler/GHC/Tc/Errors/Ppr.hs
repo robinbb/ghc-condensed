@@ -1760,9 +1760,6 @@ instance Diagnostic TcRnMessage where
        text "they are allowed only for datatypes and classes.")
     TcRnRoleAnnotationsDisabled  tc -> mkSimpleDecorated $
       text "Illegal role annotation for" <+> ppr tc
-    TcRnIncoherentRoles _ -> mkSimpleDecorated $
-      (text "Roles other than" <+> quotes (text "nominal") <+>
-      text "for class parameters can lead to incoherence.")
     TcRnUnexpectedKindVar tv_name
       -> mkSimpleDecorated $ text "Unexpected kind variable" <+> quotes (ppr tv_name)
 
@@ -2607,8 +2604,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnRoleAnnotationsDisabled{}
       -> ErrorWithoutFlag
-    TcRnIncoherentRoles{}
-      -> ErrorWithoutFlag
     TcRnUnexpectedKindVar{}
       -> ErrorWithoutFlag
     TcRnNegativeNumTypeLiteral{}
@@ -3296,8 +3291,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnRoleAnnotationsDisabled{}
       -> [suggestExtension LangExt.RoleAnnotations]
-    TcRnIncoherentRoles{}
-      -> [suggestExtension LangExt.IncoherentInstances]
     TcRnUnexpectedKindVar{}
       -> [suggestExtension LangExt.PolyKinds]
     TcRnNegativeNumTypeLiteral{}
@@ -4400,8 +4393,8 @@ pprTcSolverReportMsg ctxt (OverlappingInstances item matches unifiers) =
                             text "and the result of evaluating" <+>
                               quotes (pprWithCommas ppr famTyCons)
                     , ppWhen (null (matching_givens)) $
-                      vcat [ text "To pick the first instance above, use IncoherentInstances"
-                           , text "when compiling the other instance declarations"]
+                      vcat [ text "To pick the first instance above, mark the other"
+                           , text "instance declarations {-# INCOHERENT #-}"]
                ])]
   where
     ct_loc          = errorItemCtLoc item

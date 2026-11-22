@@ -8,7 +8,6 @@
            , GADTs
            , KindSignatures
            , NoMonomorphismRestriction
-           , OverlappingInstances
            , ScopedTypeVariables
            , StandaloneDeriving
            , TypeOperators
@@ -30,7 +29,7 @@ deriving instance Show (Elem x g)
 class IsElem x g where
   which :: Elem x g
 
-instance IsElem x (x ': g) where
+instance {-# OVERLAPPING #-} IsElem x (x ': g) where
   which = Top
 
 instance IsElem x g => IsElem x (y ': g) where

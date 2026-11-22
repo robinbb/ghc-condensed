@@ -56,7 +56,6 @@ import GHC.Data.Bag
 
 import GHC.Driver.DynFlags
 
-import qualified GHC.LanguageExtensions as LangExt
 
 import Data.Maybe ( listToMaybe, mapMaybe, isJust )
 import Data.Void( Void )
@@ -712,8 +711,6 @@ The moving parts are relatively simple:
 
 Some wrinkles:
 
-(SCS1) Note [Shortcut solving: incoherence]
-
 (SCS2) The short-cut solver just uses the solver recursively, so we get its
   full power:
 
@@ -749,66 +746,6 @@ Some wrinkles:
   `isEmptyWC`. This avoids unnecessarily trying defaulting rules on solved
   constraints.
 
-Note [Shortcut solving: incoherence]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This optimization relies on coherence of dictionaries to be correct. When we
-cannot assume coherence because of IncoherentInstances then this optimization
-can change the behavior of the user's code.
-
-The following four modules produce a program whose output would change depending
-on whether we apply this optimization when IncoherentInstances is in effect:
-
-=========
-    module A where
-
-    class A a where
-      int :: a -> Int
-
-    class A a => C a b where
-      m :: b -> a -> a
-
-=========
-    {-# LANGUAGE FlexibleInstances     #-}
-    module B where
-
-    import A
-
-    instance A a where
-      int _ = 1
-
-    instance C a [b] where
-      m _ = id
-
-=========
-    {-# LANGUAGE FlexibleContexts      #-}
-    {-# LANGUAGE FlexibleInstances     #-}
-    {-# LANGUAGE IncoherentInstances   #-}
-    module C where
-
-    import A
-
-    instance A Int where
-      int _ = 2
-
-    instance C Int [Int] where
-      m _ = id
-
-    intC :: C Int a => a -> Int -> Int
-    intC _ x = int x
-
-=========
-    module Main where
-
-    import A
-    import B
-    import C
-
-    main :: IO ()
-    main = print (intC [] (0::Int))
-
-The output of `main` if we avoid the optimization under the effect of
-IncoherentInstances is `1`. If we were to do the optimization, the output of
-`main` would be `2`.
 -}
 
 tryInertDicts :: DictCt -> SolverStage ()
@@ -869,11 +806,6 @@ tryShortCutSolver dflags try_short_cut dict_w
   , CtWanted (WantedCt { ctev_pred = pred_w }) <- ev_w
   , not (couldBeIPLike pred_w)   -- Not for implicit parameters (#18627)
 
-  , not (xopt LangExt.IncoherentInstances dflags)
-              -- If IncoherentInstances is on then we cannot rely on coherence of proofs
-              -- in order to justify this optimization: The proof provided by the
-              -- [G] constraint's superclass may be different from the top-level proof.
-              -- See Note [Shortcut solving: incoherence]
   , gopt Opt_SolveConstantDicts dflags
               -- Enabled by the -fsolve-constant-dicts flag
 
@@ -970,8 +902,7 @@ matchClassInst dflags inerts clas tys loc
 -- whether top level, or local quantified constraints.
 -- See Note [Instance and Given overlap] and see
 -- (IL0) in Note [Rules for instance lookup] in GHC.Core.InstEnv
-  | not (xopt LangExt.IncoherentInstances dflags)
-  , not (isCTupleClass clas)
+  | not (isCTupleClass clas)
         -- It is always safe to unpack constraint tuples
         -- And if we don't do so, we may never solve it at all
         -- See Note [Solving tuple constraints]
@@ -1120,10 +1051,6 @@ Other notes:
   typecheck/should-compile/GivenOverlapping.hs
 
 * Another "live" example is #10195; another is #10177.
-
-* We ignore the overlap problem if -XIncoherentInstances is in force:
-  see #6002 for a worked-out example where this makes a
-  difference.
 
 * Moreover notice that our goals here are different than the goals of
   the top-level overlapping checks. There we are interested in

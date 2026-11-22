@@ -3,7 +3,7 @@
              KindSignatures, DataKinds, ConstraintKinds,
               FunctionalDependencies #-}
 
-{-# LANGUAGE AllowAmbiguousTypes, RoleAnnotations, IncoherentInstances #-}
+{-# LANGUAGE AllowAmbiguousTypes, RoleAnnotations #-}
   -- LANGUAGE pragmas: see Note [IP: implicit parameter class]
 
 {-# OPTIONS_HADDOCK not-home #-}
@@ -72,12 +72,10 @@ Wrinkles
   to decompose to give [W] IP t1 ~R# t2, using /representational/
   equality for (t1 ~R# t2) not nominal.
 
-  This usually gives a complaint about incoherence, because in general
-  (t1 ~R# t2) does NOT imply (C t1) ~R# (C t2) for any normal class.
+  In general (t1 ~R# t2) does NOT imply (C t1) ~R# (C t2) for any normal
+  class, which is why non-nominal roles on a class invite incoherence.
   But it does for IP, because instance selection is controlled by the Symbol,
-  not the type of the payload.  Hence LANGUAGE pragma IncoherentInstances.
-  (It is unfortunate that we need a module-wide IncoherentInstances here;
-  see #17167.)
+  not the type of the payload.
 
   Side note: arguably this treatment could be applied to any class
   with a functional dependency; but for now we restrict it to IP.

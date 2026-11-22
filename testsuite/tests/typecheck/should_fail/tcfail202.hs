@@ -2,7 +2,7 @@
 -- This was accepted due to a bug in GHC
 
 {-# LANGUAGE FunctionalDependencies,
-             UndecidableInstances, IncoherentInstances,
+             UndecidableInstances,
              FlexibleInstances #-}
 
 module Foo where

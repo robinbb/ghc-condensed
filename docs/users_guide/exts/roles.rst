@@ -168,10 +168,8 @@ This would be done with a declaration ::
       type role Set nominal
 
 Role annotations can also be used should a programmer wish to write a
-class with a representational (or phantom) role. However, as a class
-with non-nominal roles can quickly lead to class instance incoherence,
-it is necessary to also specify :extension:`IncoherentInstances` to allow
-non-nominal roles for classes.
+class with a representational (or phantom) role. Beware that a class
+with non-nominal roles can quickly lead to class instance incoherence.
 
 The other place where role annotations may be necessary are in
 ``hs-boot`` files (:ref:`mutual-recursion`), where the right-hand sides
@@ -203,7 +201,7 @@ like a value-level type signature). Here are some examples: ::
       type role T4 nominal
       data T4 a = MkT4 (a Int) -- OK, but nominal is higher than necessary
 
-      type role C representational _   -- OK, with -XIncoherentInstances
+      type role C representational _   -- OK, but invites incoherence
       class C a b where ...    -- OK, b will get a nominal role
 
       type role X nominal

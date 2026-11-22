@@ -13,7 +13,11 @@ LANGUAGE pragmas, OPTIONS_GHC flags and cabal extensions fields
 (`lib/strip.rb` lists the names). A removed extension's name is
 dropped, since its behaviour is always on; a removed alias such as
 Rank2Types takes the name the compiler keeps, RankNTypes. The rewritten
-package means the same thing.
+package means the same thing. A module-wide instance default
+(OverlappingInstances, IncoherentInstances) is dropped too, but there the
+package may need per-instance pragmas; those are found by building it
+and reading the overlap errors, and recorded as a patch like any other
+exception.
 
 - `alex.patch`: drops the datatype context of `Data.Ranged.RangedSet.RSet`
   (`newtype DiscreteOrdered v => RSet v`), which this compiler rejects. A
@@ -21,6 +25,15 @@ package means the same thing.
   nothing else changes. alex is a build tool of half the corpus.
 - `crypton-x509.patch`: the same for `Data.X509.Signed.Signed` and
   `SignedExact`.
+- `wizards.patch`: one `OVERLAPPING` pragma, on the `f :<: (f :+: g)`
+  instance of `System.Console.Wizard.Internal`. The cabal file enabled
+  OverlappingInstances for the package; this is the only instance that
+  overlaps.
+- `dbus.patch`: four `OVERLAPPING` pragmas, on the `IsValue String` and
+  `IsVariant String` instances of `DBus.Internal.Types` and the two
+  `AutoMethod` instances for `IO` and `DBusR` of `DBus.Client`. The
+  modules enabled IncoherentInstances; the most specific instance is
+  enough in every case, so no instance is incoherent.
 - `hashable.patch`: adds ghc-bignum to build-depends for GHC 9.13 and
   later, whose base no longer re-exports GHC.Num.BigNat, GHC.Num.Integer
   and GHC.Num.Natural. Without it hashable, and the roughly half of the

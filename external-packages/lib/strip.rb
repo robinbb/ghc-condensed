@@ -8,14 +8,17 @@
 # the compiler no longer accepts) takes its current name, or is dropped
 # when the same polarity of that name is already there. Only the names
 # change; the surrounding layout is kept, and a pragma, flag or field
-# left with nothing in it goes with its line.
+# left with nothing in it goes with its line. An extension that set a
+# default for every instance of its module (OverlappingInstances,
+# IncoherentInstances) is dropped like the others; the per-instance
+# pragmas a package then needs are recorded as a patch.
 module Strip
   # The extensions this compiler has removed. Their behaviour is always
   # on, so dropping the name changes nothing for the package.
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
-    ConstrainedClassMethods DatatypeContexts MultiParamTypeClasses
-    NullaryTypeClasses
+    ConstrainedClassMethods DatatypeContexts IncoherentInstances
+    MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still
@@ -34,6 +37,7 @@ module Strip
   # No form did nothing, so it is dropped rather than renamed.
   IMPLIED_ONLY = %w[AutoDeriveTypeable].freeze
 
+
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
 
   MARK = "\0strip\0"
@@ -42,9 +46,10 @@ module Strip
 
   # Rewrites every source and cabal file under dir. Returns the changed paths.
   def tree(dir, names = REMOVED, renamed = RENAMED)
-    Dir.glob(File.join(dir, SOURCE_GLOB), File::FNM_DOTMATCH)
-       .reject { |f| f.include?('/dist') || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
-       .sort.select { |f| file(f, names, renamed) }
+    files = Dir.glob(File.join(dir, SOURCE_GLOB), File::FNM_DOTMATCH)
+                .reject { |f| f.include?('/dist') || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
+                .sort
+    files.select { |f| file(f, names, renamed) }
   end
 
   # Rewrites one file. Returns whether it changed.

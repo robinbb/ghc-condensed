@@ -2841,7 +2841,7 @@ Wrinkles.
 
 * See Note [Weird special case for SpecDict]
 
-* With -XOverlappingInstances you might worry about this:
+* With overlapping instances you might worry about this:
     class C a where ...
     instance C (Maybe Int) where ...   -- $df1 :: C (Maybe Int)
     instance C (Maybe a)   where ...   -- $df2 :: forall a. C (Maybe a)
@@ -2854,12 +2854,12 @@ Wrinkles.
 
   There are two calls to f, but with different evidence.  This patch will
   combine them into one.  But it's OK: this code will never arise unless you
-  use -XIncoherentInstances.  Even with -XOverlappingInstances, GHC tries hard
+  use incoherent instances.  Even with overlapping instances, GHC tries hard
   to keep dictionaries as singleton types.  But that goes out of the window
-  with -XIncoherentInstances -- and that is true even with ordianry type-class
+  with incoherent instances -- and that is true even with ordianry type-class
   specialisation (at least if any inlining has taken place).
 
-  GHC makes very few guarantees when you use -XIncoherentInstances, and its
+  GHC makes very few guarantees when you use incoherent instances, and its
   not worth crippling the normal case for the incoherent corner.  (The best
   thing might be to switch off specialisation altogether if incoherence is
   involved... but incoherence is a property of an instance, not a class, so

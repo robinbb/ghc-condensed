@@ -133,9 +133,7 @@ module Language.Haskell.TH where
   type Extension :: *
   data Extension
     = Cpp
-    | OverlappingInstances
     | UndecidableInstances
-    | IncoherentInstances
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds
@@ -737,9 +735,7 @@ module Language.Haskell.TH.LanguageExtensions where
   type Extension :: *
   data Extension
     = Cpp
-    | OverlappingInstances
     | UndecidableInstances
-    | IncoherentInstances
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds
@@ -1476,9 +1472,7 @@ module Language.Haskell.TH.Syntax where
   type Extension :: *
   data Extension
     = Cpp
-    | OverlappingInstances
     | UndecidableInstances
-    | IncoherentInstances
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds

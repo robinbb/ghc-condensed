@@ -21,7 +21,7 @@
 
 {-# LANGUAGE ScopedTypeVariables, RankNTypes,
              TypeFamilies, KindSignatures, FlexibleContexts,
-             FlexibleInstances, OverlappingInstances, UndecidableInstances
+             FlexibleInstances, UndecidableInstances
  #-}
 
 {-   Somewhere we get:
@@ -55,7 +55,7 @@ class (Functor a, Functor d) => AncestorFunctor a d where
    liftFunctor :: a x -> d x
 
 -- dfun 1
-instance Functor a => AncestorFunctor a a where
+instance {-# OVERLAPPING #-} Functor a => AncestorFunctor a a where
    liftFunctor = trace "liftFunctor id" . id
 
 -- dfun 2

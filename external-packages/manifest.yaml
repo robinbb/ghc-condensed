@@ -4820,6 +4820,10 @@ packages:
     sdist: wizards-1.0.3
   note: no tag for 1.0.3 in https://github.com/liamoc/wizards.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: marks the one instance of
+    System.Console.Wizard.Internal that overlapped OVERLAPPING, since the cabal file
+    enabled OverlappingInstances, which this compiler no longer has
 - name: wl-pprint-annotated
   version: 0.1.0.2
   tier: 2
@@ -5163,6 +5167,10 @@ packages:
     git: https://github.com/rblaze/haskell-dbus.git
     tag: v1.4.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: marks the four instances of
+    DBus.Client and DBus.Internal.Types that overlapped OVERLAPPING, since those
+    modules enabled IncoherentInstances, which this compiler no longer has
 - name: dense-linear-algebra
   version: 0.1.0.0
   tier: 3

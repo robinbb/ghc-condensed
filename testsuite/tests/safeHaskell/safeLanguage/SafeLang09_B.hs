@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverlappingInstances #-}
 
 -- Untrusted plugin! Don't wan't it changing behaviour of our
 -- trusted code
@@ -10,7 +9,7 @@ import SafeLang09_A
 instance Pos a where
     res _ = False
 
-instance Pos [Int] where
+instance {-# OVERLAPPING #-} Pos [Int] where
     res _ = error "This curry is poisoned!"
 
 function :: Int

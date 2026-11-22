@@ -1362,7 +1362,7 @@ as such you shouldn't need to set any of them explicitly. A flag
     observable runtime behaviour difference between potentially
     unifying instances. Turning this flag off ensures the incoherent
     instance selection adheres to the algorithm described in
-    :extension:`IncoherentInstances` at the cost of optimisation
+    :ref:`instance-overlap` at the cost of optimisation
     opportunities arising from specialisation.
 
 

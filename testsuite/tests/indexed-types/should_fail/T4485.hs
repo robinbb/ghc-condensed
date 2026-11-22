@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
--- The behavior of type-inference and OverlappingInstances has changed
+-- The behavior of type-inference and overlapping instances has changed
 -- between GHC 6.12 and GHC 7.0 such that the following code
 -- type-checks under 6.12, but not 7.0rc2. I assume this change has
 -- something to do with the new type checker in GHC 7, but it is not

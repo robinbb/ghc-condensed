@@ -1,5 +1,5 @@
 
-{-# LANGUAGE OverlappingInstances, UndecidableInstances #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 --
 -- Test case adopted from the HList library

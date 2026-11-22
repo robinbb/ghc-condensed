@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/wizards/System/Console/Wizard/Internal.hs
++++ b/external-packages/vendored/wizards/System/Console/Wizard/Internal.hs
+@@ -44,7 +44,7 @@
+    inj :: sub a -> sup a
+ 
+ instance Functor f => f :<: f where inj = id
+-instance (Functor f, Functor g) => f :<: (f :+: g) where inj = Inl
++instance {-# OVERLAPPING #-} (Functor f, Functor g) => f :<: (f :+: g) where inj = Inl
+ instance (Functor f, Functor g, Functor h, f :<: g) => f :<: (h :+: g) where inj = Inr . inj
+ 
+ -- | Injection function for free monads, see \"Data Types a la Carte\" from Walter Swierstra, @http:\/\/www.cs.ru.nl\/~W.Swierstra\/Publications\/DataTypesALaCarte.pdf@

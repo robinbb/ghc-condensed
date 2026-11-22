@@ -2,7 +2,7 @@
              ScopedTypeVariables, GADTs, RankNTypes, FlexibleContexts,
              GeneralizedNewtypeDeriving,
              DeriveDataTypeable,
-             OverlappingInstances, UndecidableInstances, CPP, GHC2021 #-}
+             UndecidableInstances, CPP, GHC2021 #-}
 
 module Main (main) where
 

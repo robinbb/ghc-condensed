@@ -1,0 +1,34 @@
+--- a/external-packages/haskell-dbus/lib/DBus/Client.hs
++++ b/external-packages/haskell-dbus/lib/DBus/Client.hs
+@@ -1152,11 +1152,11 @@
+     apply io [] = ReplyReturn . handleTopLevelReturn <$> io
+     apply _ _ = returnInvalidParameters
+ 
+-instance IsValue a => AutoMethod (IO (Either Reply a)) where
++instance {-# OVERLAPPING #-} IsValue a => AutoMethod (IO (Either Reply a)) where
+   funTypes io = funTypes (lift io :: DBusR (Either Reply a))
+   apply io = apply (lift io :: DBusR (Either Reply a))
+ 
+-instance IsValue a => AutoMethod (DBusR (Either Reply a)) where
++instance {-# OVERLAPPING #-} IsValue a => AutoMethod (DBusR (Either Reply a)) where
+     funTypes _ = ([], outTypes) where
+       aType :: Type
+       aType = typeOf' (Proxy :: Proxy a)
+--- a/external-packages/haskell-dbus/lib/DBus/Internal/Types.hs
++++ b/external-packages/haskell-dbus/lib/DBus/Internal/Types.hs
+@@ -507,13 +507,13 @@
+     toAtom = toAtom . Data.Text.pack
+     fromAtom = fmap Data.Text.unpack . fromAtom
+ 
+-instance IsValue String where
++instance {-# OVERLAPPING #-} IsValue String where
+     typeOf_ _ = TypeString
+     toValue = ValueAtom . toAtom
+     fromValue (ValueAtom x) = fromAtom x
+     fromValue _ = Nothing
+ 
+-instance IsVariant String where
++instance {-# OVERLAPPING #-} IsVariant String where
+     toVariant = Variant . toValue
+     fromVariant (Variant val) = fromValue val
+ 

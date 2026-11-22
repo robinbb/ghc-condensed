@@ -10,7 +10,6 @@ Build-depends: base>=1.0
 Executable: testA
 Other-Modules: A
 Main-is: MainA.hs
-Extensions: OverlappingInstances
 
 Executable: testB
 Other-Modules: A, B.A

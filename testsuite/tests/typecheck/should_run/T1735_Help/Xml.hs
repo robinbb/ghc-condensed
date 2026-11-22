@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
              GADTs, RankNTypes, FlexibleContexts, TypeSynonymInstances,
              DeriveDataTypeable, PatternGuards,
-             OverlappingInstances, UndecidableInstances, CPP #-}
+             UndecidableInstances, CPP #-}
 
 module T1735_Help.Xml (Element(..), Xml, fromXml) where
 
@@ -125,7 +125,7 @@ typeNotValue t = error ("Type used as value: " ++ typeName)
 -- The Xml [a] context is a bit scary, but if we don't have it then
 -- GHC complains about overlapping instances
 
-instance (Xml a {-, Xml [a] -}) => Xml [a] where
+instance {-# OVERLAPPING #-} (Xml a {-, Xml [a] -}) => Xml [a] where
     toXml = concatMap toXml
     readXml = f [] []
         where f acc_xs acc_vs [] = Just (reverse acc_xs, reverse acc_vs)
@@ -135,7 +135,7 @@ instance (Xml a {-, Xml [a] -}) => Xml [a] where
                                            _ ->
                                                f (x:acc_xs) acc_vs xs
 
-instance Xml String where
+instance {-# OVERLAPPING #-} Xml String where
     toXml x = [CData x]
     readXml = readXmlWith f
         where f (CData x) = Just x

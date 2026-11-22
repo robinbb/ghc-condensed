@@ -409,30 +409,6 @@ in ``GHC.Tc.TyCl.Instance``.
 Overlapping instances
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. extension:: OverlappingInstances
-    :shortdesc: Allow definition of overlapping instances.
-
-    :since: 6.8.1
-
-    :status: Deprecated
-
-    Deprecated extension to weaken checks intended to ensure instance resolution
-    termination. Use ``OVERLAPPING``, ``OVERLAPPABLE`` or ``OVERLAPS`` pragmas instead.
-
-.. extension:: IncoherentInstances
-    :shortdesc: Allow definitions of instances that may result in incoherence.
-
-    :implies: :extension:`OverlappingInstances`.
-
-    :since: 6.8.1
-
-    :status: Deprecated
-
-    Deprecated extension to weaken checks intended to ensure instance resolution
-    termination. Use ``INCOHERENT`` pragmas instead. Also permits classes to
-    have non-nominal roles, and affects the instance resolution algorithm for
-    in-scope given constraints.
-
 In general, as discussed in :ref:`instance-resolution`, *GHC requires
 that it be unambiguous which instance declaration should be used to
 resolve a type-class constraint*. GHC also provides a way to loosen
@@ -447,37 +423,24 @@ after the ``instance`` keyword. The pragma may be one of:
 ``{-# OVERLAPPING #-}``, ``{-# OVERLAPPABLE #-}``, ``{-# OVERLAPS #-}``,
 or ``{-# INCOHERENT #-}``.
 
-The matching behaviour is also influenced by two module-level language
-extension flags: :extension:`OverlappingInstances` and
-:extension:`IncoherentInstances`. These extensions are now
-deprecated (since GHC 7.10) in favour of the fine-grained per-instance
-pragmas.
-
 A more precise specification is as follows. The willingness to be
 overlapped or incoherent is a property of the *instance declaration*
 itself, controlled as follows:
 
--  An instance is *incoherent* if: it has an ``INCOHERENT`` pragma; or
-   if the instance has no pragma and it appears in a module compiled
-   with :extension:`IncoherentInstances`.
+-  An instance is *incoherent* if it has an ``INCOHERENT`` pragma.
 
 -  An instance is *overlappable* if: it has an ``OVERLAPPABLE`` or
-   ``OVERLAPS`` pragma; or if the instance has no pragma and it appears
-   in a module compiled with :extension:`OverlappingInstances`; or if the
-   instance is incoherent.
+   ``OVERLAPS`` pragma; or if the instance is incoherent.
 
 -  An instance is *overlapping* if: it has an ``OVERLAPPING`` or
-   ``OVERLAPS`` pragma; or if the instance has no pragma and it appears
-   in a module compiled with :extension:`OverlappingInstances`; or if the
-   instance is incoherent.
+   ``OVERLAPS`` pragma; or if the instance is incoherent.
 
 Now suppose that, in some client module, we are searching for an
 instance of the *target constraint* ``(C ty1 .. tyn)``. The search works
 like this:
 
 -  If there are any in-scope given constraints that might match the target
-   constraint (after unifying any metavariables), and
-   :extension:`IncoherentInstances` is not enabled, the search fails.
+   constraint (after unifying any metavariables), the search fails.
 
 -  Find all instances :math:`I` that *match* the target constraint; that is, the
    target constraint is a substitution instance of :math:`I`. These instance
@@ -544,7 +507,7 @@ the last is more specific, and hence is chosen.
 
 If (D) did not exist then (A) and (C) would still be matched, but
 neither is most specific. In that case, the program would be rejected,
-unless :extension:`IncoherentInstances` is enabled, in which case it would be
+unless one of them is marked ``INCOHERENT``, in which case it would be
 accepted and (A) or (C) would be chosen arbitrarily.
 
 An instance declaration is *more specific* than another iff the head of
@@ -564,8 +527,7 @@ But GHC does not commit to instance (C), because in a particular call of
 ``f``, ``b`` might be instantiated to ``Int``, in which case instance (D)
 would be more specific still. So GHC rejects the program.
 
-If, however, you enable the extension :extension:`IncoherentInstances` when compiling
-the module that contains (D), GHC will instead pick (C), without
+If, however, (D) is marked ``INCOHERENT``, GHC will instead pick (C), without
 complaining about the problem of subsequent instantiations.
 
 Notice that we gave a type signature to ``f``, so GHC had to *check*
@@ -622,28 +584,27 @@ matches a top-level instance.  The flag :ghc-flag:`-Wsimplifiable-class-constrai
 .. warning::
     Overlapping instances must be used with care. They can give
     rise to incoherence (i.e. different instance choices are made in
-    different parts of the program) even without :extension:`IncoherentInstances`.
+    different parts of the program) even without ``INCOHERENT`` pragmas.
     Consider: ::
 
-        {-# LANGUAGE OverlappingInstances #-}
         module Help where
 
             class MyShow a where
             myshow :: a -> String
 
-            instance MyShow a => MyShow [a] where
+            instance {-# OVERLAPPABLE #-} MyShow a => MyShow [a] where
             myshow xs = concatMap myshow xs
 
             showHelp :: MyShow a => [a] -> String
             showHelp xs = myshow xs
 
-        {-# LANGUAGE FlexibleInstances, OverlappingInstances #-}
+        {-# LANGUAGE FlexibleInstances #-}
         module Main where
             import Help
 
             data T = MkT
 
-            instance MyShow T where
+            instance {-# OVERLAPPING #-} MyShow T where
             myshow x = "Used generic instance"
 
             instance MyShow [T] where

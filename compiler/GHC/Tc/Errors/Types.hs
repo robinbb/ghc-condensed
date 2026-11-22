@@ -3865,14 +3865,6 @@ data TcRnMessage where
   TcRnRoleAnnotationsDisabled :: !TyCon -- ^ The annotated type
                               -> TcRnMessage
 
-  {-| TcRnIncoherentRoles is an error indicating that a role
-    annotation for a class parameter was declared as not nominal.
-
-    Test cases:
-      T8773
-  -}
-  TcRnIncoherentRoles :: !TyCon -- ^ The class tycon
-                      -> TcRnMessage
   {-| TcRnPrecedenceParsingError is an error caused by attempting to
       use operators with the same precedence in one infix expression.
 
