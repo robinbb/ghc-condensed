@@ -75,6 +75,7 @@ whitespace:
 				libraries/transformers\
 				libraries/unix\
 				libraries/xhtml\
+				nofib\
 			--ignore-files\
 				libraries/base/GHC/IO/Encoding/CodePage/Table.hs\
 				libraries/base/Control/Concurrent/QSem.hs\

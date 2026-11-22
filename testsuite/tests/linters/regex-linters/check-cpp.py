@@ -6,8 +6,8 @@
 from pathlib import Path
 from linter import run_linters, RegexpLinter
 
-# The library submodules absorbed into the tree keep their own
-# conventions and are not linted.
+# The library submodules absorbed into the tree, and nofib, keep their
+# own conventions and are not linted.
 ABSORBED_LIBRARIES = {
     'Cabal', 'Win32', 'array', 'binary',
     'bytestring', 'containers', 'deepseq', 'directory',
@@ -45,9 +45,10 @@ for l in linters:
     l.add_path_filter(lambda path: not path.name == 'core-spec.pdf')
     # Don't lint the linter itself
     l.add_path_filter(lambda path: not path.name == 'check-cpp.py')
-    # Don't lint the absorbed library submodules
+    # Don't lint the absorbed library submodules, nor nofib
     l.add_path_filter(lambda path: not (len(path.parts) > 1 and path.parts[0] == 'libraries'
-                                        and path.parts[1] in ABSORBED_LIBRARIES))
+                                        and path.parts[1] in ABSORBED_LIBRARIES)
+                                   and not (len(path.parts) > 0 and path.parts[0] == 'nofib'))
 
 if __name__ == '__main__':
     run_linters(linters)
