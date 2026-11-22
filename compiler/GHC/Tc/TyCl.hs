@@ -2075,7 +2075,7 @@ The (OUT) variant does not suffer from this issue, but it might not be the
 direction in which we want to take Haskell: we seek to unify type families and
 functions, and, by extension, associated types with class methods. And yet we
 give class methods their signatures inside the class, not outside. Neither do
-we have the counterpart of InstanceSigs for StandaloneKindSignatures.
+we have the counterpart of instance signatures for StandaloneKindSignatures.
 
 For now, we dodge the question by using CUSKs for associated types instead of
 standalone kind signatures. This is a simple addition to the rule we used to

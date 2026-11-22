@@ -5,7 +5,7 @@
              ScopedTypeVariables, GADTs, TypeFamilyDependencies,
              PolyKinds , ConstraintKinds, UndecidableInstances,
              FlexibleInstances, FunctionalDependencies,
-             FlexibleContexts, StandaloneDeriving, InstanceSigs,
+             FlexibleContexts, StandaloneDeriving,
              RankNTypes, UndecidableSuperClasses #-}
 
 module RaeJobTalk where

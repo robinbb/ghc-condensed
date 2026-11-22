@@ -1,6 +1,6 @@
 {-# Language RankNTypes, PatternSynonyms, PolyKinds, GADTs,
              TypeOperators, TypeFamilies,
-             TypeSynonymInstances, FlexibleInstances, InstanceSigs, FlexibleContexts #-}
+             TypeSynonymInstances, FlexibleInstances, FlexibleContexts #-}
 
 {-# Options_GHC -fdefer-type-errors #-}
 

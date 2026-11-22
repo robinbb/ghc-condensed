@@ -738,7 +738,8 @@ instance Binary Scope where
 -- | Scope of a type variable.
 --
 -- This warrants a data type apart from 'Scope' because of complexities
--- introduced by features like @-XScopedTypeVariables@ and @-XInstanceSigs@. For
+-- introduced by features like @-XScopedTypeVariables@ and instance signatures.
+-- For
 -- example, consider:
 --
 -- @

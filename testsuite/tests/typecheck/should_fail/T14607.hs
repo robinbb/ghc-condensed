@@ -2,7 +2,6 @@
     -- This line is crucial to the bug
 
 {-# Language GADTs #-}
-{-# Language InstanceSigs #-}
 {-# Language TypeFamilies #-}
 {-# Language FlexibleInstances #-}
 

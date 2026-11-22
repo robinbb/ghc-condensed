@@ -3,7 +3,6 @@
 {-# Language FlexibleInstances        #-}
 {-# Language GADTs                    #-}
 {-# Language ImpredicativeTypes       #-}
-{-# Language InstanceSigs             #-}
 {-# Language PolyKinds                #-}
 {-# Language PolyKinds                #-}
 {-# Language PolyKinds                #-}

@@ -1,4 +1,4 @@
-{-# Language TypeOperators, PolyKinds, TypeOperators, ConstraintKinds, TypeFamilies, GADTs, AllowAmbiguousTypes, InstanceSigs, RankNTypes, UndecidableInstances #-}
+{-# Language TypeOperators, PolyKinds, TypeOperators, ConstraintKinds, TypeFamilies, GADTs, AllowAmbiguousTypes, RankNTypes, UndecidableInstances #-}
 module T14451 where
 
 import Data.Kind

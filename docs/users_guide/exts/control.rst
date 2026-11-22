@@ -93,7 +93,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`HexFloatLiterals`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
-     * :extension:`InstanceSigs`
      * :extension:`LambdaCase`
      * :extension:`MonoLocalBinds`
      * :extension:`MonomorphismRestriction`
@@ -161,7 +160,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`HexFloatLiterals`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
-     * :extension:`InstanceSigs`
      * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`

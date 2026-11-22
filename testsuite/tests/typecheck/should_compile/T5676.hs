@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Foo where
 
 data T a = T a

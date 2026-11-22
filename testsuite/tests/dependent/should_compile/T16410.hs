@@ -1,5 +1,4 @@
 {-# Language GADTs        #-}
-{-# Language InstanceSigs #-}
 {-# Language PolyKinds    #-}
 {-# Language TypeFamilies #-}
 

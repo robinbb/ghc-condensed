@@ -25,7 +25,6 @@ docs:
          DoAndIfThenElse
          ConstraintKinds
          PolyKinds
-         InstanceSigs
          StandaloneDeriving
          DeriveDataTypeable
          DeriveFunctor

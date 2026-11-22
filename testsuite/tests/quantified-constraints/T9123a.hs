@@ -1,6 +1,6 @@
 {-# LANGUAGE QuantifiedConstraints, PolyKinds, ScopedTypeVariables
            , StandaloneDeriving, RoleAnnotations, TypeApplications
-           , UndecidableInstances, InstanceSigs
+           , UndecidableInstances
            , GeneralizedNewtypeDeriving #-}
 
 module T9123a where

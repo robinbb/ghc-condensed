@@ -8,7 +8,6 @@
 {-# Language TypeApplications  #-}
 {-# Language FlexibleContexts  #-}
 {-# Language FlexibleInstances #-}
-{-# Language InstanceSigs      #-}
 
 module T15799 where
 import qualified GHC.TypeLits as TypeLits

@@ -47,7 +47,6 @@ library
         FlexibleInstances
         GADTs
         GeneralizedNewtypeDeriving
-        InstanceSigs
         MagicHash
         RecordWildCards
         ScopedTypeVariables

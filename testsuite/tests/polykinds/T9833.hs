@@ -1,4 +1,4 @@
-{-# LANGUAGE InstanceSigs, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 
 module T9833 where
 

@@ -69,5 +69,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "TypeInType",
                                "ExplicitForAll",
                                "DataKinds",
-                               "KindSignatures"
+                               "KindSignatures",
+                               "InstanceSigs"
                               ]

@@ -1,4 +1,3 @@
-{-# LANGUAGE InstanceSigs #-}
 
 module T6001 where
 

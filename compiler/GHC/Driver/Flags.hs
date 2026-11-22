@@ -171,7 +171,6 @@ extensionName = \case
   LangExt.ConstraintKinds -> "ConstraintKinds"
   LangExt.PolyKinds -> "PolyKinds"                -- Kind polymorphism
   LangExt.TypeData -> "TypeData"                 -- allow @type data@ definitions
-  LangExt.InstanceSigs -> "InstanceSigs"
   LangExt.ApplicativeDo -> "ApplicativeDo"
   LangExt.Modifiers -> "Modifiers"
   LangExt.LinearTypes -> "LinearTypes"

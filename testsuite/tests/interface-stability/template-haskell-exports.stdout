@@ -181,7 +181,6 @@ module Language.Haskell.TH where
     | ConstraintKinds
     | PolyKinds
     | TypeData
-    | InstanceSigs
     | ApplicativeDo
     | LinearTypes
     | Modifiers
@@ -779,7 +778,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | ConstraintKinds
     | PolyKinds
     | TypeData
-    | InstanceSigs
     | ApplicativeDo
     | LinearTypes
     | Modifiers
@@ -1512,7 +1510,6 @@ module Language.Haskell.TH.Syntax where
     | ConstraintKinds
     | PolyKinds
     | TypeData
-    | InstanceSigs
     | ApplicativeDo
     | LinearTypes
     | Modifiers

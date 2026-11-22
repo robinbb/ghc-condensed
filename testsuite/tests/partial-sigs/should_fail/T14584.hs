@@ -16,7 +16,7 @@
 {-# Language UndecidableSuperClasses #-}
 {-# Language UndecidableInstances #-}
 {-# Language AllowAmbiguousTypes #-}
-{-# Language InstanceSigs, TypeApplications #-}
+{-# Language TypeApplications #-}
 
 
 module T14584 where

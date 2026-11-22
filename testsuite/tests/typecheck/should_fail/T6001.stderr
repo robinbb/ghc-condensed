@@ -1,5 +1,4 @@
-
-T6001.hs:8:18: error: [GHC-83865]
+T6001.hs:7:18: error: [GHC-83865]
     • Couldn't match type ‘Int’ with ‘Integer’
       Expected: Integer -> DayKind
         Actual: Int -> DayKind
@@ -8,3 +7,4 @@ T6001.hs:8:18: error: [GHC-83865]
         Instance sig: Int -> DayKind
            Class sig: Integer -> DayKind
       In the instance declaration for ‘Num DayKind’
+

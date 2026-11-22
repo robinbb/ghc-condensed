@@ -1,4 +1,4 @@
-{-# LANGUAGE InstanceSigs, GADTs, StandaloneDeriving, FlexibleInstances, TypeFamilies #-}
+{-# LANGUAGE GADTs, StandaloneDeriving, FlexibleInstances, TypeFamilies #-}
 
 -- Implementation of deletion for red black trees by Matt Might
 -- Editing to preserve the red/black tree invariants by Stephanie Weirich,

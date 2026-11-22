@@ -1,7 +1,6 @@
 {-# language EmptyCase #-}
 {-# language FlexibleContexts #-}
 {-# language FlexibleInstances #-}
-{-# language InstanceSigs #-}
 {-# language PolyKinds #-}
 {-# language QuantifiedConstraints #-}
 {-# language ScopedTypeVariables #-}

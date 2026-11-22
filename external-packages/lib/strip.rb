@@ -18,8 +18,9 @@ module Strip
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
     ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
-    IncoherentInstances KindSignatures MultiParamTypeClasses
-    NullaryTypeClasses OverlappingInstances TypeInType
+    IncoherentInstances InstanceSigs KindSignatures
+    MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
+    TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

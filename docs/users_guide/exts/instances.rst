@@ -648,17 +648,8 @@ matches a top-level instance.  The flag :ghc-flag:`-Wsimplifiable-class-constrai
 Instance signatures: type signatures in instance declarations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. extension:: InstanceSigs
-    :shortdesc: Allow type signatures to be written for instance methods.
-
-    :since: 7.6.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow type signatures for members in instance definitions.
-
-The :extension:`InstanceSigs` extension allows users to give type signatures
-to the class methods in a class instance declaration. For example: ::
+Users may give type signatures to the class methods in a class instance
+declaration. For example: ::
 
       data T a = MkT a a
       instance Eq a => Eq (T a) where

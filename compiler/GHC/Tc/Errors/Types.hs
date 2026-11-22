@@ -2889,13 +2889,6 @@ data TcRnMessage where
   -}
   TcRnUnsatisfiedMinimalDef :: ClassMinimalDef -> TcRnMessage
 
-  {-| 'TcRnMisplacedInstSig' is an error that happens when a method in
-       a class instance is given a type signature, but the user has not
-       enabled the @InstanceSigs@ extension.
-
-       Test case: module/mod45
-  -}
-  TcRnMisplacedInstSig :: Name -> (LHsSigType GhcRn) -> TcRnMessage
   {-| TcRnNoRebindableSyntaxRecordDot is an error triggered by an overloaded record update
       without RebindableSyntax enabled.
 

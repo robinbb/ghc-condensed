@@ -4,7 +4,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE QuantifiedConstraints #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE InstanceSigs, RoleAnnotations  #-}
+{-# LANGUAGE RoleAnnotations  #-}
 
 module T9123 where
 

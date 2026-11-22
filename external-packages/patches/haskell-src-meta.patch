@@ -8,8 +8,9 @@
 +  Exts.OverlappingInstances       -> Nothing
    Exts.UndecidableInstances       -> Just TH.UndecidableInstances
 -  Exts.IncoherentInstances        -> Just TH.IncoherentInstances
+-  Exts.InstanceSigs               -> Just TH.InstanceSigs
 +  Exts.IncoherentInstances        -> Nothing
-   Exts.InstanceSigs               -> Just TH.InstanceSigs
++  Exts.InstanceSigs               -> Nothing
    Exts.DoRec                      -> Nothing
    Exts.RecursiveDo                -> Just TH.RecursiveDo
    Exts.ParallelListComp           -> Just TH.ParallelListComp
@@ -88,12 +89,12 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -249,12 +241,10 @@
+@@ -249,12 +241,9 @@
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
    TH.PolyKinds                         -> Just Exts.PolyKinds
 -  TH.DataKinds                         -> Just Exts.DataKinds
-   TH.InstanceSigs                      -> Just Exts.InstanceSigs
+-  TH.InstanceSigs                      -> Just Exts.InstanceSigs
    TH.ApplicativeDo                     -> Nothing
    TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
    TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
@@ -101,7 +102,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,15 +256,11 @@
+@@ -266,15 +255,11 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -117,7 +118,7 @@
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
    TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -290,10 +276,6 @@
+@@ -290,10 +275,6 @@
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports

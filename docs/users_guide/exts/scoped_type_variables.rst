@@ -298,9 +298,6 @@ explicitly enabling :extension:`ScopedTypeVariables`: ::
         m :: [a] -> [a]
         m x = map (*2) x
 
-Note that writing ``m :: [a] -> [a]`` requires the use of the
-:extension:`InstanceSigs` extension.
-
 Similarly, :extension:`ScopedTypeVariables` is not required for type variables
 from the top of the class or instance declaration to scope over associated type
 families, which only requires the :extension:`TypeFamilies` extension. For

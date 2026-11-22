@@ -80,7 +80,6 @@ data Extension
    | ConstraintKinds
    | PolyKinds                -- Kind polymorphism
    | TypeData                 -- allow @type data@ definitions
-   | InstanceSigs
    | ApplicativeDo
    | LinearTypes
    | Modifiers

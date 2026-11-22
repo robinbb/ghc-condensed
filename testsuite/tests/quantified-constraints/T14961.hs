@@ -1,5 +1,4 @@
 {-# LANGUAGE ConstraintKinds           #-}
-{-# LANGUAGE InstanceSigs              #-}
 {-# LANGUAGE FlexibleContexts          #-}
 {-# LANGUAGE FlexibleInstances         #-}
 {-# LANGUAGE GADTs                     #-}

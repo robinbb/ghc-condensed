@@ -42,16 +42,18 @@ packageArgs = do
     stageVersion <- readVersion <$> (expr $ ghcVersionStage stage)
 
     mconcat
-        -- This compiler has no MultiParamTypeClasses, DataKinds or
-        -- KindSignatures extension: classes may have any number of
-        -- parameters, data types are always promoted and kinds may always
-        -- be given, so no source in the tree names them. The bootstrap
-        -- compiler still wants all three for the stage 0 packages whose
-        -- language edition lacks them (mtl, parsec, array, Cabal-syntax,
-        -- the compiler itself and others).
+        -- This compiler has no MultiParamTypeClasses, DataKinds,
+        -- KindSignatures or InstanceSigs extension: classes may have any
+        -- number of parameters, data types are always promoted, kinds may
+        -- always be given and instance methods may carry signatures, so no
+        -- source in the tree names them. The bootstrap compiler still wants
+        -- them all for the stage 0 packages whose language edition lacks
+        -- them (mtl, parsec, array, Cabal-syntax, the compiler itself and
+        -- others).
         [ stage0 ? builder (Ghc CompileHs) ? arg "-XMultiParamTypeClasses"
         , stage0 ? builder (Ghc CompileHs) ? arg "-XDataKinds"
         , stage0 ? builder (Ghc CompileHs) ? arg "-XKindSignatures"
+        , stage0 ? builder (Ghc CompileHs) ? arg "-XInstanceSigs"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

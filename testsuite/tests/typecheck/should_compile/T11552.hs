@@ -1,4 +1,3 @@
-{-# LANGUAGE InstanceSigs        #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module T11552 where

@@ -2,7 +2,6 @@
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE DefaultSignatures    #-}
-{-# LANGUAGE InstanceSigs         #-}
 {-# LANGUAGE Safe                 #-}
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE UndecidableInstances #-}

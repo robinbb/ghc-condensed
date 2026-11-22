@@ -1,5 +1,5 @@
 {-# LANGUAGE PolyKinds, TypeFamilies #-}
-{-# LANGUAGE TypeOperators, GADTs, InstanceSigs #-}
+{-# LANGUAGE TypeOperators, GADTs #-}
 
 module T10041 where
 

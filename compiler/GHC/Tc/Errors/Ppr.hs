@@ -1336,12 +1336,6 @@ instance Diagnostic TcRnMessage where
         vcat [text "No explicit implementation for"
               ,nest 2 $ pprBooleanFormulaNice mindef
              ]
-    TcRnMisplacedInstSig name hs_ty
-      -> mkSimpleDecorated $
-        vcat [ hang (text "Illegal type signature in instance declaration:")
-                  2 (hang (pprPrefixName name)
-                        2 (dcolon <+> ppr hs_ty))
-             ]
     TcRnNoRebindableSyntaxRecordDot -> mkSimpleDecorated $
       text "RebindableSyntax is required if OverloadedRecordUpdate is enabled."
     TcRnNoFieldPunsRecordDot -> mkSimpleDecorated $
@@ -2445,8 +2439,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnUnsatisfiedMinimalDef{}
       -> WarningWithFlag (Opt_WarnMissingMethods)
-    TcRnMisplacedInstSig{}
-      -> ErrorWithoutFlag
     TcRnNoRebindableSyntaxRecordDot{}
       -> ErrorWithoutFlag
     TcRnNoFieldPunsRecordDot{}
@@ -3116,8 +3108,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnUnsatisfiedMinimalDef{}
       -> noHints
-    TcRnMisplacedInstSig{}
-      -> [suggestExtension LangExt.InstanceSigs]
     TcRnNoRebindableSyntaxRecordDot{}
       -> noHints
     TcRnNoFieldPunsRecordDot{}

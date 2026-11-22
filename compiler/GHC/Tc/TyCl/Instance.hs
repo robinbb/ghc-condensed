@@ -2101,9 +2101,7 @@ tcMethodBodyHelp hs_sig_fn sel_id local_meth_id meth_bind
               -- See Note [Instance method signatures]
   = do { (sig_ty, hs_wrap)
              <- setSrcSpan (getLocA hs_sig_ty) $
-                do { inst_sigs <- xoptM LangExt.InstanceSigs
-                   ; checkTc inst_sigs (TcRnMisplacedInstSig sel_name hs_sig_ty)
-                   ; let ctxt = FunSigCtxt sel_name NoRRC
+                do { let ctxt = FunSigCtxt sel_name NoRRC
                    ; sig_ty  <- tcHsSigType ctxt hs_sig_ty
                    ; let local_meth_ty = idType local_meth_id
                                 -- False <=> do not report redundant constraints when
@@ -2185,8 +2183,8 @@ mkMethIds dfun_id clas tyvars dfun_ev_vars inst_tys sel_id
 
 {- Note [Instance method signatures]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-With -XInstanceSigs we allow the user to supply a signature for the
-method in an instance declaration.  Here is an artificial example:
+The user may supply a signature for the method in an instance
+declaration.  Here is an artificial example:
 
        data T a = MkT a
        instance Ord a => Ord (T a) where
@@ -2421,14 +2419,14 @@ generate code that looks more like this:
       f = $dmf @[] @x @m
 
 But where should `x` and `m` be bound? It's tempting to use ScopedTypeVariables
-and InstanceSigs to accomplish this:
+and an instance signature to accomplish this:
 
    instance A [] where
       f :: forall x m. Monoid x => [m] -> m
       f = $dmf @[] @x @m
 
 GHC will reject this code, however, as the type signature for `f` will fail the
-subtype check for InstanceSigs:
+subtype check for instance signatures:
 
     • Could not deduce (Monoid x0)
       from the context: Monoid x
