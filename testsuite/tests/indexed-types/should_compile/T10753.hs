@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeFamilies, FunctionalDependencies, FlexibleInstances #-}
-{-# LANGUAGE KindSignatures #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints -fno-warn-missing-methods #-}
 module T10753 where
 

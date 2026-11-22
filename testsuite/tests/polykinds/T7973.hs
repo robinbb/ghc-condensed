@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ExistentialQuantification, UndecidableInstances, TypeFamilies,
              FlexibleContexts #-}
 

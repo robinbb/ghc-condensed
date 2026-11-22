@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, KindSignatures, StandaloneDeriving, TypeOperators #-}
+{-# LANGUAGE GADTs, StandaloneDeriving, TypeOperators #-}
 
 module T10348 where
 

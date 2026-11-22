@@ -23,12 +23,6 @@ T22478e.hs:9:6: error: [GHC-78249]
     Suggested fix:
       Perhaps you intended to use the ‘TypeAbstractions’ extension
 
-T22478e.hs:9:13: error: [GHC-49378]
-    • Illegal kind signature ‘k’
-    • In a type argument in a pattern
-    Suggested fix:
-      Perhaps you intended to use the ‘KindSignatures’ extension (implied by ‘TypeFamilies’ and ‘PolyKinds’)
-
 T22478e.hs:10:6: error: [GHC-78249]
     Illegal invisible type pattern: @('(a, b))
     Suggested fix:

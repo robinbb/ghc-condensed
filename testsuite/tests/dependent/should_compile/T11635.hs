@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures, RankNTypes #-}
+{-# LANGUAGE PolyKinds, RankNTypes #-}
 
 module T11635 where
 

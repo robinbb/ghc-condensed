@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE KindSignatures #-}
 
 module SAKS_Fail008 where
 

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE ConstraintKinds, FlexibleContexts, FlexibleInstances, KindSignatures #-}
+{-# LANGUAGE ConstraintKinds, FlexibleContexts, FlexibleInstances #-}
 
 module TcShouldTerminate where
 

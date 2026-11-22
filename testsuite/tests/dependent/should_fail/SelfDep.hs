@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 
 module SelfDep where
 

@@ -1,6 +1,5 @@
 {-# language DerivingStrategies #-}
 {-# language GeneralizedNewtypeDeriving #-}
-{-# language KindSignatures #-}
 {-# language MagicHash #-}
 {-# language PolyKinds #-}
 {-# language UnliftedNewtypes #-}

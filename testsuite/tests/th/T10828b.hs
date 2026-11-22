@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, GADTs, KindSignatures #-}
+{-# LANGUAGE TemplateHaskell, GADTs #-}
 
 module T10828b where
 

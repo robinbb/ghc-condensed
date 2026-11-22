@@ -1,6 +1,5 @@
 {-# Language ExistentialQuantification #-}
 {-# LAnguage GADTs #-}
-{-# LAnguage KindSignatures #-}
 
 data Foo = A
          | B

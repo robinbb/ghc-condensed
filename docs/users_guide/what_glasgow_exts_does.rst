@@ -15,7 +15,6 @@
  * :extension:`GeneralizedNewtypeDeriving`
  * :extension:`ImplicitParams`
  * :extension:`InterruptibleFFI`
- * :extension:`KindSignatures`
  * :extension:`LiberalTypeSynonyms`
  * :extension:`MagicHash`
  * :extension:`ParallelListComp`

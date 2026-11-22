@@ -1,4 +1,3 @@
-{-# Language KindSignatures #-}
 {-# Language PolyKinds      #-}
 
 module T15881 where

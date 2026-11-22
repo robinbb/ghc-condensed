@@ -1,4 +1,4 @@
-{-# LANGUAGE Haskell2010, KindSignatures, StarIsType, TemplateHaskell #-}
+{-# LANGUAGE Haskell2010, StarIsType, TemplateHaskell #-}
 
 import Data.Typeable (Proxy (Proxy))
 import Language.Haskell.TH (runQ)

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures, GADTs #-}
+{-# LANGUAGE PolyKinds, GADTs #-}
 module T5937 where
 
 import Data.Kind (Type)

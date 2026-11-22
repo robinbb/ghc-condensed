@@ -263,7 +263,6 @@ docs:
          FlexibleInstances
          ExistentialQuantification
          EmptyDataDecls
-         KindSignatures
          GeneralizedNewtypeDeriving
          PostfixOperators
          TupleSections

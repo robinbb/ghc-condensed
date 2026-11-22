@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, GADTs, KindSignatures, FlexibleInstances #-}
+{-# LANGUAGE PolyKinds, GADTs, FlexibleInstances #-}
 
 module T7438a where
 

@@ -18,6 +18,15 @@
    Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
    Exts.FunctionalDependencies     -> Just TH.FunctionalDependencies
    Exts.Rank2Types                 -> Nothing
+@@ -45,7 +45,7 @@
+   Exts.FlexibleInstances          -> Just TH.FlexibleInstances
+   Exts.EmptyDataDecls             -> Just TH.EmptyDataDecls
+   Exts.CPP                        -> Just TH.Cpp
+-  Exts.KindSignatures             -> Just TH.KindSignatures
++  Exts.KindSignatures             -> Nothing
+   Exts.BangPatterns               -> Just TH.BangPatterns
+   Exts.TypeSynonymInstances       -> Just TH.TypeSynonymInstances
+   Exts.TemplateHaskell            -> Just TH.TemplateHaskell
 @@ -88,7 +88,7 @@
    Exts.ExtendedDefaultRules       -> Just TH.ExtendedDefaultRules
    Exts.UnboxedTuples              -> Just TH.UnboxedTuples
@@ -92,7 +101,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,9 +256,6 @@
+@@ -266,15 +256,11 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -102,7 +111,13 @@
    TH.FunctionalDependencies            -> Just Exts.FunctionalDependencies
    TH.UnicodeSyntax                     -> Just Exts.UnicodeSyntax
    TH.ExistentialQuantification         -> Just Exts.ExistentialQuantification
-@@ -290,10 +277,6 @@
+   TH.MagicHash                         -> Just Exts.MagicHash
+   TH.EmptyDataDecls                    -> Just Exts.EmptyDataDecls
+-  TH.KindSignatures                    -> Just Exts.KindSignatures
+   TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
+   TH.ParallelListComp                  -> Just Exts.ParallelListComp
+   TH.TransformListComp                 -> Just Exts.TransformListComp
+@@ -290,10 +276,6 @@
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports

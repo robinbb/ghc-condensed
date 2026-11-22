@@ -106,7 +106,6 @@ data Extension
    | ExistentialQuantification
    | MagicHash
    | EmptyDataDecls
-   | KindSignatures
    | RoleAnnotations
    | ParallelListComp
    | TransformListComp

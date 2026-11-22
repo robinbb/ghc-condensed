@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, KindSignatures #-}
+{-# LANGUAGE TypeOperators #-}
 module T7645 where
 
 import Data.Kind

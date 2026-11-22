@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE EmptyDataDecls, KindSignatures #-}
+{-# LANGUAGE EmptyDataDecls #-}
 -- |
 -- What is tested here:
 --

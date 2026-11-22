@@ -48,7 +48,6 @@ docs:
          ExistentialQuantification
          MagicHash
          EmptyDataDecls
-         KindSignatures
          GeneralizedNewtypeDeriving
          PostfixOperators
          TupleSections

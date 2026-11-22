@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, KindSignatures #-}
+{-# LANGUAGE PolyKinds, TypeFamilies #-}
 
 module T6044 where
 

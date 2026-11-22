@@ -1,5 +1,4 @@
 {-# language GADTSyntax #-}
-{-# language KindSignatures #-}
 {-# language MagicHash #-}
 {-# language UnliftedNewtypes #-}
 

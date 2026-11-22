@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs          #-}
-{-# LANGUAGE KindSignatures #-}
 
 module Lib where
 

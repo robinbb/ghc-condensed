@@ -1,6 +1,5 @@
 {-# LANGUAGE UnliftedDatatypes #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE KindSignatures #-}
 
 import GHC.Exts
 import GHC.Types

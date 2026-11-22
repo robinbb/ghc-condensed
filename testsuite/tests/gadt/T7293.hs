@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, KindSignatures, TypeFamilies,
+{-# LANGUAGE GADTs, TypeFamilies,
              TypeOperators, RankNTypes #-}
 
 module T7294 where

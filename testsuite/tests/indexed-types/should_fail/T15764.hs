@@ -1,6 +1,5 @@
 {-# Language PolyKinds #-}
 {-# Language TypeFamilies #-}
-{-# Language KindSignatures #-}
 
 module T15764 where
 

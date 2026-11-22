@@ -1,4 +1,4 @@
 :m GHC.Exts GHC.Types
-:set -fprint-explicit-kinds -XKindSignatures
+:set -fprint-explicit-kinds
 type T = FUN 'Many :: Type -> Type -> Type
 :i T

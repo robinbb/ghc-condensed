@@ -1,8 +1,6 @@
 {-# LANGUAGE PolyKinds,
              TypeFamilies,
-             GADTs,
-             KindSignatures
- #-}
+             GADTs #-}
 
 module T5862 where
 

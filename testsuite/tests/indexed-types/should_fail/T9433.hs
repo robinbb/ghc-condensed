@@ -1,6 +1,5 @@
 {-# LANGUAGE
      TypeFamilies
-   , KindSignatures
    #-}
 
 module T9433 where

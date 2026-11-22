@@ -1,4 +1,4 @@
-{-# Language RankNTypes, KindSignatures, PolyKinds #-}
+{-# Language RankNTypes, PolyKinds #-}
 {-# OPTIONS_GHC -fprint-explicit-runtime-reps #-}
 
 import GHC.Types (TYPE)

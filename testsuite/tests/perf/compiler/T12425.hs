@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 
 module T12425 where
 

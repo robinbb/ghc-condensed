@@ -3557,7 +3557,7 @@ tcDataDefn :: HsCtxt -> RolesInfo -> Name
   -- NB: not used for newtype/data instances (whether associated or not)
 tcDataDefn err_ctxt roles_info tc_name
            (HsDataDefn { dd_cType = cType
-                       , dd_kindSig = mb_ksig  -- Already in tc's kind
+                       , dd_kindSig = _  -- Already in tc's kind
                                                -- via inferInitialKinds
                        , dd_cons = cons
                        , dd_derivs = derivs })
@@ -3572,14 +3572,6 @@ tcDataDefn err_ctxt roles_info tc_name
        ; let hsc_src = tcg_src tcg_env
        ; unless (mk_permissive_kind hsc_src cons) $
          checkDataKindSig (DataDeclSort (dataDefnConsNewOrData cons)) res_kind
-
-             -- Check that we don't use kind signatures without the extension
-       ; kind_signatures <- xoptM LangExt.KindSignatures
-       ; case mb_ksig of
-          Just (L _ ksig)
-            | not kind_signatures
-            -> addErrTc $ TcRnKindSignaturesDisabled (Right (tc_name, ksig))
-          _ -> return ()
 
        ; (kind, bndrs, res_kind) <-
             initZonkEnv NoFlexi $ do

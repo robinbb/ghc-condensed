@@ -1,5 +1,5 @@
 :load T18828
-:set -XKindSignatures -XRankNTypes
+:set -XRankNTypes
 import Data.Type.Equality
 :k! ObjectSyn (->)
 :k! forall ob. ObjectSyn ((:~:) :: Cat ob)

@@ -1245,7 +1245,7 @@ messages and in GHCi:
 
 .. ghc-flag:: -fprint-explicit-kinds
     :shortdesc: Print explicit kind foralls and kind arguments in types.
-        See also :extension:`KindSignatures`
+        See also :ref:`kinding`
     :type: dynamic
     :reverse: -fno-print-explicit-kinds
     :category: verbosity

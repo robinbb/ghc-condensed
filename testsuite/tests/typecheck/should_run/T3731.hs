@@ -1,7 +1,7 @@
 {-# LANGUAGE  DeriveDataTypeable,
               FlexibleContexts, FlexibleInstances,
               UndecidableInstances,
-              RankNTypes, KindSignatures, EmptyDataDecls, GHC2021 #-}
+              RankNTypes, EmptyDataDecls, GHC2021 #-}
 
 {-# OPTIONS_GHC -Wall #-}
 

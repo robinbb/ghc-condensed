@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, KindSignatures, GADTs,  TypeOperators
+{-# LANGUAGE PolyKinds, TypeFamilies, GADTs,  TypeOperators
   #-}
 
 module T6035 where

@@ -1,5 +1,4 @@
 
-{-# OPTIONS_GHC -XKindSignatures #-}
 
 module Foo where
 

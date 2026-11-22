@@ -94,7 +94,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
      * :extension:`InstanceSigs`
-     * :extension:`KindSignatures`
      * :extension:`LambdaCase`
      * :extension:`MonoLocalBinds`
      * :extension:`MonomorphismRestriction`
@@ -163,7 +162,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
      * :extension:`InstanceSigs`
-     * :extension:`KindSignatures`
      * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`

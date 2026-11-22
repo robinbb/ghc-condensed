@@ -2,7 +2,7 @@
   -- #11248, comment:6 showed that this tests failed with -O
 
 {-# LANGUAGE TypeOperators, TypeFamilies,
-             KindSignatures, ConstraintKinds #-}
+             ConstraintKinds #-}
 
 module T11248 where
 

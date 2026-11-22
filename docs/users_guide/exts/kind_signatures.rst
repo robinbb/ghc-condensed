@@ -3,16 +3,6 @@
 Explicitly-kinded quantification
 --------------------------------
 
-.. extension:: KindSignatures
-    :shortdesc: Allow kind signatures to be given for types.
-
-    :implied by: :extension:`TypeFamilies`, :extension:`PolyKinds`
-    :since: 6.8.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow explicit kind signatures on type variables.
-
 Haskell infers the kind of each type variable. Sometimes it is nice to
 be able to give the kind explicitly as (machine-checked) documentation,
 just as it is nice to give a type signature for a function. On some
@@ -26,11 +16,10 @@ had to define the data type: ::
 The only use for the ``Unused`` constructor was to force the correct
 kind for the type variable ``cxt``.
 
-GHC now instead allows you to specify the kind of a type variable
-directly, wherever a type variable is explicitly bound, with the extension
-:extension:`KindSignatures`.
+GHC instead allows you to specify the kind of a type variable directly,
+wherever a type variable is explicitly bound.
 
-This extension enables kind signatures in the following places:
+Kind signatures are allowed in the following places:
 
 -  ``data`` declarations: ::
 
@@ -54,8 +43,7 @@ This extension enables kind signatures in the following places:
 
 The parentheses are required.
 
-As part of the same extension, you can put kind annotations in types as
-well. Thus: ::
+You can also put kind annotations in types. Thus: ::
 
        f :: (Int :: Type) -> Int
        g :: forall a. a -> (a :: Type)

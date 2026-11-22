@@ -1,5 +1,4 @@
 {-# Language RankNTypes #-}
-{-# Language KindSignatures #-}
 {-# Language PolyKinds #-}
 {-# Language UnliftedNewtypes #-}
 

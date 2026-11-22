@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 module Main where
 
 import GHC.Cmm.Dataflow.Block

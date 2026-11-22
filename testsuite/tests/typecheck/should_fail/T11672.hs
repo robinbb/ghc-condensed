@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 module BadError where
 
 import GHC.TypeLits

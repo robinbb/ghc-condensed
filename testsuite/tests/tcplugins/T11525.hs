@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, KindSignatures, TypeFamilies,
+{-# LANGUAGE TypeOperators, TypeFamilies,
              ConstraintKinds, FlexibleContexts #-}
 {-# OPTIONS_GHC -fplugin T11525_Plugin #-}
 module T11525 where

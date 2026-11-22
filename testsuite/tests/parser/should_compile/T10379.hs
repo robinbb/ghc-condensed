@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, GADTs #-}
+{-# LANGUAGE GADTs #-}
 {-# OPTIONS -Wno-star-is-type #-}
 module Foo where
 

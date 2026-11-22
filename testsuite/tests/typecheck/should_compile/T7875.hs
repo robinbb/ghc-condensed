@@ -3,7 +3,6 @@
      FlexibleContexts
    , FlexibleInstances
    , FunctionalDependencies
-   , KindSignatures
    , UndecidableInstances #-}
 
 module T7875 where

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, GADTs, KindSignatures #-}
+{-# LANGUAGE TypeOperators, GADTs #-}
 
 -- Tests infix type constructors in GADT declarations
 

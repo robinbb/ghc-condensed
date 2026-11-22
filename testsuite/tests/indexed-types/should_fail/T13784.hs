@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, GADTs #-}
-{-# LANGUAGE KindSignatures, TypeFamilies,
+{-# LANGUAGE TypeFamilies,
              TypeOperators #-}
 
 module T13784 where

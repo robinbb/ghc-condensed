@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, LinearTypes, KindSignatures, TypeApplications #-}
+{-# LANGUAGE GADTs, LinearTypes, TypeApplications #-}
 module MultConstructor where
 
 import GHC.Types

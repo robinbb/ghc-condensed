@@ -1,5 +1,5 @@
 :set -XHaskell2010
-:set -fprint-explicit-foralls -XKindSignatures -XExplicitNamespaces -XUnicodeSyntax
+:set -fprint-explicit-foralls -XExplicitNamespaces -XUnicodeSyntax
 :set -Wno-star-is-type
 import Data.Kind (type Type)
 

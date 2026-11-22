@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 
 import GHC.TypeLits (Nat, Symbol)
 

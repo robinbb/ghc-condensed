@@ -1,5 +1,4 @@
 {-# Language DerivingVia #-}
-{-# Language KindSignatures #-}
 
 module T18130 where
 

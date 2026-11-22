@@ -5,7 +5,7 @@
 {-# OPTIONS_GHC -freduction-depth=400 #-}
 {-# OPTIONS_GHC -fplugin RewritePerfPlugin #-}
 
-{-# LANGUAGE KindSignatures, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
 module Main where

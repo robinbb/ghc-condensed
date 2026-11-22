@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 module Callee where
 
 import Data.Kind (Type)

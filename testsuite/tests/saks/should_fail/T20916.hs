@@ -1,4 +1,4 @@
-{-# LANGUAGE CUSKs, EmptyDataDecls, PolyKinds, KindSignatures, StandaloneKindSignatures #-}
+{-# LANGUAGE CUSKs, EmptyDataDecls, PolyKinds, StandaloneKindSignatures #-}
 
 module T20916 where
 

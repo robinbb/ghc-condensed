@@ -1,34 +1,34 @@
-T14710.hs:9:21: error: [GHC-12875]
+T14710.hs:8:21: error: [GHC-12875]
     • Unexpected kind variable ‘a’
     • In a class method signature for ‘c1’
     Suggested fix:
       Perhaps you intended to use the ‘PolyKinds’ extension
 
-T14710.hs:10:22: error: [GHC-12875]
+T14710.hs:9:22: error: [GHC-12875]
     • Unexpected kind variable ‘a’
     • In a class method signature for ‘c2’
     Suggested fix:
       Perhaps you intended to use the ‘PolyKinds’ extension
 
-T14710.hs:15:23: error: [GHC-12875]
+T14710.hs:14:23: error: [GHC-12875]
     • Unexpected kind variable ‘a’
     • In the type signature for ‘g1’
     Suggested fix:
       Perhaps you intended to use the ‘PolyKinds’ extension
 
-T14710.hs:18:24: error: [GHC-12875]
+T14710.hs:17:24: error: [GHC-12875]
     • Unexpected kind variable ‘a’
     • In the type signature for ‘g2’
     Suggested fix:
       Perhaps you intended to use the ‘PolyKinds’ extension
 
-T14710.hs:21:31: error: [GHC-12875]
+T14710.hs:20:31: error: [GHC-12875]
     • Unexpected kind variable ‘k’
     • In the type signature for ‘h1’
     Suggested fix:
       Perhaps you intended to use the ‘PolyKinds’ extension
 
-T14710.hs:24:22: error: [GHC-12875]
+T14710.hs:23:22: error: [GHC-12875]
     • Unexpected kind variable ‘k’
     • In the type signature for ‘h2’
     Suggested fix:

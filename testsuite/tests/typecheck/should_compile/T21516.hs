@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 module T where
 
 import GHC.Exts

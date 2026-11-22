@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveFunctor, FlexibleInstances, GADTs, KindSignatures, StandaloneDeriving #-}
+{-# LANGUAGE DeriveFunctor, FlexibleInstances, GADTs, StandaloneDeriving #-}
 module T8678 where
 
 import Data.Kind (Type)

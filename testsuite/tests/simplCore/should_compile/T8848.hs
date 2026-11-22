@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE KindSignatures, GADTs, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE GADTs, FlexibleInstances, FlexibleContexts #-}
 
 module T8848 where
 

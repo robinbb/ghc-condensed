@@ -1,5 +1,5 @@
 {-# LANGUAGE QuantifiedConstraints,
-             KindSignatures, FlexibleInstances, TypeFamilies #-}
+             FlexibleInstances, TypeFamilies #-}
 
 module T17564 where
 

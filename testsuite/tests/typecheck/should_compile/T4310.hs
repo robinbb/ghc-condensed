@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, RankNTypes, ScopedTypeVariables, KindSignatures #-}
+{-# LANGUAGE TypeFamilies, RankNTypes, ScopedTypeVariables #-}
 
 module T4310 where
 

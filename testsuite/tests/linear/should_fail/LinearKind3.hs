@@ -1,4 +1,4 @@
-{-# LANGUAGE LinearTypes, KindSignatures #-}
+{-# LANGUAGE LinearTypes #-}
 module LinearKind3 where -- T18780
 
 import GHC.Exts

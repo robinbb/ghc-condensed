@@ -1,6 +1,5 @@
 {-# language MagicHash #-}
 {-# language GADTSyntax #-}
-{-# language KindSignatures #-}
 {-# language UnliftedNewtypes #-}
 
 module UnliftedNewtypesMismatchedKind where

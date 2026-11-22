@@ -9,7 +9,7 @@
 These are basically the constructs from Many,
 reimplemented in Haskell for our purposes. -}
 
-{-# LANGUAGE GADTs, KindSignatures, StandaloneDeriving,
+{-# LANGUAGE GADTs, StandaloneDeriving,
              RankNTypes, TypeFamilies, FlexibleInstances #-}
 module TypeMachinery where
 

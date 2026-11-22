@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, FlexibleInstances, KindSignatures,
+{-# LANGUAGE BangPatterns, CPP, FlexibleInstances,
     ScopedTypeVariables, TypeOperators, TypeSynonymInstances #-}
 {-# LANGUAGE Safe #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}

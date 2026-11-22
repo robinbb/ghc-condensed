@@ -1,4 +1,3 @@
-{-# Language KindSignatures #-}
 {-# Language PolyKinds #-}
 {-# Language RankNTypes #-}
 

@@ -1,4 +1,4 @@
-{-# Language KindSignatures, TypeOperators, PolyKinds, TypeOperators,
+{-# Language TypeOperators, PolyKinds, TypeOperators,
              ConstraintKinds, TypeFamilies, GADTs,
              AllowAmbiguousTypes, InstanceSigs #-}
 

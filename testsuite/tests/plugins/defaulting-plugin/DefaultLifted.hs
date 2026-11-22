@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, FlexibleInstances, PatternSynonyms, StandaloneDeriving, GeneralizedNewtypeDeriving, PolyKinds #-}
+{-# LANGUAGE FlexibleInstances, PatternSynonyms, StandaloneDeriving, GeneralizedNewtypeDeriving, PolyKinds #-}
 {-# OPTIONS -Wno-orphans #-}
 module DefaultLifted(DefaultType,plugin) where
 import GHC.Plugins

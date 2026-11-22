@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures #-}
 module T18831 where
 
 import Data.Kind

@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE KindSignatures, FlexibleInstances, GADTs #-}
+{-# LANGUAGE FlexibleInstances, GADTs #-}
 module Bug923 where
 
 import Data.Kind (Type)

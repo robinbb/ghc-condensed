@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 {-# LANGUAGE UndecidableInstances,
-             KindSignatures,
              FlexibleInstances,
              FunctionalDependencies #-}
 

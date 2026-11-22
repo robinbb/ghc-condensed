@@ -1,4 +1,4 @@
-{-# Language PolyKinds, KindSignatures, GADTs, ConstraintKinds #-}
+{-# Language PolyKinds, GADTs, ConstraintKinds #-}
 {-# Language FlexibleContexts #-}
 {-# Language RankNTypes #-}
 {-# Language TypeOperators #-}

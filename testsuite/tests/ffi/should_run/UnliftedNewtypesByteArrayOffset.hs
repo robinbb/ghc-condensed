@@ -1,6 +1,5 @@
 {-# language ForeignFunctionInterface #-}
 {-# language GADTSyntax #-}
-{-# language KindSignatures #-}
 {-# language MagicHash #-}
 {-# language UnboxedTuples #-}
 {-# language UnliftedFFITypes #-}

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, KindSignatures, RankNTypes #-}
+{-# LANGUAGE PolyKinds, TypeFamilies, RankNTypes #-}
 
 module T15740 where
 

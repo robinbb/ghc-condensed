@@ -3769,17 +3769,6 @@ data TcRnMessage where
                             -> !Int -- ^ The number of constructors
                             -> TcRnMessage
 
-  {-| TcRnKindSignaturesDisabled is an error indicating that a kind signature
-    was used in a data type declaration while the extension KindSignatures was
-    disabled.
-
-    Test cases:
-      T20873c, readFail036
-  -}
-  TcRnKindSignaturesDisabled :: !(Either (HsType GhcPs) (Name, HsType GhcRn))
-                                -- ^ The data type name
-                             -> TcRnMessage
-
   {-| TcRnEmptyDataDeclsDisabled is an error indicating that a data type
     was declared with no constructors while the extension EmptyDataDecls was
     disabled.

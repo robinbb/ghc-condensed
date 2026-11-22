@@ -84,7 +84,6 @@ Library
         FunctionalDependencies
         GADTs
         GeneralizedNewtypeDeriving
-        KindSignatures
         MagicHash
         NegativeLiterals
         NondecreasingIndentation

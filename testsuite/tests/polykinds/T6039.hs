@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures #-}
+{-# LANGUAGE PolyKinds #-}
 
 module Foo where
 

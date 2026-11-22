@@ -1,5 +1,5 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE KindSignatures, PolyKinds #-}
+{-# LANGUAGE PolyKinds #-}
 
 module Bug where
 

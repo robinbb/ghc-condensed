@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, KindSignatures,
+{-# LANGUAGE GADTs,
              FunctionalDependencies #-}
 
 -- Program from Josef Svenningsson

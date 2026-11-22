@@ -195,7 +195,6 @@ extensionName = \case
   LangExt.ExistentialQuantification -> "ExistentialQuantification"
   LangExt.MagicHash -> "MagicHash"
   LangExt.EmptyDataDecls -> "EmptyDataDecls"
-  LangExt.KindSignatures -> "KindSignatures"
   LangExt.RoleAnnotations -> "RoleAnnotations"
   LangExt.ParallelListComp -> "ParallelListComp"
   LangExt.TransformListComp -> "TransformListComp"
@@ -274,9 +273,6 @@ impliedXFlags
     , (LangExt.GADTs,            On LangExt.GADTSyntax)
     , (LangExt.GADTs,            On LangExt.MonoLocalBinds)
     , (LangExt.TypeFamilies,     On LangExt.MonoLocalBinds)
-
-    , (LangExt.TypeFamilies,     On LangExt.KindSignatures)  -- Type families use kind signatures
-    , (LangExt.PolyKinds,        On LangExt.KindSignatures)  -- Ditto polymorphic kinds
 
 
     -- Standalone kind signatures are a replacement for CUSKs.
@@ -368,7 +364,6 @@ glasgowExtsFlags = [
            , LangExt.FunctionalDependencies
            , LangExt.GeneralizedNewtypeDeriving
            , LangExt.ImplicitParams
-           , LangExt.KindSignatures
            , LangExt.LiberalTypeSynonyms
            , LangExt.MagicHash
            , LangExt.ParallelListComp

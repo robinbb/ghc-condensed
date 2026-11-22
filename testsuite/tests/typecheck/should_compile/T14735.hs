@@ -3,7 +3,6 @@
 {-# Language StandaloneDeriving #-}
 {-# Language TypeOperators #-}
 {-# Language GADTs #-}
-{-# Language KindSignatures #-}
 {-# Language FlexibleInstances #-}
 {-# Language UndecidableInstances #-}
 {-# Language RankNTypes #-}

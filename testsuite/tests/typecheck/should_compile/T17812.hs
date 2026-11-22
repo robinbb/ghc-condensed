@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, PolyKinds, KindSignatures #-}
+{-# LANGUAGE RankNTypes, PolyKinds #-}
 {-# OPTIONS_GHC -fdefer-out-of-scope-variables #-}
 
 module T17812 where

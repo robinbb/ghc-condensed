@@ -216,7 +216,6 @@ library
     FlexibleInstances
     GeneralizedNewtypeDeriving
     ImplicitParams
-    KindSignatures
     NondecreasingIndentation
     OverloadedStrings
     PatternSynonyms

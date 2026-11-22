@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, KindSignatures, AllowAmbiguousTypes #-}
+{-# LANGUAGE TypeFamilies, AllowAmbiguousTypes #-}
 
 module T27828b where
 

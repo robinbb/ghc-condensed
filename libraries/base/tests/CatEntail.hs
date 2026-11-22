@@ -1,5 +1,5 @@
 {-# LANGUAGE ConstraintKinds, GADTs, RankNTypes #-}
-{-# LANGUAGE TypeOperators, KindSignatures #-}
+{-# LANGUAGE TypeOperators #-}
 module CatEntail where
 import Prelude hiding (id, (.))
 import Data.Kind

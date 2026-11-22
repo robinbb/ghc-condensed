@@ -1,4 +1,4 @@
-TH_RichKinds2.hs:24:2: warning: [GHC-39584]
+TH_RichKinds2.hs:23:2: warning: [GHC-39584]
     data SMaybe_0 :: (k_0 -> *) ->
                  GHC.Internal.Maybe.Maybe k_0 -> * where
     SNothing_2 :: SMaybe_0 s_3 'GHC.Internal.Maybe.Nothing

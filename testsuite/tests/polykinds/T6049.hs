@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, PolyKinds, GADTs,  ExistentialQuantification #-}
+{-# LANGUAGE PolyKinds, GADTs,  ExistentialQuantification #-}
 
 module T6049 where
 

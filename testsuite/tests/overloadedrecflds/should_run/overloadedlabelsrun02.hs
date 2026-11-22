@@ -5,7 +5,6 @@
            , FlexibleContexts
            , FlexibleInstances
            , GADTs
-           , KindSignatures
            , NoMonomorphismRestriction
            , ScopedTypeVariables
            , StandaloneDeriving

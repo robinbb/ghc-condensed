@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE DerivingVia #-}
-{-# LANGUAGE KindSignatures #-}
 module T16181 where
 
 import Control.Monad.Trans.Class

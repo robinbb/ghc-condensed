@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, UndecidableSuperClasses, KindSignatures,
+{-# LANGUAGE TypeOperators, UndecidableSuperClasses,
 TypeFamilies, FlexibleContexts #-}
 
 module T11754 where

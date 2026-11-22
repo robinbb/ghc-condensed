@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE GADTs, KindSignatures, PatternSynonyms, TypeOperators,
+{-# LANGUAGE GADTs, PatternSynonyms, TypeOperators,
              ViewPatterns #-}
 module BundledPatterns (Vec(Nil,(:>)), RTree (LR,BR)) where
 

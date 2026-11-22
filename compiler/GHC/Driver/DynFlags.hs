@@ -1462,7 +1462,6 @@ languageExtensions (Just GHC2021)
        LangExt.HexFloatLiterals,
        LangExt.ImportQualifiedPost,
        LangExt.InstanceSigs,
-       LangExt.KindSignatures,
        LangExt.NamedFieldPuns,
        LangExt.NamedWildCards,
        LangExt.NumericUnderscores,

@@ -6,8 +6,7 @@ Type families
 .. extension:: TypeFamilies
     :shortdesc: Allow definition of type families.
 
-    :implies: :extension:`MonoLocalBinds`, :extension:`KindSignatures`,
-              :extension:`ExplicitNamespaces`
+    :implies: :extension:`MonoLocalBinds`, :extension:`ExplicitNamespaces`
     :implied by: :extension:`TypeFamilyDependencies`
     :since: 6.8.1
 

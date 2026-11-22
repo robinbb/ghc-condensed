@@ -1,4 +1,4 @@
-:set -XKindSignatures -XMagicHash  -XPolyKinds
+:set -XMagicHash  -XPolyKinds
 :m + Data.Kind GHC.Exts
 
 data T (a :: k -> k')

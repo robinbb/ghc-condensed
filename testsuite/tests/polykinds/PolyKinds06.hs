@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures  #-}
 {-# LANGUAGE GADTs                      #-}
 
 module PolyKinds06 where

@@ -400,7 +400,6 @@ library
     FlexibleInstances
     GeneralizedNewtypeDeriving
     ImplicitParams
-    KindSignatures
     LambdaCase
     NondecreasingIndentation
     OverloadedStrings

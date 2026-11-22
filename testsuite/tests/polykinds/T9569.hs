@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE RankNTypes, ConstraintKinds, KindSignatures, TypeFamilies #-}
+{-# LANGUAGE RankNTypes, ConstraintKinds, TypeFamilies #-}
 module T9569 where
 
 import GHC.Exts

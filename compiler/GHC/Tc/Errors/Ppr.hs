@@ -1739,10 +1739,6 @@ instance Diagnostic TcRnMessage where
     TcRnMultipleConForNewtype tycon n -> mkSimpleDecorated $
       sep [text "A newtype must have exactly one constructor,",
            nest 2 $ text "but" <+> quotes (ppr tycon) <+> text "has" <+> speakN n]
-    TcRnKindSignaturesDisabled thing -> mkSimpleDecorated $
-      text "Illegal kind signature" <+> quotes (either ppr with_sig thing)
-      where
-        with_sig (tc_name, ksig) = ppr tc_name <+> dcolon <+> ppr ksig
     TcRnEmptyDataDeclsDisabled tycon -> mkSimpleDecorated $
       quotes (ppr tycon) <+> text "has no constructors"
     TcRnRoleMismatch var annot inferred -> mkSimpleDecorated $
@@ -2581,8 +2577,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnMultipleConForNewtype{}
       -> ErrorWithoutFlag
-    TcRnKindSignaturesDisabled{}
-      -> ErrorWithoutFlag
     TcRnEmptyDataDeclsDisabled{}
       -> ErrorWithoutFlag
     TcRnRoleMismatch{}
@@ -3266,8 +3260,6 @@ instance Diagnostic TcRnMessage where
       -> [suggestAnyExtension [LangExt.ExistentialQuantification, LangExt.GADTs]]
     TcRnMultipleConForNewtype{}
       -> noHints
-    TcRnKindSignaturesDisabled{}
-      -> [suggestExtension LangExt.KindSignatures]
     TcRnEmptyDataDeclsDisabled{}
       -> [suggestExtension LangExt.EmptyDataDecls]
     TcRnRoleMismatch{}

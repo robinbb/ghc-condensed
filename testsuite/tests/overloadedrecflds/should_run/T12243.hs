@@ -1,5 +1,4 @@
 {-# LANGUAGE AllowAmbiguousTypes
-           , KindSignatures
            , OverloadedLabels
            , RebindableSyntax
            , ScopedTypeVariables

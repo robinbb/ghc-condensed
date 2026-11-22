@@ -3,7 +3,6 @@
 
 {-# Language GADTs #-}
 {-# Language InstanceSigs #-}
-{-# Language KindSignatures #-}
 {-# Language TypeFamilies #-}
 {-# Language FlexibleInstances #-}
 

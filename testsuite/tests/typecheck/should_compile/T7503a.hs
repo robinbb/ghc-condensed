@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, PolyKinds, KindSignatures, GADTs #-}
+{-# LANGUAGE ExistentialQuantification, PolyKinds, GADTs #-}
 module T7503a where
     import Data.Kind
     import GHC.Exts hiding (Any)

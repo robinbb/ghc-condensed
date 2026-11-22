@@ -1,7 +1,5 @@
 {-# LANGUAGE PolyKinds,
-             GADTs,
-             KindSignatures
- #-}
+             GADTs #-}
 
 module T5935 where
 

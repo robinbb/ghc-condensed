@@ -1,5 +1,5 @@
 {-# LANGUAGE ConstraintKinds, TypeOperators, GADTs #-}
-{-# LANGUAGE TypeFamilies, KindSignatures, FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances #-}
 module Reproducer where
 
 import Data.Kind (Type, Constraint)

@@ -1,4 +1,4 @@
-{-# LANGUAGE NoTypeApplications, NoKindSignatures #-}
+{-# LANGUAGE NoTypeApplications #-}
 module T where
 
 data Proxy a = P

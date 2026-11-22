@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures #-}
+{-# LANGUAGE PolyKinds #-}
 
 module T11203 where
 

@@ -1428,8 +1428,6 @@ rn_ty_pat (HsWildCardTy h) =
 
 rn_ty_pat (HsKindSig an ty ki) = do
   ctxt <- askDocContext
-  kind_sigs_ok <- liftRn $ xoptM LangExt.KindSignatures
-  unless kind_sigs_ok (liftRn $ badKindSigErr ctxt ki)
   ~(HsPS hsps ki') <- liftRnWithCont $
                       rnHsPatSigKind AlwaysBind ctxt (HsPS noAnn ki)
   ty' <- rn_lty_pat ty

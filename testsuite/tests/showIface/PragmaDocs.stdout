@@ -50,7 +50,6 @@ docs:
          FlexibleInstances
          ExistentialQuantification
          EmptyDataDecls
-         KindSignatures
          RoleAnnotations
          GeneralizedNewtypeDeriving
          PostfixOperators

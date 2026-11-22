@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs          #-}
-{-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE TypeOperators  #-}
 
 module T10321 where

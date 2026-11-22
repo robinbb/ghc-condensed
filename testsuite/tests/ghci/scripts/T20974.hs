@@ -1,4 +1,4 @@
-{-# LANGUAGE KindSignatures, TypeFamilies, TypeOperators #-}
+{-# LANGUAGE TypeFamilies, TypeOperators #-}
 
 module T20974 where
 

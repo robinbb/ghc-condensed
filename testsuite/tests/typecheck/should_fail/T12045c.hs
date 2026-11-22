@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeApplications, KindSignatures, GADTs
+{-# LANGUAGE PolyKinds, TypeApplications, GADTs
              , TypeFamilies, RankNTypes #-}
 
 module T12045c where

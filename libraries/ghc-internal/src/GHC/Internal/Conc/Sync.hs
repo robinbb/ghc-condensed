@@ -3,7 +3,6 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE UnliftedFFITypes #-}
-{-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE Unsafe #-}
 
 {-# OPTIONS_HADDOCK not-home #-}

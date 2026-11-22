@@ -1,4 +1,3 @@
-{-# LANGUAGE KindSignatures             #-}
 {-# LANGUAGE TypeOperators              #-}
 {-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE TypeFamilies               #-}

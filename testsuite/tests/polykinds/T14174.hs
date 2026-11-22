@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, KindSignatures, PolyKinds #-}
+{-# LANGUAGE RankNTypes, PolyKinds #-}
 module T14174 where
 
 data T k (x :: k) = MkT

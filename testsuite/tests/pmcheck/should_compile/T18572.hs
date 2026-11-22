@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fforce-recomp #-}
-{-# LANGUAGE KindSignatures, GADTs #-}
+{-# LANGUAGE GADTs #-}
 
 module T18572 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, KindSignatures #-}
+{-# LANGUAGE PolyKinds #-}
 
 module T16344 where
 

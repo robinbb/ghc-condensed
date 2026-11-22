@@ -6,7 +6,6 @@ Kind polymorphism
 .. extension:: PolyKinds
     :shortdesc: Allow kind polymorphism.
 
-    :implies: :extension:`KindSignatures`
     :since: 7.4.1
 
     :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
@@ -30,8 +29,8 @@ In Haskell 98, the inferred kind for ``App`` is ``(Type -> Type) -> Type ->
 Type``. But this is overly specific, because another suitable Haskell 98 kind
 for ``App`` is ``((Type -> Type) -> Type) -> (Type -> Type) -> Type``, where the
 kind assigned to ``a`` is ``Type -> Type``. Indeed, without kind signatures
-(:extension:`KindSignatures`), it is necessary to use a dummy constructor to get
-a Haskell compiler to infer the second kind. With kind polymorphism
+(see :ref:`kinding`), it is necessary to use a dummy constructor to get a
+Haskell compiler to infer the second kind. With kind polymorphism
 (:extension:`PolyKinds`), GHC infers the kind ``forall k. (k -> Type) -> k ->
 Type`` for ``App``, which is its most general kind.
 
@@ -1021,8 +1020,8 @@ these flags, especially :ghc-flag:`-fprint-explicit-kinds`.
 Datatype return kinds
 ---------------------
 
-With :extension:`KindSignatures`, we can give the kind of a datatype written
-in GADT-syntax (see :extension:`GADTSyntax`). For example::
+We can give the kind of a datatype written in GADT-syntax (see
+:extension:`GADTSyntax`). For example::
 
   data T :: Type -> Type where ...
 

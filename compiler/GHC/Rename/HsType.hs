@@ -37,10 +37,7 @@ module GHC.Rename.HsType (
         extractConDeclGADTDetailsTyVars, extractDataDefnKindVars,
         extractHsOuterTvBndrs, extractHsTyArgRdrKiTyVars,
         extractHsGadtTelescopes,
-        nubL, nubN,
-
-        -- Error helpers
-        badKindSigErr
+        nubL, nubN
   ) where
 
 import GHC.Prelude
@@ -654,9 +651,7 @@ rnHsTyKi env (HsListTy x ty)
        ; return (HsListTy x ty', fvs) }
 
 rnHsTyKi env (HsKindSig x ty k)
-  = do { kind_sigs_ok <- xoptM LangExt.KindSignatures
-       ; unless kind_sigs_ok (badKindSigErr (rtke_ctxt env) k)
-       ; (k', sig_fvs)  <- rnLHsTyKi (env { rtke_level = KindLevel }) k
+  = do { (k', sig_fvs)  <- rnLHsTyKi (env { rtke_level = KindLevel }) k
        ; (ty', lhs_fvs) <- bindSigTyVarsFV (hsScopedKvs k') $
                            rnLHsTyKi env ty
        ; return (HsKindSig x ty' k', lhs_fvs `plusFN` sig_fvs) }
@@ -1329,9 +1324,7 @@ bindHsBndrVar _ (HsBndrWildCard h) thing_inside
 rnHsBndrKind :: HsDocContext -> HsBndrKind GhcPs -> RnM (HsBndrKind GhcRn, FreeNames)
 rnHsBndrKind _ (HsBndrNoKind _) = return (HsBndrNoKind noExtField, emptyFNs)
 rnHsBndrKind doc (HsBndrKind _ kind) =
-  do { sig_ok <- xoptM LangExt.KindSignatures
-     ; unless sig_ok (badKindSigErr doc kind)
-     ; (kind', fvs) <- rnLHsKind doc kind
+  do { (kind', fvs) <- rnLHsKind doc kind
      ; return (HsBndrKind noExtField kind', fvs) }
 
 -- Check for TypeAbstractions and update the type parameter of HsBndrVis.
@@ -1756,12 +1749,6 @@ is_unbound _            = False
 unexpectedPatSigTypeErr :: HsPatSigType GhcPs -> TcRnMessage
 unexpectedPatSigTypeErr ty
   = TcRnUnexpectedPatSigType ty
-
-badKindSigErr :: HsDocContext -> LHsType GhcPs -> TcM ()
-badKindSigErr doc (L loc ty)
-  = setSrcSpanA loc $ addErr $
-    TcRnWithHsDocContext doc $
-    TcRnKindSignaturesDisabled (Left ty)
 
 -- | If a 'Name' is that of a promoted data constructor written without a
 -- promotion tick, warn about it.

@@ -205,7 +205,6 @@ module Language.Haskell.TH where
     | ExistentialQuantification
     | MagicHash
     | EmptyDataDecls
-    | KindSignatures
     | RoleAnnotations
     | ParallelListComp
     | TransformListComp
@@ -804,7 +803,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | ExistentialQuantification
     | MagicHash
     | EmptyDataDecls
-    | KindSignatures
     | RoleAnnotations
     | ParallelListComp
     | TransformListComp
@@ -1538,7 +1536,6 @@ module Language.Haskell.TH.Syntax where
     | ExistentialQuantification
     | MagicHash
     | EmptyDataDecls
-    | KindSignatures
     | RoleAnnotations
     | ParallelListComp
     | TransformListComp

@@ -1,5 +1,4 @@
 
-{-# LANGUAGE KindSignatures #-}
 
 module Foo where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE GADTs, KindSignatures, PatternSynonyms #-}
+{-# LANGUAGE GADTs, PatternSynonyms #-}
 module BundledPatterns2 (Vec((:>), Empty), RTree(..)) where
 
 import GHC.TypeLits
