@@ -138,7 +138,6 @@ module Language.Haskell.TH where
     | MonomorphismRestriction
     | MonoLocalBinds
     | DeepSubsumption
-    | RelaxedPolyRec
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface
@@ -734,7 +733,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | MonomorphismRestriction
     | MonoLocalBinds
     | DeepSubsumption
-    | RelaxedPolyRec
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface
@@ -1465,7 +1463,6 @@ module Language.Haskell.TH.Syntax where
     | MonomorphismRestriction
     | MonoLocalBinds
     | DeepSubsumption
-    | RelaxedPolyRec
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface

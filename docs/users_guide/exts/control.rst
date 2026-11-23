@@ -102,7 +102,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`RankNTypes`
-     * :extension:`RelaxedPolyRec`
      * :extension:`RoleAnnotations`
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
@@ -166,7 +165,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`RankNTypes`
-     * :extension:`RelaxedPolyRec`
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`
@@ -201,7 +199,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`MonomorphismRestriction`
      * :extension:`PatternGuards`
-     * :extension:`RelaxedPolyRec`
      * :extension:`StarIsType`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`

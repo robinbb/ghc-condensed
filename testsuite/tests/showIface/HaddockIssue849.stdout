@@ -24,7 +24,6 @@ docs:
          Just GHC2021
        language extensions:
          MonomorphismRestriction
-         RelaxedPolyRec
          ForeignFunctionInterface
          ImplicitPrelude
          ScopedTypeVariables

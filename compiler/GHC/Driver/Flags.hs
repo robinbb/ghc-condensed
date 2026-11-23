@@ -100,15 +100,12 @@ data ExtensionDeprecation
     -- ^ Both turning on and turning off the flag are deprecated, with a message
     -- suggesting turning on or off the conjunction of the given extensions
     -- instead.
-  | ExtensionFlagDeprecatedCond TurnOnFlag String
-    -- ^ Only one direction is deprecated, as specified by the 'TurnOnFlag'.
   | ExtensionFlagDeprecated String
     -- ^ Both turning on and turning off the flag are deprecated, with the given
     -- message when the flag is enabled and a default message when it is disabled.
   deriving Eq
 
--- | Always returns 'Deprecated' even when the flag is
--- only conditionally deprecated.
+-- | Whether any use of the flag is deprecated.
 deprecation :: ExtensionDeprecation -> Deprecation
 deprecation ExtensionNotDeprecated = NotDeprecated
 deprecation _ = Deprecated
@@ -116,8 +113,6 @@ deprecation _ = Deprecated
 extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
 extensionDeprecation = \case
   LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
-  LangExt.RelaxedPolyRec                    -> ExtensionFlagDeprecatedCond turnOff
-                                                 "You can't turn off RelaxedPolyRec any more"
   _                                         -> ExtensionNotDeprecated
 
 extensionName :: LangExt.Extension -> String
@@ -128,7 +123,6 @@ extensionName = \case
   LangExt.MonomorphismRestriction -> "MonomorphismRestriction"
   LangExt.MonoLocalBinds -> "MonoLocalBinds"
   LangExt.DeepSubsumption -> "DeepSubsumption"
-  LangExt.RelaxedPolyRec -> "RelaxedPolyRec"           -- Deprecated
   LangExt.ExtendedDefaultRules -> "ExtendedDefaultRules"     -- Use GHC's extended rules for defaulting
   LangExt.NamedDefaults -> "NamedDefaults"
   LangExt.ForeignFunctionInterface -> "ForeignFunctionInterface"

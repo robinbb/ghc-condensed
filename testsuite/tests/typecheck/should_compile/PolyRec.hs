@@ -1,4 +1,4 @@
--- An example of RelaxedPolyRec in action which came up
+-- An example of relaxed polymorphic recursion which came up
 -- on Haskell Cafe June 2010 (Job Vranish)
 
 module Foo where
@@ -20,7 +20,7 @@ maybeToInt = length . maybeToList
 f :: Y Maybe -> Int
 f (Y x) = g maybeToInt x
 
--- With RelaxedPolyRec we can infer this type
+-- Since f has a signature, we can infer this type
 -- g :: Functor f => (f Int -> b) -> f (Y Maybe) -> b
 g h x = h $ fmap f x
 

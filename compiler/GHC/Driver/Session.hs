@@ -2829,8 +2829,6 @@ makeExtensionFlag name depr ext = (deprecation depr, spec)
                 ExtensionNotDeprecated -> nop
                 ExtensionDeprecatedFor xs
                   -> deprecate . deprecatedForExtensions (map extensionName xs)
-                ExtensionFlagDeprecatedCond cond str
-                  -> \f -> when (f == cond) (deprecate str)
                 ExtensionFlagDeprecated str
                   -> \f -> deprecate $ if f == turnOn
                                        then str

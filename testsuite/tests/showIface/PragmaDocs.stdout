@@ -24,7 +24,6 @@ docs:
        language extensions:
          MonomorphismRestriction
          MonoLocalBinds
-         RelaxedPolyRec
          ForeignFunctionInterface
          ImplicitPrelude
          ScopedTypeVariables

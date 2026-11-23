@@ -2,9 +2,9 @@
 
 -- !!! Mis-matched contexts in a mutually recursive group
 
-{-  # LANGUAGE NoRelaxedPolyRec #-}
--- With the new type checker you can't turn off RelaxedPolyRec
--- so this test always succeeds
+-- A binding with a type signature breaks its recursive group for
+-- typing (generalised typing of mutually recursive bindings), so
+-- this test always succeeds
 
 module ShouldFail where
 

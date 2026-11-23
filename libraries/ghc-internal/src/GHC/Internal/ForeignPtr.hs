@@ -53,7 +53,6 @@ module GHC.Internal.ForeignPtr
         finalizeForeignPtr
   ) where
 
-import GHC.Internal.Types (Type)
 import GHC.Internal.Base
 import GHC.Internal.Foreign.Storable
 import GHC.Internal.Data.Foldable    ( sequence_ )

@@ -1423,7 +1423,6 @@ languageExtensions (Just Haskell2010)
        LangExt.PatternGuards,
        LangExt.DoAndIfThenElse,
        LangExt.FieldSelectors,
-       LangExt.RelaxedPolyRec,
        LangExt.DeepSubsumption,
        LangExt.ListTuplePuns,
        LangExt.ImplicitStagePersistence
@@ -1440,7 +1439,6 @@ languageExtensions (Just GHC2021)
        LangExt.PatternGuards,
        LangExt.DoAndIfThenElse,
        LangExt.FieldSelectors,
-       LangExt.RelaxedPolyRec,
        LangExt.ListTuplePuns,
        -- Now the new extensions (not in Haskell2010)
        LangExt.BangPatterns,

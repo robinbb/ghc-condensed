@@ -237,7 +237,6 @@ docs:
        language extensions:
          MonomorphismRestriction
          MonoLocalBinds
-         RelaxedPolyRec
          ForeignFunctionInterface
          TemplateHaskell
          TemplateHaskellQuotes

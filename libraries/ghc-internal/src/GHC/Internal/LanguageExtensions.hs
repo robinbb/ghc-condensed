@@ -37,7 +37,6 @@ data Extension
    | MonomorphismRestriction
    | MonoLocalBinds
    | DeepSubsumption
-   | RelaxedPolyRec           -- Deprecated
    | ExtendedDefaultRules     -- Use GHC's extended rules for defaulting
    | NamedDefaults
    | ForeignFunctionInterface

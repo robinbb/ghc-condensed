@@ -28,7 +28,6 @@ module GHC.Internal.Ptr (
 
     ) where
 
-import GHC.Internal.Types (Type)
 import GHC.Internal.Base
 import GHC.Internal.Prim (
       Addr#, addr2Int#, coerce, int2Word#, minusAddr#, nullAddr#, plusAddr#,

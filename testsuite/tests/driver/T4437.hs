@@ -71,5 +71,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "DataKinds",
                                "KindSignatures",
                                "InstanceSigs",
-                               "PolyKinds"
+                               "PolyKinds",
+                               "RelaxedPolyRec"
                               ]
