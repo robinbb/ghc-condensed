@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -O #-}   -- To switch on the RULE
-{-# LANGUAGE RankNTypes #-}
 
 module T13381 where
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ImpredicativeTypes #-}
 {-# OPTIONS_GHC -fdefer-type-errors #-}
 module Main where

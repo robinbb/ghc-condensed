@@ -5,7 +5,6 @@
 {-# LANGUAGE FlexibleInstances   #-}
 {-# LANGUAGE StandaloneDeriving  #-}
 {-# LANGUAGE NoImplicitPrelude   #-}
-{-# LANGUAGE RankNTypes          #-}
 
 -----------------------------------------------------------------------------
 -- |

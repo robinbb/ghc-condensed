@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 
 -- Claus reported by email that

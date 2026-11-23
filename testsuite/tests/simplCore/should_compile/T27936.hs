@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ViewPatterns, RankNTypes #-}
+{-# LANGUAGE GADTs, ViewPatterns #-}
 {-# OPTIONS_GHC -fno-opt-coercion #-}
 module T27936 where
 

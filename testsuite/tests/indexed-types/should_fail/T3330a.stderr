@@ -1,4 +1,4 @@
-T3330a.hs:21:34: error: [GHC-25897]
+T3330a.hs:20:34: error: [GHC-25897]
     • Couldn't match type ‘ix’
                      with ‘r ix1 -> Writer [AnyF s] (r'0 ix1)’
       Expected: (s0 ix0 -> ix1) -> r ix1 -> Writer [AnyF s] (r'0 ix1)
@@ -7,16 +7,16 @@ T3330a.hs:21:34: error: [GHC-25897]
         the type signature for:
           children :: forall (s :: Type -> Type) ix (r :: Type -> Type).
                       s ix -> PF s r ix -> [AnyF s]
-        at T3330a.hs:20:1-43
+        at T3330a.hs:19:1-43
     • In the first argument of ‘hmapM’, namely ‘p’
       In the first argument of ‘execWriter’, namely ‘(hmapM p collect x)’
       In the expression: execWriter (hmapM p collect x)
     • Relevant bindings include
-        x :: PF s r ix (bound at T3330a.hs:21:12)
-        p :: s ix (bound at T3330a.hs:21:10)
-        children :: s ix -> PF s r ix -> [AnyF s] (bound at T3330a.hs:21:1)
+        x :: PF s r ix (bound at T3330a.hs:20:12)
+        p :: s ix (bound at T3330a.hs:20:10)
+        children :: s ix -> PF s r ix -> [AnyF s] (bound at T3330a.hs:20:1)
 
-T3330a.hs:21:44: error: [GHC-25897]
+T3330a.hs:20:44: error: [GHC-25897]
     • Couldn't match type ‘ix’
                      with ‘r0 ix0 -> Writer [AnyF s0] (r0 ix0)’
       Expected: PF s r (r0 ix0 -> Writer [AnyF s0] (r0 ix0))
@@ -25,12 +25,12 @@ T3330a.hs:21:44: error: [GHC-25897]
         the type signature for:
           children :: forall (s :: Type -> Type) ix (r :: Type -> Type).
                       s ix -> PF s r ix -> [AnyF s]
-        at T3330a.hs:20:1-43
+        at T3330a.hs:19:1-43
     • In the third argument of ‘hmapM’, namely ‘x’
       In the first argument of ‘execWriter’, namely ‘(hmapM p collect x)’
       In the expression: execWriter (hmapM p collect x)
     • Relevant bindings include
-        x :: PF s r ix (bound at T3330a.hs:21:12)
-        p :: s ix (bound at T3330a.hs:21:10)
-        children :: s ix -> PF s r ix -> [AnyF s] (bound at T3330a.hs:21:1)
+        x :: PF s r ix (bound at T3330a.hs:20:12)
+        p :: s ix (bound at T3330a.hs:20:10)
+        children :: s ix -> PF s r ix -> [AnyF s] (bound at T3330a.hs:20:1)
 

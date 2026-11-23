@@ -1,6 +1,6 @@
 -- More GADT goodness
 
-:set -XGADTs -XRankNTypes -XGeneralizedNewtypeDeriving
+:set -XGADTs -XGeneralizedNewtypeDeriving
 :l GADT
 :a Test
 :m +Main

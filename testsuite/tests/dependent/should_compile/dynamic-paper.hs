@@ -4,7 +4,7 @@ Stephanie Weirich, Richard Eisenberg, and Dimitrios Vytiniotis, 2016. -}
 -- NB: it includes a negative-recursive function (see delta1), and
 -- so will give "simplifier ticks exhausted", at least with -O
 
-{-#  LANGUAGE RankNTypes, TypeOperators,
+{-#  LANGUAGE TypeOperators,
              ScopedTypeVariables, GADTs, FlexibleInstances,
              UndecidableInstances, RebindableSyntax,
              MagicHash #-}

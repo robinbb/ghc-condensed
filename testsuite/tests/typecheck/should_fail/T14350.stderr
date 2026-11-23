@@ -1,4 +1,4 @@
-T14350.hs:48:10: error: [GHC-71451]
+T14350.hs:47:10: error: [GHC-71451]
     • Cannot generalise type; skolem ‘a’ would escape its scope
       if I tried to quantify (x0 :: a) in this type:
         forall a (b1 :: a ~> Type)

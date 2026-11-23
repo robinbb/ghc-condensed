@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
-             ExistentialQuantification, RankNTypes,
+             ExistentialQuantification,
              FlexibleInstances #-}
 
 -- Arguably, the type signature for f1 should be enough to make

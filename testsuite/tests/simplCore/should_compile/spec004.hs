@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- Dead arguments are kept in specialisations.
 -- See Note [Do not drop dead args from specialisations] in GHC.Core.Opt.Specialise

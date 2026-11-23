@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, MagicHash, RankNTypes #-}
+{-# LANGUAGE TypeFamilies, MagicHash #-}
 
 module T11473 where
 

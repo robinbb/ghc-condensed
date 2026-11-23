@@ -1,5 +1,4 @@
 {-# LANGUAGE NoImplicitPrelude
-           , RankNTypes
            , ExistentialQuantification
            , Safe
   #-}

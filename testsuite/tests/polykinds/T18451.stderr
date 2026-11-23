@@ -1,4 +1,4 @@
-T18451.hs:9:58: error: [GHC-27958]
+T18451.hs:8:58: error: [GHC-27958]
     • Expected kind ‘k0’, but ‘b’ has kind ‘k’
       Type variable kinds: k :: Const Type a
     • In the second argument of ‘SameKind’, namely ‘b’

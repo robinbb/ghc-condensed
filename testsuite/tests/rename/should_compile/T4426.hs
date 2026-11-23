@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T4426 where
 

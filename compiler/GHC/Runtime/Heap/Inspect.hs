@@ -639,8 +639,8 @@ with the type of <term> and then display the result, but if the type has nested
 a result, `:print` will bail out and the unhelpful result will be `<term> =
 (_t1::t1)` (where `t1` is a metavariable).
 
-Beware: <term> can have nested `forall`s even if its definition doesn't use
-RankNTypes! Here is an example from #14828:
+Beware: <term> can have nested `forall`s even if its definition writes
+none! Here is an example from #14828:
 
   class Functor f where
     fmap :: (a -> b) -> f a -> f b

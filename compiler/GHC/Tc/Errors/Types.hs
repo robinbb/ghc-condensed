@@ -1288,22 +1288,13 @@ data TcRnMessage where
 
       Test cases:
         - ghci/should_run/T15806
-        - indexed-types/should_fail/SimpleFail15
         - typecheck/should_fail/T11355
-        - typecheck/should_fail/T12083a
-        - typecheck/should_fail/T12083b
-        - typecheck/should_fail/T16059c
-        - typecheck/should_fail/T16059e
-        - typecheck/should_fail/T17213
-        - typecheck/should_fail/T18939_Fail
         - typecheck/should_fail/T2538
-        - typecheck/should_fail/T5957
         - typecheck/should_fail/T7019
         - typecheck/should_fail/T7019a
         - typecheck/should_fail/T7809
         - typecheck/should_fail/T9196
         - typecheck/should_fail/tcfail127
-        - typecheck/should_fail/tcfail184
         - typecheck/should_fail/tcfail196
         - typecheck/should_fail/tcfail197
   -}

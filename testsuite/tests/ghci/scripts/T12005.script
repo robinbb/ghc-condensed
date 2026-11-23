@@ -1,4 +1,4 @@
-:set -XRankNTypes -XConstraintKinds -XAllowAmbiguousTypes
+:set -XConstraintKinds -XAllowAmbiguousTypes
 
 import Data.Kind
 

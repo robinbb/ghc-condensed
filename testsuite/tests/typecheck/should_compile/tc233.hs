@@ -1,5 +1,4 @@
 
-{-# LANGUAGE RankNTypes #-}
 
 module ShouldCompile where
 

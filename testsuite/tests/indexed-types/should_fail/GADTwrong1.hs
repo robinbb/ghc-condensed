@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, RankNTypes, ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies, GADTs, ScopedTypeVariables #-}
 
 module ShouldFail where
 

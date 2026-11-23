@@ -403,7 +403,6 @@ library
     NondecreasingIndentation
     OverloadedStrings
     PatternSynonyms
-    RankNTypes
     RecordWildCards
     ScopedTypeVariables
     StandaloneDeriving

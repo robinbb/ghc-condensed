@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE RankNTypes #-}
 module Bug where
 
 class C p q

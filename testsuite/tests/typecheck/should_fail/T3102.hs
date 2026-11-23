@@ -1,4 +1,4 @@
-{-# OPTIONS -XImplicitParams -XRankNTypes #-}
+{-# OPTIONS -XImplicitParams #-}
 module Bug where
 
 t :: forall a. ((?p :: Int) => a) -> String

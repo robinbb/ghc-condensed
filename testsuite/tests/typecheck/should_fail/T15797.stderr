@@ -1,4 +1,4 @@
-T15797.hs:24:9: error: [GHC-83865]
+T15797.hs:23:9: error: [GHC-83865]
     • Expecting two more arguments to ‘EQ @ob’
       Expected a type, but ‘EQ @ob’ has kind ‘ob -> ob -> Type’
     • In the first argument of ‘Ríki’, namely ‘(EQ @ob)’

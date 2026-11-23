@@ -1,4 +1,4 @@
-{-# LANGUAGE RebindableSyntax, RankNTypes #-}
+{-# LANGUAGE RebindableSyntax #-}
 
 module T10381 where
 

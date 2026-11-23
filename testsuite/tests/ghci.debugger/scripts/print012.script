@@ -1,4 +1,4 @@
-:set -XGADTs -XRankNTypes -XExistentialQuantification -XGeneralizedNewtypeDeriving
+:set -XGADTs -XExistentialQuantification -XGeneralizedNewtypeDeriving
 :l GADT
 :a Test
 :m +Main

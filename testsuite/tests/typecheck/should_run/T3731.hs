@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances,
               UndecidableInstances,
-              RankNTypes, EmptyDataDecls, GHC2021 #-}
+              EmptyDataDecls, GHC2021 #-}
 
 {-# OPTIONS_GHC -Wall #-}
 

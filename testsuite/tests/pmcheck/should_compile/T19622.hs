@@ -1,6 +1,5 @@
 {-# LANGUAGE GADTs                     #-}
 {-# LANGUAGE PatternSynonyms           #-}
-{-# LANGUAGE RankNTypes                #-}
 {-# LANGUAGE TypeOperators             #-}
 {-# LANGUAGE ViewPatterns              #-}
 

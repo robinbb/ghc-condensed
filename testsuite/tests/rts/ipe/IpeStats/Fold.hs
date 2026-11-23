@@ -1,6 +1,5 @@
 -- Just a big file we use to test IPE stats from -dipe-stats
 -- Copied from testsuite/tests/haddock/perf/Fold.hs
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE RoleAnnotations #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}

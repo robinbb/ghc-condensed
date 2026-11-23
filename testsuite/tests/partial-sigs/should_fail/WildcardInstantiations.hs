@@ -1,4 +1,4 @@
-{-# LANGUAGE NamedWildCards, ScopedTypeVariables, RankNTypes #-}
+{-# LANGUAGE NamedWildCards, ScopedTypeVariables #-}
 module WildcardInstantiations where
 
 

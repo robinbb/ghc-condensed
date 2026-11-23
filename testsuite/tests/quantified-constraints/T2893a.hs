@@ -1,7 +1,6 @@
 {-# LANGUAGE
     GADTs
   , FlexibleContexts
-  , RankNTypes
   , ScopedTypeVariables
   , QuantifiedConstraints #-}
 

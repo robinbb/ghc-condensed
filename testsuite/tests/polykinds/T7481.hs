@@ -1,4 +1,4 @@
- {-# LANGUAGE RankNTypes, GADTs #-}
+ {-# LANGUAGE GADTs #-}
 
 module T7481 where
 

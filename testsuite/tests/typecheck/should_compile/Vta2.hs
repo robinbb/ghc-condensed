@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 
 module Vta2 where

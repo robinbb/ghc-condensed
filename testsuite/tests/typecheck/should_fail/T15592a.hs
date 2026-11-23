@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, RankNTypes #-}
+{-# LANGUAGE TypeApplications #-}
 
 module T15592 where
 import Data.Proxy

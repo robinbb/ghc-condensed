@@ -11,7 +11,6 @@
 {-# language LambdaCase #-}
 {-# language LinearTypes #-}
 {-# language QuantifiedConstraints #-}
-{-# language RankNTypes #-}
 {-# language RoleAnnotations #-}
 {-# language ScopedTypeVariables #-}
 {-# language StandaloneDeriving #-}

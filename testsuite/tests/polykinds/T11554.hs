@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, RankNTypes, TypeApplications #-}
+{-# LANGUAGE GADTs, TypeApplications #-}
 
 module T11554 where
 

@@ -51,7 +51,6 @@ docs:
          PostfixOperators
          TupleSections
          PatternGuards
-         RankNTypes
          TypeOperators
          ExplicitNamespaces
          TraditionalRecordSyntax

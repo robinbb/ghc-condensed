@@ -48,7 +48,6 @@ docs:
          PostfixOperators
          TupleSections
          PatternGuards
-         RankNTypes
          TypeOperators
          TraditionalRecordSyntax
          BinaryLiterals

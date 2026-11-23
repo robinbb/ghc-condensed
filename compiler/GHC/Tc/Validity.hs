@@ -330,18 +330,12 @@ types and (b) when checking a mutually recursive group of type and class decls,
 we can't "look" at the tycons/classes yet.  Also, the checks are rather
 diverse, and used to really mess up the other code.
 
-One thing we check for is 'rank'.
-
-        Rank 0:         monotypes (no foralls)
-        Rank 1:         foralls at the front only, Rank 0 inside
-        Rank 2:         foralls at the front, Rank 1 on left of fn arrow,
-
-        basic ::= tyvar | T basic ... basic
-
-        r2  ::= forall tvs. cxt => r2a
-        r2a ::= r1 -> r2a | basic
-        r1  ::= forall tvs. cxt => r0
-        r0  ::= r0 -> r0 | basic
+One thing we check for is 'rank'. A forall or a context may appear under
+a function arrow at any depth, but a polytype may not be the argument of
+a type constructor (without ImpredicativeTypes), of a type synonym
+(without LiberalTypeSynonyms) or of a constraint (without
+QuantifiedConstraints), and a few positions must be monotypes whatever
+the flags; see Rank in GHC.Tc.Types.Rank.
 
 Another thing is to check that type synonyms are saturated.
 This might not necessarily show up in kind checking.
@@ -358,49 +352,36 @@ checkValidType :: UserTypeCtxt -> Type -> TcM ()
 -- Not used for instance decls; checkValidInstance instead
 checkValidType ctxt ty
   = do { traceTc "checkValidType" (ppr ty <+> text "::" <+> ppr (typeKind ty))
-       ; rankn_flag  <- xoptM LangExt.RankNTypes
        ; impred_flag <- xoptM LangExt.ImpredicativeTypes
-       ; let gen_rank :: Rank -> Rank
-             gen_rank r | rankn_flag = ArbitraryRank
-                        | otherwise  = r
-
-             rank1 = gen_rank r1
-             rank0 = gen_rank MonoTypeRankZero
-
-             r1 = LimitedRank True MonoTypeRankZero
-
-             rank
+       ; let rank
                = case ctxt of
                  DefaultDeclCtxt-> MustBeMonoType
-                 PatSigCtxt     -> rank0
-                 TySynCtxt _    -> rank0
+                 PatSigCtxt     -> ArbitraryRank
+                 TySynCtxt _    -> ArbitraryRank
 
-                 ExprSigCtxt {} -> rank1
-                 KindSigCtxt    -> rank1
-                 StandaloneKindSigCtxt{} -> rank1
+                 ExprSigCtxt {} -> ArbitraryRank
+                 KindSigCtxt    -> ArbitraryRank
+                 StandaloneKindSigCtxt{} -> ArbitraryRank
                  TypeAppCtxt | impred_flag -> ArbitraryRank
                              | otherwise   -> MonoTypeTyConArg
                     -- Normally, ImpredicativeTypes is handled in check_arg_type,
                     -- but visible type applications don't go through there.
                     -- So we do this check here.
 
-                 FunSigCtxt {}  -> rank1
-                 InfSigCtxt {}  -> rank1 -- Inferred types should obey the
-                                         -- same rules as declared ones
+                 FunSigCtxt {}  -> ArbitraryRank
+                 InfSigCtxt {}  -> ArbitraryRank
+                 ConArgCtxt _   -> ArbitraryRank
+                 PatSynCtxt _   -> ArbitraryRank
 
-                 ConArgCtxt _   -> rank1 -- We are given the type of the entire
-                                         -- constructor, hence rank 1
-                 PatSynCtxt _   -> rank1
-
-                 ForSigCtxt _   -> rank1
-                 SpecInstCtxt   -> rank1
+                 ForSigCtxt _   -> ArbitraryRank
+                 SpecInstCtxt   -> ArbitraryRank
                  GhciCtxt {}    -> ArbitraryRank
 
-                 TyVarBndrKindCtxt {} -> rank0
-                 RuleBndrTypeCtxt{}   -> rank1
-                 DataKindCtxt _       -> rank1
-                 TySynKindCtxt _      -> rank1
-                 TyFamResKindCtxt _   -> rank1
+                 TyVarBndrKindCtxt {} -> ArbitraryRank
+                 RuleBndrTypeCtxt{}   -> ArbitraryRank
+                 DataKindCtxt _       -> ArbitraryRank
+                 TySynKindCtxt _      -> ArbitraryRank
+                 TyFamResKindCtxt _   -> ArbitraryRank
 
                  _              -> panic "checkValidType"
                                           -- Can't happen; not used for *user* sigs
@@ -499,14 +480,9 @@ checkEscapingKind poly_ty
   | otherwise
   = return ()
 
-funArgResRank :: Rank -> (Rank, Rank)             -- Function argument and result
-funArgResRank (LimitedRank _ arg_rank) = (arg_rank, LimitedRank (forAllAllowed arg_rank) arg_rank)
-funArgResRank other_rank               = (other_rank, other_rank)
-
 forAllAllowed :: Rank -> Bool
-forAllAllowed ArbitraryRank             = True
-forAllAllowed (LimitedRank forall_ok _) = forall_ok
-forAllAllowed _                         = False
+forAllAllowed ArbitraryRank = True
+forAllAllowed _             = False
 
 -- | Indicates whether a 'UserTypeCtxt' represents type-level contexts,
 -- kind-level contexts, or both.
@@ -670,29 +646,30 @@ that case, the solution is to vary the `ExpandMode`s! In more detail:
 
    Switching to `NoExpand` when checking the arguments is vital to avoid
    exponential blowup. One consequence of this choice is that if you have
-   the following type synonym in one module (with RankNTypes enabled):
+   the following type synonym in one module:
 
      module A where
      type A = forall a. a
 
-   And you define the following in a separate module *without* RankNTypes
-   enabled:
+   And you define the following in a separate module *without*
+   ImpredicativeTypes enabled:
 
      module B where
 
      import A
 
      type Const a b = a
-     f :: Const Int A -> Int
+     f :: Maybe (Const Int A) -> Int
 
-   Then `f` will be accepted, even though `A` (which is technically a rank-n
-   type) appears in its type. We view this as an acceptable compromise, since
-   `A` never appears in the type of `f` post-expansion. If `A` _did_ appear in
-   a type post-expansion, such as in the following variant:
+   Then `f` will be accepted, even though `A` (a polytype) appears as the
+   argument of a type constructor in its type. We view this as an acceptable
+   compromise, since `A` never appears in the type of `f` post-expansion. If
+   `A` _did_ appear in a type post-expansion, such as in the following
+   variant:
 
-     g :: Const A A -> Int
+     g :: Maybe (Const A A) -> Int
 
-   Then that would be rejected unless RankNTypes were enabled.
+   Then that would be rejected unless ImpredicativeTypes were enabled.
 -}
 
 -- | When validity-checking an application of a type synonym, should we
@@ -804,15 +781,12 @@ check_type ve@(ValidityEnv{ ve_tidy_env = env
     (theta, tau)  = tcSplitPhiTy phi
     (env', _)     = tidyForAllTyBinders env tvbs
 
-check_type (ve@ValidityEnv{ ve_tidy_env = env, ve_ctxt = ctxt
-                          , ve_rank = rank })
+check_type (ve@ValidityEnv{ ve_tidy_env = env, ve_ctxt = ctxt })
            ty@(FunTy _ mult arg_ty res_ty)
   = do  { failIfTcM (not (linearityAllowed ctxt) && not (isManyTy mult))
                      (env, TcRnLinearFuncInKind (tidyType env ty))
-        ; check_type (ve{ve_rank = arg_rank}) arg_ty
-        ; check_type (ve{ve_rank = res_rank}) res_ty }
-  where
-    (arg_rank, res_rank) = funArgResRank rank
+        ; check_type ve arg_ty
+        ; check_type ve res_ty }
 
 check_type _ ty@(ForAllTy {}) = pprPanic "check_type" (ppr ty)
 check_type _ ty@(CoercionTy {}) = pprPanic "check_type" (ppr ty)

@@ -5,7 +5,6 @@
 {-# Language GADTs                 #-}
 {-# Language ImpredicativeTypes    #-}
 {-# Language QuantifiedConstraints #-}
-{-# Language RankNTypes            #-}
 {-# Language TypeOperators         #-}
 {-# Language UndecidableInstances  #-}
 

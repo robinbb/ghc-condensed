@@ -1,4 +1,4 @@
-T21338.hs:38:8: error: [GHC-95781]
+T21338.hs:37:8: error: [GHC-95781]
     • Cannot apply expression of type ‘h0 f0 xs0 -> h0 g0 xs0’
       to a visible type argument ‘flds’
     • In the expression: hmap undefined @flds

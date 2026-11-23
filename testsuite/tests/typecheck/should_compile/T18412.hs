@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T18412 where
 

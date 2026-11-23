@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- A test for rank-3 types
 

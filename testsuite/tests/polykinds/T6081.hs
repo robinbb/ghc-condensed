@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T6081 where
 

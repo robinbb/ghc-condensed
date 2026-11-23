@@ -1,4 +1,4 @@
-:set -XPatternGuards -XArrows -XRankNTypes
+:set -XPatternGuards -XArrows
 
 let hr :: (forall a. a -> a) -> a; hr _ = undefined
 

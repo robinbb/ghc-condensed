@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeOperators, ViewPatterns #-}
+{-# LANGUAGE TypeOperators, ViewPatterns #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE GADTs #-}
 

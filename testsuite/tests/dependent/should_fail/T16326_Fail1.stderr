@@ -1,11 +1,11 @@
-T16326_Fail1.hs:4:8: error: [GHC-51580]
+T16326_Fail1.hs:3:8: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall a -> a -> a
     • In the type signature: id1 :: forall a -> a -> a
     Suggested fix:
       Perhaps you intended to use the ‘RequiredTypeArguments’ extension
 
-T16326_Fail1.hs:8:8: error: [GHC-51580]
+T16326_Fail1.hs:7:8: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall a -> a -> a
     • In the expansion of type synonym ‘Foo’

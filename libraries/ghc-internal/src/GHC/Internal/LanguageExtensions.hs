@@ -110,7 +110,6 @@ data Extension
    | TupleSections
    | PatternGuards
    | LiberalTypeSynonyms
-   | RankNTypes
    | ImpredicativeTypes
    | TypeOperators
    | ExplicitNamespaces

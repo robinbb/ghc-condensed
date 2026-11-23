@@ -510,7 +510,7 @@ packages:
     DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
     MultiParamTypeClasses, OverlappingInstances, ParallelArrays, PolyKinds,
     RelaxedPolyRec, TypeInType, CUSKs, StarIsType, DeepSubsumption,
-    DeriveDataTypeable and the deprecated aliases) to or from
+    DeriveDataTypeable, RankNTypes and the deprecated aliases) to or from
     template-haskell, whose Extension type lost those constructors
 - name: heaps
   version: 0.4.1

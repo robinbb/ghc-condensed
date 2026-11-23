@@ -2,7 +2,6 @@
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_HADDOCK not-home #-}
 
 -- Make unused imports warnings instead of errors, because there are seemingly

@@ -1,7 +1,6 @@
 {-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE Trustworthy #-}
 
 -----------------------------------------------------------------------------

@@ -1,7 +1,6 @@
 {-# LANGUAGE GHC2021 #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE UnboxedTuples #-}
 module T19700 where
 

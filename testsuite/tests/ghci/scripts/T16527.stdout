@@ -2,4 +2,4 @@ type T :: Type
 data T where
   MkT1 :: (Int -> Int) -> T
   MkT2 :: (forall a. Maybe a) -> T
-  	-- Defined at T16527.hs:5:1
+  	-- Defined at T16527.hs:4:1

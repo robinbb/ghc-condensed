@@ -1,7 +1,7 @@
 {- This is the code extracted from "A reflection on types", by Simon PJ,
 Stephanie Weirich, Richard Eisenberg, and Dimitrios Vytiniotis, 2016. -}
 
-{-#  LANGUAGE RankNTypes, TypeOperators,
+{-#  LANGUAGE TypeOperators,
              ScopedTypeVariables, GADTs, FlexibleInstances,
              UndecidableInstances, RebindableSyntax,
              MagicHash  #-}

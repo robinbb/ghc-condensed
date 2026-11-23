@@ -1,4 +1,4 @@
-{-# LANGUAGE RoleAnnotations, RankNTypes, ScopedTypeVariables #-}
+{-# LANGUAGE RoleAnnotations, ScopedTypeVariables #-}
 
 import Data.Coerce (coerce, Coercible)
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ConstraintKinds, RankNTypes, ImplicitParams #-}
+{-# LANGUAGE GADTs, ConstraintKinds, ImplicitParams #-}
 
 module T12507 where
 

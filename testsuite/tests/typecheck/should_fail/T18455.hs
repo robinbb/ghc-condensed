@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T18455 where
 
 class C a

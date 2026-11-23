@@ -69,7 +69,6 @@ library
         CPP
         InterruptibleFFI
         NondecreasingIndentation
-        RankNTypes
         RecordWildCards
         Safe
         Trustworthy

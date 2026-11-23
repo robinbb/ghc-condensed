@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T3592 where
 

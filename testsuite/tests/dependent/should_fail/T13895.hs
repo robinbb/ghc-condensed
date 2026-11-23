@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T13895 where
 
 import Data.Data (Data, Typeable)

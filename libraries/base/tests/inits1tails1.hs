@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module Main (main) where
 
 import Data.List qualified as List

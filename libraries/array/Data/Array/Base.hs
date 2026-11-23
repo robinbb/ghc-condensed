@@ -1,7 +1,6 @@
 {-# LANGUAGE
     BangPatterns
   , CPP
-  , RankNTypes
   , MagicHash
   , UnboxedTuples
   , FlexibleInstances

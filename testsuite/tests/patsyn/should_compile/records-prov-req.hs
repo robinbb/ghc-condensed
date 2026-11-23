@@ -1,4 +1,4 @@
-{-# LANGUAGE PatternSynonyms, ViewPatterns, GADTs, RankNTypes,
+{-# LANGUAGE PatternSynonyms, ViewPatterns, GADTs,
  StandaloneDeriving, FlexibleInstances #-}
 module ShouldCompile where
 

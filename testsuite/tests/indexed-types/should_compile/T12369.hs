@@ -1,4 +1,4 @@
-{-# language GADTs, TypeFamilies, RankNTypes,
+{-# language GADTs, TypeFamilies,
              TypeOperators, ConstraintKinds #-}
 
 module T12369 where

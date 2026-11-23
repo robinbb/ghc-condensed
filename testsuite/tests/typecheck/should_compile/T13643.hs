@@ -1,5 +1,4 @@
 {-# Language TypeFamilyDependencies #-}
-{-# Language RankNTypes             #-}
 {-# Language GADTs                  #-}
 
 import Data.Kind (Type)

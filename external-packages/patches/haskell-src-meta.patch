@@ -1,6 +1,6 @@
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
-@@ -24,14 +24,14 @@
+@@ -24,18 +24,18 @@
  -- | Returns @Nothing@ when the extension is not supported by template-haskell.
  toExtension :: Exts.KnownExtension -> Maybe TH.Extension
  toExtension e = case e of
@@ -19,6 +19,11 @@
    Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
    Exts.FunctionalDependencies     -> Just TH.FunctionalDependencies
    Exts.Rank2Types                 -> Nothing
+-  Exts.RankNTypes                 -> Just TH.RankNTypes
++  Exts.RankNTypes                 -> Nothing
+   Exts.PolymorphicComponents      -> Nothing
+   Exts.ExistentialQuantification  -> Just TH.ExistentialQuantification
+   Exts.ScopedTypeVariables        -> Just TH.ScopedTypeVariables
 @@ -45,7 +45,7 @@
    Exts.FlexibleInstances          -> Just TH.FlexibleInstances
    Exts.EmptyDataDecls             -> Just TH.EmptyDataDecls
@@ -151,7 +156,12 @@
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
    TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -290,10 +271,6 @@
+@@ -285,15 +266,10 @@
+   TH.TupleSections                     -> Just Exts.TupleSections
+   TH.PatternGuards                     -> Just Exts.PatternGuards
+   TH.LiberalTypeSynonyms               -> Just Exts.LiberalTypeSynonyms
+-  TH.RankNTypes                        -> Just Exts.RankNTypes
+   TH.ImpredicativeTypes                -> Just Exts.ImpredicativeTypes
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
@@ -162,7 +172,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +323,11 @@
+@@ -346,13 +322,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -176,7 +186,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +337,6 @@
+@@ -362,12 +336,6 @@
  #endif
  #endif
  

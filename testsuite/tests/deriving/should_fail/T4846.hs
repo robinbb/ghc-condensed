@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, ScopedTypeVariables, StandaloneDeriving, GADTs, GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE ScopedTypeVariables, StandaloneDeriving, GADTs, GeneralizedNewtypeDeriving #-}
 
 module Main where
 

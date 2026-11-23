@@ -60,7 +60,7 @@ Similarly, language extensions can be controlled (either enabled or disabled):
     those provided by, e.g., :extension:`Haskell2010`. While GHC does take
     pains to avoid changing the semantics of these extensions, changes may
     still happen (e.g. the simplified subsumption change introduced in GHC 9.0
-    which caused GHC to reject some programs using :extension:`RankNTypes`).
+    which caused GHC to reject some programs using higher-rank types).
 
     The ``GHC2024`` language edition includes the following extensions:
 
@@ -100,7 +100,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
-     * :extension:`RankNTypes`
      * :extension:`RoleAnnotations`
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
@@ -161,7 +160,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
-     * :extension:`RankNTypes`
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`

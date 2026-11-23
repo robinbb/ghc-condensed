@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module Memo where
 import Data.Bits

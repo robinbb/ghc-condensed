@@ -1,5 +1,4 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE RankNTypes #-}
 module T16326_Fail3 where
 
 pattern Nil :: forall a -> [a]

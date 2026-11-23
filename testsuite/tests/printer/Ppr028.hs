@@ -1,4 +1,4 @@
-{-#LANGUAGE Arrows, RankNTypes, ScopedTypeVariables, FlexibleContexts,
+{-#LANGUAGE Arrows, ScopedTypeVariables, FlexibleContexts,
   TypeSynonymInstances, NoMonomorphismRestriction, FlexibleInstances #-}
 
 valForm initVal vtor label = withInput $

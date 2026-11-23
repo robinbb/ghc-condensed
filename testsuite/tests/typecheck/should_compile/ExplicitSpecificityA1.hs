@@ -1,5 +1,4 @@
-{-# LANGUAGE RankNTypes
-           , GADTs
+{-# LANGUAGE GADTs
            , TypeApplications
            , PatternSynonyms
            , ExistentialQuantification

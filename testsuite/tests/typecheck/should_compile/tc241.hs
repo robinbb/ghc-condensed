@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XGADTs -XRankNTypes -O1 #-}
+{-# OPTIONS_GHC -XGADTs -O1 #-}
 -- #2018
 
 module Bug1 where

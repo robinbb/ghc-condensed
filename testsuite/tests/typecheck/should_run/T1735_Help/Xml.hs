@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
-             GADTs, RankNTypes, FlexibleContexts, TypeSynonymInstances,
+             GADTs, FlexibleContexts, TypeSynonymInstances,
              PatternGuards,
              UndecidableInstances, CPP #-}
 

@@ -170,7 +170,6 @@ extensionName = \case
   LangExt.TupleSections -> "TupleSections"
   LangExt.PatternGuards -> "PatternGuards"
   LangExt.LiberalTypeSynonyms -> "LiberalTypeSynonyms"
-  LangExt.RankNTypes -> "RankNTypes"
   LangExt.ImpredicativeTypes -> "ImpredicativeTypes"
   LangExt.TypeOperators -> "TypeOperators"
   LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
@@ -243,7 +242,6 @@ impliedXFlags
     , (LangExt.TypeFamilies,     On LangExt.ExplicitNamespaces)
     , (LangExt.TypeOperators, On LangExt.ExplicitNamespaces)
 
-    , (LangExt.ImpredicativeTypes,  On LangExt.RankNTypes)
 
         -- Record wild-cards implies field disambiguation
         -- Otherwise if you write (C {..}) you may well get
@@ -327,7 +325,6 @@ glasgowExtsFlags = [
            , LangExt.ParallelListComp
            , LangExt.PatternGuards
            , LangExt.PostfixOperators
-           , LangExt.RankNTypes
            , LangExt.RecursiveDo
            , LangExt.ScopedTypeVariables
            , LangExt.StandaloneDeriving

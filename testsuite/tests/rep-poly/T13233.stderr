@@ -1,4 +1,4 @@
-T13233.hs:13:11: error: [GHC-55287]
+T13233.hs:12:11: error: [GHC-55287]
     • • The first component of the unboxed tuple
         does not have a fixed runtime representation.
         Its type is:
@@ -21,7 +21,7 @@ T13233.hs:13:11: error: [GHC-55287]
       In the expression: bar (#,#)
       In an equation for ‘baz’: baz = bar (#,#)
 
-T13233.hs:21:16: error: [GHC-55287]
+T13233.hs:20:16: error: [GHC-55287]
     • • The first component of the unboxed tuple
         does not have a fixed runtime representation.
         Its type is:

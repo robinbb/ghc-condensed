@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T10194 where
 
 type X = forall a . a

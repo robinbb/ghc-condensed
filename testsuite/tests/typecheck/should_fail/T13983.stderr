@@ -1,2 +1,2 @@
-T13983.hs:6:25: error: [GHC-76037] Not in scope: type variable ‘k’
+T13983.hs:5:25: error: [GHC-76037] Not in scope: type variable ‘k’
 

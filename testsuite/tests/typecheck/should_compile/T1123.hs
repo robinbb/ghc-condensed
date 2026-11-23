@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module Bug where
 

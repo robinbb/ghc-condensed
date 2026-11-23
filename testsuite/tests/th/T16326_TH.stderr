@@ -10,7 +10,7 @@ data Nested_0 :: forall a_1 .
                                                      ('(:) b_2
                                                            ('(:) c_3 ('(:) d_4 ('(:) e_5 '[]))))) ->
                  Type
-T16326_TH.hs:(15,2)-(22,14): Splicing declarations
+T16326_TH.hs:(14,2)-(21,14): Splicing declarations
     do info <- reify ''Foo2
        liftIO $ hPutStrLn stderr $ pprint info
        dec <- [d| data Nested :: forall a.

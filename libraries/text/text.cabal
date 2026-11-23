@@ -258,7 +258,6 @@ library
     GeneralizedNewtypeDeriving
     MagicHash
     OverloadedStrings
-    RankNTypes
     RecordWildCards
     Safe
     ScopedTypeVariables

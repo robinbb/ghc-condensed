@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fdefer-type-errors #-}
 {-# LANGUAGE GADTs, TypeFamilies,
-             TypeOperators, RankNTypes #-}
+             TypeOperators #-}
 
 module T7294 where
 

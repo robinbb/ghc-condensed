@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T15539 where
 
 foo :: String

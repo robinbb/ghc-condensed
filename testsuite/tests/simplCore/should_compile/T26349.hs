@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T26349 where
 
 {-# SPECIALIZE INLINE mapTCMT :: (forall b. IO b -> IO b) -> IO a -> IO a #-}

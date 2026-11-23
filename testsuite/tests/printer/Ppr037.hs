@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeOperators, TypeFamilies,
-             RankNTypes, FlexibleContexts, TemplateHaskell,
+             FlexibleContexts, TemplateHaskell,
              UndecidableInstances, GADTs, DefaultSignatures #-}
 
 -----------------------------------------------------------------------------

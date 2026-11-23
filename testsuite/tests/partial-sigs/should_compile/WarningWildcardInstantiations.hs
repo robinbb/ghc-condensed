@@ -1,4 +1,4 @@
-{-# LANGUAGE PartialTypeSignatures, NamedWildCards, ScopedTypeVariables, RankNTypes #-}
+{-# LANGUAGE PartialTypeSignatures, NamedWildCards, ScopedTypeVariables #-}
 module WildcardInstantiations where
 
 

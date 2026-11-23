@@ -1,6 +1,6 @@
 -- Test handling of extra fields in the representation due to dictionaries
 
-:set -XGADTs -XRankNTypes
+:set -XGADTs
 :l GADT
 
 let d = DictN (1 :: Int)

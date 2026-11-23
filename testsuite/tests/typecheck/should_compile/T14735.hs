@@ -5,7 +5,6 @@
 {-# Language GADTs #-}
 {-# Language FlexibleInstances #-}
 {-# Language UndecidableInstances #-}
-{-# Language RankNTypes #-}
 {-# Language ConstraintKinds #-}
 
 module T14735 where

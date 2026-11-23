@@ -1,4 +1,3 @@
-{-# Language RankNTypes          #-}
 {-# Language TypeApplications    #-}
 {-# Language TypeFamilies        #-}
 {-# Language AllowAmbiguousTypes #-}

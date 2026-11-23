@@ -1,4 +1,4 @@
-{-# Language RankNTypes, ViewPatterns, PatternSynonyms, TypeOperators, ScopedTypeVariables,
+{-# Language ViewPatterns, PatternSynonyms, TypeOperators, ScopedTypeVariables,
              TypeFamilies, GADTs #-}
 
 module T14552 where

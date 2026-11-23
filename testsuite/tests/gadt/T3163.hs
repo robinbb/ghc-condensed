@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE GADTs, RankNTypes, ImpredicativeTypes #-}
+{-# LANGUAGE GADTs, ImpredicativeTypes #-}
 
 -- Test #3163
 

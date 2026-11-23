@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_GHC -fdefer-out-of-scope-variables #-}
 
 module T17812 where

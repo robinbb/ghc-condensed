@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T18127a where
 
 a :: (forall a. a) -> ()

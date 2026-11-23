@@ -1,7 +1,6 @@
 {-# LANGUAGE
     ScopedTypeVariables
   , GADTs
-  , RankNTypes
   , TypeOperators
   #-}
 {-# OPTIONS_GHC -O #-}

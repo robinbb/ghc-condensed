@@ -1,5 +1,4 @@
-
-T3592.hs:8:5: error: [GHC-91028]
+T3592.hs:7:5: error: [GHC-91028]
     • Couldn't match type ‘a0’ with ‘T a’
       Expected: T a -> String
         Actual: a0 -> String
@@ -8,4 +7,5 @@ T3592.hs:8:5: error: [GHC-91028]
     • In the expression: show
       In an equation for ‘f’: f = show
     • Relevant bindings include
-        f :: T a -> String (bound at T3592.hs:8:1)
+        f :: T a -> String (bound at T3592.hs:7:1)
+

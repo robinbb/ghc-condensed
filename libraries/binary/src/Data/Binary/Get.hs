@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, RankNTypes, MagicHash, BangPatterns #-}
+{-# LANGUAGE CPP, MagicHash, BangPatterns #-}
 {-# LANGUAGE Trustworthy #-}
 
 #if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)

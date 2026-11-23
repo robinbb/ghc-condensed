@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes, TypeFamilies, TypeOperators, FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies, TypeOperators, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wno-missing-methods -Wno-unused-matches #-}
 
 module LocalGivenEqs where

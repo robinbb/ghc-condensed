@@ -1,7 +1,0 @@
-T3155.hs:14:8: error: [GHC-91510]
-    • Illegal polymorphic type: forall ix. r ix -> ix
-    • In the type signature:
-        unR :: (forall ix. r ix -> ix) -> AnyR s r -> Any s
-    Suggested fix:
-      Perhaps you intended to use the ‘RankNTypes’ extension (implied by ‘ImpredicativeTypes’)
-

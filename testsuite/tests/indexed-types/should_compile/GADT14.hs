@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, TypeOperators, GADTs,  RankNTypes, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies, TypeOperators, GADTs, FlexibleContexts #-}
 module Equality( (:=:), eq_elim, eq_refl ) where
 
 data a:=: b where

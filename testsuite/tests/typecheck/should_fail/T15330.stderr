@@ -1,4 +1,4 @@
-T15330.hs:10:6: error: [GHC-83865]
+T15330.hs:9:6: error: [GHC-83865]
     • Couldn't match type: [Char]
                      with: Proxy (T True)
       Expected: Proxy (T True)
@@ -6,7 +6,7 @@ T15330.hs:10:6: error: [GHC-83865]
     • In the expression: "foo"
       In an equation for ‘f1’: f1 = "foo"
 
-T15330.hs:14:6: error: [GHC-83865]
+T15330.hs:13:6: error: [GHC-83865]
     • Couldn't match type: [Char]
                      with: Proxy (t True)
       Expected: Proxy (t True)
@@ -14,5 +14,5 @@ T15330.hs:14:6: error: [GHC-83865]
     • In the expression: "foo"
       In an equation for ‘f2’: f2 = "foo"
     • Relevant bindings include
-        f2 :: Proxy (t True) (bound at T15330.hs:14:1)
+        f2 :: Proxy (t True) (bound at T15330.hs:13:1)
 

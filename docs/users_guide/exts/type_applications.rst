@@ -146,9 +146,8 @@ the rules in the subtler cases:
   in. So, ``class Monad m where return :: a -> m a`` means
   that ``return``'s type arguments are ``m, a``.
 
-- With the :extension:`RankNTypes` extension
-  (:ref:`universal-quantification`), it is possible to declare
-  type arguments somewhere other than the beginning of a type. For example,
+- It is possible to declare type arguments somewhere other than the
+  beginning of a type (:ref:`universal-quantification`). For example,
   we can have ``pair :: forall a. a -> forall b. b -> (a, b)``
   and then say ``pair @Bool True @Char`` which would have
   type ``Char -> (Bool, Char)``.

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, RankNTypes #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T9144 where
 

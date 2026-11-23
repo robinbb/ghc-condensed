@@ -1,7 +1,6 @@
 {-# LANGUAGE GADTSyntax #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE UnliftedNewtypes #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE UnboxedSums #-}
 {-# LANGUAGE TypeFamilies #-}

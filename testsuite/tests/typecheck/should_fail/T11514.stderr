@@ -1,5 +1,4 @@
-
-T11514.hs:6:7: error: [GHC-91028]
+T11514.hs:5:7: error: [GHC-91028]
     • Couldn't match expected type ‘(Show a => a -> a) -> ()’
                   with actual type ‘a0’
       Cannot instantiate unification variable ‘a0’
@@ -7,4 +6,5 @@ T11514.hs:6:7: error: [GHC-91028]
     • In the expression: undefined
       In an equation for ‘foo’: foo = undefined
     • Relevant bindings include
-        foo :: (Show a => a -> a) -> () (bound at T11514.hs:6:1)
+        foo :: (Show a => a -> a) -> () (bound at T11514.hs:5:1)
+

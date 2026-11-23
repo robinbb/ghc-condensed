@@ -780,7 +780,6 @@ import GHC.Internal.Data.Foldable
 -- based on `foldr`.  This is an example of /Church encoding/
 -- (named after Alonzo Church, inventor of the lambda calculus).
 --
--- > {-# LANGUAGE RankNTypes #-}
 -- > newtype FRList a = FR { unFR :: forall b. (a -> b -> b) -> b -> b }
 --
 -- The __@unFR@__ field of this type is essentially its `foldr` method

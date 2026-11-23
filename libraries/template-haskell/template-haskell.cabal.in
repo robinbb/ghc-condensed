@@ -35,7 +35,6 @@ Library
         DefaultSignatures
         DeriveGeneric
         FlexibleInstances
-        RankNTypes
         RoleAnnotations
         ScopedTypeVariables
 

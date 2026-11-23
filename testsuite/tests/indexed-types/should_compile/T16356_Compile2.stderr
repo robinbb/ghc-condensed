@@ -1,18 +1,18 @@
-T16356_Compile2.hs:9:11: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:8:11: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘a’
 
-T16356_Compile2.hs:9:11: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:8:11: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘j’
 
-T16356_Compile2.hs:12:15: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:11:15: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘j’
 
-T16356_Compile2.hs:12:18: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:11:18: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘a’
 
-T16356_Compile2.hs:15:15: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:14:15: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘j’
 
-T16356_Compile2.hs:15:18: warning: [GHC-40910] [-Wunused-type-patterns]
+T16356_Compile2.hs:14:18: warning: [GHC-40910] [-Wunused-type-patterns]
     Defined but not used on the right hand side: type variable ‘a’
 

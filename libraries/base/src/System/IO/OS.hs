@@ -1,6 +1,5 @@
 {-# LANGUAGE Safe #-}
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE RankNTypes #-}
 
 {-|
     This module bridges between Haskell handles and underlying operating-system

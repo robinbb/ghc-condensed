@@ -1,4 +1,4 @@
-T17267a.hs:17:12: error: [GHC-40404]
+T17267a.hs:16:12: error: [GHC-40404]
     • Reduction stack overflow; size = 201
       When simplifying the following constraint: C a b
     • In the expression: op x

@@ -1,4 +1,4 @@
-{-# Language PartialTypeSignatures, RankNTypes #-}
+{-# Language PartialTypeSignatures #-}
 
 module Foo where
 

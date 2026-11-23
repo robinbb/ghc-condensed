@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, RankNTypes #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Main ( main, useAbstractMonad ) where
 

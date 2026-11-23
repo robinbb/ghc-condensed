@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE RankNTypes #-}
 module T14151 where
 
 newtype HFix h a = HFix (h (HFix h) a)

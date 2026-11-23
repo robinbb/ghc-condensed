@@ -6,7 +6,7 @@
              ConstraintKinds, UndecidableInstances,
              FlexibleInstances, FunctionalDependencies,
              FlexibleContexts, StandaloneDeriving,
-             RankNTypes, UndecidableSuperClasses #-}
+             UndecidableSuperClasses #-}
 
 module RaeJobTalk where
 

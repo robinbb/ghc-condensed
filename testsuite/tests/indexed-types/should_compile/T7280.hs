@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, FlexibleContexts,
+{-# LANGUAGE FlexibleContexts,
    TypeFamilies, ScopedTypeVariables #-}
 
 module T7280 where

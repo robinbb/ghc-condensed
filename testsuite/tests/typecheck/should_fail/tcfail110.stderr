@@ -1,4 +1,4 @@
-tcfail110.hs:8:30: error: [GHC-83865]
+tcfail110.hs:7:30: error: [GHC-83865]
     • Expecting one more argument to ‘Foo a’
       Expected a type, but ‘Foo a’ has kind ‘Type -> Type’
     • In the type signature:

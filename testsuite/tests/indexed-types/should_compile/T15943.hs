@@ -1,4 +1,3 @@
-{-# Language RankNTypes             #-}
 {-# Language TypeFamilyDependencies #-}
 {-# Language GADTs                  #-}
 {-# Language TypeSynonymInstances   #-}

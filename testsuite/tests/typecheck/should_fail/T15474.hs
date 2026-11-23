@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T15474 where
 
 import Data.Kind (Type)

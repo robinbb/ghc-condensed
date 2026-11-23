@@ -1,5 +1,4 @@
 {-# Language CPP               #-}
-{-# Language RankNTypes        #-}
 {-# Language PatternSynonyms   #-}
 {-# Language TypeOperators     #-}
 {-# Language GADTs             #-}

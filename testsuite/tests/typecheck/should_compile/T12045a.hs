@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeApplications,
-    RankNTypes, ConstraintKinds, TypeFamilies #-}
+    ConstraintKinds, TypeFamilies #-}
 
 module T12045a where
 

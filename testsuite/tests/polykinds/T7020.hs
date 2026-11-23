@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, GADTs,
+{-# LANGUAGE GADTs,
               FlexibleContexts, TypeFamilies #-}
 
 module T7020 where

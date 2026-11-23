@@ -1,5 +1,4 @@
 {-# LANGUAGE DefaultSignatures #-}
-{-# LANGUAGE RankNTypes #-}
 module T12918b where
 
 class Foo1 a where

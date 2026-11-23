@@ -17,7 +17,6 @@ import GHC.Driver.Env
 import GHC.Driver.Errors
 import GHC.Driver.Config.Diagnostic
 import GHC
-import qualified GHC.LanguageExtensions as LangExt
 
 import Data.Either (fromRight)
 import Data.IORef
@@ -34,7 +33,6 @@ main = do
       `gopt_set` Opt_SuppressUniques
       `gopt_set` Opt_SuppressModulePrefixes
       `gopt_set` Opt_SuppressVarKinds
-      `xopt_set` LangExt.RankNTypes
     hsc_env <- getSession
     let dflags = hsc_dflags hsc_env
     let logger = hsc_logger hsc_env

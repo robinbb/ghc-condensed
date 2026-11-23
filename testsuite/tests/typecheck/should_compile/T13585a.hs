@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, RankNTypes, TypeFamilies, FlexibleInstances,UndecidableInstances #-}
+{-# LANGUAGE ScopedTypeVariables, TypeFamilies, FlexibleInstances,UndecidableInstances #-}
 
 module T13585a where
 

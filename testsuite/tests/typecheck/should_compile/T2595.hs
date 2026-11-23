@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module Foo where
 
 data Foo = forall a . Foo { foo :: a -> a, bar :: Int }

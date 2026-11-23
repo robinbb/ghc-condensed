@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints -fno-warn-missing-methods #-}
-{-# LANGUAGE ExistentialQuantification, RankNTypes, FunctionalDependencies, FlexibleInstances, FlexibleContexts, PatternGuards #-}
+{-# LANGUAGE ExistentialQuantification, FunctionalDependencies, FlexibleInstances, FlexibleContexts, PatternGuards #-}
 
 module T4355 where
 

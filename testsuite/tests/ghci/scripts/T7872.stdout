@@ -1,6 +1,6 @@
 type T :: Type
 type T = forall a. a -> a
-  	-- Defined at <interactive>:2:1
+  	-- Defined at <interactive>:1:1
 type D :: Type
 data D = MkT (forall b. b -> b)
-  	-- Defined at <interactive>:3:1
+  	-- Defined at <interactive>:2:1

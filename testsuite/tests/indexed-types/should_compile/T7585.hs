@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, RankNTypes, TypeOperators,
+{-# LANGUAGE GADTs, TypeOperators,
              TypeFamilies #-}
 
 module Bug where

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module Main where
 import Prelude hiding( succ, pred )

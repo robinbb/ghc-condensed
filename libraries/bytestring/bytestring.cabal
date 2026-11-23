@@ -98,7 +98,6 @@ common language
     MultiWayIf
     NamedFieldPuns
     PatternSynonyms
-    RankNTypes
     ScopedTypeVariables
     StandaloneDeriving
     TupleSections

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module Tc269 where
 
 import GHC.Types

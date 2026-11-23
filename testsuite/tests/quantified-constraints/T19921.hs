@@ -4,7 +4,6 @@
   , TypeOperators
   , GADTs
   , ConstraintKinds
-  , RankNTypes
   , UndecidableInstances
   , ImpredicativeTypes
 #-}

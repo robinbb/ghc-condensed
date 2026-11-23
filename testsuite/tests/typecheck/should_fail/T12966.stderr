@@ -1,4 +1,4 @@
-T12966.hs:4:39: error: [GHC-83865]
+T12966.hs:3:39: error: [GHC-83865]
     • Expecting one more argument to ‘(~) (Maybe d)’
       Expected a type, but ‘(~) (Maybe d)’ has kind ‘Type -> Constraint’
     • In the type ‘forall d. (c d) => ((~) (Maybe d))’

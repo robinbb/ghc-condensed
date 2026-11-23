@@ -2835,8 +2835,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnForAllRankErr rank _
       -> case rank of
-           LimitedRank{}      -> [suggestExtension LangExt.RankNTypes]
-           MonoTypeRankZero   -> [suggestExtension LangExt.RankNTypes]
            MonoTypeTyConArg   -> [suggestExtension LangExt.ImpredicativeTypes]
            MonoTypeSynArg     -> [suggestExtension LangExt.LiberalTypeSynonyms]
            MonoTypeConstraint -> [suggestExtension LangExt.QuantifiedConstraints]

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T17710 where
 
 import Data.Proxy

@@ -1,6 +1,6 @@
 {-# LANGUAGE Unsafe #-}
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE MagicHash, UnboxedTuples, RankNTypes #-}
+{-# LANGUAGE MagicHash, UnboxedTuples #-}
 {-# OPTIONS_HADDOCK not-home #-}
 
 -----------------------------------------------------------------------------

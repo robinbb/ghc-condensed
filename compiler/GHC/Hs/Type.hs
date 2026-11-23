@@ -1047,8 +1047,8 @@ getLHsInstDeclClass_maybe inst_ty
 Note [No nested foralls or contexts in instance types]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The type at the top of an instance declaration is one of the few places in GHC
-where nested `forall`s or contexts are not permitted, even with RankNTypes
-enabled. For example, the following will be rejected:
+where nested `forall`s or contexts are not permitted, although they are
+allowed in ordinary types. For example, the following will be rejected:
 
   instance forall a. forall b. Show (Either a b) where ...
   instance Eq a => Eq b => Show (Either a b) where ...

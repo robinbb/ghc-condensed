@@ -77,5 +77,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "CUSKs",
                                "StarIsType",
                                "DeepSubsumption",
-                               "DeriveDataTypeable"
+                               "DeriveDataTypeable",
+                               "RankNTypes"
                               ]

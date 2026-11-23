@@ -1,6 +1,5 @@
 {-# Language GADTs, ConstraintKinds #-}
 {-# Language FlexibleContexts #-}
-{-# Language RankNTypes #-}
 {-# Language TypeOperators #-}
 module T14845 where
 

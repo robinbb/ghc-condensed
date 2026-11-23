@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, ConstraintKinds, ScopedTypeVariables, QuantifiedConstraints #-}
-{-# LANGUAGE UndecidableInstances, FlexibleInstances, RankNTypes #-}
+{-# LANGUAGE UndecidableInstances, FlexibleInstances #-}
 {-# OPTIONS_GHC -fno-worker-wrapper #-}
 module Callee where
 

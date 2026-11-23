@@ -33,6 +33,8 @@ packageArgs = do
 
         compilerStageOption f = buildingCompilerStage' . f =<< expr flavour
 
+        stage0Ghc = stage0 &&^ (builder (Ghc CompileHs) ||^ builder (Ghc FindHsDependencies))
+
     cursesIncludeDir <- staged (buildSetting CursesIncludeDir)
     cursesLibraryDir <- staged (buildSetting CursesLibDir)
     ffiIncludeDir  <- staged (buildSetting FfiIncludeDir)
@@ -43,20 +45,24 @@ packageArgs = do
 
     mconcat
         -- This compiler has no MultiParamTypeClasses, DataKinds,
-        -- KindSignatures, InstanceSigs, PolyKinds or DeriveDataTypeable
-        -- extension: classes may have any number of parameters, data types
-        -- are always promoted, kinds may always be given, instance methods
-        -- may carry signatures, kinds are always generalised and Data may
-        -- always be derived, so no source in the tree names them. The
+        -- KindSignatures, InstanceSigs, PolyKinds, DeriveDataTypeable or
+        -- RankNTypes extension: classes may have any number of parameters,
+        -- data types are always promoted, kinds may always be given,
+        -- instance methods may carry signatures, kinds are always
+        -- generalised, Data may always be derived and types may have any
+        -- rank, so no source in the tree names them. The
         -- bootstrap compiler still wants them all for the stage 0
         -- packages whose language edition lacks them (mtl, parsec, array,
-        -- Cabal-syntax, the compiler itself and others).
-        [ stage0 ? builder (Ghc CompileHs) ? arg "-XMultiParamTypeClasses"
-        , stage0 ? builder (Ghc CompileHs) ? arg "-XDataKinds"
-        , stage0 ? builder (Ghc CompileHs) ? arg "-XKindSignatures"
-        , stage0 ? builder (Ghc CompileHs) ? arg "-XInstanceSigs"
-        , stage0 ? builder (Ghc CompileHs) ? arg "-XPolyKinds"
-        , stage0 ? builder (Ghc CompileHs) ? arg "-XDeriveDataTypeable"
+        -- Cabal-syntax, the compiler itself and others), when it compiles
+        -- them and when it computes their dependencies, which parses them
+        -- (forall is a keyword only with RankNTypes).
+        [ stage0Ghc ? arg "-XMultiParamTypeClasses"
+        , stage0Ghc ? arg "-XDataKinds"
+        , stage0Ghc ? arg "-XKindSignatures"
+        , stage0Ghc ? arg "-XInstanceSigs"
+        , stage0Ghc ? arg "-XPolyKinds"
+        , stage0Ghc ? arg "-XDeriveDataTypeable"
+        , stage0Ghc ? arg "-XRankNTypes"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

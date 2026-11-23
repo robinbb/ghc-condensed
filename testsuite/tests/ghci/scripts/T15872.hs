@@ -1,4 +1,3 @@
-{-# Language RankNTypes #-}
 {-# Language GADTs      #-}
 module T15872 where
 

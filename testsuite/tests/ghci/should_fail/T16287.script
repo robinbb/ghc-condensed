@@ -1,4 +1,4 @@
-:set -XRankNTypes -XTypeFamilies
+:set -XTypeFamilies
 import Data.Kind
 type F1 a = a
 type family F2 :: k

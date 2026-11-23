@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, RankNTypes,
+{-# LANGUAGE ExistentialQuantification,
               FunctionalDependencies, FlexibleInstances, FlexibleContexts
  #-}
 

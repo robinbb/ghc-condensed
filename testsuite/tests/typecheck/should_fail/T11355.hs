@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, RankNTypes #-}
+{-# LANGUAGE TypeApplications #-}
 
 module T11355 where
 

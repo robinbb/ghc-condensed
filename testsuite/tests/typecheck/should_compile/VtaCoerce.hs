@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 module VtaCoerce where
 

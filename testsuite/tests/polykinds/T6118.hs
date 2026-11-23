@@ -1,5 +1,4 @@
-{-# LANGUAGE RankNTypes,
-             TypeFamilies, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances, UndecidableInstances #-}
 
 module T6118 where
 

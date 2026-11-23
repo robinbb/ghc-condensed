@@ -1,4 +1,3 @@
-{-# Language RankNTypes       #-}
 {-# Language GADTs            #-}
 {-# Language TypeApplications #-}
 

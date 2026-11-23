@@ -1,8 +1,8 @@
-T18640c.hs:13:13: error: [GHC-25897]
+T18640c.hs:12:13: error: [GHC-25897]
     • Expected kind ‘x’, but ‘F1 k’ has kind ‘Type’
       ‘x’ is a rigid type variable bound by
         the type synonym declaration for ‘F2’
-        at T18640c.hs:12:19
+        at T18640c.hs:11:19
     • In the type ‘F1 k’
       In the type synonym declaration for ‘F2’
 

@@ -15,7 +15,6 @@
 {-# LANGUAGE ViewPatterns #-}
 #endif
 #ifdef USE_ST_MONAD
-{-# LANGUAGE RankNTypes #-}
 #endif
 
 -----------------------------------------------------------------------------

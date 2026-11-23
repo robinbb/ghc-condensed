@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, RankNTypes #-}
+{-# LANGUAGE BangPatterns, CPP #-}
 {-# LANGUAGE Trustworthy #-}
 
 -----------------------------------------------------------------------------

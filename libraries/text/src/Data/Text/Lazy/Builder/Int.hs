@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, MagicHash, RankNTypes, ScopedTypeVariables,
+{-# LANGUAGE BangPatterns, CPP, MagicHash, ScopedTypeVariables,
     UnboxedTuples #-}
 {-# LANGUAGE Trustworthy #-}
 

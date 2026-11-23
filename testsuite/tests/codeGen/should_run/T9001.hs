@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 newtype FMList = FM {unFM :: forall m. m -> m}
 

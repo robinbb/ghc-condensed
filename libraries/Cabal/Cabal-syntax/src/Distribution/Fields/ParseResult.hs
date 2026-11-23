@@ -1,6 +1,5 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE RankNTypes #-}
 
 -- | A parse result type for parsers from AST to Haskell types.
 module Distribution.Fields.ParseResult

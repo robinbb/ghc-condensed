@@ -1,8 +1,8 @@
-T16059a.hs:6:6: error: [GHC-01259]
+T16059a.hs:5:6: error: [GHC-01259]
     • Illegal constraint in a kind: Eq b => b
     • In the type signature: f :: forall b (a :: Eq b => b). Int
 
-T16059a.hs:9:6: error: [GHC-01259]
+T16059a.hs:8:6: error: [GHC-01259]
     • Illegal constraint in a kind: Eq b => b
     • In the expansion of type synonym ‘Foo’
       In the type signature: g :: forall b (a :: Foo b). Int

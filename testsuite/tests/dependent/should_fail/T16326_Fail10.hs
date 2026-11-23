@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T16326_Fail10 where
 
 import Data.Kind

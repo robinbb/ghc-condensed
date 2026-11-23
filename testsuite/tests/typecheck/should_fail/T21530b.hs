@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T21530b where
 

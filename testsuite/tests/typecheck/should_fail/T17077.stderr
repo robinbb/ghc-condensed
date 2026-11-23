@@ -1,4 +1,4 @@
-T17077.hs:7:13: error: [GHC-91028]
+T17077.hs:6:13: error: [GHC-91028]
     • Expected kind ‘forall (k :: k1). a’, but ‘z’ has kind ‘k0’
       Cannot instantiate unification variable ‘k0’
       with a kind involving polytypes: forall (k :: k1). a

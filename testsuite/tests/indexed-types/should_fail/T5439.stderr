@@ -1,17 +1,17 @@
-T5439.hs:115:26: error: [GHC-25897]
+T5439.hs:114:26: error: [GHC-25897]
     • Expected a type, but ‘p’ has kind ‘k’
       ‘k’ is a rigid type variable bound by
         a family instance declaration
-        at T5439.hs:(114,1)-(115,26)
+        at T5439.hs:(113,1)-(114,26)
     • In the type ‘p’
       In the associated type family instance declaration for ‘PPred’
       In the instance declaration for ‘PHasPred (PSucc p)’
 
-T5439.hs:170:25: error: [GHC-25897]
+T5439.hs:169:25: error: [GHC-25897]
     • Expected a type, but ‘h’ has kind ‘k’
       ‘k’ is a rigid type variable bound by
         a family instance declaration
-        at T5439.hs:(169,1)-(171,25)
+        at T5439.hs:(168,1)-(170,25)
     • In the type ‘h’
       In the associated type family instance declaration for ‘HHead’
       In the instance declaration for ‘HNonEmpty (h :* t)’

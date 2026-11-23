@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_GHC -fprint-explicit-kinds #-}
 module T17077 where
 

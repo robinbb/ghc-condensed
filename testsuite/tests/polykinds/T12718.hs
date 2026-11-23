@@ -1,4 +1,4 @@
-{-# Language RebindableSyntax, NoImplicitPrelude, MagicHash, RankNTypes,
+{-# Language RebindableSyntax, NoImplicitPrelude, MagicHash,
              ViewPatterns, FlexibleInstances #-}
 
 module Main where

@@ -2,7 +2,6 @@
            , TypeFamilies
            , GADTs
            , UndecidableInstances
-           , RankNTypes
            , ScopedTypeVariables
   #-}
 

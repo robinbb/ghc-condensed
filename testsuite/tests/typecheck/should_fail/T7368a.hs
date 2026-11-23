@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T7368 where
 
 import Data.Kind (Type)

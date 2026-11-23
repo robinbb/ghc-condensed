@@ -1,5 +1,5 @@
 {-# LANGUAGE CApiFFI #-}
-{-# LANGUAGE InterruptibleFFI, RankNTypes #-}
+{-# LANGUAGE InterruptibleFFI #-}
 {-# LANGUAGE Trustworthy #-}
 
 -----------------------------------------------------------------------------

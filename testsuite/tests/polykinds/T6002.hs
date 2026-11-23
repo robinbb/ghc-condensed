@@ -10,7 +10,7 @@ These are basically the constructs from Many,
 reimplemented in Haskell for our purposes. -}
 
 {-# LANGUAGE GADTs, StandaloneDeriving,
-             RankNTypes, TypeFamilies, FlexibleInstances #-}
+             TypeFamilies, FlexibleInstances #-}
 module TypeMachinery where
 
 import Data.Kind (Type)

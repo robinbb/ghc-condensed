@@ -3,14 +3,6 @@
 Arbitrary-rank polymorphism
 ===========================
 
-.. extension:: RankNTypes
-    :shortdesc: Allow types of rank greater than one.
-
-    :since: 6.8.1
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow types of arbitrary rank.
-
 GHC's type system supports *arbitrary-rank* explicit universal
 quantification in types. For example, all the following types are legal: ::
 
@@ -33,9 +25,8 @@ the left of the function arrow can be overloaded.
 The function ``f3`` has a rank-3 type; it has rank-2 types on the left
 of a function arrow.
 
-The language option :extension:`RankNTypes` enables higher-rank
-types. That is, you can nest ``forall``\ s arbitrarily deep in function
-arrows. For example, a forall-type (also called a "type scheme"),
+GHC supports higher-rank types: you can nest ``forall``\ s arbitrarily
+deep in function arrows. For example, a forall-type (also called a "type scheme"),
 including a type-class context, is legal:
 
 -  On the left or right of a function arrow.
@@ -55,8 +46,8 @@ monomorphic. This is important because by default GHC will not
 instantiate type variables to a polymorphic type
 (:ref:`impredicative-polymorphism`).
 
-Note that the :extension:`RankNTypes` option is also required for any type
-with a ``forall`` or context to the right of an arrow. For example: ::
+A ``forall`` or context may also appear to the right of an arrow. For
+example: ::
 
         h1  :: Int -> (forall a. a -> a)
         h1' :: forall a. Int -> (a -> a)
@@ -69,9 +60,7 @@ except with a different order of arguments. This matters if one were to specify
 the type explicitly using a visible type application (using :extension:`TypeApplications`):
 we would write ``h1 3 @Bool True`` but ``h1' @Bool 3 True``.
 Similarly, ``k1`` has a rank-1 type; it differs from ``k1'`` only in the order of
-arguments. As the types of ``h1`` and ``k1`` are not allowed in Haskell-98, we also
-require users to enable :extension:`RankNTypes` to write them (which seems more
-sensible than inventing a separate extension just for this case).
+arguments.
 
 .. _univ:
 

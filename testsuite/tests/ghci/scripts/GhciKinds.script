@@ -6,7 +6,6 @@
 :kind! F (Maybe Int)
 :kind! F (Maybe Bool)
 
-:seti -XRankNTypes
 :kind! forall a. F (Maybe a)
 
 :set -XUnboxedTuples -XTemplateHaskell -XMagicHash

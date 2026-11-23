@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes #-}
 module T10615 where
 
 f1 :: _ -> f

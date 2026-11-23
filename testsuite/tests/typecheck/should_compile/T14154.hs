@@ -1,4 +1,4 @@
-{-# Language RankNTypes, DerivingStrategies, TypeApplications,
+{-# Language DerivingStrategies, TypeApplications,
     ScopedTypeVariables, GADTs #-}
 
 module T14154 where

@@ -1,6 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnboxedTuples #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE MagicHash #-}
 
 module RepPolyWrappedVar where

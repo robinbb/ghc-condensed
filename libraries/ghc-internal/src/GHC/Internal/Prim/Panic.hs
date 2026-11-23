@@ -4,7 +4,6 @@
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE RankNTypes #-}
 
 -- | Primitive panics.
 --

@@ -15,7 +15,7 @@
 -----------------------------------------------------------------------------
 
 -- This is plain comment, ignored by Haddock.
-{-# LANGUAGE RankNTypes, GADTs #-}
+{-# LANGUAGE GADTs #-}
 module Test (
 
 	-- Section headings are introduced with '-- *':

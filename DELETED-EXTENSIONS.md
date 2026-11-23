@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**26 language extensions deleted.**
+**27 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -18,10 +18,10 @@ The list below is alphabetical. For each extension it gives:
   `languageExtensions` in `GHC.Driver.DynFlags` at the fork point, commit
   3d326d7d28.
 - **Lines**: lines added and deleted by the deletion commit, and the net
-  change, counted over the whole repository except `hadrian/` and
-  `external-packages/`. Where one commit deleted several extensions, each of
-  them shows the commit's total. A positive net change is explained in a few
-  words.
+  change, counted over the whole repository except `hadrian/`,
+  `external-packages/` and this file. Where one commit deleted several
+  extensions, each of them shows the commit's total. A positive net change
+  is explained in a few words.
 - **Stability**: the category assigned by GHC proposal 669
   ([Categorization of Language Extensions][669], accepted 2025-08-07):
   Stable, Legacy, Experimental or Deprecated, or Uncategorized where that
@@ -243,6 +243,19 @@ The list below is alphabetical. For each extension it gives:
   - Stability: Deprecated.
   - Notes: The flag was a deprecated alias of RankNTypes. A second spelling
     of an existing extension.
+* **RankNTypes**
+  - Category: Types.
+  - Hard-coded: On.
+  - Editions: GHC2021, GHC2024; also implied by ImpredicativeTypes.
+  - Lines: +934 −1824, net −890.
+  - Stability: Stable.
+  - Notes: A type may have any rank. Higher-rank types are everywhere in
+    current Haskell, from lenses and `runST` to the Church encodings in
+    `base`, and GHC2021 enables the extension; the Haskell 98 restriction to
+    rank 1 rejected only programs that compile with the flag, and protected
+    nothing once subsumption became simple. Hard-coding it on lets the
+    validity checker drop the rank-1 machinery and the hints that pointed at
+    the flag.
 * **RecordPuns**
   - Category: Syntax.
   - Hard-coded: N/A.

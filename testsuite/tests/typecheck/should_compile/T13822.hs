@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeOperators,
-             TypeFamilyDependencies, RankNTypes, LambdaCase, EmptyCase,
+             TypeFamilyDependencies, LambdaCase, EmptyCase,
              UndecidableInstances #-}
 
 module T13822 where

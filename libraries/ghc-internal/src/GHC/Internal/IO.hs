@@ -1,7 +1,6 @@
 {-# LANGUAGE Unsafe #-}
 {-# LANGUAGE NoImplicitPrelude
            , BangPatterns
-           , RankNTypes
            , MagicHash
            , ScopedTypeVariables
            , UnboxedTuples

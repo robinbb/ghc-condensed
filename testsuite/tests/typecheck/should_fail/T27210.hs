@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, ExistentialQuantification #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 -- NB: No deep subsumption
 

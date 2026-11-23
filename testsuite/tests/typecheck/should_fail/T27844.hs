@@ -3,7 +3,7 @@
 -- Correct behaviour: a type error at the first argument of const
 -- (as GHC 9.12.4 reports).
 
-{-# LANGUAGE RankNTypes, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module T27844 where
 
 type family F a

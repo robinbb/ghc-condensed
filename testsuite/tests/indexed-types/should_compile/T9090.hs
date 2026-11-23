@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE RankNTypes, ConstraintKinds, TypeFamilies #-}
+{-# LANGUAGE ConstraintKinds, TypeFamilies #-}
 
 module T9090 where
 

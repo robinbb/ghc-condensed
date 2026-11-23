@@ -1,5 +1,4 @@
-
-ExpandSynsFail2.hs:19:37: error: [GHC-83865]
+ExpandSynsFail2.hs:18:37: error: [GHC-83865]
     • Couldn't match type ‘Bool’ with ‘Int’
       Expected: ST s Foo
         Actual: MyBarST s
@@ -10,3 +9,4 @@ ExpandSynsFail2.hs:19:37: error: [GHC-83865]
       In the second argument of ‘(==)’, namely ‘runST barGen’
       In the first argument of ‘print’, namely
         ‘(runST fooGen == runST barGen)’
+

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T16326_Fail4 where
 
 foo :: Maybe a -> Maybe a -> Maybe a

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T7264 where
 
 data Foo = Foo (forall r . r -> String)

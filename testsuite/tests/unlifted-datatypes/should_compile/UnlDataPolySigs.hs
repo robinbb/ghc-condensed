@@ -1,6 +1,5 @@
 {-# LANGUAGE UnliftedDatatypes #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
 
 module UnlDataPolySigs where

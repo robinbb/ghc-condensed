@@ -1,7 +1,6 @@
-{-# LANGUAGE CPP, RankNTypes, MagicHash, BangPatterns, TypeFamilies #-}
+{-# LANGUAGE CPP, MagicHash, BangPatterns, TypeFamilies #-}
 
 -- CPP C style pre-precessing, the #if defined lines
--- RankNTypes forall r. statement
 -- MagicHash the (# unboxing #), also needs GHC.primitives
 
 module Data.Binary.Get.Internal (

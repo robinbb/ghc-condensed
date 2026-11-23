@@ -6,7 +6,6 @@
  - flags trigger recompilation should be added.
  - -}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE RankNTypes #-}
 
 -----------------------------------------------------------------------------
 

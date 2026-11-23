@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- Test silly type synonyms
 

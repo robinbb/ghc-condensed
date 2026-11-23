@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeOperators         #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE GADTs           #-}
-{-# LANGUAGE RankNTypes      #-}
 
 module T7594 where
 

@@ -1,7 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UnliftedFFITypes #-}
-{-# LANGUAGE RankNTypes #-}
 
 module T16702 where
 

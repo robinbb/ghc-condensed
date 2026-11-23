@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeFamilies, TypeOperators,
+{-# LANGUAGE TypeFamilies, TypeOperators,
              UndecidableInstances #-}
 
 module T11719 where

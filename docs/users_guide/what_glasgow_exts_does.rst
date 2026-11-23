@@ -19,7 +19,6 @@
  * :extension:`ParallelListComp`
  * :extension:`PatternGuards`
  * :extension:`PostfixOperators`
- * :extension:`RankNTypes`
  * :extension:`RecursiveDo`
  * :extension:`ScopedTypeVariables`
  * :extension:`StandaloneDeriving`

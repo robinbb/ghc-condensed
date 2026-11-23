@@ -1,4 +1,4 @@
-T15793.hs:17:3: error: [GHC-45474]
+T15793.hs:16:3: error: [GHC-45474]
     • Illegal oversaturated visible kind argument: ‘@a’
     • In the equations for closed type family ‘F2’
       In the type family declaration for ‘F2’

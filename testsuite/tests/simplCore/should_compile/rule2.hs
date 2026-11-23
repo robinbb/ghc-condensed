@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_GHC -ddump-simpl-stats #-}
 
 -- The rule foo/bar should fire

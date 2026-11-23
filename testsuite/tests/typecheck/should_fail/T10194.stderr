@@ -1,5 +1,4 @@
-
-T10194.hs:7:8: error: [GHC-91028]
+T10194.hs:6:8: error: [GHC-91028]
     • Couldn't match type ‘b0’ with ‘X’
       Expected: (X -> c) -> (a -> X) -> a -> c
         Actual: (b0 -> c) -> (a -> b0) -> a -> c
@@ -7,3 +6,4 @@ T10194.hs:7:8: error: [GHC-91028]
       with a type involving polytypes: X
     • In the expression: (.)
       In an equation for ‘comp’: comp = (.)
+

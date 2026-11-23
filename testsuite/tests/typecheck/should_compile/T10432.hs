@@ -1,5 +1,5 @@
 {-# LANGUAGE ExistentialQuantification,
-             RankNTypes, GADTs, TypeOperators #-}
+             GADTs, TypeOperators #-}
 module T10432 where
 
 import Data.Kind (Type)

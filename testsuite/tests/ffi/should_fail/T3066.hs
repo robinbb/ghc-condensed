@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE ForeignFunctionInterface, RankNTypes #-}
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Foo where
 
 import Foreign

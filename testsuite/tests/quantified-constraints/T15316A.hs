@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, QuantifiedConstraints, ConstraintKinds, UndecidableInstances #-}
+{-# LANGUAGE QuantifiedConstraints, ConstraintKinds, UndecidableInstances #-}
 
 -- Should produce a compile time "Reduction stack overflow" error
 module T15316A where

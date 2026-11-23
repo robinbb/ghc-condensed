@@ -1,4 +1,4 @@
-T15712.hs:19:16: error: [GHC-83865]
+T15712.hs:18:16: error: [GHC-83865]
     • Expecting one more argument to ‘GEndo’
       Expected kind ‘(k -> Type) -> Type’,
         but ‘GEndo’ has kind ‘(k -> Type) -> k -> Type’

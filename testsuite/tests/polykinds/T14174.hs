@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T14174 where
 
 data T k (x :: k) = MkT

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module MiniLens ((^.), Getting, Lens', lens, view) where
 

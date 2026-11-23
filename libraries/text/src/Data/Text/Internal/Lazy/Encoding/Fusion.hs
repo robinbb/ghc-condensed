@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, RankNTypes #-}
+{-# LANGUAGE BangPatterns, CPP #-}
 
 -- |
 -- Module      : Data.Text.Lazy.Encoding.Fusion

@@ -1,6 +1,5 @@
 {-# LANGUAGE
         FlexibleContexts,
-        RankNTypes,
         TypeFamilies,
         FlexibleInstances #-}
 

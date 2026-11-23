@@ -1,5 +1,5 @@
 :set -XHaskell2010
-:set -XRankNTypes -XConstraintKinds -XTypeApplications -XTypeOperators
+:set -XConstraintKinds -XTypeApplications -XTypeOperators
 
 import Data.Typeable
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeApplications, GADTs
-             , TypeFamilies, RankNTypes #-}
+             , TypeFamilies #-}
 
 module T12045c where
 import Data.Kind

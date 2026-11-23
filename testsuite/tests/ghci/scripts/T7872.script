@@ -1,4 +1,3 @@
-:set -XRankNTypes
 type T = forall a. a -> a
 data D = MkT (forall b. b -> b)
 :i T

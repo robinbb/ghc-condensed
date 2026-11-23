@@ -700,7 +700,7 @@ For example: ::
 Higher-rank kinds
 -----------------
 
-In concert with :extension:`RankNTypes`, GHC supports higher-rank kinds.
+GHC supports higher-rank kinds.
 Here is an example::
 
   -- Heterogeneous propositional equality

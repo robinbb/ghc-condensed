@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module C (f, g) where
 
 import A

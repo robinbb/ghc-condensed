@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 module T17173 where
 

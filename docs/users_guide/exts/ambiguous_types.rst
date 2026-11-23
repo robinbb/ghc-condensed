@@ -109,7 +109,7 @@ to be `Int` using type applications.
 
 :extension:`AllowAmbiguousTypes` allows you to switch off the ambiguity check altogether.
 
-Sometimes :extension:`AllowAmbiguousTypes` does not mix well with :extension:`RankNTypes`.
+Sometimes :extension:`AllowAmbiguousTypes` does not mix well with higher-rank types.
 For example: ::
 
       foo :: forall r. (forall i. (KnownNat i) => r) -> r

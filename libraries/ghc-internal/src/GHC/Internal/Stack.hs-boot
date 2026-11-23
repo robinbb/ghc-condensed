@@ -1,4 +1,4 @@
-{-# LANGUAGE NoImplicitPrelude, RankNTypes, MagicHash #-}
+{-# LANGUAGE NoImplicitPrelude, MagicHash #-}
 
 module GHC.Internal.Stack where
 

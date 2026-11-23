@@ -70,7 +70,6 @@ are generated for each datatype definition:
    because doing so would violate the functional dependency on ``HasField`` and/or
    require impredicativity.  For example, ::
 
-     {-# LANGUAGE RankNTypes #-}
      data Higher = MkHigher { unHigher :: forall t . t -> t }
 
    gives rise to a selector ``unHigher :: Higher -> (forall t . t -> t)`` but does

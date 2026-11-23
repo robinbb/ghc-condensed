@@ -1,5 +1,4 @@
 {-# language TypeFamilies #-}
-{-# language RankNTypes #-}
 {-# language NoImplicitPrelude #-}
 {-# language FlexibleContexts #-}
 {-# language GADTs #-}

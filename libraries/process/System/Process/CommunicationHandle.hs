@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE RankNTypes #-}
 
 module System.Process.CommunicationHandle
   ( -- * 'CommunicationHandle': a 'Handle' that can be serialised,

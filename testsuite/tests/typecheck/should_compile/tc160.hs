@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 --Tests alpha-renaming in with extended type-synonyms
 

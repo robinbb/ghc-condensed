@@ -1,5 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE RankNTypes, TypeFamilies,
+{-# LANGUAGE TypeFamilies,
              TypeApplications, TypeAbstractions, TypeOperators, GADTs #-}
 
 module SAKS_030 where

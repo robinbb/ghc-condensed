@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T17355 where
 
 import GHC.Generics

@@ -1,4 +1,4 @@
-LevPolyLet.hs:14:7: error: [GHC-55287]
+LevPolyLet.hs:13:7: error: [GHC-55287]
     • The binder ‘x’ does not have a fixed runtime representation.
       Its type is:
         a :: TYPE (BoxedRep v)

@@ -1981,9 +1981,9 @@ genInstBinds spec@(DS { ds_tvs = tyvars, ds_mechanism = mechanism
     extensions
       | isDerivSpecNewtype mechanism || isDerivSpecVia mechanism
       = [
-          -- Both these flags are needed for higher-rank uses of coerce
+          -- Needed for higher-rank uses of coerce
           -- See Note [Newtype-deriving instances] in GHC.Tc.Deriv.Generate
-          LangExt.ImpredicativeTypes, LangExt.RankNTypes
+          LangExt.ImpredicativeTypes
           -- Skip unboxed tuples checking for derived instances when imported
           -- in a different module, see #20524
         , LangExt.UnboxedTuples

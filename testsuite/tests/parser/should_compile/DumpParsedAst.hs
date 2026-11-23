@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, RankNTypes, TypeOperators, TypeFamilies
+{-# LANGUAGE GADTs, TypeOperators, TypeFamilies
              , TypeApplications #-}
 
 module DumpParsedAst where

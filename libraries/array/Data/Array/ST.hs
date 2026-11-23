@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, Trustworthy #-}
+{-# LANGUAGE Trustworthy #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Data.Array.ST

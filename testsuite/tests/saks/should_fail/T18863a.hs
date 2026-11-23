@@ -1,4 +1,3 @@
-{-# Language RankNTypes               #-}
 {-# Language StandaloneKindSignatures #-}
 module T18863a where
 

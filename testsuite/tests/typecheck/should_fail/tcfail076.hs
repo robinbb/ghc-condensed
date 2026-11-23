@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes #-}
 
 {-
         From: Ralf Hinze <ralf@uran.informatik.uni-bonn.de>

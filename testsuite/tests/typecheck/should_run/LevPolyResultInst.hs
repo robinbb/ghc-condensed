@@ -1,6 +1,5 @@
 {-# language BangPatterns #-}
 {-# language MagicHash #-}
-{-# language RankNTypes #-}
 {-# language UnboxedTuples #-}
 
 import GHC.Exts

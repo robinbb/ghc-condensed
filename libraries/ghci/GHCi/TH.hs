@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables, StandaloneDeriving, DeriveGeneric,
-    TupleSections, RecordWildCards, CPP, RankNTypes #-}
+    TupleSections, RecordWildCards, CPP #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing #-}
 
 -- |

@@ -6,7 +6,6 @@ Impredicative polymorphism
 .. extension:: ImpredicativeTypes
     :shortdesc: Allow impredicative types.
 
-    :implies: :extension:`RankNTypes`
     :since: 9.2.1 (unreliable in 6.10 - 9.0)
 
     Allow impredicative polymorphic types.
@@ -32,8 +31,6 @@ inference algorithm.  It is described in the paper
 (Serrano et al, ICFP 2020).
 
 Switching on :extension:`ImpredicativeTypes`
-
-- Switches on :extension:`RankNTypes`
 
 - Allows user-written types to have foralls under type constructors, not just under arrows.
   For example ``f :: Maybe (forall a. [a] -> [a])`` is a legal type signature.

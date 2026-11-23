@@ -1,6 +1,6 @@
 {-# Language ViewPatterns, TypeOperators,
              StandaloneDeriving, GADTs, RebindableSyntax,
-             RankNTypes, LambdaCase, PatternSynonyms, TypeApplications #-}
+             LambdaCase, PatternSynonyms, TypeApplications #-}
 
 module T12698 where
 

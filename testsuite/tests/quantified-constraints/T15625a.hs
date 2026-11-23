@@ -1,4 +1,4 @@
-{-# Language RankNTypes, ConstraintKinds, QuantifiedConstraints,
+{-# Language ConstraintKinds, QuantifiedConstraints,
              GADTs,
              FlexibleInstances #-}
 

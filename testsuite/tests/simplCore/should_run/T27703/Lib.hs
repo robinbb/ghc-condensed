@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module Lib (g) where
 
 {-# NOINLINE consume #-}

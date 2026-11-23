@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, RankNTypes, RecordWildCards, GADTs, ScopedTypeVariables #-}
+{-# LANGUAGE CPP, RecordWildCards, GADTs, ScopedTypeVariables #-}
 module GHCi.Server
   ( MessageHook
   , CustomMessageHandler

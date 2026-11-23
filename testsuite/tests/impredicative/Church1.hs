@@ -1,4 +1,4 @@
-{-# LANGUAGE ImpredicativeTypes, RankNTypes, ScopedTypeVariables, TypeApplications #-}
+{-# LANGUAGE ImpredicativeTypes, ScopedTypeVariables, TypeApplications #-}
 
 module Church1 where
 -- Church numerals w/o extra type constructors

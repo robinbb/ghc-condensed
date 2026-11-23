@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, MagicHash, NoImplicitPrelude, RankNTypes,
+{-# LANGUAGE BangPatterns, MagicHash, NoImplicitPrelude,
     TypeFamilies, UnboxedTuples, UnliftedFFITypes #-}
 
 module StrictPrim

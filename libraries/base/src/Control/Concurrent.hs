@@ -3,7 +3,6 @@
            , MagicHash
            , UnboxedTuples
            , ScopedTypeVariables
-           , RankNTypes
   #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
 -- kludge for the Control.Concurrent.QSem, Control.Concurrent.QSemN

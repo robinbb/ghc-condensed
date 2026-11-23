@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- | This module provides very basic lens functionality, without extra dependencies.
 --

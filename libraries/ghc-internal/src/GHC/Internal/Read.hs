@@ -174,8 +174,8 @@ readParen b g   =  if b then mandatory else optional
 -- parser data structure.
 --
 -- 'readPrec', on the other hand, is based on a much more efficient 'ReadPrec'
--- datatype (a.k.a \"new-style parsers\"), but its definition relies on the use
--- of the @RankNTypes@ language extension. Therefore, 'readPrec' (and its
+-- datatype (a.k.a \"new-style parsers\"), but its definition relies on
+-- higher-rank types. Therefore, 'readPrec' (and its
 -- cousin, 'readListPrec') are marked as GHC-only. Nevertheless, it is
 -- recommended to use 'readPrec' instead of 'readsPrec' whenever possible
 -- for the efficiency improvements it brings.

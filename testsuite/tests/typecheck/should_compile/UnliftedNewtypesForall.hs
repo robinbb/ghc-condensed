@@ -1,4 +1,3 @@
-{-# Language RankNTypes #-}
 {-# Language UnliftedNewtypes #-}
 
 module UnliftedNewtypesForall where

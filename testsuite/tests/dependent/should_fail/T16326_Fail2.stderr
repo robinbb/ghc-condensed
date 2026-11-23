@@ -1,4 +1,4 @@
-T16326_Fail2.hs:5:37: error: [GHC-51580]
+T16326_Fail2.hs:4:37: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall a -> a -> IO ()
     • In the type signature: blah :: forall a -> a -> IO ()

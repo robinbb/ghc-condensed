@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE FlexibleInstances #-}

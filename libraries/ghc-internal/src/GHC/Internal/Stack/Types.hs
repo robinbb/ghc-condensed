@@ -1,7 +1,6 @@
 {-# LANGUAGE ConstraintKinds   #-}
 {-# LANGUAGE ImplicitParams    #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE RankNTypes        #-}
 {-# LANGUAGE Trustworthy       #-}
 
 {-# OPTIONS_HADDOCK not-home #-}

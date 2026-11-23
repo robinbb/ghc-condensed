@@ -1,5 +1,5 @@
 {-# LANGUAGE QuantifiedConstraints, UndecidableInstances, FlexibleInstances,
-             UndecidableSuperClasses, FlexibleContexts, RankNTypes #-}
+             UndecidableSuperClasses, FlexibleContexts #-}
 -- T27627b's class shape, with a method and a recursive instance.
 module Main where
 

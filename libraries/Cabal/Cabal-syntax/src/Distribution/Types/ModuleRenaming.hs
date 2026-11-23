@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE RankNTypes #-}
 
 module Distribution.Types.ModuleRenaming
   ( ModuleRenaming (..)

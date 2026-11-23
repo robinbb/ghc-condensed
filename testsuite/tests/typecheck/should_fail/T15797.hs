@@ -1,4 +1,3 @@
-{-# Language    RankNTypes          #-}
 {-# Language    TypeFamilies        #-}
 {-# Language    ScopedTypeVariables #-}
 {-# Language    TypeApplications    #-}

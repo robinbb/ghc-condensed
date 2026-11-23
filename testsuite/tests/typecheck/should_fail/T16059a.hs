@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 module T16059a where
 
 type Foo b = Eq b => b

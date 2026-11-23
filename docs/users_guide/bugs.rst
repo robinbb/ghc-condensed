@@ -409,8 +409,8 @@ Numbers, basic types, and built-in classes
 ``Read`` class methods
     The ``Read`` class has two extra methods, ``readPrec`` and
     ``readListPrec``, that are not found in the Haskell 2010 since they rely
-    on the ``ReadPrec`` data type, which requires the :extension:`RankNTypes`
-    extension. GHC also derives ``Read`` instances by implementing ``readPrec``
+    on the ``ReadPrec`` data type, which needs higher-rank types. GHC also
+    derives ``Read`` instances by implementing ``readPrec``
     instead of ``readsPrec``, and relies on a default implementation of
     ``readsPrec`` that is defined in terms of ``readPrec``. GHC adds these two
     extra methods simply because ``ReadPrec`` is more efficient than ``ReadS``

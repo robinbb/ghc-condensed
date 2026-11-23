@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, RankNTypes,
+{-# LANGUAGE UndecidableInstances,
     EmptyDataDecls, CPP,
     NoMonoLocalBinds #-}
 

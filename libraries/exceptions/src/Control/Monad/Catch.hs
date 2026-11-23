@@ -2,7 +2,6 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE TypeApplications #-}
@@ -31,8 +30,7 @@
 --
 -- This is very similar to 'ExceptT' and 'MonadError', but based on features of
 -- "Control.Exception". In particular, it handles the complex case of
--- asynchronous exceptions by including 'mask' in the typeclass. Note that the
--- extensible exceptions feature relies on the RankNTypes language extension.
+-- asynchronous exceptions by including 'mask' in the typeclass.
 --------------------------------------------------------------------
 
 module Control.Monad.Catch (

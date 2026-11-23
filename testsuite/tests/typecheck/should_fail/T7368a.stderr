@@ -1,4 +1,4 @@
-T7368a.hs:10:6: error: [GHC-18872]
+T7368a.hs:9:6: error: [GHC-18872]
     • Couldn't match kind ‘Type’ with ‘Type -> Type’
       When matching types
         w0 :: Type -> Type
@@ -8,5 +8,5 @@ T7368a.hs:10:6: error: [GHC-18872]
     • In the pattern: Bad x
       In an equation for ‘fun’: fun (Bad x) = True
     • Relevant bindings include
-        fun :: f (Bad f) -> Bool (bound at T7368a.hs:10:1)
+        fun :: f (Bad f) -> Bool (bound at T7368a.hs:9:1)
 

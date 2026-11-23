@@ -83,7 +83,8 @@ exception.
   (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
-  `TypeInType` and `DeriveDataTypeable`) to `Nothing`, and drops those
+  `TypeInType`, `DeriveDataTypeable` and `RankNTypes`) to `Nothing`, and
+  drops those
   constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this

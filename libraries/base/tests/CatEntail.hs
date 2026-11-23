@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, GADTs, RankNTypes #-}
+{-# LANGUAGE ConstraintKinds, GADTs #-}
 {-# LANGUAGE TypeOperators #-}
 module CatEntail where
 import Prelude hiding (id, (.))

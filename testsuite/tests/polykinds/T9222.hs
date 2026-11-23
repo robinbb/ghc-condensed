@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, GADTs, TypeOperators, TypeFamilies #-}
+{-# LANGUAGE GADTs, TypeOperators, TypeFamilies #-}
 module T9222 where
 
 import Data.Kind

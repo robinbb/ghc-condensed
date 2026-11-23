@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 module T6069 where
 

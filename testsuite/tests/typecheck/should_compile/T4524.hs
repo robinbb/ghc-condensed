@@ -4,7 +4,6 @@
         GADTs,
         TypeOperators,
         ScopedTypeVariables,
-        RankNTypes,
         NoMonoLocalBinds
  #-}
 {-# OPTIONS_GHC -O2 -w #-}

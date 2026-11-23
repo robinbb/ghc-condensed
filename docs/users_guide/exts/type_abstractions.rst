@@ -31,7 +31,6 @@ a GADT data constructor as in the following example::
 
     {-# LANGUAGE AllowAmbiguousTypes #-}
     {-# LANGUAGE GADTs #-}
-    {-# LANGUAGE RankNTypes #-}
     {-# LANGUAGE TypeApplications #-}
     import Data.Proxy
 

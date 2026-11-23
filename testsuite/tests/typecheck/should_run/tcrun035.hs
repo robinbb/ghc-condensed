@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- Tests subsumption for infix operators (in this case (.))
 -- Broke GHC 6.4!

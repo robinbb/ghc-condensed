@@ -6,7 +6,6 @@
 {-# LANGUAGE UnliftedFFITypes #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE BinaryLiterals #-}

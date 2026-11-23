@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# Language RankNTypes    #-}
 {-# Language DerivingVia   #-}
 {-# Language DeriveFunctor #-}
 

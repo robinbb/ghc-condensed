@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, ConstraintKinds, PatternSynonyms, RankNTypes #-}
+{-# LANGUAGE TypeFamilies, ConstraintKinds, PatternSynonyms #-}
 
 module T13752 where
 

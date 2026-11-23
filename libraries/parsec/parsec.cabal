@@ -91,7 +91,6 @@ library
     FlexibleContexts
     FlexibleInstances
     FunctionalDependencies
-    RankNTypes
     Safe
     StandaloneDeriving
     Trustworthy

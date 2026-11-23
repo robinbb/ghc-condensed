@@ -1,7 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes     #-}
 {-# LANGUAGE FlexibleInstances       #-}
 {-# LANGUAGE GADTs                   #-}
-{-# LANGUAGE RankNTypes              #-}
 {-# LANGUAGE TypeFamilies            #-}
 {-# LANGUAGE ConstraintKinds         #-}
 {-# LANGUAGE FlexibleContexts        #-}

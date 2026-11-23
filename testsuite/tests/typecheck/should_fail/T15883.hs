@@ -1,4 +1,3 @@
-{-# Language RankNTypes #-}
 
 module T15883 where
 

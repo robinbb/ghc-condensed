@@ -1,4 +1,3 @@
-{-# Language RankNTypes        #-}
 {-# Language FlexibleInstances #-}
 
 {-# Options_GHC -dcore-lint #-}

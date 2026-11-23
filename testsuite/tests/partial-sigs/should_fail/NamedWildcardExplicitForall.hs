@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, NamedWildCards #-}
+{-# LANGUAGE NamedWildCards #-}
 
 -- See #11098
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, RankNTypes #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T7176 where
 

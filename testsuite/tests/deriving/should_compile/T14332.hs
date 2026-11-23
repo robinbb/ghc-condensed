@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE RankNTypes #-}
 module T14332 where
 
 import Data.Kind

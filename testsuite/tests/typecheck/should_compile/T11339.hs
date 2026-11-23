@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, ScopedTypeVariables, GHC2021 #-}
+{-# LANGUAGE ScopedTypeVariables, GHC2021 #-}
 
 module T11339 where
 

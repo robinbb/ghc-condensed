@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, Trustworthy, RankNTypes, CPP #-}
+{-# LANGUAGE MagicHash, Trustworthy, CPP #-}
 {-# OPTIONS_HADDOCK hide #-}
 {-# OPTIONS_GHC -fdefines-known-key-names #-} -- See Note [JS/WASM primitives known-keys for other targets]
 

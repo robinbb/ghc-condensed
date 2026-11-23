@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RankNTypes,ExistentialQuantification #-}
+{-# LANGUAGE ExistentialQuantification #-}
 module RnFail055 where
 
 import RnFail055_aux

@@ -1,4 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
 
 -- Crashed GHC 5.04 with tcTyC
 --      panic: tcSplitTyConApp forall x{-r6S-} :: *.

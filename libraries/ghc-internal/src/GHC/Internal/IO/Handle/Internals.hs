@@ -3,7 +3,6 @@
            , RecordWildCards
            , BangPatterns
            , NondecreasingIndentation
-           , RankNTypes
   #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}

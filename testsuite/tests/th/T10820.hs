@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE LiberalTypeSynonyms #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MagicHash #-}
 
@@ -12,6 +11,5 @@ import GHC.LanguageExtensions
 main = do
   print $(isExtEnabled Cpp                  >>= lift)
   print $(isExtEnabled LiberalTypeSynonyms  >>= lift)
-  print $(isExtEnabled RankNTypes           >>= lift)
   print $(isExtEnabled TypeSynonymInstances >>= lift)
   print $(isExtEnabled MagicHash            >>= lift)

@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, ScopedTypeVariables #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 -- #2494, should generate an error message
 

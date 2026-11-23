@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, StandaloneKindSignatures, RankNTypes #-}
+{-# LANGUAGE GADTs, StandaloneKindSignatures #-}
 
 import GHC.Types (Type)
 
