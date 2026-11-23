@@ -10,7 +10,6 @@ data EQ_ (x :: Type) (y :: Type) = EQ_
 
 -- Nov 2014: actually eqE has an ambiguous type
 -- Apr 2020: now it doesn't again
--- Jun 2022: now it does again -- because of DeepSubsumption
 eqE :: EQ_ x y -> (x~y => EQ_ z z) -> p
 eqE x y = error "eqE"
 

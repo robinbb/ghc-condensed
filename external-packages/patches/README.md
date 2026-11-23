@@ -84,11 +84,11 @@ exception.
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`
   and `TypeInType`) to `Nothing`, and drops those constructors, `CUSKs`,
-  `StarIsType`,
-  `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
-  `AlternativeLayoutRule` constructors from the reverse mapping, since
-  this compiler's template-haskell no longer has them. Blocks hsx2hs,
-  jmacro, interpolatedstring-perl6 and persistent-qq.
+  `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
+  `AutoDeriveTypeable` and the two `AlternativeLayoutRule` constructors
+  from the reverse mapping, since this compiler's template-haskell no
+  longer has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
+  persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those

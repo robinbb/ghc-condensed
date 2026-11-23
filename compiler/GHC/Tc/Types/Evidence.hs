@@ -139,7 +139,8 @@ maybeSymCo NotSwapped co = co
 
 {- Note [Deep subsumption and WpSubType]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When making DeepSubsumption checks, we may end up with hard-to-spot identity wrappers.
+When a subsumption check looks under arrows (Note [Deep subsumption] in
+GHC.Tc.Utils.Unify), we may end up with hard-to-spot identity wrappers.
 For example (#26349) suppose we have
     (forall a. Eq a => a->a) -> Int  <=   (forall a. Eq a => a->a) -> Int
 The two types are equal so we should certainly get an identity wrapper.  But we'll get
@@ -154,7 +155,7 @@ desugar (HsWrap f wp) straightforwardly we'll get
 To recognise that as just `f`, we'd have to eta-reduce twice.  But eta-reduction
 is not sound in general, so we'll end up retaining the lambdas.  Two bad results:
 
-* Adding DeepSubsumption gratuitiously makes programs less efficient.
+* The gratuitous wrapper makes programs less efficient.
 
 * When the subsumption is on the LHS of a rule, or in a SPECIALISE pragma, we
   may not be able to make a decent RULE at all, and will fail with "LHS of rule

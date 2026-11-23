@@ -12,7 +12,7 @@ module GHC.Tc.Gen.Head
        ( HsExprArg(..), HsExprLoc, TcPass(..), QLFlag(..), EWrap(..)
        , splitHsApps, rebuildHsApps
        , addArgWrap, isHsValArg, getFunSrcSpan
-       , leadingValArgs, isVisibleArg, getDeepSubsumptionFlag_DataConHead
+       , leadingValArgs, isVisibleArg
 
        , tcInferAppHead, tcInferAppHead_maybe
        , tcInferId, tcCheckId, tcInferConLike, obviousSig
@@ -812,13 +812,15 @@ This is particularly important for partial applications, e.g. 'map Just' or
 'map (MkD 3)'. To achieve this, we treat this as a subsumption problem, and
 use the subsumption mechanism that exists for typechecking applications.
 
-Here is how it works.  First, a quick refresher on deep subsumption. Given
+Here is how it works.  First, the idea of a subsumption check that looks
+under arrows (Note [Deep subsumption] in GHC.Tc.Utils.Unify). Given
     f :: Int -> forall a. a -> a
     g :: (forall b. Int -> b -> b) -> ()
-consider the application `g f`, where f’s type doesn’t match the type
-that `g` expects.  We solve this using deep subsumption, by eta-expanding `f`:
+the application `g f`, where f’s type doesn’t match the type that `g`
+expects, could be accepted by eta-expanding `f`:
     g (/\b. \x:Int. f x @b)
-See Note [Deep subsumption] in GHC.Tc.Utils.Unify)
+GHC's subsumption is simple and does not do this for `f`; but it does
+for a data constructor, as follows.
 
 How does this apply to data constructors?
     data D a = MkD Int a
@@ -828,7 +830,7 @@ We can typecheck `h (MkD 3)` by saying that
     a %1-> D a   <=    a -> D a
 
 That is, the linear type is "more polymorphic than" the non-linear one.
-We can witness this by doing deep subsumption, which generates this:
+We can witness this by a subsumption check under the arrow, which generates this:
     h (\ y -> MkD 3 y)
 The typing rule for lambda turns the linear arrow on `MkD` into whatever
 linearity the caller needs.
@@ -847,7 +849,7 @@ Note [Linting linearity] in GHC.Core.Lint; these coercions get eliminated during
 coercion optimisation (see GHC.Core.Coercion.Opt.opt_univ).
 
 Bottom line: when typechecking a data constructor application, when doing the
-subtype check wrt the context of that application, use deep subsumption,
+subtype check wrt the context of that application, use tc_sub_type_deep,
 treating linear arrows as if they were multiplicity-polymorphic. You can
 see this happening in the 'go_fun' case of GHC.Tc.Utils.Unify.tc_sub_type_deep.
 
@@ -893,8 +895,8 @@ commentary.
 
   The proposal incorrectly stated that "eta expansion is not sufficient to
   restore backwards compatibility", but this is incorrect: if one does a full
-  subtype check like with deep subsumption, then the eta-expansion approach
-  works. This did require fixing some bugs in deep subsumption (#26225).
+  subtype check that looks under arrows, then the eta-expansion approach
+  works. This did require fixing some bugs in that check (#26225).
 -}
 
 {-
@@ -1013,7 +1015,7 @@ hand, tcSplitNestedSigmaTys correctly decomposes `f`'s type down to:
 So now GHC recognizes that `f` has one more argument type than it was actually
 provided.
 
-Notice that tcSplitNestedSigmaTys looks through function arrows too, regardless
-of simple/deep subsumption.  Here we are concerned only whether there is a
+Notice that tcSplitNestedSigmaTys looks through function arrows too, although
+subsumption does not.  Here we are concerned only whether there is a
 mis-match in the number of value arguments.
 -}

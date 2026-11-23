@@ -413,7 +413,7 @@ data InferResult
          -- ^ See Note [FixedRuntimeRep context in ExpType] in GHC.Tc.Utils.TcMType
 
        , ir_inst :: InferInstFlag
-         -- ^ True <=> when DeepSubsumption is on, deeply instantiate before filling,
+         -- ^ How far to instantiate before filling;
          -- See Note [Instantiation of InferResult] in GHC.Tc.Utils.Unify
 
        , ir_ref  :: IORef (Maybe TcType) }
@@ -435,23 +435,21 @@ data InferInstFlag  -- Specifies whether the inference should return an uninstan
                     -- See Note [Instantiation of InferResult] in GHC.Tc.Utils.Unify
 
   = IIF_Sigma       -- Trying to infer a SigmaType
-                    -- Don't instantiate at all, regardless of DeepSubsumption
+                    -- Don't instantiate at all
                     -- Typically used when inferring the type of a pattern
 
   | IIF_ShallowRho  -- Trying to infer a shallow RhoType (no foralls or => at the top)
-                    -- Top-instantiate (only, regardless of DeepSubsumption) before filling the hole
+                    -- Top-instantiate (only) before filling the hole
                     -- Used only for view patterns; see Note [View patterns and polymorphism]
 
-  | IIF_DeepRho     -- Trying to infer a possibly-deep RhoType (depending on DeepSubsumption)
-                    -- If DeepSubsumption is off, same as IIF_ShallowRho
-                    -- If DeepSubsumption is on, instantiate deeply before filling the hole
+  | IIF_DeepRho     -- Trying to infer a possibly-deep RhoType
+                    -- Usually the same as IIF_ShallowRho; but for an application
+                    -- headed by a data constructor, instantiate deeply before
+                    -- filling the hole (see (IIR4) in Note [Instantiation of InferResult])
                     -- Typically used when inferring the type of an expression
 
 type ExpSigmaType = ExpType
 type ExpRhoType   = ExpType
-      -- Invariant: in ExpRhoType, if -XDeepSubsumption is on,
-      --            and we are in checking mode (i.e. the ExpRhoType is (Check rho)),
-      --            then the `rho` is deeply skolemised
 
 -- | An 'ExpType' which has a fixed RuntimeRep.
 --
@@ -1640,8 +1638,7 @@ In other words, just in validity checking and error messages; hence
 no wrappers or evidence generation.
 
 Notice that tcSplitNestedSigmaTys even looks under function arrows;
-doing so is the Right Thing even with simple subsumption, not just
-with deep subsumption.
+doing so is the Right Thing although subsumption does not.
 -}
 
 -----------------------

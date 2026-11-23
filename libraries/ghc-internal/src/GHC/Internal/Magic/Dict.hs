@@ -67,6 +67,5 @@ there is nothing that forces the `cls` Wanted from the call to `k` to unify with
 
    foo m k = withDict @cls m k
 
-That's fine.  But it means we need -XAllowAmbiguousTypes for the withDict definition,
-at least with deep subsumption.
+That's fine.  But it means we need -XAllowAmbiguousTypes for the withDict definition.
 -}

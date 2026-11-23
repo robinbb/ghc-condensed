@@ -360,7 +360,7 @@ The latter is much better. That is why we call `checkResultTy` before tcValArgs.
 tcApp :: HsExpr GhcRn        -- ^ The whole application (For error messages)
       -> HsExpr GhcRn        -- ^ The Function head
       -> [HsExprArg 'TcpRn]  -- ^ The list of arguments
-      -> ExpRhoType          -- ^ When checking, -XDeepSubsumption <=> deeply skolemised
+      -> ExpRhoType          -- ^ Expected type
       -> TcM (HsExpr GhcTc)
 -- See Note [tcApp: typechecking applications]
 -- See Note [splitHsApps] in GHC.Tc.Head
@@ -451,13 +451,14 @@ finishApp tc_fun tc_args app_res_rho res_wrap
        ; return (mkHsWrap res_wrap res_expr) }
 
 -- | Connect up the inferred type of an application with the expected type.
--- This is usually just a unification, but with deep subsumption there is more to do.
+-- This is usually just a unification, but an application headed by a data
+-- constructor needs more; see 'tcSubTypeApp'.
 checkResultTy :: HsExpr GhcRn
               -> (HsExpr GhcTc, SrcSpan)  -- Head
               -> [HsExprArg p]            -- Arguments, just error messages
               -> TcRhoType  -- Inferred type of the application; zonked to
                             --   expose foralls, but maybe not /deeply/ instantiated
-              -> ExpRhoType -- Expected type; this is deeply skolemised
+              -> ExpRhoType -- Expected type
               -> TcM HsWrapper
 checkResultTy rn_expr (tc_fun, fun_loc) inst_args app_res_rho res_ty
  = perhaps_add_res_ty_ctxt $
@@ -568,11 +569,9 @@ tcValArg _ pos rn_fun_head (EValArgQL {
                                        , text "app_lspan" <+> ppr lspan
                                        , text "fun_head" <+> ppr rn_fun_head
                                        , text "tc_arg_head" <+> ppr tc_arg_head])
-       ; ds_flag <- getDeepSubsumptionFlag
-         -- NB: whether to do deep /skolemisation/ is independent of data constructors
        ; (wrap, arg')
             <- tcScalingUsage mult  $
-               tcSkolemise ds_flag GenSigCtxt exp_arg_ty $ \ exp_arg_rho ->
+               tcSkolemise GenSigCtxt exp_arg_ty $ \ exp_arg_rho ->
                do { -- Emit saved-up constraints, /under/ the tcSkolemise
                     -- See (QLA4) in Note [Quick Look at value arguments]
                     emitConstraints wanted
@@ -1879,32 +1878,20 @@ qlArgHasRhoType :: TcType -> TcM Bool
 -- What if we find an /un-filled/ QLInstVar?  We treat this as a rho-type
 -- even though a later argument might force it to be sigma-type.  See
 -- Section 9 in the paper.
---
--- With -XDeepSubsunption we need a /deep/ rho-type.
--- (We don't need getDeepSubsumptionFlag_DataConHead here because this
--- is only about QuickLook.)
 
 qlArgHasRhoType ty
-  = do { ds_flag <- getDeepSubsumptionFlag
-       ; go ds_flag ty }
-  where
-    go ds_flag ty
-      | isSigmaTy ty
-      = return False
+  | isSigmaTy ty
+  = return False
 
-      | Just kappa <- getTyVar_maybe ty
-      , isQLInstTyVar kappa
-      = do { info <- readMetaTyVar kappa
-           ; case info of
-               Indirect arg_ty' -> go ds_flag arg_ty'
-               Flexi            -> return True }
+  | Just kappa <- getTyVar_maybe ty
+  , isQLInstTyVar kappa
+  = do { info <- readMetaTyVar kappa
+       ; case info of
+           Indirect arg_ty' -> qlArgHasRhoType arg_ty'
+           Flexi            -> return True }
 
-      | Deep {} <- ds_flag
-      , Just (_, res_ty) <- tcSplitFunTy_maybe ty
-      = go ds_flag res_ty
-
-      | otherwise
-      = return True
+  | otherwise
+  = return True
 
 isGuardedTy :: TcType -> Bool
 isGuardedTy ty
@@ -2415,8 +2402,8 @@ latter.  (Extending `unifyType` slightly to allow it to unify an instantiation
 variable with a polytype is easy.).  But I could not see how to make it work:
 
  * `unifyType` makes the types /equal/, and returns a coercion, and it is hard to
-   marry that up with DeepSubsumption.  Absent deep subsumption, this approach
-   might just work.
+   marry that up with the subsumption check for an application headed by a data
+   constructor (Note [Typechecking data constructors] in GHC.Tc.Gen.Head).
 
  * I considered making a wrapper for `uType`, which simply discards any deferred
    equality constraints.  But we can't do that: in a heterogeneous equality we might

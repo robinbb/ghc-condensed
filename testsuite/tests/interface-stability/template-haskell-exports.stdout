@@ -137,7 +137,6 @@ module Language.Haskell.TH where
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds
-    | DeepSubsumption
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface
@@ -729,7 +728,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds
-    | DeepSubsumption
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface
@@ -1456,7 +1454,6 @@ module Language.Haskell.TH.Syntax where
     | UndecidableSuperClasses
     | MonomorphismRestriction
     | MonoLocalBinds
-    | DeepSubsumption
     | ExtendedDefaultRules
     | NamedDefaults
     | ForeignFunctionInterface

@@ -288,7 +288,7 @@ This problem could be solved with subtyping, but subtyping doesn't combine well
 with polymorphism. The "polymorphism" approach is to behave as if 'Just', when
 used as a term, had the type:
     Just :: forall {m :: Multiplicity}. a %m -> Maybe a
-We can then achieve subtyping via subsumption, like we do for deep subsumption.
+We can then achieve subtyping via subsumption.
 
 The precise details of how we use subsumption to typecheck partial applications
 of data constructors are explained in Note [Typechecking data constructors]

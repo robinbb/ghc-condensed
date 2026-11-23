@@ -14,7 +14,6 @@ docs:
          Just Haskell98
        language extensions:
          MonomorphismRestriction
-         DeepSubsumption
          ImplicitPrelude
          NPlusKPatterns
          PatternGuards

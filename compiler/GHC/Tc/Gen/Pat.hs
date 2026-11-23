@@ -716,8 +716,8 @@ tc_pat scaled_exp_pat_ty@(Scaled w_pat exp_pat_ty) penv ps_pat thing_inside =
 
          -- Infer the type of 'view_expr'.
       ; (view_expr', view_expr_rho)  <- tcInferExpr IIF_ShallowRho view_expr
-             -- IIF_ShallowRho: do not perform deep instantiation, regardless of
-             -- DeepSubsumption (Note [View patterns and polymorphism])
+             -- IIF_ShallowRho: do not perform deep instantiation, even for a data
+             -- constructor head (Note [View patterns and polymorphism])
              -- But we must do top-instantiation to expose the arrow to matchActualFunTy
 
         -- 'view_expr' must be a function; expose its argument/result types
@@ -771,7 +771,9 @@ The expression (pair True) should have type
     pair True :: Int -> forall b. b -> (Int,b)
 so that it is ready to consume the incoming Int. It should be an
 arrow type (t1 -> t2); and we must not instantiate that `forall b`,
-/even with DeepSubsumption/.  Hence using `IIF_ShallowRho`; this is the only
+even when the view expression is headed by a data constructor, whose type
+is otherwise instantiated deeply (see Note [Instantiation of InferResult]
+in GHC.Tc.Utils.Unify).  Hence using `IIF_ShallowRho`; this is the only
 place where `IIF_ShallowRho` is used.
 
 Then, when taking that arrow apart we want to get a *sigma* type

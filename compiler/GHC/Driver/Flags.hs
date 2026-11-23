@@ -98,7 +98,6 @@ extensionName = \case
   LangExt.UndecidableSuperClasses -> "UndecidableSuperClasses"
   LangExt.MonomorphismRestriction -> "MonomorphismRestriction"
   LangExt.MonoLocalBinds -> "MonoLocalBinds"
-  LangExt.DeepSubsumption -> "DeepSubsumption"
   LangExt.ExtendedDefaultRules -> "ExtendedDefaultRules"     -- Use GHC's extended rules for defaulting
   LangExt.NamedDefaults -> "NamedDefaults"
   LangExt.ForeignFunctionInterface -> "ForeignFunctionInterface"

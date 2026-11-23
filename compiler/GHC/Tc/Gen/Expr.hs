@@ -185,15 +185,10 @@ tcPolyExprCheck expr res_ty
       tc_body e@(HsLam x lam_variant matches)
         = do { (wrap, matches') <-  tcLambdaMatches e lam_variant matches pat_tys
                                                    (mkCheckExpType rho_ty)
-               -- NB: tcLambdaMatches concludes with deep skolemisation,
-               --     if DeepSubsumption is on;  hence no need to do that here
              ; return (mkHsWrap wrap $ HsLam x lam_variant matches') }
 
-      -- The general case: just do deep skolemisation if necessary,
-      -- before handing off to tcExpr
-      tc_body e = do { ds_flag <- getDeepSubsumptionFlag
-                     ; inner_skolemise ds_flag rho_ty $ \rho_ty' ->
-                       tcExpr e (mkCheckExpType rho_ty') }
+      -- The general case: hand off to tcExpr
+      tc_body e = tcExpr e (mkCheckExpType rho_ty)
     in tc_body expr
   where
     -- `outer_skolemise` is used always
@@ -211,23 +206,6 @@ tcPolyExprCheck expr res_ty
     outer_skolemise (Right sig) thing_inside
       = do { (wrap, expr') <- tcSkolemiseCompleteSig sig thing_inside
            ; return (mkHsWrap wrap expr') }
-
-    -- inner_skolemise is used when we do not have a lambda
-    -- With deep skolemisation we must remember to deeply skolemise
-    -- after the (always-shallow) tcSkolemiseCompleteSig
-    inner_skolemise :: DeepSubsumptionFlag -> TcRhoType
-                    -> (TcRhoType -> TcM (HsExpr GhcTc)) -> TcM (HsExpr GhcTc)
-    inner_skolemise Shallow rho_ty thing_inside
-      = -- We have already done shallow skolemisation, so nothing further to do
-        thing_inside rho_ty
-    inner_skolemise deep rho_ty thing_inside
-      = -- Try deep skolemisation
-        do { (wrap, expr') <- tcSkolemise deep ctxt rho_ty thing_inside
-           ; return (mkHsWrap wrap expr') }
-
-    ctxt = case res_ty of
-             Left {}   -> GenSigCtxt
-             Right sig -> sig_ctxt sig
 
 
 {- *********************************************************************
@@ -301,8 +279,7 @@ tcCollectApp the_app res_ty
 
 ---------------
 tcExpr :: HsExpr GhcRn
-       -> ExpRhoType   -- DeepSubsumption <=> when checking, this type
-                       --                     is deeply skolemised
+       -> ExpRhoType
        -> TcM (HsExpr GhcTc)
 
 -- Use tcApp to typecheck applications, which are treated specially
@@ -975,7 +952,7 @@ tcSynArgE :: CtOrigin
            -- ^ returns a wrapper :: (type of right shape) ~~> (type passed in)
 tcSynArgE orig op sigma_ty syn_ty thing_inside
   = do { (skol_wrap, (result, ty_wrapper))
-           <- tcSkolemise Shallow GenSigCtxt sigma_ty $ \rho_ty ->
+           <- tcSkolemise GenSigCtxt sigma_ty $ \rho_ty ->
               go rho_ty syn_ty
        ; return (result, skol_wrap <.> ty_wrapper) }
     where

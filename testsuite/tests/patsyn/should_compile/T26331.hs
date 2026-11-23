@@ -1,4 +1,3 @@
-{-# LANGUAGE DeepSubsumption #-}
 
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE RankNTypes #-}

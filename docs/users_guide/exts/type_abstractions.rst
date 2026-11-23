@@ -192,10 +192,8 @@ At the moment, an ``@``-binder is valid only in a limited set of circumstances:
     f5 = [ \ @a x _ -> x :: a,
            \ @a _ y -> y :: a ]
 
-* In a lambda of multiple arguments, where the first argument is visible, and
-  only if :extension:`DeepSubsumption` is off::
+* In a lambda of multiple arguments, where the first argument is visible::
 
-    {-# LANGUAGE NoDeepSubsumption #-}
     f6 :: () -> forall a. a -> (a, a)
     f6 = \ _ @a x -> (x :: a, x)   -- OK
 

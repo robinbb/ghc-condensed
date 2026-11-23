@@ -1,4 +1,3 @@
-{-# LANGUAGE DeepSubsumption #-}
 {-# LANGUAGE LinearTypes #-}
 
 module T26332 where

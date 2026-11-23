@@ -1390,8 +1390,6 @@ languageExtensions (Just Haskell98)
            -- turning it off breaks code, so we're keeping it on for
            -- backwards compatibility.  Cabal uses -XHaskell98 by
            -- default unless you specify another language.
-       LangExt.DeepSubsumption,
-       -- Non-standard but enabled for backwards compatability (see GHC proposal #511)
        LangExt.ListTuplePuns,
        LangExt.ImplicitStagePersistence
       ]
@@ -1405,7 +1403,6 @@ languageExtensions (Just Haskell2010)
        LangExt.PatternGuards,
        LangExt.DoAndIfThenElse,
        LangExt.FieldSelectors,
-       LangExt.DeepSubsumption,
        LangExt.ListTuplePuns,
        LangExt.ImplicitStagePersistence
        ]

@@ -1,9 +1,9 @@
-T14618.hs:7:14: error: [GHC-25897]
-    • Couldn't match expected type ‘b’ with actual type ‘a’
-      ‘a’ is a rigid type variable bound by
-        the type signature for:
-          safeCoerce :: forall a b. a -> b
-        at T14618.hs:6:1-20
+T14618.hs:7:14: error: [GHC-91028]
+    • Couldn't match type ‘b’ with ‘forall (c :: k0). a’
+      Expected: a -> b
+        Actual: a -> forall (c :: k0). a
+      Cannot equate type variable ‘b’
+      with a type involving polytypes: forall (c :: k0). a
       ‘b’ is a rigid type variable bound by
         the type signature for:
           safeCoerce :: forall a b. a -> b

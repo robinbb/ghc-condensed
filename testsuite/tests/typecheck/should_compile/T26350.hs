@@ -1,4 +1,3 @@
-{-# LANGUAGE DeepSubsumption #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 

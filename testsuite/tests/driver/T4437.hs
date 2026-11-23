@@ -75,5 +75,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "RelaxedPolyRec",
                                "ParallelArrays",
                                "CUSKs",
-                               "StarIsType"
+                               "StarIsType",
+                               "DeepSubsumption"
                               ]

@@ -76,7 +76,7 @@ import Data.Graph       ( graphFromEdges, topSort )
 import GHC.Tc.Solver    ( simplifyTopWanteds )
 import GHC.Tc.Solver.Monad ( runTcSEarlyAbort )
 import GHC.Tc.Utils.Unify
-  ( DeepSubsumptionFlag(..), DeepSubsumptionDepth(..)
+  ( SubsumptionFlag(..)
   , tcSubTypeHoleFit
   )
 
@@ -251,21 +251,19 @@ In addition, we call withoutUnification to reset any unified metavariables; this
 call is actually done outside tcCheckHoleFit so that the results can be formatted
 for the user before resetting variables.
 
-Note [Deep subsumption in tcCheckHoleFit]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note [Subsumption in tcCheckHoleFit]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To check that a candidate fits in a hole, we perform a subsumption check, as
-detailed in Note [Checking hole fits]. However, should we also perform deep
-subsumption? Well, certainly if the user has enabled deep subsumption, and also
-in cases where deep subsumption is required such as to perform eta-expansion
-of data constructors, e.g.
+detailed in Note [Checking hole fits]. Should that check look under arrows?
+It must when the candidate is a data constructor, so that it eta-expands to
+make the multiplicities line up, e.g.
 
   data T = MkT Int Bool -- so that MkT :: Int %1 -> Bool %1 -> T
 
   foo :: Int %1 -> Bool -> T
   foo = _
 
-We should suggest MkT as a valid hole fit, because deep subsumption will
-eta expand to make the multiplicities line up, as per
+We should suggest MkT as a valid hole fit, as per
 Note [Typechecking data constructors] in GHC.Tc.Gen.Head.
 
 Note [Valid refinement hole fits include ...]
@@ -944,13 +942,10 @@ tcFilterHoleFits limit typed_hole ht@(hole_ty, _) candidates =
       withoutUnification fvs $
       do { traceTc "checkingFitOf {" $ ppr cand_ty
 
-           -- Compute 'ds_flag' with the same logic as 'getDeepSubsumptionFlag_DataConHead'.
-         ; user_ds <- xoptM LangExt.DeepSubsumption
+           -- Compute 'ds_flag' with the same logic as 'appHeadSubsumptionFlag'.
          ; let ds_flag
-                 | user_ds
-                 = Deep DeepSub
                  | cand_is_datacon
-                 = Deep TopSub
+                 = TopSub
                  | otherwise
                  = Shallow
          ; mbWrap <- tcCheckHoleFit ds_flag hole h_ty cand_ty
@@ -1023,7 +1018,7 @@ tcSubsumes ty_a ty_b = isJust <$> tcCheckHoleFit Shallow dummyHole ty_a ty_b
 -- #14273. This makes sure that when checking whether a type fits the hole,
 -- the type has to be subsumed by type of the hole as well as fulfill all
 -- constraints on the type of the hole.
-tcCheckHoleFit :: DeepSubsumptionFlag
+tcCheckHoleFit :: SubsumptionFlag
                -> TypedHole   -- ^ The hole to check against
                -> TcSigmaType
                -- ^ The type of the hole to check against (possibly modified,
@@ -1053,7 +1048,7 @@ tcCheckHoleFit ds_flag (TypedHole {..}) hole_ty cand_ty = discardErrs $
      ; (wrap, wanted) <-
          setTcLevel innermost_lvl $ captureConstraints $
          tcSubTypeHoleFit ds_flag orig cand_ty hole_ty
-           -- See Note [Deep subsumption in tcCheckHoleFit]
+           -- See Note [Subsumption in tcCheckHoleFit]
 
      ; traceTc "Checking hole fit {" empty
      ; traceTc "wanteds are: " $ ppr wanted

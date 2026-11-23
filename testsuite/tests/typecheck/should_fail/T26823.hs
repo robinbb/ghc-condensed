@@ -1,4 +1,3 @@
-{-# LANGUAGE DeepSubsumption #-}
 
 module T26823 where
 

@@ -170,8 +170,6 @@ In short, the ambiguity check is a good-faith attempt to say "you are likely
 to have trouble if your function has this type"; it is NOT the case that
 "you can't call this function without giving a type error".
 
-See also Note [Ambiguity check and deep subsumption] in GHC.Tc.Utils.Unify.
-
 Note [When to call checkAmbiguity]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We call checkAmbiguity
@@ -242,8 +240,6 @@ checkAmbiguity ctxt ty
          do { (_wrap, wanted) <- addErrCtxt (AmbiguityCheckCtxt ctxt allow_ambiguous) $
                                  captureConstraints $
                                  tcSubTypeAmbiguity ctxt ty ty
-                                 -- See Note [Ambiguity check and deep subsumption]
-                                 -- in GHC.Tc.Utils.Unify
             ; simplifyAmbiguityCheck ty wanted }
 
        ; traceTc "} Done ambiguity check for" (ppr ty) }

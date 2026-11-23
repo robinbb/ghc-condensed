@@ -1202,12 +1202,13 @@ data FixedRuntimeRepContext
       !Int
         -- ^ argument position (1-indexed)
 
-  -- | A representation-polymorphism check arising from eta-expansion
-  -- performed as part of deep subsumption.
-  | forall p. FRRDeepSubsumption
-      { frrDSExpected :: Bool
-      , frrDSPosition :: Position p
-      , frrAppHead    :: Maybe (HsExpr GhcTc)
+  -- | A representation-polymorphism check arising from an eta-expansion
+  -- inserted by the subsumption check; see Note [Deep subsumption]
+  -- in GHC.Tc.Utils.Unify.
+  | forall p. FRRSubsumption
+      { frrSubExpected :: Bool
+      , frrSubPosition :: Position p
+      , frrAppHead     :: Maybe (HsExpr GhcTc)
       }
 
 -- | The description of a representation-polymorphic 'Id'.
@@ -1286,7 +1287,7 @@ pprFixedRuntimeRepContext (FRRArrow arrowContext)
   = pprFRRArrowContext arrowContext
 pprFixedRuntimeRepContext (FRRExpectedFunTy funTyOrig i)
   = pprExpectedFunTyCtxt funTyOrig i
-pprFixedRuntimeRepContext (FRRDeepSubsumption is_exp pos mb_fun)
+pprFixedRuntimeRepContext (FRRSubsumption is_exp pos mb_fun)
   = hsep [ text "The", what, text "type of the"
          , ppr (Argument pos)
          , text "of" <+> ppr_fun
@@ -1382,11 +1383,11 @@ errors in precisely the following two situations:
 
      This uses the 'FRRRepPolyId' constructor of 'FixedRuntimeRepContext'.
 
-  2. When inserting eta-expansions for deep subsumption.
-     See Wrinkle [Representation-polymorphism checking during subtyping] in
-     Note [FunTy vs FunTy case in tc_sub_type_deep] in GHC.Tc.Utils.Unify.
+  2. When inserting eta-expansions during subsumption.
+     See Note [Representation-polymorphism checking during subtyping]
+     in GHC.Tc.Utils.Unify.
 
-     This uses the 'FRRDeepSubsumption' constructor of 'FixedRuntimeRepContext'.
+     This uses the 'FRRSubsumption' constructor of 'FixedRuntimeRepContext'.
 -}
 
 -- | Are we in a positive (covariant) or negative (contravariant) position?

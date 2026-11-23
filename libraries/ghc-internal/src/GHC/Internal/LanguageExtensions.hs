@@ -36,7 +36,6 @@ data Extension
    | UndecidableSuperClasses
    | MonomorphismRestriction
    | MonoLocalBinds
-   | DeepSubsumption
    | ExtendedDefaultRules     -- Use GHC's extended rules for defaulting
    | NamedDefaults
    | ForeignFunctionInterface

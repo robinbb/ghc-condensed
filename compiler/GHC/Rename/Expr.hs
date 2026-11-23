@@ -793,8 +793,7 @@ Note the wrinkles:
   with no auxiliary function at all.  Simple!
 
 * leftSection and rightSection switch on ImpredicativeTypes locally,
-  during Quick Look; see GHC.Tc.Gen.App.wantQuickLook. Consider
-  test DeepSubsumption08:
+  during Quick Look; see GHC.Tc.Gen.App.wantQuickLook. Consider:
      type Setter st t a b = forall f. Identical f => blah
      (.~) :: Setter s t a b -> b -> s -> t
      clear :: Setter a a' b (Maybe b') -> a -> a'

@@ -172,8 +172,6 @@ example) to skolemise the (forall b. Eq b =>).  So in fact
     where
       wp = /\a.\(d1:Ord a)./\b.\(d2:Ord b). <hole> a d1 b d2
 
-This applies regardless of DeepSubsumption.
-
 Why do we do this "en-bloc" loopy thing?  It is /nearly/ just an optimisation.
 But not quite!  At the call site of `topSkolemise` (and its cousins) we
 use `checkConstraints` to gather constraints and build an implication

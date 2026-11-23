@@ -864,7 +864,7 @@ addCorePlugin plugin = Q $ \h -> mAddCorePlugin h plugin
 -- Note that the state is local to the Haskell module in which the Template
 -- Haskell expression is executed.
 getQ :: Typeable a => Q (Maybe a)
-getQ = Q mGetQ
+getQ = Q $ \h -> mGetQ h
 
 -- | Replace the state in the 'Q' monad. Note that the state is local to the
 -- Haskell module in which the Template Haskell expression is executed.
