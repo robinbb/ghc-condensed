@@ -1,6 +1,8 @@
 {-# Language ExistentialQuantification #-}
 {-# LAnguage GADTs #-}
 
+import Data.Kind (Type)
+
 data Foo = A
          | B
          | C
@@ -15,12 +17,12 @@ data F4 a = forall x y. (Eq x,Eq y) => F4 a x y
           | forall x y. (Eq x,Eq y) => F4b a x y
 
 
-data G1 a :: * where
+data G1 a :: Type where
   G1A,  G1B  ::  Int  ->  G1  a
   G1C  ::  G1 a ->  G1 a
   G1D  ::  G1 a -> (Int -> G1 a)
 
-data G2 a ::  * where
+data G2 a ::  Type where
   G2A :: { g2a :: a, g2b :: Int } -> G2 a
   G2C :: Double -> G2 a
 
@@ -32,7 +34,7 @@ data G3 a = G3
   , g3a :: a
   } deriving (Eq,Ord)
 
-data G4 a :: * where
+data G4 a :: Type where
   G4A,  G4B  ::  Int  ->  G4  a
   G4C  :: {- A -} G4 {- B -}a {- C -} -> {- D -} G4 {- E -}a
   G4D  ::  {- A -}G4 {- B -}a {- C -} -> {- D -}( {- E -}Int{- F -} -> {- G -}G4 {- H -}a {- I -})

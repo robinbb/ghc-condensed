@@ -2,7 +2,7 @@ T14869.hs:18:2-10: Splicing declarations pure [] ======>
 T14869.hs:21:9-43: Splicing expression
     reify ''Foo1 >>= stringE . pprint
   ======>
-    "type family T14869.Foo1 :: *"
+    "type family T14869.Foo1 :: Type"
 T14869.hs:22:9-43: Splicing expression
     reify ''Foo2 >>= stringE . pprint
   ======>
@@ -14,4 +14,4 @@ T14869.hs:23:9-43: Splicing expression
 T14869.hs:24:9-43: Splicing expression
     reify ''Foo4 >>= stringE . pprint
   ======>
-    "type family T14869.Foo4 :: *"
+    "type family T14869.Foo4 :: Type"

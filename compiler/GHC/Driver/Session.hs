@@ -2428,8 +2428,6 @@ wWarningFlagsDeps = [minBound..maxBound] >>= \x -> case x of
   Opt_WarnSimplifiableClassConstraints -> warnSpec x
   Opt_WarnMissingHomeModules -> warnSpec x
   Opt_WarnUnrecognisedWarningFlags -> warnSpec x
-  Opt_WarnStarBinder -> warnSpec x
-  Opt_WarnStarIsType -> warnSpec x
   Opt_WarnSpaceAfterBang
     -> depWarnSpec x "bang patterns can no longer be written with a space"
   Opt_WarnPartialFields -> warnSpec x

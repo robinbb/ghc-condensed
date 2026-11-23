@@ -165,7 +165,7 @@ The type of ``(>>=)`` can also be modified, as seen here for a graded monad: ::
 
   import Data.Kind (Constraint)
 
-  class GradedMonad (m :: k -> * -> *) where
+  class GradedMonad (m :: k -> Type -> Type) where
     type Unit m :: k
     type Plus m (i :: k) (j :: k) :: k
     type Inv  m (i :: k) (j :: k) :: Constraint

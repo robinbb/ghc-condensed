@@ -10,7 +10,6 @@ X(AppTypeE) match = EpToken "@"
 X(OpApp) match = NoExtField
 X(ForAll) match = NoExtField
 X(Qual) match = NoExtField
-X(Star) match = EpUniToken "*" "\9733"
 X(FunArr) match = NoExtField
 X(ExprWithTySig) match = EpUniToken "::" "\8759"
 X(UntypedSplice) match = NoExtField
@@ -38,7 +37,6 @@ X(OpApp) mismatch
   <<< NoExtField
 X(ForAll) match = NoExtField
 X(Qual) match = NoExtField
-X(Star) match = EpUniToken "*" "\9733"
 X(FunArr) match = NoExtField
 X(ExprWithTySig) mismatch
   >>> NoExtField
@@ -72,9 +70,6 @@ X(ForAll) mismatch
 X(Qual) mismatch
   >>> DataConCantHappen
   <<< NoExtField
-X(Star) mismatch
-  >>> DataConCantHappen
-  <<< EpUniToken "*" "\9733"
 X(FunArr) mismatch
   >>> DataConCantHappen
   <<< NoExtField
@@ -106,7 +101,6 @@ T(AppTypeE) mismatch
 T(OpApp) match = GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> HsExpr P
 T(ForAll) match = HsForAllTelescope P -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> HsExpr P
 T(Qual) match = GenLocated (EpAnn [TrailingAnn]) (HsContextDetails P (GenLocated (EpAnn [TrailingAnn]) (HsExpr P))) -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> HsExpr P
-T(Star) match = HsExpr P
 T(FunArr) match = HsModifiedFunArrOf (GenLocated (EpAnn [TrailingAnn]) (HsExpr P)) P -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> HsExpr P
 T(ExprWithTySig) mismatch
   >>> GenLocated (EpAnn [TrailingAnn]) (HsExpr P) -> HsWildCardBndrs P (GenLocated (EpAnn [TrailingAnn]) (HsSigType P)) -> HsExpr P

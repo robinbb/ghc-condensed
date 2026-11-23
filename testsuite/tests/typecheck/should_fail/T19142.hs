@@ -5,6 +5,8 @@
 
 module T19142 where
 
+import Data.Kind (Type)
+
 -- Both these examples gave Lint errors
 -- NB: the -fdefer-type-errors at the top!!
 
@@ -12,7 +14,7 @@ module T19142 where
 f (x :: Maybe Maybe) = x
 
 -- Example 2
-foo :: forall (f :: * -> *) . String
+foo :: forall (f :: Type -> Type) . String
 foo = ""
 
 g x = foo @Int

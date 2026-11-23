@@ -2,9 +2,11 @@
 
 module T3440 where
 
-type family Fam a :: *
+import Data.Kind (Type)
 
-data GADT :: * -> * where
+type family Fam a :: Type
+
+data GADT :: Type -> Type where
    GADT :: a -> Fam a -> GADT (Fam a)
 
 unwrap :: GADT (Fam a) -> (a, Fam a)

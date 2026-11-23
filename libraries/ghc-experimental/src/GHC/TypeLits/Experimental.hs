@@ -1,4 +1,3 @@
-{-# LANGUAGE NoStarIsType #-}
 {-# LANGUAGE TypeOperators #-}
 module GHC.TypeLits.Experimental (
     appendSSymbol,

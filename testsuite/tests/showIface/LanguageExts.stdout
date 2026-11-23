@@ -20,7 +20,6 @@ docs:
          PatternGuards
          NondecreasingIndentation
          TraditionalRecordSyntax
-         StarIsType
          FieldSelectors
          ListTuplePuns
          ImplicitStagePersistence

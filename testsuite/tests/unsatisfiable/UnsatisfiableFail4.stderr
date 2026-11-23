@@ -1,7 +1,6 @@
-
 UnsatisfiableFail4.hs:12:27: error: [GHC-83865]
     • Expecting one more argument to ‘Maybe’
-      Expected a type, but ‘Maybe’ has kind ‘* -> *’
+      Expected a type, but ‘Maybe’ has kind ‘Type -> Type’
     • In the first argument of ‘Maybe’, namely ‘Maybe’
       In the type signature: y :: Maybe Maybe
       In the expression:
@@ -12,7 +11,7 @@ UnsatisfiableFail4.hs:12:27: error: [GHC-83865]
 
 UnsatisfiableFail4.hs:18:27: error: [GHC-83865]
     • Expecting one more argument to ‘Maybe’
-      Expected a type, but ‘Maybe’ has kind ‘* -> *’
+      Expected a type, but ‘Maybe’ has kind ‘Type -> Type’
     • In the first argument of ‘Maybe’, namely ‘Maybe’
       In the type signature: y :: _ => Maybe Maybe
       In the expression:
@@ -20,3 +19,4 @@ UnsatisfiableFail4.hs:18:27: error: [GHC-83865]
           y :: _ => Maybe Maybe
           y = unsatisfiable
         in unsatisfiable
+

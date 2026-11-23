@@ -3,6 +3,7 @@
 
 module T13320 where
 
+import Data.Kind (Type)
 import GHC.Exts        (Constraint)
 
 data QCGen
@@ -20,7 +21,7 @@ type family X_Var ξ
 
 data TermX ξ = Var (X_Var ξ)
 
-type ForallX (φ :: * -> Constraint) ξ = ( φ (X_Var ξ) )
+type ForallX (φ :: Type -> Constraint) ξ = ( φ (X_Var ξ) )
 
 -- This type signature used to be necessary to prevent the
 -- type checker from looping.

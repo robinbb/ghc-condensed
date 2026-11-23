@@ -1,11 +1,11 @@
 === :browse A
 A.baz :: Integer
 A.foobar :: Integer
-type A.A :: *
+type A.A :: Type
 data A.A = A.A
 === :browse B
 B.foo :: Integer
-type B.Test :: * -> Constraint
+type B.Test :: Type -> Constraint
 class B.Test a where
   B.test :: a -> String
   {-# MINIMAL test #-}

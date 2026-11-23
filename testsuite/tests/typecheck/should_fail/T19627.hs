@@ -10,7 +10,6 @@
 {-# language GADTs #-}
 {-# language LambdaCase #-}
 {-# language LinearTypes #-}
-{-# language NoStarIsType #-}
 {-# language QuantifiedConstraints #-}
 {-# language RankNTypes #-}
 {-# language RoleAnnotations #-}

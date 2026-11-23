@@ -1,20 +1,26 @@
-fmap = (_t1::forall (f :: * -> *) a b.
+fmap = (_t1::forall (f :: Type -> Type) a b.
              Functor f =>
              (a -> b) -> f a -> f b)
 fmap
-  :: forall (f :: * -> *) a b. Functor f => (a -> b) -> f a -> f b
+  :: forall (f :: Type -> Type) a b.
+     Functor f =>
+     (a -> b) -> f a -> f b
 _t1
-  :: forall (f :: * -> *) a b. Functor f => (a -> b) -> f a -> f b
+  :: forall (f :: Type -> Type) a b.
+     Functor f =>
+     (a -> b) -> f a -> f b
 show = (_t2::forall a. Show a => a -> String)
 show :: forall a. Show a => a -> String
 _t2 :: forall a. Show a => a -> String
 "\"foo\""
 ["7","42"]
-_t1 = (_t3::forall (f :: * -> *) a b.
+_t1 = (_t3::forall (f :: Type -> Type) a b.
             Functor f =>
             (a -> b) -> f a -> f b)
 _t3
-  :: forall (f :: * -> *) a b. Functor f => (a -> b) -> f a -> f b
+  :: forall (f :: Type -> Type) a b.
+     Functor f =>
+     (a -> b) -> f a -> f b
 _t2 = (_t4::forall a. Show a => a -> String)
 _t4 :: forall a. Show a => a -> String
 ["7","42"]

@@ -1,7 +1,9 @@
 {-# LANGUAGE TypeFamilies #-}
 module FancyContextsWithoutExtension2 where
 
-type family Indexed a :: * -> Constraint
+import Data.Kind (Type)
+
+type family Indexed a :: Type -> Constraint
 type instance Indexed Int = Show
 type instance Indexed Bool = Num
 

@@ -1,0 +1,51 @@
+--- a/external-packages/constraints/src/Data/Constraint.hs
++++ b/external-packages/constraints/src/Data/Constraint.hs
+@@ -29,9 +29,9 @@
+ -- @ConstraintKinds@ made type classes into types of a new kind, @Constraint@.
+ --
+ -- @
+--- 'Eq' :: * -> 'Constraint'
+--- 'Ord' :: * -> 'Constraint'
+--- 'Monad' :: (* -> *) -> 'Constraint'
++-- 'Eq' :: Type -> 'Constraint'
++-- 'Ord' :: Type -> 'Constraint'
++-- 'Monad' :: (Type -> Type) -> 'Constraint'
+ -- @
+ --
+ -- The need for this extension was first publicized in the paper
+@@ -72,6 +72,7 @@
+   , Class(..)
+   , (:=>)(..)
+   ) where
++import Data.Kind (Type)
+ import Control.Applicative
+ import Control.Category
+ import Control.DeepSeq
+@@ -107,7 +108,7 @@
+ --
+ -- Pattern matching on the 'Dict' constructor will bring this instance into scope.
+ --
+-data Dict :: Constraint -> * where
++data Dict :: Constraint -> Type where
+   Dict :: a => Dict a
+ 
+ deriving stock instance (Typeable p, p) => Data (Dict p)
+--- a/external-packages/constraints/src/Data/Constraint/Forall.hs
++++ b/external-packages/constraints/src/Data/Constraint/Forall.hs
+@@ -34,6 +34,7 @@
+   , forall_
+   ) where
+ 
++import Data.Kind (Type)
+ import Data.Constraint
+ import Unsafe.Coerce (unsafeCoerce)
+ 
+@@ -87,7 +88,7 @@
+ type Forall1 p = Forall p
+ -- | Instantiate a quantified constraint on kind @* -> *@.
+ -- This is now redundant since @'inst'@ became polykinded.
+-inst1 :: forall (p :: (* -> *) -> Constraint) (f :: * -> *). Forall p :- p f
++inst1 :: forall (p :: (Type -> Type) -> Constraint) (f :: Type -> Type). Forall p :- p f
+ inst1 = inst
+ 
+ -- | A representation of the quantified constraint

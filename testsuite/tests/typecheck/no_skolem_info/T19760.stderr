@@ -6,7 +6,7 @@ T19760.hs:9:41: error: [GHC-25897]
         at T19760.hs:9:18-19
       ‘a’ is a rigid type variable bound by
         the type signature for:
-          f :: forall a (p :: Maybe a -> *) (m :: Maybe a). p m
+          f :: forall a (p :: Maybe a -> Type) (m :: Maybe a). p m
         at T19760.hs:6:1-56
     • In the first argument of ‘p’, namely ‘m'’
       In the type signature: go :: forall a' (m' :: Maybe a'). p m'

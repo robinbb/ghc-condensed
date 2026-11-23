@@ -2,7 +2,9 @@
 
 module T1496 where
 
-data family Z :: * -> *
+import Data.Kind (Type)
+
+data family Z :: Type -> Type
 
 newtype instance Z Int = ZI Double
 newtype instance Z Moo = ZM (Int,Int)

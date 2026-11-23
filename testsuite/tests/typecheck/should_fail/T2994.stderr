@@ -13,7 +13,7 @@ T2994.hs:13:10: error: [GHC-83865]
     • In the instance declaration for ‘MonadReader (Reader' r)’
 
 T2994.hs:15:10: error: [GHC-83865]
-    • Expected kind ‘(* -> *) -> Constraint’,
+    • Expected kind ‘(Type -> Type) -> Constraint’,
         but ‘MonadReader r r’ has kind ‘Constraint’
     • In the instance declaration for ‘MonadReader r r (Reader' r)’
 

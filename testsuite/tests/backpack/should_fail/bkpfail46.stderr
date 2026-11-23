@@ -12,7 +12,7 @@
 bkpfail46.bkp:16:9: error: [GHC-15843]
     • Type constructor ‘K’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type K :: * -> Constraint
+      Main module: type K :: Type -> Constraint
                    type K a = GHC.Internal.Classes.Eq a
         Hsig file: type K :: forall {k}. k -> Constraint
                    class K a
@@ -22,11 +22,11 @@ bkpfail46.bkp:16:9: error: [GHC-15843]
 <no location info>: error: [GHC-11890]
     • Identifier ‘==’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type GHC.Internal.Classes.Eq :: * -> Constraint
+      Main module: type GHC.Internal.Classes.Eq :: Type -> Constraint
                    class GHC.Internal.Classes.Eq a where
                      (==) :: a -> a -> GHC.Internal.Types.Bool
                      ...
-        Hsig file: (==) :: K (*) a => a -> a -> GHC.Internal.Types.Bool
+        Hsig file: (==) :: K Type a => a -> a -> GHC.Internal.Types.Bool
       The two types are different.
     • While checking that ‘q:A’ implements signature ‘A’ in ‘p[A=q:A]’.
 

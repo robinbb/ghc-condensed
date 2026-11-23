@@ -1271,11 +1271,6 @@ tcHsType mode rn_ty@(HsIParamTy _ (L _ n) ty) exp_kind
        ; checkExpKind rn_ty (mkClassPred ipClass [n',ty'])
                            constraintKind exp_kind }
 
-tcHsType _ rn_ty@(HsStarTy _) exp_kind
-  -- Desugaring 'HsStarTy' to 'Data.Kind.Type' here means that we don't
-  -- have to handle it in 'coreView'
-  = checkExpKind rn_ty liftedTypeKind liftedTypeKind exp_kind
-
 --------- Literals
 tcHsType _ rn_ty@(HsTyLit _ lit) exp_kind
   = tc_hs_lit_ty rn_ty lit exp_kind

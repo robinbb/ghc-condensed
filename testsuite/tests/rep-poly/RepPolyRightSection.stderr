@@ -5,7 +5,7 @@ RepPolyRightSection.hs:12:11: error: [GHC-55287]
         a :: TYPE q0
       When unifying:
         • TYPE r
-        • *
+        • Type
       Cannot unify ‘r’ with the type variable ‘q0’
       because the former is not a concrete ‘RuntimeRep’.
     • In the expression: g

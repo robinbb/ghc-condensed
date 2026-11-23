@@ -3,6 +3,7 @@
 {-# LANGUAGE MagicHash, NoImplicitPrelude, TypeFamilies, UnboxedTuples #-}
 module RdrNames where
 
+import Data.Kind (Type)
 import Data.Monoid
 
 -- ---------------------------------------------------------------------
@@ -85,7 +86,7 @@ ft = undefined
 fp :: (   ->    ) a b
 fp = undefined
 
-type family F a :: * -> * -> *
+type family F a :: Type -> Type -> Type
 type instance F Int = (->)
 type instance F Char = ( ,  )
 
@@ -104,12 +105,12 @@ lt = undefined
 
 -- primitive type?
 -- Refl Int :: ~# * Int Int
--- Refl Maybe :: ~# (* -> *) Maybe Maybe
+-- Refl Maybe :: ~# (Type -> Type) Maybe Maybe
 
 -- | A data constructor used to box up all unlifted equalities
 --
 -- The type constructor is special in that GHC pretends that it
--- has kind (? -> ? -> Fact) rather than (* -> * -> *)
+-- has kind (? -> ? -> Fact) rather than (Type -> Type -> Type)
 data (~) a b = Eq# ((~#) a b)
 data (  ~ ) a b = Eq# (( ~#  ) a b)
 

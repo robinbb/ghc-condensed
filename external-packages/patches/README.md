@@ -1,10 +1,12 @@
 # Patches
 
-Deliberate exceptions to the rule that corpus packages are not modified,
-as unified diffs against the pristine sdist with paths relative to the
-repository root. Each patched package carries a `patched:` line in
-`manifest.yaml` saying why. `add.rb --fetch` applies them after
-vendoring; by hand: `git apply external-packages/patches/NAME.patch`
+Deliberate exceptions to the rule that corpus packages are not modified, as
+unified diffs against the pristine sdist with paths relative to the
+repository root. Patch files are stored byte for byte (`.gitattributes`), so
+a patch against a package whose sources have CRLF line endings, as
+JuicyPixels does, applies on any checkout. Each patched package carries a
+`patched:` line in `manifest.yaml` saying why. `add.rb --fetch` applies them
+after vendoring; by hand: `git apply external-packages/patches/NAME.patch`
 from the repository root.
 
 Language extensions this compiler no longer accepts are not patched
@@ -82,6 +84,7 @@ exception.
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`
   and `TypeInType`) to `Nothing`, and drops those constructors, `CUSKs`,
+  `StarIsType`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since
   this compiler's template-haskell no longer has them. Blocks hsx2hs,
@@ -116,7 +119,9 @@ exception.
   `forall k. (k -> Type) -> (Type -> Type -> k) -> ...`, and the
   derived `Functor` instance, at one instantiation of `k`, is not found
   as the superclass of the derived `Traversable` instance. GHC 9.12.2
-  rejects the declaration the same way with `-XPolyKinds`.
+  rejects the declaration the same way with `-XPolyKinds`. `F`,
+  `OneTwoComposeFam` and `ComplexConstraintFam` also spell their kinds
+  `Type`, for the reason given under `constraints.patch`.
 - `aeson.patch`: `Data.Aeson.Types.Internal.Parser` quantifies the
   continuation of its field at kinds `Type -> Type` and `Type`;
   generalised, the kind variable would be existential in a newtype
@@ -142,7 +147,8 @@ exception.
   parameter at kind `Type`. It is phantom (the block is a `ByteArray#`),
   and `BlockN`, a newtype over it, derives `Eq`, `Ord`, `Show` and `Data`
   through instances that exist only at that kind. Blocks foundation,
-  memory, crypton and the TLS stack.
+  memory, crypton and the TLS stack. `Basement.Monad.PrimVar` spells its
+  kind `Type`, for the reason given under `constraints.patch`.
 - `crypton.patch`: `Crypto.Cipher.Types.Block.IV` declares its phantom
   cipher parameter at kind `Type`. A local binding in
   `cbcEncryptGeneric` was otherwise inferred over an `IV c` of arbitrary
@@ -160,6 +166,9 @@ exception.
   for one variable and a signature-checked class accepts.
 - `linear.patch`: `Linear.V0.V0` declares its phantom element parameter
   at kind `Type`; the `Ixed` instance equates it with `IxValue (V0 a)`.
+  `Linear.V`'s `D`, `SD` and `PD` spell their kinds `K.Type`, for the
+  reason given under `constraints.patch`; the module imports
+  `Language.Haskell.TH`, whose `Type` would clash.
 - `microlens.patch`: `Lens.Micro.Internal.foldring` quantifies the type
   variables of its result, `b` and `t`, at kind `Type`. The body retags
   a `Const r a` to `Const r t` with `phantom`, which needs `Functor` and
@@ -204,3 +213,51 @@ exception.
   `Servant.API.TypeErrors` gets a standalone kind signature, for the
   reason given under `barbies.patch`. Blocks servant-server,
   servant-client and the other servant packages.
+- `constraints.patch`: `Data.Constraint.Dict` and
+  `Data.Constraint.Forall.inst1` spell the kind `Type` where they wrote
+  `*`. This compiler never reads `*` as a kind, so a Haskell2010 module
+  that did so writes `Type` and imports `Data.Kind` if nothing else
+  brought it into scope; the other patches below that cite this one do
+  the same. Blocks lens and everything above it.
+- `contravariant.patch`: `Data.Functor.Contravariant.Generic.Swizzle`
+  spells its kinds `Type`, for the reason given under
+  `constraints.patch`. Blocks the semigroupoids family.
+- `monad-control.patch`: the associated types `StT` and `StM` of
+  `Control.Monad.Trans.Control` spell their result kind `Type`, for the
+  reason given under `constraints.patch`. Blocks lifted-base and the
+  conduit family.
+- `quickcheck-classes-base.patch`: `Proxy1` and `Proxy2` in
+  `Test.QuickCheck.Classes.Base` spell their parameter kinds `Type`, for
+  the reason given under `constraints.patch`.
+- `reflection.patch`: the `fast` implementation of `Data.Reflection`
+  spells its kind annotations `K.Type`, for the reason given under
+  `constraints.patch`; the module imports `Language.Haskell.TH`, whose
+  `Type` would clash with an unqualified import. Blocks lens.
+- `th-abstraction.patch`: test suite only. `Types` and `Main` spell
+  their kinds `Type`, inside a declaration quote too, for the reason
+  given under `constraints.patch`.
+- `generic-deriving.patch`: test suite only. `T68Spec` and
+  `ExampleSpec` spell their kinds `Type`, for the reason given under
+  `constraints.patch`.
+- `profunctors.patch`: the associated types `Rep` and `Corep` of
+  `Data.Profunctor.Rep` spell their kinds `Type`, for the reason given
+  under `constraints.patch`. Blocks adjunctions, lens and the rest of the
+  profunctor tower.
+- `adjunctions.patch`: the associated type `Rep` of both
+  representable classes and `GRep'` spell their kinds `Type`, for the
+  reason given under `constraints.patch`.
+- `cassava.patch`: `Data.Csv.Conversion`'s `unParser` signature and
+  `Proxy` spell their kinds `Type`, for the reason given under
+  `constraints.patch`.
+- `cereal.patch`: `Data.Serialize.Tagged` spells its parameter kind
+  `Type`, for the reason given under `constraints.patch`. Blocks bytes
+  and linear.
+- `http-api-data.patch`: the classes `GToForm` and `GFromForm` of
+  `Web.Internal.FormUrlEncoded` spell their kinds `Type`, for the reason
+  given under `constraints.patch`. Blocks servant.
+- `JuicyPixels.patch`: the associated types `PixelBaseComponent` and
+  `StorageType` spell their result kind `Type`, for the reason given
+  under `constraints.patch`. Blocks pandoc.
+- `bytes.patch`: the associated types of `Data.Bytes.Get` and the
+  families of `Data.Bytes.Signed` spell their result kind `Type`, for the
+  reason given under `constraints.patch`. Blocks linear.

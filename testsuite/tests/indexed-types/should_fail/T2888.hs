@@ -4,5 +4,7 @@
 
 module T2888 where
 
+import Data.Kind (Type)
+
 class C w where 
-  data D:: * -> *
+  data D:: Type -> Type

@@ -5,7 +5,9 @@
 
 module T12866 where
 
+import Data.Kind (Type)
+
 type Test2 a = (Eq (TestM a))
 
 class Test a where
-    type TestM :: *
+    type TestM :: Type

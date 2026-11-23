@@ -1,0 +1,92 @@
+--- a/external-packages/th-abstraction/test/Types.hs
++++ b/external-packages/th-abstraction/test/Types.hs
+@@ -45,31 +45,31 @@
+ type Gadt1Int = Gadt1 Int
+ 
+ infixr 6 :**:
+-data Gadt1 (a :: *) where
++data Gadt1 (a :: Type) where
+   Gadtc1 :: Int          -> Gadt1Int
+   Gadtc2 :: (a,a)        -> Gadt1 a
+   (:**:) :: Bool -> Char -> Gadt1 ()     -- This is declared infix
+   (:!!:) :: Char -> Bool -> Gadt1 Double -- This is not
+ 
+-data Adt1 (a :: *) (b :: *) = Adtc1 (a,b) | Bool `Adtc2` Int
++data Adt1 (a :: Type) (b :: Type) = Adtc1 (a,b) | Bool `Adtc2` Int
+ 
+ data Gadtrec1 a where
+   Gadtrecc1, Gadtrecc2 :: { gadtrec1a :: a, gadtrec1b :: b } -> Gadtrec1 (a,b)
+ 
+-data Equal :: * -> * -> * -> * where
++data Equal :: Type -> Type -> Type -> Type where
+   Equalc :: (Read a, Show a) => [a] -> Maybe a -> Equal a a a
+ 
+-data Showable :: * where
++data Showable :: Type where
+   Showable :: Show a => a -> Showable
+ 
+ data R = R1 { field1, field2 :: Int }
+ 
+-data Gadt2 :: * -> * -> * where
++data Gadt2 :: Type -> Type -> Type where
+   Gadt2c1 :: Gadt2 a [a]
+   Gadt2c2 :: Gadt2 [a] a
+   Gadt2c3 :: Gadt2 [a] [a]
+ 
+-data VoidStoS (f :: * -> *)
++data VoidStoS (f :: Type -> Type)
+ 
+ data StrictDemo = StrictDemo Int !Int {-# UNPACK #-} !Int
+ 
+@@ -80,20 +80,20 @@
+ -- Data families
+ data family T43Fam
+ 
+-type Id (a :: *) = a
++type Id (a :: Type) = a
+ 
+-data family DF (a :: *)
++data family DF (a :: Type)
+ data instance DF (Maybe a) = DFMaybe Int [a]
+ 
+ data family DF1 (a :: k)
+-data instance DF1 (b :: *) = DF1 b
++data instance DF1 (b :: Type) = DF1 b
+ 
+-data family Quoted (a :: *)
++data family Quoted (a :: Type)
+ 
+ data family Poly (a :: k)
+ data instance Poly a = MkPoly
+ 
+-data family GadtFam (a :: *) (b :: *)
++data family GadtFam (a :: Type) (b :: Type)
+ data instance GadtFam c d where
+   MkGadtFam1 :: x   -> y                     -> GadtFam y x
+   (:&&:)     :: e   -> f                     -> GadtFam [e] f     -- This is declard infix
+@@ -107,12 +107,12 @@
+ data family FamLocalDec2 a b c
+ 
+ data family   T46 a b c
+-data instance T46 (f (p :: *)) (f p) q = MkT46 q
++data instance T46 (f (p :: Type)) (f p) q = MkT46 q
+ 
+ data family   T73 a   b
+ data instance T73 Int b = MkT73 b
+ 
+-data family T95 :: * -> *
++data family T95 :: Type -> Type
+ data instance T95 [a] = MkT95 a
+ 
+ type Konst (a :: Constraint) (b :: Constraint) = a
+--- a/external-packages/th-abstraction/test/Main.hs
++++ b/external-packages/th-abstraction/test/Main.hs
+@@ -882,7 +882,7 @@
+ 
+ t66Test :: IO ()
+ t66Test =
+-  $(do [dec] <- [d| data Foo a b :: (* -> *) -> * -> * where
++  $(do [dec] <- [d| data Foo a b :: (Type -> Type) -> Type -> Type where
+                       MkFoo :: a -> b -> f x -> Foo a b f x |]
+        info <- normalizeDec dec
+        let [a,b,f,x] = map mkName ["a","b","f","x"]

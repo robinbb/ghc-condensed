@@ -1,6 +1,7 @@
 # Changelog for [`base` package](http://hackage.haskell.org/package/base)
 
 ## 4.24.0.0 *TBA*
+  * `show` on a `TypeRep` prints the kind `Type` as `Type` rather than `*`, since GHC no longer reads `*` as a kind.
   * Give `setBit`, `clearBit` and `complementBit` explicit definitions in `instance Bits Integer`, reducing intermediate allocations. ([CLC proposal #423](https://github.com/haskell/core-libraries-committee/issues/423))
   * Export `GHC.Environment.getFullArgs` from `System.Environment`. ([CLC proposal #431](https://github.com/haskell/core-libraries-committee/issues/431))
   * Add `Bounded` instances for `Double`, `Float`, `CDouble` and `CFloat`. ([CLC proposal #402](https://github.com/haskell/core-libraries-committee/issues/402))

@@ -9,7 +9,7 @@
       f1 @Word @e $dNum $dEq
       = \ (ds [Occ=Dead] :: Word) (ds1 [Occ=Dead] :: e) -> I# 111#
 "USPEC f1_qc @_ @(g e) @Word"
-    forall (@(g :: * -> *))
+    forall (@(g :: Type -> Type))
            (@e)
            (df :: forall x. Eq x => Eq (g x))
            ($dEq :: Eq (g e))
@@ -30,7 +30,7 @@
           (ds2 [Occ=Dead] :: Word) ->
           I# 2#
 "USPEC f3 @Int @_"
-    forall (@(g :: * -> *))
+    forall (@(g :: Type -> Type))
            ($dEq [Occ=Dead] :: Eq Int)
            (df :: forall x. Eq x => Eq (g x)).
       f3 @Int @g $dEq df
@@ -49,10 +49,10 @@
       f4 @b @(ST s) $dEq $dMonad
       = $fApplicativeST_$cpure @s @b
 "USPEC f4_qc @Int @_ @_"
-    forall (@(r :: (* -> *) -> * -> *))
-           (@(n :: * -> *))
+    forall (@(r :: (Type -> Type) -> Type -> Type))
+           (@(n :: Type -> Type))
            ($dEq [Occ=Dead] :: Eq Int)
-           (df :: forall (m :: * -> *). Monad m => Monad (r m)).
+           (df :: forall (m :: Type -> Type). Monad m => Monad (r m)).
       f4_qc @Int @r @n $dEq df
       = \ (ds [Occ=Dead] :: r n Int) -> ()
 "USPEC f5 @(D Int)"
@@ -64,7 +64,7 @@
       f5_qc @Int @D $dEq $dEq1 df
       = f5_$sf5
 "USPEC f5_qc @Int @_"
-    forall (@(g :: * -> *))
+    forall (@(g :: Type -> Type))
            ($dEq [Occ=Dead] :: Eq Int)
            ($dEq1 [Occ=Dead] :: Eq (T Int))
            (df :: forall x. (Eq x, Eq (T x)) => Eq (g x)).
@@ -81,7 +81,7 @@
           (ds2 [Occ=Dead] :: Word) ->
           C# 'c'#
 "USPEC f6_qc @_ @_ @Word"
-    forall (@(h :: * -> *))
+    forall (@(h :: Type -> Type))
            (df [Occ=Dead] :: forall x. Eq x => Eq (h x))
            (df1 :: forall y. Eq y => Ord (h y))
            ($dNum [Occ=Dead] :: Num Word).

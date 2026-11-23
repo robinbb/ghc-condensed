@@ -3,6 +3,8 @@
 module AnnotationTuple (foo) where
 
 {
+import Data.Kind (Type)
+;
 import qualified Data.List as DL
 ;
 foo = let
@@ -15,7 +17,7 @@ bar = print $ map (1, "hello"   , 6.5,, [5, 5, 6, 7]) [Just (), Nothing]
 ;
 baz = (1, "hello", 6.5,,,,) 'a' (Just ())
 ;
-data family GMap k :: * -> *
+data family GMap k :: Type -> Type
 ;
 match n
       | Just 5 <- Just n

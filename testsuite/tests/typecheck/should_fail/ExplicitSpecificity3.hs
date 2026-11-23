@@ -2,6 +2,8 @@
 
 module ExplicitSpecificity3 where
 
-type family F {k} (a::k) :: *
+import Data.Kind (Type)
+
+type family F {k} (a::k) :: Type
 type instance F String = Int
 

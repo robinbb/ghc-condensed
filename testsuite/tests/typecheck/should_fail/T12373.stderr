@@ -1,7 +1,7 @@
 T12373.hs:10:19: error: [GHC-18872]
     • Couldn't match a lifted type with an unlifted type
       When matching types
-        a0 :: *
+        a0 :: Type
         MVar# @{Lifted} RealWorld a1 :: UnliftedType
       Expected: (# State# RealWorld, a0 #)
         Actual: (# State# RealWorld, MVar# @{Lifted} RealWorld a1 #)

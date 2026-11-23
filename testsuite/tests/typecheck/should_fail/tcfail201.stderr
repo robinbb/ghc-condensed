@@ -2,7 +2,7 @@ tcfail201.hs:17:27: error: [GHC-25897]
     • Couldn't match expected type ‘a’ with actual type ‘HsDoc id0’
       ‘a’ is a rigid type variable bound by
         the type signature for:
-          gfoldl' :: forall (c :: * -> *) a.
+          gfoldl' :: forall (c :: Type -> Type) a.
                      (forall a1 b. c (a1 -> b) -> a1 -> c b)
                      -> (forall g. g -> c g) -> a -> c a
         at tcfail201.hs:15:1-85

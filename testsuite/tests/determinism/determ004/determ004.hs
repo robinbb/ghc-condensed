@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, StarIsType
+{-# LANGUAGE TypeOperators
            , TypeFamilies
            , GADTs
            , UndecidableInstances

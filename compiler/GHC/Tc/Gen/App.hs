@@ -1199,8 +1199,6 @@ expr_to_type earg =
       = do { t <- go (L l e)
            ; let splice_result' = HsUntypedSpliceTop finalizers t
            ; return (L l (HsSpliceTy splice_result' splice)) }
-    go (L l (HsStar x))
-      = return (L l (HsStarTy x))
     go (L l (HsHole h@(HoleVar (L _ rdr))))
       | isUnderscore occ = return (L l (HsWildCardTy h))
       | startsWithUnderscore occ =

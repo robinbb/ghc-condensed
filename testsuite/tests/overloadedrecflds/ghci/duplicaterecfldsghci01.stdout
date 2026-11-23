@@ -1,9 +1,9 @@
 True
-type S :: *
+type S :: Type
 data S = MkS {foo :: Int}
   	-- Defined at <interactive>:3:16
 
-type T :: * -> *
+type T :: Type -> Type
 data T a = MkT {foo :: Bool, ...}
   	-- Defined at <interactive>:4:18
 True
@@ -15,7 +15,7 @@ True
            or the field ‘foo’ of record ‘T’,
               defined at <interactive>:4:18.
 
-type U :: *
+type U :: Type
 data U = MkU {foo :: Int}
   	-- Defined at <interactive>:12:16
 foo :: U -> Int

@@ -1,4 +1,3 @@
-:set -XNoStarIsType
 :load saks034.hs
 :kind C
 :kind T

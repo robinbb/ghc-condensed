@@ -1496,7 +1496,6 @@ repTy (HsSumTy _ tys)       = do tys1 <- repLTys tys
                                  repTapps tcon tys1
 repTy (HsOpTy _ ty1 op ty2) = repLTy ((op `nlHsAppTy` ty1) `nlHsAppTy` ty2)
 repTy (HsParTy _ t)         = repLTy t
-repTy (HsStarTy _)          = repTStar
 repTy (HsKindSig _ t k)     = do
                                 t1 <- repLTy t
                                 k1 <- repLTy k
@@ -1767,7 +1766,6 @@ repE e@(HsPragE _ (HsPragSCC {}) _) = notHandled (ThCostCentres e)
 repE e@(HsTypedBracket{})   = notHandled (ThExpressionForm e)
 repE e@(HsUntypedBracket{}) = notHandled (ThExpressionForm e)
 repE e@(HsProc{}) = notHandled (ThExpressionForm e)
-repE e@(HsStar{}) = notHandled (ThExpressionForm e)
 
 repFunArrMult :: HsModifiedFunArrOf (LocatedA (HsExpr GhcRn)) GhcRn -> MetaM (Core (M TH.Exp))
 repFunArrMult (HsModifiedFunArr _ mods arr) = case (arr, mods) of

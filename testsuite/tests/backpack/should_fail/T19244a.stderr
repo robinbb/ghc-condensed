@@ -15,7 +15,7 @@
 T19244a.bkp:21:9: error: [GHC-15843]
     • Type constructor ‘Key’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type Key :: * -> Constraint
+      Main module: type Key :: Type -> Constraint
                    type Key = GHC.Internal.Classes.Ord
         Hsig file: type Key :: forall {k}. k -> Constraint
                    class Key k1
@@ -26,7 +26,7 @@ T19244a.bkp:21:9: error: [GHC-15843]
     • Type constructor ‘Map’ has conflicting definitions in the module
       and its hsig file.
       Main module: type role Map nominal representational
-                   type Map :: * -> * -> *
+                   type Map :: Type -> Type -> Type
                    data Map k a
                      = Data.Map.Internal.Bin {-# UNPACK #-} !Data.Map.Internal.Size
                                              !k
@@ -35,7 +35,7 @@ T19244a.bkp:21:9: error: [GHC-15843]
                                              !(Map k a)
                      | Data.Map.Internal.Tip
         Hsig file: type role Map nominal representational
-                   type Map :: forall {k1} {k2}. k1 -> k2 -> *
+                   type Map :: forall {k1} {k2}. k1 -> k2 -> Type
                    data Map k2 a
       The types have different kinds.
     • While checking that ‘ordmap:Map’ implements signature ‘Map’ in ‘user[Map=ordmap:Map]’.
@@ -47,7 +47,7 @@ T19244a.bkp:21:9: error: [GHC-15843]
                      GHC.Internal.Classes.Ord k =>
                      k -> Map k a -> GHC.Internal.Maybe.Maybe a
         Hsig file: lookup ::
-                     Key (*) k => k -> Map (*) (*) k a -> GHC.Internal.Maybe.Maybe a
+                     Key Type k => k -> Map Type Type k a -> GHC.Internal.Maybe.Maybe a
       The two types are different.
     • While checking that ‘ordmap:Map’ implements signature ‘Map’ in ‘user[Map=ordmap:Map]’.
 
@@ -57,7 +57,7 @@ T19244a.bkp:21:9: error: [GHC-15843]
       Main module: insert ::
                      GHC.Internal.Classes.Ord k => k -> a -> Map k a -> Map k a
         Hsig file: insert ::
-                     Key (*) k => k -> a -> Map (*) (*) k a -> Map (*) (*) k a
+                     Key Type k => k -> a -> Map Type Type k a -> Map Type Type k a
       The two types are different.
     • While checking that ‘ordmap:Map’ implements signature ‘Map’ in ‘user[Map=ordmap:Map]’.
 

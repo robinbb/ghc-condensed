@@ -14,53 +14,61 @@ refinement_hole_fits.hs:4:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with last @Integer
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.List’))
-        maximum :: forall (t :: * -> *) a. (Foldable t, Ord a) => t a -> a
+        maximum :: forall (t :: Type -> Type) a.
+                   (Foldable t, Ord a) =>
+                   t a -> a
           with maximum @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
-        minimum :: forall (t :: * -> *) a. (Foldable t, Ord a) => t a -> a
+        minimum :: forall (t :: Type -> Type) a.
+                   (Foldable t, Ord a) =>
+                   t a -> a
           with minimum @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
-        product :: forall (t :: * -> *) a. (Foldable t, Num a) => t a -> a
+        product :: forall (t :: Type -> Type) a.
+                   (Foldable t, Num a) =>
+                   t a -> a
           with product @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
-        sum :: forall (t :: * -> *) a. (Foldable t, Num a) => t a -> a
+        sum :: forall (t :: Type -> Type) a.
+               (Foldable t, Num a) =>
+               t a -> a
           with sum @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
       Valid refinement hole fits include
         foldl1 (_ :: Integer -> Integer -> Integer)
-          where foldl1 :: forall (t :: * -> *) a.
+          where foldl1 :: forall (t :: Type -> Type) a.
                           Foldable t =>
                           (a -> a -> a) -> t a -> a
           with foldl1 @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldr1 (_ :: Integer -> Integer -> Integer)
-          where foldr1 :: forall (t :: * -> *) a.
+          where foldr1 :: forall (t :: Type -> Type) a.
                           Foldable t =>
                           (a -> a -> a) -> t a -> a
           with foldr1 @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldl (_ :: Integer -> Integer -> Integer) (_ :: Integer)
-          where foldl :: forall (t :: * -> *) b a.
+          where foldl :: forall (t :: Type -> Type) b a.
                          Foldable t =>
                          (b -> a -> b) -> b -> t a -> b
           with foldl @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldl' (_ :: Integer -> Integer -> Integer) (_ :: Integer)
-          where foldl' :: forall (t :: * -> *) b a.
+          where foldl' :: forall (t :: Type -> Type) b a.
                           Foldable t =>
                           (b -> a -> b) -> b -> t a -> b
           with foldl' @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldr (_ :: Integer -> Integer -> Integer) (_ :: Integer)
-          where foldr :: forall (t :: * -> *) a b.
+          where foldr :: forall (t :: Type -> Type) a b.
                          Foldable t =>
                          (a -> b -> b) -> b -> t a -> b
           with foldr @[]
@@ -85,12 +93,14 @@ refinement_hole_fits.hs:4:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
         pure (_ :: Integer)
-          where pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+          where pure :: forall (f :: Type -> Type) a.
+                        Applicative f =>
+                        a -> f a
           with pure @((->) [Integer])
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
         return (_ :: Integer)
-          where return :: forall (m :: * -> *) a. Monad m => a -> m a
+          where return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) [Integer])
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
@@ -141,31 +151,31 @@ refinement_hole_fits.hs:7:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with const @Integer @[Integer]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @((->) [Integer])
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) [Integer])
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
       Valid refinement hole fits include
         foldl (_ :: Integer -> Integer -> Integer)
-          where foldl :: forall (t :: * -> *) b a.
+          where foldl :: forall (t :: Type -> Type) b a.
                          Foldable t =>
                          (b -> a -> b) -> b -> t a -> b
           with foldl @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldl' (_ :: Integer -> Integer -> Integer)
-          where foldl' :: forall (t :: * -> *) b a.
+          where foldl' :: forall (t :: Type -> Type) b a.
                           Foldable t =>
                           (b -> a -> b) -> b -> t a -> b
           with foldl' @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Data.Foldable’))
         foldr (_ :: Integer -> Integer -> Integer)
-          where foldr :: forall (t :: * -> *) a b.
+          where foldr :: forall (t :: Type -> Type) a b.
                          Foldable t =>
                          (a -> b -> b) -> b -> t a -> b
           with foldr @[]
@@ -205,12 +215,14 @@ refinement_hole_fits.hs:7:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
         pure (_ :: [Integer] -> Integer)
-          where pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+          where pure :: forall (f :: Type -> Type) a.
+                        Applicative f =>
+                        a -> f a
           with pure @((->) Integer)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
         return (_ :: [Integer] -> Integer)
-          where return :: forall (m :: * -> *) a. Monad m => a -> m a
+          where return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) Integer)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))

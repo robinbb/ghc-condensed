@@ -1,8 +1,8 @@
 TYPE SIGNATURES
   (+++) :: forall {a}. [a] -> [a] -> [a]
 TYPE CONSTRUCTORS
-  data type (&&&){0} :: *
-  type synonym (^^^){0} :: * -> * -> *
+  data type (&&&){0} :: Type
+  type synonym (^^^){0} :: Type -> Type -> Type
 PATTERN SYNONYMS
   (:||:) :: forall {a} {b}. a -> b -> (a, b)
 Dependent modules: []

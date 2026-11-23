@@ -2,7 +2,6 @@
 {-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE NoStarIsType #-}
 
 -- |
 -- This module is an internal GHC module.  It declares the constants used

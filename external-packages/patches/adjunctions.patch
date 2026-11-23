@@ -1,0 +1,47 @@
+--- a/external-packages/adjunctions/src/Data/Functor/Contravariant/Rep.hs
++++ b/external-packages/adjunctions/src/Data/Functor/Contravariant/Rep.hs
+@@ -24,6 +24,7 @@
+   , contramapRep
+   ) where
+ 
++import Data.Kind (Type)
+ import Data.Functor.Contravariant
+ import Data.Functor.Product
+ import Data.Profunctor
+@@ -38,7 +39,7 @@
+ -- 'index' . 'tabulate' ≡ id
+ -- @
+ class Contravariant f => Representable f where
+-  type Rep f :: *
++  type Rep f :: Type
+   -- |
+   -- @
+   -- 'contramap' f ('tabulate' g) = 'tabulate' (g . f)
+--- a/external-packages/adjunctions/src/Data/Functor/Rep.hs
++++ b/external-packages/adjunctions/src/Data/Functor/Rep.hs
+@@ -74,6 +74,7 @@
+   , WrappedRep(..)
+   ) where
+ 
++import Data.Kind (Type)
+ import Control.Applicative
+ import Control.Applicative.Backwards
+ import Control.Arrow ((&&&))
+@@ -120,7 +121,7 @@
+ 
+ class Distributive f => Representable f where
+   -- | If no definition is provided, this will default to 'GRep'.
+-  type Rep f :: *
++  type Rep f :: Type
+   type Rep f = GRep f
+ 
+   -- |
+@@ -168,7 +169,7 @@
+        => f a -> Rep f -> a
+ gindex = gindex' . from1
+ 
+-type family GRep' (f :: * -> *) :: *
++type family GRep' (f :: Type -> Type) :: Type
+ class GTabulate f where
+   gtabulate' :: (GRep' f -> a) -> f a
+ class GIndex f where

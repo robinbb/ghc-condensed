@@ -1,81 +1,81 @@
-
-T6018rnfail.hs:8:23: error: [GHC-88333]
+T6018rnfail.hs:10:23: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-T6018rnfail.hs:9:24: error: [GHC-88333]
+T6018rnfail.hs:11:24: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-T6018rnfail.hs:12:19: error: [GHC-88333]
+T6018rnfail.hs:14:19: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-T6018rnfail.hs:15:19: error: [GHC-99412]
+T6018rnfail.hs:17:19: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:16:20: error: [GHC-99412]
+T6018rnfail.hs:18:20: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:20:20: error: [GHC-99412]
+T6018rnfail.hs:22:20: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:20:24: error: [GHC-48254]
+T6018rnfail.hs:22:24: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
 
-T6018rnfail.hs:21:21: error: [GHC-99412]
+T6018rnfail.hs:23:21: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:21:25: error: [GHC-48254]
+T6018rnfail.hs:23:25: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
 
-T6018rnfail.hs:24:16: error: [GHC-99412]
+T6018rnfail.hs:26:16: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:24:20: error: [GHC-48254]
+T6018rnfail.hs:26:20: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
 
-T6018rnfail.hs:27:1: error: [GHC-76037]
+T6018rnfail.hs:29:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:28:1: error: [GHC-76037]
+T6018rnfail.hs:30:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:31:3: error: [GHC-76037]
+T6018rnfail.hs:33:3: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:34:1: error: [GHC-76037]
+T6018rnfail.hs:36:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:35:1: error: [GHC-76037]
+T6018rnfail.hs:37:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:38:3: error: [GHC-76037]
+T6018rnfail.hs:40:3: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-T6018rnfail.hs:42:15: error: [GHC-99412]
+T6018rnfail.hs:44:15: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-T6018rnfail.hs:46:19: error: [GHC-48254]
+T6018rnfail.hs:48:19: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: b
 
-T6018rnfail.hs:49:21: error: [GHC-76037]
+T6018rnfail.hs:51:21: error: [GHC-76037]
     Not in scope: type variable ‘r’
 
-T6018rnfail.hs:50:21: error: [GHC-76037]
+T6018rnfail.hs:52:21: error: [GHC-76037]
     Not in scope: type variable ‘r’
 
-T6018rnfail.hs:52:26: error: [GHC-76037]
+T6018rnfail.hs:54:29: error: [GHC-76037]
     Not in scope: type variable ‘r’
 
-T6018rnfail.hs:53:26: error: [GHC-76037]
+T6018rnfail.hs:55:29: error: [GHC-76037]
     Not in scope: type variable ‘r’
+

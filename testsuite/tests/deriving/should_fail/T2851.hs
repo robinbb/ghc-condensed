@@ -3,7 +3,9 @@
 
 module T2851 where
 
-type family F a :: *
+import Data.Kind (Type)
+
+type family F a :: Type
 
 data D a = D (F a)
     deriving (Show)

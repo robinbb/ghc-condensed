@@ -1,10 +1,10 @@
-type GHC.Internal.Base.MonadPlus :: (* -> *) -> Constraint
+type GHC.Internal.Base.MonadPlus :: (Type -> Type) -> Constraint
 class (GHC.Internal.Base.Alternative m,
        GHC.Internal.Base.Monad m) =>
       GHC.Internal.Base.MonadPlus m where
   ...
   mplus :: m a -> m a -> m a
-type GHC.Internal.Base.MonadPlus :: (* -> *) -> Constraint
+type GHC.Internal.Base.MonadPlus :: (Type -> Type) -> Constraint
 class (GHC.Internal.Base.Alternative m,
        GHC.Internal.Base.Monad m) =>
       GHC.Internal.Base.MonadPlus m where

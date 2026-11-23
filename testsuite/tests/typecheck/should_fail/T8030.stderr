@@ -1,4 +1,4 @@
-T8030.hs:9:3: error: [GHC-83865]
+T8030.hs:11:3: error: [GHC-83865]
     • Couldn't match expected type: Pr a
                   with actual type: Pr a0
       Note: ‘Pr’ is a non-injective type family.
@@ -9,7 +9,7 @@ T8030.hs:9:3: error: [GHC-83865]
         op1 :: forall k (a :: k). C a => Pr a
       In the class declaration for ‘C’
 
-T8030.hs:10:3: error: [GHC-83865]
+T8030.hs:12:3: error: [GHC-83865]
     • Couldn't match type: Pr a0
                      with: Pr a
       Expected: Pr a -> Pr a -> Pr a

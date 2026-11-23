@@ -1,1 +1,1 @@
-MkFoo :: forall k (a :: k). (k ~ *) => Foo a
+MkFoo :: forall k (a :: k). (k ~ Type) => Foo a

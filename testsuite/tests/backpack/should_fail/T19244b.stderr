@@ -12,7 +12,7 @@
 T19244b.bkp:10:27: error: [GHC-15843]
     • Type constructor ‘Key’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type Key :: * -> Constraint
+      Main module: type Key :: Type -> Constraint
                    type Key = GHC.Internal.Classes.Ord
         Hsig file: type Key :: forall {k}. k -> Constraint
                    class Key k1

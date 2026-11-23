@@ -2,11 +2,12 @@
 
 module GenCannotDoRep1_8 where
 
+import Data.Kind (Type)
 import GHC.Generics
 
 data B a = B (a -> Int)
 
-type family TF (a :: *) :: *
+type family TF (a :: Type) :: Type
 
 -- We do not support type families
 data T a = T (TF a) deriving Generic1

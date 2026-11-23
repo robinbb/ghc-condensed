@@ -1,4 +1,4 @@
-:set -fprint-explicit-kinds -fprint-explicit-foralls -XNoStarIsType
+:set -fprint-explicit-kinds -fprint-explicit-foralls
 :load T16724.hs
 :info T1
 :info T2

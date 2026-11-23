@@ -1,4 +1,4 @@
-type T :: *
+type T :: Type
 data T where
   MkT1 :: (Int -> Int) -> T
   MkT2 :: (forall a. Maybe a) -> T

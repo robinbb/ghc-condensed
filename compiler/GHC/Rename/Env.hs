@@ -1206,12 +1206,9 @@ lookup_demoted :: RdrName -> RnM GlobalRdrElt
 lookup_demoted rdr_name
   | Just demoted_rdr <- demoteRdrNameTcCls rdr_name
     -- Maybe it's the name of a *data* constructor
-  = do { star_is_type <- xoptM LangExt.StarIsType
-       ; let is_star_type = if star_is_type then StarIsType else StarIsNotType
-             star_is_type_hints = noStarIsTypeHints is_star_type rdr_name
-       ; mb_demoted_gre <- lookupOccRn_maybe demoted_rdr
+  = do { mb_demoted_gre <- lookupOccRn_maybe demoted_rdr
        ; case mb_demoted_gre of
-           Nothing -> unboundGREX looking_for rdr_name star_is_type_hints
+           Nothing -> unboundGREX looking_for rdr_name (starKindHints rdr_name)
            Just demoted_gre -> return demoted_gre }
 
   | isQual rdr_name,

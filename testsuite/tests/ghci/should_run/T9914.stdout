@@ -1,9 +1,9 @@
 1
 2
 2
-type T1 :: *
+type T1 :: Type
 data T1 = MkT1
   	-- Defined at <interactive>:6:1
-type T2 :: *
+type T2 :: Type
 data T2 = MkT2
   	-- Defined at <interactive>:8:2

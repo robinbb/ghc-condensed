@@ -4,10 +4,12 @@
 
 module T9433 where
 
-type family Id x :: *
+import Data.Kind (Type)
+
+type family Id x :: Type
 type instance Id a = a
 
-type family Map (f :: * -> *) x :: *
+type family Map (f :: Type -> Type) x :: Type
 type instance Map f [a] = [f a]
 
 x :: Map Id [Bool]

@@ -90,10 +90,8 @@ module GHC.Parser.PostProcess (
         warnPatternNamespaceSpecifier,
 
         -- Token symbols
-        starSym,
 
         -- Warnings and errors
-        warnStarIsType,
         warnPrepositiveQualifiedModule,
         failOpFewArgs,
         failNotEnabledImportQualifiedPost,
@@ -113,7 +111,6 @@ module GHC.Parser.PostProcess (
         ecpFromPat,
         ArrowParsingMode(..),
         withArrowParsingMode, withArrowParsingMode',
-        mkStarPV,
         setTelescopeBndrsNameSpace,
         PatBuilder,
 
@@ -144,7 +141,6 @@ import GHC.Types.Basic
 import GHC.Types.Error
 import GHC.Types.Fixity
 import GHC.Types.ForeignCall
-import GHC.Types.Hint
 import GHC.Types.InlinePragma
 import GHC.Types.SourceText
 import GHC.Parser.Types
@@ -1140,14 +1136,6 @@ checkTyClHdr is_cls ty
   where
     goL cs (L l ty) acc ops cps fix = go cs l ty acc ops cps fix
 
-    -- workaround to define '*' despite StarIsType
-    go cs ll (HsParTy an (L l (HsStarTy (EpUniTok _ isUni)))) acc ops' cps' fix
-      = do { addPsMessage (locA l) PsWarnStarBinder
-           ; let name = mkOccNameFS tcClsName (starSym isUni)
-           ; let a' = newAnns ll l an
-           ; return (L a' (Unqual name), acc, fix
-                    , (reverse ops'), cps', cs) }
-
     go cs l (HsTyVar _ _ ltc@(L _ tc)) acc ops cps fix
       | isRdrTc tc               = return (ltc, acc, fix, (reverse ops), cps, cs Semi.<> comments l)
     go cs l (HsOpTy _ t1 tyop t2) acc ops cps _fix
@@ -1168,15 +1156,6 @@ checkTyClHdr is_cls ty
     go _ l _ _ _ _ _
       = addFatalError $ mkPlainErrorMsgEnvelope (locA l) $
           (PsErrMalformedTyOrClDecl ty)
-
-    -- Combine the annotations from the HsParTy and HsStarTy into a
-    -- new one for the LocatedN RdrName
-    newAnns :: SrcSpanAnnA -> SrcSpanAnnA -> (EpToken "(", EpToken ")") -> SrcSpanAnnN
-    newAnns l@(EpAnn _ _ csp0) l1@(EpAnn ap ta csp) (o,c) =
-      let
-        lr = combineSrcSpans (locA l1) (locA l)
-      in
-        EpAnn (EpaSpan lr) (NameAnn (NameParens o c) ap ta) (csp0 Semi.<> csp)
 
 -- | Yield a parse error if we have a function applied directly to a do block
 -- etc. and BlockArguments is not enabled.
@@ -2349,11 +2328,6 @@ withArrowParsingMode cont = do
 withArrowParsingMode' :: DisambECP b => (forall lhs. DisambECP lhs => ArrowParsingMode lhs b -> PV (LocatedA b)) -> PV (LocatedA b)
 withArrowParsingMode' = withArrowParsingMode
 
-mkStarPV :: DisambECP b => TokStar -> PV (LocatedA b)
-mkStarPV tok = do
-  warnStarIsType (locA tok)
-  unECP $ ecpFromExp $ L (l2l tok) (HsStar tok)
-
 -- When a forall-type occurs in term syntax, forall-bound variables should
 -- inhabit the term namespace `varName` rather than the usual `tvName`.
 -- See Note [Types in terms].
@@ -3499,15 +3473,9 @@ failSpliceOrQuoteTwice lvl =
       EpAnnLevelSplice tok -> getEpTokenSrcSpan tok
       EpAnnLevelQuote tok -> getEpTokenSrcSpan tok
 
-warnStarIsType :: MonadP m => SrcSpan -> m ()
-warnStarIsType span = addPsMessage span PsWarnStarIsType
-
 failOpFewArgs :: MonadP m => LHsType GhcPs -> m a
 failOpFewArgs (L _ (HsTyVar _ _ (L loc op))) =
-  do { star_is_type <- getBit StarIsTypeBit
-     ; let is_star_type = if star_is_type then StarIsType else StarIsNotType
-     ; addFatalError $ mkPlainErrorMsgEnvelope (locA loc) $
-         (PsErrOpFewArgs is_star_type op) }
+  addFatalError $ mkPlainErrorMsgEnvelope (locA loc) $ PsErrOpFewArgs op
 failOpFewArgs (L l (HsWildCardTy _)) =
   addFatalError $ mkPlainErrorMsgEnvelope (getHasLoc l) $ PsErrInvalidInfixHole
 failOpFewArgs op = pprPanic "failOpFewArgs: impossible type operator" (ppr op)
@@ -3757,9 +3725,6 @@ mkMultField mods col t = mkConDeclField (HsModifiedFunArr noExtField mods $ HsSt
 -----------------------------------------------------------------------------
 -- Token symbols
 
-starSym :: IsUnicodeSyntax -> FastString
-starSym UnicodeSyntax = fsLit "★"
-starSym NormalSyntax  = fsLit "*"
 
 -----------------------------------------
 -- Bits and pieces for RecordDotSyntax.

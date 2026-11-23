@@ -1,7 +1,9 @@
 {-# LANGUAGE TypeFamilies #-}
 
+import Data.Kind (Type)
+
 class Compilable a where
-   type CompileResult a :: *
+   type CompileResult a :: Type
 
 instance Compilable a => Compilable [a] where
    type CompileResult [a] = [CompileResult a]

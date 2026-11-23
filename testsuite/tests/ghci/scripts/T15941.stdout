@@ -1,4 +1,4 @@
-type T :: * -> * -> *
+type T :: Type -> Type -> Type
 type T =
   (->)
     @{GHC.Internal.Types.LiftedRep} @{GHC.Internal.Types.LiftedRep}

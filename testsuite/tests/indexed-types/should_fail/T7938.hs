@@ -3,7 +3,9 @@
 
 module T7938 where
 
-data KProxy (a :: *) = KP
+import Data.Kind (Type)
+
+data KProxy (a :: Type) = KP
 
 class Foo (a :: k1) (b :: k2) where
   type Bar a

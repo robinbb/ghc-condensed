@@ -4,12 +4,13 @@
 -- From https://www.haskell.org/haskellwiki/GHC/Type_families#An_associated_data_type_example
 module Ppr004 where
 
+import Data.Kind (Type)
 import qualified Data.IntMap
 import Prelude hiding (lookup)
 import Data.Char (ord)
 
 class GMapKey k where
-  data  GMap  k  ::  *  ->  *
+  data  GMap  k  ::  Type  ->  Type
   empty       ::  GMap   k  v
   lookup      :: k -> GMap k v -> Maybe v
   insert      :: k -> v -> GMap k v -> GMap k v
@@ -63,7 +64,7 @@ myGMap = insert (5, Left 'c') "(5, Left 'c')"    $
 
 main = putStrLn $ maybe "Couldn't find key!" id $ lookup (5, Right ()) myGMap
 
--- (Type) Synonym Family
+-- (*) Synonym Family
 
 type family Elem c
 

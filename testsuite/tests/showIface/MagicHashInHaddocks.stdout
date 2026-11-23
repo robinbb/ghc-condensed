@@ -59,7 +59,6 @@ docs:
          TypeApplications
          EmptyDataDeriving
          NumericUnderscores
-         StarIsType
          ImportQualifiedPost
          StandaloneKindSignatures
          FieldSelectors

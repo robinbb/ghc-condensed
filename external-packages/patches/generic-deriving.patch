@@ -1,0 +1,50 @@
+--- a/external-packages/generic-deriving/tests/T68Spec.hs
++++ b/external-packages/generic-deriving/tests/T68Spec.hs
+@@ -3,6 +3,7 @@
+ 
+ module T68Spec (main, spec) where
+ 
++import Data.Kind (Type)
+ import Generics.Deriving.TH
+ import Test.Hspec
+ 
+@@ -12,7 +13,7 @@
+ spec :: Spec
+ spec = return ()
+ 
+-type family F68 :: * -> *
++type family F68 :: Type -> Type
+ type instance F68 = Maybe
+ data T68 a = MkT68 (F68 a)
+ $(deriveAll1 ''T68)
+--- a/external-packages/generic-deriving/tests/ExampleSpec.hs
++++ b/external-packages/generic-deriving/tests/ExampleSpec.hs
+@@ -14,6 +14,7 @@
+ 
+ module ExampleSpec (main, spec) where
+ 
++import Data.Kind (Type)
+ import           Generics.Deriving
+ import           Generics.Deriving.TH
+ 
+@@ -70,7 +71,7 @@
+ tree = Branch 2 Empty (Branch 1 Empty Empty)
+ 
+ -------------------------------------------------------------------------------
+--- Example: lists (kind * -> *)
++-- Example: lists (kind * -> Type)
+ -------------------------------------------------------------------------------
+ 
+ data List a = Nil | Cons a (List a)
+@@ -228,9 +229,9 @@
+ data Lexeme = Lexeme
+ 
+ data family MyType3 (a :: v) (b :: w) (c :: x) (d :: y) (e :: z)
+-newtype instance MyType3 (f p) (f p) f p (q :: *) = MyType3Newtype q
++newtype instance MyType3 (f p) (f p) f p (q :: Type) = MyType3Newtype q
+ data    instance MyType3 Bool  ()    f p q        = MyType3True | MyType3False
+-data    instance MyType3 Int   ()    f p (q :: *) = MyType3Hash q Addr# Char# Double# Float# Int# Word#
++data    instance MyType3 Int   ()    f p (q :: Type) = MyType3Hash q Addr# Char# Double# Float# Int# Word#
+ 
+ $(deriveAll0And1 ''Empty)
+ $(deriveAll0And1 ''(:/:))

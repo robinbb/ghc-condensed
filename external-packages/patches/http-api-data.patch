@@ -1,0 +1,28 @@
+--- a/external-packages/http-api-data/src/Web/Internal/FormUrlEncoded.hs
++++ b/external-packages/http-api-data/src/Web/Internal/FormUrlEncoded.hs
+@@ -11,6 +11,7 @@
+ {-# LANGUAGE UndecidableInstances       #-}
+ module Web.Internal.FormUrlEncoded where
+ 
++import Data.Kind (Type)
+ import           Control.Applicative        (Const(Const))
+ import           Control.Arrow              ((***))
+ import           Control.Monad              ((<=<))
+@@ -333,7 +334,7 @@
+ genericToForm :: forall a. (Generic a, GToForm a (Rep a)) => FormOptions -> a -> Form
+ genericToForm opts = gToForm (Proxy :: Proxy a) opts . from
+ 
+-class GToForm t (f :: * -> *) where
++class GToForm t (f :: Type -> Type) where
+   gToForm :: Proxy t -> FormOptions -> f x -> Form
+ 
+ instance (GToForm t f, GToForm t g) => GToForm t (f :*: g) where
+@@ -488,7 +489,7 @@
+ genericFromForm :: forall a. (Generic a, GFromForm a (Rep a)) => FormOptions -> Form -> Either Text a
+ genericFromForm opts f = to <$> gFromForm (Proxy :: Proxy a) opts f
+ 
+-class GFromForm t (f :: * -> *) where
++class GFromForm t (f :: Type -> Type) where
+   gFromForm :: Proxy t -> FormOptions -> Form -> Either Text (f x)
+ 
+ instance (GFromForm t f, GFromForm t g) => GFromForm t (f :*: g) where

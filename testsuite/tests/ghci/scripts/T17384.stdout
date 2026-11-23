@@ -1,5 +1,5 @@
 type role T nominal
-type T :: * -> *
+type T :: Type -> Type
 data T a where
   MkT :: T (Maybe Bool)
   	-- Defined at T17384.hs:6:1

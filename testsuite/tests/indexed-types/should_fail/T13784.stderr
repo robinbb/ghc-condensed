@@ -2,7 +2,7 @@ T13784.hs:29:28: error: [GHC-25897]
     • Could not deduce ‘as ~ (a : Divide a as)’
       from the context: (a : as) ~ (a1 : as1)
         bound by a pattern with constructor:
-                   :* :: forall a (as :: [*]). a -> Product as -> Product (a : as),
+                   :* :: forall a (as :: [Type]). a -> Product as -> Product (a : as),
                  in an equation for ‘divide’
         at T13784.hs:29:13-19
       Expected: Product (Divide a (a : as))

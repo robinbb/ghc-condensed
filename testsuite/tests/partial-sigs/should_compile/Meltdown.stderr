@@ -7,7 +7,7 @@ TYPE SIGNATURES
     NukeMonad param1 param2 () -> NukeMonad param1 param2 ()
 TYPE CONSTRUCTORS
   data type NukeMonad{6} ::
-    forall {k1} {k2} {k3}. k1 -> k2 -> k3 -> *
+    forall {k1} {k2} {k3}. k1 -> k2 -> k3 -> Type
     roles nominal nominal nominal phantom phantom phantom
 CLASS INSTANCES
   instance forall k1 k2 (a :: k1) (b :: k2). Functor (NukeMonad a b)

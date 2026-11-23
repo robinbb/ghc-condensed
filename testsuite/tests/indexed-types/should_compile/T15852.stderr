@@ -1,5 +1,5 @@
 TYPE CONSTRUCTORS
-  data family DF{3} :: forall k. * -> k -> *
+  data family DF{3} :: forall k. Type -> k -> Type
     roles nominal nominal nominal
 COERCION AXIOMS
   axiom T15852.D:R:DFProxyProxy0 ::

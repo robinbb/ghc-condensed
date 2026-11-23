@@ -1,7 +1,7 @@
 TYPE SIGNATURES
   meth2 :: forall a. C2 a => a -> a
 TYPE CONSTRUCTORS
-  class C2{1} :: * -> Constraint
+  class C2{1} :: Type -> Constraint
     roles representational
 Dependent modules: []
 Dependent packages: [(normal, base-4.23.0.0)]

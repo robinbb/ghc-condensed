@@ -116,7 +116,7 @@ T14152.go1
         (lvl10_r2qw
          `cast` (Sym (GHC.Classes.N:IP[0]
                           <"callStack">_N <GHC.Stack.Types.CallStack>_N)
-                 :: (GHC.Stack.Types.CallStack :: *)
+                 :: (GHC.Stack.Types.CallStack :: Type)
                     ~R# (?callStack::GHC.Stack.Types.CallStack :: Constraint)))
         (GHC.CString.unpackCString# lvl11_r2qx)
 

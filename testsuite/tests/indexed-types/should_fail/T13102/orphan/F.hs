@@ -2,4 +2,6 @@
 
 module F where
 
-type family F a :: *
+import Data.Kind (Type)
+
+type family F a :: Type

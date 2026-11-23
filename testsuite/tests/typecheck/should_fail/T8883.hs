@@ -5,7 +5,9 @@
 
 module T8883 where
 
-type family PF a :: * -> *
+import Data.Kind (Type)
+
+type family PF a :: Type -> Type
 
 class Regular a where
   from :: a -> PF a a

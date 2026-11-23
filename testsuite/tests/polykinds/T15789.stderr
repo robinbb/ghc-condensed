@@ -1,5 +1,5 @@
 T15789.hs:8:80: error: [GHC-83865]
-    • Expected kind ‘k0 -> *’, but ‘cat b’ has kind ‘*’
+    • Expected kind ‘k0 -> Type’, but ‘cat b’ has kind ‘Type’
     • In the first argument of ‘Cat’, namely ‘(forall b. cat b u)’
       In the kind ‘forall (cat :: forall xx. xx -> Type) a.
                    forall b. Cat (forall b. cat b u)’

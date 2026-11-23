@@ -46,7 +46,6 @@ source-repository head
 common extensions
   default-extensions:
     LambdaCase
-    NoStarIsType
     OverloadedRecordDot
     StrictData
     TypeApplications

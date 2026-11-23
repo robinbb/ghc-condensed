@@ -2,19 +2,20 @@
 
 module T9144 where
 
+import Data.Kind (Type)
 import Data.Proxy
 import GHC.TypeLits
 
 data family Sing (a :: k)
 
-data SomeSing :: KProxy k -> * where
+data SomeSing :: KProxy k -> Type where
   SomeSing :: forall k (a :: k). Sing a -> SomeSing ('KProxy :: KProxy k)
 
 class kproxy ~ 'KProxy => SingKind (kproxy :: KProxy k) where
   fromSing :: forall (a :: k). Sing a -> DemoteRep ('KProxy :: KProxy k)
   toSing :: DemoteRep ('KProxy :: KProxy k) -> SomeSing ('KProxy :: KProxy k)
 
-type family DemoteRep (kproxy :: KProxy k) :: *
+type family DemoteRep (kproxy :: KProxy k) :: Type
 
 data Foo = Bar Nat
 data FooTerm = BarTerm Integer

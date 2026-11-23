@@ -1,7 +1,7 @@
 T17963.hs:13:23: error: [GHC-25897]
     • Couldn't match kind ‘rep’ with ‘GHC.Internal.Types.LiftedRep’
       When matching kinds
-        k0 :: *
+        k0 :: Type
         ob :: TYPE rep
       ‘rep’ is a rigid type variable bound by
         the class declaration for ‘Category'’

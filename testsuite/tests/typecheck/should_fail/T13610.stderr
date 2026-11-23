@@ -1,8 +1,7 @@
-
 T13610.hs:11:15: error: [GHC-18872]
     • Couldn't match a lifted type with an unlifted type
       When matching types
-        a :: *
+        a :: Type
         Weak# () :: UnliftedType
       Expected: (# State# RealWorld, a #)
         Actual: (# State# RealWorld, Weak# () #)
@@ -12,3 +11,4 @@ T13610.hs:11:15: error: [GHC-18872]
       In a stmt of a 'do' block:
         IO (\ s -> mkWeakNoFinalizer# double () s)
     • Relevant bindings include main :: IO a (bound at T13610.hs:8:1)
+

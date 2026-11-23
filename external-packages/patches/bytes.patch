@@ -1,0 +1,47 @@
+--- a/external-packages/bytes/src/Data/Bytes/Get.hs
++++ b/external-packages/bytes/src/Data/Bytes/Get.hs
+@@ -30,6 +30,7 @@
+   , runGetS
+   ) where
+ 
++import Data.Kind (Type)
+ import Control.Monad (liftM, unless)
+ import Control.Monad.Trans.Class (MonadTrans(..))
+ import Control.Monad.Trans.Except as Except
+@@ -63,10 +64,10 @@
+ #endif
+      Integral (Remaining m), Fail.MonadFail m, Applicative m) => MonadGet m where
+   -- | An 'Integral' number type used for unchecked skips and counting.
+-  type Remaining m :: *
++  type Remaining m :: Type
+ 
+   -- | The underlying ByteString type used by this instance
+-  type Bytes m :: *
++  type Bytes m :: Type
+ 
+   -- | Skip ahead @n@ bytes. Fails if fewer than @n@ bytes are available.
+   skip :: Int -> m ()
+--- a/external-packages/bytes/src/Data/Bytes/Signed.hs
++++ b/external-packages/bytes/src/Data/Bytes/Signed.hs
+@@ -16,10 +16,11 @@
+   , Signed, signed
+   ) where
+ 
++import Data.Kind (Type)
+ import Data.Int
+ import Data.Word
+ 
+-type family Unsigned i :: *
++type family Unsigned i :: Type
+ 
+ type instance Unsigned Int = Word
+ type instance Unsigned Int8 = Word8
+@@ -37,7 +38,7 @@
+ unsigned :: (Integral i, Num (Unsigned i)) => i -> Unsigned i
+ unsigned = fromIntegral
+ 
+-type family Signed i :: *
++type family Signed i :: Type
+ type instance Signed Int     = Int
+ type instance Signed Int8    = Int8
+ type instance Signed Int16   = Int16

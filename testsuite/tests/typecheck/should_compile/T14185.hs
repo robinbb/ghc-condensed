@@ -7,7 +7,7 @@ import GHC.Types
 import GHC.Exts
 
 
-class Unbox (t :: *) (r :: TYPE k) | t -> r, r -> t where
+class Unbox (t :: Type) (r :: TYPE k) | t -> r, r -> t where
   unbox :: t -> r
   box :: r -> t
 

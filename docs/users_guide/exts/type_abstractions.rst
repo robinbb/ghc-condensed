@@ -68,7 +68,7 @@ variables appear in its type signature from left to right.
 
 For example if we have the following declaration in GADT syntax::
 
-    data Foo :: * -> * where
+    data Foo :: Type -> Type where
       A :: forall s t. [(t,s)] -> Foo (t,s)
       B :: (t,s) -> Foo (t,s)
 

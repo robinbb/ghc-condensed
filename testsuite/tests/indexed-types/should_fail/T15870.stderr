@@ -1,6 +1,6 @@
 T15870.hs:29:34: error: [GHC-25897]
-    • Couldn't match kind ‘k’ with ‘*’
-      Expected kind ‘Optic @{k} a’, but ‘g2’ has kind ‘Optic @{*} b’
+    • Couldn't match kind ‘k’ with ‘Type’
+      Expected kind ‘Optic @{k} a’, but ‘g2’ has kind ‘Optic @{Type} b’
       ‘k’ is a rigid type variable bound by
         a family instance declaration
         at T15870.hs:(24,1)-(29,35)

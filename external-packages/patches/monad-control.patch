@@ -1,0 +1,28 @@
+--- a/external-packages/vendored/monad-control/src/Control/Monad/Trans/Control.hs
++++ b/external-packages/vendored/monad-control/src/Control/Monad/Trans/Control.hs
+@@ -96,6 +96,7 @@
+ --------------------------------------------------------------------------------
+ 
+ -- from base:
++import Data.Kind (Type)
+ import Data.Function ( (.), ($), const )
+ import Data.Monoid   ( Monoid, mempty )
+ import Control.Monad ( Monad, (>>=), return, liftM )
+@@ -204,7 +205,7 @@
+   -- StT ('WriterT' w)  a ~ 'Monoid' w => (a, w)
+   -- StT ('RWST' r w s) a ~ 'Monoid' w => (a, s, w)
+   -- @
+-  type StT t a :: *
++  type StT t a :: Type
+ 
+   -- | @liftWith@ is similar to 'lift' in that it lifts a computation from
+   -- the argument monad to the constructed monad.
+@@ -543,7 +544,7 @@
+     -- StM ('WriterT' w  m) a ~ 'ComposeSt' 'WriterT'   m a ~ 'Monoid' w => StM m (a, w)
+     -- StM ('RWST' r w s m) a ~ 'ComposeSt' 'RWST'      m a ~ 'Monoid' w => StM m (a, s, w)
+     -- @
+-    type StM m a :: *
++    type StM m a :: Type
+ 
+     -- | @liftBaseWith@ is similar to 'liftIO' and 'liftBase' in that it
+     -- lifts a base computation to the constructed monad.

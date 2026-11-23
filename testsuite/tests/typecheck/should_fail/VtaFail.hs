@@ -2,6 +2,8 @@
 
 module VtaFail1 where
 
+import Data.Kind (Type)
+
 pairup_nosig x y = (x, y)
 
 answer_nosig = pairup_nosig @Int @Bool 5 True
@@ -20,7 +22,7 @@ pair x = (,) x
 
 a = pair 3 @Int @Bool True
 
-data First (a :: * -> *) = F
+data First (a :: Type -> Type) = F
 
 first :: First a -> Int
 first _ = 0
@@ -34,7 +36,7 @@ foo _ = 0
 
 baz = foo @Bool (P :: Proxy Int) -- should fail
 
-data Three (a :: * -> k -> *) = T
+data Three (a :: Type -> k -> Type) = T
 
 too :: Three a -> Int
 too _ = 3

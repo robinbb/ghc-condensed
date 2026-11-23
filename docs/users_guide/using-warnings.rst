@@ -70,8 +70,6 @@ as ``-Wno-...`` for every individual warning in the group.
         * :ghc-flag:`-Wtabs`
         * :ghc-flag:`-Wunrecognised-warning-flags`
         * :ghc-flag:`-Winaccessible-code`
-        * :ghc-flag:`-Wstar-binder`
-        * :ghc-flag:`-Wstar-is-type`
         * :ghc-flag:`-Woperator-whitespace-ext-conflict`
         * :ghc-flag:`-Wambiguous-fields`
         * :ghc-flag:`-Wunicode-bidirectional-format-characters`
@@ -133,7 +131,6 @@ as ``-Wno-...`` for every individual warning in the group.
         * :ghc-flag:`-Wname-shadowing`
         * :ghc-flag:`-Worphans`
         * :ghc-flag:`-Wredundant-record-wildcards`
-        * :ghc-flag:`-Wstar-is-type`
         * :ghc-flag:`-Wtrustworthy-safe`
         * :ghc-flag:`-Wtype-defaults`
         * :ghc-flag:`-Wunused-do-bind`
@@ -1587,56 +1584,6 @@ of ``-W(no-)*``.
     ``checkTEQ`` to be able to produce a ``Just``, ``t ~ u`` must hold, but
     since we're passing ``Foo1`` and ``Foo2`` here, it follows that ``t ~
     Char``, and ``u ~ Int``, and thus ``t ~ u`` cannot hold.
-
-.. ghc-flag:: -Wstar-is-type
-     :shortdesc: warn when ``*`` is used to mean ``Data.Kind.Type``
-     :type: dynamic
-     :reverse: -Wno-star-is-type
-     :category:
-
-     :since: 8.6
-
-     The use of ``*`` to denote the kind of inhabited types relies on the
-     :extension:`StarIsType` extension, which in a future release will be
-     turned off by default and then possibly removed. The reasons for this and
-     the deprecation schedule are described in `GHC Proposal #143
-     <https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0143-remove-star-kind.rst>`__.
-
-     This warning allows to detect such uses of ``*`` before the actual
-     breaking change takes place. The recommended fix is to replace ``*`` with
-     ``Type`` imported from ``Data.Kind``.
-
-.. ghc-flag:: -Wstar-binder
-     :shortdesc: warn about binding the ``(*)`` type operator despite
-         :extension:`StarIsType`
-     :type: dynamic
-     :reverse: -Wno-star-binder
-
-     :since: 8.6
-
-     Under :extension:`StarIsType`, a ``*`` in types is not an operator nor
-     even a name, it is special syntax that stands for ``Data.Kind.Type``. This
-     means that an expression like ``Either * Char`` is parsed as ``Either (*)
-     Char`` and not ``(*) Either Char``.
-
-     In binding positions, we have similar parsing rules. Consider the following
-     example ::
-
-         {-# LANGUAGE TypeOperators, TypeFamilies, StarIsType #-}
-
-         type family a + b
-         type family a * b
-
-     While ``a + b`` is parsed as ``(+) a b`` and becomes a binding position for
-     the ``(+)`` type operator, ``a * b`` is parsed as ``a (*) b`` and is rejected.
-
-     As a workaround, we allow to bind ``(*)`` in prefix form::
-
-         type family (*) a b
-
-     This is a rather fragile arrangement, as generally a programmer expects
-     ``(*) a b`` to be equivalent to ``a * b``. With :ghc-flag:`-Wstar-binder`
-     we warn when this special treatment of ``(*)`` takes place.
 
 .. ghc-flag:: -Wsimplifiable-class-constraints
     :shortdesc: Warn about class constraints in a type signature that can

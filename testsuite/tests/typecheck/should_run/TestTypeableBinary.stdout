@@ -6,9 +6,9 @@ good: TYPE
 good: RuntimeRep
 good: 'IntRep
 good: FUN 'Many ('BoxedRep 'Lifted) ('BoxedRep 'Lifted)
-good: Proxy * Int
+good: Proxy Type Int
 good: Proxy (TYPE 'IntRep) Int#
-good: *
+good: Type
 good: Int -> Int
 good: 5
 good: "hello world"

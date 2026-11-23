@@ -38,7 +38,7 @@ module GHC.Utils.Outputable (
         arrow, lollipop, larrow, darrow, arrowt, larrowt, arrowtt, larrowtt,
         lambda,
         lparen, rparen, lbrack, rbrack, lbrace, rbrace, underscore,
-        blankLine, forAllLit, starLit, bullet, ellipsis,
+        blankLine, forAllLit, bullet, ellipsis,
         ($+$),
         cat, fcat,
         hang, hangNotEmpty, punctuate, punctuateFinal,
@@ -431,7 +431,6 @@ data SDocContext = SDC
   , sdocSuppressStgReps             :: !Bool
   , sdocStableCoreDumpOrder         :: !Bool
   , sdocErrorSpans                  :: !Bool
-  , sdocStarIsType                  :: !Bool
   , sdocLinearTypes                 :: !Bool
   , sdocListTuplePuns               :: !Bool
   , sdocPrintTypeAbbreviations      :: !Bool
@@ -501,7 +500,6 @@ defaultSDocContext = SDC
   , sdocSuppressStgReps             = True
   , sdocStableCoreDumpOrder         = False
   , sdocErrorSpans                  = False
-  , sdocStarIsType                  = False
   , sdocLinearTypes                 = False
   , sdocListTuplePuns               = True
   , sdocPrintTypeAbbreviations      = True
@@ -814,9 +812,6 @@ rbrace     = char '}'
 
 forAllLit :: SDoc
 forAllLit = unicodeSyntax (char '∀') (text "forall")
-
-starLit :: SDoc
-starLit = unicodeSyntax (char '★') (char '*')
 
 bullet :: SDoc
 bullet = unicode (char '•') (char '*')

@@ -4,10 +4,11 @@
 
 module Err where
 
+import Data.Kind (Type)
 import GHC.Exts (Constraint)
 
 class Determines b | -> b
 
-class (forall (b :: *) (c :: Constraint). (Determines b, Determines c) => c) => OpCode
+class (forall (b :: Type) (c :: Constraint). (Determines b, Determines c) => c) => OpCode
 
 instance OpCode

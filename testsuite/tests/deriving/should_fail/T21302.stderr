@@ -8,7 +8,7 @@ T21302.hs:12:19: error: [GHC-05617]
     • Could not deduce ‘c0 Eq a’
       from the context: c Eq a
         bound by a stand-alone deriving instance declaration:
-                   forall (c :: (* -> Constraint) -> * -> Constraint) a.
+                   forall (c :: (Type -> Constraint) -> Type -> Constraint) a.
                    c Eq a =>
                    Eq (BoxAssoc a)
         at T21302.hs:12:19-43

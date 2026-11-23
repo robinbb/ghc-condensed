@@ -24,14 +24,14 @@ class Serializable a -- empty class, just for demonstration purposes
 
 instance Serializable a => Serializable [a]
 
-data Static :: * -> * where
+data Static :: Type -> Type where
   StaticPtr :: StaticPtr a -> Static a
   StaticApp :: Static (a -> b) -> Static a -> Static b
 
 staticApp :: StaticPtr (a -> b) -> Static a -> Static b
 staticApp = StaticApp .  StaticPtr
 
-data Dict :: Constraint -> * where
+data Dict :: Constraint -> Type where
   Dict :: c => Dict c
 
 class c => SC c where

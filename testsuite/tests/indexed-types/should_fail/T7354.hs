@@ -2,8 +2,10 @@
 
 module T7354 where
 
-type family Base t :: * -> *
-data family Prim t :: * -> *
+import Data.Kind (Type)
+
+type family Base t :: Type -> Type
+data family Prim t :: Type -> Type
 
 class Functor (Base t) => Unfoldable t where
   embed :: Base t t -> t

@@ -27,8 +27,6 @@ test('T25127_data', normal, compile, [''])
 test('T25127_newtype', normal, compile, [''])
 test('T25127_data_inst', normal, compile, [''])
 test('T25127_infix', normal, compile, [''])
-test('T26967', normal, compile, [''])
-test('T26967_tyop', normal, compile, [''])
 
 test('T22326_th_dump1', req_th, compile, ['-v0 -ddump-splices -dsuppress-uniques'])
 test('T23739_th_dump1', req_th, compile, ['-v0 -ddump-splices -dsuppress-uniques'])

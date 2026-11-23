@@ -6,36 +6,36 @@ False
 Expecting foo = False
 foo :: Bool = False
 it :: () = ()
-type T :: *
+type T :: Type
 data T = ...
 Expecting T and Ghci1.T
-type Ghci1.T :: *
+type Ghci1.T :: Type
 data Ghci1.T = ...
-type T :: *
+type T :: Type
 data T = ...
 it :: () = ()
 Expecting T and T'
-type T :: *
+type T :: Type
 data T = ...
-type T' :: *
+type T' :: Type
 data T' = ...
 it :: () = ()
 Expecting only T, no Ghci1.T
-type T :: *
+type T :: Type
 data T = ...
 it :: () = ()
 Expecting T and foo with function type
-type T :: *
+type T :: Type
 data T = ...
 foo :: T -> Bool = _
 it :: () = ()
 Expecting T and foo :: Bool
-type T :: *
+type T :: Type
 data T = ...
 foo :: Bool = True
 it :: () = ()
 Expecting foo, T
 foo :: Bool = True
-type T :: *
+type T :: Type
 data T = ...
 it :: () = ()

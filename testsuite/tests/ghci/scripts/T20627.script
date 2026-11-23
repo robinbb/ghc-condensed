@@ -1,4 +1,3 @@
-:set -XNoStarIsType
 
 putStrLn "\nType and Constraint unqualified:"
 :k (->)

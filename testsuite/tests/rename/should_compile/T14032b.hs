@@ -1,4 +1,4 @@
-{-# LANGUAGE NoStarIsType, ExplicitNamespaces #-}
+{-# LANGUAGE ExplicitNamespaces #-}
 
 module Main where
 

@@ -150,7 +150,7 @@ T6018fail.hs:131:1: error: [GHC-05175]
 T6018fail.hs:136:1: error: [GHC-05175]
     Type family equation violates the family's injectivity annotation.
     RHS of injective type family equation is a bare type variable
-    but these LHS type and kind patterns are not bare variables: ‘*’,
+    but these LHS type and kind patterns are not bare variables: ‘Type’,
                                                                  ‘Char’
       FC Char a = a -- Defined at T6018fail.hs:136:1
 

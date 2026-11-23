@@ -87,10 +87,10 @@ We can observe this behavior in a GHCi session: ::
   > :set -XTypeApplications -fprint-explicit-foralls
   > let myLength1 :: Foldable f => f a -> Int; myLength1 = length
   > :type myLength1
-  myLength1 :: forall (f :: * -> *) a. Foldable f => f a -> Int
+  myLength1 :: forall (f :: Type -> Type) a. Foldable f => f a -> Int
   > let myLength2 = length
   > :type myLength2
-  myLength2 :: forall {t :: * -> *} {a}. Foldable t => t a -> Int
+  myLength2 :: forall {t :: Type -> *} {a}. Foldable t => t a -> Int
   > :type myLength2 @[]
 
   <interactive>:1:1: error:

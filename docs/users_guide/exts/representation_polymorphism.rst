@@ -168,8 +168,7 @@ Most GHC users will not need to worry about representation polymorphism
 or unboxed types. For these users, seeing the representation polymorphism
 in the type of ``$`` is unhelpful. And thus, by default, it is suppressed,
 by supposing all type variables of type ``RuntimeRep`` to be ``LiftedRep``
-when printing, and printing ``TYPE LiftedRep`` as ``Type`` (or ``*`` when
-:extension:`StarIsType` is on).
+when printing, and printing ``TYPE LiftedRep`` as ``Type``.
 
 Should you wish to see representation polymorphism in your types, enable
 the flag :ghc-flag:`-fprint-explicit-runtime-reps`. For example,

@@ -1,0 +1,19 @@
+--- a/external-packages/contravariant/src/Data/Functor/Contravariant/Generic.hs
++++ b/external-packages/contravariant/src/Data/Functor/Contravariant/Generic.hs
+@@ -27,6 +27,7 @@
+   , Deciding1(..)
+   ) where
+ 
++import Data.Kind (Type)
+ import Data.Functor.Contravariant
+ import Data.Functor.Contravariant.Divisible
+ import GHC.Generics
+@@ -54,7 +55,7 @@
+ 
+ type Rep' a = Swizzle (Rep a)
+ type Rep1' f = Swizzle (Rep1 f)
+-type family Swizzle (r :: * -> *) :: * -> *
++type family Swizzle (r :: Type -> Type) :: Type -> Type
+ type instance Swizzle (M1 i c f) = M1 i c (Swizzle f)
+ type instance Swizzle V1 = V1
+ type instance Swizzle U1 = U1

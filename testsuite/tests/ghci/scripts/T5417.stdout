@@ -1,15 +1,15 @@
-type B1 :: * -> *
+type B1 :: Type -> Type
 data B1 a = B1 a
 data instance C.F (B1 a) = B2 a
-type D :: * -> *
+type D :: Type -> Type
 data family D a
 type C.C1 :: forall {k}. k -> Constraint
 class C.C1 a where
-  type C.F :: forall {k}. k -> *
+  type C.F :: forall {k}. k -> Type
   data family C.F a
 type C.C1 :: forall {k}. k -> Constraint
 class C.C1 a where
-  type C.F :: forall {k}. k -> *
+  type C.F :: forall {k}. k -> Type
   data family C.F a
   	-- Defined at T5417a.hs:7:5
 data instance C.F (B1 a) = B2 a 	-- Defined at T5417.hs:9:10

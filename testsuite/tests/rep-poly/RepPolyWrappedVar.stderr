@@ -5,7 +5,7 @@ RepPolyWrappedVar.hs:13:19: error: [GHC-55287]
         a1 :: TYPE (BoxedRep l0)
       When unifying:
         • TYPE (BoxedRep l)
-        • *
+        • Type
       Cannot unify ‘l’ with the type variable ‘l0’
       because the former is not a concrete ‘Levity’.
     • In the type ‘a’

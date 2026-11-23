@@ -17,7 +17,7 @@ T14265.hs:9:15: error: [GHC-88464]
       In the type signature: foo :: StateT _ _ ()
 
 T14265.hs:9:17: error: [GHC-88464]
-    • Found type wildcard ‘_’ standing for ‘w2 :: * -> *’
+    • Found type wildcard ‘_’ standing for ‘w2 :: Type -> Type’
       Where: ‘w2’ is a rigid type variable bound by
                the inferred type of foo :: StateT w1 w2 ()
                at T14265.hs:10:1-15

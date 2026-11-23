@@ -3,6 +3,8 @@
 {-# LANGUAGE UnicodeSyntax #-}
 module T12803a where
 
+import Data.Kind (Type)
+
 type Constrd a = Num a ⇒ a
 
 data ADT a = ADT (Constrd a) ExistentiallyLost
@@ -10,8 +12,8 @@ data ADT a = ADT (Constrd a) ExistentiallyLost
 data ExistentiallyLost = ∀ u. TC u ⇒ ExistentiallyLost u
 
 class u ~ (ATF1 u, ATF2 u) ⇒ TC u where
-    type ATF1    u ∷ *
-    type ATF2    u ∷ *
+    type ATF1    u ∷ Type
+    type ATF2    u ∷ Type
     uie_handlers   ∷ ADT Int
 
 -- Loop:

@@ -1,6 +1,6 @@
 AssocTyDef04.hs:6:18: error: [GHC-83865]
     • Expecting one more argument to ‘Maybe’
-      Expected a type, but ‘Maybe’ has kind ‘* -> *’
+      Expected a type, but ‘Maybe’ has kind ‘Type -> Type’
     • In the type ‘Maybe’
       In the default associated type family instance declaration for ‘Typ’
       In the class declaration for ‘Cls’

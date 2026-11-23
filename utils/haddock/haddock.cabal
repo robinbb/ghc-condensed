@@ -65,7 +65,6 @@ source-repository head
 
 common extensions
   default-extensions:
-    NoStarIsType
     OverloadedRecordDot
     StrictData
 

@@ -2,7 +2,6 @@
 {-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE NoStarIsType #-}
 
 -- |
 --

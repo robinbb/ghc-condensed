@@ -1,19 +1,19 @@
 type Foo :: forall {k}. k -> Constraint
 class Foo a where
-  type Bar :: forall {k}. k -> * -> *
+  type Bar :: forall {k}. k -> Type -> Type
   type family Bar a b
   	-- Defined at T7939.hs:6:4
-Bar :: k -> * -> *
-type F :: * -> *
+Bar :: k -> Type -> Type
+type F :: Type -> Type
 type family F a
   	-- Defined at T7939.hs:8:1
 type instance F Int = Bool 	-- Defined at T7939.hs:9:15
-F :: * -> *
-type G :: * -> *
+F :: Type -> Type
+type G :: Type -> Type
 type family G a where
     G Int = Bool
   	-- Defined at T7939.hs:11:1
-G :: * -> *
+G :: Type -> Type
 type H :: Bool -> Bool
 type family H a where
     H False = True

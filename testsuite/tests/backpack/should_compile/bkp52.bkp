@@ -1,8 +1,9 @@
 {-# LANGUAGE TypeFamilies #-}
 unit p where
     module M where
+        import Data.Kind (Type)
         class F a where
-            type T a :: *
+            type T a :: Type
 unit q where
     dependency p
     signature A where

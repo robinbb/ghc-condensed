@@ -1,8 +1,8 @@
 T3950.hs:16:13: error: [GHC-18872]
-    • Couldn't match kind ‘*’ with ‘k3 -> *’
+    • Couldn't match kind ‘Type’ with ‘k3 -> Type’
       When matching types
-        w :: (k2 -> k3 -> *) -> *
-        Sealed :: (k2 -> *) -> *
+        w :: (k2 -> k3 -> Type) -> Type
+        Sealed :: (k2 -> Type) -> Type
       Expected: w (Id p)
         Actual: Sealed (Id p0 x0)
     • In the first argument of ‘Just’, namely ‘rp'’

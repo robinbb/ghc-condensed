@@ -1,12 +1,12 @@
-
 T22826.hs:17:1: warning: [GHC-38417] [-Wmissing-poly-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type EqP :: forall {k}. (k -> *) -> Constraint
+      type EqP :: forall {k}. (k -> Type) -> Constraint
 
 T22826.hs:37:1: warning: [GHC-38417] [-Wmissing-poly-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type Proxy :: forall {k}. k -> *
+      type Proxy :: forall {k}. k -> Type
 
 T22826.hs:40:1: warning: [GHC-38417] [-Wmissing-poly-kind-signatures]
     Top-level type constructor with no standalone kind signature:
       type C :: forall {k}. k -> Constraint
+

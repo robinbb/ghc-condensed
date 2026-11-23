@@ -10,7 +10,7 @@ drvfail-functor2.hs:11:14: error: [GHC-16437]
 
 drvfail-functor2.hs:16:14: error: [GHC-62016]
     • Cannot derive well-kinded instance of form ‘Functor (NoArguments ...)’
-        Class ‘Functor’ expects an argument of kind ‘* -> *’
+        Class ‘Functor’ expects an argument of kind ‘Type -> Type’
     • In the newtype declaration for ‘NoArguments’
 
 drvfail-functor2.hs:27:14: error: [GHC-39999]

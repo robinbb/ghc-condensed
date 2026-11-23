@@ -1,4 +1,6 @@
 
 module SelfDep where
 
-data T :: T -> *
+import Data.Kind (Type)
+
+data T :: T -> Type

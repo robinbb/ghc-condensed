@@ -532,7 +532,6 @@ type family XTick           x
 type family XBinTick        x
 type family XPragE          x
 type family XEmbTy          x
-type family XStar           x
 type family XHole           x
 type family XForAll         x
 type family XQual           x
@@ -759,7 +758,6 @@ type family XSumTy           x
 type family XOpTy            x
 type family XParTy           x
 type family XIParamTy        x
-type family XStarTy          x
 type family XKindSig         x
 type family XSpliceTy        x
 type family XDocTy           x

@@ -4,10 +4,12 @@
 
 module T24064 where
 
+import Data.Kind (Type)
+
 class C1 b where
   type F1 b
 
-class C2 (m :: * -> *) where
+class C2 (m :: Type -> Type) where
   type F2 m
 
 class C3 r where

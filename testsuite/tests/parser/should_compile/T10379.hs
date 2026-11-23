@@ -1,10 +1,11 @@
 {-# LANGUAGE GADTs #-}
-{-# OPTIONS -Wno-star-is-type #-}
 module Foo where
 
-data Foo1 :: [*] -> * where
+import Data.Kind (Type)
+
+data Foo1 :: [Type] -> Type where
 
 -- ghc <= 7.10 reported (before "Add kind equalities to GHC"):
 --
 --     T10379.hs:9:16: parse error on input ‘]’
-data Foo2 :: ([] *) -> * where
+data Foo2 :: ([] Type) -> Type where

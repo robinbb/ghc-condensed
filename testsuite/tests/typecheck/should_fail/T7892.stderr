@@ -1,4 +1,4 @@
-
-T7892.hs:5:4: error: [GHC-83865]
-    • Expected kind ‘* -> *’, but ‘f’ has kind ‘*’
+T7892.hs:7:4: error: [GHC-83865]
+    • Expected kind ‘Type -> Type’, but ‘f’ has kind ‘Type’
     • In the associated type family declaration for ‘F’
+

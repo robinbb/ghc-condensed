@@ -252,7 +252,6 @@ with constructs that previously could only occur at the type level:
   * Constraint arrows: a => b
   * Universal quantification: forall a. b
   * Visible universal quantification: forall a -> b
-  * The star notation for kinds: * (StarIsType)
 
 This syntax can't be used to construct a type at the term level because `Type`
 is not inhabited by any terms. Its use is limited to required type arguments:
@@ -277,23 +276,18 @@ expressions and their grammar:
   -- Language/Haskell/Syntax/Expr.hs
   data HsExpr p =
     ...
-    | HsStar (XStar p)
     | HsForAll (XForAll p) (HsForAllTelescope p) (LHsExpr p)
     | HsQual (XQual p) (XRec p [LHsExpr p]) (LHsExpr p)
     | HsFunArr (XFunArr p) (HsMultAnnOf (LHsExpr p) p) (LHsExpr p) (LHsExpr p)
 
   -- GHC/Parser.y
-  infixexp2s :: { ECP }
-    : infixexp2 %shift { ... }
-    | '*'              { ... }
   infixexp2 :: { ECP }
     : infixexp %shift                   { ... }
-    | '*'              '->'  infixexp2s { ... }
-    | infixexp         '->'  infixexp2s { ... }
-    | infixexp expmult '->'  infixexp2s { ... }
-    | infixexp         '->.' infixexp2s { ... }
-    | expcontext       '=>'  infixexp2s { ... }
-    | forall_telescope infixexp2s       { ... }
+    | infixexp         '->'  infixexp2 { ... }
+    | infixexp expmult '->'  infixexp2 { ... }
+    | infixexp         '->.' infixexp2 { ... }
+    | expcontext       '=>'  infixexp2 { ... }
+    | forall_telescope infixexp2       { ... }
 
 These constructors and non-terminals mirror those found in HsType
 
@@ -302,7 +296,6 @@ These constructors and non-terminals mirror those found in HsType
      HsForAllTy  |  HsForAll
      HsFunTy     |  HsFunArr
      HsQualTy    |  HsQual
-     HsStarTy    |  HsStar
 
 The resulting code duplication can be removed if we unify HsExpr and HsType
 into one type (#25121).
@@ -510,13 +503,6 @@ data HsExpr p
   -- Used with @RequiredTypeArguments@, e.g. @fn (type (Int -> Bool))@.
   | HsEmbTy   (XEmbTy p)
               (LHsWcType (NoGhcTc p))
-
-  -- | The @*@ syntax standing for 'Data.Kind.Type', enabled by the
-  -- @StarIsType@ extension.
-  --
-  -- Used with @RequiredTypeArguments@, e.g. @fn (* -> *)@.
-  -- See Note [Types in terms]
-  | HsStar    (XStar p)
 
    -- | Holes in expressions, i.e. '_'.
    -- See Note [Holes in expressions] in GHC.Tc.Types.Constraint.

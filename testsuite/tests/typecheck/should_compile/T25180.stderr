@@ -37,11 +37,11 @@ T25180.hs:19:8: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with MkSolo @a
           (imported from ‘Data.Tuple’ at T25180.hs:6:1-17
            (and originally defined in ‘GHC.Internal.Tuple’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @Solo
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @Solo
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))

@@ -1,5 +1,5 @@
 TYPE CONSTRUCTORS
-  type family F{2} :: forall {k}. k -> *
+  type family F{2} :: forall {k}. k -> Type
     roles nominal nominal
 COERCION AXIOMS
   axiom NamedWildcardInTypeFamilyInstanceLHS.D:R:F ::

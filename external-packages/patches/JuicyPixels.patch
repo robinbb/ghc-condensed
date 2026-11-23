@@ -1,0 +1,38 @@
+--- a/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
++++ b/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
+@@ -109,6 +109,7 @@
+ import Data.Monoid( Monoid, mempty )
+ import Control.Applicative( Applicative, pure, (<*>), (<$>) )
+ #endif
++import Data.Kind (Type)
+ #if !MIN_VERSION_base(4,11,0)
+ import Data.Monoid( (<>) )
+ #endif
+@@ -702,7 +703,7 @@
+     -- | Type of the pixel component, "classical" images
+     -- would have Word8 type as their PixelBaseComponent,
+     -- HDR image would have Float for instance
+-    type PixelBaseComponent a :: *
++    type PixelBaseComponent a :: Type
+ 
+     -- | Call the function for every component of the pixels.
+     -- For example for RGB pixels mixWith is declared like this:
+--- a/external-packages/vendored/JuicyPixels/src/Codec/Picture/Tiff.hs
++++ b/external-packages/vendored/JuicyPixels/src/Codec/Picture/Tiff.hs
+@@ -38,6 +38,7 @@
+ import Control.Applicative( (<$>), (<*>), pure )
+ import Data.Monoid( mempty )
+ #endif
++import Data.Kind (Type)
+ 
+ import Control.Arrow( first )
+ import Control.Monad( when, foldM_, unless, forM_ )
+@@ -209,7 +210,7 @@
+ uncompressAt _ = error "Unhandled compression"
+ 
+ class Unpackable a where
+-    type StorageType a :: *
++    type StorageType a :: Type
+ 
+     outAlloc :: a -> Int -> ST s (M.STVector s (StorageType a))
+ 

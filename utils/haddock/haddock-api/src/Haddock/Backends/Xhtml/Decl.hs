@@ -1818,8 +1818,6 @@ ppr_mono_ty (HsTyVar _ _ (L _ name)) True _ _
 ppr_mono_ty (HsTyVar _ prom (L _ name)) _ q _
   | isPromoted prom = promoQuote (ppDocName q Prefix True name)
   | otherwise = ppDocName q Prefix True name
-ppr_mono_ty (HsStarTy _) u _ _ =
-  toHtml (if u then "★" else "*" :: LText)
 ppr_mono_ty (HsFunTy _ (HsModifiedFunArr _ mods arr) ty1 ty2) u q e =
   hsep
     [ ppr_mono_lty ty1 u q HideEmptyContexts

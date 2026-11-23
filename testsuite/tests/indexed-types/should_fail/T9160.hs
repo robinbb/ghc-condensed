@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleInstances, TemplateHaskell, TypeFamilies #-}
 
 module T9160 where
+import qualified Data.Kind as K
 import Language.Haskell.TH
 
 $( do { cls_nm <- newName "C"
@@ -15,5 +16,5 @@ $( do { cls_nm <- newName "C"
 --     class C (a :: k) where
 --       type F :: k
 
-instance C (a :: *) where
+instance C (a :: K.Type) where
   type F = Maybe   -- Should be illegal

@@ -4,17 +4,17 @@ TYPE SIGNATURES
   meth3 :: forall {k} a (b :: k). C3 a b => a -> F3 b -> F3 b
   meth4 :: forall a b. C4 a b => a -> F4 b -> F4 b
 TYPE CONSTRUCTORS
-  class C1{1} :: * -> Constraint
-  class C2{2} :: * -> * -> Constraint
-  class C3{3} :: forall {k}. * -> k -> Constraint
-  class C4{2} :: * -> * -> Constraint
-  associated type family F3{2} :: forall {k}. k -> *
+  class C1{1} :: Type -> Constraint
+  class C2{2} :: Type -> Type -> Constraint
+  class C3{3} :: forall {k}. Type -> k -> Constraint
+  class C4{2} :: Type -> Type -> Constraint
+  associated type family F3{2} :: forall {k}. k -> Type
     roles nominal nominal
-  type family F4{1} :: * -> *
+  type family F4{1} :: Type -> Type
     roles nominal
-  type synonym Syn1{1} :: * -> *
+  type synonym Syn1{1} :: Type -> Type
     roles nominal
-  type synonym Syn2{1} :: * -> *
+  type synonym Syn2{1} :: Type -> Type
 Dependent modules: []
 Dependent packages: [(normal, base-4.23.0.0)]
 

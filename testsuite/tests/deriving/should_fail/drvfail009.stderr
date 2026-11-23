@@ -1,11 +1,10 @@
-
 drvfail009.hs:10:31: error: [GHC-73993]
     • ‘C’ is not a unary constraint, as expected by a `deriving' clause
     • In the newtype declaration for ‘T1’
 
 drvfail009.hs:13:31: error: [GHC-62016]
     • Cannot derive well-kinded instance of form ‘Monad (T2 ...)’
-        Class ‘Monad’ expects an argument of kind ‘* -> *’
+        Class ‘Monad’ expects an argument of kind ‘Type -> Type’
     • In the newtype declaration for ‘T2’
 
 drvfail009.hs:16:33: error: [GHC-26557]
@@ -19,3 +18,4 @@ drvfail009.hs:19:42: error: [GHC-26557]
         (even with cunning GeneralizedNewtypeDeriving):
         cannot eta-reduce the representation type enough
     • In the newtype declaration for ‘T4’
+

@@ -9,7 +9,6 @@ import GHC.Hs
 import GHC.Parser.Types
 import GHC.Parser.Errors.Basic
 import GHC.Types.Error
-import GHC.Types.Hint
 import GHC.Types.Name.Occurrence (OccName)
 import GHC.Types.Name.Reader
 import Data.List.NonEmpty (NonEmpty)
@@ -106,12 +105,6 @@ data PsMessage
    -- | Multiple Haddock comment for the same entity
    | PsWarnHaddockIgnoreMulti
 
-   -- | Found binding occurrence of "*" while StarIsType is enabled
-   | PsWarnStarBinder
-
-   -- | Using "*" for "Type", relying on the legacy extension StarIsType
-   | PsWarnStarIsType
-
    -- | Pre qualified import with 'WarnPrepositiveQualifiedModule' enabled
    | PsWarnImportPreQualified !Bool -- is 'ImportQualifiedPost' enabled?
 
@@ -179,7 +172,7 @@ data PsMessage
    | PsErrIllegalBangPattern !(Pat GhcPs)
 
    -- | Operator applied to too few arguments
-   | PsErrOpFewArgs !StarIsType !RdrName
+   | PsErrOpFewArgs !RdrName
 
    -- | Import: multiple occurrences of 'qualified'
    | PsErrImportQualifiedTwice

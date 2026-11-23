@@ -1,7 +1,7 @@
 T15712.hs:19:16: error: [GHC-83865]
     • Expecting one more argument to ‘GEndo’
-      Expected kind ‘(k -> *) -> *’,
-        but ‘GEndo’ has kind ‘(k -> *) -> k -> *’
+      Expected kind ‘(k -> Type) -> Type’,
+        but ‘GEndo’ has kind ‘(k -> Type) -> k -> Type’
     • In the first argument of ‘Codensity’, namely ‘GEndo’
       In the newtype declaration for ‘LogicT’
 

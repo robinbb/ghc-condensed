@@ -3,7 +3,7 @@
 (1,2,3)
 -- layout rule instead of explicit braces and semicolons works too
 (1,2,3)
-type Maybe :: * -> *
+type Maybe :: Type -> Type
 data Maybe a = Nothing | Just a
 GHC.Internal.Data.Maybe.catMaybes :: [Maybe a] -> [a]
 GHC.Internal.Data.Maybe.fromJust ::

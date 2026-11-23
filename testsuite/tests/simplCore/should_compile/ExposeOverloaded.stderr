@@ -4,7 +4,7 @@ Result size of Tidy Core
   = {terms: 186, types: 410, coercions: 10, joins: 0/0}
 
 -- RHS size: {terms: 6, types: 8, coercions: 3, joins: 0/0}
-unF :: forall (t :: * -> *) a. F t a -> Functor t => t a
+unF :: forall (t :: Type -> Type) a. F t a -> Functor t => t a
 [GblId[[RecSel]],
  Arity=2,
  Str=<1C(1,L)><L>,
@@ -12,7 +12,7 @@ unF :: forall (t :: * -> *) a. F t a -> Functor t => t a
          Value=True, ConLike=True, WorkFree=True, Expandable=True,
          Guidance=ALWAYS_IF(arity=2,unsat_ok=True,boring_ok=True)}]
 unF
-  = \ (@(t_aPM :: * -> *))
+  = \ (@(t_aPM :: Type -> Type))
       (@a_aPN)
       (ds_d14Y :: F t_aPM a_aPN)
       ($dFunctor_aPP :: Functor t_aPM) ->
@@ -23,7 +23,7 @@ unF
 
 -- RHS size: {terms: 44, types: 123, coercions: 0, joins: 0/0}
 foo
-  :: forall (f :: * -> *) a b.
+  :: forall (f :: Type -> Type) a b.
      Functor f =>
      Maybe (Maybe (Maybe (Maybe (Maybe (Maybe (f a))))))
      -> (a -> b) -> Maybe (Maybe (Maybe (Maybe (f b))))
@@ -34,7 +34,7 @@ foo
          Value=True, ConLike=True, WorkFree=True, Expandable=True,
          Guidance=NEVER}]
 foo
-  = \ (@(f_a11y :: * -> *))
+  = \ (@(f_a11y :: Type -> Type))
       (@a_a11z)
       (@b_a11A)
       ($dFunctor_a11B :: Functor f_a11y)
@@ -179,12 +179,12 @@ eq_constraint
 
 -- RHS size: {terms: 45, types: 146, coercions: 7, joins: 0/0}
 baz
-  :: forall (t :: * -> *) a b.
+  :: forall (t :: Type -> Type) a b.
      Maybe (Maybe (Maybe (Maybe (Maybe (Maybe (F t a))))))
      -> (a -> b) -> Maybe (Maybe (Maybe (Maybe (F t b))))
 [GblId, Arity=2, Str=<1L><L>, Unf=OtherCon []]
 baz
-  = \ (@(t_aYx :: * -> *))
+  = \ (@(t_aYx :: Type -> Type))
       (@a_aYy)
       (@b_aYz)
       (ds_d148

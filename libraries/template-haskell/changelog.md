@@ -6,7 +6,7 @@
     `IncoherentInstances`, `MultiParamTypeClasses`, `NullaryTypeClasses`,
     `OverlappingInstances`, `TypeInType`, `ExplicitForAll`, `DataKinds`,
     `KindSignatures`, `InstanceSigs`, `PolyKinds`, `RelaxedPolyRec`,
-    `ParallelArrays` and `CUSKs` constructors of `Extension`.
+    `ParallelArrays`, `CUSKs` and `StarIsType` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every
     type has a `Typeable` instance, a data type declaration never has a
     context (a `DataD` or `NewtypeD` with one is refused), class methods
@@ -21,7 +21,11 @@
     `ParallelArrays`, whose syntax left GHC long ago, is no longer a
     deprecated spelling of `ParallelListComp`, and a complete
     user-supplied kind is never detected: a standalone kind signature is
-    the only way to fix the kind of a type constructor.
+    the only way to fix the kind of a type constructor, and `*` is an
+    ordinary type operator, never a spelling of `Type`.
+
+  * `pprint` prints `StarT` as `Type` rather than `*`, since GHC no
+    longer reads `*` as a kind.
 
   * Introduce `namedDefaultQuasiQuoter` and `defaultQuasiQuoter`, which fail with a helpful error when used in an inappropriate context.
 

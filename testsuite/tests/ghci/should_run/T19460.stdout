@@ -1,4 +1,4 @@
-type Foo :: * -> Constraint
+type Foo :: Type -> Constraint
 class Foo a where
   bar :: a -> ()
   	-- Defined at T19460.hs:3:1

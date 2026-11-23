@@ -10,18 +10,17 @@ Bool
 Ordering
 Int -> Int
 Proxy (CONSTRAINT ('BoxedRep 'Lifted)) (Eq Int)
-Proxy * (Int,Int)
+Proxy Type (Int,Int)
 Proxy Symbol "hello world"
 Proxy Natural 1
 Proxy [Natural] (': Natural 1 (': Natural 2 (': Natural 3 ('[] Natural))))
 Proxy Ordering 'EQ
-Proxy (RuntimeRep -> *) TYPE
-Proxy * *
-Proxy * *
-Proxy * *
+Proxy (RuntimeRep -> Type) TYPE
+Proxy Type Type
+Proxy Type Type
 Proxy RuntimeRep ('BoxedRep 'Lifted)
 Proxy Levity 'Lifted
 Proxy Levity 'Unlifted
 Proxy RuntimeRep ('BoxedRep 'Lifted)
 Proxy (Natural,Symbol) ('(,) Natural Symbol 1 "hello")
-Proxy (* -> * -> CONSTRAINT ('BoxedRep 'Lifted)) ((~~) * *)
+Proxy (Type -> Type -> CONSTRAINT ('BoxedRep 'Lifted)) ((~~) Type Type)

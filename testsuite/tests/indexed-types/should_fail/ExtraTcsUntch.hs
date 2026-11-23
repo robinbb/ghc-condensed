@@ -2,13 +2,15 @@
 
 module ExtraTcsUntch where
 
+import Data.Kind (Type)
+
 
 class C x y | x -> y where
  op :: x -> y -> ()
 
 instance C [a] [a]
 
-type family F a :: *
+type family F a :: Type
 
 h :: F Int -> ()
 h = undefined

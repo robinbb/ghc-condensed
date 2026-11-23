@@ -70,7 +70,7 @@ $sshared_sHD = map @Int @Int GHC.Num.$fNumInt_$cnegate
 
 -- RHS size: {terms: 115, types: 15, coercions: 2, joins: 0/1}
 shared
-  :: forall (f :: * -> *).
+  :: forall (f :: Type -> Type).
      (MyFunctor f, Domain f Int) =>
      f Int -> f Int
 [LclIdX,
@@ -82,7 +82,7 @@ shared
               shared @[] $dMyFunctor_sHz irred_sHA
               = $sshared_sHD]
 shared
-  = \ (@(f_ayh :: * -> *))
+  = \ (@(f_ayh :: Type -> Type))
       ($dMyFunctor_ayi [Dmd=UC(1,C(S,C(S,U)))] :: MyFunctor f_ayh)
       (irred_ayj :: Domain f_ayh Int) ->
       let {

@@ -1,2 +1,2 @@
-type Hello :: *
+type Hello :: Type
 data Hello = ...

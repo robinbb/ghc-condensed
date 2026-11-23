@@ -2,7 +2,7 @@ T15743d.hs:9:1: error: [GHC-87279]
     • The kind of ‘T2’ is ill-scoped
         Inferred kind: T2 :: forall (d :: k).
                              forall k (c :: k) (a :: Proxy c) (b :: Proxy d) ->
-                             SimilarKind a b -> *
+                             SimilarKind a b -> Type
       Note: Specified variables (namely: (d :: k)) always come first.
       Perhaps try this order instead:
         k

@@ -2,6 +2,8 @@
 
 module T6018rnfail where
 
+import Data.Kind (Type)
+
 -- IA = injectivity annotation `| foo -> bar`
 
 -- use incorrect tyvar in LHS of IA
@@ -49,6 +51,6 @@ class N a b where
 type family O1  a | r -> a
 type family Oc1 a | r -> a where
     Oc1 a = a
-type family O2  a :: * | r -> a
-type family Oc2 a :: * | r -> a where
+type family O2  a :: Type | r -> a
+type family Oc2 a :: Type | r -> a where
     Oc2 a = a

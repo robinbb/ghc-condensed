@@ -11,8 +11,10 @@
 
 module Foo where
 
+import Data.Kind (Type)
+
 class Fun d where
-    type Memo d :: * -> *
+    type Memo d :: Type -> Type
     abst :: (d -> a) -> Memo d a
     appl :: Memo d a -> (d -> a)
 

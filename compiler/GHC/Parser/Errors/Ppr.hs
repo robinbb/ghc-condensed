@@ -90,17 +90,6 @@ instance Diagnostic PsMessage where
            OperatorWhitespaceOccurrence_Prefix -> mk_msg "prefix"
            OperatorWhitespaceOccurrence_Suffix -> mk_msg "suffix"
            OperatorWhitespaceOccurrence_TightInfix -> mk_msg "tight infix"
-    PsWarnStarBinder
-      -> mkSimpleDecorated $
-            text "Found binding occurrence of" <+> quotes (text "*")
-            <+> text "yet StarIsType is enabled."
-    PsWarnStarIsType
-      -> mkSimpleDecorated $
-             text "Using" <+> quotes (text "*")
-             <+> text "(or its Unicode variant) to mean"
-             <+> quotes (text "Data.Kind.Type")
-          $$ text "relies on the StarIsType extension, which will become"
-          $$ text "deprecated in the future."
     PsWarnUnrecognisedPragma prag _
       -> mkSimpleDecorated $ text "Unrecognised pragma"
                           <> if null prag then empty else text ":" <+> text prag
@@ -319,7 +308,7 @@ instance Diagnostic PsMessage where
                 (ppr v)
     PsErrTupleSectionInPat
       -> mkSimpleDecorated $ text "Tuple section in pattern context"
-    PsErrOpFewArgs _ op
+    PsErrOpFewArgs op
       -> mkSimpleDecorated $
            text "Operator applied to too few arguments:" <+> ppr op
     PsErrVarForTyCon name
@@ -589,8 +578,6 @@ instance Diagnostic PsMessage where
     PsWarnOperatorWhitespace{}                    -> WarningWithFlag Opt_WarnOperatorWhitespace
     PsWarnHaddockInvalidPos                       -> WarningWithFlag Opt_WarnInvalidHaddock
     PsWarnHaddockIgnoreMulti                      -> WarningWithFlag Opt_WarnInvalidHaddock
-    PsWarnStarBinder                              -> WarningWithFlag Opt_WarnStarBinder
-    PsWarnStarIsType                              -> WarningWithFlag Opt_WarnStarIsType
     PsWarnUnrecognisedPragma{}                    -> WarningWithFlag Opt_WarnUnrecognisedPragmas
     PsWarnMisplacedPragma{}                       -> WarningWithFlag Opt_WarnMisplacedPragmas
     PsWarnImportPreQualified{}                    -> WarningWithFlag Opt_WarnPrepositiveQualifiedModule
@@ -714,8 +701,6 @@ instance Diagnostic PsMessage where
     PsWarnOperatorWhitespace sym occ              -> [SuggestUseWhitespaceAround (unpackFS sym) occ]
     PsWarnHaddockInvalidPos                       -> noHints
     PsWarnHaddockIgnoreMulti                      -> noHints
-    PsWarnStarBinder                              -> [SuggestQualifyStarOperator]
-    PsWarnStarIsType                              -> [SuggestUseTypeFromDataKind Nothing]
     PsWarnUnrecognisedPragma ""  _                -> noHints
     PsWarnUnrecognisedPragma p   avail            ->
       let suggestions = fuzzyMatch p avail
@@ -784,8 +769,7 @@ instance Diagnostic PsMessage where
     PsErrUnsupportedBoxedSumPat{}                 -> noHints
     PsErrUnexpectedQualifiedConstructor{}         -> noHints
     PsErrTupleSectionInPat{}                      -> noHints
-    PsErrOpFewArgs star_is_type op
-      -> noStarIsTypeHints star_is_type op
+    PsErrOpFewArgs op                             -> starKindHints op
     PsErrVarForTyCon{}                            -> noHints
     PsErrMalformedEntityString                    -> noHints
     PsErrDotsInRecordUpdate                       -> noHints

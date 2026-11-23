@@ -198,7 +198,6 @@ extensionName = \case
   LangExt.EmptyDataDeriving -> "EmptyDataDeriving"
   LangExt.NumericUnderscores -> "NumericUnderscores"
   LangExt.QuantifiedConstraints -> "QuantifiedConstraints"
-  LangExt.StarIsType -> "StarIsType"
   LangExt.ImportQualifiedPost -> "ImportQualifiedPost"
   LangExt.StandaloneKindSignatures -> "StandaloneKindSignatures"
   LangExt.LexicalNegation -> "LexicalNegation"
@@ -1000,8 +999,6 @@ data WarningFlag =
    | Opt_WarnPartialFields                           -- ^ @since 8.4
    | Opt_WarnMissingExportList
    | Opt_WarnInaccessibleCode
-   | Opt_WarnStarIsType                              -- ^ @since 8.6
-   | Opt_WarnStarBinder                              -- ^ @since 8.6
    | Opt_WarnImplicitKindVars                        -- ^ @since 8.6
    | Opt_WarnSpaceAfterBang
    | Opt_WarnMissingDerivingStrategies               -- ^ @since 8.8
@@ -1135,8 +1132,6 @@ warnFlagNames wflag = case wflag of
   Opt_WarnSimplifiableClassConstraints            -> "simplifiable-class-constraints" :| []
   Opt_WarnMissingHomeModules                      -> "missing-home-modules" :| []
   Opt_WarnUnrecognisedWarningFlags                -> "unrecognised-warning-flags" :| []
-  Opt_WarnStarBinder                              -> "star-binder" :| []
-  Opt_WarnStarIsType                              -> "star-is-type" :| []
   Opt_WarnSpaceAfterBang                          -> "missing-space-after-bang" :| []
   Opt_WarnPartialFields                           -> "partial-fields" :| []
   Opt_WarnPrepositiveQualifiedModule              -> "prepositive-qualified-module" :| []
@@ -1296,8 +1291,6 @@ standardWarnings -- see Note [Documenting warning flags]
         Opt_WarnTabs,
         Opt_WarnUnrecognisedWarningFlags,
         Opt_WarnSimplifiableClassConstraints,
-        Opt_WarnStarBinder,
-        Opt_WarnStarIsType,
         Opt_WarnInaccessibleCode,
         Opt_WarnSpaceAfterBang,
         Opt_WarnNonCanonicalMonadInstances,

@@ -2,8 +2,10 @@
 
 module Bug where
 
-type family St (a :: k) :: *
-type family Ev (a :: k) :: * -> *
+import Data.Kind (Type)
+
+type family St (a :: k) :: Type
+type family Ev (a :: k) :: Type -> Type
 
 data T1 a = C1 a
 data T2 h g = C2 (h ())

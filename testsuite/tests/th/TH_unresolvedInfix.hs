@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE NoStarIsType #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
 

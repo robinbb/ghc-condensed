@@ -885,7 +885,6 @@ data Token
   | ITat       -- Tight infix (@) only, e.g. f x@pat = rhs
   | ITtypeApp  -- Prefix (@) only, e.g. f @t
   | ITpercent  -- Prefix (%) only, e.g. a %1 -> b
-  | ITstar              IsUnicodeSyntax
   | ITdot
   | ITproj Bool -- Extension: OverloadedRecordDotBit
 
@@ -1141,8 +1140,6 @@ reservedSymsFM = listToUFM $
        ,("=>",  ITdarrow NormalSyntax,      NormalSyntax,  0 )
        ,("-",   ITminus,                    NormalSyntax,  xbit NoLexicalNegationBit)
 
-       ,("*",   ITstar NormalSyntax,        NormalSyntax,  xbit StarIsTypeBit)
-
        ,("-<",  ITlarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
        ,(">-",  ITrarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
        ,("-<<", ITLarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
@@ -1160,8 +1157,6 @@ reservedSymsFM = listToUFM $
        ,("⤚",   ITrarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
        ,("⤛",   ITLarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
        ,("⤜",   ITRarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
-
-       ,("★",   ITstar UnicodeSyntax,       UnicodeSyntax, xbit StarIsTypeBit)
 
         -- ToDo: ideally, → and ∷ should be "specials", so that they cannot
         -- form part of a large operator.  This would let us have a better
@@ -2710,7 +2705,6 @@ data ExtBits
   | HexFloatLiteralsBit
   | StaticPointersBit
   | NumericUnderscoresBit
-  | StarIsTypeBit
   | BlockArgumentsBit
   | NPlusKPatternsBit
   | DoAndIfThenElseBit
@@ -2791,7 +2785,6 @@ mkParserOpts extensionFlags diag_opts
       .|. PatternSynonymsBit          `xoptBit` LangExt.PatternSynonyms
       .|. StaticPointersBit           `xoptBit` LangExt.StaticPointers
       .|. NumericUnderscoresBit       `xoptBit` LangExt.NumericUnderscores
-      .|. StarIsTypeBit               `xoptBit` LangExt.StarIsType
       .|. BlockArgumentsBit           `xoptBit` LangExt.BlockArguments
       .|. NPlusKPatternsBit           `xoptBit` LangExt.NPlusKPatterns
       .|. DoAndIfThenElseBit          `xoptBit` LangExt.DoAndIfThenElse

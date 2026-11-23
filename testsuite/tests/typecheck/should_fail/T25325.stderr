@@ -5,7 +5,7 @@ T25325.hs:13:20: error: [GHC-39999]
         bound by the instance declaration at T25325.hs:12:10-49
       or from: MonadState (Buggy (f :+: g) m) m
         bound by the type signature for:
-                   demo :: forall (m :: * -> *).
+                   demo :: forall (m :: Type -> Type).
                            MonadState (Buggy (f :+: g) m) m =>
                            (:+:) f g (m Int) -> m Int
         at T25325.hs:13:5-8
@@ -21,7 +21,7 @@ T25325.hs:14:20: error: [GHC-39999]
         bound by the instance declaration at T25325.hs:12:10-49
       or from: MonadState (Buggy (f :+: g) m) m
         bound by the type signature for:
-                   demo :: forall (m :: * -> *).
+                   demo :: forall (m :: Type -> Type).
                            MonadState (Buggy (f :+: g) m) m =>
                            (:+:) f g (m Int) -> m Int
         at T25325.hs:13:5-8

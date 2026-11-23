@@ -106,7 +106,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`
-     * :extension:`StarIsType`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
@@ -168,7 +167,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`
-     * :extension:`StarIsType`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
@@ -198,7 +196,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`MonomorphismRestriction`
      * :extension:`PatternGuards`
-     * :extension:`StarIsType`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`
 
@@ -221,7 +218,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`MonomorphismRestriction`
      * :extension:`NPlusKPatterns`
      * :extension:`NondecreasingIndentation`
-     * :extension:`StarIsType`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`
 

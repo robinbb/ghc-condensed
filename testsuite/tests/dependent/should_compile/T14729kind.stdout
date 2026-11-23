@@ -1,2 +1,2 @@
-forall (x :: Bool). P (F Int) x :: *
+forall (x :: Bool). P (F Int) x :: Type
 = P Bool x

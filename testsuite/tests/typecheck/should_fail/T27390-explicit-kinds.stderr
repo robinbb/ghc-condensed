@@ -13,13 +13,13 @@ T27390a.hs:4:12: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
     • In the expression: return ()
       In an equation for ‘someFunc’: someFunc = return ()
 
-T27390.hs:6:1: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
+T27390.hs:5:1: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
     • Couldn't match type ‘m0_0 :: Type -> Type’ with ‘IO’
       Expected: IO ()
         Actual: (m0_0 :: Type -> Type) ()
     • When checking the type of the IO action ‘main’
 
-T27390.hs:6:1: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
+T27390.hs:5:1: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
     • Couldn't match type ‘m0_0 :: Type -> Type’ with ‘IO’
       Expected: IO ()
         Actual: (m0_0 :: Type -> Type) ()

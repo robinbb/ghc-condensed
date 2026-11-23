@@ -1,8 +1,8 @@
 T9171.hs:10:20: error: [GHC-83865]
     • Couldn't match expected type: GetParam
-                                      @(*) @k2 @(*) Base (GetParam @(*) @(*) @k2 Base Int)
+                                      @Type @k2 @Type Base (GetParam @Type @Type @k2 Base Int)
                   with actual type: GetParam
-                                      @(*) @k20 @(*) Base (GetParam @(*) @(*) @k20 Base Int)
+                                      @Type @k20 @Type Base (GetParam @Type @Type @k20 Base Int)
       Note: ‘GetParam’ is a non-injective type family.
       The type variable ‘k20’ is ambiguous
     • In the ambiguity check for an expression type signature

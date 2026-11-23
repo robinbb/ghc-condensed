@@ -7,6 +7,8 @@
 
 module ShouldCompile where
 
+import Data.Kind (Type)
+
 data Succ n
 data Zero
 
@@ -16,7 +18,7 @@ instance Plus x y z => Plus (Succ x) y (Succ z)
 
 infixr 5 :::
 
-data List :: * -> * -> * where
+data List :: Type -> Type -> Type where
               Nil :: List a Zero
               (:::) :: a -> List a n -> List a (Succ n)
 

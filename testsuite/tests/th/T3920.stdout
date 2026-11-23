@@ -1,2 +1,4 @@
-type family T_0 :: (* -> * -> * -> *) -> (* -> *) -> *
-type family Main.S :: (* -> * -> * -> *) -> (* -> *) -> *
+type family T_0 :: (Type -> Type -> Type -> Type) ->
+                   (Type -> Type) -> Type
+type family Main.S :: (Type -> Type -> Type -> Type) ->
+                      (Type -> Type) -> Type

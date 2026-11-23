@@ -1,10 +1,10 @@
-
 T17139.hs:15:16: error: [GHC-88464]
     • Found hole: _ :: (a -> b0) -> (a -> a) -> TypeFam ((->) a) b0
       Where: ‘b0’ is an ambiguous type variable
              ‘a’ is a rigid type variable bound by
                the type signature for:
-                 lift :: forall a b (f :: * -> *). (a -> b) -> TypeFam f (a -> b)
+                 lift :: forall a b (f :: Type -> Type).
+                         (a -> b) -> TypeFam f (a -> b)
                at T17139.hs:14:1-38
     • In the expression: _ (f <*> x)
       The lambda expression ‘\ x -> ...’ has one visible argument,
@@ -21,7 +21,8 @@ T17139.hs:15:19: error: [GHC-25897]
         Actual: a -> b
       ‘b’ is a rigid type variable bound by
         the type signature for:
-          lift :: forall a b (f :: * -> *). (a -> b) -> TypeFam f (a -> b)
+          lift :: forall a b (f :: Type -> Type).
+                  (a -> b) -> TypeFam f (a -> b)
         at T17139.hs:14:1-38
     • In the first argument of ‘(<*>)’, namely ‘f’
       In the first argument of ‘_’, namely ‘(f <*> x)’
@@ -30,3 +31,4 @@ T17139.hs:15:19: error: [GHC-25897]
         x :: a -> a (bound at T17139.hs:15:11)
         f :: a -> b (bound at T17139.hs:15:6)
         lift :: (a -> b) -> TypeFam f (a -> b) (bound at T17139.hs:15:1)
+

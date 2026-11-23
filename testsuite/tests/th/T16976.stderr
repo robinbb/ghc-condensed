@@ -1,14 +1,14 @@
-T16976.aNumber :: forall {a_0 :: *} . GHC.Internal.Num.Num a_0 =>
+T16976.aNumber :: forall {a_0 :: Type} . GHC.Internal.Num.Num a_0 =>
                   a_0
 T16976.aString :: GHC.Internal.Base.String
-T16976.MkT1 :: forall {k_0 :: *} (s_1 :: k_0) . T16976.T s_1
-T16976.MkT2 :: forall {k_0 :: *} (s_1 :: k_0) . T16976.T s_1
-T16976.T :: forall {k_0 :: *} . k_0 -> *
-T16976.P :: forall {k_0 :: *} {s_1 :: k_0} . T16976.T s_1
+T16976.MkT1 :: forall {k_0 :: Type} (s_1 :: k_0) . T16976.T s_1
+T16976.MkT2 :: forall {k_0 :: Type} (s_1 :: k_0) . T16976.T s_1
+T16976.T :: forall {k_0 :: Type} . k_0 -> Type
+T16976.P :: forall {k_0 :: Type} {s_1 :: k_0} . T16976.T s_1
 GHC.Internal.Classes.not :: GHC.Internal.Types.Bool ->
                             GHC.Internal.Types.Bool
-GHC.Internal.Base.id :: forall (a_0 :: *) . a_0 -> a_0
-GHC.Internal.Maybe.Nothing :: forall (a_0 :: *) .
+GHC.Internal.Base.id :: forall (a_0 :: Type) . a_0 -> a_0
+GHC.Internal.Maybe.Nothing :: forall (a_0 :: Type) .
                               GHC.Internal.Maybe.Maybe a_0
-GHC.Internal.Maybe.Maybe :: * -> *
-GHC.Internal.Base.Functor :: (* -> *) -> Constraint
+GHC.Internal.Maybe.Maybe :: Type -> Type
+GHC.Internal.Base.Functor :: (Type -> Type) -> Constraint

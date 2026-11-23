@@ -42,7 +42,7 @@ type GHC.Internal.TypeNats.Div :: GHC.Internal.Bignum.Natural.Natural
                                   -> GHC.Internal.Bignum.Natural.Natural
                                   -> GHC.Internal.Bignum.Natural.Natural
 type family GHC.Internal.TypeNats.Div a b
-type GHC.Internal.TypeError.ErrorMessage :: *
+type GHC.Internal.TypeError.ErrorMessage :: Type
 data GHC.Internal.TypeError.ErrorMessage
   = GHC.Internal.TypeError.Text GHC.Internal.Types.Symbol
   | forall t. GHC.Internal.TypeError.ShowType t
@@ -73,19 +73,19 @@ type GHC.Internal.TypeNats.Mod :: GHC.Internal.Bignum.Natural.Natural
                                   -> GHC.Internal.Bignum.Natural.Natural
                                   -> GHC.Internal.Bignum.Natural.Natural
 type family GHC.Internal.TypeNats.Mod a b
-type GHC.Internal.TypeNats.Nat :: *
+type GHC.Internal.TypeNats.Nat :: Type
 type GHC.Internal.TypeNats.Nat =
   GHC.Internal.Bignum.Natural.Natural
 type GHC.Internal.TypeLits.NatToChar :: GHC.Internal.Bignum.Natural.Natural
                                         -> Char
 type family GHC.Internal.TypeLits.NatToChar a
-type GHC.Internal.Bignum.Natural.Natural :: *
+type GHC.Internal.Bignum.Natural.Natural :: Type
 data GHC.Internal.Bignum.Natural.Natural
   = GHC.Internal.Bignum.Natural.NS GHC.Internal.Prim.Word#
   | GHC.Internal.Bignum.Natural.NB GHC.Internal.Prim.ByteArray#
 type role GHC.Internal.Data.Type.Ord.OrderingI nominal nominal
 type GHC.Internal.Data.Type.Ord.OrderingI :: forall {k}.
-                                             k -> k -> *
+                                             k -> k -> Type
 data GHC.Internal.Data.Type.Ord.OrderingI a b where
   GHC.Internal.Data.Type.Ord.LTI :: forall {k} (a :: k) (b :: k).
                                     (GHC.Internal.Data.Type.Ord.Compare a b ~ LT) =>
@@ -101,7 +101,7 @@ pattern GHC.Internal.TypeLits.SChar
      GHC.Internal.TypeLits.KnownChar c =>
      GHC.Internal.TypeLits.SChar c
 type role GHC.Internal.TypeLits.SChar nominal
-type GHC.Internal.TypeLits.SChar :: Char -> *
+type GHC.Internal.TypeLits.SChar :: Char -> Type
 newtype GHC.Internal.TypeLits.SChar s
   = GHC.Internal.TypeLits.UnsafeSChar_ Char
 pattern GHC.Internal.TypeNats.SNat
@@ -109,7 +109,8 @@ pattern GHC.Internal.TypeNats.SNat
      GHC.Internal.TypeNats.KnownNat n =>
      GHC.Internal.TypeNats.SNat n
 type role GHC.Internal.TypeNats.SNat nominal
-type GHC.Internal.TypeNats.SNat :: GHC.Internal.TypeNats.Nat -> *
+type GHC.Internal.TypeNats.SNat :: GHC.Internal.TypeNats.Nat
+                                   -> Type
 newtype GHC.Internal.TypeNats.SNat n
   = GHC.Internal.TypeNats.UnsafeSNat_ GHC.Internal.Bignum.Natural.Natural
 pattern GHC.Internal.TypeLits.SSymbol
@@ -118,25 +119,25 @@ pattern GHC.Internal.TypeLits.SSymbol
      GHC.Internal.TypeLits.SSymbol s
 type role GHC.Internal.TypeLits.SSymbol nominal
 type GHC.Internal.TypeLits.SSymbol :: GHC.Internal.Types.Symbol
-                                      -> *
+                                      -> Type
 newtype GHC.Internal.TypeLits.SSymbol s
   = GHC.Internal.TypeLits.UnsafeSSymbol_ String
-type GHC.Internal.TypeLits.SomeChar :: *
+type GHC.Internal.TypeLits.SomeChar :: Type
 data GHC.Internal.TypeLits.SomeChar
   = forall (n :: Char).
     GHC.Internal.TypeLits.KnownChar n =>
     GHC.Internal.TypeLits.SomeChar (GHC.Internal.Data.Proxy.Proxy n)
-type GHC.Internal.TypeNats.SomeNat :: *
+type GHC.Internal.TypeNats.SomeNat :: Type
 data GHC.Internal.TypeNats.SomeNat
   = forall (n :: GHC.Internal.TypeNats.Nat).
     GHC.Internal.TypeNats.KnownNat n =>
     GHC.Internal.TypeNats.SomeNat (GHC.Internal.Data.Proxy.Proxy n)
-type GHC.Internal.TypeLits.SomeSymbol :: *
+type GHC.Internal.TypeLits.SomeSymbol :: Type
 data GHC.Internal.TypeLits.SomeSymbol
   = forall (n :: GHC.Internal.Types.Symbol).
     GHC.Internal.TypeLits.KnownSymbol n =>
     GHC.Internal.TypeLits.SomeSymbol (GHC.Internal.Data.Proxy.Proxy n)
-type GHC.Internal.Types.Symbol :: *
+type GHC.Internal.Types.Symbol :: Type
 data GHC.Internal.Types.Symbol
 type GHC.Internal.TypeError.TypeError :: forall b.
                                          GHC.Internal.TypeError.ErrorMessage -> b

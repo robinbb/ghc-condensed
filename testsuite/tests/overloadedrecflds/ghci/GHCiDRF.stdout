@@ -5,14 +5,14 @@ GHCiDRF.foo :: T -> Int
        either the field ‘bar’ of record ‘T’, defined at GHCiDRF.hs:3:28,
            or the field ‘bar’ of record ‘U’, defined at GHCiDRF.hs:4:16.
 
-type T :: *
+type T :: Type
 data T = MkT {foo :: Int, ...}
   	-- Defined at GHCiDRF.hs:3:16
-type T :: *
+type T :: Type
 data T = MkT {..., bar :: Int}
   	-- Defined at GHCiDRF.hs:3:28
 
-type U :: *
+type U :: Type
 data U = MkU {bar :: Bool}
   	-- Defined at GHCiDRF.hs:4:16
 GHCiDRF.foo :: GHCiDRF.T -> Int
@@ -26,14 +26,14 @@ GHCiDRF.foo :: GHCiDRF.T -> Int
               imported qualified from ‘GHCiDRF’
               (and originally defined at GHCiDRF.hs:4:16-18).
 
-type GHCiDRF.T :: *
+type GHCiDRF.T :: Type
 data GHCiDRF.T = GHCiDRF.MkT {GHCiDRF.foo :: Int, ...}
   	-- Defined at GHCiDRF.hs:3:16
-type GHCiDRF.T :: *
+type GHCiDRF.T :: Type
 data GHCiDRF.T = GHCiDRF.MkT {..., GHCiDRF.bar :: Int}
   	-- Defined at GHCiDRF.hs:3:28
 
-type GHCiDRF.U :: *
+type GHCiDRF.U :: Type
 data GHCiDRF.U = GHCiDRF.MkU {GHCiDRF.bar :: Bool}
   	-- Defined at GHCiDRF.hs:4:16
 <interactive>:11:1: error: [GHC-87543]

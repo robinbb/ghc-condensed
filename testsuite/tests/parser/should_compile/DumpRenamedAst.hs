@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, RankNTypes, TypeOperators,
-             TypeFamilies, StarIsType, TypeApplications #-}
+             TypeFamilies, TypeApplications #-}
 
 module DumpRenamedAst where
 import Data.Kind

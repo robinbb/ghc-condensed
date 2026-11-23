@@ -6,13 +6,14 @@
 module Expr where
 
 import Data.Set (Set)
+import qualified Data.Kind as K
 
 data Type a where
     TypeInt     :: Type Int
     TypeSet     :: {- Ord a => -} Type a -> Type (Set a)
     TypeFun     :: Type a -> Type b -> Type (a -> b)
 
-data Expr :: * -> * where
+data Expr :: K.Type -> K.Type where
     Const :: Type a -> a -> Expr a
 
 data DynExpr = forall a. DynExpr (Expr a)

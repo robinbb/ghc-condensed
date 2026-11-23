@@ -1,0 +1,19 @@
+--- a/external-packages/vendored/cereal/src/Data/Serialize.hs
++++ b/external-packages/vendored/cereal/src/Data/Serialize.hs
+@@ -43,6 +43,7 @@
+     , GSerializeGet(..)
+     ) where
+ 
++import Data.Kind (Type)
+ import Data.Serialize.Put
+ import Data.Serialize.Get
+ import Data.Serialize.IEEE754
+@@ -698,7 +699,7 @@
+ class SumSize f where
+     sumSize :: Tagged f Word64
+ 
+-newtype Tagged (s :: * -> *) b = Tagged {unTagged :: b}
++newtype Tagged (s :: Type -> Type) b = Tagged {unTagged :: b}
+ 
+ instance (SumSize a, SumSize b) => SumSize (a :+: b) where
+     sumSize = Tagged $ unTagged (sumSize :: Tagged a Word64) +

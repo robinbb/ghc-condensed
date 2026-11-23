@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# OPTIONS -Wno-star-is-type #-}
 
 import Data.Typeable
 import GHC.Types
@@ -30,11 +29,10 @@ main = do
   print $ typeOf (Proxy :: Proxy 'EQ)
   print $ typeOf (Proxy :: Proxy TYPE)
   print $ typeOf (Proxy :: Proxy (TYPE ('BoxedRep 'Lifted)))
-  print $ typeOf (Proxy :: Proxy *)
-  print $ typeOf (Proxy :: Proxy ★)
+  print $ typeOf (Proxy :: Proxy Type)
   print $ typeOf (Proxy :: Proxy ('BoxedRep 'Lifted))
   print $ typeOf (Proxy :: Proxy 'Lifted)
   print $ typeOf (Proxy :: Proxy 'Unlifted)
   print $ typeOf (Proxy :: Proxy LiftedRep)
   print $ typeOf (Proxy :: Proxy '(1, "hello"))
-  print $ typeOf (Proxy :: Proxy ((~~) :: * -> * -> Constraint))
+  print $ typeOf (Proxy :: Proxy ((~~) :: Type -> Type -> Constraint))

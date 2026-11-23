@@ -2,13 +2,15 @@
 
 module ShouldFail where
 
-data family C9 a b :: *
+import Data.Kind (Type)
+
+data family C9 a b :: Type
 data instance C9 Int Int = C9IntInt
 data instance C9 [a] Int = C9ListInt
 -- must fail: conflicting
 data instance C9 [a] Int = C9ListInt2
 
-type family D9 a b :: *
+type family D9 a b :: Type
 type instance D9 Int Int = Int
 type instance D9 [a] Int = [a]
 -- must fail: conflicting

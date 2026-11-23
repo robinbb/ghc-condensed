@@ -2,10 +2,12 @@
 
 module T7341 where
 
+import Data.Kind (Type)
+
 data Proxy a = Proxy
 
 class C a where
-  type F (a :: *) :: *
+  type F (a :: Type) :: Type
   op :: Proxy a -> Int
 
 instance C [] where

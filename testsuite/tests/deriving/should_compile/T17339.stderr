@@ -5,19 +5,19 @@ Result size of Tidy Core
 
 -- RHS size: {terms: 1, types: 4, coercions: 0, joins: 0/0}
 T17339.$fClsTYPETYPEA2B1 :: Cls A2 B1
-T17339.$fClsTYPETYPEA2B1 = T17339.C:Cls @(*) @(*) @A2 @B1
+T17339.$fClsTYPETYPEA2B1 = T17339.C:Cls @Type @Type @A2 @B1
 
 -- RHS size: {terms: 1, types: 4, coercions: 0, joins: 0/0}
 T17339.$fClsTYPETYPEA1B1 :: Cls A1 B1
-T17339.$fClsTYPETYPEA1B1 = T17339.C:Cls @(*) @(*) @A1 @B1
+T17339.$fClsTYPETYPEA1B1 = T17339.C:Cls @Type @Type @A1 @B1
 
 -- RHS size: {terms: 1, types: 4, coercions: 0, joins: 0/0}
 T17339.$fClsTYPETYPEA1B2 :: Cls A1 B2
-T17339.$fClsTYPETYPEA1B2 = T17339.C:Cls @(*) @(*) @A1 @B2
+T17339.$fClsTYPETYPEA1B2 = T17339.C:Cls @Type @Type @A1 @B2
 
 -- RHS size: {terms: 1, types: 4, coercions: 0, joins: 0/0}
 T17339.$fClsTYPETYPEA2B2 :: Cls A2 B2
-T17339.$fClsTYPETYPEA2B2 = T17339.C:Cls @(*) @(*) @A2 @B2
+T17339.$fClsTYPETYPEA2B2 = T17339.C:Cls @Type @Type @A2 @B2
 
 
 

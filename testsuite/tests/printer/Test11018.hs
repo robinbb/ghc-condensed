@@ -3,13 +3,15 @@
 {-# LANGUAGE UnicodeSyntax #-}
 module Test11018 where
 
+import Data.Kind (Type)
+
 nonUnicode :: forall a . a -> IO Int
 nonUnicode _ = do
   x <- readChar
   return 4
 
 -- ^ An opaque ESD handle for recording data from the soundcard via ESD.
-data Recorder fr ch (r ∷ * -> *)
+data Recorder fr ch (r ∷ Type -> Type)
     = Recorder {
         reCloseH :: !(FinalizerHandle r)
       }
@@ -34,7 +36,7 @@ unicode _ = do
   return 4
 
 -- ^ An opaque ESD handle for recording data from the soundcard via ESD.
-data RecorderU fr ch (r ∷ ★ → ★)
+data RecorderU fr ch (r ∷ Type → Type)
     = RecorderU {
         reCloseHU ∷ !(FinalizerHandle r)
       }

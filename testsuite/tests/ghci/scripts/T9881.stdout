@@ -1,4 +1,4 @@
-type Data.ByteString.Lazy.ByteString :: *
+type Data.ByteString.Lazy.ByteString :: Type
 data Data.ByteString.Lazy.ByteString
   = Data.ByteString.Lazy.Internal.Empty
   | Data.ByteString.Lazy.Internal.Chunk {-# UNPACK #-} !StrictByteString
@@ -17,7 +17,7 @@ instance Read Data.ByteString.Lazy.ByteString
 instance Show Data.ByteString.Lazy.ByteString
   -- Defined in ‘Data.ByteString.Lazy.Internal’
 
-type Data.ByteString.ByteString :: *
+type Data.ByteString.ByteString :: Type
 data Data.ByteString.ByteString
   = bytestring-0.12.2.0:Data.ByteString.Internal.Type.BS {-# UNPACK #-} !(GHC.Internal.ForeignPtr.ForeignPtr
                                                                             GHC.Internal.Word.Word8)

@@ -1,6 +1,6 @@
 AssocTyDef02.hs:7:5: error: [GHC-41522]
-    • Illegal argument ‘*’ in:
-        ‘type Typ @{*} [b] = ...’
+    • Illegal argument ‘Type’ in:
+        ‘type Typ @{Type} [b] = ...’
         The arguments to ‘Typ’ must all be distinct type variables.
     • In the default associated type family instance declaration for ‘Typ’
       In the class declaration for ‘Cls’

@@ -338,11 +338,6 @@ RdrNames:
 	$(CHECK_PPR)   $(LIBDIR) RdrNames.hs
 	$(CHECK_EXACT) $(LIBDIR) RdrNames.hs
 
-.PHONY: StarBinderAnns
-StarBinderAnns:
-	$(CHECK_PPR)   $(LIBDIR) StarBinderAnns.hs
-	$(CHECK_EXACT) $(LIBDIR) StarBinderAnns.hs
-
 .PHONY: Test10255
 Test10255:
 	$(CHECK_PPR)   $(LIBDIR) Test10255.hs

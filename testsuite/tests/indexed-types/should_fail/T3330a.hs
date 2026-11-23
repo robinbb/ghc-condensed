@@ -7,13 +7,15 @@
 
 module T3330a where
 
+import Data.Kind (Type)
+
 newtype Writer w a = Writer { runWriter :: (a, w) }
 execWriter :: Writer w a -> w
 execWriter m = snd (runWriter m)
 
-data AnyF (s :: * -> *) = AnyF
-class HFunctor (f :: (* -> *) -> * -> *)
-type family PF (phi :: * -> *) :: (* -> *) -> * -> *
+data AnyF (s :: Type -> Type) = AnyF
+class HFunctor (f :: (Type -> Type) -> Type -> Type)
+type family PF (phi :: Type -> Type) :: (Type -> Type) -> Type -> Type
 
 children :: s ix -> (PF s) r ix -> [AnyF s]
 children p x = execWriter (hmapM p collect x)

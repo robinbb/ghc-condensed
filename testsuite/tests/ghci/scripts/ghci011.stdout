@@ -1,54 +1,54 @@
-type List :: * -> *
+type List :: Type -> Type
 data List a = [] | a : [a]
   	-- Defined in ‘GHC.Internal.Types’
+instance Applicative [] -- Defined in ‘GHC.Internal.Base’
+instance Functor [] -- Defined in ‘GHC.Internal.Base’
+instance Monad [] -- Defined in ‘GHC.Internal.Base’
+instance Eq a => Eq [a] -- Defined in ‘GHC.Internal.Classes’
 instance Monoid [a] -- Defined in ‘GHC.Internal.Base’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Internal.Classes’
 instance Semigroup [a] -- Defined in ‘GHC.Internal.Base’
+instance Read a => Read [a] -- Defined in ‘GHC.Internal.Read’
+instance Show a => Show [a] -- Defined in ‘GHC.Internal.Show’
+instance MonadFail []
+  -- Defined in ‘GHC.Internal.Control.Monad.Fail’
 instance Foldable [] -- Defined in ‘GHC.Internal.Data.Foldable’
 instance Traversable []
   -- Defined in ‘GHC.Internal.Data.Traversable’
-instance Read a => Read [a] -- Defined in ‘GHC.Internal.Read’
-instance Eq a => Eq [a] -- Defined in ‘GHC.Internal.Classes’
-instance Ord a => Ord [a] -- Defined in ‘GHC.Internal.Classes’
-instance Show a => Show [a] -- Defined in ‘GHC.Internal.Show’
-instance Applicative [] -- Defined in ‘GHC.Internal.Base’
-instance Functor [] -- Defined in ‘GHC.Internal.Base’
-instance MonadFail []
-  -- Defined in ‘GHC.Internal.Control.Monad.Fail’
-instance Monad [] -- Defined in ‘GHC.Internal.Base’
-type Unit :: *
+type Unit :: Type
 data Unit = ()
   	-- Defined in ‘GHC.Internal.Tuple’
+instance Eq () -- Defined in ‘GHC.Internal.Classes’
 instance Monoid () -- Defined in ‘GHC.Internal.Base’
-instance Read () -- Defined in ‘GHC.Internal.Read’
+instance Ord () -- Defined in ‘GHC.Internal.Classes’
 instance Semigroup () -- Defined in ‘GHC.Internal.Base’
+instance Read () -- Defined in ‘GHC.Internal.Read’
 instance Bounded () -- Defined in ‘GHC.Internal.Enum’
 instance Enum () -- Defined in ‘GHC.Internal.Enum’
-instance Ord () -- Defined in ‘GHC.Internal.Classes’
 instance Show () -- Defined in ‘GHC.Internal.Show’
-instance Eq () -- Defined in ‘GHC.Internal.Classes’
-type Tuple2 :: * -> * -> *
+type Tuple2 :: Type -> Type -> Type
 data Tuple2 a b = (,) a b
   	-- Defined in ‘GHC.Internal.Tuple’
-instance Traversable ((,) a)
-  -- Defined in ‘GHC.Internal.Data.Traversable’
 instance Monoid a => Applicative ((,) a)
   -- Defined in ‘GHC.Internal.Base’
-instance Foldable ((,) a)
-  -- Defined in ‘GHC.Internal.Data.Foldable’
 instance Functor ((,) a) -- Defined in ‘GHC.Internal.Base’
 instance Monoid a => Monad ((,) a)
   -- Defined in ‘GHC.Internal.Base’
-instance (Bounded a, Bounded b) => Bounded (a, b)
-  -- Defined in ‘GHC.Internal.Enum’
-instance (Read a, Read b) => Read (a, b)
-  -- Defined in ‘GHC.Internal.Read’
 instance (Eq a, Eq b) => Eq (a, b)
   -- Defined in ‘GHC.Internal.Classes’
-instance (Ord a, Ord b) => Ord (a, b)
-  -- Defined in ‘GHC.Internal.Classes’
-instance (Show a, Show b) => Show (a, b)
-  -- Defined in ‘GHC.Internal.Show’
 instance (Monoid a, Monoid b) => Monoid (a, b)
   -- Defined in ‘GHC.Internal.Base’
+instance (Ord a, Ord b) => Ord (a, b)
+  -- Defined in ‘GHC.Internal.Classes’
 instance (Semigroup a, Semigroup b) => Semigroup (a, b)
   -- Defined in ‘GHC.Internal.Base’
+instance (Read a, Read b) => Read (a, b)
+  -- Defined in ‘GHC.Internal.Read’
+instance (Bounded a, Bounded b) => Bounded (a, b)
+  -- Defined in ‘GHC.Internal.Enum’
+instance (Show a, Show b) => Show (a, b)
+  -- Defined in ‘GHC.Internal.Show’
+instance Foldable ((,) a)
+  -- Defined in ‘GHC.Internal.Data.Foldable’
+instance Traversable ((,) a)
+  -- Defined in ‘GHC.Internal.Data.Traversable’

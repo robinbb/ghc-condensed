@@ -1,9 +1,8 @@
-
 T15685.hs:13:24: error: [GHC-25897]
     • Could not deduce ‘k ~ [k0]’
       from the context: as ~ (a : as1)
         bound by a pattern with constructor:
-                   Here :: forall {k} (f :: k -> *) (a :: k) (as :: [k]).
+                   Here :: forall {k} (f :: k -> Type) (a :: k) (as :: [k]).
                            f a -> NS f (a : as),
                  in a pattern synonym declaration
         at T15685.hs:13:19-26
@@ -14,3 +13,4 @@ T15685.hs:13:24: error: [GHC-25897]
       In the pattern: Here Nil
       In the declaration for pattern synonym ‘HereNil’
     Suggested fix: Consider giving ‘HereNil’ a type signature
+

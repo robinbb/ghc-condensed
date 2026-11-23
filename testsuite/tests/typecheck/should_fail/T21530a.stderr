@@ -1,9 +1,9 @@
 T21530a.hs:14:7: error: [GHC-18872]
-    • Couldn't match kind ‘Constraint’ with ‘*’
+    • Couldn't match kind ‘Constraint’ with ‘Type’
       When matching types
-        a0 :: *
+        a0 :: Type
         Eq Int :: Constraint
-      Expected: Proxy @{*} a0
+      Expected: Proxy @{Type} a0
         Actual: Proxy @{Constraint} (Eq Int)
     • In the first argument of ‘f’, namely ‘g’
       In the expression: f g

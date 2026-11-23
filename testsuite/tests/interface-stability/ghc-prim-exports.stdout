@@ -1166,17 +1166,17 @@ module GHC.Classes where
   type CUnit :: Constraint
   class CUnit
     {-# MINIMAL #-}
-  type Eq :: * -> Constraint
+  type Eq :: Type -> Constraint
   class Eq a where
     (==) :: a -> a -> GHC.Internal.Types.Bool
     (/=) :: a -> a -> GHC.Internal.Types.Bool
     {-# MINIMAL (==) | (/=) #-}
   type role IP nominal representational
-  type IP :: GHC.Internal.Types.Symbol -> * -> Constraint
+  type IP :: GHC.Internal.Types.Symbol -> Type -> Constraint
   class IP x a | x -> a where
     ip :: a
     {-# MINIMAL ip #-}
-  type Ord :: * -> Constraint
+  type Ord :: Type -> Constraint
   class Eq a => Ord a where
     compare :: a -> a -> GHC.Internal.Types.Ordering
     (<) :: a -> a -> GHC.Internal.Types.Bool
@@ -1241,7 +1241,7 @@ module GHC.Magic where
 
 module GHC.Magic.Dict where
   -- Safety: Unsafe
-  type WithDict :: Constraint -> * -> Constraint
+  type WithDict :: Constraint -> Type -> Constraint
   class WithDict cls meth where
     withDict :: forall {rr :: GHC.Internal.Types.RuntimeRep} (r :: TYPE rr). meth -> (cls => r) -> r
     {-# MINIMAL withDict #-}
@@ -1272,12 +1272,12 @@ module GHC.Prim where
   data Addr#
   type Array# :: forall {l :: GHC.Internal.Types.Levity}. TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data Array# a
-  type BCO :: *
+  type BCO :: Type
   data BCO
   type ByteArray# :: GHC.Internal.Types.UnliftedType
   data ByteArray#
   type role CONSTRAINT nominal
-  type CONSTRAINT :: GHC.Internal.Types.RuntimeRep -> *
+  type CONSTRAINT :: GHC.Internal.Types.RuntimeRep -> Type
   data CONSTRAINT a
   type Char# :: TYPE GHC.Internal.Types.WordRep
   data Char#
@@ -1292,7 +1292,7 @@ module GHC.Prim where
   type DoubleX8# :: TYPE (GHC.Internal.Types.VecRep GHC.Internal.Types.Vec8 GHC.Internal.Types.DoubleElemRep)
   data DoubleX8#
   type role FUN nominal representational representational
-  type FUN :: forall (n :: GHC.Internal.Types.Multiplicity) -> forall {q :: GHC.Internal.Types.RuntimeRep} {r :: GHC.Internal.Types.RuntimeRep}. TYPE q -> TYPE r -> *
+  type FUN :: forall (n :: GHC.Internal.Types.Multiplicity) -> forall {q :: GHC.Internal.Types.RuntimeRep} {r :: GHC.Internal.Types.RuntimeRep}. TYPE q -> TYPE r -> Type
   data FUN n a b
   type Float# :: TYPE GHC.Internal.Types.FloatRep
   data Float#
@@ -1337,28 +1337,28 @@ module GHC.Prim where
   type Int8X64# :: TYPE (GHC.Internal.Types.VecRep GHC.Internal.Types.Vec64 GHC.Internal.Types.Int8ElemRep)
   data Int8X64#
   type role MVar# nominal representational
-  type MVar# :: forall {l :: GHC.Internal.Types.Levity}. * -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
+  type MVar# :: forall {l :: GHC.Internal.Types.Levity}. Type -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data MVar# a b
   type role MutVar# nominal representational
-  type MutVar# :: forall {l :: GHC.Internal.Types.Levity}. * -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
+  type MutVar# :: forall {l :: GHC.Internal.Types.Levity}. Type -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data MutVar# a b
   type role MutableArray# nominal representational
-  type MutableArray# :: forall {l :: GHC.Internal.Types.Levity}. * -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
+  type MutableArray# :: forall {l :: GHC.Internal.Types.Levity}. Type -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data MutableArray# a b
   type role MutableByteArray# nominal
-  type MutableByteArray# :: * -> GHC.Internal.Types.UnliftedType
+  type MutableByteArray# :: Type -> GHC.Internal.Types.UnliftedType
   data MutableByteArray# a
-  type PromptTag# :: * -> GHC.Internal.Types.UnliftedType
+  type PromptTag# :: Type -> GHC.Internal.Types.UnliftedType
   data PromptTag# a
   type role Proxy# phantom
   type Proxy# :: forall k. k -> GHC.Internal.Types.ZeroBitType
   data Proxy# a
-  type RealWorld :: *
+  type RealWorld :: Type
   data RealWorld
   type SmallArray# :: forall {l :: GHC.Internal.Types.Levity}. TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data SmallArray# a
   type role SmallMutableArray# nominal representational
-  type SmallMutableArray# :: forall {l :: GHC.Internal.Types.Levity}. * -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
+  type SmallMutableArray# :: forall {l :: GHC.Internal.Types.Levity}. Type -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data SmallMutableArray# a b
   type role StableName# phantom
   type StableName# :: forall {l :: GHC.Internal.Types.Levity}. TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
@@ -1368,13 +1368,13 @@ module GHC.Prim where
   type StackSnapshot# :: GHC.Internal.Types.UnliftedType
   data StackSnapshot#
   type role State# nominal
-  type State# :: * -> GHC.Internal.Types.ZeroBitType
+  type State# :: Type -> GHC.Internal.Types.ZeroBitType
   data State# a
   type role TVar# nominal representational
-  type TVar# :: forall {l :: GHC.Internal.Types.Levity}. * -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
+  type TVar# :: forall {l :: GHC.Internal.Types.Levity}. Type -> TYPE (GHC.Internal.Types.BoxedRep l) -> GHC.Internal.Types.UnliftedType
   data TVar# a b
   type role TYPE nominal
-  type TYPE :: GHC.Internal.Types.RuntimeRep -> *
+  type TYPE :: GHC.Internal.Types.RuntimeRep -> Type
   data TYPE a
   type ThreadId# :: GHC.Internal.Types.UnliftedType
   data ThreadId#
@@ -3785,139 +3785,139 @@ module GHC.PrimopWrappers where
 module GHC.Tuple where
   -- Safety: Trustworthy
   pattern Solo :: forall a. a -> Solo a
-  type Solo :: * -> *
+  type Solo :: Type -> Type
   data Solo a = MkSolo a
-  type Tuple0 :: *
+  type Tuple0 :: Type
   type Tuple0 = ()
-  type Tuple1 :: * -> *
+  type Tuple1 :: Type -> Type
   type Tuple1 = Solo
-  type Tuple10 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple10 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple10 a b c d e f g h i j = (,,,,,,,,,) a b c d e f g h i j
-  type Tuple11 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple11 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple11 a b c d e f g h i j k = (,,,,,,,,,,) a b c d e f g h i j k
-  type Tuple12 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple12 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple12 a b c d e f g h i j k l = (,,,,,,,,,,,) a b c d e f g h i j k l
-  type Tuple13 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple13 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple13 a b c d e f g h i j k l m = (,,,,,,,,,,,,) a b c d e f g h i j k l m
-  type Tuple14 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple14 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple14 a b c d e f g h i j k l m n = (,,,,,,,,,,,,,) a b c d e f g h i j k l m n
-  type Tuple15 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple15 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple15 a b c d e f g h i j k l m n o = (,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o
-  type Tuple16 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple16 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple16 a b c d e f g h i j k l m n o p = (,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p
-  type Tuple17 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple17 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple17 a b c d e f g h i j k l m n o p q = (,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q
-  type Tuple18 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple18 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple18 a b c d e f g h i j k l m n o p q r = (,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r
-  type Tuple19 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple19 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple19 a b c d e f g h i j k l m n o p q r s = (,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s
-  type Tuple2 :: * -> * -> *
+  type Tuple2 :: Type -> Type -> Type
   data Tuple2 a b = (,) a b
-  type Tuple20 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple20 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple20 a b c d e f g h i j k l m n o p q r s t = (,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t
-  type Tuple21 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple21 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple21 a b c d e f g h i j k l m n o p q r s t u = (,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u
-  type Tuple22 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple22 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple22 a b c d e f g h i j k l m n o p q r s t u v = (,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v
-  type Tuple23 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple23 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple23 a b c d e f g h i j k l m n o p q r s t u v w = (,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w
-  type Tuple24 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple24 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple24 a b c d e f g h i j k l m n o p q r s t u v w x = (,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x
-  type Tuple25 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple25 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple25 a b c d e f g h i j k l m n o p q r s t u v w x y = (,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y
-  type Tuple26 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple26 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple26 a b c d e f g h i j k l m n o p q r s t u v w x y z = (,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z
-  type Tuple27 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple27 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple27 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 = (,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26
-  type Tuple28 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple28 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple28 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27
-  type Tuple29 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple29 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple29 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28
-  type Tuple3 :: * -> * -> * -> *
+  type Tuple3 :: Type -> Type -> Type -> Type
   data Tuple3 a b c = (,,) a b c
-  type Tuple30 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple30 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple30 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29
-  type Tuple31 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple31 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple31 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30
-  type Tuple32 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple32 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple32 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31
-  type Tuple33 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple33 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple33 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32
-  type Tuple34 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple34 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple34 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33
-  type Tuple35 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple35 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple35 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34
-  type Tuple36 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple36 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple36 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35
-  type Tuple37 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple37 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple37 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36
-  type Tuple38 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple38 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple38 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37
-  type Tuple39 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple39 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple39 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38
-  type Tuple4 :: * -> * -> * -> * -> *
+  type Tuple4 :: Type -> Type -> Type -> Type -> Type
   data Tuple4 a b c d = (,,,) a b c d
-  type Tuple40 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple40 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple40 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39
-  type Tuple41 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple41 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple41 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40
-  type Tuple42 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple42 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple42 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41
-  type Tuple43 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple43 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple43 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42
-  type Tuple44 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple44 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple44 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43
-  type Tuple45 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple45 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple45 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44
-  type Tuple46 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple46 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple46 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45
-  type Tuple47 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple47 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple47 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46
-  type Tuple48 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple48 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple48 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47
-  type Tuple49 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple49 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple49 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48
-  type Tuple5 :: * -> * -> * -> * -> * -> *
+  type Tuple5 :: Type -> Type -> Type -> Type -> Type -> Type
   data Tuple5 a b c d e = (,,,,) a b c d e
-  type Tuple50 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple50 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple50 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49
-  type Tuple51 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple51 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple51 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50
-  type Tuple52 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple52 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple52 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51
-  type Tuple53 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple53 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple53 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52
-  type Tuple54 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple54 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple54 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53
-  type Tuple55 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple55 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple55 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54
-  type Tuple56 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple56 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple56 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55
-  type Tuple57 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple57 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple57 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56
-  type Tuple58 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple58 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple58 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57
-  type Tuple59 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple59 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple59 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58
-  type Tuple6 :: * -> * -> * -> * -> * -> * -> *
+  type Tuple6 :: Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple6 a b c d e f = (,,,,,) a b c d e f
-  type Tuple60 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple60 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple60 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59
-  type Tuple61 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple61 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple61 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60
-  type Tuple62 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple62 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple62 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61
-  type Tuple63 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple63 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple63 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61 t62 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61 t62
-  type Tuple64 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple64 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple64 a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61 t62 t63 = (,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,) a b c d e f g h i j k l m n o p q r s t u v w x y z t26 t27 t28 t29 t30 t31 t32 t33 t34 t35 t36 t37 t38 t39 t40 t41 t42 t43 t44 t45 t46 t47 t48 t49 t50 t51 t52 t53 t54 t55 t56 t57 t58 t59 t60 t61 t62 t63
-  type Tuple7 :: * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple7 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple7 a b c d e f g = (,,,,,,) a b c d e f g
-  type Tuple8 :: * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple8 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple8 a b c d e f g h = (,,,,,,,) a b c d e f g h
-  type Tuple9 :: * -> * -> * -> * -> * -> * -> * -> * -> * -> *
+  type Tuple9 :: Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type -> Type
   data Tuple9 a b c d e f g h i = (,,,,,,,,) a b c d e f g h i
-  type Unit :: *
+  type Unit :: Type
   data Unit = ()
   getSolo :: forall a. Solo a -> a
   maxTupleSize :: GHC.Internal.Types.Int
@@ -3926,38 +3926,38 @@ module GHC.Types where
   -- Safety: Trustworthy
   type Any :: forall k. k
   type family Any @k where
-  type Bool :: *
+  type Bool :: Type
   data Bool = False | True
   type role CONSTRAINT nominal
-  type CONSTRAINT :: RuntimeRep -> *
+  type CONSTRAINT :: RuntimeRep -> Type
   data CONSTRAINT a
-  type Char :: *
+  type Char :: Type
   data Char = C# GHC.Internal.Prim.Char#
   type role Coercible representational representational
   type Coercible :: forall k. k -> k -> Constraint
   class Coercible a b => Coercible a b
     {-# MINIMAL #-}
-  type Constraint :: *
+  type Constraint :: Type
   type Constraint = CONSTRAINT LiftedRep
-  type Double :: *
+  type Double :: Type
   data Double = D# GHC.Internal.Prim.Double#
-  type Float :: *
+  type Float :: Type
   data Float = F# GHC.Internal.Prim.Float#
-  type IO :: * -> *
+  type IO :: Type -> Type
   newtype IO a = IO (GHC.Internal.Prim.State# GHC.Internal.Prim.RealWorld -> (# GHC.Internal.Prim.State# GHC.Internal.Prim.RealWorld, a #))
-  type Int :: *
+  type Int :: Type
   data Int = I# GHC.Internal.Prim.Int#
-  type KindBndr :: *
+  type KindBndr :: Type
   type KindBndr = Int
-  type KindRep :: *
+  type KindRep :: Type
   data KindRep = KindRepTyConApp TyCon [KindRep] | KindRepVar {-# UNPACK #-} !KindBndr | KindRepApp KindRep KindRep | KindRepFun KindRep KindRep | KindRepType | KindRepConstraint | KindRepTypeLitS TypeLitSort GHC.Internal.Prim.Addr# | KindRepTypeLitD TypeLitSort [Char]
-  type Levity :: *
+  type Levity :: Type
   data Levity = Lifted | Unlifted
   type LiftedRep :: RuntimeRep
   type LiftedRep = BoxedRep Lifted
-  type List :: * -> *
+  type List :: Type -> Type
   data List a = ...
-  type Module :: *
+  type Module :: Type
   data Module = Module TrName TrName
   type MultMul :: Multiplicity -> Multiplicity -> Multiplicity
   type family MultMul a b where
@@ -3965,13 +3965,13 @@ module GHC.Types where
     forall (x :: Multiplicity). MultMul x One = x
     forall (x :: Multiplicity). MultMul Many x = Many
     forall (x :: Multiplicity). MultMul x Many = Many
-  type Multiplicity :: *
+  type Multiplicity :: Type
   data Multiplicity = One | Many
-  type Ordering :: *
+  type Ordering :: Type
   data Ordering = LT | EQ | GT
-  type RuntimeRep :: *
+  type RuntimeRep :: Type
   data RuntimeRep = VecRep VecCount VecElem | TupleRep [RuntimeRep] | SumRep [RuntimeRep] | BoxedRep Levity | IntRep | Int8Rep | Int16Rep | Int32Rep | Int64Rep | WordRep | Word8Rep | Word16Rep | Word32Rep | Word64Rep | AddrRep | FloatRep | DoubleRep
-  type SPEC :: *
+  type SPEC :: Type
   data SPEC = SPEC | SPEC2
   type Solo# :: forall (k :: RuntimeRep). TYPE k -> TYPE (TupleRep '[k])
   data Solo# a = MkSolo# a
@@ -5441,16 +5441,16 @@ module GHC.Types where
   data Sum8# a b c d e f g h = ...
   type Sum9# :: forall (k0 :: RuntimeRep) (k1 :: RuntimeRep) (k2 :: RuntimeRep) (k3 :: RuntimeRep) (k4 :: RuntimeRep) (k5 :: RuntimeRep) (k6 :: RuntimeRep) (k7 :: RuntimeRep) (k8 :: RuntimeRep). TYPE k0 -> TYPE k1 -> TYPE k2 -> TYPE k3 -> TYPE k4 -> TYPE k5 -> TYPE k6 -> TYPE k7 -> TYPE k8 -> TYPE (SumRep [k0, k1, k2, k3, k4, k5, k6, k7, k8])
   data Sum9# a b c d e f g h i = ...
-  type Symbol :: *
+  type Symbol :: Type
   data Symbol
   type role TYPE nominal
-  type TYPE :: RuntimeRep -> *
+  type TYPE :: RuntimeRep -> Type
   data TYPE a
-  type TrName :: *
+  type TrName :: Type
   data TrName = TrNameS GHC.Internal.Prim.Addr# | TrNameD [Char]
   type Tuple0# :: ZeroBitType
   type Tuple0# = (# #)
-  type Tuple1# :: * -> TYPE (TupleRep '[LiftedRep])
+  type Tuple1# :: Type -> TYPE (TupleRep '[LiftedRep])
   type Tuple1# = Solo#
   type Tuple10# :: forall (k0 :: RuntimeRep) (k1 :: RuntimeRep) (k2 :: RuntimeRep) (k3 :: RuntimeRep) (k4 :: RuntimeRep) (k5 :: RuntimeRep) (k6 :: RuntimeRep) (k7 :: RuntimeRep) (k8 :: RuntimeRep) (k9 :: RuntimeRep). TYPE k0 -> TYPE k1 -> TYPE k2 -> TYPE k3 -> TYPE k4 -> TYPE k5 -> TYPE k6 -> TYPE k7 -> TYPE k8 -> TYPE k9 -> TYPE (TupleRep [k0, k1, k2, k3, k4, k5, k6, k7, k8, k9])
   data Tuple10# a b c d e f g h i j = ...
@@ -6957,31 +6957,31 @@ module GHC.Types where
   data Tuple8# a b c d e f g h = ...
   type Tuple9# :: forall (k0 :: RuntimeRep) (k1 :: RuntimeRep) (k2 :: RuntimeRep) (k3 :: RuntimeRep) (k4 :: RuntimeRep) (k5 :: RuntimeRep) (k6 :: RuntimeRep) (k7 :: RuntimeRep) (k8 :: RuntimeRep). TYPE k0 -> TYPE k1 -> TYPE k2 -> TYPE k3 -> TYPE k4 -> TYPE k5 -> TYPE k6 -> TYPE k7 -> TYPE k8 -> TYPE (TupleRep [k0, k1, k2, k3, k4, k5, k6, k7, k8])
   data Tuple9# a b c d e f g h i = ...
-  type TyCon :: *
+  type TyCon :: Type
   data TyCon = TyCon GHC.Internal.Prim.Word64# GHC.Internal.Prim.Word64# Module TrName GHC.Internal.Prim.Int# KindRep
-  type Type :: *
+  type Type :: Type
   type Type = TYPE LiftedRep
-  type TypeLitSort :: *
+  type TypeLitSort :: Type
   data TypeLitSort = TypeLitSymbol | TypeLitNat | TypeLitChar
   type Unit# :: ZeroBitType
   data Unit# = ...
   type UnliftedRep :: RuntimeRep
   type UnliftedRep = BoxedRep Unlifted
-  type UnliftedType :: *
+  type UnliftedType :: Type
   type UnliftedType = TYPE UnliftedRep
   type UnusedType :: forall k0. Symbol -> k0
   type family UnusedType k1 where
-  type VecCount :: *
+  type VecCount :: Type
   data VecCount = Vec2 | Vec4 | Vec8 | Vec16 | Vec32 | Vec64
-  type VecElem :: *
+  type VecElem :: Type
   data VecElem = Int8ElemRep | Int16ElemRep | Int32ElemRep | Int64ElemRep | Word8ElemRep | Word16ElemRep | Word32ElemRep | Word64ElemRep | FloatElemRep | DoubleElemRep
   type Void# :: ZeroBitType
   type Void# = (# #)
-  type Word :: *
+  type Word :: Type
   data Word = W# GHC.Internal.Prim.Word#
   type ZeroBitRep :: RuntimeRep
   type ZeroBitRep = TupleRep '[]
-  type ZeroBitType :: *
+  type ZeroBitType :: Type
   type ZeroBitType = TYPE ZeroBitRep
   cstringLength# :: GHC.Internal.Prim.Addr# -> GHC.Internal.Prim.Int#
   isTrue# :: GHC.Internal.Prim.Int# -> Bool

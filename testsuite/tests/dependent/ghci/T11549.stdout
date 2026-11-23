@@ -2,7 +2,7 @@
 ($) :: (a -> b) -> a -> b
 ($) :: (a -> b) -> a -> b 	-- Defined in ‘GHC.Internal.Base’
 infixr 0 $
-TYPE :: RuntimeRep -> *
+TYPE :: RuntimeRep -> Type
 error :: GHC.Internal.Stack.Types.HasCallStack => [Char] -> a
 error :: GHC.Internal.Stack.Types.HasCallStack => [Char] -> a
   	-- Defined in ‘GHC.Internal.Err’
@@ -18,7 +18,7 @@ error :: GHC.Internal.Stack.Types.HasCallStack => [Char] -> a
   (a -> b) -> a -> b
   	-- Defined in ‘GHC.Internal.Base’
 infixr 0 $
-TYPE :: RuntimeRep -> *
+TYPE :: RuntimeRep -> Type
 error
   :: forall (r :: RuntimeRep) (a :: TYPE r).
      GHC.Internal.Stack.Types.HasCallStack =>

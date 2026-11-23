@@ -1,4 +1,4 @@
-type Int :: *
+type Int :: Type
 data Int = GHC.Internal.Types.I# GHC.Internal.Prim.Int#
   	-- Defined in ‘GHC.Internal.Types’
 instance Eq Int -- Defined in ‘GHC.Internal.Classes’

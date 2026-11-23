@@ -1,5 +1,4 @@
-
-T9144.hs:34:26: error: [GHC-83865]
+T9144.hs:35:26: error: [GHC-83865]
     • Couldn't match type ‘Integer’ with ‘FooTerm’
       Expected: DemoteRep @Nat ('KProxy @Nat)
         Actual: DemoteRep @Foo ('KProxy @Foo)
@@ -7,3 +6,4 @@ T9144.hs:34:26: error: [GHC-83865]
       In the expression: toSing n
       In the expression:
         case toSing n of SomeSing n' -> SomeSing (SBar n')
+

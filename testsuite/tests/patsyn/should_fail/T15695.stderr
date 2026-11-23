@@ -1,13 +1,13 @@
 T15695.hs:40:14: warning: [GHC-25897] [-Wdeferred-type-errors (in -Wdefault)]
     • Could not deduce ‘a1 ~ NA VO’
-      from the context: ((* -> * -> *) ~ (k -> k1 -> *), Either ~~ f,
-                         ctx ~~ (a1 :&: (a2 :&: E)), f a1 ~~ f1, f1 a2 ~~ a3)
+      from the context: ((Type -> Type -> Type) ~ (k -> k1 -> Type),
+                         Either ~~ f, ctx ~~ (a1 :&: (a2 :&: E)), f a1 ~~ f1, f1 a2 ~~ a3)
         bound by a pattern with pattern synonym:
                    ASSO :: forall kind (a :: kind) (b :: Ctx kind).
                            () =>
                            forall ks k (f :: k -> ks) (a1 :: k) ks1 k1 (f1 :: k1 -> ks1)
                                   (a2 :: k1) a3.
-                           (kind ~ (k -> k1 -> *), a ~~ f, b ~~ (a1 :&: (a2 :&: E)),
+                           (kind ~ (k -> k1 -> Type), a ~~ f, b ~~ (a1 :&: (a2 :&: E)),
                             f a1 ~~ f1, f1 a2 ~~ a3) =>
                            a3 -> ApplyT kind a b,
                  in an equation for ‘from'’
@@ -20,7 +20,7 @@ T15695.hs:40:14: warning: [GHC-25897] [-Wdeferred-type-errors (in -Wdefault)]
                   () =>
                   forall ks k (f :: k -> ks) (a1 :: k) ks1 k1 (f1 :: k1 -> ks1)
                          (a2 :: k1) a3.
-                  (kind ~ (k -> k1 -> *), a ~~ f, b ~~ (a1 :&: (a2 :&: E)),
+                  (kind ~ (k -> k1 -> Type), a ~~ f, b ~~ (a1 :&: (a2 :&: E)),
                    f a1 ~~ f1, f1 a2 ~~ a3) =>
                   a3 -> ApplyT kind a b,
         in an equation for ‘from'’
@@ -29,7 +29,8 @@ T15695.hs:40:14: warning: [GHC-25897] [-Wdeferred-type-errors (in -Wdefault)]
       In the pattern: ASSO (Left a)
       In an equation for ‘from'’: from' (ASSO (Left a)) = Here (a :* Nil)
     • Relevant bindings include
-        from' :: ApplyT (* -> * -> *) Either ctx -> NS (NP NA) '[ '[VO]]
+        from' :: ApplyT (Type -> Type -> Type) Either ctx
+                 -> NS (NP NA) '[ '[VO]]
           (bound at T15695.hs:40:1)
 
 T15695.hs:41:33: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
@@ -42,6 +43,7 @@ T15695.hs:41:33: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
       In an equation for ‘from'’:
           from' (ASSO (Right b)) = There (Here undefined)
     • Relevant bindings include
-        from' :: ApplyT (* -> * -> *) Either ctx -> NS (NP NA) '[ '[VO]]
+        from' :: ApplyT (Type -> Type -> Type) Either ctx
+                 -> NS (NP NA) '[ '[VO]]
           (bound at T15695.hs:40:1)
 

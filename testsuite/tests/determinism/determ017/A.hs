@@ -44,6 +44,7 @@
 
 module A where
 
+import Data.Kind (Type)
 import Control.Monad (liftM, liftM2, when, ap)
 -- import Control.Monad.Identity
 
@@ -183,10 +184,10 @@ liftOut (Trampoline ma) = trace "liftOut" $ Trampoline (liftM inject ma)
          inject (Suspend a) = trace "inject suspend" $ Suspend (liftFunctor $ trace "calling fmap" $
                               fmap liftOut (trace "poking a" a))
 
-data Sink (m :: * -> *) a x =
+data Sink (m :: Type -> Type) a x =
    Sink   {put :: forall d. (AncestorFunctor (EitherFunctor a (TryYield x)) d) => x -> Trampoline m d Bool,
            canPut :: forall d. (AncestorFunctor (EitherFunctor a (TryYield x)) d) => Trampoline m d Bool}
-newtype Source (m :: * -> *) a x =
+newtype Source (m :: Type -> Type) a x =
    Source {get :: forall d. (AncestorFunctor (EitherFunctor a (Await (Maybe x))) d) => Trampoline m d (Maybe x)}
 
 pipe :: forall m a x r1 r2. (Monad m, Functor a) =>

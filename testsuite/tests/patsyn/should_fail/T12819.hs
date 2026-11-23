@@ -2,8 +2,10 @@
 
 module T12819 where
 
-type family F a  -- F :: * -> *
-data T :: (* -> *) -> *
+import Data.Kind (Type)
+
+type family F a  -- F :: Type -> Type
+data T :: (Type -> Type) -> Type
 
 pattern Q :: T F -> String
 pattern Q x <- (undefined -> x)

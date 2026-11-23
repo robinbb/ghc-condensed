@@ -12,10 +12,10 @@
 bkpfail23.bkp:15:9: error: [GHC-15843]
     • Type constructor ‘F’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type F :: forall {k}. k -> *
+      Main module: type F :: forall {k}. k -> Type
                    type F a = ()
         Hsig file: type role F phantom
-                   type F :: forall {k}. k -> *
+                   type F :: forall {k}. k -> Type
                    data F a
       Illegal parameterized type synonym in implementation of abstract data.
     • While checking that ‘h:H’ implements signature ‘H’ in ‘p[H=h:H]’.

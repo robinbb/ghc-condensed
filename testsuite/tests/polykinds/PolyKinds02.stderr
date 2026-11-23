@@ -1,5 +1,5 @@
-PolyKinds02.hs:11:16: error: [GHC-83865]
-    • Expected kind ‘Nat’, but ‘Nat’ has kind ‘*’
+PolyKinds02.hs:13:16: error: [GHC-83865]
+    • Expected kind ‘Nat’, but ‘Nat’ has kind ‘Type’
     • In the second argument of ‘Vec’, namely ‘Nat’
       In the type signature: vec :: Vec Nat Nat
 

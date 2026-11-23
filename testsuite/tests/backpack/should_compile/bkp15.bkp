@@ -4,6 +4,7 @@
 -- stuff as we can.
 unit p where
     signature H where
+        import Data.Kind (Type)
         x :: (forall a. a -> a) -> (Int, Bool)
         data T a = T (a -> a) | S (S a)
         data S a = R (T a)
@@ -13,7 +14,7 @@ unit p where
         type X m a = m a
         type family Elem c
         class Eq a => Bloop a b | a -> b where
-            data GMap a (v :: * -> *) :: *
+            data GMap a (v :: Type -> Type) :: Type
             xa :: a -> a -> Bool
             default xa :: a -> a -> Bool
             y :: a -> a -> Ordering
@@ -25,6 +26,7 @@ unit p where
 -- keep this synced up!
 unit q where
     signature H where
+        import Data.Kind (Type)
         x :: (forall a. a -> a) -> (Int, Bool)
         data T a = T (a -> a) | S (S a)
         data S a = R (T a)
@@ -34,7 +36,7 @@ unit q where
         type X m a = m a
         type family Elem c
         class Eq a => Bloop a b | a -> b where
-            data GMap a (v :: * -> *) :: *
+            data GMap a (v :: Type -> Type) :: Type
             xa :: a -> a -> Bool
             default xa :: a -> a -> Bool
             y :: a -> a -> Ordering
@@ -59,6 +61,7 @@ unit r where
 
 unit h-impl where
     module H where
+        import Data.Kind (Type)
         x :: (forall a. a -> a) -> (Int, Bool)
         x f = (f 2, f True)
         data T a = T (a -> a) | S (S a)
@@ -69,7 +72,7 @@ unit h-impl where
         type X m a = m a
         type family Elem c
         class Eq a => Bloop a b | a -> b where
-            data GMap a (v :: * -> *) :: *
+            data GMap a (v :: Type -> Type) :: Type
             xa :: a -> a -> Bool
             xa = (==)
             y :: a -> a -> Ordering

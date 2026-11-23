@@ -458,7 +458,6 @@ type instance XSumTy           (GhcPass _) = AnnParen
 type instance XOpTy            (GhcPass _) = NoExtField
 type instance XParTy           (GhcPass _) = (EpToken "(", EpToken ")")
 type instance XIParamTy        (GhcPass _) = TokDcolon
-type instance XStarTy          (GhcPass _) = TokStar
 type instance XKindSig         (GhcPass _) = TokDcolon
 
 type instance XAppKindTy       GhcPs = EpToken "@"
@@ -1494,8 +1493,6 @@ ppr_mono_ty (HsExplicitTupleTy _ prom tys)
 ppr_mono_ty (HsTyLit _ t)       = ppr t
 ppr_mono_ty (HsWildCardTy {})   = char '_'
 
-ppr_mono_ty (HsStarTy _)        = starLit
-
 ppr_mono_ty (HsAppTy _ fun_ty arg_ty)
   = hsep [ppr_mono_lty fun_ty, ppr_mono_lty arg_ty]
 ppr_mono_ty (HsAppKindTy _ ty k)
@@ -1575,7 +1572,6 @@ hsTypeNeedsParens p = go_hs_ty
     go_hs_ty (HsExplicitTupleTy{})    = False
     go_hs_ty (HsTyLit{})              = False
     go_hs_ty (HsWildCardTy{})         = False
-    go_hs_ty (HsStarTy{})             = p >= starPrec
     go_hs_ty (HsAppTy{})              = p >= appPrec
     go_hs_ty (HsAppKindTy{})          = p >= appPrec
     go_hs_ty (HsOpTy{})               = p >= opPrec

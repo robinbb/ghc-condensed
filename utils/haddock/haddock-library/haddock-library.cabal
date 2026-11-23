@@ -31,7 +31,6 @@ source-repository head
 
 common extensions
   default-extensions:
-    NoStarIsType
     StrictData
 
   default-language:   Haskell2010

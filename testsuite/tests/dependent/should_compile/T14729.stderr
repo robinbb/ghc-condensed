@@ -4,9 +4,9 @@ TYPE SIGNATURES
     P (F Int) (x |> Sym Univ(nominal (zapped)[] :: F Int~# Bool))
   y :: forall {x :: Bool}. P Bool x
 TYPE CONSTRUCTORS
-  type family F{1} :: * -> *
+  type family F{1} :: Type -> Type
     roles nominal
-  data type P{2} :: forall k -> k -> *
+  data type P{2} :: forall k -> k -> Type
     roles nominal phantom
 COERCION AXIOMS
   axiom T14729.D:R:FInt :: F Int = Bool

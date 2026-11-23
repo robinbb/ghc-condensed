@@ -1,7 +1,9 @@
-
 TH_1tuple.hs:11:6: error: [GHC-83865]
     • Expecting one more argument to ‘Solo’
-      Expected a type, but ‘Solo’ has kind ‘* -> *’
+      Expected a type,
+      but ‘Solo’ has kind
+      ‘GHC.Internal.Types.Type -> GHC.Internal.Types.Type’
     • In an expression type signature: Solo
       In the expression: 1 :: Solo
       In an equation for ‘y’: y = (1 :: Solo)
+

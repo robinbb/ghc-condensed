@@ -1,5 +1,5 @@
 type Tuple :: forall (n :: GHC.Internal.TypeNats.Nat).
-              Data.Tuple.Experimental.TupleArgKind n -> *
+              Data.Tuple.Experimental.TupleArgKind n -> Type
 type family Tuple ts where
     Tuple () = Unit
     Tuple a = a
@@ -12,3 +12,1816 @@ type family Tuple ts where
     Tuple (a, b, c, d, e, f, g, h) = Tuple8 a b c d e f g h
     Tuple (a, b, c, d, e, f, g, h, i) = Tuple9 a b c d e f g h i
     Tuple (a, b, c, d, e, f, g, h, i, j) = Tuple10 a b c d e f g h i j
+    Tuple (a, b, c, d, e, f, g, h, i, j, k)
+      = Tuple11 a b c d e f g h i j k
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l)
+      = Tuple12 a b c d e f g h i j k l
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m)
+      = Tuple13 a b c d e f g h i j k l m
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+      = Tuple14 a b c d e f g h i j k l m n
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+      = Tuple15 a b c d e f g h i j k l m n o
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
+      = Tuple16 a b c d e f g h i j k l m n o p
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q)
+      = Tuple17 a b c d e f g h i j k l m n o p q
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)
+      = Tuple18 a b c d e f g h i j k l m n o p q r
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s)
+      = Tuple19 a b c d e f g h i j k l m n o p q r s
+    Tuple (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t)
+      = Tuple20 a b c d e f g h i j k l m n o p q r s t
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u)
+      = Tuple21 a b c d e f g h i j k l m n o p q r s t u
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v)
+      = Tuple22 a b c d e f g h i j k l m n o p q r s t u v
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w)
+      = Tuple23 a b c d e f g h i j k l m n o p q r s t u v w
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x)
+      = Tuple24 a b c d e f g h i j k l m n o p q r s t u v w x
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y)
+      = Tuple25 a b c d e f g h i j k l m n o p q r s t u v w x y
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z)
+      = Tuple26 a b c d e f g h i j k l m n o p q r s t u v w x y z
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa)
+      = Tuple27 a b c d e f g h i j k l m n o p q r s t u v w x y z aa
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab)
+      = Tuple28 a b c d e f g h i j k l m n o p q r s t u v w x y z aa ab
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac)
+      = Tuple29
+          a b c d e f g h i j k l m n o p q r s t u v w x y z aa ab ac
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad)
+      = Tuple30
+          a b c d e f g h i j k l m n o p q r s t u v w x y z aa ab ac ad
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae)
+      = Tuple31
+          a b c d e f g h i j k l m n o p q r s t u v w x y z aa ab ac ad ae
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af)
+      = Tuple32
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag)
+      = Tuple33
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah)
+      = Tuple34
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai)
+      = Tuple35
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj)
+      = Tuple36
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak)
+      = Tuple37
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al)
+      = Tuple38
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am)
+      = Tuple39
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an)
+      = Tuple40
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao)
+      = Tuple41
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap)
+      = Tuple42
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq)
+      = Tuple43
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar)
+      = Tuple44
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as)
+      = Tuple45
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at)
+      = Tuple46
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au)
+      = Tuple47
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av)
+      = Tuple48
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw)
+      = Tuple49
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax)
+      = Tuple50
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay)
+      = Tuple51
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az)
+      = Tuple52
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba)
+      = Tuple53
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb)
+      = Tuple54
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc)
+      = Tuple55
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd)
+      = Tuple56
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be)
+      = Tuple57
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf)
+      = Tuple58
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg)
+      = Tuple59
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg, bh)
+      = Tuple60
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+          bh
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg, bh, bi)
+      = Tuple61
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+          bh
+          bi
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg, bh, bi, bj)
+      = Tuple62
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+          bh
+          bi
+          bj
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg, bh, bi, bj, bk)
+      = Tuple63
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+          bh
+          bi
+          bj
+          bk
+    Tuple
+      (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v,
+       w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an,
+       ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az, ba, bb, bc, bd, be,
+       bf, bg, bh, bi, bj, bk, bl)
+      = Tuple64
+          a
+          b
+          c
+          d
+          e
+          f
+          g
+          h
+          i
+          j
+          k
+          l
+          m
+          n
+          o
+          p
+          q
+          r
+          s
+          t
+          u
+          v
+          w
+          x
+          y
+          z
+          aa
+          ab
+          ac
+          ad
+          ae
+          af
+          ag
+          ah
+          ai
+          aj
+          ak
+          al
+          am
+          an
+          ao
+          ap
+          aq
+          ar
+          as
+          at
+          au
+          av
+          aw
+          ax
+          ay
+          az
+          ba
+          bb
+          bc
+          bd
+          be
+          bf
+          bg
+          bh
+          bi
+          bj
+          bk
+          bl
+  	-- Defined in ‘Data.Tuple.Experimental’

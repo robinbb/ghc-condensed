@@ -1,10 +1,11 @@
 {-# LANGUAGE  TypeFamilies, ScopedTypeVariables #-}
 module T3169 where
 
+import Data.Kind (Type)
 import Prelude hiding ( lookup )
 
 class Key k where
-  type Map k :: * -> *
+  type Map k :: Type -> Type
   lookup :: k -> Map k elt -> Maybe elt
 
 instance (Key a, Key b) => Key (a,b) where

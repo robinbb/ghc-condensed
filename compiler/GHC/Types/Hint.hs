@@ -8,7 +8,6 @@ module GHC.Types.Hint (
   , ExportItemSuggestion(..)
   , HowInScope(..)
   , SimilarName(..)
-  , StarIsType(..)
   , UntickedPromotedThing(..)
   , AssumedDerivingStrategy(..)
   , SemaphoreUpgradeTarget(..)
@@ -21,7 +20,7 @@ module GHC.Types.Hint (
   , suggestAnyExtension
   , suggestAnyExtensionWithInfo
   , useExtensionInOrderTo
-  , noStarIsTypeHints
+  , starKindHints
   ) where
 
 import Language.Haskell.Syntax.Expr (LHsExpr)
@@ -260,13 +259,13 @@ data GhcHint
     {-| Suggests increasing the limit for the number of iterations in the simplifier.
     -}
   | SuggestIncreaseSimplifierIterations
-    {-| Suggests to explicitly import 'Type' from the 'Data.Kind' module, because
-        using "*" to mean 'Data.Kind.Type' relies on the StarIsType extension, which
-        will become deprecated in the future.
+    {-| Suggests to import 'Type' from the 'Data.Kind' module, because
+        "*" is an ordinary type operator and never means 'Data.Kind.Type'.
 
-        Triggered by: 'GHC.Parser.Errors.Types.PsWarnStarIsType'
+        Triggered by: 'GHC.Parser.Errors.Types.PsErrOpFewArgs' and the
+                      renamer's lookup of an unbound "*"
         Example: None
-        Test case(s): wcompat-warnings/WCompatWarningsOn.hs
+        Test case(s): dependent/should_fail/RenamingStar.hs
 
     -}
   | SuggestUseTypeFromDataKind (Maybe RdrName)
@@ -298,13 +297,6 @@ data GhcHint
 
     -}
   | SuggestRoles [Role]
-
-    {-| Suggests qualifying the '*' operator in modules where StarIsType is enabled.
-
-        Triggered by: 'GHC.Parser.Errors.Types.PsWarnStarBinder'
-        Test case(s): warnings/should_compile/StarBinder.hs
-    -}
-  | SuggestQualifyStarOperator
 
     {-| Suggests that for a type signature 'M.x :: ...' the qualifier should be omitted
         in order to be accepted by GHC.
@@ -696,78 +688,25 @@ isBareSymbol fixity nm
 
 --------------------------------------------------------------------------------
 
--- | Whether '*' is a synonym for 'Data.Kind.Type'.
-data StarIsType
-  = StarIsNotType
-  | StarIsType
-
--- | Display info about the treatment of '*' under NoStarIsType.
+-- | Hints for a program that assumes '*' is the kind of types.
 --
--- With StarIsType, three properties of '*' hold:
---
---   (a) it is not an infix operator
---   (b) it is always in scope
---   (c) it is a synonym for Data.Kind.Type
---
--- However, the user might not know that they are working on a module with
--- NoStarIsType and write code that still assumes (a), (b), and (c), which
--- actually do not hold in that module.
---
--- Violation of (a) shows up in the parser. For instance, in the following
--- examples, we have '*' not applied to enough arguments:
---
---   data A :: *
---   data F :: * -> *
---
--- Violation of (b) or (c) show up in the renamer and the typechecker
--- respectively. For instance:
---
---   type K = Either * Bool
---
--- This will parse differently depending on whether StarIsType is enabled,
--- but it will parse nonetheless. With NoStarIsType it is parsed as a type
--- operator, thus we have ((*) Either Bool). Now there are two cases to
--- consider:
---
---   1. There is no definition of (*) in scope. In this case the renamer will
---      fail to look it up. This is a violation of assumption (b).
---
---   2. There is a definition of the (*) type operator in scope (for example
---      coming from GHC.TypeNats). In this case the user will get a kind
---      mismatch error. This is a violation of assumption (c).
---
--- The user might unknowingly be working on a module with NoStarIsType
--- or use '*' as 'Data.Kind.Type' out of habit. So it is important to give a
--- hint whenever an assumption about '*' is violated. Unfortunately, it is
--- somewhat difficult to deal with (c), so we limit ourselves to (a) and (b).
---
--- 'noStarIsTypeHints' returns appropriate hints to the user depending on the
--- extensions enabled in the module and the name that triggered the error.
--- That is, if we have NoStarIsType and the error is related to '*' or its
--- Unicode variant, we will suggest using 'Data.Kind.Type'; otherwise we won't
--- suggest anything.
-noStarIsTypeHints :: StarIsType -> RdrName -> [GhcHint]
-noStarIsTypeHints is_star_type rdr_name
-  -- One might ask: if can use `sdocOption sdocStarIsType` here, why bother to
-  -- take star_is_type as input? Why not refactor?
-  --
-  -- The reason is that `sdocOption sdocStarIsType` would indicate that
-  -- StarIsType is enabled in the module that tries to load the problematic
-  -- definition, not in the module that is being loaded.
-  --
-  -- So if we have 'data T :: *' in a module with NoStarIsType, then the hint
-  -- must be displayed even if we load this definition from a module (or GHCi)
-  -- with StarIsType enabled!
-  --
+-- In GHC, '*' is an ordinary type operator: it is not nullary, it is
+-- not always in scope, and it is not a synonym for Data.Kind.Type. A
+-- program written for the legacy reading of '*' violates these
+-- assumptions in the parser ("data F :: * -> *" applies '*' to too few
+-- arguments) or in the renamer ("type K = Either * Bool" parses as
+-- ((*) Either Bool) and fails to look '*' up). 'starKindHints'
+-- suggests 'Data.Kind.Type' whenever the name that triggered the error
+-- is an unqualified '*' or its Unicode variant; qualified stars are
+-- deliberate type operators and get no hint.
+starKindHints :: RdrName -> [GhcHint]
+starKindHints rdr_name
   | isUnqualStar
-  , StarIsNotType <- is_star_type
   = [SuggestUseTypeFromDataKind (Just rdr_name)]
   | otherwise
   = []
   where
     -- Does rdr_name look like the user might have meant the '*' kind by it?
-    -- We focus on unqualified stars specifically, because qualified stars are
-    -- treated as type operators even under StarIsType.
     isUnqualStar
       | Unqual occName <- rdr_name
       = let fs = occNameFS occName

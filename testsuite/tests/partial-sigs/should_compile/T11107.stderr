@@ -1,4 +1,5 @@
 T11107.hs:4:10: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
-    • Found type wildcard ‘_’ standing for ‘Either :: * -> * -> *’
+    • Found type wildcard ‘_’
+        standing for ‘Either :: Type -> Type -> Type’
     • In the type signature: e :: Int `_` Bool
 

@@ -4,7 +4,7 @@ module GHC.Parser.Annotation (
   getEpTokenSrcSpan,
   getEpTokenBufSpan,
   getEpTokenLoc, getEpUniTokenLoc,
-  TokDcolon, TokDarrow, TokRarrow, TokForall, TokStar,
+  TokDcolon, TokDarrow, TokRarrow, TokForall,
   EpLayout(..), getEpaLocationCol,
   EpaComment(..), EpaCommentTok(..),
   IsUnicodeSyntax(..),
@@ -262,7 +262,6 @@ type TokDcolon = EpUniToken "::" "∷"
 type TokDarrow = EpUniToken "=>"  "⇒"
 type TokRarrow = EpUniToken "->" "→"
 type TokForall = EpUniToken "forall" "∀"
-type TokStar   = EpUniToken "*" "★"
 
 -- | Layout information for declarations.
 data EpLayout =

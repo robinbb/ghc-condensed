@@ -5,8 +5,10 @@
 
 module T3330b where
 
+import Data.Kind (Type)
+
 class RFunctor c a b where
-    type Res c a b :: *
+    type Res c a b :: Type
     rmap :: (a -> b) -> c -> Res c a b
 
 instance (a ~ c) => RFunctor c a b where

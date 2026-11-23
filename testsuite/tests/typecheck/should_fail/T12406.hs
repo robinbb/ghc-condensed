@@ -4,10 +4,11 @@
 module T12406 where
 
 -- import Control.Monad  -- comment this out to cause error
+import Data.Kind (Type)
 import Data.IORef
 
 class MonadRef m where
-    type Ref m :: * -> *
+    type Ref m :: Type -> Type
     newRef :: a -> m (Ref m a)
     readRef :: Ref m a -> m a
 

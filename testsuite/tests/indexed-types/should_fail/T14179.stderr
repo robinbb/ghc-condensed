@@ -1,15 +1,15 @@
-T14179.hs:6:15: error: [GHC-34447]
+T14179.hs:8:15: error: [GHC-34447]
     Conflicting family instance declarations:
-      Foo1 a -- Defined at T14179.hs:6:15
-      Foo1 a -- Defined at T14179.hs:7:15
+      Foo1 a -- Defined at T14179.hs:8:15
+      Foo1 a -- Defined at T14179.hs:9:15
 
-T14179.hs:10:15: error: [GHC-34447]
+T14179.hs:12:15: error: [GHC-34447]
     Conflicting family instance declarations:
-      Foo2 -- Defined at T14179.hs:10:15
-      Foo2 -- Defined at T14179.hs:11:15
+      Foo2 -- Defined at T14179.hs:12:15
+      Foo2 -- Defined at T14179.hs:13:15
 
-T14179.hs:14:15: error: [GHC-34447]
+T14179.hs:16:15: error: [GHC-34447]
     Conflicting family instance declarations:
-      Foo3 [a] -- Defined at T14179.hs:14:15
-      Foo3 [a] -- Defined at T14179.hs:17:15
+      Foo3 [a] -- Defined at T14179.hs:16:15
+      Foo3 [a] -- Defined at T14179.hs:19:15
 

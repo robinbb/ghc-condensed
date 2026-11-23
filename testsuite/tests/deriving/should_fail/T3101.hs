@@ -3,7 +3,9 @@
 
 module T3101 where
 
-type family F a :: *
+import Data.Kind (Type)
+
+type family F a :: Type
 
 data Boom = Boom (forall a. a -> F a)
   deriving Show

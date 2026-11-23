@@ -303,7 +303,7 @@ instance Cosieve Tagged Proxy where
 -- | A 'Profunctor' @p@ is 'Representable' if there exists a 'Functor' @f@ such that
 -- @p d c@ is isomorphic to @d -> f c@.
 class (Sieve p (Rep p), Strong p) => Representable p where
-  type Rep p :: * -> *
+  type Rep p :: Type -> Type
   -- | Laws:
   --
   -- @
@@ -422,7 +422,7 @@ tabulated = dimap tabulate (fmap sieve)
 -- | A 'Profunctor' @p@ is 'Corepresentable' if there exists a 'Functor' @f@ such that
 -- @p d c@ is isomorphic to @f d -> c@.
 class (Cosieve p (Corep p), Costrong p) => Corepresentable p where
-  type Corep p :: * -> *
+  type Corep p :: Type -> Type
   -- | Laws:
   --
   -- @
@@ -578,7 +578,7 @@ instance Monad m => Strong (Arrow.Kleisli m) where
 -- Moreover, you don't have to rely on the compiler to inline away the extra
 -- argument, because the newtype is \"free\"
 --
--- 'Tagged' has kind @k -> * -> *@, therefore
+-- 'Tagged' has kind @k -> Type -> Type@, therefore
 -- there is an extra @k@ showing in the instance haddocks that may cause confusion.
 newtype Tagged s b = Tagged { unTagged :: b } deriving
   ( Eq, Ord, Ix, Bounded

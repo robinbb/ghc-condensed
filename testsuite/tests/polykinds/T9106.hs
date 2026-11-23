@@ -4,9 +4,10 @@
 
 module T9106 where
 
+import Data.Kind (Type)
 import GHC.TypeLits
 
-class FunctorN (n :: Nat) f (a :: *) (fa :: *) | n f a -> fa where
+class FunctorN (n :: Nat) f (a :: Type) (fa :: Type) | n f a -> fa where
 
 instance FunctorN 0 f a a where
 

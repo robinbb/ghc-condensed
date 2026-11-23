@@ -9,3 +9,22 @@
      deriving (Typeable)
  
  unsafeBlockPtr :: Block ty -> Ptr ty
+--- a/external-packages/foundation/basement/Basement/Monad.hs
++++ b/external-packages/foundation/basement/Basement/Monad.hs
+@@ -28,6 +28,7 @@
+     , primTouch
+     ) where
+ 
++import Data.Kind (Type)
+ import qualified Prelude
+ import           GHC.ST
+ import           GHC.STRef
+@@ -44,7 +45,7 @@
+     -- | type of state token associated with the PrimMonad m
+     type PrimState m
+     -- | type of variable associated with the PrimMonad m
+-    type PrimVar m :: * -> *
++    type PrimVar m :: Type -> Type
+     -- | Unwrap the State# token to pass to a function a primitive function that returns an unboxed state and a value.
+     primitive :: (State# (PrimState m) -> (# State# (PrimState m), a #)) -> m a
+     -- | Throw Exception in the primitive monad

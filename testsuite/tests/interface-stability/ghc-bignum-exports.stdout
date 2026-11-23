@@ -49,7 +49,7 @@ module GHC.Num.Backend.Selected where
 
 module GHC.Num.BigNat where
   -- Safety: None
-  type BigNat :: *
+  type BigNat :: Type
   data BigNat = BN# {unBigNat :: BigNat#}
   type BigNat# :: GHC.Internal.Types.UnliftedType
   type BigNat# = GHC.Internal.Bignum.WordArray.WordArray#
@@ -192,7 +192,7 @@ module GHC.Num.BigNat where
 
 module GHC.Num.Integer where
   -- Safety: None
-  type Integer :: *
+  type Integer :: Type
   data Integer = IS GHC.Internal.Prim.Int# | IP GHC.Internal.Prim.ByteArray# | IN GHC.Internal.Prim.ByteArray#
   integerAbs :: Integer -> Integer
   integerAdd :: Integer -> Integer -> Integer
@@ -303,7 +303,7 @@ module GHC.Num.Integer where
 
 module GHC.Num.Natural where
   -- Safety: None
-  type Natural :: *
+  type Natural :: Type
   data Natural = NS GHC.Internal.Prim.Word# | NB GHC.Internal.Prim.ByteArray#
   naturalAdd :: Natural -> Natural -> Natural
   naturalAnd :: Natural -> Natural -> Natural
@@ -452,11 +452,11 @@ module GHC.Num.Primitives where
 module GHC.Num.WordArray where
   -- Safety: None
   type role MutableWordArray nominal
-  type MutableWordArray :: * -> *
+  type MutableWordArray :: Type -> Type
   data MutableWordArray s = MutableWordArray (MutableWordArray# s)
-  type MutableWordArray# :: * -> GHC.Internal.Types.UnliftedType
+  type MutableWordArray# :: Type -> GHC.Internal.Types.UnliftedType
   type MutableWordArray# = GHC.Internal.Prim.MutableByteArray#
-  type WordArray :: *
+  type WordArray :: Type
   data WordArray = WordArray WordArray#
   type WordArray# :: GHC.Internal.Types.UnliftedType
   type WordArray# = GHC.Internal.Prim.ByteArray#

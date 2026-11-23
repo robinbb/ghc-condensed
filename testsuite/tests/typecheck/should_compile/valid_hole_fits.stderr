@@ -24,11 +24,11 @@ valid_hole_fits.hs:17:17: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
         a :: Int -> IO Int (bound at valid_hole_fits.hs:12:1)
         b :: Int -> IO Int (bound at valid_hole_fits.hs:14:1)
         c :: Int -> IO Int (bound at valid_hole_fits.hs:16:1)
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @IO
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @IO
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘GHC.Internal.Base’))
@@ -77,11 +77,11 @@ valid_hole_fits.hs:27:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with Just @Integer
           (imported from ‘Data.Maybe’ at valid_hole_fits.hs:5:1-17
            (and originally defined in ‘GHC.Internal.Maybe’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @Maybe
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @Maybe
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘GHC.Internal.Base’))
@@ -235,7 +235,9 @@ valid_hole_fits.hs:38:10: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
         (:) :: forall a. a -> [a] -> [a]
           with (:) @a
           (bound at <wired into compiler>)
-        (<$) :: forall (f :: * -> *) a b. Functor f => a -> f b -> f a
+        (<$) :: forall (f :: Type -> Type) a b.
+                Functor f =>
+                a -> f b -> f a
           with (<$) @[]
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘GHC.Internal.Base’))
@@ -265,7 +267,7 @@ valid_hole_fits.hs:41:8: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with readIO @()
           (imported from ‘Prelude’ at valid_hole_fits.hs:3:1-40
            (and originally defined in ‘System.IO’))
-        fail :: forall (m :: * -> *) a.
+        fail :: forall (m :: Type -> Type) a.
                 (MonadFail m, GHC.Internal.Stack.Types.HasCallStack) =>
                 String -> m a
           with fail @IO

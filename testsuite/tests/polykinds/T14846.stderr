@@ -5,7 +5,7 @@ T14846.hs:35:8: error: [GHC-25897]
       ‘ríki’ is a rigid type variable bound by
         the type signature for:
           i :: forall {k5} {k6} {cls2 :: k6 -> Constraint} (xx :: k5)
-                      (a :: Struct cls2) (ríki :: Struct cls2 -> Struct cls2 -> *).
+                      (a :: Struct cls2) (ríki :: Struct cls2 -> Struct cls2 -> Type).
                StructI xx a =>
                ríki a a
         at T14846.hs:35:8-48
@@ -16,7 +16,7 @@ T14846.hs:35:8: error: [GHC-25897]
                       StructI xx a =>
                       Hom riki a a
            Class sig: forall {k1} {k2} {cls :: k2 -> Constraint} (xx :: k1)
-                             (a :: Struct cls) (ríki :: Struct cls -> Struct cls -> *).
+                             (a :: Struct cls) (ríki :: Struct cls -> Struct cls -> Type).
                       StructI xx a =>
                       ríki a a
       In the instance declaration for ‘Category (Hom riki)’

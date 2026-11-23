@@ -14,14 +14,14 @@
 # pragmas a package then needs are recorded as a patch.
 module Strip
   # The extensions this compiler has removed. Their behaviour is fixed
-  # (always on, or always off for CUSKs), so dropping the name changes
+  # (always on, or always off for CUSKs and StarIsType), so dropping the name changes
   # nothing the compiler could still do for the package.
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional CUSKs
     ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
     IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    ParallelArrays PolyKinds RelaxedPolyRec TypeInType
+    ParallelArrays PolyKinds RelaxedPolyRec StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

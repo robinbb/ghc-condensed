@@ -2,7 +2,9 @@
 
 module T12444a where
 
-type family F a :: *
+import Data.Kind (Type)
+
+type family F a :: Type
 type instance F (Maybe x) = Maybe (F x)
 
 foo :: a -> Maybe (F a)

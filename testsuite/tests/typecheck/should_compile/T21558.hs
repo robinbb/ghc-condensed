@@ -2,10 +2,11 @@
 {-# LANGUAGE UndecidableInstances #-}
 module T21558 where
 
+import Data.Kind (Type)
 import Data.Map
 
-type family IxValue (m :: *) :: *
-type family Index (m :: *) :: *
+type family IxValue (m :: Type) :: Type
+type family Index (m :: Type) :: Type
 
 data Op a where
   Insert :: (a ~ Map (Index a) (IxValue a)) => (Int, Index a, IxValue a) -> Op a

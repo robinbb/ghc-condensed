@@ -1,9 +1,9 @@
-type E :: forall {k}. k -> k -> *
+type E :: forall {k}. k -> k -> Type
 type family E a b where
   forall k (a :: k). E a a = ()
   forall k (a :: k) (b :: k). E a b = Bool
   	-- Defined at <interactive>:3:1
-type E :: forall {k}. k -> k -> *
+type E :: forall {k}. k -> k -> Type
 type family E a b where
   {- #0 -} forall k (a :: k). E a a = ()
   {- #1 -} forall k (a :: k) (b :: k). E a b = Bool

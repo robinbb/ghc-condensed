@@ -586,7 +586,6 @@ dsExpr (HsGetField x _ _) = dataConCantHappen x
 dsExpr (HsProjection x _) = dataConCantHappen x
 dsExpr (RecordUpd x _ _)  = dataConCantHappen x
 dsExpr (HsEmbTy x _)      = dataConCantHappen x
-dsExpr (HsStar x)         = dataConCantHappen x
 dsExpr (HsQual x _ _)     = dataConCantHappen x
 dsExpr (HsForAll x _ _)   = dataConCantHappen x
 dsExpr (HsFunArr x _ _ _) = dataConCantHappen x

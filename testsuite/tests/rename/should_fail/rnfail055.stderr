@@ -1,9 +1,9 @@
 RnFail055.hs-boot:7:1: error: [GHC-15843]
     • Type constructor ‘S1’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type S1 :: * -> * -> *
+      Main module: type S1 :: Type -> Type -> Type
                    type S1 a b = (a, b)
-        Boot file: type S1 :: forall {k}. * -> * -> k -> *
+        Boot file: type S1 :: forall {k}. Type -> Type -> k -> Type
                    type S1 a b c = (a, b)
       The types have different kinds.
     • In the type synonym declaration for ‘S1’
@@ -11,9 +11,9 @@ RnFail055.hs-boot:7:1: error: [GHC-15843]
 RnFail055.hs-boot:9:1: error: [GHC-15843]
     • Type constructor ‘S2’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type S2 :: forall {k}. k -> * -> *
+      Main module: type S2 :: forall {k}. k -> Type -> Type
                    type S2 a b = forall a1. (a1, b)
-        Boot file: type S2 :: forall {k}. * -> k -> *
+        Boot file: type S2 :: forall {k}. Type -> k -> Type
                    type S2 a b = forall b1. (a, b1)
       The types have different kinds.
     • In the type synonym declaration for ‘S2’
@@ -21,9 +21,9 @@ RnFail055.hs-boot:9:1: error: [GHC-15843]
 RnFail055.hs-boot:13:1: error: [GHC-15843]
     • Type constructor ‘T1’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type T1 :: * -> * -> *
+      Main module: type T1 :: Type -> Type -> Type
                    data T1 a b = T1 [b] [a]
-        Boot file: type T1 :: * -> * -> *
+        Boot file: type T1 :: Type -> Type -> Type
                    data T1 a b = T1 [a] [b]
       The constructors do not match: The types for ‘T1’ differ.
     • In the data type declaration for ‘T1’
@@ -31,9 +31,9 @@ RnFail055.hs-boot:13:1: error: [GHC-15843]
 RnFail055.hs-boot:17:1: error: [GHC-15843]
     • Type constructor ‘T3’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type T3 :: *
+      Main module: type T3 :: Type
                    data T3 = T3'
-        Boot file: type T3 :: *
+        Boot file: type T3 :: Type
                    data T3 = T3
       The constructors do not match: The names ‘T3’ and ‘T3'’ differ.
     • In the data type declaration for ‘T3’
@@ -41,9 +41,9 @@ RnFail055.hs-boot:17:1: error: [GHC-15843]
 RnFail055.hs-boot:18:1: error: [GHC-15843]
     • Type constructor ‘T3'’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type T3' :: *
+      Main module: type T3' :: Type
                    data T3' = T3
-        Boot file: type T3' :: *
+        Boot file: type T3' :: Type
                    data T3' = T3'
       The constructors do not match: The names ‘T3'’ and ‘T3’ differ.
     • In the data type declaration for ‘T3'’
@@ -51,9 +51,9 @@ RnFail055.hs-boot:18:1: error: [GHC-15843]
 RnFail055.hs-boot:22:1: error: [GHC-15843]
     • Type constructor ‘T5’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type T5 :: * -> *
+      Main module: type T5 :: Type -> Type
                    data T5 a = T5 {field5 :: a}
-        Boot file: type T5 :: * -> *
+        Boot file: type T5 :: Type -> Type
                    data T5 a = T5 a
       The constructors do not match:
         The record label lists for ‘T5’ differ.
@@ -62,9 +62,9 @@ RnFail055.hs-boot:22:1: error: [GHC-15843]
 RnFail055.hs-boot:24:1: error: [GHC-15843]
     • Type constructor ‘T6’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type T6 :: *
+      Main module: type T6 :: Type
                    data T6 = T6 Int
-        Boot file: type T6 :: *
+        Boot file: type T6 :: Type
                    data T6 = T6 !Int
       The constructors do not match:
         The strictness annotations for ‘T6’ differ.
@@ -74,9 +74,9 @@ RnFail055.hs-boot:26:1: error: [GHC-15843]
     • Type constructor ‘T7’ has conflicting definitions in the module
       and its hs-boot file.
       Main module: type role T7 phantom
-                   type T7 :: forall {k}. k -> *
+                   type T7 :: forall {k}. k -> Type
                    data T7 a = forall a2. T7 a2
-        Boot file: type T7 :: * -> *
+        Boot file: type T7 :: Type -> Type
                    data T7 a = forall {k} (b :: k). T7 a
       The types have different kinds.
     • In the data type declaration for ‘T7’
@@ -86,7 +86,7 @@ RnFail055.hs-boot:28:1: error: [GHC-15843]
       and its hs-boot file.
       Main module: type C1 :: forall {k} {k1}. k -> k1 -> Constraint
                    class C1 a b
-        Boot file: type C1 :: * -> * -> Constraint
+        Boot file: type C1 :: Type -> Type -> Constraint
                    class C1 a b where
                      RnFail055.m1 :: a -> b
                      {-# MINIMAL m1 #-}
@@ -96,12 +96,12 @@ RnFail055.hs-boot:28:1: error: [GHC-15843]
 RnFail055.hs-boot:29:1: error: [GHC-15843]
     • Class ‘C2’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type C2 :: * -> * -> Constraint
+      Main module: type C2 :: Type -> Type -> Constraint
                    class C2 a b where
                      m2 :: a -> b
                      m2' :: a -> b
                      {-# MINIMAL m2, m2' #-}
-        Boot file: type C2 :: * -> * -> Constraint
+        Boot file: type C2 :: Type -> Type -> Constraint
                    class C2 a b where
                      m2 :: a -> b
                      {-# MINIMAL m2 #-}
@@ -113,9 +113,9 @@ RnFail055.hs-boot:29:1: error: [GHC-15843]
 RnFail055.hs-boot:30:1: error: [GHC-15843]
     • Class ‘C3’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type C3 :: * -> Constraint
+      Main module: type C3 :: Type -> Constraint
                    class (Eq a, Ord a) => C3 a
-        Boot file: type C3 :: * -> Constraint
+        Boot file: type C3 :: Type -> Constraint
                    class (Ord a, Eq a) => C3 a
       The superclass constraints do not match.
     • In the class declaration for ‘C3’

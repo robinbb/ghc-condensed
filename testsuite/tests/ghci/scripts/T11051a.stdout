@@ -1,2 +1,2 @@
-type Hi :: *
+type Hi :: Type
 data Hi

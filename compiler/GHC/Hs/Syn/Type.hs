@@ -159,7 +159,6 @@ hsExprType (HsProc _ pat (L _ (HsCmdTop cmd_top_tc _))) =
 hsExprType (HsStatic (ty,_) _s) = ty
 hsExprType (HsPragE _ _ e) = lhsExprType e
 hsExprType (HsEmbTy x _) = dataConCantHappen x
-hsExprType (HsStar x) = dataConCantHappen x
 hsExprType (HsHole (_, (HER _ ty _))) = ty
 hsExprType (HsQual x _ _) = dataConCantHappen x
 hsExprType (HsForAll x _ _) = dataConCantHappen x

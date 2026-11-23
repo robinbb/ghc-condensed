@@ -2,9 +2,11 @@
 
 module ShouldFail where
 
+import Data.Kind (Type)
+
 class C3 a where
-  data    S3  a :: *
-  data    S3n a :: *
+  data    S3  a :: Type
+  data    S3n a :: Type
   foo3  :: a -> S3 a
   foo3n :: a -> S3n a
   bar3  :: S3 a -> a

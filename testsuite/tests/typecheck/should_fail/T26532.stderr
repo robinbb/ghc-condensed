@@ -44,7 +44,8 @@ T26532.hs:35:9: error: [GHC-39999]
     • No instance for ‘Typeable ProxyPolyDF’
         arising from a use of ‘typeRep’
       NB: The kind of ‘ProxyPolyDF’
-        ‘(forall k. * -> k) -> *’ contains foralls,
+        ‘(forall k. Type -> k) -> Type’ contains foralls,
       for which the built-in ‘Typeable’ solver cannot produce evidence.
     • In the expression: typeRep
       In an equation for ‘test6’: test6 = typeRep
+

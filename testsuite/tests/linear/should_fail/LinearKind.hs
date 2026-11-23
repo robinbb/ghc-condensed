@@ -1,4 +1,6 @@
 {-# LANGUAGE LinearTypes #-}
 module LinearKind where
 
-data A :: * %1 -> *
+import Data.Kind (Type)
+
+data A :: Type %1 -> Type

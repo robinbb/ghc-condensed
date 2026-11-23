@@ -11,6 +11,7 @@
 
 module T18129 where
 
+import Data.Kind (Type)
 import Data.Kind (Constraint)
 import Data.Proxy (Proxy)
 import Data.Typeable (Typeable)
@@ -34,13 +35,13 @@ type SListI = All Top
 -- Next, user code, minimised.
 --
 data GADT
-  = forall (xs :: [*]) (a :: *)
+  = forall (xs :: [Type]) (a :: Type)
     . (Top a, All Typeable xs)
     => GADT
 
 withSomePipe'
   :: GADT
-  -> (forall (xs :: [*])
+  -> (forall (xs :: [Type])
       . (Proxy xs -> GADT)
       -> GADT)
   -> GADT

@@ -865,7 +865,6 @@ type instance XHsLinearArr DocNameI = NoExtField
 type instance XForAllTy DocNameI = EpAnn NoEpAnns
 type instance XQualTy DocNameI = EpAnn NoEpAnns
 type instance XTyVar DocNameI = EpAnn NoEpAnns
-type instance XStarTy DocNameI = EpAnn NoEpAnns
 type instance XAppTy DocNameI = EpAnn NoEpAnns
 type instance XAppKindTy DocNameI = EpAnn NoEpAnns
 type instance XFunTy DocNameI = EpAnn NoEpAnns

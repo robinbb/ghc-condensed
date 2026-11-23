@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleContexts, TypeFamilies #-}
 module T7729a where
+import Data.Kind (Type)
 import Control.Monad
 
 class Monad m => PrimMonad m where
@@ -9,7 +10,7 @@ class MonadTrans t where
   lift :: Monad m => m a -> t m a
 
 class (PrimMonad (BasePrimMonad m), Monad m) => MonadPrim m where
-  type BasePrimMonad m :: * -> *
+  type BasePrimMonad m :: Type -> Type
   liftPrim :: BasePrimMonad m a -> m a
 
 

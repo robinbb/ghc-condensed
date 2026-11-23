@@ -4,9 +4,9 @@ Result size of Tidy Core
   = {terms: 45, types: 41, coercions: 0, joins: 2/2}
 
 -- RHS size: {terms: 30, types: 24, coercions: 0, joins: 2/2}
-f :: forall (t :: * -> *) a. Foldable t => t a -> Maybe Int
+f :: forall (t :: Type -> Type) a. Foldable t => t a -> Maybe Int
 [GblId, Arity=2]
-f = \ (@ (t :: * -> *))
+f = \ (@ (t :: Type -> Type))
       (@ a)
       ($dFoldable :: Foldable t)
       (xs :: t a) ->

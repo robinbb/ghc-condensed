@@ -7,10 +7,10 @@ TYPE SIGNATURES
     (Elem c ~ (a, b), Coll c, Num a, Num b) =>
     c -> c
 TYPE CONSTRUCTORS
-  class Coll{1} :: * -> Constraint
-  associated type family Elem{1} :: * -> *
+  class Coll{1} :: Type -> Constraint
+  associated type family Elem{1} :: Type -> Type
     roles nominal
-  data type ListColl{1} :: * -> *
+  data type ListColl{1} :: Type -> Type
 COERCION AXIOMS
   axiom Foo.D:R:ElemListColl :: Elem (ListColl a) = a
 DATA CONSTRUCTORS
@@ -20,4 +20,4 @@ CLASS INSTANCES
 FAMILY INSTANCES
   type instance Elem (ListColl a) = a -- Defined at T3017.hs:13:9
 Dependent modules: []
-Dependent packages: [(normal, base-4.21.0.0)]
+Dependent packages: [(normal, base-4.23.0.0)]

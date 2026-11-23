@@ -1,13 +1,13 @@
-Int :: *
-Maybe :: * -> *
-F [[[Int]]] :: *
-F [[[Int]]] :: *
+Int :: Type
+Maybe :: Type -> Type
+F [[[Int]]] :: Type
+F [[[Int]]] :: Type
 = [[Int]] -> [Int] -> Int -> Bool
-F (Maybe Int) :: *
+F (Maybe Int) :: Type
 = Char
-F (Maybe Bool) :: *
+F (Maybe Bool) :: Type
 = Char
-forall a. F (Maybe a) :: *
+forall a. F (Maybe a) :: Type
 = Char
 $(unboxedTupleT 2) :: forall (k0 :: RuntimeRep) (k1 :: RuntimeRep).
                       TYPE k0

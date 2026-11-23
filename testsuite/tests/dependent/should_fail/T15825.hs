@@ -5,7 +5,9 @@
 
 module T15825 where
 
-type C k = (forall (x::k). *)
+import Data.Kind (Type)
 
-class                         X (a :: *)
-instance forall k (a :: C k). X (a :: *)
+type C k = (forall (x::k). Type)
+
+class                         X (a :: Type)
+instance forall k (a :: C k). X (a :: Type)

@@ -1,6 +1,6 @@
 MkT :: a -> T a
 MkT :: a %1 -> T a
-type T :: * -> *
+type T :: Type -> Type
 data T a where
   MkT :: a %1 -> a -> T a
   	-- Defined at <interactive>:6:1

@@ -1,4 +1,3 @@
-
 tcfail036.hs:8:10: error: [GHC-59692]
     Duplicate instance declarations:
       instance Num NUM -- Defined at tcfail036.hs:8:10
@@ -6,6 +5,7 @@ tcfail036.hs:8:10: error: [GHC-59692]
 
 tcfail036.hs:11:13: error: [GHC-83865]
     • Expecting one more argument to ‘Num’
-      Expected a type, but ‘Num’ has kind ‘* -> Constraint’
+      Expected a type, but ‘Num’ has kind ‘Type -> Constraint’
     • In the first argument of ‘Eq’, namely ‘Num’
       In the instance declaration for ‘Eq Num’
+

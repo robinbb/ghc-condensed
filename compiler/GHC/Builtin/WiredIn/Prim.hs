@@ -734,9 +734,6 @@ GHC.Builtin.WiredIn.Types
 
   data Levity = Lifted | Unlifted
 
-We abbreviate '*' specially (with -XStarIsType), as if we had this:
-    type * = Type
-
 So for example:
     Int        :: TYPE (BoxedRep Lifted)
     Array# Int :: TYPE (BoxedRep Unlifted)

@@ -1,8 +1,8 @@
 T8603.hs:33:17: error: [GHC-18872]
-    • Couldn't match kind ‘*’ with ‘* -> *’
+    • Couldn't match kind ‘Type’ with ‘Type -> Type’
       When matching types
-        m0 :: * -> *
-        [a0] :: *
+        m0 :: Type -> Type
+        [a0] :: Type
       Expected: [a0] -> StateT s RV a2
         Actual: t0 m0 (StateT s RV a2)
     • The function ‘lift’ is applied to two visible arguments,

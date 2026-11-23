@@ -1,6 +1,6 @@
 TYPE CONSTRUCTORS
-  data type T1{1} :: * -> *
-  data type T2{1} :: * -> *
+  data type T1{1} :: Type -> Type
+  data type T2{1} :: Type -> Type
     roles phantom
 DATA CONSTRUCTORS
   K2 :: forall a. FunPtr a -> T2 a

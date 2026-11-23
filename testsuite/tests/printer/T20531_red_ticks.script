@@ -1,4 +1,4 @@
-:set -fprint-redundant-promotion-ticks -XNoStarIsType
+:set -fprint-redundant-promotion-ticks
 :load T20531_defs
 :kind! L0
 :kind! L1

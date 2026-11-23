@@ -1,8 +1,8 @@
-T7696.hs:8:6: error: [GHC-18872]
-    • Couldn't match kind ‘*’ with ‘k0 -> *’
+T7696.hs:10:6: error: [GHC-18872]
+    • Couldn't match kind ‘Type’ with ‘k0 -> Type’
       When matching types
-        m0 :: k0 -> *
-        () :: *
+        m0 :: k0 -> Type
+        () :: Type
       Expected: ((), w ())
         Actual: (m0 a0, t0 m0)
     • In the expression: f1

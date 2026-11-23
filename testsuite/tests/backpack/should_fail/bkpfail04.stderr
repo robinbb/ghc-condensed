@@ -1,15 +1,15 @@
 [1 of 3] Processing p
-  [1 of 1] Compiling A[sig]           ( p\A.hsig, nothing )
+  [1 of 1] Compiling A[sig]           ( p/A.hsig, nothing )
 [2 of 3] Processing q
-  [1 of 1] Compiling A[sig]           ( q\A.hsig, nothing )
+  [1 of 1] Compiling A[sig]           ( q/A.hsig, nothing )
 [3 of 3] Processing r
-  [1 of 4] Compiling A[sig]           ( r\A.hsig, nothing )
+  [1 of 4] Compiling A[sig]           ( r/A.hsig, nothing )
 bkpfail04.bkp:7:9: error: [GHC-15843]
     • Type constructor ‘A’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type A :: *
+      Main module: type A :: Type
                    data A = A {foo :: Int}
-        Hsig file: type A :: *
+        Hsig file: type A :: Type
                    data A = A {bar :: Bool}
       The constructors do not match:
         • The record label lists for ‘A’ differ.

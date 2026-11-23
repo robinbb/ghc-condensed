@@ -5,7 +5,7 @@ module T11473 where
 import GHC.Exts
 import GHC.Types
 
-type family Boxed (a :: k) :: *
+type family Boxed (a :: k) :: Type
 type instance Boxed Char# = Char
 type instance Boxed Char  = Char
 

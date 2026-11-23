@@ -1,7 +1,7 @@
-T14230.hs:10:3: error: [GHC-95424]
+T14230.hs:12:3: error: [GHC-95424]
     • Type indexes must match class instance head
       Expected: CD @(Maybe a)
-        Actual: CD @(k -> *)
+        Actual: CD @(k -> Type)
     • In the associated data family instance declaration for ‘CD’
       In the instance declaration for ‘C (Maybe a)’
 

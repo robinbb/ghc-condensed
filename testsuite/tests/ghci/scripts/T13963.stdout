@@ -1,8 +1,8 @@
-Pair :: * -> * -> RuntimeRep -> *
-Pair Int :: * -> RuntimeRep -> *
-Pair Int Float :: RuntimeRep -> *
-Pair Int Float LiftedRep :: *
-Pair :: TYPE rep -> TYPE rep' -> RuntimeRep -> *
-Pair Int :: * -> RuntimeRep -> *
-Pair Int Float :: RuntimeRep -> *
-Pair Int Float LiftedRep :: *
+Pair :: Type -> Type -> RuntimeRep -> Type
+Pair Int :: Type -> RuntimeRep -> Type
+Pair Int Float :: RuntimeRep -> Type
+Pair Int Float LiftedRep :: Type
+Pair :: TYPE rep -> TYPE rep' -> RuntimeRep -> Type
+Pair Int :: Type -> RuntimeRep -> Type
+Pair Int Float :: RuntimeRep -> Type
+Pair Int Float LiftedRep :: Type

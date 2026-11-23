@@ -676,9 +676,6 @@ rnHsTyKi env t@(HsIParamTy x n ty)
        ; (ty', fvs) <- rnLHsTyKi env ty
        ; return (HsIParamTy x n ty', fvs) }
 
-rnHsTyKi _ (HsStarTy x)
-  = return (HsStarTy x, emptyFNs)
-
 rnHsTyKi _ (HsSpliceTy _ sp)
   = rnSpliceType sp
 
@@ -2161,7 +2158,6 @@ extract_lty (L _ ty) acc
       HsExplicitListTy _ _ tys    -> extract_ltys tys acc
       HsExplicitTupleTy _ _ tys   -> extract_ltys tys acc
       HsTyLit _ _                 -> acc
-      HsStarTy _                  -> acc
       HsKindSig _ ty ki           -> extract_kind_sig ty ki acc
       HsForAllTy { hst_tele = tele, hst_body = ty }
                                   -> extract_hs_for_all_telescope tele acc $

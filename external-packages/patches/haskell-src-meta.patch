@@ -161,7 +161,13 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -352,7 +330,6 @@
+@@ -346,13 +324,11 @@
+ #endif
+ 
+   TH.NumericUnderscores                -> Nothing
+-  TH.StarIsType                        -> Nothing
+ #endif
+ 
  -- 2.16.0 ----------------------------------------
  #if MIN_VERSION_template_haskell(2,16,0)
    TH.UnliftedNewtypes                  -> Nothing

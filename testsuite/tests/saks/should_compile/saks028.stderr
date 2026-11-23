@@ -1,1 +1,1 @@
-(* -> *) -> Constraint
+(Type -> Type) -> Constraint

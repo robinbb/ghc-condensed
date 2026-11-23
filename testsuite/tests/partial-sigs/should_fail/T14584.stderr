@@ -1,5 +1,5 @@
 T14584.hs:54:50: warning: [GHC-25897] [-Wdeferred-type-errors (in -Wdefault)]
-    • Could not deduce ‘m ~ *’
+    • Could not deduce ‘m ~ Type’
       from the context: (Action act, Monoid a, Good m)
         bound by the instance declaration at T14584.hs:52:10-89
       ‘m’ is a rigid type variable bound by

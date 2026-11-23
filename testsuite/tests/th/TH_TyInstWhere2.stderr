@@ -4,8 +4,8 @@ TH_TyInstWhere2.hs:8:2: warning: [GHC-39584]
     F_0 a_5 b_6 = 'GHC.Internal.Types.False
 
 TH_TyInstWhere2.hs:14:2: warning: [GHC-39584]
-    type family F1_0 (a_1 :: k_2) :: * where
-    F1_0 @(*) GHC.Internal.Types.Int = GHC.Internal.Types.Bool
+    type family F1_0 (a_1 :: k_2) :: Type where
+    F1_0 @Type GHC.Internal.Types.Int = GHC.Internal.Types.Bool
     F1_0 @GHC.Internal.Types.Bool
          'GHC.Internal.Types.False = GHC.Internal.Types.Char
 

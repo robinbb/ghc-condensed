@@ -12,10 +12,10 @@
 bkpfail26.bkp:16:9: error: [GHC-15843]
     • Type constructor ‘T’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type T :: * -> *
+      Main module: type T :: Type -> Type
                    type T a = [a]
         Hsig file: type role T nominal
-                   type T :: forall {k}. k -> *
+                   type T :: forall {k}. k -> Type
                    data T a
       The types have different kinds.
     • While checking that ‘q:H’ implements signature ‘H’ in ‘p[H=q:H]’.

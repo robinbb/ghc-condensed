@@ -1,4 +1,3 @@
-:set -XNoStarIsType
 :load T20531_defs
 :kind! L0
 :kind! L1

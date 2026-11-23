@@ -4,7 +4,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE StarIsType #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns -fwarn-overlapping-patterns #-}
@@ -12,6 +11,7 @@
 module T3927b where
 
 import Data.Proxy
+import Data.Kind (Type)
 import GHC.Exts
 
 data Message
@@ -31,17 +31,17 @@ type family Implements (t :: SocketType) :: [SocketOperation] where
     Implements Push = '[Write]
     Implements Pull = '[ 'Read]
 
-data SockOp :: SocketType -> SocketOperation -> * where
+data SockOp :: SocketType -> SocketOperation -> Type where
     SRead :: SockOp sock 'Read
     SWrite :: SockOp sock Write
 
-data Socket :: SocketType -> * where
+data Socket :: SocketType -> Type where
     Socket :: proxy sock
            -> (forall op . Restrict op (Implements sock)
                  => SockOp sock op -> Operation op)
            -> Socket sock
 
-type family Operation (op :: SocketOperation) :: * where
+type family Operation (op :: SocketOperation) :: Type where
     Operation 'Read = IO Message
     Operation Write = Message -> IO ()
 

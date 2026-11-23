@@ -1,10 +1,10 @@
 T15801.hs:49:10: error: [GHC-18872]
-    • Couldn't match kind ‘*’ with ‘Op (*)’
+    • Couldn't match kind ‘Type’ with ‘Op Type’
       When matching types
-        b :: Op (*)
-        UnOp b :: *
+        b :: Op Type
+        UnOp b :: Type
       • Note: We cannot know what roles the parameters to ‘(-->)
                                                              op_a’ have;
               we must assume that the role is nominal.
-    • In the instance declaration for ‘OpRíki (Op (*))’
+    • In the instance declaration for ‘OpRíki (Op Type)’
 

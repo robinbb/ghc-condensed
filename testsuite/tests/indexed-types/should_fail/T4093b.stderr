@@ -1,22 +1,22 @@
-T4093b.hs:31:13: error: [GHC-25897]
+T4093b.hs:33:13: error: [GHC-25897]
     • Could not deduce ‘e ~ C’
       from the context: (EitherCO e (A C O n) (A O O n) ~ A e O n,
                          EitherCO x (A C C n) (A C O n) ~ A C x n)
         bound by the type signature for:
-                   blockToNodeList :: forall (n :: * -> * -> *) e x.
+                   blockToNodeList :: forall (n :: Type -> Type -> Type) e x.
                                       (EitherCO e (A C O n) (A O O n) ~ A e O n,
                                        EitherCO x (A C C n) (A C O n) ~ A C x n) =>
                                       Block n e x -> A e x n
-        at T4093b.hs:(19,1)-(22,26)
+        at T4093b.hs:(21,1)-(24,26)
       Expected: EitherCO e (A C O n) (A O O n)
         Actual: (MaybeC C (n C O), MaybeC O (n O C))
       ‘e’ is a rigid type variable bound by
         the type signature for:
-          blockToNodeList :: forall (n :: * -> * -> *) e x.
+          blockToNodeList :: forall (n :: Type -> Type -> Type) e x.
                              (EitherCO e (A C O n) (A O O n) ~ A e O n,
                               EitherCO x (A C C n) (A C O n) ~ A C x n) =>
                              Block n e x -> A e x n
-        at T4093b.hs:(19,1)-(22,26)
+        at T4093b.hs:(21,1)-(24,26)
     • In the expression: (JustC n, NothingC)
       In an equation for ‘f’: f n _ = (JustC n, NothingC)
       In an equation for ‘blockToNodeList’:
@@ -37,10 +37,10 @@ T4093b.hs:31:13: error: [GHC-25897]
     • Relevant bindings include
         f :: n C O
              -> EitherCO e (A C O n) (A O O n) -> EitherCO e (A C O n) (A O O n)
-          (bound at T4093b.hs:31:5)
+          (bound at T4093b.hs:33:5)
         l :: n O C
              -> EitherCO e (A C O n) (A O O n) -> EitherCO e (A C C n) (A O C n)
-          (bound at T4093b.hs:34:5)
-        b :: Block n e x (bound at T4093b.hs:25:17)
-        blockToNodeList :: Block n e x -> A e x n (bound at T4093b.hs:25:1)
+          (bound at T4093b.hs:36:5)
+        b :: Block n e x (bound at T4093b.hs:27:17)
+        blockToNodeList :: Block n e x -> A e x n (bound at T4093b.hs:27:1)
 

@@ -1,5 +1,5 @@
 T16344.hs:6:46: error: [GHC-25897]
-    • Expected kind ‘ka’, but ‘Int’ has kind ‘*’
+    • Expected kind ‘ka’, but ‘Int’ has kind ‘Type’
     • In the second argument of ‘T’, namely ‘Int’
       In the type ‘(T Type Int Bool)’
       In the definition of data constructor ‘MkT’

@@ -3,7 +3,9 @@
 
 module T10778 where
 
-type family F a :: *
+import Data.Kind (Type)
+
+type family F a :: Type
 class C a b | a -> b
 
 instance C p (F q) => C p [q]

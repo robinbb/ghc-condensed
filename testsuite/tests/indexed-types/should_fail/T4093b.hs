@@ -2,10 +2,12 @@
 
 module T4093b where
 
+import Data.Kind (Type)
+
 data C
 data O
 
-type family   EitherCO e a b :: *
+type family   EitherCO e a b :: Type
 type instance EitherCO C a b = a
 type instance EitherCO O a b = b
 
@@ -13,7 +15,7 @@ data MaybeC ex t where
   JustC    :: t -> MaybeC C t
   NothingC ::      MaybeC O t
 
-data Block (n :: * -> * -> *) e x
+data Block (n :: Type -> Type -> Type) e x
 
 
 blockToNodeList ::

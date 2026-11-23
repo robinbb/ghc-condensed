@@ -15,7 +15,7 @@ subsumption_sort_hole_fits.hs:2:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdef
           with repeat @String
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.List’))
-        fail :: forall (m :: * -> *) a.
+        fail :: forall (m :: Type -> Type) a.
                 (MonadFail m, GHC.Internal.Stack.Types.HasCallStack) =>
                 String -> m a
           with fail @[]
@@ -28,11 +28,11 @@ subsumption_sort_hole_fits.hs:2:5: warning: [GHC-88464] [-Wtyped-holes (in -Wdef
         read :: forall a. Read a => String -> a
           with read @[String]
           (imported from ‘Prelude’ (and originally defined in ‘Text.Read’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @[]
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))

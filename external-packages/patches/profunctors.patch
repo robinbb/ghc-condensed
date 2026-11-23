@@ -1,0 +1,28 @@
+--- a/external-packages/profunctors/src/Data/Profunctor/Rep.hs
++++ b/external-packages/profunctors/src/Data/Profunctor/Rep.hs
+@@ -43,6 +43,7 @@
+   , coprepCounit
+   ) where
+ 
++import Data.Kind (Type)
+ import Control.Applicative
+ import Control.Arrow
+ import Control.Comonad
+@@ -58,7 +59,7 @@
+ -- | A 'Profunctor' @p@ is 'Representable' if there exists a 'Functor' @f@ such that
+ -- @p d c@ is isomorphic to @d -> f c@.
+ class (Sieve p (Rep p), Strong p) => Representable p where
+-  type Rep p :: * -> *
++  type Rep p :: Type -> Type
+   -- | Laws:
+   --
+   -- @
+@@ -119,7 +120,7 @@
+ -- | A 'Profunctor' @p@ is 'Corepresentable' if there exists a 'Functor' @f@ such that
+ -- @p d c@ is isomorphic to @f d -> c@.
+ class (Cosieve p (Corep p), Costrong p) => Corepresentable p where
+-  type Corep p :: * -> *
++  type Corep p :: Type -> Type
+   -- | Laws:
+   --
+   -- @

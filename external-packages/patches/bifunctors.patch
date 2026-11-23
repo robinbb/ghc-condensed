@@ -18,3 +18,30 @@
    deriving (Arbitrary, Eq, Foldable, Functor, Show, Traversable)
  
  newtype ComplexConstraint f g a b = ComplexConstraint (f Int Int (g a,a,b))
+--- a/external-packages/bifunctors/tests/BifunctorSpec.hs
++++ b/external-packages/bifunctors/tests/BifunctorSpec.hs
+@@ -170,7 +170,7 @@
+   fmap f (TyCon81a g) = TyCon81a g
+   fmap f (TyCon81b g) = TyCon81b (\x y -> f (g x y))
+ 
+-type family F :: * -> * -> *
++type family F :: Type -> Type -> Type
+ type instance F = Either
+ 
+ data TyCon82 a b = TyCon82 (F a b)
+@@ -218,13 +218,13 @@
+     | S3Fam b
+   deriving (Functor, Foldable, Traversable)
+ 
+-data family      OneTwoComposeFam (j :: * -> *) (k :: * -> * -> *) x y
++data family      OneTwoComposeFam (j :: Type -> Type) (k :: Type -> Type -> Type) x y
+ newtype instance OneTwoComposeFam f g a b = OneTwoComposeFam (f (g a b))
+   deriving ( Arbitrary, Eq, Show
+            , Functor, Foldable, Traversable
+            )
+ 
+-data family      ComplexConstraintFam (j :: * -> * -> * -> *) (k :: * -> *) x y
++data family      ComplexConstraintFam (j :: Type -> Type -> Type -> Type) (k :: Type -> Type) x y
+ newtype instance ComplexConstraintFam f g a b = ComplexConstraintFam (f Int Int (g a,a,b))
+ instance (Bifunctor (f Int), Functor g) =>
+     Functor (ComplexConstraintFam f g a) where

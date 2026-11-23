@@ -1,0 +1,24 @@
+--- a/external-packages/vendored/quickcheck-classes-base/src/Test/QuickCheck/Classes/Base.hs
++++ b/external-packages/vendored/quickcheck-classes-base/src/Test/QuickCheck/Classes/Base.hs
+@@ -77,6 +77,7 @@
+ --
+ 
+ -- Ground Types
++import Data.Kind (Type)
+ import Test.QuickCheck.Classes.Bits
+ import Test.QuickCheck.Classes.Enum
+ import Test.QuickCheck.Classes.Eq
+@@ -254,11 +255,11 @@
+ 
+ -- | In older versions of GHC, Proxy is not poly-kinded,
+ --   so we provide Proxy1.
+-data Proxy1 (f :: * -> *) = Proxy1
++data Proxy1 (f :: Type -> Type) = Proxy1
+ 
+ -- | In older versions of GHC, Proxy is not poly-kinded,
+ --   so we provide Proxy2.
+-data Proxy2 (f :: * -> * -> *) = Proxy2
++data Proxy2 (f :: Type -> Type -> Type) = Proxy2
+ 
+ -- This is used internally to work around a missing Monoid
+ -- instance for IO on older GHCs.

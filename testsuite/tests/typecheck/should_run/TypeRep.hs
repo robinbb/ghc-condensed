@@ -5,10 +5,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE StarIsType #-}
 {-# LANGUAGE UnicodeSyntax #-}
 
-{-# OPTIONS -Wno-star-is-type #-}
 
 import Data.Typeable
 import Data.Kind
@@ -51,8 +49,7 @@ main = do
   print $ rep @(Proxy 'EQ)
   print $ rep @(Proxy TYPE)
   print $ rep @(Proxy (TYPE ('BoxedRep 'Lifted)))
-  print $ rep @(Proxy *)
-  print $ rep @(Proxy ★)
+  print $ rep @(Proxy Type)
   print $ rep @(Proxy ('BoxedRep 'Lifted))
 
   -- Something lifted and primitive

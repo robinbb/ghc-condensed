@@ -687,7 +687,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
  PREFIX_TILDE   { L _ ITtilde }
  PREFIX_BANG    { L _ ITbang }
  PREFIX_MINUS   { L _ ITprefixminus }
- '*'            { L _ (ITstar _) }
  '-<'           { L _ (ITlarrowtail _) }            -- for arrow notation
  '>-'           { L _ (ITrarrowtail _) }            -- for arrow notation
  '-<<'          { L _ (ITLarrowtail _) }            -- for arrow notation
@@ -2375,8 +2374,6 @@ atype :: { LHsType GhcPs }
         -- See Note [%shift: atype -> tyvar]
         | tyvar %shift                   {% amsA' (sL1 $1 (HsTyVar noAnn NotPromoted $1)) }      -- (See Note [Unit tuples])
         | '_'   %shift                   { sL1a $1 $ HsWildCardTy (HoleVar (sL1a $1 unnamedHoleRdrName)) }
-        | '*'                            {% do { warnStarIsType (getLoc $1)
-                                               ; return $ sL1a $1 (HsStarTy (epUniTok $1)) } }
 
         -- See Note [Whitespace-sensitive operator parsing] in GHC.Parser.Lexer
         | PREFIX_TILDE atype             {% amsA' (sLL $1 $> (mkBangTy (glR $1) SrcLazy $2)) }
@@ -2914,29 +2911,18 @@ exp_gen(IEXP) :: { ECP }
         -- Embed types into expressions and patterns for required type arguments
         | 'type' atype             { ECP $ mkHsEmbTyPV (comb2 $1 $>) (epTok $1) $2 }
 
-infixexp2s :: { ECP }
-infixexp2s
-        : infixexp2 %shift { $1 }
-        | '*'              { ECP $ mkStarPV (epUniTok $1) }
-
 infixexp2 :: { ECP }
         : infixexp %shift       { $1 }
 
-        | '*' '->' infixexp2s   { ECP $
-                                  mkStarPV (epUniTok $1) >>= \ $1 ->
-                                  unECP $3    >>= \ $3 ->
-                                  let arr = HsModifiedFunArr noExtField [] $ HsStandardArr (EpArrow (epUniTok $2))
-                                  in mkHsArrowPV (comb2 $1 $>) ArrowIsFunType $1 arr $3 }
-
         -- View patterns and function arrows
-        | infixexp '->' infixexp2s
+        | infixexp '->' infixexp2
                                 { ECP $
                                   withArrowParsingMode' $ \mode ->
                                   unECP $1 >>= \ $1 ->
                                   unECP $3 >>= \ $3 ->
                                   let arr = HsModifiedFunArr noExtField [] $ HsStandardArr (EpArrow $ epUniTok $2)
                                   in mkHsArrowPV (comb2 $1 $>) mode $1 arr $3 }
-        | infixexp expModifiers1 '->'  infixexp2s
+        | infixexp expModifiers1 '->'  infixexp2
                                 { ECP $
                                   unECP $1         >>= \ $1 ->
                                   $2               >>= \ $2 ->
@@ -2944,7 +2930,7 @@ infixexp2 :: { ECP }
                                   hintLinear (getLoc $2) >>
                                   mkHsMultPV $2 (epUniTok $3) >>= \ arr ->
                                   mkHsArrowPV (comb2 $1 $>) ArrowIsFunType $1 arr $4 }
-        | infixexp expModifiers '->.' infixexp2s
+        | infixexp expModifiers '->.' infixexp2
                                 { ECP $
                                   hintLinear (getLoc $3) >>
                                   unECP $1 >>= \ $1 ->
@@ -2954,13 +2940,13 @@ infixexp2 :: { ECP }
                                                              (reverse $ unLoc $2)
                                                              (HsLinearArr (epTok $3))
                                   in mkHsArrowPV (comb2 $1 $>) ArrowIsFunType $1 arr $4 }
-        | expcontext    '=>'  infixexp2s
+        | expcontext    '=>'  infixexp2
                                 { ECP $
                                         $1 >>= \ $1 ->
                                   unECP $3 >>= \ $3 ->
                                   mkQualPV (comb2 $1 $>) (addTrailingDarrowA $1 (epUniTok $2) emptyComments) $3}
 
-        | forall_telescope infixexp2s
+        | forall_telescope infixexp2
                                 { ECP $
                                   unECP $2 >>= \ $2 ->
                                   mkHsForallPV (comb2 $1 $>) (unLoc $1) $2 }
@@ -4146,7 +4132,6 @@ special_id
 
 special_sym :: { Located FastString }
 special_sym : '.'       { sL1 $1 (fsLit ".") }
-            | '*'       { sL1 $1 (starSym (isUnicodeSyntax $1)) }
 
 -----------------------------------------------------------------------------
 -- Data constructors
@@ -4360,7 +4345,6 @@ isUnicode (L _ (IToparenbar      iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITcparenbar      iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITopenExpQuote _ iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITcloseQuote     iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITstar           iu)) = iu == UnicodeSyntax
 isUnicode (L _ ITlolly)               = True
 isUnicode _                           = False
 

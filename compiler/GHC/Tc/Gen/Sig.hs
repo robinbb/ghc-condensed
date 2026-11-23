@@ -315,7 +315,6 @@ no_anon_wc_ty lty = go lty
       HsSpliceTy (HsUntypedSpliceNested _) _ -> True
       HsTyLit{} -> True
       HsTyVar{} -> True
-      HsStarTy{} -> True
       XHsType{} -> True       -- HsCoreTy, which does not have any wildcard
 
     gos = all go

@@ -1,5 +1,5 @@
 type role Equal nominal nominal
-type Equal :: forall {k}. k -> k -> *
+type Equal :: forall {k}. k -> k -> Type
 data Equal a b where
   Equal :: forall {k} (a :: k). Equal a a
   	-- Defined at T4087.hs:6:1

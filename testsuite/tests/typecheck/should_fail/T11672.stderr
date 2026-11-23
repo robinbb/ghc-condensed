@@ -1,10 +1,10 @@
 T11672.hs:7:10: error: [GHC-18872]
-    • Couldn't match kind ‘*’ with ‘Symbol’
+    • Couldn't match kind ‘Type’ with ‘Symbol’
       When matching types
         a0 :: Symbol
-        Int -> Bool :: *
+        Int -> Bool :: Type
       Expected: Proxy @{Symbol} a0
-        Actual: Proxy @{*} (Int -> Bool)
+        Actual: Proxy @{Type} (Int -> Bool)
     • In the first argument of ‘f’, namely
         ‘(Proxy :: Proxy (Int -> Bool))’
       In the expression: f (Proxy :: Proxy (Int -> Bool))

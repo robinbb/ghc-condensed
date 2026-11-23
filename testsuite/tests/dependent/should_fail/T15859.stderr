@@ -1,6 +1,6 @@
 T15859.hs:8:19: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
-        forall k -> k -> *
+        forall k -> k -> Type
     • In an expression type signature: forall k -> k -> Type
       In the expression: (undefined :: forall k -> k -> Type) @Int
       In an equation for ‘a’:

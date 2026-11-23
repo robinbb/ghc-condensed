@@ -1401,9 +1401,6 @@ rn_ty_pat (HsIParamTy an n ty) = do
   ty' <- rn_lty_pat ty
   pure (HsIParamTy an n ty')
 
-rn_ty_pat (HsStarTy an) =
-  pure (HsStarTy an)
-
 rn_ty_pat (HsDocTy an ty haddock_doc) = do
   ty' <- rn_lty_pat ty
   haddock_doc' <- liftRn $ rnLHsDoc haddock_doc

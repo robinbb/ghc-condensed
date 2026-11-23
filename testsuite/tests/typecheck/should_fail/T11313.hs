@@ -2,6 +2,8 @@
 
 module T11313 where
 
-x = fmap @(*)
+import Data.Kind (Type)
+
+x = fmap @Type
 
 -- test error message output, which was quite silly before

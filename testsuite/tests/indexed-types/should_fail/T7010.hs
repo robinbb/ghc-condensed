@@ -2,11 +2,13 @@
 
 module T7010 where
 
+import Data.Kind (Type)
+
 type Vector = Serial Float
 data Serial v = Serial
 
 class MakeValueTuple a where
-   type ValueTuple a :: *
+   type ValueTuple a :: Type
 
 instance MakeValueTuple Float where
    type ValueTuple Float = IO Float

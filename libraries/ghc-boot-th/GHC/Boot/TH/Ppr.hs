@@ -855,7 +855,7 @@ pprType p (PromotedTupleT 1)     = pprType p (PromotedT (tupleDataName 1))
 pprType _ (PromotedTupleT n)     = quoteParens (hcat (replicate (n-1) comma))
 pprType _ PromotedNilT           = text "'[]"
 pprType _ PromotedConsT          = text "'(:)"
-pprType _ StarT                  = char '*'
+pprType _ StarT                  = text "Type"
 pprType _ ConstraintT            = text "Constraint"
 pprType _ (SigT ty k)            = parens (ppr ty <+> text "::" <+> ppr k)
 pprType _ WildCardT              = char '_'
@@ -895,11 +895,11 @@ instance Ppr Type where
     ppr = pprType noPrec
 instance Ppr TypeArg where
     ppr (TANormal ty) = ppr ty
-    ppr (TyArg ki) = char '@' <> parensIf (isStarT ki) (ppr ki)
+    ppr (TyArg ki) = char '@' <> ppr ki
 
 pprParendTypeArg :: TypeArg -> Doc
 pprParendTypeArg (TANormal ty) = pprParendType ty
-pprParendTypeArg (TyArg ki) = char '@' <> parensIf (isStarT ki) (pprParendType ki)
+pprParendTypeArg (TyArg ki) = char '@' <> pprParendType ki
 
 isStarT :: Type -> Bool
 isStarT StarT = True
@@ -909,8 +909,8 @@ isStarT _ = False
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GHC's parser only recognises a kind signature in a type when there are
 parens around it.  E.g. the parens are required here:
-   f :: (Int :: *)
-   type instance F Int = (Bool :: *)
+   f :: (Int :: Type)
+   type instance F Int = (Bool :: Type)
 So we always print a SigT with parens (see #10050). -}
 
 pprTyApp :: Precedence -> (Type, [TypeArg]) -> Doc

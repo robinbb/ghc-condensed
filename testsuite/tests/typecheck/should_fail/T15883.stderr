@@ -1,5 +1,5 @@
 T15883.hs:7:1: error: [GHC-55233]
-    • Newtype has non-* return kind ‘TYPE rep’
+    • Newtype has non-Type return kind ‘TYPE rep’
     • In the newtype declaration for ‘Foo’
     Suggested fix:
       Perhaps you intended to use the ‘UnliftedNewtypes’ extension

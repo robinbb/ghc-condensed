@@ -1,6 +1,6 @@
-type F :: * -> *
+type F :: Type -> Type
 type family F a where
     F [Int] = Bool
     F [a] = Double
-  forall k (a :: k -> *) (b :: k). F (a b) = Char
+  forall k (a :: k -> Type) (b :: k). F (a b) = Char
   	-- Defined at T13420.hs:5:1

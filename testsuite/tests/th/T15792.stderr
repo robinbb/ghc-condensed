@@ -1,2 +1,2 @@
-newtype T15792.T (f_0 :: forall (a_1 :: *) . a_1 -> *)
+newtype T15792.T (f_0 :: forall (a_1 :: Type) . a_1 -> Type)
     = T15792.MkT (f_0 GHC.Internal.Types.Bool)

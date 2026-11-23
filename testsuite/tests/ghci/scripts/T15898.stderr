@@ -5,13 +5,13 @@
       In an equation for ‘it’: it = undefined :: '()
 
 <interactive>:3:14: error: [GHC-83865]
-    • Expected kind ‘* -> *’, but ‘Proxy '()’ has kind ‘*’
+    • Expected kind ‘Type -> Type’, but ‘Proxy '()’ has kind ‘Type’
     • In an expression type signature: Proxy '() Int
       In the expression: undefined :: Proxy '() Int
       In an equation for ‘it’: it = undefined :: Proxy '() Int
 
 <interactive>:4:14: error: [GHC-83865]
-    • Expected a type, but ‘[(), ()]’ has kind ‘[*]’
+    • Expected a type, but ‘[(), ()]’ has kind ‘[Type]’
     • In an expression type signature: [(), ()]
       In the expression: undefined :: [(), ()]
       In an equation for ‘it’: it = undefined :: [(), ()]

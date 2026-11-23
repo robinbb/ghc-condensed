@@ -75,7 +75,6 @@ test('T18052a', normalise_version('ghc-internal', 'base'), compile,
      ['-ddump-simpl -ddump-types -dno-typeable-binds -dsuppress-uniques -dsuppress-idinfo'])
 test('T18791', normal, compile, ['-ddump-parsed-ast'])
 test('RdrNames', [ignore_stderr, req_ppr_deps], makefile_test, ['RdrNames'])
-test('StarBinderAnns', [ignore_stderr, req_ppr_deps], makefile_test, ['StarBinderAnns'])
 test('Test10255', [ignore_stderr, req_ppr_deps], makefile_test, ['Test10255'])
 test('Test10268', [ignore_stderr, req_ppr_deps], makefile_test, ['Test10268'])
 test('Test10269', [ignore_stderr, req_ppr_deps], makefile_test, ['Test10269'])

@@ -7,12 +7,13 @@
 
 module T3018 where
 
+import Data.Kind (Type)
 import Control.Monad
 
 -- minimal Data/Rep classes
-data Rep (ctx :: * -> *) a
+data Rep (ctx :: Type -> Type) a
 
-class Data (ctx :: * -> *) a where rep :: Rep ctx a
+class Data (ctx :: Type -> Type) a where rep :: Rep ctx a
 
 class Sat a where dict :: a
 

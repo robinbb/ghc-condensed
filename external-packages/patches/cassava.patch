@@ -1,0 +1,28 @@
+--- a/external-packages/cassava/src/Data/Csv/Conversion.hs
++++ b/external-packages/cassava/src/Data/Csv/Conversion.hs
+@@ -58,6 +58,7 @@
+     , header
+     ) where
+ 
++import Data.Kind (Type)
+ import Control.Applicative (Alternative, (<|>), empty, Const(..))
+ import Control.Monad (MonadPlus, mplus, mzero)
+ import qualified Control.Monad.Fail as Fail
+@@ -1163,7 +1164,7 @@
+ -- lets you compose several field conversions together in such a way
+ -- that if any of them fail, the whole record conversion fails.
+ newtype Parser a = Parser {
+-      unParser :: forall (f :: * -> *) (r :: *).
++      unParser :: forall (f :: Type -> Type) (r :: Type).
+                   Failure f r
+                -> Success a f r
+                -> f r
+@@ -1297,7 +1298,7 @@
+ instance FromField a => GFromRecordProd (K1 i a) Record where
+     gparseRecordProd _ n = (n + 1, \v -> K1 <$> parseField (V.unsafeIndex v n))
+ 
+-data Proxy s (f :: * -> *) a = Proxy
++data Proxy s (f :: Type -> Type) a = Proxy
+ 
+ instance (FromField a, Selector s) => GFromRecordProd (M1 S s (K1 i a)) NamedRecord where
+     gparseRecordProd opts n = (n + 1, \v -> (M1 . K1) <$> v .: name)

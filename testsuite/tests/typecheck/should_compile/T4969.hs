@@ -7,6 +7,7 @@
 
 module Q where
 
+import Data.Kind (Type)
 import Control.Monad (foldM, liftM, ap)
 
 data NameId = NameId
@@ -26,7 +27,7 @@ data FreshThings = Fresh
 
 newtype NewName a = NewName a
 newtype LetDef = LetDef NiceDeclaration  
-newtype TCMT (m :: * -> *) a = TCM ()
+newtype TCMT (m :: Type -> Type) a = TCM ()
 
 localToAbstract :: ToAbstract c a => c -> (a -> TCMT IO b) -> TCMT IO b  
 localToAbstract = undefined

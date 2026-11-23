@@ -739,20 +739,9 @@ for ``(:~~:)``, the instance for ``HTestEquality`` is accepted.
 The kind ``Type``
 -----------------
 
-.. extension:: StarIsType
-    :shortdesc: Treat ``*`` as ``Data.Kind.Type``.
-
-    :since: 8.6.1
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`, :extension:`Haskell2010`, :extension:`Haskell98`
-
-    Treat the unqualified uses of the ``*`` type operator as nullary and desugar
-    to ``Data.Kind.Type``.
-
-The kind ``Type`` (imported from ``Data.Kind``) classifies ordinary types. With
-:extension:`StarIsType` (currently enabled by default), ``*`` is desugared to
-``Type``, but using this legacy syntax is not recommended due to conflicts with
-:extension:`TypeOperators`. This also applies to ``★``, the Unicode variant of
-``*``.
+The kind ``Type`` (imported from ``Data.Kind``) classifies ordinary types.
+GHC never reads ``*`` (or its Unicode variant ``★``) as ``Type``: it is an
+ordinary type operator, as under :extension:`TypeOperators`.
 
 Inferring dependency in datatype declarations
 ---------------------------------------------

@@ -1,6 +1,5 @@
-
 T17541b.hs:8:20: error: [GHC-25897]
-    • Expected kind ‘k’, but ‘Int’ has kind ‘*’
+    • Expected kind ‘k’, but ‘Int’ has kind ‘Type’
     • In the second argument of ‘T’, namely ‘Int’
       In the type ‘T Type Int’
       In the definition of data constructor ‘MkT1’
@@ -8,3 +7,4 @@ T17541b.hs:8:20: error: [GHC-25897]
       Most types with visible dependent quantification are
       polymorphically recursive and need a standalone kind
       signature. Perhaps supply one, with StandaloneKindSignatures.
+

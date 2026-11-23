@@ -36,12 +36,12 @@ Word64
 ArithException
 AsyncException
 IOArray () ()
-IOUArray * () ()
+IOUArray Type () ()
 STArray () () ()
-STUArray * () () ()
+STUArray Type () () ()
 StableName ()
 StablePtr ()
-UArray * () ()
+UArray Type () ()
 Weak ()
 CChar
 CSChar

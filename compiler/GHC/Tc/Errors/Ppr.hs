@@ -3958,7 +3958,7 @@ derivErrDiagnosticMessage cls cls_tys mb_strat newtype_deriving pprHerald = \cas
              DerivErrGenericsWrongArgKind con
                -> badCon con $
                     text "applies a type to an argument involving the last parameter"
-                 $$ text "but the applied type is not of kind * -> *"
+                 $$ text "but the applied type is not of kind Type -> Type"
   DerivErrEnumOrProduct this that
     -> let ppr1 = derivErrDiagnosticMessage cls cls_tys mb_strat newtype_deriving False this
            ppr2 = derivErrDiagnosticMessage cls cls_tys mb_strat newtype_deriving False that
@@ -7620,7 +7620,6 @@ pprTypeSyntaxName TypeKeywordSyntax     = "keyword" <+> quotes "type"
 pprTypeSyntaxName ForallTelescopeSyntax = "forall telescope"
 pprTypeSyntaxName ContextArrowSyntax    = "context arrow (=>)"
 pprTypeSyntaxName FunctionArrowSyntax   = "function type arrow (->)"
-pprTypeSyntaxName StarKindSyntax        = "kind" <+> quotes starLit
 
 --------------------------------------------------------------------------------
 -- HsCtxt

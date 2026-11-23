@@ -1,19 +1,19 @@
-type T :: *
+type T :: Type
 data T = C | D
   	-- Defined at <interactive>:8:1
-type T' :: *
+type T' :: Type
 type T' = Ghci1.T
   	-- Defined at <interactive>:3:1
-type Ghci1.T :: *
+type Ghci1.T :: Type
 data Ghci1.T = A | ...
   	-- Defined at <interactive>:2:10
-type Ghci4.T :: *
+type Ghci4.T :: Type
 data Ghci4.T = B | ...
   	-- Defined at <interactive>:5:12
-type T :: *
+type T :: Type
 data T = C | ...
   	-- Defined at <interactive>:8:14
-type T :: *
+type T :: Type
 data T = ... | D
   	-- Defined at <interactive>:8:18
 b :: T' 	-- Defined at <interactive>:4:5

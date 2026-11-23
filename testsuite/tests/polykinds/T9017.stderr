@@ -1,13 +1,13 @@
 T9017.hs:7:7: error: [GHC-25897]
-    • Couldn't match kind ‘k1’ with ‘*’
+    • Couldn't match kind ‘k1’ with ‘Type’
       When matching types
-        b0 :: *
+        b0 :: Type
         b :: k1
       Expected: a b (m b)
         Actual: a0 b0 (m0 b0)
       ‘k1’ is a rigid type variable bound by
         the type signature for:
-          foo :: forall {k1} {k2} (a :: k1 -> k2 -> *) (b :: k1)
+          foo :: forall {k1} {k2} (a :: k1 -> k2 -> Type) (b :: k1)
                         (m :: k1 -> k2).
                  a b (m b)
         at T9017.hs:6:1-16

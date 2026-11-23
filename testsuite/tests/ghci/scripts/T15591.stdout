@@ -1,6 +1,6 @@
-T1 :: forall (f :: * -> *) a. f a -> *
-T2 :: forall (f :: * -> *) a. f a -> *
-T3 :: forall a (b :: Proxy a) (c :: Proxy b). Proxy '(a, c) -> *
-T4 :: forall a (b :: Proxy a) (c :: Proxy b). Proxy '(a, c) -> *
-T5 :: forall (f :: * -> *) a. f a -> *
-T6 :: forall {k} (f :: k -> *) (a :: k). f a -> *
+T1 :: forall (f :: Type -> Type) a. f a -> Type
+T2 :: forall (f :: Type -> Type) a. f a -> Type
+T3 :: forall a (b :: Proxy a) (c :: Proxy b). Proxy '(a, c) -> Type
+T4 :: forall a (b :: Proxy a) (c :: Proxy b). Proxy '(a, c) -> Type
+T5 :: forall (f :: Type -> Type) a. f a -> Type
+T6 :: forall {k} (f :: k -> Type) (a :: k). f a -> Type

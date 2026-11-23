@@ -1,4 +1,4 @@
-type (->) :: * -> * -> *
+type (->) :: Type -> Type -> Type
 type (->) = FUN Many
   	-- Defined in ‘GHC.Internal.Types’
 infixr -1 ->
@@ -9,11 +9,8 @@ instance Monoid b => Monoid (a -> b)
   -- Defined in ‘GHC.Internal.Base’
 instance Semigroup b => Semigroup (a -> b)
   -- Defined in ‘GHC.Internal.Base’
-type Constraint :: *
+type Constraint :: Type
 type Constraint = CONSTRAINT LiftedRep
-  	-- Defined in ‘GHC.Internal.Types’
-type Type :: *
-type Type = TYPE LiftedRep
   	-- Defined in ‘GHC.Internal.Types’
 type Type :: Type
 type Type = TYPE LiftedRep

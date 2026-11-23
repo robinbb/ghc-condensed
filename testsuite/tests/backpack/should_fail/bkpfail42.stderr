@@ -5,10 +5,10 @@
 bkpfail42.bkp:10:9: error: [GHC-15843]
     • Type constructor ‘F’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type F :: forall {k}. k -> *
+      Main module: type F :: forall {k}. k -> Type
                    type family F a where
                      forall k (a :: k). F a = Int
-        Hsig file: type F :: forall {k}. k -> *
+        Hsig file: type F :: forall {k}. k -> Type
                    type family F a where
                      forall k (a :: k). F a = Bool
       Type family equations do not match:

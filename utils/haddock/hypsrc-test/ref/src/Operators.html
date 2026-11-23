@@ -552,7 +552,9 @@ forall a. [a] -&gt; [a] -&gt; [a]
       > <span class="annot"
       ><span class="annottext"
 	>([a] -&gt; [a]) -&gt; [[a]] -&gt; [a]
-forall (t :: * -&gt; *) a b. Foldable t =&gt; (a -&gt; [b]) -&gt; t a -&gt; [b]
+forall (t :: Type -&gt; Type) a b.
+Foldable t =&gt;
+(a -&gt; [b]) -&gt; t a -&gt; [b]
 </span
 	><span class="hs-identifier hs-var"
 	>concatMap</span

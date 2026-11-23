@@ -3,7 +3,9 @@
 
 module T2693 where
 
-type family TFn a :: *
+import Data.Kind (Type)
+
+type family TFn a :: Type
 
 -- Boiled down version
 f :: Maybe ()

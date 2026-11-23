@@ -75,11 +75,11 @@ T14590.hs:4:13: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with seq @Int @Int
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Prim’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
@@ -162,11 +162,11 @@ T14590.hs:5:13: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with seq @Int @Int
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Prim’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
@@ -248,11 +248,11 @@ T14590.hs:6:11: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with seq @Int @Int
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Prim’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
@@ -335,11 +335,11 @@ T14590.hs:7:11: warning: [GHC-88464] [-Wtyped-holes (in -Wdefault)]
           with seq @Int @Int
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Prim’))
-        pure :: forall (f :: * -> *) a. Applicative f => a -> f a
+        pure :: forall (f :: Type -> Type) a. Applicative f => a -> f a
           with pure @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))
-        return :: forall (m :: * -> *) a. Monad m => a -> m a
+        return :: forall (m :: Type -> Type) a. Monad m => a -> m a
           with return @((->) Int)
           (imported from ‘Prelude’
            (and originally defined in ‘GHC.Internal.Base’))

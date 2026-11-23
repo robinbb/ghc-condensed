@@ -1,36 +1,36 @@
-
 T19564a.hs:7:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type Id :: * -> *
+      type Id :: Type -> Type
 
 T19564a.hs:11:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type Alt :: (* -> *) -> Constraint
+      type Alt :: (Type -> Type) -> Constraint
 
 T19564a.hs:15:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type Arr :: * -> * -> *
+      type Arr :: Type -> Type -> Type
 
 T19564a.hs:16:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type B :: *
+      type B :: Type
 
 T19564a.hs:19:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type YesNo :: *
+      type YesNo :: Type
 
 T19564a.hs:20:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type V2 :: * -> *
+      type V2 :: Type -> Type
 
 T19564a.hs:23:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type Free :: (* -> *) -> * -> *
+      type Free :: (Type -> Type) -> Type -> Type
 
 T19564a.hs:28:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
-      type D1 :: * -> *
+      type D1 :: Type -> Type
 
 T19564a.hs:31:1: warning: [GHC-38417] [-Wmissing-kind-signatures]
     Top-level type constructor with no standalone kind signature:
       type C :: forall {k}. k -> Constraint
+

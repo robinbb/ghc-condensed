@@ -2,7 +2,7 @@ TYPE SIGNATURES
   foo :: forall {a} {b}. (C a b, Num b) => a -> ()
   op :: forall a b. C a b => a -> b -> ()
 TYPE CONSTRUCTORS
-  class C{2} :: * -> * -> Constraint
+  class C{2} :: Type -> Type -> Constraint
 Dependent modules: []
 Dependent packages: [(normal, base-4.23.0.0)]
 

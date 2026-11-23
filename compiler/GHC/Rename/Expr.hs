@@ -603,10 +603,6 @@ rnExpr (HsEmbTy _ ty)
        ; checkTypeSyntaxExtension TypeKeywordSyntax
        ; return (HsEmbTy noExtField ty', fvs) }
 
-rnExpr (HsStar x)
-  = do { checkTypeSyntaxExtension StarKindSyntax
-       ; return (HsStar x, emptyFNs) }
-
 rnExpr (HsQual x (L l (HsContext an ctxt)) ty)
   = do { (ctxt', fvs_ctxt) <- mapAndUnzipM rnLExpr ctxt
        ; (ty', fvs_ty) <- rnLExpr ty

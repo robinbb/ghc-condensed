@@ -1,10 +1,10 @@
 type role Foo1 phantom
-type Foo1 :: forall k. k -> *
+type Foo1 :: forall k. k -> Type
 data Foo1 a where
   MkFoo1a :: forall {k} (a :: k). Proxy a -> Int -> Foo1 a
   MkFoo1b :: forall {k} (a :: k). {a :: Proxy a, b :: Int} -> Foo1 a
   	-- Defined at T16030.hs:7:1
-type Foo2 :: forall k. k -> *
+type Foo2 :: forall k. k -> Type
 data family Foo2 a
   	-- Defined at T16030.hs:11:1
 data instance forall k (a :: k). Foo2 a where
@@ -12,13 +12,13 @@ data instance forall k (a :: k). Foo2 a where
   MkFoo2b :: forall {k} (a :: k). {c :: Proxy a, d :: Int} -> Foo2 a
   	-- Defined at T16030.hs:12:15
 type role Foo1 nominal phantom
-type Foo1 :: forall k. k -> *
+type Foo1 :: forall k. k -> Type
 data Foo1 @k a where
   MkFoo1a :: forall {k} (a :: k). Proxy @{k} a -> Int -> Foo1 @k a
   MkFoo1b :: forall {k} (a :: k).
              {a :: Proxy @{k} a, b :: Int} -> Foo1 @k a
   	-- Defined at T16030.hs:7:1
-type Foo2 :: forall k. k -> *
+type Foo2 :: forall k. k -> Type
 data family Foo2 @k a
   	-- Defined at T16030.hs:11:1
 data instance forall k (a :: k). Foo2 @k a where

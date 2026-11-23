@@ -809,14 +809,14 @@ breakpoints:
       corresponding source breakpoint: 13
     bytecode breakpoint 14:
       type: a
-      type variables: a :: *
+      type variables: a :: Type
       variables:
         %'Many eta :: a
         %'Many eta1 :: a
       corresponding source breakpoint: 0
     bytecode breakpoint 15:
       type: Bool
-      type variables: a :: *
+      type variables: a :: Type
       variables:
         %'Many eta :: a
         %'Many eta1 :: a

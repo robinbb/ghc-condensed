@@ -11,6 +11,10 @@ packages:
     git: https://github.com/ekmett/adjunctions.git
     tag: v4.4.4
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/adjunctions.patch)
 - name: aeson
   version: 2.3.2.0
   tier: 1
@@ -134,7 +138,9 @@ packages:
   patched: >-
     test suite: the kinds of OneTwoCompose's two functor parameters are written
     out, since once they are generalised the derived Functor instance no longer
-    serves as Traversable's superclass (patches/bifunctors.patch)
+    serves as Traversable's superclass, and its kind annotations written with *
+    are spelt Type, since this compiler no longer reads * as a kind
+    (patches/bifunctors.patch)
 - name: blaze-builder
   version: 0.4.4.1
   tier: 1
@@ -256,6 +262,10 @@ packages:
     git: https://github.com/ekmett/constraints.git
     tag: v0.14.4
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/constraints.patch)
 - name: contravariant
   version: 1.5.6
   tier: 1
@@ -266,6 +276,10 @@ packages:
     git: https://github.com/ekmett/contravariant.git
     tag: v1.5.6
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/contravariant.patch)
 - name: data-fix
   version: 0.3.4
   tier: 1
@@ -380,6 +394,10 @@ packages:
     git: https://github.com/dreixel/generic-deriving.git
     tag: 1.14.7
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/generic-deriving.patch)
 - name: generically
   version: 0.1.1
   tier: 1
@@ -491,7 +509,8 @@ packages:
     no longer maps the extensions this compiler removed (ConstrainedClassMethods,
     DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
     MultiParamTypeClasses, OverlappingInstances, ParallelArrays, PolyKinds,
-    RelaxedPolyRec, TypeInType, CUSKs and the deprecated aliases) to or from
+    RelaxedPolyRec, TypeInType, CUSKs, StarIsType and the deprecated aliases) to or
+    from
     template-haskell, whose Extension type lost those
     constructors
 - name: heaps
@@ -866,6 +885,10 @@ packages:
     sdist: monad-control-1.0.3.1
   note: no tag for 1.0.3.1 in https://github.com/basvandijk/monad-control.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/monad-control.patch)
 - name: network
   version: 3.2.12.0
   tier: 1
@@ -1016,6 +1039,10 @@ packages:
     git: https://github.com/ekmett/profunctors.git
     tag: v5.6.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/profunctors.patch)
 - name: QuickCheck
   version: 2.19.0.0
   tier: 1
@@ -1036,6 +1063,10 @@ packages:
     sdist: quickcheck-classes-base-0.6.2.0
   note: no tag for 0.6.2.0 in https://github.com/andrewthad/quickcheck-classes.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/quickcheck-classes-base.patch)
 - name: quickcheck-instances
   version: '0.4'
   tier: 1
@@ -1090,6 +1121,10 @@ packages:
     git: https://github.com/ekmett/reflection.git
     tag: v2.1.9
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/reflection.patch)
 - name: regex-base
   version: 0.94.0.3
   tier: 1
@@ -1412,6 +1447,10 @@ packages:
     git: https://github.com/glguy/th-abstraction.git
     tag: v0.7.2.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/th-abstraction.patch)
 - name: th-compat
   version: 0.1.7
   tier: 1
@@ -1841,7 +1880,9 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: Basement.Block.Base.Block
     declares its phantom element parameter at kind Type, which the Eq, Ord and
-    other instances that BlockN derives through it require (patches/basement.patch)
+    other instances that BlockN derives through it require, and Basement.Monad
+    spells a kind annotation written with * as Type, since this compiler no
+    longer reads * as a kind (patches/basement.patch)
 - name: bimap
   version: 0.5.0
   tier: 2
@@ -1933,6 +1974,10 @@ packages:
     git: https://github.com/ekmett/bytes.git
     tag: v0.17.5
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/bytes.patch)
 - name: bytestring-builder
   version: 0.10.8.2.0
   tier: 2
@@ -1963,6 +2008,10 @@ packages:
     git: https://github.com/haskell-hvr/cassava.git
     tag: v0.5.4.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/cassava.patch)
 - name: cassava-megaparsec
   version: 2.1.1
   tier: 2
@@ -1993,6 +2042,10 @@ packages:
     sdist: cereal-0.5.8.3
   note: no tag for 0.5.8.3 in https://github.com/GaloisInc/cereal.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/cereal.patch)
 - name: cgi
   version: 3001.5.2.0
   tier: 2
@@ -3131,6 +3184,10 @@ packages:
     git: https://github.com/fizruk/http-api-data.git
     tag: v0.7
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/http-api-data.patch)
 - name: http-client
   version: 0.7.19
   tier: 2
@@ -3331,6 +3388,10 @@ packages:
     sdist: JuicyPixels-3.3.9
   note: no tag for 3.3.9 in https://github.com/Twinside/Juicy.Pixels.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/JuicyPixels.patch)
 - name: jwt
   version: 0.12.0
   tier: 2
@@ -3383,8 +3444,9 @@ packages:
   tests: false
   patched: >-
     deliberate exception to the no-modification rule: Linear.V0.V0 declares its
-    phantom element parameter at kind Type, which its Ixed instance requires
-    (patches/linear.patch)
+    phantom element parameter at kind Type, which its Ixed instance requires,
+    and Linear.V spells its kind annotations K.Type, since this compiler no
+    longer reads * as a kind (patches/linear.patch)
 - name: lpeg
   version: 1.1.0.1
   tier: 2

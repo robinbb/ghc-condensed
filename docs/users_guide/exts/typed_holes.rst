@@ -206,15 +206,15 @@ Here are some more details:
           with repeat @String
           (imported from ‘Prelude’ at mpt.hs:3:8-9
            (and originally defined in ‘GHC.List’))
-        fail :: forall (m :: * -> *). Monad m => forall a. String -> m a
+        fail :: forall (m :: Type -> Type). Monad m => forall a. String -> m a
           with fail @[] @String
           (imported from ‘Prelude’ at mpt.hs:3:8-9
            (and originally defined in ‘GHC.Base’))
-        return :: forall (m :: * -> *). Monad m => forall a. a -> m a
+        return :: forall (m :: Type -> Type). Monad m => forall a. a -> m a
           with return @[] @String
           (imported from ‘Prelude’ at mpt.hs:3:8-9
            (and originally defined in ‘GHC.Base’))
-        pure :: forall (f :: * -> *). Applicative f => forall a. a -> f a
+        pure :: forall (f :: Type -> Type). Applicative f => forall a. a -> f a
           with pure @[] @String
           (imported from ‘Prelude’ at mpt.hs:3:8-9
            (and originally defined in ‘GHC.Base’))
@@ -408,19 +408,19 @@ suggestions: ::
       with head @Integer
     last :: forall a. [a] -> a
       with last @Integer
-    maximum :: forall (t :: * -> *).
+    maximum :: forall (t :: Type -> Type).
                 Foldable t =>
                 forall a. Ord a => t a -> a
       with maximum @[] @Integer
-    minimum :: forall (t :: * -> *).
+    minimum :: forall (t :: Type -> Type).
                 Foldable t =>
                 forall a. Ord a => t a -> a
       with minimum @[] @Integer
-    product :: forall (t :: * -> *).
+    product :: forall (t :: Type -> Type).
                 Foldable t =>
                 forall a. Num a => t a -> a
       with product @[] @Integer
-    sum :: forall (t :: * -> *).
+    sum :: forall (t :: Type -> Type).
             Foldable t =>
             forall a. Num a => t a -> a
       with sum @[] @Integer
@@ -431,12 +431,12 @@ it will additionally offer up a list of refinement hole fits, in this case: ::
   Valid refinement hole fits include
     foldl1 (_ :: Integer -> Integer -> Integer)
       with foldl1 @[] @Integer
-      where foldl1 :: forall (t :: * -> *).
+      where foldl1 :: forall (t :: Type -> Type).
                       Foldable t =>
                       forall a. (a -> a -> a) -> t a -> a
     foldr1 (_ :: Integer -> Integer -> Integer)
       with foldr1 @[] @Integer
-      where foldr1 :: forall (t :: * -> *).
+      where foldr1 :: forall (t :: Type -> Type).
                       Foldable t =>
                       forall a. (a -> a -> a) -> t a -> a
     const (_ :: Integer)
@@ -447,12 +447,12 @@ it will additionally offer up a list of refinement hole fits, in this case: ::
       where ($) :: forall a b. (a -> b) -> a -> b
     fail (_ :: String)
       with fail @((->) [Integer]) @Integer
-      where fail :: forall (m :: * -> *).
+      where fail :: forall (m :: Type -> Type).
                     Monad m =>
                     forall a. String -> m a
     return (_ :: Integer)
       with return @((->) [Integer]) @Integer
-      where return :: forall (m :: * -> *). Monad m => forall a. a -> m a
+      where return :: forall (m :: Type -> Type). Monad m => forall a. a -> m a
     (Some refinement hole fits suppressed;
       use -fmax-refinement-hole-fits=N or -fno-max-refinement-hole-fits)
 

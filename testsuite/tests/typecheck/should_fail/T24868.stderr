@@ -2,7 +2,8 @@ T24868.hs:12:12: error: [GHC-39999]
     • Could not deduce ‘C (T c1)’ arising from a use of ‘method’
       from the context: (C c1, C c2)
         bound by the type signature for:
-                   worseErr :: forall {k} (c1 :: k -> *) (c2 :: k -> *) (b :: k) r.
+                   worseErr :: forall {k} (c1 :: k -> Type) (c2 :: k -> Type) (b :: k)
+                                      r.
                                (C c1, C c2) =>
                                T c1 b -> T c2 b -> r
         at T24868.hs:11:1-49
@@ -15,7 +16,7 @@ T24868.hs:18:8: error: [GHC-25897]
         Actual: T c0 a -> r
       ‘f’ is a rigid type variable bound by
         the type signature for:
-          bar1 :: forall {k} (f :: k -> *) (a :: k) r. C f => f a -> r
+          bar1 :: forall {k} (f :: k -> Type) (a :: k) r. C f => f a -> r
         at T24868.hs:17:1-29
     • In the expression: foo
       In an equation for ‘bar1’: bar1 = foo
@@ -28,7 +29,7 @@ T24868.hs:19:8: error: [GHC-25897]
         Actual: T c4 a -> r
       ‘f’ is a rigid type variable bound by
         the type signature for:
-          bar2 :: forall {k} (f :: k -> *) (a :: k) r. C f => f a -> r
+          bar2 :: forall {k} (f :: k -> Type) (a :: k) r. C f => f a -> r
         at T24868.hs:17:1-29
     • In the expression: foo
       In an equation for ‘bar2’: bar2 = foo

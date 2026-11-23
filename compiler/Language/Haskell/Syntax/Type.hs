@@ -980,8 +980,6 @@ data HsType pass
       -- ^
       -- > (?x :: ty)
 
-  | HsStarTy            (XStarTy pass)  -- Note [HsStarTy]
-
   | HsKindSig           (XKindSig pass)
                         (LHsType pass)  -- (ty :: kind)
                         (LHsKind pass)  -- A type with a kind signature
@@ -1074,19 +1072,6 @@ HsTyVar: A name in a type or kind.
 
   The 'Promoted' field in an HsTyVar captures whether the type was promoted in
   the source code by prefixing an apostrophe.
-
-Note [HsStarTy]
-~~~~~~~~~~~~~~~
-When the StarIsType extension is enabled, we want to treat '*' and its Unicode
-variant identically to 'Data.Kind.Type'. Unfortunately, doing so in the parser
-would mean that when we pretty-print it back, we don't know whether the user
-wrote '*' or 'Type', and lose the parse/ppr roundtrip property.
-
-As a workaround, we parse '*' as HsStarTy (if it stands for 'Data.Kind.Type')
-and then desugar it to 'Data.Kind.Type' in the typechecker (see tcHsType).
-When '*' is a regular type operator (StarIsType is disabled), HsStarTy is not
-involved.
-
 
 Note [Promoted lists and tuples]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

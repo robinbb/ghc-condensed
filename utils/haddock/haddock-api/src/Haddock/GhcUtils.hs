@@ -481,7 +481,6 @@ reparenTypePrec = go
       paren p PREC_FUN $ HsOpTy x (goL PREC_OP ty1) op (goL PREC_OP ty2)
     go p (HsParTy _ t) = unXRec @a $ goL p t -- pretend the paren doesn't exist - it will be added back if needed
     go _ t@HsTyVar{} = t
-    go _ t@HsStarTy{} = t
     go _ t@HsSpliceTy{} = t
     go _ t@HsTyLit{} = t
     go _ t@HsWildCardTy{} = t

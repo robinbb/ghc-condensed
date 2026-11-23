@@ -1,5 +1,5 @@
 T13895.hs:9:14: error: [GHC-01259]
-    • Illegal constraint in a kind: forall k. Typeable k => k -> *
+    • Illegal constraint in a kind: forall k. Typeable k => k -> Type
     • In the type signature:
         dataCast1 :: forall (a :: Type). Data a =>
                                          forall (c :: Type -> Type)

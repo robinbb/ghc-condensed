@@ -1816,7 +1816,7 @@ pprTyTcApp ctxt_prec tc tys =
 
        | isIfaceLiftedTypeKind (IfaceTyConApp tc tys)
        , print_type_abbreviations  -- See Note [Printing type abbreviations]
-       -> ppr_kind_type ctxt_prec
+       -> ppr_kind_type
 
        | isIfaceConstraintKind (IfaceTyConApp tc tys)
        , print_type_abbreviations  -- See Note [Printing type abbreviations]
@@ -1854,10 +1854,8 @@ pprTyTcApp ctxt_prec tc tys =
   where
     info = ifaceTyConInfo tc
 
-ppr_kind_type :: PprPrec -> SDoc
-ppr_kind_type ctxt_prec = sdocOption sdocStarIsType $ \case
-   False -> pprPrefixOcc liftedTypeKindTyConName
-   True  -> maybeParen ctxt_prec starPrec starLit
+ppr_kind_type :: SDoc
+ppr_kind_type = pprPrefixOcc liftedTypeKindTyConName
 
 -- | user-style printer that pretty-prints an 'UnusedType @k "foo_3" to foo_3.
 -- If -fprint-explicit-kinds or -fprint-explicit-runtime-reps are set, instead
@@ -1985,7 +1983,7 @@ ppr_iface_tc_app pp ctxt_prec tc tys =
      -> brackets (pp topPrec ty)
 
      | tc `ifaceTyConHasKey` liftedTypeKindTyConKey
-     -> ppr_kind_type ctxt_prec
+     -> ppr_kind_type
 
      | isSymOcc (nameOccName (ifaceTyConName tc))
 

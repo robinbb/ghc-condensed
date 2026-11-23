@@ -1,3 +1,6 @@
-
-tcfail210.hs:4:31: error: [GHC-76037]
+tcfail210.hs:6:34: error: [GHC-76037]
     Not in scope: type constructor or class ‘Constraint’
+    Suggested fix:
+      Add ‘Constraint’ to the import list in the import of ‘Data.Kind’
+      (at tcfail210.hs:4:1-23).
+

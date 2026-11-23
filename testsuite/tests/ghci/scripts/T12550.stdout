@@ -1,23 +1,15 @@
-f :: forall {k} (a :: k -> *) (b :: k). C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f ∷ ∀ {k} (a ∷ k → ★) (b ∷ k). C a ⇒ a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
-fmap ∷ ∀ (f ∷ ★ → ★) a b. Functor f ⇒ (a → b) → f a → f b
-type Functor ∷ (★ → ★) → Constraint
+f :: forall {k} (a :: k -> Type) (b :: k). C a => a b
+f :: forall (a :: Type -> Type) b. C a => a b
+f ∷ ∀ {k} (a ∷ k → Type) (b ∷ k). C a ⇒ a b
+f ∷ ∀ (a ∷ Type → Type) b. C a ⇒ a b
+fmap ∷ ∀ (f ∷ Type → Type) a b. Functor f ⇒ (a → b) → f a → f b
+type Functor ∷ (Type → Type) → Constraint
 class Functor f where
   fmap ∷ ∀ a b. (a → b) → f a → f b
   ...
   	-- Defined in ‘GHC.Internal.Base’
-Functor ∷ (★ → ★) → Constraint
-type Functor ∷ (★ → ★) → Constraint
+Functor ∷ (Type → Type) → Constraint
+type Functor ∷ (Type → Type) → Constraint
 class Functor f where
   fmap ∷ ∀ a b. (a → b) → f a → f b
   (<$) ∷ ∀ a b. a → f b → f a
@@ -41,28 +33,30 @@ instance ∀ a b c d e f. Functor ((,,,,,,) a b c d e f)
   -- Defined in ‘GHC.Internal.Base’
 instance ∀ a. Functor (Either a)
   -- Defined in ‘GHC.Internal.Data.Either’
-instance ∀ (f ∷ ★ → ★) (g ∷ ★ → ★).
+instance ∀ (f ∷ Type → Type) (g ∷ Type → Type).
          (Functor f, Functor g) ⇒
          Functor (f :*: g)
   -- Defined in ‘GHC.Internal.Generics’
-instance ∀ (f ∷ ★ → ★) (g ∷ ★ → ★).
+instance ∀ (f ∷ Type → Type) (g ∷ Type → Type).
          (Functor f, Functor g) ⇒
          Functor (f :+: g)
   -- Defined in ‘GHC.Internal.Generics’
-instance ∀ (f ∷ ★ → ★) (g ∷ ★ → ★).
+instance ∀ (f ∷ Type → Type) (g ∷ Type → Type).
          (Functor f, Functor g) ⇒
          Functor (f :.: g)
   -- Defined in ‘GHC.Internal.Generics’
-instance ∀ (f ∷ ★ → ★).
+instance ∀ (f ∷ Type → Type).
          (Generic1 f, Functor (Rep1 f)) ⇒
          Functor (Generically1 f)
   -- Defined in ‘GHC.Internal.Generics’
 instance ∀ i c. Functor (K1 i c)
   -- Defined in ‘GHC.Internal.Generics’
-instance ∀ i (c ∷ Meta) (f ∷ ★ → ★). Functor f ⇒ Functor (M1 i c f)
+instance ∀ i (c ∷ Meta) (f ∷ Type → Type).
+         Functor f ⇒
+         Functor (M1 i c f)
   -- Defined in ‘GHC.Internal.Generics’
 instance Functor Par1 -- Defined in ‘GHC.Internal.Generics’
-instance ∀ (f ∷ ★ → ★). Functor f ⇒ Functor (Rec1 f)
+instance ∀ (f ∷ Type → Type). Functor f ⇒ Functor (Rec1 f)
   -- Defined in ‘GHC.Internal.Generics’
 instance Functor U1 -- Defined in ‘GHC.Internal.Generics’
 instance Functor (URec Word) -- Defined in ‘GHC.Internal.Generics’
@@ -73,18 +67,19 @@ instance Functor (URec Double)
 instance Functor (URec Char) -- Defined in ‘GHC.Internal.Generics’
 instance Functor V1 -- Defined in ‘GHC.Internal.Generics’
 datatypeName
-  ∷ ∀ {k} (d ∷ k) k1 (t ∷ k → (k1 → ★) → k1 → ★) (f ∷ k1 → ★)
-      (a ∷ k1).
+  ∷ ∀ {k} (d ∷ k) k1 (t ∷ k → (k1 → Type) → k1 → Type)
+      (f ∷ k1 → Type) (a ∷ k1).
     Datatype d ⇒
     t d f a → [Char]
 type Datatype ∷ ∀ {k}. k → Constraint
 class Datatype d where
-  datatypeName ∷ ∀ k1 (t ∷ k → (k1 → ★) → k1 → ★) (f ∷ k1 → ★)
-                   (a ∷ k1).
+  datatypeName ∷ ∀ k1 (t ∷ k → (k1 → Type) → k1 → Type)
+                   (f ∷ k1 → Type) (a ∷ k1).
                  t d f a → [Char]
   ...
   	-- Defined in ‘GHC.Internal.Generics’
 (:*:)
-  ∷ ∀ k (f ∷ k → ★) (g ∷ k → ★) (p ∷ k). f p → g p → (:*:) f g p
-Rep ∷ ★ → ★ → ★
-M1 ∷ ∀ k. ★ → Meta → (k → ★) → k → ★
+  ∷ ∀ k (f ∷ k → Type) (g ∷ k → Type) (p ∷ k).
+    f p → g p → (:*:) f g p
+Rep ∷ Type → Type → Type
+M1 ∷ ∀ k. Type → Meta → (k → Type) → k → Type

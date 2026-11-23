@@ -1269,18 +1269,6 @@ validHoleFitDefaults
      , Opt_SortBySizeHoleFits
      , Opt_ShowHoleConstraints ]
 
--- Note [When is StarIsType enabled]
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- The StarIsType extension determines whether to treat '*' as a regular type
--- operator or as a synonym for 'Data.Kind.Type'. Many existing older
--- programs expect '*' to be synonymous with 'Type', so by default StarIsType is
--- enabled.
---
--- Programs that use TypeOperators might expect to repurpose '*' for
--- multiplication or another binary operation, but making TypeOperators imply
--- NoStarIsType caused too much breakage on Hackage.
---
-
 --
 -- Note [Documenting optimisation flags]
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1392,8 +1380,6 @@ languageExtensions Nothing = languageExtensions (Just defaultLanguage)
 
 languageExtensions (Just Haskell98)
     = [LangExt.ImplicitPrelude,
-       -- See Note [When is StarIsType enabled]
-       LangExt.StarIsType,
        LangExt.MonomorphismRestriction,
        LangExt.NPlusKPatterns,
        LangExt.TraditionalRecordSyntax,
@@ -1412,8 +1398,6 @@ languageExtensions (Just Haskell98)
 
 languageExtensions (Just Haskell2010)
     = [LangExt.ImplicitPrelude,
-       -- See Note [When is StarIsType enabled]
-       LangExt.StarIsType,
        LangExt.MonomorphismRestriction,
        LangExt.TraditionalRecordSyntax,
        LangExt.EmptyDataDecls,
@@ -1428,8 +1412,6 @@ languageExtensions (Just Haskell2010)
 
 languageExtensions (Just GHC2021)
     = [LangExt.ImplicitPrelude,
-       -- See Note [When is StarIsType enabled]
-       LangExt.StarIsType,
        LangExt.MonomorphismRestriction,
        LangExt.TraditionalRecordSyntax,
        LangExt.EmptyDataDecls,
@@ -1585,7 +1567,6 @@ initSDocContext dflags style = SDC
   , sdocSuppressStgReps             = gopt Opt_SuppressStgReps dflags
   , sdocStableCoreDumpOrder         = gopt Opt_StableCoreDumpOrder dflags
   , sdocErrorSpans                  = gopt Opt_ErrorSpans dflags
-  , sdocStarIsType                  = xopt LangExt.StarIsType dflags
   , sdocLinearTypes                 = xopt LangExt.LinearTypes dflags
   , sdocListTuplePuns               = xopt LangExt.ListTuplePuns dflags
   , sdocPrintTypeAbbreviations      = True

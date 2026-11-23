@@ -1,2 +1,2 @@
-type T_0 :: forall (a_1 :: *) -> a_1 ~ a_1 => *
+type T_0 :: forall (a_1 :: Type) -> a_1 ~ a_1 => Type
 data T_0 x_2

@@ -1,17 +1,17 @@
 foo :: Integer
 main :: IO ()
-type Test :: * -> Constraint
+type Test :: Type -> Constraint
 class Test a where
   test :: a -> String
   {-# MINIMAL test #-}
 -- imported via E
 foo :: Integer
 main :: IO ()
-type Test :: * -> Constraint
+type Test :: Type -> Constraint
 class Test a
   ...
 test :: Test a => a -> String
-type Test :: * -> Constraint
+type Test :: Type -> Constraint
 class Test a where
   test :: a -> String
   {-# MINIMAL test #-}

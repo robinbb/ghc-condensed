@@ -1,2 +1,2 @@
-T :: (k -> *) -> k -> *
-T :: forall {k}. (k -> *) -> k -> *
+T :: (k -> Type) -> k -> Type
+T :: forall {k}. (k -> Type) -> k -> Type

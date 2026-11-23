@@ -7132,7 +7132,6 @@ data TypeSyntax
   | ContextArrowSyntax     -- ^ @ctx => t@
   | FunctionArrowSyntax    -- ^ @t1 -> t2@
   | ForallTelescopeSyntax  -- ^ @forall tvs. t@
-  | StarKindSyntax         -- ^ @*@
   deriving Generic
 
 typeSyntaxExtension :: TypeSyntax -> LangExt.Extension
@@ -7140,7 +7139,6 @@ typeSyntaxExtension TypeKeywordSyntax     = LangExt.ExplicitNamespaces
 typeSyntaxExtension ContextArrowSyntax    = LangExt.RequiredTypeArguments
 typeSyntaxExtension FunctionArrowSyntax   = LangExt.RequiredTypeArguments
 typeSyntaxExtension ForallTelescopeSyntax = LangExt.RequiredTypeArguments
-typeSyntaxExtension StarKindSyntax        = LangExt.RequiredTypeArguments
 
 -- | Whether or not to add a hint about enabling -XLinearTypes, when
 -- encountering an unrecognised modifier. We suggest enabling it when

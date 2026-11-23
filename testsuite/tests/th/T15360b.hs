@@ -1,12 +1,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE StarIsType #-}
 module T15360b where
 
 import Data.Kind
 import Data.Proxy
 
-x :: Proxy $([t| * Double |])
+x :: Proxy $([t| Type Double |])
 x = Proxy
 
 y :: Proxy $([t| 1 Int |])

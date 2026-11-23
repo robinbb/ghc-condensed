@@ -1,8 +1,8 @@
-T11407.hs:9:40: error: [GHC-25897]
+T11407.hs:9:49: error: [GHC-25897]
     • Expected kind ‘x a’, but ‘a’ has kind ‘k’
       ‘k’ is a rigid type variable bound by
         a family instance declaration
-        at T11407.hs:9:1-72
+        at T11407.hs:9:1-84
     • In the second argument of ‘UhOh’, namely ‘(a :: x a)’
       In the data family instance declaration for ‘UhOh’
 

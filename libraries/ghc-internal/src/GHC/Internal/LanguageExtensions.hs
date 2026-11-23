@@ -138,7 +138,6 @@ data Extension
    | EmptyDataDeriving
    | NumericUnderscores
    | QuantifiedConstraints
-   | StarIsType
    | ImportQualifiedPost
    | StandaloneKindSignatures
    | LexicalNegation

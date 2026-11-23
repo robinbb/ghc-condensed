@@ -2,12 +2,14 @@
              UndecidableInstances #-}
 module T6018failclosed where
 
+import Data.Kind (Type)
+
 -- Id is injective...
 type family IdClosed a = result | result -> a where
     IdClosed a = a
 
 -- ...but despite that we disallow a call to Id
-type family IdProxyClosed (a :: *) = r | r -> a where
+type family IdProxyClosed (a :: Type) = r | r -> a where
     IdProxyClosed a = IdClosed a
 
 data N = Z | S N
@@ -34,7 +36,7 @@ type MaybeSynClosed a = IdClosed a
 type family LClosed a = r | r -> a where
     LClosed a = MaybeSynClosed a
 
-type family FClosed a b c = (result :: *) | result -> a b c where
+type family FClosed a b c = (result :: Type) | result -> a b c where
     FClosed Int  Char Bool = Bool
     FClosed Char Bool Int  = Int
     FClosed Bool Int  Char = Int

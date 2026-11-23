@@ -3273,10 +3273,6 @@ instance ExactPrint (HsExpr GhcPs) where
     t' <- markAnnotated t
     return (HsEmbTy toktype' t')
 
-  exact (HsStar tokstar) = do
-    tokstar' <- markEpUniToken tokstar
-    return (HsStar tokstar')
-
   exact (HsFunArr _ mult arg res) = do
     (mult', arg') <- markModifiedFunArrOf mult (markAnnotated arg)
     res' <- markAnnotated res
@@ -4133,9 +4129,6 @@ instance ExactPrint (HsType GhcPs) where
     an0 <- markEpUniToken an
     t' <- markAnnotated t
     return (HsIParamTy an0 n' t')
-  exact (HsStarTy tokstar) = do
-    tokstar' <- markEpUniToken tokstar
-    return (HsStarTy tokstar')
   exact (HsKindSig an ty k) = do
     ty' <- markAnnotated ty
     an0 <- markEpUniToken an

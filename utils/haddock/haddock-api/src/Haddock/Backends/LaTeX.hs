@@ -1359,7 +1359,6 @@ ppr_mono_ty (HsDocTy _ ty _) unicode =
   ppr_mono_lty ty unicode
 ppr_mono_ty (HsWildCardTy _) _ = char '_'
 ppr_mono_ty (HsTyLit _ t) u = ppr_tylit t u
-ppr_mono_ty (HsStarTy _) unicode = starSymbol unicode
 ppr_mono_ty (XHsType HsRedacted{}) _ = error "ppr_mono_ty: HsRedacted can't be used here"
 
 ppr_infix_ty :: LHsType DocNameI -> Maybe LaTeX
@@ -1633,13 +1632,12 @@ verb doc = text "{\\haddockverb\\begin{verbatim}" $$ doc <> text "\\end{verbatim
 quote :: LaTeX -> LaTeX
 quote doc = text "\\begin{quote}" $$ doc $$ text "\\end{quote}"
 
-dcolon, arrow, lollipop, darrow, forallSymbol, starSymbol :: Bool -> LaTeX
+dcolon, arrow, lollipop, darrow, forallSymbol :: Bool -> LaTeX
 dcolon unicode = text (if unicode then "∷" else "::")
 arrow unicode = text (if unicode then "→" else "->")
 lollipop unicode = text (if unicode then "⊸" else "%1 ->")
 darrow unicode = text (if unicode then "⇒" else "=>")
 forallSymbol unicode = text (if unicode then "∀" else "forall")
-starSymbol unicode = text (if unicode then "★" else "*")
 
 atSign :: LaTeX
 atSign = char '@'

@@ -4,10 +4,11 @@
 
 module T9371 where
 
+import Data.Kind (Type)
 import Data.Monoid
 
 class C x where
-    data D x :: *
+    data D x :: Type
     makeD :: D x
 
 instance {-# OVERLAPPABLE #-} Monoid x => C x where

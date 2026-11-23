@@ -1,8 +1,8 @@
 T13909.hs:10:18: error: [GHC-91028]
     • Expecting two more arguments to ‘Hm’
-      Expected kind ‘k’, but ‘Hm’ has kind ‘forall k -> k -> *’
+      Expected kind ‘k’, but ‘Hm’ has kind ‘forall k -> k -> Type’
       Cannot equate type variable ‘k’
-      with a kind involving polytypes: forall k1 -> k1 -> *
+      with a kind involving polytypes: forall k1 -> k1 -> Type
       ‘k’ is a rigid type variable bound by
         an instance declaration
         at T13909.hs:10:10-19

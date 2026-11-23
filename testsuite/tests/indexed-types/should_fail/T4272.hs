@@ -5,11 +5,13 @@
 
 module T4272 where
 
+import Data.Kind (Type)
+
 class Family f where
    terms :: f a -> a
 
 class Family (TermFamily a) => TermLike a where
-   type TermFamily a :: * -> *
+   type TermFamily a :: Type -> Type
 
 laws :: forall a b. TermLike a => TermFamily a a -> b  
 laws t = prune t (terms (undefined :: TermFamily a a))

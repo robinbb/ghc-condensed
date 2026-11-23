@@ -143,7 +143,7 @@ instance Outputable GhcHint where
          $$
            maybe empty
            (\rdr_name ->
-             text "NB: with NoStarIsType, " <> quotes (ppr rdr_name)
+             text "NB: " <> quotes (ppr rdr_name)
              <+> text "is treated as a regular type operator.")
            mb_rdr_name
 
@@ -161,10 +161,6 @@ instance Outputable GhcHint where
                -- will this last case ever happen??
                _   -> hang (text "Perhaps you meant one of these:")
                            2 (pprWithCommas (quotes . ppr) nearby)
-    SuggestQualifyStarOperator
-      -> text "To use (or export) this operator in"
-            <+> text "modules with StarIsType,"
-         $$ text "    including the definition module, you must qualify it."
     SuggestTypeSignatureRemoveQualifier
       -> text "Perhaps you meant to omit the qualifier"
     SuggestAddToHSigExportList _name mb_mod

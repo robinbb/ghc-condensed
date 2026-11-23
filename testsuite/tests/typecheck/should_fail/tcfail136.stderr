@@ -1,6 +1,6 @@
 tcfail136.hs:9:35: error: [GHC-83865]
     • Expecting one more argument to ‘SymDict’
-      Expected a type, but ‘SymDict’ has kind ‘* -> *’
+      Expected a type, but ‘SymDict’ has kind ‘Type -> Type’
     • In the type ‘SymDict’
       In the definition of data constructor ‘SymTable’
       In the data type declaration for ‘SymTable’

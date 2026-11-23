@@ -1,5 +1,5 @@
 TYPE CONSTRUCTORS
-  data type T{2} :: forall k. k -> *
+  data type T{2} :: forall k. k -> GHC.Internal.Types.Type
     roles nominal representational
 Dependent modules: []
 Dependent packages: [(normal, base-4.23.0.0),
