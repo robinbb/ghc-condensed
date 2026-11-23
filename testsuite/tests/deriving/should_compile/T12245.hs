@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module T12245 where

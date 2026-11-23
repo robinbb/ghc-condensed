@@ -1,5 +1,4 @@
-{-# LANGUAGE  DeriveDataTypeable,
-              FlexibleContexts, FlexibleInstances,
+{-# LANGUAGE FlexibleContexts, FlexibleInstances,
               UndecidableInstances,
               RankNTypes, EmptyDataDecls #-}
 

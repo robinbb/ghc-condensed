@@ -1,14 +1,14 @@
-annfail03.hs:12:16: error: [GHC-28914]
+annfail03.hs:11:16: error: [GHC-28914]
     • Level error:
       ‘InModule’ is used at level -1 but it is bound at level 0
     • In the annotation: {-# ANN module InModule #-}
 
-annfail03.hs:14:18: error: [GHC-28914]
+annfail03.hs:13:18: error: [GHC-28914]
     • Level error:
       ‘InModule’ is used at level -1 but it is bound at level 0
     • In the annotation: {-# ANN type Foo InModule #-}
 
-annfail03.hs:17:11: error: [GHC-28914]
+annfail03.hs:16:11: error: [GHC-28914]
     • Level error:
       ‘InModule’ is used at level -1 but it is bound at level 0
     • In the annotation: {-# ANN f InModule #-}

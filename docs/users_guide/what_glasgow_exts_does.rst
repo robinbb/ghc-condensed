@@ -1,6 +1,5 @@
 .. hlist::
 
- * :extension:`DeriveDataTypeable`
  * :extension:`DeriveFoldable`
  * :extension:`DeriveFunctor`
  * :extension:`DeriveGeneric`

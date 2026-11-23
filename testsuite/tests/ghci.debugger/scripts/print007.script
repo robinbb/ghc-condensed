@@ -4,7 +4,7 @@
 -- dataConRepArgTys says they are unboxed,
 -- but they seem to be not.
 -- So this test fails with wrong output
-:set -XExistentialQuantification -XDeriveDataTypeable -XGeneralizedNewtypeDeriving
+:set -XExistentialQuantification -XGeneralizedNewtypeDeriving
 :l Test
 
 let s = S2 'a' 'b'

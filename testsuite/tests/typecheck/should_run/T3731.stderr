@@ -1,11 +1,11 @@
-T3731.hs:121:32: error: [GHC-39999]
+T3731.hs:120:32: error: [GHC-39999]
     • Could not deduce ‘Default a’
         arising from a superclass required to satisfy ‘Data DefaultD a’,
         arising from a use of ‘dataTypeOf’
       from the context: Data DefaultD a
         bound by the type signature for:
                    defaultDefaultValue :: forall a. Data DefaultD a => a
-        at T3731.hs:118:1-43
+        at T3731.hs:117:1-43
       Possible fix:
         add (Default a) to the context of
           the type signature for:

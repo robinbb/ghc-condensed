@@ -253,7 +253,6 @@ library
   other-extensions:
     BangPatterns
     CPP
-    DeriveDataTypeable
     ExistentialQuantification
     ForeignFunctionInterface
     GeneralizedNewtypeDeriving

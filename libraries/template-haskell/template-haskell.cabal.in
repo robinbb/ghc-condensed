@@ -33,7 +33,6 @@ Library
         BangPatterns
         CPP
         DefaultSignatures
-        DeriveDataTypeable
         DeriveGeneric
         FlexibleInstances
         RankNTypes

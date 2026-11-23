@@ -1,7 +1,6 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
              ScopedTypeVariables, GADTs, RankNTypes, FlexibleContexts,
              GeneralizedNewtypeDeriving,
-             DeriveDataTypeable,
              UndecidableInstances, CPP, GHC2021 #-}
 
 module Main (main) where

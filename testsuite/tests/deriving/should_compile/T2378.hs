@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneDeriving, DeriveDataTypeable #-}
+{-# LANGUAGE StandaloneDeriving #-}
 module Foo( T ) where
 
 -- #2378

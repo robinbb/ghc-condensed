@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
 module Main where
 import Control.Exception (throwIO, Exception)
 import Control.Monad (when)

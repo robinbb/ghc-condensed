@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
 
 module Annfail03 where
 -- Testing annotating something with a value defined + Typeabled / Dataed in same module

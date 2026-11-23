@@ -1,6 +1,6 @@
 -- Type reconstruction with newtypes involved
 
-:set -XExistentialQuantification -XDeriveDataTypeable -XGeneralizedNewtypeDeriving
+:set -XExistentialQuantification -XGeneralizedNewtypeDeriving
 :l Test
 
 let i = map (Just . Just) [My 1 .. My 3]

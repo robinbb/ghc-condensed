@@ -21,8 +21,7 @@ automatically derived:
 -  With :extension:`DeriveFunctor`, you can derive instances of the class
    ``Functor``, defined in ``GHC.Base``.
 
--  With :extension:`DeriveDataTypeable`, you can derive instances of the class
-   ``Data``, defined in ``Data.Data``.
+-  You can derive instances of the class ``Data``, defined in ``Data.Data``.
 
 -  With :extension:`DeriveFoldable`, you can derive instances of the class
    ``Foldable``, defined in ``Data.Foldable``.
@@ -462,13 +461,8 @@ For a full specification of the algorithms used in :extension:`DeriveFunctor`,
 Deriving ``Data`` instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. extension:: DeriveDataTypeable
-    :shortdesc: Allow deriving for the ``Data`` class.
-
-    :since: 6.8.1
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Enable automatic deriving of instances for the ``Data`` typeclass
+Instances of the ``Data`` class, defined in ``Data.Data``, may always be
+derived.
 
 .. _deriving-typeable:
 
@@ -484,8 +478,7 @@ The class ``Typeable`` is very special:
    ensures that the programmer cannot subvert the type system by writing
    bogus instances.
 
--  Derived instances of ``Typeable`` may be declared if the
-   :extension:`DeriveDataTypeable` extension is enabled, but they are ignored,
+-  Derived instances of ``Typeable`` may be declared, but they are ignored,
    and they may be reported as an error in a later version of the compiler.
 
 -  The rules for solving ``Typeable`` constraints are as follows:

@@ -1,7 +1,6 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE BangPatterns #-}
 {-# OPTIONS_GHC -Wno-x-internalDebugShowMessages #-}
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}

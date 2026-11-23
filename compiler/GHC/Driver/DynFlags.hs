@@ -1421,7 +1421,6 @@ languageExtensions (Just GHC2021)
        LangExt.BangPatterns,
        LangExt.BinaryLiterals,
        LangExt.ConstraintKinds,
-       LangExt.DeriveDataTypeable,
        LangExt.DeriveFoldable,
        LangExt.DeriveFunctor,
        LangExt.DeriveGeneric,

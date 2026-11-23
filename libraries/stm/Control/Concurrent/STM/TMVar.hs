@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, DeriveDataTypeable, MagicHash, UnboxedTuples #-}
+{-# LANGUAGE CPP, MagicHash, UnboxedTuples #-}
 
 #if __GLASGOW_HASKELL__ >= 701
 {-# LANGUAGE Trustworthy #-}

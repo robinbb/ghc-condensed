@@ -1,7 +1,7 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE RoleAnnotations #-}
 {-# LANGUAGE DeriveTraversable, DeriveGeneric, EmptyCase,
-    DeriveDataTypeable, StandaloneDeriving, DeriveLift #-}
+    StandaloneDeriving, DeriveLift #-}
 
 module DrvEmptyData where
 import GHC.Generics (Generic, Generic1)

@@ -1,5 +1,5 @@
 -- Simple Recovery of types - opaque types
-:set -XExistentialQuantification -XDeriveDataTypeable -XGeneralizedNewtypeDeriving
+:set -XExistentialQuantification -XGeneralizedNewtypeDeriving
 :l Test
 let t = O (map Just [[1 :: Int,1],[2,2]])
 :p t

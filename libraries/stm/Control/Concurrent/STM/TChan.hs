@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-name-shadowing #-}
-{-# LANGUAGE CPP, DeriveDataTypeable #-}
+{-# LANGUAGE CPP #-}
 
 #if __GLASGOW_HASKELL__ >= 701
 {-# LANGUAGE Trustworthy #-}

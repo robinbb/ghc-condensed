@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 
 -- Test #2433
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneDeriving, DeriveDataTypeable, DeriveFunctor, DeriveFoldable, DeriveTraversable, EmptyDataDecls #-}  
+{-# LANGUAGE StandaloneDeriving, DeriveFunctor, DeriveFoldable, DeriveTraversable, EmptyDataDecls #-}  
 module T4302 where  
 
 import Data.Ix

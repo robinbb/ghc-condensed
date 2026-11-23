@@ -1,6 +1,5 @@
 {-# LANGUAGE CPP #-}
 #if __GLASGOW_HASKELL__ >= 800
-{-# LANGUAGE DeriveDataTypeable #-}
 #endif
 #if __GLASGOW_HASKELL__ >= 702
 {-# LANGUAGE Safe #-}
@@ -9,7 +8,6 @@
 #if __GLASGOW_HASKELL__ >= 706
 #endif
 #if __GLASGOW_HASKELL__ >= 710 && __GLASGOW_HASKELL__ < 802
-{-# LANGUAGE DeriveDataTypeable #-}
 #endif
 -----------------------------------------------------------------------------
 -- |

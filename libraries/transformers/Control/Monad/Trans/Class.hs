@@ -3,7 +3,6 @@
 {-# LANGUAGE Safe #-}
 #endif
 #if __GLASGOW_HASKELL__ >= 710 && __GLASGOW_HASKELL__ < 802
-{-# LANGUAGE DeriveDataTypeable #-}
 #endif
 #if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE QuantifiedConstraints #-}

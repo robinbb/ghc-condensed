@@ -1,6 +1,6 @@
 -- More newtypes goodness
 
-:set -XExistentialQuantification -XDeriveDataTypeable -XGeneralizedNewtypeDeriving
+:set -XExistentialQuantification -XGeneralizedNewtypeDeriving
 :l Test
 let a = map (MkT2 . MkT) [1::Integer .. 2]
 :p a

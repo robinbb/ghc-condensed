@@ -1,5 +1,4 @@
 {-# LANGUAGE ConstraintKinds       #-}
-{-# LANGUAGE DeriveDataTypeable    #-}
 {-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE RankNTypes            #-}

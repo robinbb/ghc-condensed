@@ -2,7 +2,6 @@
 #include "containers.h"
 {-# LANGUAGE BangPatterns #-}
 #if __GLASGOW_HASKELL__
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveLift #-}
 {-# LANGUAGE StandaloneDeriving #-}

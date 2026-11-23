@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE Unsafe #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# OPTIONS_HADDOCK print-explicit-runtime-reps #-}
 
 -----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, ScopedTypeVariables,
              GADTs, RankNTypes, FlexibleContexts, TypeSynonymInstances,
-             DeriveDataTypeable, PatternGuards,
+             PatternGuards,
              UndecidableInstances, CPP #-}
 
 module T1735_Help.Xml (Element(..), Xml, fromXml) where

@@ -3,7 +3,6 @@
 {-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 -----------------------------------------------------------------------------
 -- |
 -- Copyright   :  (C) 2014 Edward Kmett

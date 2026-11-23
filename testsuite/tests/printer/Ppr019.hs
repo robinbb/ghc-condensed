@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE RoleAnnotations #-}
 
 {-# OPTIONS_HADDOCK hide #-}

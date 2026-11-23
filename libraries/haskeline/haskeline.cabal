@@ -80,7 +80,7 @@ Library
                 ScopedTypeVariables, GeneralizedNewtypeDeriving
                 StandaloneDeriving
                 UndecidableInstances
-                ScopedTypeVariables, CPP, DeriveDataTypeable,
+                ScopedTypeVariables, CPP,
                 PatternGuards
     Exposed-Modules:
                 System.Console.Haskeline

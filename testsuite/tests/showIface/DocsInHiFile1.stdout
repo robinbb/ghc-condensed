@@ -109,7 +109,6 @@ docs:
          DoAndIfThenElse
          ConstraintKinds
          StandaloneDeriving
-         DeriveDataTypeable
          DeriveFunctor
          DeriveTraversable
          DeriveFoldable

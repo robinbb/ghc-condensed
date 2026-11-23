@@ -909,9 +909,7 @@ stockSideConditions deriv_ctxt cls
   | cls_key == enumClassKey        = Just (cond_std `andCond` cond_isEnumeration)
   | cls_key == ixClassKey          = Just (cond_std `andCond` cond_enumOrProduct cls)
   | cls_key == boundedClassKey     = Just (cond_std `andCond` cond_enumOrProduct cls)
-  | cls_key == dataClassKey        = Just (checkFlag LangExt.DeriveDataTypeable `andCond`
-                                        cond_vanilla `andCond`
-                                        cond_args cls)
+  | cls_key == dataClassKey        = Just (cond_vanilla `andCond` cond_args cls)
   | cls_key == functorClassKey     = Just (checkFlag LangExt.DeriveFunctor `andCond`
                                         cond_vanilla `andCond`
                                         cond_functorOK True False)

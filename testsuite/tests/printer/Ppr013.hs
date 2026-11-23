@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 
 import Data.Data
 

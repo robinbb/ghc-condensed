@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, FlexibleContexts #-}
+{-# LANGUAGE FlexibleContexts #-}
 module T7445a ( foo ) where
 
 import Data.Data

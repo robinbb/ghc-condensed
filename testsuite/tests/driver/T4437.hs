@@ -76,5 +76,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "ParallelArrays",
                                "CUSKs",
                                "StarIsType",
-                               "DeepSubsumption"
+                               "DeepSubsumption",
+                               "DeriveDataTypeable"
                               ]

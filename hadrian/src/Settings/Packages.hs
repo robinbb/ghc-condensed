@@ -43,11 +43,12 @@ packageArgs = do
 
     mconcat
         -- This compiler has no MultiParamTypeClasses, DataKinds,
-        -- KindSignatures, InstanceSigs or PolyKinds extension: classes may
-        -- have any number of parameters, data types are always promoted,
-        -- kinds may always be given, instance methods may carry signatures
-        -- and kinds are always generalised, so no source in the tree names
-        -- them. The bootstrap compiler still wants them all for the stage 0
+        -- KindSignatures, InstanceSigs, PolyKinds or DeriveDataTypeable
+        -- extension: classes may have any number of parameters, data types
+        -- are always promoted, kinds may always be given, instance methods
+        -- may carry signatures, kinds are always generalised and Data may
+        -- always be derived, so no source in the tree names them. The
+        -- bootstrap compiler still wants them all for the stage 0
         -- packages whose language edition lacks them (mtl, parsec, array,
         -- Cabal-syntax, the compiler itself and others).
         [ stage0 ? builder (Ghc CompileHs) ? arg "-XMultiParamTypeClasses"
@@ -55,6 +56,7 @@ packageArgs = do
         , stage0 ? builder (Ghc CompileHs) ? arg "-XKindSignatures"
         , stage0 ? builder (Ghc CompileHs) ? arg "-XInstanceSigs"
         , stage0 ? builder (Ghc CompileHs) ? arg "-XPolyKinds"
+        , stage0 ? builder (Ghc CompileHs) ? arg "-XDeriveDataTypeable"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

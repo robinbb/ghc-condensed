@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
 
 module T4003A where
 

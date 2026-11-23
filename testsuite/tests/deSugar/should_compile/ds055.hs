@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, DeriveDataTypeable #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 -- This module requires quite trick desugaring,
 -- because of the context in the existentials

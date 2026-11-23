@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, StandaloneDeriving, TypeOperators #-}
+{-# LANGUAGE StandaloneDeriving, TypeOperators #-}
 
 module T5682 where
 

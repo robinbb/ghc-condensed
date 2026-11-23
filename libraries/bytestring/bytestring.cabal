@@ -89,7 +89,6 @@ common language
   default-language: Haskell2010
   default-extensions:
     BangPatterns
-    DeriveDataTypeable
     DeriveGeneric
     DeriveLift
     FlexibleContexts

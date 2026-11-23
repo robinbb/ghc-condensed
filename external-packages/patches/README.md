@@ -82,13 +82,13 @@ exception.
   haskell-src-exts constructors of the extensions this compiler removed
   (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
-  `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`
-  and `TypeInType`) to `Nothing`, and drops those constructors, `CUSKs`,
-  `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
-  `AutoDeriveTypeable` and the two `AlternativeLayoutRule` constructors
-  from the reverse mapping, since this compiler's template-haskell no
-  longer has them. Blocks hsx2hs, jmacro, interpolatedstring-perl6 and
-  persistent-qq.
+  `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
+  `TypeInType` and `DeriveDataTypeable`) to `Nothing`, and drops those
+  constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
+  `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
+  `AlternativeLayoutRule` constructors from the reverse mapping, since this
+  compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro,
+  interpolatedstring-perl6 and persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those

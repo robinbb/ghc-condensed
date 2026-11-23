@@ -69,7 +69,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`BangPatterns`
      * :extension:`BinaryLiterals`
      * :extension:`ConstraintKinds`
-     * :extension:`DeriveDataTypeable`
      * :extension:`DeriveFoldable`
      * :extension:`DeriveFunctor`
      * :extension:`DeriveGeneric`
@@ -137,7 +136,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`BangPatterns`
      * :extension:`BinaryLiterals`
      * :extension:`ConstraintKinds`
-     * :extension:`DeriveDataTypeable`
      * :extension:`DeriveFoldable`
      * :extension:`DeriveFunctor`
      * :extension:`DeriveGeneric`

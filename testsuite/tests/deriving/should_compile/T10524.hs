@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
 module T10524 where
 
 import Data.Data

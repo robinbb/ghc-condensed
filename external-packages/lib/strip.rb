@@ -18,9 +18,10 @@ module Strip
   # so dropping the name changes nothing the compiler could still do for
   # the package.
   REMOVED = %w[
-    AlternativeLayoutRule AlternativeLayoutRuleTransitional CUSKs
-    ConstrainedClassMethods DataKinds DatatypeContexts DeepSubsumption
-    ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
+    AlternativeLayoutRule AlternativeLayoutRuleTransitional
+    AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
+    DatatypeContexts DeepSubsumption DeriveDataTypeable ExplicitForAll
+    IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
     ParallelArrays PolyKinds RelaxedPolyRec StarIsType TypeInType
   ].freeze
@@ -29,17 +30,12 @@ module Strip
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
   RENAMED = {
-    'AutoDeriveTypeable' => 'DeriveDataTypeable',
     'DoRec' => 'RecursiveDo',
     'PatternSignatures' => 'ScopedTypeVariables',
     'PolymorphicComponents' => 'RankNTypes',
     'Rank2Types' => 'RankNTypes',
     'RecordPuns' => 'NamedFieldPuns'
   }.freeze
-
-  # Renamed extensions whose only effect was to imply the new name: their
-  # No form did nothing, so it is dropped rather than renamed.
-  IMPLIED_ONLY = %w[AutoDeriveTypeable].freeze
 
 
   SOURCE_GLOB = '**/*.{hs,lhs,hsc,hs-boot,hsig,x,y,chs,cpphs,bkp,cabal}'
@@ -103,7 +99,7 @@ module Strip
     renamed.each do |old, new|
       body = body.gsub(/#{open}(No)?#{old}\b/) do
         polarity = Regexp.last_match(1)
-        if (polarity && IMPLIED_ONLY.include?(old)) || body.match?(/#{open}#{polarity}#{new}\b/)
+        if body.match?(/#{open}#{polarity}#{new}\b/)
           drop << "#{polarity}#{old}"
           "#{prefix}#{polarity}#{old}"
         else

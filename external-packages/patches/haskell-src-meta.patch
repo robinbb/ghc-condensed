@@ -45,8 +45,9 @@
 +  Exts.RelaxedPolyRec             -> Nothing
    Exts.ExtendedDefaultRules       -> Just TH.ExtendedDefaultRules
    Exts.UnboxedTuples              -> Just TH.UnboxedTuples
-   Exts.DeriveDataTypeable         -> Just TH.DeriveDataTypeable
+-  Exts.DeriveDataTypeable         -> Just TH.DeriveDataTypeable
 -  Exts.ConstrainedClassMethods    -> Just TH.ConstrainedClassMethods
++  Exts.DeriveDataTypeable         -> Nothing
 +  Exts.ConstrainedClassMethods    -> Nothing
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
@@ -120,7 +121,7 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -248,13 +238,9 @@
+@@ -248,13 +238,8 @@
    TH.DoAndIfThenElse                   -> Just Exts.DoAndIfThenElse
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
@@ -129,12 +130,12 @@
 -  TH.InstanceSigs                      -> Just Exts.InstanceSigs
    TH.ApplicativeDo                     -> Nothing
    TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
-   TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
+-  TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
 -  TH.AutoDeriveTypeable                -> Nothing
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,15 +252,11 @@
+@@ -266,15 +251,11 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -150,7 +151,7 @@
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
    TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -290,10 +272,6 @@
+@@ -290,10 +271,6 @@
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
@@ -161,7 +162,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +324,11 @@
+@@ -346,13 +323,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -175,7 +176,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +338,6 @@
+@@ -362,12 +337,6 @@
  #endif
  #endif
  

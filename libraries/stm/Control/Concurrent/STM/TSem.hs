@@ -13,7 +13,6 @@
 -- @since 2.4.2
 -----------------------------------------------------------------------------
 
-{-# LANGUAGE DeriveDataTypeable #-}
 module Control.Concurrent.STM.TSem
   ( TSem
   , newTSem

@@ -79,7 +79,6 @@ test-suite test
     CPP
     BangPatterns
     DefaultSignatures
-    DeriveDataTypeable
     DeriveGeneric
     FlexibleContexts
     Safe

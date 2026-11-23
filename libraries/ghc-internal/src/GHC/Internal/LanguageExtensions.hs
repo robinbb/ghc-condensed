@@ -82,7 +82,6 @@ data Extension
    | RequiredTypeArguments    -- Visible forall (VDQ) in types of terms
 
    | StandaloneDeriving
-   | DeriveDataTypeable
    | DeriveFunctor
    | DeriveTraversable
    | DeriveFoldable

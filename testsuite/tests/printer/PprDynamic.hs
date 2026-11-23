@@ -4,7 +4,7 @@ Stephanie Weirich, Richard Eisenberg, and Dimitrios Vytiniotis, 2016. -}
 {-#  LANGUAGE RankNTypes, TypeOperators,
              ScopedTypeVariables, GADTs, FlexibleInstances,
              UndecidableInstances, RebindableSyntax,
-             MagicHash, DeriveDataTypeable  #-}
+             MagicHash  #-}
 {-# OPTIONS_GHC -fno-warn-missing-methods -fno-warn-redundant-constraints #-}
 
 module Dynamic where

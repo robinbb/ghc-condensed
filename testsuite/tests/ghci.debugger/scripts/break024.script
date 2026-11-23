@@ -1,5 +1,4 @@
 -- Test -fbreak-on-exception and -fbreak-on-error
-:set -XDeriveDataTypeable
 :l break024
 :set -fbreak-on-error
 exception_caught

@@ -1,4 +1,4 @@
-{-# LANGUAGE CApiFFI, CPP, DeriveDataTypeable, NondecreasingIndentation #-}
+{-# LANGUAGE CApiFFI, CPP, NondecreasingIndentation #-}
 {-# OPTIONS_GHC -fno-cse #-} -- global variables
 {-# LANGUAGE Trustworthy #-}
 -----------------------------------------------------------------------------

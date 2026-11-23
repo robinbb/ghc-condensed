@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XDeriveDataTypeable -XStandaloneDeriving #-}
+{-# OPTIONS_GHC -XStandaloneDeriving #-}
 
 -- Test #2394
 

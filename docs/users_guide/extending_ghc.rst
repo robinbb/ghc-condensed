@@ -585,7 +585,6 @@ will print out the name of any top-level non-recursive binding with the
 
 ::
 
-    {-# LANGUAGE DeriveDataTypeable #-}
     module SayAnnNames.Plugin (plugin, SomeAnn(..)) where
     import GHC.Plugins
     import Control.Monad (unless)

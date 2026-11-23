@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
 module SayAnnNames (plugin, SomeAnn(..)) where
 import GHC.Plugins
 import Control.Monad (unless)

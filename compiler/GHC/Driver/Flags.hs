@@ -143,7 +143,6 @@ extensionName = \case
   LangExt.LinearTypes -> "LinearTypes"
   LangExt.RequiredTypeArguments -> "RequiredTypeArguments"    -- Visible forall (VDQ) in types of terms
   LangExt.StandaloneDeriving -> "StandaloneDeriving"
-  LangExt.DeriveDataTypeable -> "DeriveDataTypeable"
   LangExt.DeriveFunctor -> "DeriveFunctor"
   LangExt.DeriveTraversable -> "DeriveTraversable"
   LangExt.DeriveFoldable -> "DeriveFoldable"
@@ -310,8 +309,7 @@ impliedOffGFlags = [(Opt_Strictness, turnOff, Opt_WorkerWrapper)]
 -- Please keep @docs/users_guide/what_glasgow_exts_does.rst@ up to date with this list.
 glasgowExtsFlags :: [LangExt.Extension]
 glasgowExtsFlags = [
-             LangExt.DeriveDataTypeable
-           , LangExt.DeriveFoldable
+             LangExt.DeriveFoldable
            , LangExt.DeriveFunctor
            , LangExt.DeriveGeneric
            , LangExt.DeriveTraversable

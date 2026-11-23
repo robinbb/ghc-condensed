@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# OPTIONS_GHC -XDeriveDataTypeable #-}
 
 -- #1935
 -- See Note [Superclasses of derived instance] in GHC.Tc.Deriv

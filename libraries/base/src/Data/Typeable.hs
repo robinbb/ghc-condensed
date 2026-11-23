@@ -28,7 +28,7 @@
 --
 -- Since GHC 7.10, all types automatically have 'Typeable' instances derived.
 -- This is in contrast to previous releases where 'Typeable' had to be
--- explicitly derived using the @DeriveDataTypeable@ language extension.
+-- explicitly derived.
 --
 -- Since GHC 7.8, 'Typeable' is poly-kinded. The changes required for this might
 -- break some old programs involving 'Typeable'. More details on this, including

@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, FlexibleContexts, StandaloneDeriving, TypeOperators, UndecidableInstances #-}
+{-# LANGUAGE FlexibleContexts, StandaloneDeriving, TypeOperators, UndecidableInstances #-}
 module T3965 where
 
 import Data.Data

@@ -206,7 +206,6 @@ library
     BangPatterns
     CPP
     DefaultSignatures
-    DeriveDataTypeable
     DeriveFoldable
     DeriveFunctor
     DeriveGeneric

@@ -1,6 +1,5 @@
 -- This is the original inspiration for #18398
 
-{-# LANGUAGE DeriveDataTypeable #-}
 
 -----------------------------------------------------------------------------
 -- |

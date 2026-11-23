@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE EmptyDataDecls #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE ScopedTypeVariables #-}

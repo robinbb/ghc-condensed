@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable, StandaloneDeriving #-}
+{-# LANGUAGE StandaloneDeriving #-}
 -- | This shows how to use typeable to perform unsafe
 -- casts. Basically its an example of what Safe Haskell
 -- should disallow. SafeLang14 will do that.

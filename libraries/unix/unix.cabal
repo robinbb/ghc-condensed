@@ -67,7 +67,6 @@ library
     other-extensions:
         CApiFFI
         CPP
-        DeriveDataTypeable
         InterruptibleFFI
         NondecreasingIndentation
         RankNTypes
