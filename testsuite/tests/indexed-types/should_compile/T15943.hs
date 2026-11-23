@@ -1,5 +1,4 @@
 {-# Language RankNTypes             #-}
-{-# Language PolyKinds              #-}
 {-# Language TypeFamilyDependencies #-}
 {-# Language GADTs                  #-}
 {-# Language TypeSynonymInstances   #-}

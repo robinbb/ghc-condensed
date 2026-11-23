@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, PolyKinds #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Main where
 
@@ -34,7 +34,6 @@ main = do
       `gopt_set` Opt_SuppressUniques
       `gopt_set` Opt_SuppressModulePrefixes
       `gopt_set` Opt_SuppressVarKinds
-      `xopt_set` LangExt.PolyKinds
       `xopt_set` LangExt.RankNTypes
     hsc_env <- getSession
     let dflags = hsc_dflags hsc_env

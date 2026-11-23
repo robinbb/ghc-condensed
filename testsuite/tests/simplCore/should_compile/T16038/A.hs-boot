@@ -1,7 +1,9 @@
 {-# LANGUAGE Haskell2010 #-}
 module A where
 
-data HsExpr i
+
+import Data.Kind (Type)
+data HsExpr (i :: Type)
 
 instance Eq i => Eq (HsExpr i)
 

@@ -1,5 +1,4 @@
-{-# LANGUAGE PolyKinds,
-             TypeFamilies,
+{-# LANGUAGE TypeFamilies,
              GADTs #-}
 
 module T5862 where

@@ -1,5 +1,4 @@
-{-# LANGUAGE UnboxedTuples, MagicHash, GADTs,
-             PolyKinds #-}
+{-# LANGUAGE UnboxedTuples, MagicHash, GADTs #-}
 
 module Main where
 

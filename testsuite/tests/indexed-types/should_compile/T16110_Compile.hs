@@ -3,7 +3,9 @@
 {-# LANGUAGE TypeFamilies #-}
 module T16110_Compile where
 
-class C a where
+import Data.Kind (Type)
+
+class C (a :: Type) where
   type T1 a b
   type forall a b. T1 a b = Either a b
 

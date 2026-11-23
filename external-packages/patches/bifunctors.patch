@@ -1,0 +1,20 @@
+--- a/external-packages/bifunctors/tests/BifunctorSpec.hs
++++ b/external-packages/bifunctors/tests/BifunctorSpec.hs
+@@ -41,6 +41,7 @@
+ import Data.Functor.Classes (Eq1, Show1)
+ import Data.Functor.Compose (Compose(..))
+ import Data.Functor.Identity (Identity(..))
++import Data.Kind (Type)
+ import Data.Monoid
+ 
+ import GHC.Exts (Int#)
+@@ -93,7 +94,8 @@
+     | S3 b
+   deriving (Functor, Foldable, Traversable)
+ 
+-newtype OneTwoCompose f g a b = OneTwoCompose (f (g a b))
++newtype OneTwoCompose (f :: Type -> Type) (g :: Type -> Type -> Type) a b
++  = OneTwoCompose (f (g a b))
+   deriving (Arbitrary, Eq, Foldable, Functor, Show, Traversable)
+ 
+ newtype ComplexConstraint f g a b = ComplexConstraint (f Int Int (g a,a,b))

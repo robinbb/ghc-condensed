@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, PolyKinds #-}
+{-# LANGUAGE GADTs #-}
 module T15116 where
 
 import Data.Proxy

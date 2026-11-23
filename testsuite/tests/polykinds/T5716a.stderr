@@ -1,4 +1,4 @@
-T5716a.hs:9:27: error: [GHC-64578]
+T5716a.hs:8:27: error: [GHC-64578]
     • Data constructor ‘Bar’ cannot be used here
         (it comes from a data family instance)
     • In the type ‘(Bar a)’

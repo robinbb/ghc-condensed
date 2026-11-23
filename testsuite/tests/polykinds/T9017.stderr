@@ -1,5 +1,4 @@
-
-T9017.hs:8:7: error: [GHC-25897]
+T9017.hs:7:7: error: [GHC-25897]
     • Couldn't match kind ‘k1’ with ‘*’
       When matching types
         b0 :: *
@@ -11,8 +10,9 @@ T9017.hs:8:7: error: [GHC-25897]
           foo :: forall {k1} {k2} (a :: k1 -> k2 -> *) (b :: k1)
                         (m :: k1 -> k2).
                  a b (m b)
-        at T9017.hs:7:1-16
+        at T9017.hs:6:1-16
     • In the expression: arr return
       In an equation for ‘foo’: foo = arr return
     • Relevant bindings include
-        foo :: a b (m b) (bound at T9017.hs:8:1)
+        foo :: a b (m b) (bound at T9017.hs:7:1)
+

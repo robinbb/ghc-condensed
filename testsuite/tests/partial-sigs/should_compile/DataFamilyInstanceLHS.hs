@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, PolyKinds #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 module DataFamilyInstanceLHS where
 -- Test case from #10586
 data MyKind = A | B

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, TypeOperators,
+{-# LANGUAGE TypeFamilies, TypeOperators,
              UndecidableInstances #-}
 
 module T9063 where

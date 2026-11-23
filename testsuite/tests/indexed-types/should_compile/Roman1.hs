@@ -16,7 +16,7 @@ type instance State (ST s) = s
 unsafeFreeze :: Mut v (State (ST s)) a -> ST s (v a)
 unsafeFreeze = undefined
 
-new :: (forall v s. ST s (v s a)) -> v a
+new :: forall (v :: Type -> Type) (a :: Type). (forall v2 s. ST s (v2 s a)) -> v a
 new p = runST (do
                  mv <- p
                  unsafeFreeze mv)

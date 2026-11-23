@@ -9,8 +9,8 @@ import Control.Monad.ST ( ST )
 import Data.Kind (Type)
 
 
-data MVector s a = MV
-data Vector a    = V
+data MVector (s :: Type) (a :: Type) = MV
+data Vector (a :: Type) = V
 
 type family Mutable (v :: Type -> Type) :: Type -> Type -> Type
 type instance Mutable Vector = MVector

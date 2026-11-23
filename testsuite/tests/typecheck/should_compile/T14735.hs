@@ -17,8 +17,8 @@ data D c where
 
 newtype a :- b = S (a => D b)
 
-class C1 a b
-class C2 a b
+class C1 (a :: Type) (b :: Type)
+class C2 (a :: Type) (b :: Type)
 instance C1 a b => C2 a b
 
 class    (forall xx. f xx) => Limit f

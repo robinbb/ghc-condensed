@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, PolyKinds, GADTs, TypeFamilies, UndecidableInstances #-}
+{-# LANGUAGE RankNTypes, GADTs, TypeFamilies, UndecidableInstances #-}
 module NotInScope where
 
 import Data.Proxy

@@ -1,5 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE TypeFamilies, TypeFamilyDependencies, PolyKinds #-}
+{-# LANGUAGE TypeFamilies, TypeFamilyDependencies #-}
 module Bug where
 
 data T = Foo | Bar

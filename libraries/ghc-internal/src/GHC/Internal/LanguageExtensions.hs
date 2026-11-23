@@ -78,7 +78,6 @@ data Extension
    | BlockArguments
    | RebindableSyntax
    | ConstraintKinds
-   | PolyKinds                -- Kind polymorphism
    | TypeData                 -- allow @type data@ definitions
    | ApplicativeDo
    | LinearTypes

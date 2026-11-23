@@ -1,5 +1,4 @@
 {-# Language TypeApplications         #-}
-{-# Language PolyKinds             #-}
 
 module T12045e where
 

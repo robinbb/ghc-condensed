@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, ConstraintKinds #-}
+{-# LANGUAGE TypeFamilies, ConstraintKinds #-}
 
 module T20356 where
 

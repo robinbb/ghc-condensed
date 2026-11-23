@@ -460,9 +460,8 @@ module GHC.Generics  (
 --
 -- Like 'Generic', there is a class 'Generic1' that defines a
 -- representation 'Rep1' and conversion functions 'from1' and 'to1',
--- only that 'Generic1' ranges over types of kind @* -> *@. (More generally,
--- it can range over types of kind @k -> *@, for any kind @k@, if the
--- @PolyKinds@ extension is enabled. More on this later.)
+-- only that 'Generic1' ranges over types of kind @k -> *@, for any kind
+-- @k@. More on this later.
 -- The 'Generic1' class is also derivable.
 --
 -- The representation 'Rep1' is ever so slightly different from 'Rep'.
@@ -593,17 +592,14 @@ module GHC.Generics  (
 --
 -- |
 --
--- The 'Generic1' class can be generalized to range over types of kind
--- @k -> *@, for any kind @k@. To do so, derive a 'Generic1' instance with the
--- @PolyKinds@ extension enabled. For example, the declaration
+-- The 'Generic1' class ranges over types of kind @k -> *@, for any kind
+-- @k@. For example, the declaration
 --
 -- @
 -- data Proxy (a :: k) = Proxy deriving 'Generic1'
 -- @
 --
--- yields a slightly different instance depending on whether @PolyKinds@ is
--- enabled. If compiled without @PolyKinds@, then @'Rep1' Proxy :: * -> *@, but
--- if compiled with @PolyKinds@, then @'Rep1' Proxy :: k -> *@.
+-- yields @'Rep1' Proxy :: k -> *@.
 
 -- *** Representation of unlifted types
 --

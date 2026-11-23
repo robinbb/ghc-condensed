@@ -2,7 +2,9 @@
 {-# LANGUAGE GADTs, TypeOperators, TypeFamilies, ScopedTypeVariables #-}
 module T5591a where
 
-data a :=: b where 
+
+import Data.Kind (Type)
+data (a :: Type) :=: (b :: Type) where 
     Refl :: a :=: a
 
 subst :: a :=: b -> f a -> f b

@@ -2,9 +2,9 @@
 :browse! *T
 -- defined locally
 T.length :: T.Integer
-type N :: * -> Constraint
+type N :: forall {k}. k -> Constraint
 class N a
-type S :: * -> Constraint
+type S :: forall {k}. k -> Constraint
 class S a
 type C :: * -> * -> Constraint
 class C a b
@@ -56,14 +56,14 @@ Prelude.length ::
 type T.Integer :: *
 data T.Integer = ...
 T.length ::
-  bytestring-0.12.1.0:Data.ByteString.Internal.Type.ByteString
+  bytestring-0.12.2.0:Data.ByteString.Internal.Type.ByteString
   -> GHC.Internal.Types.Int
 :browse! T
 -- defined locally
 T.length :: T.Integer
-type N :: * -> Constraint
+type N :: forall {k}. k -> Constraint
 class N a
-type S :: * -> Constraint
+type S :: forall {k}. k -> Constraint
 class S a
 type C :: * -> * -> Constraint
 class C a b
@@ -75,9 +75,9 @@ c4 :: C a b => a1 -> b
 :browse! T -- with -fprint-explicit-foralls
 -- defined locally
 T.length :: T.Integer
-type N :: * -> Constraint
+type N :: forall {k}. k -> Constraint
 class N a
-type S :: * -> Constraint
+type S :: forall {k}. k -> Constraint
 class S a
 type C :: * -> * -> Constraint
 class C a b

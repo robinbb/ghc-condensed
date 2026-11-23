@@ -1574,11 +1574,6 @@ instance Diagnostic TcRnMessage where
     TcRnTyThingUsedWrong sort thing name
       -> mkSimpleDecorated $
          pprTyThingUsedWrong sort thing name
-    TcRnCannotDefaultKindVar var knd ->
-      mkSimpleDecorated $
-      (vcat [ text "Cannot default kind variable" <+> quotes (ppr var)
-            , text "of kind:" <+> ppr knd
-            , text "Perhaps enable PolyKinds or add a kind signature" ])
     TcRnUninferrableTyVar tidied_tvs context ->
       mkSimpleDecorated $
       pprWithInvisibleBitsWhen True $
@@ -1750,13 +1745,10 @@ instance Diagnostic TcRnMessage where
        text "they are allowed only for datatypes and classes.")
     TcRnRoleAnnotationsDisabled  tc -> mkSimpleDecorated $
       text "Illegal role annotation for" <+> ppr tc
-    TcRnUnexpectedKindVar tv_name
-      -> mkSimpleDecorated $ text "Unexpected kind variable" <+> quotes (ppr tv_name)
-
     TcRnNegativeNumTypeLiteral tyLit
       -> mkSimpleDecorated $ text "Illegal literal in type (type literals must not be negative):" <+> ppr tyLit
 
-    TcRnIllegalKind ty_thing _
+    TcRnIllegalKind ty_thing
       -> mkSimpleDecorated $ text "Illegal kind:" <+> (ppr ty_thing)
 
     TcRnPrecedenceParsingError op1 op2
@@ -2515,8 +2507,6 @@ instance Diagnostic TcRnMessage where
       -> WarningWithFlag Opt_WarnBadlyLevelledTypes
     TcRnTyThingUsedWrong{}
       -> ErrorWithoutFlag
-    TcRnCannotDefaultKindVar{}
-      -> ErrorWithoutFlag
     TcRnUninferrableTyVar{}
       -> ErrorWithoutFlag
     TcRnSkolemEscape{}
@@ -2578,8 +2568,6 @@ instance Diagnostic TcRnMessage where
     TcRnIllegalRoleAnnotation{}
       -> ErrorWithoutFlag
     TcRnRoleAnnotationsDisabled{}
-      -> ErrorWithoutFlag
-    TcRnUnexpectedKindVar{}
       -> ErrorWithoutFlag
     TcRnNegativeNumTypeLiteral{}
       -> ErrorWithoutFlag
@@ -3196,8 +3184,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnTyThingUsedWrong{}
       -> noHints
-    TcRnCannotDefaultKindVar{}
-      -> noHints
     TcRnUninferrableTyVar{}
       -> noHints
     TcRnSkolemEscape{}
@@ -3260,14 +3246,10 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnRoleAnnotationsDisabled{}
       -> [suggestExtension LangExt.RoleAnnotations]
-    TcRnUnexpectedKindVar{}
-      -> [suggestExtension LangExt.PolyKinds]
     TcRnNegativeNumTypeLiteral{}
       -> noHints
-    TcRnIllegalKind _ suggest_polyKinds
-      -> if suggest_polyKinds
-         then [suggestExtension LangExt.PolyKinds]
-         else noHints
+    TcRnIllegalKind{}
+      -> noHints
     TcRnPrecedenceParsingError{}
       -> noHints
     TcRnSectionPrecedenceError{}
@@ -3485,12 +3467,8 @@ deriveInstanceErrReasonHints :: Class
                              -> UsingGeneralizedNewtypeDeriving
                              -> DeriveInstanceErrReason
                              -> [GhcHint]
-deriveInstanceErrReasonHints cls newtype_deriving = \case
-  DerivErrNotWellKinded _ _ n_args_to_keep
-    | cls `hasKey` gen1ClassKey && n_args_to_keep >= 0
-    -> [suggestExtension LangExt.PolyKinds]
-    | otherwise
-    -> noHints
+deriveInstanceErrReasonHints _cls newtype_deriving = \case
+  DerivErrNotWellKinded{}         -> noHints
   DerivErrSafeHaskellGenericInst  -> noHints
   DerivErrDerivingViaWrongKind{}  -> noHints
   DerivErrNoEtaReduce{}           -> noHints

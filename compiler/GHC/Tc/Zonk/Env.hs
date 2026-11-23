@@ -1,6 +1,5 @@
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE NoPolyKinds #-}
 
 -- | The 'ZonkEnv' zonking environment, and the 'ZonkT' and 'ZonkBndrT'
 -- monad transformers, for the final zonking to type in "GHC.Tc.Zonk.Type".
@@ -28,6 +27,7 @@ module GHC.Tc.Zonk.Env
   )
   where
 
+import qualified Data.Kind as K
 import GHC.Prelude
 
 import GHC.Core.TyCo.Rep ( Type )
@@ -154,6 +154,9 @@ There are three possibilities:
 --
 -- It is strict in the 'ZonkEnv', and uses the one-shot trick;
 -- see Note [Instances for StrictReaderT] in GHC.Utils.Monad.StrictReader
+-- The kind is pinned: the monad parameter must be @Type -> Type@ for the
+-- instances derived via 'Codensity' below.
+type ZonkT :: (K.Type -> K.Type) -> K.Type -> K.Type
 type ZonkT = StrictReaderT ZonkEnv
 
 {-# COMPLETE ZonkT #-}

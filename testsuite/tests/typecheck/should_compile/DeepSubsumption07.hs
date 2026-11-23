@@ -1,8 +1,9 @@
-{-# LANGUAGE NoPolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 module DeepSubsumption07 where
 
-class Profunctor p where
+import Data.Kind (Type)
+
+class Profunctor (p :: Type -> Type -> Type -> Type) where
   dimap :: (s -> a) -> (b -> t) -> p i a b -> p i s t
 
 type Iso s t a b = forall p i . Profunctor p => p i a b -> p i s t

@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneKindSignatures, MagicHash, PolyKinds,
+{-# LANGUAGE StandaloneKindSignatures, MagicHash,
              UnliftedDatatypes, PatternSynonyms, ViewPatterns,
              GADTs #-}
 

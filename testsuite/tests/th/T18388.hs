@@ -7,10 +7,12 @@
 {-# LANGUAGE TypeApplications #-}
 module T18388 where
 
+
+import Data.Kind (Type)
 class C x y where
   m :: x -> y -> y
 
-newtype Tagged x a = MkTagged a
+newtype Tagged (x :: Type) a = MkTagged a
 instance C x (Tagged x a) where
   m _ = id
 

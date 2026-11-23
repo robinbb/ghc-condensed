@@ -1,4 +1,4 @@
-{-# LANGUAGE QuantifiedConstraints, PolyKinds, ScopedTypeVariables
+{-# LANGUAGE QuantifiedConstraints, ScopedTypeVariables
            , StandaloneDeriving, RoleAnnotations, TypeApplications
            , UndecidableInstances
            , GeneralizedNewtypeDeriving #-}

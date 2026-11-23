@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, PolyKinds
+{-# LANGUAGE TemplateHaskell
              , TypeApplications, TypeFamilies  #-}
 
 module T12045TH1 where

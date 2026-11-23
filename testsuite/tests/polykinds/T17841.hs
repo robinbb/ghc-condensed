@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module T17841 where
 

@@ -2,11 +2,13 @@
 {-# LANGUAGE TypeFamilies #-}
 unit p where
     signature A where
-        type family K a where ..
+        import Data.Kind (Type)
+        type family K (a :: Type) :: Type where ..
 
 unit q where
     signature A where
-        type family K a where
+        import Data.Kind (Type)
+        type family K (a :: Type) :: Type where
             K a = Int
 
 unit r where
@@ -15,7 +17,8 @@ unit r where
 
 unit i where
     module A where
-        type family K a where
+        import Data.Kind (Type)
+        type family K (a :: Type) :: Type where
             K a = Int
 
 unit m where

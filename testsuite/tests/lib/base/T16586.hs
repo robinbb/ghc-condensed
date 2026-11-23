@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, RankNTypes, ScopedTypeVariables #-}
+{-# LANGUAGE RankNTypes, ScopedTypeVariables #-}
 
 module Main where
 

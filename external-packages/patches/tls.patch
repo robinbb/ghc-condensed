@@ -1,0 +1,28 @@
+--- a/external-packages/hs-tls/tls/Network/TLS/Crypto.hs
++++ b/external-packages/hs-tls/tls/Network/TLS/Crypto.hs
+@@ -66,6 +66,7 @@
+ import qualified Data.ByteArray as BA
+ import qualified Data.ByteString as B
+ import Data.Proxy
++import Data.Kind (Type)
+ import Data.X509 (
+     PrivKey (..),
+     PrivKeyEC (..),
+@@ -496,7 +497,7 @@
+ -- available, otherwise fallback to the classic ECC implementation.
+ withPubKeyEC
+     :: PubKeyEC
+-    -> ( forall curve
++    -> ( forall (curve :: Type)
+           . ECDSA.EllipticCurveECDSA curve
+          => Proxy curve
+          -> ECDSA.PublicKey curve
+@@ -526,7 +527,7 @@
+ -- kxSupportedEcPrivKey.
+ withPrivKeyEC
+     :: PrivKeyEC
+-    -> ( forall curve
++    -> ( forall (curve :: Type)
+           . ECDSA.EllipticCurveECDSA curve
+          => Proxy curve
+          -> ECDSA.PrivateKey curve

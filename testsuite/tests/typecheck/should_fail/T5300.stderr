@@ -2,7 +2,7 @@ T5300.hs:12:7: error: [GHC-39999]
     • Could not deduce ‘C1 a b c0’
       from the context: (Monad m, C1 a b c)
         bound by the type signature for:
-                   f1 :: forall (m :: * -> *) a b c.
+                   f1 :: forall {k1} {k2} (m :: * -> *) a (b :: k1) (c :: k2).
                          (Monad m, C1 a b c) =>
                          a -> StateT (T b) m a
         at T5300.hs:12:7-50
@@ -16,7 +16,8 @@ T5300.hs:15:7: error: [GHC-39999]
     • Could not deduce ‘C2 a2 b2 c20’
       from the context: (Monad m, C1 a1 b1 c1, C2 a2 b2 c2)
         bound by the type signature for:
-                   f2 :: forall (m :: * -> *) a1 b1 c1 a2 b2 c2.
+                   f2 :: forall {k2} {k3} {k4} {k5} (m :: * -> *) a1 (b1 :: k2)
+                                (c1 :: k3) a2 (b2 :: k4) (c2 :: k5).
                          (Monad m, C1 a1 b1 c1, C2 a2 b2 c2) =>
                          a1 -> StateT (T b2) m a2
         at T5300.hs:15:7-69

@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module BadTelescope3 where
 

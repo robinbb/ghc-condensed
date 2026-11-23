@@ -1,4 +1,3 @@
-{-# Language PolyKinds #-}
 
 module T15804 where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE NoScopedTypeVariables #-}
-{-# LANGUAGE PolyKinds, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 module T16635a where
 

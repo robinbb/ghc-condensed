@@ -1,4 +1,4 @@
-{-# language PolyKinds, TypeFamilies,
+{-# language TypeFamilies,
   NoImplicitPrelude, FlexibleContexts,
   GADTs,
   ConstraintKinds, FlexibleInstances, UndecidableInstances,

@@ -1,7 +1,6 @@
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
@@ -363,7 +362,7 @@ instance (SingI x, SingI xs) => SingI (VCons x xs) where
   sing = SVCons sing sing
 
 -----
--- PolyKinds
+-- Kind polymorphism
 -----
 
 data Prox (a :: k) = P

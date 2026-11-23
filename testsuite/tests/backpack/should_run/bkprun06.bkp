@@ -2,6 +2,7 @@
 {-# LANGUAGE RoleAnnotations #-}
 unit sigs where
     signature Map where
+        import Data.Kind (Type)
         import Data.Typeable
         import Data.Data
         import Data.Traversable
@@ -13,7 +14,7 @@ unit sigs where
         infixl 9 !,\\
 
         type role Map nominal representational
-        data Map k a
+        data Map (k :: Type) (a :: Type)
 
         instance Functor (Map k)
         instance Foldable (Map k)
@@ -131,10 +132,11 @@ unit sigs where
         valid :: Ord k => Map k a -> Bool
 
     signature MapAsSet where
+        import Data.Kind (Type)
         import Data.Set
 
         type role Map nominal representational
-        data Map k a
+        data Map (k :: Type) (a :: Type)
         instance Functor (Map k)
 
         keysSet :: Map k a -> Set k

@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module T14066f where
 

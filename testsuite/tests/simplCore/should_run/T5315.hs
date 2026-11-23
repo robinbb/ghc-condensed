@@ -9,11 +9,12 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
 
+import Data.Kind (Type)
 infixr 7 :*, .*
 infix  8 :*:, .*.
 
 data HNil
-data α :* β
+data (α :: Type) :* (β :: Type)
 type HSingle α = α :* HNil
 type α :*: β = α :* β :* HNil
 
@@ -28,7 +29,7 @@ data HList l where
 a .*. b = a .* b .* HNil
 
 data First
-data Next p
+data Next (p :: Type)
 
 data HIndex i where
   First ∷ HIndex First

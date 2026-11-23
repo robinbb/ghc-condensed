@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module T7272a where
 

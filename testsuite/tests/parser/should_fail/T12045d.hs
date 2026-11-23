@@ -1,5 +1,4 @@
 {-# Language TypeApplications         #-}
-{-# Language PolyKinds             #-}
 
 module Bug where
 

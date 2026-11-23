@@ -1,4 +1,4 @@
-{-# Language ViewPatterns, TypeOperators, PolyKinds,
+{-# Language ViewPatterns, TypeOperators,
              StandaloneDeriving, GADTs, RebindableSyntax,
              RankNTypes, LambdaCase, PatternSynonyms, TypeApplications #-}
 

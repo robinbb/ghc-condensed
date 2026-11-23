@@ -22,4 +22,4 @@ v = 42
 class C a where
   -- | 'AT' docs
   type AT a
-  type AT a = Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy)))))))))
+  type AT a = Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy :: Type -> Type)))))))))

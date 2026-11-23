@@ -1,7 +1,5 @@
 {-# LANGUAGE
   MonoLocalBinds,
-  PolyKinds,
-
   FunctionalDependencies,
   FlexibleContexts #-}
 

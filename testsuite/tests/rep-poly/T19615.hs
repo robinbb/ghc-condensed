@@ -1,5 +1,4 @@
 {-# LANGUAGE RankNTypes     #-}
-{-# LANGUAGE PolyKinds      #-}
 {-# LANGUAGE TypeFamilies #-}
 module T19615 where
 

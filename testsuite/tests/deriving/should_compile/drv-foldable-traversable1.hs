@@ -5,6 +5,8 @@
 
 module ShouldCompile where
 
+
+import Data.Kind (Type)
 import Data.Foldable
 import Data.Traversable
 
@@ -30,5 +32,5 @@ data StupidConstraint a b = Stupid a b
   deriving (Functor,Foldable,Traversable)
 
 -- requires Foldable/Traversable constraint on f and g
-data Compose f g a = Compose (f (g a))
+data Compose (f :: Type -> Type) (g :: Type -> Type) a = Compose (f (g a))
   deriving (Functor,Foldable,Traversable)

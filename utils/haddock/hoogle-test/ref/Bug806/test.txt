@@ -10,16 +10,16 @@ module Bug806
 type family F1 a b :: Type -> Type
 
 -- | <a>F2</a> docs
-type family F2 a b :: Type -> Type
+type family F2 a (b :: k) :: Type -> Type
 
 -- | <a>D</a> docs
 data family D a :: Type -> Type
 v :: Int
 
 -- | <a>C</a> docs
-class C a where {
+class C (a :: k) where {
     
     -- | <a>AT</a> docs
-    type AT a;
-    type AT a = Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy :: Type -> Type;
+    type AT (a :: k);
+    type AT a :: k = Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy Proxy :: Type -> Type;
 }

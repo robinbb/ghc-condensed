@@ -1,6 +1,5 @@
 :set -XTypeFamilyDependencies
 :set -XUndecidableInstances
-:set -XPolyKinds
 import Data.Kind (Type)
 
 

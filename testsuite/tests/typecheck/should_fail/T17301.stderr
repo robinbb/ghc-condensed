@@ -1,4 +1,4 @@
-T17301.hs:21:3: error: [GHC-16220]
+T17301.hs:20:3: error: [GHC-16220]
     • Uninferrable type variable (a0 :: A) in
       the type family equation right-hand side:
       MkATySing @(B a0) (SB @a0)

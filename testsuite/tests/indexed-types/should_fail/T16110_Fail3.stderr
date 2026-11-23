@@ -1,4 +1,4 @@
-T16110_Fail3.hs:11:3: error: [GHC-41522]
+T16110_Fail3.hs:10:3: error: [GHC-41522]
     • Illegal argument ‘Int’ in:
         ‘type T a Int = ...’
         The arguments to ‘T’ must all be distinct type variables.

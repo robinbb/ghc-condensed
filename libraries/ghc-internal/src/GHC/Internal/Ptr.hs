@@ -28,6 +28,7 @@ module GHC.Internal.Ptr (
 
     ) where
 
+import GHC.Internal.Types (Type)
 import GHC.Internal.Base
 import GHC.Internal.Prim (
       Addr#, addr2Int#, coerce, int2Word#, minusAddr#, nullAddr#, plusAddr#,
@@ -49,7 +50,7 @@ import GHC.Internal.Numeric          ( showHex )
 
 -- redundant role annotation checks that this doesn't change
 type role Ptr phantom
-data Ptr a = Ptr Addr#
+data Ptr (a :: Type) = Ptr Addr#
   deriving ( Eq  -- ^ @since base-2.01
            , Ord -- ^ @since base-2.01
            )
@@ -98,7 +99,7 @@ minusPtr (Ptr a1) (Ptr a2) = I# (minusAddr# a1 a2)
 
 -- 'FunPtr' has a phantom role for similar reasons to 'Ptr'.
 type role FunPtr phantom
-data FunPtr a = FunPtr Addr# deriving (Eq, Ord)
+data FunPtr (a :: Type) = FunPtr Addr# deriving (Eq, Ord)
 -- ^ A value of type @'FunPtr' a@ is a pointer to a function callable
 -- from foreign code.  The type @a@ will normally be a /foreign type/,
 -- a function type with zero or more arguments where

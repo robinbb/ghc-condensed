@@ -1,24 +1,24 @@
-
-T16110_Fail1.hs:10:19: error: [GHC-76037]
+T16110_Fail1.hs:9:19: error: [GHC-76037]
     Not in scope: type variable ‘a’
 
-T16110_Fail1.hs:10:21: error: [GHC-76037]
+T16110_Fail1.hs:9:21: error: [GHC-76037]
     Not in scope: type variable ‘b’
 
-T16110_Fail1.hs:10:32: error: [GHC-76037]
+T16110_Fail1.hs:9:32: error: [GHC-76037]
     Not in scope: type variable ‘a’
 
-T16110_Fail1.hs:10:34: error: [GHC-76037]
+T16110_Fail1.hs:9:34: error: [GHC-76037]
     Not in scope: type variable ‘b’
 
-T16110_Fail1.hs:13:15: error: [GHC-10498]
+T16110_Fail1.hs:12:15: error: [GHC-10498]
     Conflicting definitions for ‘dup’
-    Bound at: T16110_Fail1.hs:13:15-17
-              T16110_Fail1.hs:13:19-21
-              T16110_Fail1.hs:13:23-25
+    Bound at: T16110_Fail1.hs:12:15-17
+              T16110_Fail1.hs:12:19-21
+              T16110_Fail1.hs:12:23-25
 
-T16110_Fail1.hs:16:21: error: [GHC-76037]
+T16110_Fail1.hs:15:21: error: [GHC-76037]
     Not in scope: type variable ‘a’
 
-T16110_Fail1.hs:19:21: error: [GHC-76037]
+T16110_Fail1.hs:18:21: error: [GHC-76037]
     Not in scope: type variable ‘k’
+

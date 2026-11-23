@@ -1,0 +1,19 @@
+--- a/external-packages/vector/vector/src/Data/Vector/Storable/Mutable.hs
++++ b/external-packages/vector/vector/src/Data/Vector/Storable/Mutable.hs
+@@ -84,6 +84,7 @@
+ import qualified Data.Vector.Generic.Mutable as G
+ import Data.Vector.Storable.Internal
+ 
++import Data.Kind (Type)
+ import Foreign.Storable
+ import Foreign.ForeignPtr
+ 
+@@ -128,7 +129,7 @@
+ unsafeCoerceMVector = unsafeCoerce
+ 
+ -- | Mutable 'Storable'-based vectors.
+-data MVector s a = MVector {-# UNPACK #-} !Int
++data MVector (s :: Type) a = MVector {-# UNPACK #-} !Int
+                            {-# UNPACK #-} !(ForeignPtr a)
+         deriving ( Typeable )
+ 

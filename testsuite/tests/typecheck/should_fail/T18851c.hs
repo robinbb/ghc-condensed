@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs                    #-}
-{-# LANGUAGE PolyKinds                #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilyDependencies   #-}
 {-# LANGUAGE TypeOperators            #-}

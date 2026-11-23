@@ -1,0 +1,19 @@
+--- a/external-packages/vendored/barbies/src/Barbies/Internal/Containers.hs
++++ b/external-packages/vendored/barbies/src/Barbies/Internal/Containers.hs
+@@ -11,6 +11,7 @@
+ import Data.Bifunctor (first)
+ import Data.Bitraversable (bitraverse)
+ import Data.Functor.Const
++import Data.Kind (Type)
+ import GHC.Generics (Generic)
+ 
+ 
+@@ -18,7 +19,7 @@
+ 
+ -- | Wrapper for barbies that act as containers of @a@
+ --   by wearing @('Const' a)@.
+-newtype Container b a
++newtype Container (b :: (Type -> Type) -> Type) a
+   = Container { getContainer :: b (Const a) }
+   deriving  (Generic)
+ 

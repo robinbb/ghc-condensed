@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeApplications      #-}
-{-# LANGUAGE PolyKinds             #-}
 
 module NatVal where
 

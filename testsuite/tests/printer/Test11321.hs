@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators
-           , PolyKinds
            , TypeFamilies
            , GADTs
            , UndecidableInstances

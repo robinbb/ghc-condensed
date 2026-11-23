@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE PolyKinds                  #-}
 
 module PolyKinds03 where
 

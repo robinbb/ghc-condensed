@@ -8,8 +8,9 @@ unit prelude-sig where
 unit arrays-sig where
     dependency prelude-sig[Prel=<Prel>]
     signature Array where
+        import Data.Kind (Type)
         import Prel
-        data Arr i e
+        data Arr (i :: Type) (e :: Type)
         something :: List (Arr i e)
 
 unit structures where
@@ -29,9 +30,10 @@ unit structures where
 unit arrays-a where
     dependency prelude-sig[Prel=<Prel>]
     module Array where
+        import Data.Kind (Type)
         import qualified Prel as P
         type role Arr representational representational
-        data Arr i e = MkArr ()
+        data Arr (i :: Type) (e :: Type) = MkArr ()
         something :: P.List (Arr i e)
         something = P.Nil
 

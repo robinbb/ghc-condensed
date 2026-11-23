@@ -1,5 +1,4 @@
 {-# LANGUAGE UnliftedDatatypes #-}
-{-# LANGUAGE PolyKinds #-}
 
 module UnlDataNullaryPoly where
 

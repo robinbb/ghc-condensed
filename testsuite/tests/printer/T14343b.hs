@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 {-# OPTIONS_GHC -Werror=typed-holes #-}
 
 main :: IO ()

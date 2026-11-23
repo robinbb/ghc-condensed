@@ -1856,11 +1856,8 @@ defaultTyVarsAndSimplify rhs_tclvl candidates
          --      the logic in decidePromotedTyVars, which looks at
          --      the constraints generated
 
-       ; poly_kinds  <- xoptM LangExt.PolyKinds
-       ; let default_kv | poly_kinds = default_tv
-                        | otherwise  = defaultTyVar DefaultKindVars
-             default_tv = defaultTyVar (NonStandardDefaulting DefaultNonStandardTyVars)
-       ; mapM_ default_kv (dVarSetElems cand_kvs)
+       ; let default_tv = defaultTyVar DefaultNonStandardTyVars
+       ; mapM_ default_tv (dVarSetElems cand_kvs)
        ; mapM_ default_tv (dVarSetElems (cand_tvs `minusDVarSet` cand_kvs))
 
        ; simplify_cand candidates
@@ -1901,8 +1898,8 @@ decideQuantifiedTyVars skol_info_anon name_taus psigs candidates
              -- See Note [growThetaTyVars vs closeWrtFunDeps]
              grown_tcvs = growThetaTyVars candidates seed_tvs
 
-       -- Now we have to classify them into kind variables and type variables
-       -- (sigh) just for the benefit of -XNoPolyKinds; see quantifyTyVars
+       -- Now we have to classify them into kind variables and type variables,
+       -- so that the kind variables come first; see quantifyTyVars
        --
        -- The psig_tys are first in seed_tys, then candidates, then tau_tvs.
        -- This makes candidateQTyVarsOfTypes produces them in that order, so that the

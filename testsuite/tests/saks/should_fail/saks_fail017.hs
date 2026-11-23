@@ -1,6 +1,6 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE PolyKinds, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 module SAKS_Fail017 where
 

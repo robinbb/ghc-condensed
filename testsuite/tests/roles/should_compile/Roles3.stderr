@@ -1,15 +1,15 @@
 TYPE SIGNATURES
   meth1 :: forall a. C1 a => a -> a
   meth2 :: forall a b. (C2 a b, a ~ b) => a -> b
-  meth3 :: forall a b. C3 a b => a -> F3 b -> F3 b
+  meth3 :: forall {k} a (b :: k). C3 a b => a -> F3 b -> F3 b
   meth4 :: forall a b. C4 a b => a -> F4 b -> F4 b
 TYPE CONSTRUCTORS
   class C1{1} :: * -> Constraint
   class C2{2} :: * -> * -> Constraint
-  class C3{2} :: * -> * -> Constraint
+  class C3{3} :: forall {k}. * -> k -> Constraint
   class C4{2} :: * -> * -> Constraint
-  associated type family F3{1} :: * -> *
-    roles nominal
+  associated type family F3{2} :: forall {k}. k -> *
+    roles nominal nominal
   type family F4{1} :: * -> *
     roles nominal
   type synonym Syn1{1} :: * -> *
@@ -26,7 +26,7 @@ Roles3.$tcC4 [InlPrag=[~]]
 Roles3.$tcC3 [InlPrag=[~]]
   = GHC.Internal.Types.TyCon
       5076086601454991970#Word64 10299714674904836194#Word64
-      Roles3.$trModule (GHC.Internal.Types.TrNameS "C3"#) 0# $krep
+      Roles3.$trModule (GHC.Internal.Types.TrNameS "C3"#) 1# $krep
 Roles3.$tcC2 [InlPrag=[~]]
   = GHC.Internal.Types.TyCon
       7902873224172523979#Word64 11840994447152209031#Word64
@@ -47,8 +47,13 @@ $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepVar 0
 $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepVar 1
 $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepFun $krep $krep
 $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepFun $krep $krep
+$krep [InlPrag=[~]]
+  = GHC.Internal.Types.KindRepFun
+      $krep GHC.Internal.Types.krepConstraint
 $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepFun $krep $krep
 $krep [InlPrag=[~]] = GHC.Internal.Types.KindRepFun $krep $krep
+$krep [InlPrag=[~]]
+  = GHC.Internal.Types.KindRepFun GHC.Internal.Types.krepStar $krep
 $krep [InlPrag=[~]]
   = GHC.Internal.Types.KindRepFun GHC.Internal.Types.krepStar $krep
 $krep [InlPrag=[~]]

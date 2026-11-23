@@ -1,5 +1,4 @@
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeAbstractions #-}
 module T16244 where
 

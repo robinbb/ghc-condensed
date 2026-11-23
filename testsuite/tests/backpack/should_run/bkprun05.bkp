@@ -2,6 +2,7 @@
 {-# LANGUAGE RoleAnnotations #-}
 unit app where
     signature Map where
+        import Data.Kind (Type)
         import Data.Typeable
         import Data.Data
         import Data.Traversable
@@ -13,7 +14,7 @@ unit app where
         infixl 9 !,\\
 
         type role Map nominal representational
-        data Map k a
+        data Map (k :: Type) (a :: Type)
 
         instance Functor (Map k)
         instance Foldable (Map k)

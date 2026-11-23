@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 module Example where
 
 import Data.Typeable

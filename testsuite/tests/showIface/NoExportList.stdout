@@ -60,7 +60,6 @@ docs:
          GADTSyntax
          DoAndIfThenElse
          ConstraintKinds
-         PolyKinds
          StandaloneDeriving
          DeriveDataTypeable
          DeriveFunctor

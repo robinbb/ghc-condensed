@@ -1008,7 +1008,7 @@ Some potential gotchas, inspired by #18023:
 2. On the other hand, we *don't* want to quantify `x` in the type of `field1`.
    This is because `x` does not appear in the GADT return type, so it is not
    needed in the selector type.
-3. Because of PolyKinds, the kind of `b` is generalized to `k`. Moreover, since
+3. The kind of `b` is generalized to `k`. Moreover, since
    this `k` is not written in the source code, it is inferred (i.e., not
    available for explicit type applications) and thus written as {k} in the type
    of `field1`.

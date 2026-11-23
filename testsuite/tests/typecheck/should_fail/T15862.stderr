@@ -1,4 +1,4 @@
-T15862.hs:15:16: error: [GHC-91028]
+T15862.hs:14:16: error: [GHC-91028]
     • Expected kind ‘k0’, but ‘MkFoo’ has kind ‘(forall a. a) -> Foo’
       Cannot instantiate unification variable ‘k0’
       with a kind involving polytypes: (forall a. a) -> Foo

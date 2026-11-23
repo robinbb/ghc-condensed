@@ -1,4 +1,4 @@
-{-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, ScopedTypeVariables, PolyKinds, TypeApplications #-}
+{-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, ScopedTypeVariables, TypeApplications #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverloadedRecordDot, OverloadedRecordUpdate #-}

@@ -1,4 +1,4 @@
-T18451a.hs:10:15: error: [GHC-97739]
+T18451a.hs:9:15: error: [GHC-97739]
     • These kind and type variables: a b (c :: Const Type b)
       are out of dependency order. Perhaps try this ordering:
         (b :: k) (a :: Const (*) b) (c :: Const (*) b)

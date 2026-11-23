@@ -12,5 +12,7 @@
 
 module ShouldCompile where
 
-f :: (forall a b . a b -> int) -> (forall c . c int) -> int 
+
+import Data.Kind (Type)
+f :: (forall a (b :: Type) . a b -> int) -> (forall c . c int) -> int 
 f x y = x y

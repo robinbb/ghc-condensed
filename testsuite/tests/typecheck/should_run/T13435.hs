@@ -1,5 +1,5 @@
 {-# Language FlexibleInstances, TypeFamilies,
-             PolyKinds, MagicHash #-}
+             MagicHash #-}
 
 module Main where
 

@@ -1,4 +1,4 @@
-T16326_Fail6.hs:9:3: error: [GHC-51580]
+T16326_Fail6.hs:8:3: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall a -> a -> Foo a
     • In the definition of data constructor ‘MkFoo’

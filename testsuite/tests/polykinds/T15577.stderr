@@ -1,4 +1,4 @@
-T15577.hs:20:18: error: [GHC-83865]
+T15577.hs:19:18: error: [GHC-83865]
     • Expecting one more argument to ‘f’
       Expected a type, but ‘f’ has kind ‘* -> *’
     • In the type ‘f’

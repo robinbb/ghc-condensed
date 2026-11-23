@@ -4,7 +4,6 @@
 {-# LANGUAGE ScopedTypeVariables     #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE TypeApplications        #-}
-{-# LANGUAGE PolyKinds    #-}
 {-# LANGUAGE AllowAmbiguousTypes     #-}
 {-# LANGUAGE NoImplicitPrelude       #-}
 {-# LANGUAGE GADTs                   #-}

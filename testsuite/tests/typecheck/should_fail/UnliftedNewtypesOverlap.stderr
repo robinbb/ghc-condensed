@@ -1,5 +1,5 @@
-UnliftedNewtypesOverlap.hs:12:15: error: [GHC-34447]
+UnliftedNewtypesOverlap.hs:11:15: error: [GHC-34447]
     Conflicting family instance declarations:
-      DF -- Defined at UnliftedNewtypesOverlap.hs:12:15
-      DF -- Defined at UnliftedNewtypesOverlap.hs:13:18
+      DF -- Defined at UnliftedNewtypesOverlap.hs:11:15
+      DF -- Defined at UnliftedNewtypesOverlap.hs:12:18
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, UnboxedTuples,PolyKinds, TypeFamilies, TypeOperators #-}
+{-# LANGUAGE MagicHash, UnboxedTuples, TypeFamilies, TypeOperators #-}
 
 module T17131 where
 

@@ -1,4 +1,3 @@
-{-# language PolyKinds #-}
 {-# language FlexibleContexts #-}
 {-# language ConstraintKinds #-}
 {-# language FlexibleInstances #-}

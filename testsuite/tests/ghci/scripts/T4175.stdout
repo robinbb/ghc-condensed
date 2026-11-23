@@ -10,9 +10,9 @@ data family B a
 instance [safe] G B -- Defined at T4175.hs:35:10
 type instance A (B a) b = () 	-- Defined at T4175.hs:11:15
 data instance B () = MkB 	-- Defined at T4175.hs:14:15
-type C :: * -> Constraint
+type C :: forall {k}. k -> Constraint
 class C a where
-  type D :: * -> * -> *
+  type D :: forall {k}. k -> * -> *
   type family D a b
   	-- Defined at T4175.hs:17:5
 type instance D Int () = String 	-- Defined at T4175.hs:20:10
@@ -74,7 +74,8 @@ instance Show Int -- Defined in ‘GHC.Internal.Show’
 instance Integral Int -- Defined in ‘GHC.Internal.Real’
 type instance A Int Int = () 	-- Defined at T4175.hs:9:15
 type instance D Int () = String 	-- Defined at T4175.hs:20:10
-type Z :: * -> Constraint
+type Z :: forall {k}. k -> Constraint
 class Z a
   	-- Defined at T4175.hs:29:1
-instance [safe] F (Z a) -- Defined at T4175.hs:32:10
+instance [safe] forall k (a :: k). F (Z a)
+  -- Defined at T4175.hs:32:10

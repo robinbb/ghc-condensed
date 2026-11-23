@@ -3,4 +3,6 @@
 
 module ClosedFam2 where
 
-type family Foo b where ..
+import Data.Kind (Type)
+
+type family Foo (b :: Type) :: Type where ..

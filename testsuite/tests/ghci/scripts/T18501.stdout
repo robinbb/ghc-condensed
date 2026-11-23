@@ -1,1 +1,1 @@
-foo :: Foo a => String
+foo :: forall {k} (a :: k). Foo a => String

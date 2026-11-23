@@ -1,10 +1,14 @@
-
-T4246.hs:9:9: error: [GHC-34447]
-    Conflicting family instance declarations:
-      F a = a -- Defined at T4246.hs:9:9
-      F Int = Bool -- Defined at T4246.hs:12:9
+T4246.hs:9:15: error: [GHC-25897]
+    • Expected a type, but ‘a’ has kind ‘k’
+      ‘k’ is a rigid type variable bound by
+        a family instance declaration
+        at T4246.hs:(8,1)-(9,15)
+    • In the type ‘a’
+      In the associated type family instance declaration for ‘F’
+      In the instance declaration for ‘Stupid a’
 
 T4246.hs:15:15: error: [GHC-34447]
     Conflicting family instance declarations:
       G Int = Int -- Defined at T4246.hs:15:15
       G Int = Bool -- Defined at T4246.hs:16:15
+

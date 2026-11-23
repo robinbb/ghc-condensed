@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, PolyKinds, TypeFamilies #-}
+{-# LANGUAGE RankNTypes, TypeFamilies #-}
 
 module ExplicitSpecificity3 where
 

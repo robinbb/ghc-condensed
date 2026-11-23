@@ -83,9 +83,9 @@
 	><p class="src"
 	  ><span class="keyword"
 	    >data</span
-	    > a <a id="t::-45-:" class="def"
+	    > (a :: k) <a id="t::-45-:" class="def"
 	    >:-:</a
-	    > b <a href="#" class="selflink"
+	    > (b :: k1) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ></div
@@ -93,9 +93,9 @@
 	><p class="src"
 	  ><span class="keyword"
 	    >data</span
-	    > (a <a id="t::-43-:" class="def"
+	    > ((a :: k) <a id="t::-43-:" class="def"
 	    >:+:</a
-	    > b) c <a href="#" class="selflink"
+	    > (b :: k1)) (c :: k2) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ></div
@@ -105,7 +105,7 @@
 	    >data</span
 	    > <a id="t:Op" class="def"
 	    >Op</a
-	    > a b <a href="#" class="selflink"
+	    > (a :: k) (b :: k1) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ></div
@@ -115,15 +115,9 @@
 	    >newtype</span
 	    > <a id="t:O" class="def"
 	    >O</a
-	    > (g :: <a href="#" title="Data.Kind"
+	    > (g :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) (f :: <a href="#" title="Data.Kind"
-	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) a <a href="#" class="selflink"
+	    >) (f :: k1 -&gt; k) (a :: k1) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="subs constructors"
@@ -163,9 +157,9 @@
 	><p class="src"
 	  ><span class="keyword"
 	    >class</span
-	    > a <a id="t:-60--61--62-" class="def"
+	    > (a :: k) <a id="t:-60--61--62-" class="def"
 	    >&lt;=&gt;</a
-	    > b <a href="#" class="selflink"
+	    > (b :: k1) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ></div
@@ -185,7 +179,11 @@
 	><p class="src"
 	  ><a id="v:biO" class="def"
 	    >biO</a
-	    > :: <a href="#" title="TypeOperators"
+	    > :: <span class="keyword"
+	    >forall</span
+	    > {k1} {k2} (g :: k1 -&gt; <a href="#" title="Data.Kind"
+	    >Type</a
+	    >) (f :: k2 -&gt; k1) (a :: k2). <a href="#" title="TypeOperators"
 	    >O</a
 	    > g f a <a href="#" class="selflink"
 	    >#</a

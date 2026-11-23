@@ -1,7 +1,6 @@
 {-# Language CPP                   #-}
 {-# Language QuantifiedConstraints #-}
 {-# Language TypeApplications      #-}
-{-# Language PolyKinds             #-}
 {-# Language TypeOperators         #-}
 {-# Language TypeFamilies          #-}
 {-# Language TypeSynonymInstances  #-}

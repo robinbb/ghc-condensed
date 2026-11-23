@@ -10,4 +10,4 @@ import Data.Kind (Type)
 type family X :: Type -> Type where ..
 
 -- F is known to be empty in the hs-boot file
-type family F (a :: Type -> Type) where
+type family F (a :: Type -> Type) :: Type where

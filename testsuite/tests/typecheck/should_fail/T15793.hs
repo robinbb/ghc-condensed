@@ -1,7 +1,6 @@
 {-# Language RankNTypes       #-}
 {-# Language TypeFamilies     #-}
 {-# Language TypeApplications #-}
-{-# Language PolyKinds        #-}
 
 module T15793 where
 import Data.Kind

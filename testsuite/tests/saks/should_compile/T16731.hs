@@ -1,6 +1,5 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module T16731 where

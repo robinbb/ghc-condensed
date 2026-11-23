@@ -17,7 +17,6 @@ the following GHC extensions:
 -}
 
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -44,7 +43,7 @@ object, and for every two compatible morphisms, the composition of
 those morphisms.
 
 In earlier versions of GHC, the type hom would have been specialized
-to kind Type -> Type -> Type, but with the new PolyKinds extension, hom is
+to kind Type -> Type -> Type, but with kind polymorphism, hom is
 polykinded, and the Category typeclass can be instantiated to k -> k
 -> Type for any kind k. This means that in addition to all of the
 Category instances that we could have written before, we can now write

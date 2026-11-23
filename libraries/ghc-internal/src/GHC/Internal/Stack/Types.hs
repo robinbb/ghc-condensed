@@ -1,7 +1,6 @@
 {-# LANGUAGE ConstraintKinds   #-}
 {-# LANGUAGE ImplicitParams    #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE PolyKinds         #-}
 {-# LANGUAGE RankNTypes        #-}
 {-# LANGUAGE Trustworthy       #-}
 

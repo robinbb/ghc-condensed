@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, GADTs,  ExistentialQuantification #-}
+{-# LANGUAGE GADTs,  ExistentialQuantification #-}
 
 module T6049 where
 

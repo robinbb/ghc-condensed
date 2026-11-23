@@ -1,4 +1,4 @@
-{-# LANGUAGE ImplicitParams, PolyKinds #-}
+{-# LANGUAGE ImplicitParams #-}
 
 module T11405 where
 

@@ -59,6 +59,7 @@
 [GHC-74926] is untested (constructor = MissingKnownKey1)
 [GHC-71344] is untested (constructor = MissingKnownKey2)
 [GHC-76329] is untested (constructor = NotInScopeTc)
+[GHC-38996] is untested (constructor = DerivErrNoEtaReduce)
 [GHC-63388] is untested (constructor = DerivErrNotAClass)
 [GHC-37542] is untested (constructor = DerivErrMustHaveExactlyOneConstructor)
 [GHC-45539] is untested (constructor = DerivErrMustHaveSomeParameters)

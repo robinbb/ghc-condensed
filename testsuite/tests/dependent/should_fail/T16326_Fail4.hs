@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 module T16326_Fail4 where
 

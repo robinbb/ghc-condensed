@@ -1,16 +1,16 @@
 [1 of 2] Processing p
-  [1 of 1] Compiling A[sig]           ( p\A.hsig, nothing )
+  [1 of 1] Compiling A[sig]           ( p/A.hsig, nothing )
 [2 of 2] Processing q
-  [1 of 2] Compiling A[sig]           ( q\A.hsig, nothing )
+  [1 of 2] Compiling A[sig]           ( q/A.hsig, nothing )
 bkpfail42.bkp:10:9: error: [GHC-15843]
     • Type constructor ‘F’ has conflicting definitions in the module
       and its hsig file.
-      Main module: type F :: * -> *
+      Main module: type F :: forall {k}. k -> *
                    type family F a where
-                       F a = Int
-        Hsig file: type F :: * -> *
+                     forall k (a :: k). F a = Int
+        Hsig file: type F :: forall {k}. k -> *
                    type family F a where
-                       F a = Bool
+                     forall k (a :: k). F a = Bool
       Type family equations do not match:
         The second equations do not match.
           The equation right-hand sides don't match.

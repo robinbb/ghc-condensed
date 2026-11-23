@@ -1,6 +1,5 @@
 :set -XTypeFamilyDependencies
 :set -XUndecidableInstances
-:set -XPolyKinds
 
 type family F a b c = (result :: k) | result -> a b c
 type instance F Int  Char Bool = Bool

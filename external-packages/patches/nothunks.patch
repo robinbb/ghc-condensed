@@ -1,0 +1,46 @@
+--- a/external-packages/vendored/nothunks/src/NoThunks/Class.hs
++++ b/external-packages/vendored/nothunks/src/NoThunks/Class.hs
+@@ -35,6 +35,7 @@
+   , GWNoThunks(..)
+   ) where
+ 
++import Data.Kind (Type)
+ import Data.Proxy
+ import Data.Typeable
+ import System.IO.Unsafe (unsafePerformIO)
+@@ -550,16 +551,16 @@
+   Semigroups
+ -------------------------------------------------------------------------------}
+ 
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Min a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Max a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.First a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Last a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Dual a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Min a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Max a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.First a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Last a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Dual a)
+ deriving via Bool instance NoThunks Semigroup.All
+ deriving via Bool instance NoThunks Semigroup.Any
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Sum a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.Product a)
+-deriving via a instance NoThunks a => NoThunks (Semigroup.WrappedMonoid a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Sum a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.Product a)
++deriving via (a :: Type) instance NoThunks a => NoThunks (Semigroup.WrappedMonoid a)
+ instance (NoThunks a, NoThunks b) => NoThunks (Semigroup.Arg a b)
+ 
+ {-------------------------------------------------------------------------------
+@@ -568,8 +569,8 @@
+ 
+ deriving via (Maybe a) instance NoThunks a => NoThunks (Monoid.First a)
+ deriving via (Maybe a) instance NoThunks a => NoThunks (Monoid.Last a)
+-deriving via (f a) instance NoThunks (f a) => NoThunks (Monoid.Alt f a)
+-deriving via (f a) instance NoThunks (f a) => NoThunks (Monoid.Ap f a)
++deriving via (f a :: Type) instance NoThunks (f a) => NoThunks (Monoid.Alt f a)
++deriving via (f a :: Type) instance NoThunks (f a) => NoThunks (Monoid.Ap f a)
+ 
+ {-------------------------------------------------------------------------------
+   Solo

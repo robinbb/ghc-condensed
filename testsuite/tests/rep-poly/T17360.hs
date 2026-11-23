@@ -1,5 +1,4 @@
 {-# LANGUAGE UnliftedNewtypes #-}
-{-# LANGUAGE PolyKinds #-}
 module T17360 where
 
 import GHC.Exts

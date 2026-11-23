@@ -1,6 +1,5 @@
 {-# LANGUAGE UnliftedDatatypes #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
 

@@ -972,7 +972,6 @@ arguments, and this Note explains how we do it.
 
 As two running examples, consider the following code:
 
-  {-# LANGUAGE PolyKinds #-}
   data T1 a
   data T2 (a :: k)
 

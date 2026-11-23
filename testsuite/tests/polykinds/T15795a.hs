@@ -1,5 +1,4 @@
 {-# Language    RankNTypes       #-}
-{-# Language    PolyKinds        #-}
 {-# Language    GADTs            #-}
 
 module T15795a where

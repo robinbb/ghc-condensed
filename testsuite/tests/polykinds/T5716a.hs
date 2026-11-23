@@ -1,6 +1,5 @@
 {-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE PolyKinds                  #-}
 
 module T5716a where
 

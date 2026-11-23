@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, FlexibleContexts,
+{-# LANGUAGE TypeFamilies, FlexibleContexts,
              AllowAmbiguousTypes #-}
 module T7278 where
  

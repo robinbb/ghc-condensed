@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module TyVarTvKinds where
 

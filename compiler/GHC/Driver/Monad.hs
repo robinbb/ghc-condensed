@@ -1,4 +1,4 @@
-{-# LANGUAGE DerivingVia, NoPolyKinds #-}
+{-# LANGUAGE DerivingVia #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 -- -----------------------------------------------------------------------------
 --
@@ -34,6 +34,7 @@ module GHC.Driver.Monad (
         WarnErrLogger, defaultWarnErrLogger
   ) where
 
+import qualified Data.Kind as K
 import GHC.Prelude
 
 import GHC.Driver.DynFlags
@@ -208,7 +209,7 @@ reifyGhc act = Ghc $ act
 -- | A monad transformer to add GHC specific features to another monad.
 --
 -- Note that the wrapped monad must support IO and handling of exceptions.
-newtype GhcT m a = GhcT { unGhcT :: Session -> m a }
+newtype GhcT (m :: K.Type -> K.Type) a = GhcT { unGhcT :: Session -> m a }
   deriving stock (Functor)
   deriving (Applicative, Monad, MonadFail, MonadFix, MonadThrow, MonadCatch, MonadMask, MonadIO) via (ReaderT Session m)
 

@@ -37,4 +37,4 @@ main = do
   print $ typeOf (Proxy :: Proxy 'Unlifted)
   print $ typeOf (Proxy :: Proxy LiftedRep)
   print $ typeOf (Proxy :: Proxy '(1, "hello"))
-  print $ typeOf (Proxy :: Proxy (~~))
+  print $ typeOf (Proxy :: Proxy ((~~) :: * -> * -> Constraint))

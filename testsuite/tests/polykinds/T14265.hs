@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module T124265 where
 

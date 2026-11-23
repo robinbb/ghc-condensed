@@ -1,4 +1,4 @@
- {-# OPTIONS -XTypeFamilies -XPolyKinds #-}
+ {-# OPTIONS -XTypeFamilies #-}
 
 module T7282 where
 

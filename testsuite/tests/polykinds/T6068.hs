@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE PolyKinds, TypeFamilies, GADTs,
+{-# LANGUAGE TypeFamilies, GADTs,
              FunctionalDependencies, FlexibleInstances, UndecidableInstances, ExistentialQuantification #-}
 
 module T6068 where

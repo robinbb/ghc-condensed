@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE PolyKinds #-}
 
 -- The code from the ticket lacked these extensions,
 -- but crashed the compiler with "GHC internal error"

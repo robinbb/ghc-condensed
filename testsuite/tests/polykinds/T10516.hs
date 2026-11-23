@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 module T10516 where
 
 type App f a = f a

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, DeriveFunctor, RankNTypes #-}
+{-# LANGUAGE DeriveFunctor, RankNTypes #-}
 
 module T10561 where
 

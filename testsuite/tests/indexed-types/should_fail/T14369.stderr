@@ -1,4 +1,4 @@
-T14369.hs:29:5: error: [GHC-83865]
+T14369.hs:28:5: error: [GHC-83865]
     • Couldn't match type: Demote a1
                      with: Demote a2
       Expected: Sing x -> Maybe (Demote a2)
@@ -6,5 +6,5 @@ T14369.hs:29:5: error: [GHC-83865]
     • In the expression: fromSing
       In an equation for ‘f’: f = fromSing
     • Relevant bindings include
-        f :: Sing x -> Maybe (Demote a2) (bound at T14369.hs:29:1)
+        f :: Sing x -> Maybe (Demote a2) (bound at T14369.hs:28:1)
 

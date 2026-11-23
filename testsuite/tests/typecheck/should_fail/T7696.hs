@@ -1,4 +1,3 @@
-{-# LANGUAGE NoPolyKinds #-}
 
 module T7696 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies,
+{-# LANGUAGE TypeOperators, TypeFamilies,
              GADTs, PartialTypeSignatures #-}
 
 module T13035 where

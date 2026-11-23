@@ -1,4 +1,4 @@
-{-# language PolyKinds, GADTs, TypeFamilies, RankNTypes,
+{-# language GADTs, TypeFamilies, RankNTypes,
              TypeOperators, ConstraintKinds, UnliftedNewtypes #-}
 
 module T25611a where

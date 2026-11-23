@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, ScopedTypeVariables #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module T21088 where
 

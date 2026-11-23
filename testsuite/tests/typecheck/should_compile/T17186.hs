@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleContexts       #-}
-{-# LANGUAGE PolyKinds              #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE TypeOperators, AllowAmbiguousTypes          #-}
 

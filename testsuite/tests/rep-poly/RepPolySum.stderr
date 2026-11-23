@@ -1,5 +1,4 @@
-
-RepPolySum.hs:11:9: error: [GHC-55287]
+RepPolySum.hs:10:9: error: [GHC-55287]
     • The unboxed sum does not have a fixed runtime representation.
       Its type is:
         (# Int# | a #) :: TYPE (SumRep [IntRep, rep])
@@ -11,9 +10,10 @@ RepPolySum.hs:11:9: error: [GHC-55287]
                 bar :: () -> a
                 bar _ = undefined
 
-RepPolySum.hs:20:9: error: [GHC-55287]
+RepPolySum.hs:19:9: error: [GHC-55287]
     • The unboxed sum does not have a fixed runtime representation.
       Its type is:
         (# Int# | a #) :: TYPE (SumRep [IntRep, rep])
     • In the expression: (# 17# | #)
       In an equation for ‘baz’: baz _ = (# 17# | #)
+

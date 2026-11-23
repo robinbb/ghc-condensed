@@ -4,7 +4,9 @@
 
 module Simple14 where
 
-data EQ_ x y = EQ_
+
+import Data.Kind (Type)
+data EQ_ (x :: Type) (y :: Type) = EQ_
 
 -- Nov 2014: actually eqE has an ambiguous type
 -- Apr 2020: now it doesn't again

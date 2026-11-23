@@ -1,5 +1,4 @@
-
-T16344.hs:7:46: error: [GHC-25897]
+T16344.hs:6:46: error: [GHC-25897]
     • Expected kind ‘ka’, but ‘Int’ has kind ‘*’
     • In the second argument of ‘T’, namely ‘Int’
       In the type ‘(T Type Int Bool)’
@@ -8,3 +7,4 @@ T16344.hs:7:46: error: [GHC-25897]
       Most types with visible dependent quantification are
       polymorphically recursive and need a standalone kind
       signature. Perhaps supply one, with StandaloneKindSignatures.
+

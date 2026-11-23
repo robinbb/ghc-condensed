@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wmissing-role-annotations #-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 module T22702b where
 

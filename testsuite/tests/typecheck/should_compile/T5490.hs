@@ -11,6 +11,8 @@
 
 module Bug (await, bug) where
 
+
+import Data.Kind (Type)
 import Data.Typeable
 import Data.Functor
 import Control.Exception
@@ -33,7 +35,7 @@ instance Completable f ⇒ Completable (Inject f) where
 class Awaitable f where
   awaitResult ∷ f α → IO α
 
-data FakeFuture α = FakeFuture
+data FakeFuture (α :: Type) = FakeFuture
 
 instance Completable FakeFuture where
   complete _ _ = undefined
@@ -52,7 +54,7 @@ await op = do
   registerWaitOp op fut
   fromAttempt =<< awaitResult fut
 
-data FakeOp α = FakeOp
+data FakeOp (α :: Type) = FakeOp
 
 instance WaitOp (FakeOp α) where
   type WaitOpResult (FakeOp α) = α
@@ -116,7 +118,7 @@ bug = do
     _                → return 1
 
 data PZero deriving Typeable
-data PSucc p deriving Typeable
+data PSucc (p :: Type) deriving Typeable
 
 data Peano n where
   PZero ∷ Peano PZero
@@ -151,7 +153,7 @@ infixr 7 :*, .*
 infix  8 :*:, .*.
 
 data HNil
-data h :* t
+data (h :: Type) :* (t :: Type)
 type HSingle α = α :* HNil
 type α :*: β = α :* β :* HNil
 

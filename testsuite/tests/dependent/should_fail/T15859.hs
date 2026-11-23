@@ -1,4 +1,3 @@
-{-# Language PolyKinds          #-}
 {-# Language TypeApplications   #-}
 {-# Language LiberalTypeSynonyms #-}
 

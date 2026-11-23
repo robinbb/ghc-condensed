@@ -1,8 +1,8 @@
-{-# LANGUAGE NoPolyKinds #-}
 module GHC.Core where
+import Data.Kind ( Type )
 import {-# SOURCE #-} GHC.Types.Var
 
-data Expr a
+data Expr (a :: Type)
 
 type CoreBndr = Var
 

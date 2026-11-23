@@ -1,6 +1,5 @@
 :set -XTypeFamilyDependencies
 :set -XUndecidableInstances
-:set -XPolyKinds
 
 -- IA = injectivity annotation `| foo -> bar`
 

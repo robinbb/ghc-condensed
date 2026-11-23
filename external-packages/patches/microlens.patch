@@ -1,0 +1,11 @@
+--- a/external-packages/microlens/microlens/src/Lens/Micro/Internal.hs
++++ b/external-packages/microlens/microlens/src/Lens/Micro/Internal.hs
+@@ -120,7 +120,7 @@
+ folded = foldring F.foldr
+ {-# INLINE folded #-}
+ 
+-foldring :: Monoid r => ((a -> Const r a -> Const r a) -> Const r a -> s -> Const r a) -> (a -> Const r b) -> s -> Const r t
++foldring :: forall r a s (b :: Type) (t :: Type). Monoid r => ((a -> Const r a -> Const r a) -> Const r a -> s -> Const r a) -> (a -> Const r b) -> s -> Const r t
+ foldring fr f = phantom . fr (\a fa -> f a *> fa) noEffect
+ {-# INLINE foldring #-}
+ 

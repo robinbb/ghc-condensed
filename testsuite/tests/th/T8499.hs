@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, PolyKinds #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module T8499 where

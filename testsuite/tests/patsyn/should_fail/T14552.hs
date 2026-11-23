@@ -1,5 +1,5 @@
 {-# Language RankNTypes, ViewPatterns, PatternSynonyms, TypeOperators, ScopedTypeVariables,
-             PolyKinds, TypeFamilies, GADTs #-}
+             TypeFamilies, GADTs #-}
 
 module T14552 where
 

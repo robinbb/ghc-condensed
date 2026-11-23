@@ -1,7 +1,6 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE PolyKinds #-}
 
 module T17536c where
 

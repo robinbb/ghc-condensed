@@ -4,7 +4,9 @@
 
 module T15359 where
 
-class C a b
+
+import Data.Kind (Type)
+class C (a :: Type) (b :: Type)
 
 data Dict c where
   Dict :: c => Dict c

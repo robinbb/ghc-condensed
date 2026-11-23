@@ -1,0 +1,28 @@
+--- a/external-packages/aws/Aws/DynamoDb/Core.hs
++++ b/external-packages/aws/Aws/DynamoDb/Core.hs
+@@ -116,6 +116,7 @@
+ 
+ 
+ -------------------------------------------------------------------------------
++import Data.Kind (Type)
+ import           Control.Applicative
+ import qualified Control.Exception            as C
+ import           Control.Monad
+@@ -1243,7 +1244,7 @@
+ 
+ -- | A continuation-based parser type.
+ newtype Parser a = Parser {
+-      runParser :: forall f r.
++      runParser :: forall (f :: Type -> Type) (r :: Type).
+                    Failure f r
+                 -> Success a f r
+                 -> f r
+@@ -1350,7 +1351,7 @@
+     parseItem i = M.fromList <$> parseItem i
+ 
+ 
+-valErr :: forall a. Typeable a => Tagged a DValue -> String
++valErr :: forall (a :: Type). Typeable a => Tagged a DValue -> String
+ valErr (Tagged dv) = "Can't convert DynamoDb value " Sem.<> show dv Sem.<>
+               " into type " Sem.<> (show (typeOf (undefined :: a)))
+ 

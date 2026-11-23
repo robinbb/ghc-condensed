@@ -76,7 +76,6 @@ Other Prelude modules are much easier with fewer complex dependencies.
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE Unsafe #-}

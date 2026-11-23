@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, PolyKinds #-}
+{-# LANGUAGE FlexibleInstances #-}
 module T11399 where
 
 import Data.Kind

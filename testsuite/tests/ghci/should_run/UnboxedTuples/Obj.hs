@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, UnboxedTuples, MagicHash, ScopedTypeVariables, PolyKinds #-}
+{-# LANGUAGE CPP, UnboxedTuples, MagicHash, ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fobject-code #-}
 
 #include "MachDeps.h"

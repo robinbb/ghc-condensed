@@ -23,10 +23,10 @@ module Control.Applicative where
   type Const :: forall {k}. * -> k -> *
   newtype Const a b = Const {getConst :: a}
   type role WrappedArrow representational nominal nominal
-  type WrappedArrow :: (* -> * -> *) -> * -> * -> *
+  type WrappedArrow :: forall {k1} {k2}. (k1 -> k2 -> *) -> k1 -> k2 -> *
   newtype WrappedArrow a b c = WrapArrow {unwrapArrow :: a b c}
   type role WrappedMonad representational nominal
-  type WrappedMonad :: (* -> *) -> * -> *
+  type WrappedMonad :: forall {k}. (k -> *) -> k -> *
   newtype WrappedMonad m a = WrapMonad {unwrapMonad :: m a}
   type ZipList :: * -> *
   newtype ZipList a = ZipList {getZipList :: [a]}
@@ -66,7 +66,7 @@ module Control.Arrow where
     loop :: forall b d c. a (b, d) (c, d) -> a b c
     {-# MINIMAL loop #-}
   type role ArrowMonad representational nominal
-  type ArrowMonad :: (* -> * -> *) -> * -> *
+  type ArrowMonad :: forall {k}. (* -> k -> *) -> k -> *
   newtype ArrowMonad a b = ArrowMonad (a () b)
   type ArrowPlus :: (* -> * -> *) -> Constraint
   class ArrowZero a => ArrowPlus a where
@@ -77,7 +77,7 @@ module Control.Arrow where
     zeroArrow :: forall b c. a b c
     {-# MINIMAL zeroArrow #-}
   type role Kleisli representational representational nominal
-  type Kleisli :: (* -> *) -> * -> * -> *
+  type Kleisli :: forall {k}. (k -> *) -> * -> k -> *
   newtype Kleisli m a b = Kleisli {runKleisli :: a -> m b}
   (^<<) :: forall (a :: * -> * -> *) c d b. Arrow a => (c -> d) -> a b c -> a b d
   (^>>) :: forall (a :: * -> * -> *) b c d. Arrow a => (b -> c) -> a c d -> a b d
@@ -12209,9 +12209,9 @@ instance GHC.Internal.GHCi.GHCiSandboxIO GHC.Internal.Types.IO -- Defined in ‘
 instance GHC.Internal.GHCi.GHCiSandboxIO GHC.Internal.GHCi.NoIO -- Defined in ‘GHC.Internal.GHCi’
 instance forall (n :: GHC.Internal.Types.Symbol) (f :: GHC.Internal.Generics.FixityI) (r :: GHC.Internal.Types.Bool). (GHC.Internal.TypeLits.KnownSymbol n, GHC.Internal.Generics.SingI f, GHC.Internal.Generics.SingI r) => GHC.Internal.Generics.Constructor (GHC.Internal.Generics.MetaCons n f r) -- Defined in ‘GHC.Internal.Generics’
 instance forall (n :: GHC.Internal.Types.Symbol) (m :: GHC.Internal.Types.Symbol) (p :: GHC.Internal.Types.Symbol) (nt :: GHC.Internal.Types.Bool). (GHC.Internal.TypeLits.KnownSymbol n, GHC.Internal.TypeLits.KnownSymbol m, GHC.Internal.TypeLits.KnownSymbol p, GHC.Internal.Generics.SingI nt) => GHC.Internal.Generics.Datatype (GHC.Internal.Generics.MetaData n m p nt) -- Defined in ‘GHC.Internal.Generics’
-instance forall (a :: * -> * -> *) b c. GHC.Internal.Generics.Generic (Control.Applicative.WrappedArrow a b c) -- Defined in ‘Control.Applicative’
-instance forall (m :: * -> *) a. GHC.Internal.Generics.Generic (Control.Applicative.WrappedMonad m a) -- Defined in ‘Control.Applicative’
-instance forall (m :: * -> *) a b. GHC.Internal.Generics.Generic (GHC.Internal.Control.Arrow.Kleisli m a b) -- Defined in ‘GHC.Internal.Control.Arrow’
+instance forall k1 k2 (a :: k1 -> k2 -> *) (b :: k1) (c :: k2). GHC.Internal.Generics.Generic (Control.Applicative.WrappedArrow a b c) -- Defined in ‘Control.Applicative’
+instance forall k (m :: k -> *) (a :: k). GHC.Internal.Generics.Generic (Control.Applicative.WrappedMonad m a) -- Defined in ‘Control.Applicative’
+instance forall k (m :: k -> *) a (b :: k). GHC.Internal.Generics.Generic (GHC.Internal.Control.Arrow.Kleisli m a b) -- Defined in ‘GHC.Internal.Control.Arrow’
 instance forall a. GHC.Internal.Generics.Generic (Data.Complex.Complex a) -- Defined in ‘Data.Complex’
 instance forall k1 k2 (f :: k1 -> *) (g :: k2 -> k1) (a :: k2). GHC.Internal.Generics.Generic (Data.Functor.Compose.Compose f g a) -- Defined in ‘Data.Functor.Compose’
 instance [safe] forall k (f :: k -> *) (g :: k -> *) (a :: k). GHC.Internal.Generics.Generic (Data.Functor.Product.Product f g a) -- Defined in ‘Data.Functor.Product’
@@ -12303,9 +12303,6 @@ instance GHC.Internal.Generics.Generic GHC.RTS.Flags.TickyFlags -- Defined in �
 instance GHC.Internal.Generics.Generic GHC.RTS.Flags.TraceFlags -- Defined in ‘GHC.RTS.Flags’
 instance [safe] GHC.Internal.Generics.Generic GHC.Stats.GCDetails -- Defined in ‘GHC.Stats’
 instance [safe] GHC.Internal.Generics.Generic GHC.Stats.RTSStats -- Defined in ‘GHC.Stats’
-instance forall (a :: * -> * -> *) b. GHC.Internal.Generics.Generic1 (Control.Applicative.WrappedArrow a b) -- Defined in ‘Control.Applicative’
-instance forall (m :: * -> *). GHC.Internal.Generics.Generic1 (Control.Applicative.WrappedMonad m) -- Defined in ‘Control.Applicative’
-instance forall (m :: * -> *) a. GHC.Internal.Generics.Generic1 (GHC.Internal.Control.Arrow.Kleisli m a) -- Defined in ‘GHC.Internal.Control.Arrow’
 instance GHC.Internal.Generics.Generic1 Data.Complex.Complex -- Defined in ‘Data.Complex’
 instance forall a. GHC.Internal.Generics.Generic1 (Data.Semigroup.Arg a) -- Defined in ‘Data.Semigroup’
 instance GHC.Internal.Generics.Generic1 Data.Semigroup.First -- Defined in ‘Data.Semigroup’
@@ -12341,6 +12338,9 @@ instance forall a b c d e f. GHC.Internal.Generics.Generic1 ((,,,,,,) a b c d e 
 instance forall a b c d e f g. GHC.Internal.Generics.Generic1 ((,,,,,,,) a b c d e f g) -- Defined in ‘GHC.Internal.Generics’
 instance forall a b c d e f g h. GHC.Internal.Generics.Generic1 ((,,,,,,,,) a b c d e f g h) -- Defined in ‘GHC.Internal.Generics’
 instance GHC.Internal.Generics.Generic1 GHC.Internal.Functor.ZipList.ZipList -- Defined in ‘GHC.Internal.Generics’
+instance forall k1 k (a :: k -> k1 -> *) (b :: k). GHC.Internal.Generics.Generic1 (Control.Applicative.WrappedArrow a b) -- Defined in ‘Control.Applicative’
+instance forall k1 (m :: k1 -> *). GHC.Internal.Generics.Generic1 (Control.Applicative.WrappedMonad m) -- Defined in ‘Control.Applicative’
+instance forall k1 (m :: k1 -> *) a. GHC.Internal.Generics.Generic1 (GHC.Internal.Control.Arrow.Kleisli m a) -- Defined in ‘GHC.Internal.Control.Arrow’
 instance forall k1 (f :: * -> *) (g :: k1 -> *). GHC.Internal.Base.Functor f => GHC.Internal.Generics.Generic1 (Data.Functor.Compose.Compose f g) -- Defined in ‘Data.Functor.Compose’
 instance [safe] forall k1 (f :: k1 -> *) (g :: k1 -> *). GHC.Internal.Generics.Generic1 (Data.Functor.Product.Product f g) -- Defined in ‘Data.Functor.Product’
 instance [safe] forall k1 (f :: k1 -> *) (g :: k1 -> *). GHC.Internal.Generics.Generic1 (Data.Functor.Sum.Sum f g) -- Defined in ‘Data.Functor.Sum’

@@ -1,7 +1,6 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE UnliftedNewtypes #-}
-{-# LANGUAGE PolyKinds #-}
 
 module UnliftedNewtypesLevityBinder where
 

@@ -1,5 +1,4 @@
-{-# LANGUAGE TypeFamilyDependencies, UndecidableInstances,
-             PolyKinds #-}
+{-# LANGUAGE TypeFamilyDependencies, UndecidableInstances #-}
 module T6018th where
 
 import Language.Haskell.TH

@@ -1,3 +1,2 @@
-:set -XPolyKinds
 class C a where f :: a b c
 :t f

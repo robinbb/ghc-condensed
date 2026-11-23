@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies, TemplateHaskell #-}
 
 module T7477 where
 

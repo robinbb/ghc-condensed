@@ -1,5 +1,4 @@
 {-# Language RankNTypes        #-}
-{-# Language PolyKinds         #-}
 {-# Language FlexibleInstances #-}
 
 {-# Options_GHC -dcore-lint #-}

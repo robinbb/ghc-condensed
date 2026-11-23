@@ -3,6 +3,8 @@
 
 module T8500a where
 
-class C a where
+import Data.Kind (Type)
+
+class C (a :: Type) where
    type F a
    type F a = [a]

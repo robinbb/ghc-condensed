@@ -4,9 +4,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 module T11721_TH where
 
+
+import qualified Data.Kind as K
 import Language.Haskell.TH
 
-data T a where
+data T (a :: K.Type) where
   MkT :: forall b a. b -> T a
 
 $(return [])

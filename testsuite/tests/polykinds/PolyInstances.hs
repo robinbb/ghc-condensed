@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, FlexibleInstances, ScopedTypeVariables,
+{-# LANGUAGE FlexibleInstances, ScopedTypeVariables,
              UndecidableInstances #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 

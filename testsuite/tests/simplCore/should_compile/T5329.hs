@@ -11,8 +11,10 @@
 
 module T5329 where
 
+
+import Data.Kind (Type)
 data PZero
-data PSucc p
+data PSucc (p :: Type)
 
 data Peano n where
   PZero ∷ Peano PZero

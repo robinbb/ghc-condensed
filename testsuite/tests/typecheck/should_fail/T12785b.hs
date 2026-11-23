@@ -1,6 +1,6 @@
 {-# LANGUAGE RankNTypes, TypeOperators, ViewPatterns #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE PolyKinds, GADTs #-}
+{-# LANGUAGE GADTs #-}
 
 module T12785b where
 

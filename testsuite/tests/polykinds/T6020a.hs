@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-redundant-constraints -Wno-simplifiable-class-constraints #-}
 {-# LANGUAGE FunctionalDependencies, FlexibleInstances,
-              UndecidableInstances, PolyKinds,
+              UndecidableInstances,
               ConstraintKinds, FlexibleContexts, GADTs #-}
 
 module T6020a where

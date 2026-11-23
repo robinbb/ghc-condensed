@@ -12,7 +12,7 @@
 -- type representations.
 --
 -----------------------------------------------------------------------------
-{-# LANGUAGE PolyKinds, ScopedTypeVariables, Unsafe #-}
+{-# LANGUAGE ScopedTypeVariables, Unsafe #-}
 
 module GHC.Internal.Type.Reflection.Unsafe (
       -- * Type representations

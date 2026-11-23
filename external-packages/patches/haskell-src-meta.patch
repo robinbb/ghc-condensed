@@ -48,15 +48,17 @@
    Exts.MonoLocalBinds             -> Just TH.MonoLocalBinds
    Exts.DeriveFunctor              -> Just TH.DeriveFunctor
    Exts.DeriveGeneric              -> Just TH.DeriveGeneric
-@@ -117,7 +117,7 @@
+@@ -117,8 +117,8 @@
    Exts.CApiFFI                    -> Just TH.CApiFFI
    Exts.JavaScriptFFI              -> Just TH.JavaScriptFFI
    Exts.ExplicitNamespaces         -> Just TH.ExplicitNamespaces
 -  Exts.DataKinds                  -> Just TH.DataKinds
+-  Exts.PolyKinds                  -> Just TH.PolyKinds
 +  Exts.DataKinds                  -> Nothing
-   Exts.PolyKinds                  -> Just TH.PolyKinds
++  Exts.PolyKinds                  -> Nothing
    Exts.MultiWayIf                 -> Just TH.MultiWayIf
    Exts.SafeImports                -> Nothing
+   Exts.Safe                       -> Nothing
 @@ -135,7 +135,7 @@
    Exts.DerivingStrategies         -> Just TH.DerivingStrategies
    Exts.UnboxedSums                -> Just TH.UnboxedSums
@@ -89,10 +91,11 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -249,12 +241,9 @@
+@@ -248,13 +240,9 @@
+   TH.DoAndIfThenElse                   -> Just Exts.DoAndIfThenElse
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
-   TH.PolyKinds                         -> Just Exts.PolyKinds
+-  TH.PolyKinds                         -> Just Exts.PolyKinds
 -  TH.DataKinds                         -> Just Exts.DataKinds
 -  TH.InstanceSigs                      -> Just Exts.InstanceSigs
    TH.ApplicativeDo                     -> Nothing
@@ -102,7 +105,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,15 +255,11 @@
+@@ -266,15 +254,11 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -118,7 +121,7 @@
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
    TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -290,10 +275,6 @@
+@@ -290,10 +274,6 @@
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports

@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies
+{-# LANGUAGE TypeOperators, TypeFamilies
              , TypeApplications #-}
 
 module DumpTypecheckedAst where

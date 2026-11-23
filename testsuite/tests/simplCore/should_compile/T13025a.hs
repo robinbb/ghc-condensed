@@ -1,6 +1,6 @@
 {-# LANGUAGE ConstraintKinds, FlexibleContexts,
              FlexibleInstances, GADTs,
-             PolyKinds, ScopedTypeVariables, TypeFamilies,
+             ScopedTypeVariables, TypeFamilies,
              TypeOperators #-}
 module T13025a where
 

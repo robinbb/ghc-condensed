@@ -1,4 +1,4 @@
-:set -XTypeFamilies -XPolyKinds
+:set -XTypeFamilies
 type family Id (a :: k)
 type instance Id a = a
 type Foo x = Maybe

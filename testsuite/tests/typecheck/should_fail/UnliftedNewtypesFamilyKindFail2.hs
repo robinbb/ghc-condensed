@@ -1,6 +1,5 @@
 {-# LANGUAGE UnliftedNewtypes #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE MagicHash #-}
 
 module UnliftedNewtypesFamilyKindFail2 where

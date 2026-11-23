@@ -20,7 +20,7 @@ module Strip
     ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
     IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    TypeInType
+    PolyKinds TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still
@@ -49,7 +49,7 @@ module Strip
   # Rewrites every source and cabal file under dir. Returns the changed paths.
   def tree(dir, names = REMOVED, renamed = RENAMED)
     files = Dir.glob(File.join(dir, SOURCE_GLOB), File::FNM_DOTMATCH)
-                .reject { |f| f.include?('/dist') || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
+                .reject { |f| f.match?(%r{/dist(-newstyle)?/}) || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
                 .sort
     files.select { |f| file(f, names, renamed) }
   end

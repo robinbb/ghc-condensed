@@ -1,20 +1,24 @@
 
 ==================== Derived instances ====================
 Derived class instances:
-  instance GHC.Internal.Read.Read (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.Read.Read (DrvEmptyData.Void a) where
     GHC.Internal.Read.readPrec
       = GHC.Internal.Text.ParserCombinators.ReadPrec.pfail
     GHC.Internal.Read.readList = GHC.Internal.Read.readListDefault
     GHC.Internal.Read.readListPrec
       = GHC.Internal.Read.readListPrecDefault
   
-  instance GHC.Internal.Show.Show (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.Show.Show (DrvEmptyData.Void a) where
     GHC.Internal.Show.showsPrec _ z = case z of {}
   
-  instance GHC.Internal.Classes.Ord (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.Classes.Ord (DrvEmptyData.Void a) where
     GHC.Internal.Classes.compare _ z = GHC.Internal.Types.EQ
   
-  instance GHC.Internal.Classes.Eq (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.Classes.Eq (DrvEmptyData.Void a) where
     (GHC.Internal.Classes.==) _ z = GHC.Internal.Types.True
   
   instance GHC.Internal.Data.Data.Data a =>
@@ -24,8 +28,6 @@ Derived class instances:
       = case GHC.Internal.Data.Data.constrIndex c of {}
     GHC.Internal.Data.Data.toConstr z = case z of {}
     GHC.Internal.Data.Data.dataTypeOf _ = $tVoid
-    GHC.Internal.Data.Data.dataCast1 f
-      = GHC.Internal.Data.Typeable.gcast1 f
   
   instance GHC.Internal.Base.Functor DrvEmptyData.Void where
     GHC.Internal.Base.fmap _ z = case z of {}
@@ -40,7 +42,8 @@ Derived class instances:
     GHC.Internal.Data.Traversable.traverse _ z
       = GHC.Internal.Base.pure (case z of {})
   
-  instance GHC.Internal.Generics.Generic (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.Generics.Generic (DrvEmptyData.Void a) where
     GHC.Internal.Generics.from x
       = GHC.Internal.Generics.M1 (case x of x -> case x of {})
     GHC.Internal.Generics.to (GHC.Internal.Generics.M1 x)
@@ -52,7 +55,8 @@ Derived class instances:
     GHC.Internal.Generics.to1 (GHC.Internal.Generics.M1 x)
       = case x of x -> case x of {}
   
-  instance GHC.Internal.TH.Lift.Lift (DrvEmptyData.Void a) where
+  instance forall k (a :: k).
+           GHC.Internal.TH.Lift.Lift (DrvEmptyData.Void a) where
     GHC.Internal.TH.Lift.lift z = GHC.Internal.Base.pure (case z of {})
     GHC.Internal.TH.Lift.liftTyped z
       = GHC.Internal.TH.Monad.unsafeCodeCoerce
@@ -147,6 +151,13 @@ GHC.Internal.Classes.Eq [DrvEmptyData.Void a]
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Data.Data [DrvEmptyData.Void a]
+  GHC.Internal.Data.Data.dataCast1 @t @c
+    = GHC.Internal.Data.Data.$dmdataCast1 @(DrvEmptyData.Void a) @t @c
+
+
+
+==================== Filling in method body ====================
+GHC.Internal.Data.Data.Data [DrvEmptyData.Void a]
   GHC.Internal.Data.Data.dataCast2 @t @c
     = GHC.Internal.Data.Data.$dmdataCast2 @(DrvEmptyData.Void a) @t @c
 
@@ -211,112 +222,112 @@ GHC.Internal.Data.Data.Data [DrvEmptyData.Void a]
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.fold @m
-    = GHC.Internal.Data.Foldable.$dmfold @DrvEmptyData.Void @m
+    = GHC.Internal.Data.Foldable.$dmfold @(DrvEmptyData.Void) @m
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldMap' @m @a
-    = GHC.Internal.Data.Foldable.$dmfoldMap' @DrvEmptyData.Void @m @a
+    = GHC.Internal.Data.Foldable.$dmfoldMap' @(DrvEmptyData.Void) @m @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldr @a @b
-    = GHC.Internal.Data.Foldable.$dmfoldr @DrvEmptyData.Void @a @b
+    = GHC.Internal.Data.Foldable.$dmfoldr @(DrvEmptyData.Void) @a @b
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldr' @a @b
-    = GHC.Internal.Data.Foldable.$dmfoldr' @DrvEmptyData.Void @a @b
+    = GHC.Internal.Data.Foldable.$dmfoldr' @(DrvEmptyData.Void) @a @b
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldl @b @a
-    = GHC.Internal.Data.Foldable.$dmfoldl @DrvEmptyData.Void @b @a
+    = GHC.Internal.Data.Foldable.$dmfoldl @(DrvEmptyData.Void) @b @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldl' @b @a
-    = GHC.Internal.Data.Foldable.$dmfoldl' @DrvEmptyData.Void @b @a
+    = GHC.Internal.Data.Foldable.$dmfoldl' @(DrvEmptyData.Void) @b @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldr1 @a
-    = GHC.Internal.Data.Foldable.$dmfoldr1 @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmfoldr1 @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.foldl1 @a
-    = GHC.Internal.Data.Foldable.$dmfoldl1 @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmfoldl1 @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.toList @a
-    = GHC.Internal.Data.Foldable.$dmtoList @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmtoList @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.null @a
-    = GHC.Internal.Data.Foldable.$dmnull @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmnull @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.length @a
-    = GHC.Internal.Data.Foldable.$dmlength @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmlength @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.elem @a
-    = GHC.Internal.Data.Foldable.$dmelem @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmelem @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.maximum @a
-    = GHC.Internal.Data.Foldable.$dmmaximum @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmmaximum @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.minimum @a
-    = GHC.Internal.Data.Foldable.$dmminimum @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmminimum @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.sum @a
-    = GHC.Internal.Data.Foldable.$dmsum @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmsum @(DrvEmptyData.Void) @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
   GHC.Internal.Data.Foldable.product @a
-    = GHC.Internal.Data.Foldable.$dmproduct @DrvEmptyData.Void @a
+    = GHC.Internal.Data.Foldable.$dmproduct @(DrvEmptyData.Void) @a
 
 
 
@@ -324,14 +335,15 @@ GHC.Internal.Data.Foldable.Foldable [DrvEmptyData.Void]
 GHC.Internal.Data.Traversable.Traversable [DrvEmptyData.Void]
   GHC.Internal.Data.Traversable.sequenceA @f @a
     = GHC.Internal.Data.Traversable.$dmsequenceA
-        @DrvEmptyData.Void @f @a
+        @(DrvEmptyData.Void) @f @a
 
 
 
 ==================== Filling in method body ====================
 GHC.Internal.Data.Traversable.Traversable [DrvEmptyData.Void]
   GHC.Internal.Data.Traversable.mapM @m @a @b
-    = GHC.Internal.Data.Traversable.$dmmapM @DrvEmptyData.Void @m @a @b
+    = GHC.Internal.Data.Traversable.$dmmapM
+        @(DrvEmptyData.Void) @m @a @b
 
 
 
@@ -339,6 +351,6 @@ GHC.Internal.Data.Traversable.Traversable [DrvEmptyData.Void]
 GHC.Internal.Data.Traversable.Traversable [DrvEmptyData.Void]
   GHC.Internal.Data.Traversable.sequence @m @a
     = GHC.Internal.Data.Traversable.$dmsequence
-        @DrvEmptyData.Void @m @a
+        @(DrvEmptyData.Void) @m @a
 
 

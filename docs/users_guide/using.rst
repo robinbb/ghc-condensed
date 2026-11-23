@@ -1256,16 +1256,12 @@ messages and in GHCi:
 
     .. code-block:: none
 
-           ghci> :set -XPolyKinds
            ghci> data T a (b :: l) = MkT
            ghci> :t MkT
            MkT :: forall k l (a :: k) (b :: l). T a b
            ghci> :set -fprint-explicit-kinds
            ghci> :t MkT
            MkT :: forall k l (a :: k) (b :: l). T @{k} @l a b
-           ghci> :set -XNoPolyKinds
-           ghci> :t MkT
-           MkT :: T @{*} @* a b
 
     In the output above, observe that ``T`` has two kind variables
     (``k`` and ``l``) and two type variables (``a`` and ``b``). Note that

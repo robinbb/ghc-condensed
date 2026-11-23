@@ -5,5 +5,5 @@
 @version 0.0.0
 
 module Bug825
-data a :~: b
-data a :~~: b
+data (a :: k) :~: (b :: k1)
+data (a :: k) :~~: (b :: k1)

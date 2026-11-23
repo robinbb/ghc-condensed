@@ -7,7 +7,6 @@ pattern Foo = HRefl
 
 :info Foo
 
-:set -XPolyKinds
 
 pattern Bar = HRefl
 -- Expecting no provided (* ~ *) constraint

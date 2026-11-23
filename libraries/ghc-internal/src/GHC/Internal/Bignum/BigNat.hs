@@ -6,7 +6,6 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE BinaryLiterals #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}

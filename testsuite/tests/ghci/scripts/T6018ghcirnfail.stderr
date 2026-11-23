@@ -1,69 +1,69 @@
-<interactive>:8:23: error: [GHC-88333]
+<interactive>:7:23: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-<interactive>:9:24: error: [GHC-88333]
+<interactive>:8:24: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-<interactive>:10:37: error: [GHC-88333]
+<interactive>:9:37: error: [GHC-88333]
     Incorrect type variable on the LHS of injectivity condition
          Expected : r
          Actual   : a
 
-<interactive>:13:19: error: [GHC-99412]
+<interactive>:12:19: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:14:20: error: [GHC-99412]
+<interactive>:13:20: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:17:20: error: [GHC-99412]
+<interactive>:16:20: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:17:24: error: [GHC-48254]
+<interactive>:16:24: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
 
-<interactive>:18:21: error: [GHC-99412]
+<interactive>:17:21: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:18:25: error: [GHC-48254]
+<interactive>:17:25: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
 
-<interactive>:19:35: error: [GHC-99412]
+<interactive>:18:35: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:19:39: error: [GHC-48254]
+<interactive>:18:39: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: a
+
+<interactive>:21:1: error: [GHC-76037]
+    Not in scope: type variable ‘c’
 
 <interactive>:22:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-<interactive>:23:1: error: [GHC-76037]
+<interactive>:23:23: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-<interactive>:24:23: error: [GHC-76037]
+<interactive>:31:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
 <interactive>:32:1: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-<interactive>:33:1: error: [GHC-76037]
+<interactive>:33:23: error: [GHC-76037]
     Not in scope: type variable ‘c’
 
-<interactive>:34:23: error: [GHC-76037]
-    Not in scope: type variable ‘c’
-
-<interactive>:37:33: error: [GHC-99412]
+<interactive>:36:33: error: [GHC-99412]
     Type variable ‘a’, naming a type family result,
     shadows an already bound type variable
 
-<interactive>:40:37: error: [GHC-48254]
+<interactive>:39:37: error: [GHC-48254]
     Unknown type variable on the RHS of injectivity condition: b
 

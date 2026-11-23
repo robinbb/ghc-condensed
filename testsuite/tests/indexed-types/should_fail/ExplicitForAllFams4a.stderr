@@ -1,4 +1,4 @@
-ExplicitForAllFams4a.hs:7:12: error: [GHC-30337]
+ExplicitForAllFams4a.hs:7:3: error: [GHC-30337]
     • The type variable ‘b’ is bound by a forall,
       but it isn't used in the family instance.
     • In the equations for closed type family ‘H’

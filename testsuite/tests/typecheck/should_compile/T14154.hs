@@ -1,5 +1,5 @@
 {-# Language RankNTypes, DerivingStrategies, TypeApplications,
-    ScopedTypeVariables, GADTs, PolyKinds #-}
+    ScopedTypeVariables, GADTs #-}
 
 module T14154 where
 

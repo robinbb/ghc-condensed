@@ -1,4 +1,4 @@
-T15473.hs:10:3: error: [GHC-22979]
+T15473.hs:9:3: error: [GHC-22979]
     • Variable ‘a’ occurs more often
         in the type-family application ‘Undefined’
         than in the LHS of the family instance ‘LetInterleave

@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, UnboxedTuples, MagicHash, ScopedTypeVariables, PolyKinds #-}
+{-# LANGUAGE CPP, UnboxedTuples, MagicHash, ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fbyte-code #-}
 
 module ByteCode where

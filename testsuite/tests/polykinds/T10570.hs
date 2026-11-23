@@ -1,4 +1,4 @@
-{-# LANGUAGE FunctionalDependencies, PolyKinds, FlexibleInstances #-}
+{-# LANGUAGE FunctionalDependencies, FlexibleInstances #-}
 
 module T10570 where
 

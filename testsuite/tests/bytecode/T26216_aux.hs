@@ -1,6 +1,5 @@
 {-# LANGUAGE GHC2024         #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE PolyKinds       #-}
 
 module T26216_aux (Some, data Some, mkSome, withSome) where
 import Data.Kind           (Type)

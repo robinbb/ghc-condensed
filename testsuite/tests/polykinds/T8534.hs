@@ -1,3 +1,3 @@
-{-# LANGUAGE DeriveFunctor, PolyKinds #-}
+{-# LANGUAGE DeriveFunctor #-}
 module T8534 where
 data A a = A deriving Functor

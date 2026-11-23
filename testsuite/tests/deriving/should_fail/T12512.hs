@@ -1,7 +1,6 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE UnboxedSums #-}
 {-# LANGUAGE UnboxedTuples #-}
-{-# LANGUAGE PolyKinds #-}
 module T12512 where
 
 import GHC.Exts

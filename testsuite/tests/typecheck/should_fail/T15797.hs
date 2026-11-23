@@ -2,7 +2,6 @@
 {-# Language    TypeFamilies        #-}
 {-# Language    ScopedTypeVariables #-}
 {-# Language    TypeApplications    #-}
-{-# Language    PolyKinds           #-}
 {-# Language    TypeOperators       #-}
 {-# Language    GADTs               #-}
 {-# Language    FlexibleInstances   #-}

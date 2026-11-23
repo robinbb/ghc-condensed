@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, RankNTypes #-}
+{-# LANGUAGE RankNTypes #-}
 
 module T6081 where
 

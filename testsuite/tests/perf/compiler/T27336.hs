@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, PolyKinds, StandaloneKindSignatures #-}
+{-# LANGUAGE MagicHash, StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies, TypeOperators, UndecidableInstances #-}
 
 -- Reduced reproducer from https://github.com/kleinreact/clash-crypto-etfr

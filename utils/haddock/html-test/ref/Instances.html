@@ -1262,9 +1262,11 @@
 	    ><p class="src"
 	    ><a id="v:baz-39--39-" class="def"
 	      >baz''</a
-	      > :: b -&gt; (<span class="keyword"
+	      > :: <span class="keyword"
 	      >forall</span
-	      > b1. (<span class="keyword"
+	      > {k} b c. b -&gt; (<span class="keyword"
+	      >forall</span
+	      > (b1 :: k). (<span class="keyword"
 	      >forall</span
 	      > b2. b2 -&gt; a) -&gt; c) -&gt; <span class="keyword"
 	      >forall</span
@@ -1328,9 +1330,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b c0. b -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; [c]) -&gt; c0) -&gt; <span class="keyword"
 			  >forall</span
@@ -1390,9 +1394,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b0 -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b0 c. b0 -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; a -&gt; b) -&gt; c) -&gt; <span class="keyword"
 			  >forall</span
@@ -1464,9 +1470,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b0 -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b0 c0. b0 -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; <a href="#" title="Instances"
 			  >Quux</a
@@ -1528,9 +1536,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b0 -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b0 c0. b0 -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; (a, b, c)) -&gt; c0) -&gt; <span class="keyword"
 			  >forall</span
@@ -1590,9 +1600,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b0 -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b0 c. b0 -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; (a, [b], b, a)) -&gt; c) -&gt; <span class="keyword"
 			  >forall</span
@@ -1880,9 +1892,11 @@
 			><p class="src"
 			><a href="#"
 			  >baz''</a
-			  > :: b0 -&gt; (<span class="keyword"
+			  > :: <span class="keyword"
 			  >forall</span
-			  > b1. (<span class="keyword"
+			  > {k} b0 c0. b0 -&gt; (<span class="keyword"
+			  >forall</span
+			  > (b1 :: k). (<span class="keyword"
 			  >forall</span
 			  > b2. b2 -&gt; <a href="#" title="Instances"
 			  >Quux</a

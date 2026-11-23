@@ -1,10 +1,10 @@
+f :: forall {k} (a :: k -> *) (b :: k). C a => a b
 f :: forall (a :: * -> *) b. C a => a b
 f :: forall (a :: * -> *) b. C a => a b
 f :: forall (a :: * -> *) b. C a => a b
 f :: forall (a :: * -> *) b. C a => a b
 f :: forall (a :: * -> *) b. C a => a b
-f :: forall (a :: * -> *) b. C a => a b
-f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
+f ∷ ∀ {k} (a ∷ k → ★) (b ∷ k). C a ⇒ a b
 f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
 f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b
 f ∷ ∀ (a ∷ ★ → ★) b. C a ⇒ a b

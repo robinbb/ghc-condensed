@@ -11,7 +11,7 @@ bkpfail17.bkp:5:9: error: [GHC-15843]
       Main module: type Either :: * -> * -> *
                    data Either a b = Left a | Right b
         Hsig file: type role Either representational phantom phantom
-                   type Either :: * -> * -> * -> *
+                   type Either :: forall {k1} {k2}. * -> k1 -> k2 -> *
                    data Either a b c = Left a
       The types have different kinds.
     • While checking that ‘Prelude’ implements signature ‘ShouldFail’ in ‘p[ShouldFail=Prelude]’.

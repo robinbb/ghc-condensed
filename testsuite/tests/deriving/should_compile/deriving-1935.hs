@@ -8,16 +8,17 @@
 
 module Foo where
 
+ import Data.Kind (Type)
  import Data.Data
 
- data Foo a = Foo
+ data Foo (a :: Type) = Foo
     deriving (Data, Typeable)
 
  data T a = MkT (S a) deriving( Ord )
 
  instance Num a => Eq (T a)
 
- data S a = S
+ data S (a :: Type) = S
  instance Eq (S a)
  instance Ord (S a)
 

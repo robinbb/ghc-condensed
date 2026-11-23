@@ -1,4 +1,4 @@
-:set -XGADTs -XPolyKinds -XTypeApplications
+:set -XGADTs -XTypeApplications
 :set -fprint-explicit-foralls
 import Data.Proxy
 data X a where { MkX :: b -> Proxy a -> X a }

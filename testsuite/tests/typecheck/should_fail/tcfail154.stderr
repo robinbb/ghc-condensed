@@ -1,6 +1,6 @@
 tcfail154.hs:12:10: error: [GHC-22979]
-    • The constraint ‘C a a’
-        is no smaller than the instance head ‘Eq (T a)’
+    • Variable ‘a’ occurs more often
+        in the constraint ‘C a a’ than in the instance head ‘Eq (T a)’
     • In the instance declaration for ‘Eq (T a)’
     Suggested fix:
       Perhaps you intended to use the ‘UndecidableInstances’ extension

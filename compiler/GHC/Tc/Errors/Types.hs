@@ -1951,8 +1951,7 @@ data TcRnMessage where
 
       Example(s): None.
 
-      Test cases: generics/T10604/T10604_no_PolyKinds
-                  deriving/should_fail/drvfail009
+      Test cases: deriving/should_fail/drvfail009
                   deriving/should_fail/drvfail-functor2
                   deriving/should_fail/T10598_fail3
                   deriving/should_fail/deriving-via-fail2
@@ -2406,29 +2405,14 @@ data TcRnMessage where
     -> !(Maybe SuggestUnliftedTypes) -- ^ suggested extension
     -> TcRnMessage
 
-  {-| TcRnUnexpectedKindVar is an error that occurs when the user
-      tries to use kind variables without -XPolyKinds.
+  {-| TcRnIllegalKind is used for various illegal kinds errors, such as an
+      implicit parameter in a kind.
 
-      Example:
-        f :: forall k a. Proxy (a :: k)
-
-      Test cases: polykinds/BadKindVar
-                  polykinds/T14710
-                  saks/should_fail/T16722
-  -}
-  TcRnUnexpectedKindVar :: RdrName -> TcRnMessage
-
-  {-| TcRnIllegalKind is used for a various illegal kinds errors including
-
-      Example:
-        type T :: forall k. Type -- without emabled -XPolyKinds
-
-      Test cases: polykinds/T16762b
+      Test cases: polykinds/IPKind
   -}
   TcRnIllegalKind
     :: HsTypeOrSigType GhcPs
             -- ^ The illegal kind
-    -> Bool -- ^ Whether enabling -XPolyKinds should be suggested
     -> TcRnMessage
 
   {-| TcRnClassKindNotConstraint is an error for a type class that has a kind that
@@ -3482,16 +3466,6 @@ data TcRnMessage where
     -> !Name -- ^ Name of the thing used wrongly.
     -> TcRnMessage
 
-  {-| TcRnCannotDefaultKindVar is an error that occurs when attempting to use
-    unconstrained kind variables whose type isn't @Type@, without -XPolyKinds.
-
-    Test cases:
-      T11334b
-  -}
-  TcRnCannotDefaultKindVar
-    :: !TyVar -- ^ The unconstrained variable.
-    -> !Kind -- ^ Kind of the variable.
-    -> TcRnMessage
 
   {-| TcRnUninferrableTyVar is an error that occurs when metavariables
     in a type could not be defaulted.
@@ -4953,7 +4927,7 @@ data InvalidFamInstQTv
     { ifiqtv :: TcTyVar
     , ifiqtv_user_written :: Bool
        -- ^ Did the user write this type variable, or was introduced by GHC?
-       -- For example: with @-XPolyKinds@, in @type instance forall a. F = ()@,
+       -- For example: in @type instance forall a. F = ()@,
        -- we have a user-written @a@ but GHC introduces a kind variable @k@
        -- as well. See #23734.
     , ifiqtv_reason       :: InvalidFamInstQTvReason

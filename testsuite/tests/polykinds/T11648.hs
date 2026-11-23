@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeOperators, TypeFamilies #-}
+{-# LANGUAGE TypeOperators, TypeFamilies #-}
 
 module T11648 where
 

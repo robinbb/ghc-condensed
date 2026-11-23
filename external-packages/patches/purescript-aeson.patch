@@ -1,0 +1,38 @@
+--- a/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Encoding/Internal.hs
++++ b/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Encoding/Internal.hs
+@@ -64,6 +64,7 @@
+ 
+ import Data.Aeson.Types.Internal (Value, Key)
+ import Data.ByteString.Builder (Builder, char7, toLazyByteString)
++import Data.Kind (Type)
+ import Data.ByteString.Short (ShortByteString)
+ import qualified Data.Aeson.Key as Key
+ import Data.Time (Day, LocalTime, TimeOfDay, ZonedTime)
+@@ -79,7 +80,7 @@
+ --
+ -- @tag@ represents which kind of JSON the Encoding is encoding to,
+ -- we reuse 'Text' and 'Value' as tags here.
+-newtype Encoding' tag = Encoding {
++newtype Encoding' (tag :: Type) = Encoding {
+       fromEncoding :: Builder
+       -- ^ Acquire the underlying bytestring builder.
+     } deriving (Typeable)
+--- a/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Types/Internal.hs
++++ b/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Types/Internal.hs
+@@ -84,6 +84,7 @@
+ import Data.Aeson.Internal.Prelude
+ 
+ import Control.DeepSeq (NFData(..))
++import Data.Kind (Type)
+ import Control.Exception (Exception (..))
+ import Control.Monad (MonadPlus(..), ap)
+ import Data.Char (isLower, isUpper, toLower, isAlpha, isAlphaNum)
+@@ -276,7 +277,7 @@
+ --  "parser".  Instead you might like to think of 'Parser' as a "parse result",
+ -- i.e. a parser to which the input has already been applied.
+ newtype Parser a = Parser {
+-      runParser :: forall f r.
++      runParser :: forall (f :: Type -> Type) (r :: Type).
+                    JSONPath
+                 -> Failure f r
+                 -> Success a f r

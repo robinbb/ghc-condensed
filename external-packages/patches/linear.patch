@@ -1,0 +1,19 @@
+--- a/external-packages/linear/src/Linear/V0.hs
++++ b/external-packages/linear/src/Linear/V0.hs
+@@ -48,6 +48,7 @@
+ import qualified Data.Vector as V
+ import Foreign.Storable (Storable(..))
+ import GHC.Generics (Generic, Generic1)
++import Data.Kind (Type)
+ #if defined(MIN_VERSION_template_haskell)
+ import Language.Haskell.TH.Syntax (Lift)
+ #endif
+@@ -76,7 +77,7 @@
+ -- >>> V0 + V0
+ -- V0
+ --
+-data V0 a = V0 deriving (Eq,Ord,Show,Read,Ix,Enum,Data
++data V0 (a :: Type) = V0 deriving (Eq,Ord,Show,Read,Ix,Enum,Data
+                         ,Generic,Generic1
+ #if defined(MIN_VERSION_template_haskell)
+                         ,Lift

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedRecordDot, OverloadedRecordUpdate, RebindableSyntax#-}
 {-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, ScopedTypeVariables, PolyKinds, TypeApplications #-}
+{-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, ScopedTypeVariables, TypeApplications #-}
 
 import Prelude
 

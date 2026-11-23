@@ -1,5 +1,4 @@
 {-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE PolyKinds #-}
 module T15330 where
 
 import Data.Kind

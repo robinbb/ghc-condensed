@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, RankNTypes, TypeOperators, PolyKinds,
+{-# LANGUAGE TemplateHaskell, RankNTypes, TypeOperators,
              GADTs #-}
 
 module T8031 where

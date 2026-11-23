@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeApplications, ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications, ScopedTypeVariables #-}
 
 module Bug where
 

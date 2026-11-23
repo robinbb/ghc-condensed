@@ -1,4 +1,4 @@
-{-# Language GADTs, PolyKinds, TypeFamilies #-}
+{-# Language GADTs, TypeFamilies #-}
 module Fam where
 
 import Data.Kind (Type)

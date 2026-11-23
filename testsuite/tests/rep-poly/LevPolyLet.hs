@@ -1,4 +1,3 @@
-{-# language PolyKinds #-}
 {-# language RankNTypes #-}
 
 module LevPolyLet

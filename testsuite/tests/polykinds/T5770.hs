@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeFamilies,
-             PolyKinds,
              ScopedTypeVariables
  #-}
 

@@ -36,6 +36,7 @@ module Haddock.Utils.Json
   )
 where
 
+import Data.Kind (Type)
 import Control.Applicative (Alternative (..))
 import Control.Monad (MonadPlus (..), zipWithM, (>=>))
 import qualified Control.Monad as Monad
@@ -217,9 +218,11 @@ type Failure f r = JSONPath -> String -> f r
 -- | Success continuation.
 type Success a f r = a -> f r
 
+-- The kinds are pinned: an inferred kind variable would make the
+-- constructor existential, which a newtype cannot have.
 newtype Parser a = Parser
   { runParser
-      :: forall f r
+      :: forall (f :: Type -> Type) (r :: Type)
        . JSONPath
       -> Failure f r
       -> Success a f r

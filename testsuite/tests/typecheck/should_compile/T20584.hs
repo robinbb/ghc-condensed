@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE NoPolyKinds #-}
 
 module T20584 where
 

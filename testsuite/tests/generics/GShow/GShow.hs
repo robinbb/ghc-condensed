@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeOperators              #-}
 {-# LANGUAGE DefaultSignatures          #-}
 {-# LANGUAGE MagicHash                  #-}
-{-# LANGUAGE PolyKinds                  #-}
 
 module GShow (
   -- * Generic show class

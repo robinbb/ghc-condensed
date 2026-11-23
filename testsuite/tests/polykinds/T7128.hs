@@ -1,5 +1,4 @@
-{-# LANGUAGE PolyKinds,
-              FunctionalDependencies
+{-# LANGUAGE FunctionalDependencies
   #-}
 
 module T7128 where

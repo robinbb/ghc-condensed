@@ -57,13 +57,9 @@
 	    >newtype</span
 	    > <a id="t:WrappedArrow" class="def"
 	    >WrappedArrow</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; k1 -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b c <a href="#" class="selflink"
+	    >) (b :: k) (c :: k1) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="subs constructors"
@@ -114,9 +110,7 @@
 		      >Generic1</a
 		      > (<a href="#" title="Bug548"
 		      >WrappedArrow</a
-		      > a b :: <a href="#" title="Data.Kind"
-		      >Type</a
-		      > -&gt; <a href="#" title="Data.Kind"
+		      > a b :: k1 -&gt; <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
 		    > <a href="#" class="selflink"
@@ -149,9 +143,7 @@
 				>Rep1</a
 				> (<a href="#" title="Bug548"
 				>WrappedArrow</a
-				> a b :: <a href="#" title="Data.Kind"
-				>Type</a
-				> -&gt; <a href="#" title="Data.Kind"
+				> a b :: k1 -&gt; <a href="#" title="Data.Kind"
 				>Type</a
 				>)</span
 			      ></td
@@ -178,9 +170,7 @@
 				  >Rep1</a
 				  > (<a href="#" title="Bug548"
 				  >WrappedArrow</a
-				  > a b :: <a href="#" title="Data.Kind"
-				  >Type</a
-				  > -&gt; <a href="#" title="Data.Kind"
+				  > a b :: k1 -&gt; <a href="#" title="Data.Kind"
 				  >Type</a
 				  >) = <a href="#" title="GHC.Generics"
 				  >D1</a
@@ -222,7 +212,9 @@
 			><p class="src"
 			><a href="#"
 			  >from1</a
-			  > :: <a href="#" title="Bug548"
+			  > :: <span class="keyword"
+			  >forall</span
+			  > (a0 :: k1). <a href="#" title="Bug548"
 			  >WrappedArrow</a
 			  > a b a0 -&gt; <a href="#" title="GHC.Generics"
 			  >Rep1</a
@@ -234,7 +226,9 @@
 			><p class="src"
 			><a href="#"
 			  >to1</a
-			  > :: <a href="#" title="GHC.Generics"
+			  > :: <span class="keyword"
+			  >forall</span
+			  > (a0 :: k1). <a href="#" title="GHC.Generics"
 			  >Rep1</a
 			  > (<a href="#" title="Bug548"
 			  >WrappedArrow</a
@@ -886,9 +880,7 @@
 		      >Rep1</a
 		      > (<a href="#" title="Bug548"
 		      >WrappedArrow</a
-		      > a b :: <a href="#" title="Data.Kind"
-		      >Type</a
-		      > -&gt; <a href="#" title="Data.Kind"
+		      > a b :: k1 -&gt; <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
 		    > <a href="#" class="selflink"
@@ -917,9 +909,7 @@
 			>Rep1</a
 			> (<a href="#" title="Bug548"
 			>WrappedArrow</a
-			> a b :: <a href="#" title="Data.Kind"
-			>Type</a
-			> -&gt; <a href="#" title="Data.Kind"
+			> a b :: k1 -&gt; <a href="#" title="Data.Kind"
 			>Type</a
 			>) = <a href="#" title="GHC.Generics"
 			>D1</a

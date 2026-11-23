@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds , GADTs, ScopedTypeVariables, PatternSynonyms,
+{-# LANGUAGE GADTs, ScopedTypeVariables, PatternSynonyms,
       ViewPatterns #-}
 
 module T12968 where

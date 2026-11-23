@@ -1,4 +1,4 @@
-T16326_Fail4.hs:6:30: error: [GHC-51580]
+T16326_Fail4.hs:5:30: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall a1 -> Maybe a1 -> Maybe a1 -> Maybe a1
     • In an expression type signature:

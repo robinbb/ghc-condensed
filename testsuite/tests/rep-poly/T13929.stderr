@@ -1,4 +1,4 @@
-T13929.hs:27:24: error: [GHC-55287]
+T13929.hs:26:24: error: [GHC-55287]
     • • The first component of the unboxed tuple
         does not have a fixed runtime representation.
         Its type is:
@@ -23,7 +23,7 @@ T13929.hs:27:24: error: [GHC-55287]
       In the instance declaration for
         ‘GUnbox (f :*: g) (TupleRep [rf, rg])’
 
-T13929.hs:32:21: error: [GHC-55287]
+T13929.hs:31:21: error: [GHC-55287]
     • • The unboxed sum does not have a fixed runtime representation.
         Its type is:
           GUnboxed (f :+: g) (SumRep [rf, rg]) :: TYPE (SumRep [rf, rg])

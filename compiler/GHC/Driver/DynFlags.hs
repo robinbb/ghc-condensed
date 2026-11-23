@@ -1464,7 +1464,6 @@ languageExtensions (Just GHC2021)
        LangExt.NamedFieldPuns,
        LangExt.NamedWildCards,
        LangExt.NumericUnderscores,
-       LangExt.PolyKinds,
        LangExt.PostfixOperators,
        LangExt.RankNTypes,
        LangExt.ScopedTypeVariables,

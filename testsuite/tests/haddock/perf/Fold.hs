@@ -578,7 +578,7 @@ instance Monad m => Strong (Arrow.Kleisli m) where
 -- Moreover, you don't have to rely on the compiler to inline away the extra
 -- argument, because the newtype is \"free\"
 --
--- 'Tagged' has kind @k -> * -> *@ if the compiler supports @PolyKinds@, therefore
+-- 'Tagged' has kind @k -> * -> *@, therefore
 -- there is an extra @k@ showing in the instance haddocks that may cause confusion.
 newtype Tagged s b = Tagged { unTagged :: b } deriving
   ( Eq, Ord, Ix, Bounded

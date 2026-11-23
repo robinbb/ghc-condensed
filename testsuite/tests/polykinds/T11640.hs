@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, RankNTypes, PolyKinds #-}
+{-# LANGUAGE GADTs, RankNTypes #-}
 
 module T11640 where
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE ExistentialQuantification, PatternSynonyms, PolyKinds, TypeOperators #-}
+{-# LANGUAGE ExistentialQuantification, PatternSynonyms, TypeOperators #-}
 
 -- | Testing some pattern synonyms
 module PatternSyns where

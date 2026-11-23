@@ -1,7 +1,6 @@
 {-# language DerivingStrategies #-}
 {-# language GeneralizedNewtypeDeriving #-}
 {-# language MagicHash #-}
-{-# language PolyKinds #-}
 {-# language UnliftedNewtypes #-}
 
 module UnliftedNewtypesGnd where

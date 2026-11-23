@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE TypeFamilies, UndecidableInstances, PolyKinds, TypeOperators, GADTs #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances, TypeOperators, GADTs #-}
 
 -- | Doc for: module TypeFamilies
 module TypeFamilies where

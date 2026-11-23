@@ -100,7 +100,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`NamedWildCards`
      * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
-     * :extension:`PolyKinds`
      * :extension:`PostfixOperators`
      * :extension:`RankNTypes`
      * :extension:`RelaxedPolyRec`
@@ -165,7 +164,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`NamedWildCards`
      * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
-     * :extension:`PolyKinds`
      * :extension:`PostfixOperators`
      * :extension:`RankNTypes`
      * :extension:`RelaxedPolyRec`

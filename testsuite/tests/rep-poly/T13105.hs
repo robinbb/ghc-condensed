@@ -1,4 +1,4 @@
-{-# LANGUAGE UnicodeSyntax, MagicHash, PolyKinds, TypeFamilies #-}
+{-# LANGUAGE UnicodeSyntax, MagicHash, TypeFamilies #-}
 
 -- from Conal Elliott
 -- Actually, this *should* work. But I want to put it in the testsuite

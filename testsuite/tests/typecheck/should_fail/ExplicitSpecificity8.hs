@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, PolyKinds, GADTs #-}
+{-# LANGUAGE RankNTypes, GADTs #-}
 
 module ExplicitSpecificity8 where
 

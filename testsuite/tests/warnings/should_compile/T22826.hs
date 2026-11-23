@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wmissing-poly-kind-signatures #-}
-{-# LANGUAGE GADTs, PolyKinds, TypeFamilies #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 -- without standalone kind signatures or cusks: warnings
 module T22826 where
 
@@ -41,12 +41,12 @@ class C a where
     type AT a b
 
 -- polykinded type with partial kind spec
--- not warned: PolyKinds don't add variables here
+-- not warned: kind polymorphism doesn't add variables here
 data D (k :: Type) a (b :: k) where
   D :: [a] -> D k a b
 
 -- polykinded type without kind signature, which is polymorphic,
--- but PolyKinds won't change it.
+-- but kind polymorphism won't change it.
 data E a k b = MkE a (VProxy k b)
 
 type VProxy :: forall k -> k -> Type

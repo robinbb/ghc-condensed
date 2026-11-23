@@ -29,16 +29,6 @@ For example: ::
     --
     -- GHC defaults the type of k to Integer.
 
-  -- NoPolyKinds:
-  f Proxy = ()
-    -- With -XNoPolyKinds, we cannot infer the poly-kinded type
-    --
-    --   forall {k} (a :: k). Proxy a -> ()
-    --
-    -- GHC defaults (k := Type), thus inferring
-    --
-    --   f :: forall (a :: Type). Proxy a -> ()
-
   -- Representation polymorphism:
   g x = x
     -- Should not quantify over the representation, as we cannot infer
@@ -189,9 +179,6 @@ to ``LiftedRep`` and ``Lifted``, respectively. This is explained in
 For type variables of kind ``Multiplicity``, GHC will default to ``Many``, as
 explained in :ref:`linear-types`: linear and multiplicity-polymorphic
 arrows are *always declared*, never inferred.
-
-For kind variables (of kind ``Type``), GHC will default to ``Type``
-when :extension:`PolyKinds` is not enabled; see :ref:`kind-defaulting`.
 
 .. _callstack_defaulting:
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, PolyKinds #-}
+{-# LANGUAGE GADTs #-}
 
 module TyVarTvKinds3 where
 

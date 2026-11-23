@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneKindSignatures, PolyKinds, TypeFamilies,
+{-# LANGUAGE StandaloneKindSignatures, TypeFamilies,
              UnliftedNewtypes #-}
 
 module T17021a where

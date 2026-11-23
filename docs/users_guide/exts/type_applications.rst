@@ -73,7 +73,7 @@ a type variable in the source program, it is *specified*; if not, it is
 *inferred*.
 
 This rule applies in datatype declarations, too. For example, if we have
-``data Proxy a = Proxy`` (and :extension:`PolyKinds` is enabled), then
+``data Proxy a = Proxy``, then
 ``a`` will be assigned kind ``k``, where ``k`` is a fresh kind variable.
 Because ``k`` was not written by the user, it will be unavailable for
 type application in the type of the constructor ``Proxy``; only the ``a``

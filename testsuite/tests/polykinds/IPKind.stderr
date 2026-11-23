@@ -1,0 +1,2 @@
+IPKind.hs:5:15: error: [GHC-64861] Illegal kind: ?x :: Int
+

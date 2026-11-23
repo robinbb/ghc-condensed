@@ -5,9 +5,10 @@
 {-# LANGUAGE RoleAnnotations #-}
 unit user where
     signature Map where
+        import Data.Kind (Type)
         type role Map nominal representational
-        data Map k a
-        class Key k
+        data Map (k :: Type) (a :: Type)
+        class Key (k :: Type)
         instance Key String
         empty  :: Map k a
         lookup :: Key k => k -> Map k a -> Maybe a

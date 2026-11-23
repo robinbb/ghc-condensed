@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, TypeFamilies, PolyKinds #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 
 module T7386 where
 

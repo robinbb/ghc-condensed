@@ -1,4 +1,4 @@
-UnliftedNewtypesCoerceFail.hs:13:8: error: [GHC-55287]
+UnliftedNewtypesCoerceFail.hs:12:8: error: [GHC-55287]
     • The first argument of ‘coerce’
       does not have a fixed runtime representation.
       Its type is:

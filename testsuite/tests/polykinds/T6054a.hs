@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, FunctionalDependencies #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 module T6054a where
 

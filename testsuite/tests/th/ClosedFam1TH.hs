@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, TypeFamilies, PolyKinds #-}
+{-# LANGUAGE TemplateHaskell, TypeFamilies #-}
 
 module ClosedFam1 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE ImpredicativeTypes, PolyKinds #-}
+{-# LANGUAGE ImpredicativeTypes #-}
 
 -- Should be rejected via an occurs-check in the kinds,
 -- but was erroneously accpeted with ImpredicativeTypes

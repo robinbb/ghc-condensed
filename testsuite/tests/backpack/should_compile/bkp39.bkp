@@ -2,8 +2,9 @@
 {-# LANGUAGE ConstraintKinds #-}
 unit p where
     signature A where
+        import Data.Kind (Type)
         import Prelude hiding ((==))
-        class K a
+        class K (a :: Type)
         infix 4 ==
         (==) :: K a => a -> a -> Bool
     module M where

@@ -3,20 +3,9 @@
 Kind polymorphism
 ==================================
 
-.. extension:: PolyKinds
-    :shortdesc: Allow kind polymorphism.
-
-    :since: 7.4.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow kind polymorphic types.
-
 This section describes GHC's kind system, as it appears in version 8.0 and beyond.
-The kind system as described here is always in effect, with or without extensions,
-although it is a conservative extension beyond standard Haskell. The extensions
-above simply enable syntax and tweak the inference algorithm to allow users to
-take advantage of the extra expressiveness of GHC's kind system.
+The kind system as described here is always in effect, although it is a
+conservative extension beyond standard Haskell.
 
 Overview of kind polymorphism
 -----------------------------
@@ -30,9 +19,9 @@ Type``. But this is overly specific, because another suitable Haskell 98 kind
 for ``App`` is ``((Type -> Type) -> Type) -> (Type -> Type) -> Type``, where the
 kind assigned to ``a`` is ``Type -> Type``. Indeed, without kind signatures
 (see :ref:`kinding`), it is necessary to use a dummy constructor to get a
-Haskell compiler to infer the second kind. With kind polymorphism
-(:extension:`PolyKinds`), GHC infers the kind ``forall k. (k -> Type) -> k ->
-Type`` for ``App``, which is its most general kind.
+Haskell compiler to infer the second kind. With kind polymorphism, GHC
+infers the kind ``forall k. (k -> Type) -> k -> Type`` for ``App``, which is
+its most general kind.
 
 Thus, the chief benefit of kind polymorphism is that we can now infer these
 most general kinds and use ``App`` at a variety of kinds: ::
@@ -72,8 +61,8 @@ introducing this kind system to GHC/Haskell.
 Principles of kind inference
 ----------------------------
 
-Generally speaking, when :extension:`PolyKinds` is on, GHC tries to infer the
-most general kind for a declaration.
+Generally speaking, GHC tries to infer the most general kind for a
+declaration.
 In many cases (for example, in a datatype declaration)
 the definition has a right-hand side to inform kind
 inference. But that is not always the case. Consider ::
@@ -143,8 +132,7 @@ more specific than its type signature.
 Explicit kind quantification
 ----------------------------
 
-Enabled by :extension:`PolyKinds`, GHC supports explicit kind quantification,
-as in these examples: ::
+GHC supports explicit kind quantification, as in these examples: ::
 
   data Proxy :: forall k. k -> Type
   f :: (forall k (a :: k). Proxy a -> ()) -> Int
@@ -603,8 +591,7 @@ Consider the type ::
 This datatype ``G`` is GADT-like in both its kind and its type. Suppose you
 have ``g :: G a``, where ``a :: k``. Then pattern matching to discover that
 ``g`` is in fact ``GMaybe`` tells you both that ``k ~ (Type -> Type)`` and
-``a ~ Maybe``. The definition for ``G`` requires that :extension:`PolyKinds`
-be in effect, but pattern-matching on ``G`` requires no extension beyond
+``a ~ Maybe``. Pattern-matching on ``G`` requires no extension beyond
 :extension:`GADTs`. That this works is actually a straightforward extension
 of regular GADTs and a consequence of the fact that kinds and types are the
 same.
@@ -804,8 +791,7 @@ dependent in the sense that ``k`` appears later in the kind of ``ProxyKVis``.
 As a counterpart, the ``k`` binder in ``forall k. k -> Type`` can be thought
 of as an *invisible*, dependent quantifier.
 
-GHC permits writing kinds with this syntax, provided that the
-``PolyKinds`` language extension is enabled. Just
+GHC permits writing kinds with this syntax. Just
 like the invisible ``forall``, one can put explicit kind signatures on visibly
 bound kind variables, so the following is syntactically valid: ::
 
@@ -973,38 +959,6 @@ the body of the ``forall``. Here are some examples::
 Note that in the last example, it's impossible to learn that ``a`` depends on ``k`` in the
 body of the ``forall`` (that is, the ``Sing k -> Sing a -> ()``). And so GHC rejects
 the program.
-
-.. _kind-defaulting:
-
-Kind defaulting without :extension:`PolyKinds`
------------------------------------------------
-
-Without :extension:`PolyKinds`, GHC refuses to generalise over kind variables.
-It thus defaults kind variables to ``Type`` when possible; when this is not
-possible, an error is issued.
-
-Here is an example of this in action: ::
-
-  {-# LANGUAGE PolyKinds #-}
-  import Data.Kind (Type)
-  data Proxy a = P   -- inferred kind: Proxy :: k -> Type
-  data Compose f g x = MkCompose (f (g x))
-    -- inferred kind: Compose :: (b -> Type) -> (a -> b) -> a -> Type
-
-  -- separate module having imported the first
-  {-# LANGUAGE NoPolyKinds #-}
-  z = Proxy :: Proxy MkCompose
-
-In the last line, we use the promoted constructor ``MkCompose``, which has
-kind ::
-
-  forall (a :: Type) (b :: Type) (f :: b -> Type) (g :: a -> b) (x :: a).
-    f (g x) -> Compose f g x
-
-Now we must infer a type for ``z``. To do so without generalising over kind
-variables, we must default the kind variables of ``MkCompose``. We can easily
-default ``a`` and ``b`` to ``Type``, but ``f`` and ``g`` would be ill-kinded if
-defaulted. The definition for ``z`` is thus an error.
 
 Pretty-printing in the presence of kind polymorphism
 ----------------------------------------------------

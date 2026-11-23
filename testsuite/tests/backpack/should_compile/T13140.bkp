@@ -2,7 +2,8 @@
 {-# LANGUAGE RoleAnnotations #-}
 unit p where
     signature A where
-        data T a
+        import Data.Kind (Type)
+        data T (a :: Type)
 unit q1 where
     module A where
         data T a = T a
@@ -12,7 +13,8 @@ unit q2 where
         data T a = T a
 unit q3 where
     module A where
-        data T a = T
+        import Data.Kind (Type)
+        data T (a :: Type) = T
 unit r where
     -- Subtyping test
     dependency p[A=q1:A]
@@ -21,8 +23,9 @@ unit r where
 
 unit p2 where
     signature A where
+        import Data.Kind (Type)
         type role T representational
-        data T a
+        data T (a :: Type)
     module M where
         import Data.Coerce
         import A

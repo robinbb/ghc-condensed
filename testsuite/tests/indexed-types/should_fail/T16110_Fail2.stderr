@@ -1,4 +1,4 @@
-T16110_Fail2.hs:9:3: error: [GHC-48178]
+T16110_Fail2.hs:8:3: error: [GHC-48178]
     • Illegal duplicate variable ‘b’ in:
         ‘type T a b b = ...’
         The arguments to ‘T’ must all be distinct type variables.

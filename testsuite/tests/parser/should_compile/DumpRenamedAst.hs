@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, PolyKinds, RankNTypes, TypeOperators,
+{-# LANGUAGE GADTs, RankNTypes, TypeOperators,
              TypeFamilies, StarIsType, TypeApplications #-}
 
 module DumpRenamedAst where

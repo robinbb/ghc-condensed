@@ -16,7 +16,7 @@ import {-# SOURCE #-} GHC.Internal.Num
   -- fromInteger needed for the "1" literal
 import {-# SOURCE #-} GHC.Internal.Enum (Enum)
 
-data Ratio a
+data Ratio (a :: Type)
 type Rational = Ratio Integer
 
 class (Num a, Ord a) => Real a where

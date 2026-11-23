@@ -1,5 +1,5 @@
 {-# LANGUAGE MagicHash, UnboxedTuples, TypeFamilies,
-  FunctionalDependencies, PolyKinds,
+  FunctionalDependencies,
   UndecidableInstances #-}
 module T14185 where
 

@@ -1,5 +1,4 @@
 import Data.Proxy
-:set -XPolyKinds
 data Dependent a (x :: a)
 
 :k Proxy _

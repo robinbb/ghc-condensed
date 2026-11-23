@@ -6,6 +6,6 @@ import GHC.Types
 
 main :: IO ()
 main = do
-  print (typeOf (Proxy :: Proxy 'Just))
+  print (typeOf (Proxy :: Proxy ('Just :: Type -> Maybe Type)))
   print (typeOf (Proxy :: Proxy (TYPE ('BoxedRep 'Lifted))))
   print (typeOf (Proxy :: Proxy (TYPE ('BoxedRep 'Unlifted))))

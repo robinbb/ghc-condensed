@@ -7,6 +7,7 @@ T8034.hs:7:3: error: [GHC-83865]
       The type variable ‘a0’ is ambiguous
     • In the ambiguity check for ‘foo’
       To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
-      When checking the class method: foo :: forall a. C a => F a -> F a
+      When checking the class method:
+        foo :: forall {k} (a :: k). C a => F a -> F a
       In the class declaration for ‘C’
 

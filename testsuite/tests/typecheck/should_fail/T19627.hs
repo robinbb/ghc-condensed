@@ -11,7 +11,6 @@
 {-# language LambdaCase #-}
 {-# language LinearTypes #-}
 {-# language NoStarIsType #-}
-{-# language PolyKinds #-}
 {-# language QuantifiedConstraints #-}
 {-# language RankNTypes #-}
 {-# language RoleAnnotations #-}

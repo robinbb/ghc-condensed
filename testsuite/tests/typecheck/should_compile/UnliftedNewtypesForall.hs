@@ -1,5 +1,4 @@
 {-# Language RankNTypes #-}
-{-# Language PolyKinds #-}
 {-# Language UnliftedNewtypes #-}
 
 module UnliftedNewtypesForall where

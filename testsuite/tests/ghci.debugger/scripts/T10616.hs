@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds  #-}
 
 data D a = A | B
 

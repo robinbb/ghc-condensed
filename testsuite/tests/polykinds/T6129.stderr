@@ -1,4 +1,4 @@
-T6129.hs:11:11: error: [GHC-64578]
+T6129.hs:10:11: error: [GHC-64578]
     • Data constructor ‘DInt’ cannot be used here
         (it comes from a data family instance)
     • In the first argument of ‘X’, namely ‘DInt’

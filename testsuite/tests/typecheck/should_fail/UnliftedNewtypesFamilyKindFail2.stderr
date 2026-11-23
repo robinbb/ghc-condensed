@@ -1,15 +1,15 @@
-UnliftedNewtypesFamilyKindFail2.hs:11:1: error: [GHC-83865]
+UnliftedNewtypesFamilyKindFail2.hs:10:1: error: [GHC-83865]
     • Expected a type, but ‘F 5’ has kind ‘5’
     • In the newtype family instance declaration for ‘F’
 
-UnliftedNewtypesFamilyKindFail2.hs:11:20: error: [GHC-83865]
+UnliftedNewtypesFamilyKindFail2.hs:10:20: error: [GHC-83865]
     • Expected a type,
       but ‘5’ has kind
       ‘GHC.Internal.Bignum.Natural.Natural’
     • In the first argument of ‘F’, namely ‘5’
       In the newtype family instance declaration for ‘F’
 
-UnliftedNewtypesFamilyKindFail2.hs:11:31: error: [GHC-83865]
+UnliftedNewtypesFamilyKindFail2.hs:10:31: error: [GHC-83865]
     • Expected a type,
       but ‘5’ has kind
       ‘GHC.Internal.Bignum.Natural.Natural’

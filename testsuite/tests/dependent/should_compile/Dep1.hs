@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module Dep1 where
 

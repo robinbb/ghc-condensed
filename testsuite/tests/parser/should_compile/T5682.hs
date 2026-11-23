@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, DeriveDataTypeable, StandaloneDeriving, TypeOperators #-}
+{-# LANGUAGE DeriveDataTypeable, StandaloneDeriving, TypeOperators #-}
 
 module T5682 where
 

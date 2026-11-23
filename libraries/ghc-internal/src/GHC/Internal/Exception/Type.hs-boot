@@ -13,7 +13,7 @@ module GHC.Internal.Exception.Type
 -- See W1 of Note [Tracking dependencies on primitives] in GHC.Internal.Base
 import GHC.Internal.Types as Rebindable
 
-class Exception e
+class Exception (e :: Type)
 
 data SomeException
 divZeroException, overflowException,

@@ -1,5 +1,4 @@
-{-# LANGUAGE PolyKinds
-           , FlexibleContexts
+{-# LANGUAGE FlexibleContexts
            , FlexibleInstances
            , GADTs
            , OverloadedLabels

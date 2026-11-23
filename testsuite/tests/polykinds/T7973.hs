@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ExistentialQuantification, UndecidableInstances, TypeFamilies,
              FlexibleContexts #-}
 

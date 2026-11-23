@@ -4,7 +4,6 @@
 {-# Language FlexibleInstances     #-}
 {-# Language GADTs                 #-}
 {-# Language ImpredicativeTypes    #-}
-{-# Language PolyKinds             #-}
 {-# Language QuantifiedConstraints #-}
 {-# Language RankNTypes            #-}
 {-# Language TypeOperators         #-}

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, NoPolyKinds #-}
+{-# LANGUAGE TypeFamilies #-}
 module T23778 where
 
 import Data.Kind

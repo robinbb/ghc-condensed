@@ -1,4 +1,3 @@
-{-# Language PolyKinds #-}
 {-# Language TypeFamilies #-}
 
 module T15764 where

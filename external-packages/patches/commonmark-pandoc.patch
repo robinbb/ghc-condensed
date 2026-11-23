@@ -1,0 +1,19 @@
+--- a/external-packages/commonmark-hs/commonmark-pandoc/src/Commonmark/Pandoc.hs
++++ b/external-packages/commonmark-hs/commonmark-pandoc/src/Commonmark/Pandoc.hs
+@@ -13,6 +13,7 @@
+ where
+ 
+ import Data.Maybe (fromMaybe)
++import Data.Kind (Type)
+ import qualified Data.Text as T
+ import Text.Pandoc.Definition
+ import Text.Pandoc.Walk
+@@ -35,7 +36,7 @@
+ import Data.Char (isSpace)
+ import Data.Coerce (coerce)
+ 
+-newtype Cm b a = Cm { unCm :: a }
++newtype Cm (b :: Type) a = Cm { unCm :: a }
+   deriving (Show, Semigroup, Monoid)
+ 
+ instance Functor (Cm b) where

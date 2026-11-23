@@ -2,7 +2,6 @@
 {-# Language RankNTypes        #-}
 {-# Language PatternSynonyms   #-}
 {-# Language TypeOperators     #-}
-{-# Language PolyKinds         #-}
 {-# Language GADTs             #-}
 {-# Language TypeFamilies      #-}
 {-# Language TypeApplications  #-}

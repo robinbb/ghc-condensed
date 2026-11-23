@@ -1,5 +1,5 @@
 {-# Language RebindableSyntax, NoImplicitPrelude, MagicHash, RankNTypes,
-             PolyKinds, ViewPatterns, FlexibleInstances #-}
+             ViewPatterns, FlexibleInstances #-}
 
 module Main where
 

@@ -1,5 +1,5 @@
 {-# Language PatternSynonyms, ViewPatterns, GADTs, ConstraintKinds, RankNTypes,
-             PolyKinds, ScopedTypeVariables, TypeOperators,
+             ScopedTypeVariables, TypeOperators,
              TypeApplications, TypeFamilies, TypeFamilyDependencies,
              TypeAbstractions #-}
 

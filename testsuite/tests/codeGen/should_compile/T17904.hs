@@ -1,7 +1,6 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE UnboxedTuples #-}
-{-# LANGUAGE PolyKinds #-}
 {-# OPTIONS_GHC -fno-full-laziness  #-}
 
 module T17904

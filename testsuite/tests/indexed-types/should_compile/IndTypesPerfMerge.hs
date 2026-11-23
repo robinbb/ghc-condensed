@@ -5,40 +5,42 @@
              FlexibleContexts #-}
 module IndTypesPerfMerge where
 
+
+import Data.Kind (Type)
 data a :* b = a :* b
 infixr 6 :*
 
 data TRUE
 data FALSE
 data Zero
-data Succ a
+data Succ (a :: Type)
 
-type family Equals m n
+type family Equals (m :: Type) (n :: Type) :: Type
 type instance Equals Zero Zero = TRUE
 type instance Equals (Succ a) Zero = FALSE
 type instance Equals Zero (Succ a) = FALSE
 type instance Equals (Succ a) (Succ b) = Equals a b
 
-type family LessThan m n
+type family LessThan (m :: Type) (n :: Type) :: Type
 type instance LessThan Zero Zero = FALSE
 type instance LessThan (Succ n) Zero = FALSE
 type instance LessThan Zero (Succ n) = TRUE
 type instance LessThan (Succ m) (Succ n) = LessThan m n
 
-newtype Tagged n a = Tagged a deriving (Show,Eq)
+newtype Tagged (n :: Type) (a :: Type) = Tagged a deriving (Show,Eq)
 
-type family Cond p a b
+type family Cond (p :: Type) (a :: Type) (b :: Type) :: Type
 
 type instance Cond TRUE a b = a
 type instance Cond FALSE a b = b
 
-class Merger a where
+class Merger (a :: Type) where
     type Merged a
     type UnmergedLeft a
     type UnmergedRight a
     mkMerge :: a -> UnmergedLeft a -> UnmergedRight a -> Merged a
 
-class Mergeable a b where
+class Mergeable (a :: Type) (b :: Type) where
     type MergerType a b
     merger :: a -> b -> MergerType a b
 
@@ -96,11 +98,11 @@ Another solve path:
 ---------------  -}
 
 
-data TakeRight a
-data TakeLeft a
-data DiscardRightHead a b c d
-data LeftHeadFirst a b c d
-data RightHeadFirst a b c d
+data TakeRight (a :: Type)
+data TakeLeft (a :: Type)
+data DiscardRightHead (a :: Type) (b :: Type) (c :: Type) (d :: Type)
+data LeftHeadFirst (a :: Type) (b :: Type) (c :: Type) (d :: Type)
+data RightHeadFirst (a :: Type) (b :: Type) (c :: Type) (d :: Type)
 data EndMerge
 
 instance Mergeable () () where

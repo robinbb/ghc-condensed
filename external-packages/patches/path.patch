@@ -1,0 +1,38 @@
+--- a/external-packages/vendored/path/src/OsPath/Internal/Include.hs
++++ b/external-packages/vendored/path/src/OsPath/Internal/Include.hs
+@@ -44,6 +44,7 @@
+   )
+   where
+ 
++import Data.Kind (Type)
+ import Control.DeepSeq (NFData (..))
+ import GHC.Generics (Generic)
+ import Data.Data
+@@ -69,7 +70,7 @@
+ --
+ -- All directories end in a trailing separator. There are no duplicate
+ -- path separators @\/\/@, no @..@, no @.\/@, no @~\/@, etc.
+-newtype Path b t = Path PLATFORM_PATH
++newtype Path (b :: Type) (t :: Type) = Path PLATFORM_PATH
+   deriving (Data, Typeable, Generic)
+ 
+ -- | String equality.
+--- a/external-packages/vendored/path/src/Path/Internal/Include.hs
++++ b/external-packages/vendored/path/src/Path/Internal/Include.hs
+@@ -20,6 +20,7 @@
+   where
+ 
+ import Control.DeepSeq (NFData (..))
++import Data.Kind (Type)
+ import Data.Aeson (ToJSON (..), ToJSONKey(..))
+ import Data.Aeson.Types (toJSONKeyText)
+ import qualified Data.Text as T (pack)
+@@ -44,7 +45,7 @@
+ --
+ -- All directories end in a trailing separator. There are no duplicate
+ -- path separators @\/\/@, no @..@, no @.\/@, no @~\/@, etc.
+-newtype Path b t = Path FilePath
++newtype Path (b :: Type) (t :: Type) = Path FilePath
+   deriving (Data, Typeable, Generic)
+ 
+ -- | String equality.

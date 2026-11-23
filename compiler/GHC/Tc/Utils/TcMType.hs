@@ -98,7 +98,6 @@ import GHC.Hs
 import GHC.Platform
 
 import GHC.Driver.DynFlags
-import qualified GHC.LanguageExtensions as LangExt
 
 import {-# SOURCE #-} GHC.Tc.Utils.Unify( unifyInvisibleType, tcSubMult )
 import GHC.Tc.Types.Origin
@@ -135,7 +134,7 @@ import GHC.Types.Var.Env
 import GHC.Types.Unique.Set
 import GHC.Types.Basic ( TypeOrKind(..)
                        , NonStandardDefaultingStrategy(..)
-                       , DefaultingStrategy(..), defaultNonStandardTyVars )
+                        )
 
 import GHC.Data.FastString
 import GHC.Data.Bag
@@ -1123,13 +1122,10 @@ substFRROrigin subst orig@(FixedRuntimeRepOrigin { frr_type = ty })
 
 {- Note [Dependent type variables]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In Haskell type inference we quantify over type variables; but we only
-quantify over /kind/ variables when -XPolyKinds is on.  Without -XPolyKinds
-we default the kind variables to *.
-
-So, to support this defaulting, and only for that reason, when
+In Haskell type inference we quantify over type variables and kind
+variables alike; but we quantify the kind variables first, so when
 collecting the free vars of a type (in candidateQTyVarsOfType and friends),
-prior to quantifying, we must keep the type and kind variables separate.
+prior to quantifying, we keep the type and kind variables separate.
 
 But what does that mean in a system where kind variables /are/ type
 variables? It's a fairly arbitrary distinction based on how the
@@ -1140,7 +1136,6 @@ variables appear:
     (forall (a :: kappa). ...) or in the kind of a coercion
     (a |> (co :: kappa1 ~ kappa2)).
 
-     These are the ones we default to * if -XPolyKinds is off
 
   - "Type variables" are all free vars that are not kind variables
 
@@ -1307,7 +1302,7 @@ isEmptyCandidates (DV { dv_kvs = kvs, dv_tvs = tvs })
 
 -- | Extract out the kind vars (in order) and type vars (in order) from
 -- a 'CandidatesQTvs'. The lists are guaranteed to be distinct. Keeping
--- the lists separate is important only in the -XNoPolyKinds case.
+-- the lists separate puts the kind variables first.
 candidateVars :: CandidatesQTvs -> ([TcTyVar], [TcTyVar])
 candidateVars (DV { dv_kvs = dep_kv_set, dv_tvs = nondep_tkv_set })
   = (dep_kvs, nondep_tvs)
@@ -1379,8 +1374,7 @@ candidateQTyVarsOfTypes tys
 
 -- | Like 'candidateQTyVarsOfType', but consider every free variable
 -- to be dependent. This is appropriate when generalizing a *kind*,
--- instead of a type. (That way, -XNoPolyKinds will default the variables
--- to Type.)
+-- instead of a type.
 candidateQTyVarsOfKind :: TcKind       -- Not necessarily zonked
                        -> TcM CandidatesQTvs
 candidateQTyVarsOfKind ty
@@ -1443,9 +1437,8 @@ collect_cand_qtvs orig_ty is_dep cur_lvl bound dvs ty
 
       -- This makes sure that we default e.g. the alpha in Proxy alpha (Any alpha).
       -- Tested in polykinds/NestedProxies.
-      -- We just might get this wrong in AppTy, but I don't think that's possible
-      -- with -XNoPolyKinds. And fixing it would be non-performant, as we'd need
-      -- to look at kinds.
+      -- We just might get this wrong in AppTy, and fixing it would be
+      -- non-performant, as we'd need to look at kinds.
     go_tc_args dv (tc_bndr:tc_bndrs) (ty:tys)
       = do { dv1 <- collect_cand_qtvs orig_ty (is_dep || isNamedTyConBinder tc_bndr)
                                       cur_lvl bound dv ty
@@ -1638,8 +1631,8 @@ non-dependent variables) skolemises metavariables with a TcLevel greater
 than the ambient level (see Note [Use level numbers for quantification]).
 
 * This function distinguishes between dependent and non-dependent
-  variables only to keep correct defaulting behavior with -XNoPolyKinds.
-  With -XPolyKinds, it treats both classes of variables identically.
+  variables only to quantify the dependent ones first; otherwise it
+  treats both classes of variables identically.
 
 * quantifyTyVars never quantifies over
     - a coercion variable (or any tv mentioned in the kind of a covar)
@@ -1775,8 +1768,7 @@ skolemiseQuantifiedTyVar :: SkolemInfo -> TcTyVar -> ZonkM TcTyVar
 --
 -- We leave skolem TyVars alone; they are immutable.
 --
--- This function is called on both kind and type variables,
--- but kind variables *only* if PolyKinds is on.
+-- This function is called on both kind and type variables.
 
 skolemiseQuantifiedTyVar skol_info tv
   = case tcTyVarDetails tv of
@@ -1798,7 +1790,7 @@ skolemiseQuantifiedTyVar skol_info tv
 -- | Default a type variable using the given defaulting strategy.
 --
 -- See Note [Type variable defaulting options] in GHC.Types.Basic.
-defaultTyVar :: DefaultingStrategy
+defaultTyVar :: NonStandardDefaultingStrategy
              -> TcTyVar    -- If it's a MetaTyVar then it is unbound
              -> TcM Bool   -- True <=> defaulted away altogether
 defaultTyVar def_strat tv
@@ -1839,36 +1831,14 @@ defaultTyVar def_strat tv
        ; _ <- promoteMetaTyVarTo lvl tv
        ; return True }
 
-  | DefaultKindVars <- def_strat -- -XNoPolyKinds and this is a kind var: we must default it
-  = default_kind_var tv
-
   | otherwise
   = return False
 
   where
     default_ns_vars :: Bool
-    default_ns_vars = defaultNonStandardTyVars def_strat
-    default_kind_var :: TyVar -> TcM Bool
-       -- defaultKindVar is used exclusively with -XNoPolyKinds
-       -- See Note [Defaulting with -XNoPolyKinds]
-       -- It takes an (unconstrained) meta tyvar and defaults it.
-       -- Works only on vars of type *; for other kinds, it issues an error.
-    default_kind_var kv
-      | isLiftedTypeKind (tyVarKind kv)
-      = do { traceTc "Defaulting a kind var to *" (ppr kv)
-           ; liftZonkM $ writeMetaTyVar kv liftedTypeKind
-           ; return True }
-      | otherwise
-      = do { let (tidy_env, kv') = tidyFreeTyCoVarX emptyTidyEnv kv
-           ; addErrTcM $ (tidy_env, TcRnCannotDefaultKindVar kv' (tyVarKind kv'))
-           -- We failed to default it, so return False to say so.
-           -- Hence, it'll get skolemised.  That might seem odd, but we must either
-           -- promote, skolemise, or zap-to-Any, to satisfy GHC.Tc.Gen.HsType
-           --    Note [Recipe for checking a signature]
-           -- Otherwise we get level-number assertion failures. It doesn't matter much
-           -- because we are in an error situation anyway.
-           ; return False
-        }
+    default_ns_vars = case def_strat of
+      DefaultNonStandardTyVars         -> True
+      TryNotToDefaultNonStandardTyVars -> False
 
 -- | Default some unconstrained type variables, as specified
 -- by the defaulting options:
@@ -1876,30 +1846,12 @@ defaultTyVar def_strat tv
 --  - 'RuntimeRep' tyvars default to 'LiftedRep'
 --  - 'Levity' tyvars default to 'Lifted'
 --  - 'Multiplicity' tyvars default to 'Many'
---  - 'Type' tyvars from dv_kvs default to 'Type', when -XNoPolyKinds
---    (under -XNoPolyKinds, non-defaulting vars in dv_kvs is an error)
 defaultTyVars :: NonStandardDefaultingStrategy
               -> CandidatesQTvs    -- ^ all candidates for quantification
               -> TcM [TcTyVar]     -- ^ those variables not defaulted
 defaultTyVars ns_strat dvs
-  = do { poly_kinds <- xoptM LangExt.PolyKinds
-       ; let
-           def_tvs, def_kvs :: DefaultingStrategy
-           def_tvs = NonStandardDefaulting ns_strat
-           def_kvs | poly_kinds = def_tvs
-                   | otherwise  = DefaultKindVars
-             -- As -XNoPolyKinds precludes polymorphic kind variables, we default them.
-             -- For example:
-             --
-             --   type F :: Type -> Type
-             --   type family F a where
-             --      F (a -> b) = b
-             --
-             -- Here we get `a :: TYPE r`, so to accept this program when -XNoPolyKinds is enabled
-             -- we must default the kind variable `r :: RuntimeRep`.
-             -- Test case: T20584.
-       ; defaulted_kvs <- mapM (defaultTyVar def_kvs) dep_kvs
-       ; defaulted_tvs <- mapM (defaultTyVar def_tvs) nondep_tvs
+  = do { defaulted_kvs <- mapM (defaultTyVar ns_strat) dep_kvs
+       ; defaulted_tvs <- mapM (defaultTyVar ns_strat) nondep_tvs
        ; let undefaulted_kvs = [ kv | (kv, False) <- dep_kvs    `zip` defaulted_kvs ]
              undefaulted_tvs = [ tv | (tv, False) <- nondep_tvs `zip` defaulted_tvs ]
        ; return (undefaulted_kvs ++ undefaulted_tvs) }
@@ -2045,7 +1997,7 @@ C. Examine the class declaration at the top of this Note again.
         suppressed by a user-written forall (by the forall-or-nothing rule,
         in Note [forall-or-nothing rule] in GHC.Hs.Type).
      2. Inferred quantification: no signal in HsSyn, occurs over unconstrained
-        variables invented by the type-checker, possible only with -XPolyKinds,
+        variables invented by the type-checker,
         unaffected by forall-or-nothing rule
    These two quantifications are performed in different compiler phases, and are
    essentially unrelated. However, it is convenient
@@ -2080,28 +2032,7 @@ doNotQuantifyTyVars dvs where_found
             ; failWithTcM (tidy_env2, msg) }
        ; traceTc "doNotQuantifyTyVars success" empty }
 
-{- Note [Defaulting with -XNoPolyKinds]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Consider
-
-  data Compose f g a = Mk (f (g a))
-
-We infer
-
-  Compose :: forall k1 k2. (k2 -> *) -> (k1 -> k2) -> k1 -> *
-  Mk :: forall k1 k2 (f :: k2 -> *) (g :: k1 -> k2) (a :: k1).
-        f (g a) -> Compose k1 k2 f g a
-
-Now, in another module, we have -XNoPolyKinds in effect.
-What does 'Mk mean? Pre GHC-8.0 with -XNoPolyKinds,
-we just defaulted all kind variables to *. But that's no good here,
-because the kind variables in 'Mk aren't of kind *, so defaulting to *
-is ill-kinded.
-
-After some debate on #11334, we decided to issue an error in this case.
-The code is in defaultKindVar.
-
-Note [What is a meta variable?]
+{- Note [What is a meta variable?]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A "meta type-variable", also know as a "unification variable" is a placeholder
 introduced by the typechecker for an as-yet-unknown monotype.

@@ -7,7 +7,7 @@ import Data.Kind (Type)
 
 type family F f :: Type
 
-data Id c = Id
+data Id (c :: Type) = Id
 type instance F (Id c) = c
 
 data C :: Type -> Type where

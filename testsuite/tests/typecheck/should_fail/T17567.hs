@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, RankNTypes #-}
+{-# LANGUAGE RankNTypes #-}
 
 module T17567 where
 

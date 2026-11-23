@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, QuantifiedConstraints, RankNTypes #-}
+{-# LANGUAGE QuantifiedConstraints, RankNTypes #-}
 
 module T15334 where
 

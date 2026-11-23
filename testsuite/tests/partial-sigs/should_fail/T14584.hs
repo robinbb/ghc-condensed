@@ -1,7 +1,6 @@
 {-# OPTIONS_GHC -fdefer-type-errors #-}     -- Very important to this bug!
 {-# Language PartialTypeSignatures #-}
 {-# Language TypeFamilyDependencies #-}
-{-# Language PolyKinds #-}
 {-# Language TypeFamilies #-}
 {-# Language RankNTypes #-}
 {-# Language NoImplicitPrelude #-}

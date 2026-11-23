@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, GADTs, TypeFamilies #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 
 module T12239 where
 

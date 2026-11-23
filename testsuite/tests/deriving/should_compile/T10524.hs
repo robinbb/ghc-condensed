@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE PolyKinds #-}
 module T10524 where
 
 import Data.Data

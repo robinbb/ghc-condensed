@@ -285,11 +285,9 @@
 	      >newtype</span
 	      > <a href="#"
 	      >N2</a
-	      > (a :: <a href="#" title="Data.Kind"
+	      > (a :: k -&gt; <a href="#" title="Data.Kind"
 	      >Type</a
-	      > -&gt; <a href="#" title="Data.Kind"
-	      >Type</a
-	      >) b = <a href="#"
+	      >) (b :: k) = <a href="#"
 	      >N2</a
 	      > {<ul class="subs"
 	      ><li
@@ -303,11 +301,9 @@
 	      >newtype</span
 	      > <a href="#"
 	      >N3</a
-	      > (a :: <a href="#" title="Data.Kind"
+	      > (a :: k -&gt; <a href="#" title="Data.Kind"
 	      >Type</a
-	      > -&gt; <a href="#" title="Data.Kind"
-	      >Type</a
-	      >) b = <a href="#"
+	      >) (b :: k) = <a href="#"
 	      >N3</a
 	      > {<ul class="subs"
 	      ><li
@@ -321,17 +317,15 @@
 	      >data</span
 	      > <a href="#"
 	      >N4</a
-	      > a b</li
+	      > a (b :: k)</li
 	    ><li class="src short"
 	    ><span class="keyword"
 	      >newtype</span
 	      > <a href="#"
 	      >N5</a
-	      > (a :: <a href="#" title="Data.Kind"
+	      > (a :: k -&gt; <a href="#" title="Data.Kind"
 	      >Type</a
-	      > -&gt; <a href="#" title="Data.Kind"
-	      >Type</a
-	      >) b = <a href="#"
+	      >) (b :: k) = <a href="#"
 	      >N5</a
 	      > {<ul class="subs"
 	      ><li
@@ -345,11 +339,9 @@
 	      >newtype</span
 	      > <a href="#"
 	      >N6</a
-	      > (a :: <a href="#" title="Data.Kind"
+	      > (a :: k -&gt; <a href="#" title="Data.Kind"
 	      >Type</a
-	      > -&gt; <a href="#" title="Data.Kind"
-	      >Type</a
-	      >) b = <a href="#"
+	      >) (b :: k) = <a href="#"
 	      >N6</a
 	      > {<ul class="subs"
 	      ><li
@@ -363,11 +355,9 @@
 	      >newtype</span
 	      > <a href="#"
 	      >N7</a
-	      > (a :: <a href="#" title="Data.Kind"
+	      > (a :: k -&gt; <a href="#" title="Data.Kind"
 	      >Type</a
-	      > -&gt; <a href="#" title="Data.Kind"
-	      >Type</a
-	      >) b = <a href="#"
+	      >) (b :: k) = <a href="#"
 	      >N7</a
 	      > {<ul class="subs"
 	      ><li
@@ -1013,11 +1003,9 @@
 	    >newtype</span
 	    > <a id="t:N2" class="def"
 	    >N2</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b <a href="#" class="selflink"
+	    >) (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1063,11 +1051,9 @@
 	    >newtype</span
 	    > <a id="t:N3" class="def"
 	    >N3</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b <a href="#" class="selflink"
+	    >) (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1119,7 +1105,7 @@
 	    >data</span
 	    > <a id="t:N4" class="def"
 	    >N4</a
-	    > a b <a href="#" class="selflink"
+	    > a (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1134,11 +1120,9 @@
 	    >newtype</span
 	    > <a id="t:N5" class="def"
 	    >N5</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b <a href="#" class="selflink"
+	    >) (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="subs constructors"
@@ -1182,11 +1166,9 @@
 	    >newtype</span
 	    > <a id="t:N6" class="def"
 	    >N6</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b <a href="#" class="selflink"
+	    >) (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="subs constructors"
@@ -1230,11 +1212,9 @@
 	    >newtype</span
 	    > <a id="t:N7" class="def"
 	    >N7</a
-	    > (a :: <a href="#" title="Data.Kind"
+	    > (a :: k -&gt; <a href="#" title="Data.Kind"
 	    >Type</a
-	    > -&gt; <a href="#" title="Data.Kind"
-	    >Type</a
-	    >) b <a href="#" class="selflink"
+	    >) (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"

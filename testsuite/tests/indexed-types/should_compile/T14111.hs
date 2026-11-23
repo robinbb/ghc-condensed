@@ -1,8 +1,7 @@
 {-# LANGUAGE MagicHash, UnboxedSums, NoImplicitPrelude #-}
 {-# LANGUAGE TypeFamilies #-}
--- {-# LANGUAGE PolyKinds #-}
+-- 
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE GADTs ,ExplicitNamespaces#-}
 {-# LANGUAGE UnboxedTuples #-}
 

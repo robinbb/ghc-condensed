@@ -1,0 +1,11 @@
+--- a/external-packages/lens/src/Control/Lens/Internal/Exception.hs
++++ b/external-packages/lens/src/Control/Lens/Internal/Exception.hs
+@@ -135,7 +135,7 @@
+ handlerIO :: forall a r. Typeable a => Getting (First a) SomeException a -> (a -> IO r) -> Exception.Handler r
+ handlerIO l f = reifyTypeable (preview l) $ \ (_ :: Proxy s) -> Exception.Handler (\(Handling a :: Handling a s IO) -> f a)
+ 
+-handlerCatchIO :: forall m a r. (Typeable a, Typeable m) => Getting (First a) SomeException a -> (a -> m r) -> Catch.Handler m r
++handlerCatchIO :: forall (m :: Type -> Type) a r. (Typeable a, Typeable m) => Getting (First a) SomeException a -> (a -> m r) -> Catch.Handler m r
+ handlerCatchIO l f = reifyTypeable (preview l) $ \ (_ :: Proxy s) -> Catch.Handler (\(Handling a :: Handling a s m) -> f a)
+ 
+ ------------------------------------------------------------------------------

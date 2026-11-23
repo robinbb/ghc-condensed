@@ -1,4 +1,3 @@
-{-# LANGUAGE NoPolyKinds #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 

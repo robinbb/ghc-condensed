@@ -3,7 +3,6 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE StarIsType #-}
 {-# OPTIONS_GHC -Wno-star-is-type #-}
--- NB: -XNoPolyKinds. All the variables in the Proxies should be defaulted to *.
 
 module NestedProxies where
 
@@ -25,4 +24,4 @@ v = 42
 class C a where
   -- | 'AT' docs
   type AT a
-  type AT a = Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy)))))))))
+  type AT a = Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy (Proxy :: * -> *)))))))))

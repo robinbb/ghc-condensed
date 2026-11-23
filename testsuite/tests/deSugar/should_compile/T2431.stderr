@@ -1,9 +1,9 @@
 
 ==================== Tidy Core ====================
 Result size of Tidy Core
-  = {terms: 60, types: 32, coercions: 0, joins: 0/0}
+  = {terms: 75, types: 41, coercions: 0, joins: 0/0}
 
--- RHS size: {terms: 4, types: 7, coercions: 0, joins: 0/0}
+-- RHS size: {terms: 4, types: 9, coercions: 0, joins: 0/0}
 absurd :: forall a. (Int :~: Bool) -> a
 [GblId, Arity=1, Str=<L>b, Cpr=b, Unf=OtherCon []]
 absurd = \ (@a) (x :: Int :~: Bool) -> case x of {}
@@ -38,6 +38,22 @@ $krep :: GHC.Internal.Types.KindRep
 [GblId, Unf=OtherCon []]
 $krep = GHC.Internal.Types.KindRepVar 0#
 
+-- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
+$krep1 :: GHC.Internal.Types.KindRep
+[GblId, Unf=OtherCon []]
+$krep1
+  = GHC.Internal.Types.KindRepFun $krep GHC.Internal.Types.krepStar
+
+-- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
+$krep2 :: GHC.Internal.Types.KindRep
+[GblId, Unf=OtherCon []]
+$krep2 = GHC.Internal.Types.KindRepFun $krep $krep1
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+$krep3 :: GHC.Internal.Types.KindRep
+[GblId, Unf=OtherCon []]
+$krep3 = GHC.Internal.Types.KindRepVar 1#
+
 -- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
 $tc:~:1 :: GHC.Internal.Prim.Addr#
 [GblId, Unf=OtherCon []]
@@ -57,28 +73,34 @@ T2431.$tc:~:
       6030312177285011233#Word64
       T2431.$trModule
       $tc:~:2
-      0#
-      GHC.Internal.Types.krepStarArrStarArr
+      1#
+      $krep2
 
 -- RHS size: {terms: 3, types: 2, coercions: 0, joins: 0/0}
-$krep1 :: [GHC.Internal.Types.KindRep]
+$krep4 :: [GHC.Internal.Types.KindRep]
 [GblId, Unf=OtherCon []]
-$krep1
+$krep4
   = GHC.Internal.Types.:
       @GHC.Internal.Types.KindRep
-      $krep
+      $krep3
       (GHC.Internal.Types.[] @GHC.Internal.Types.KindRep)
 
 -- RHS size: {terms: 3, types: 1, coercions: 0, joins: 0/0}
-$krep2 :: [GHC.Internal.Types.KindRep]
+$krep5 :: [GHC.Internal.Types.KindRep]
 [GblId, Unf=OtherCon []]
-$krep2
-  = GHC.Internal.Types.: @GHC.Internal.Types.KindRep $krep $krep1
+$krep5
+  = GHC.Internal.Types.: @GHC.Internal.Types.KindRep $krep3 $krep4
+
+-- RHS size: {terms: 3, types: 1, coercions: 0, joins: 0/0}
+$krep6 :: [GHC.Internal.Types.KindRep]
+[GblId, Unf=OtherCon []]
+$krep6
+  = GHC.Internal.Types.: @GHC.Internal.Types.KindRep $krep $krep5
 
 -- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
-$krep3 :: GHC.Internal.Types.KindRep
+$krep7 :: GHC.Internal.Types.KindRep
 [GblId, Unf=OtherCon []]
-$krep3 = GHC.Internal.Types.KindRepTyConApp T2431.$tc:~: $krep2
+$krep7 = GHC.Internal.Types.KindRepTyConApp T2431.$tc:~: $krep6
 
 -- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
 $tc'Refl1 :: GHC.Internal.Prim.Addr#
@@ -99,8 +121,8 @@ T2431.$tc'Refl
       2684375695874497811#Word64
       T2431.$trModule
       $tc'Refl2
-      1#
-      $krep3
+      2#
+      $krep7
 
 
 

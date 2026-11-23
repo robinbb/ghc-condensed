@@ -1,4 +1,4 @@
-
-RepPolyPatSynArg.hs:17:1: error: [GHC-18478]
+RepPolyPatSynArg.hs:16:1: error: [GHC-18478]
     The pattern synonym argument does not have a fixed runtime representation:
     • a :: TYPE rep
+

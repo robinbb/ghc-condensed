@@ -1416,7 +1416,7 @@ of ``-W(no-)*``.
     This is a restricted version of :ghc-flag:`-Wmissing-kind-signatures`.
 
     It warns when a declaration defines a type constructor that lacks a :ref:`standalone kind signature <standalone-kind-signatures>`
-    and whose inferred kind is polymorphic (which happens with `-PolyKinds`.  For example ::
+    and whose inferred kind is polymorphic.  For example ::
 
         data T a = MkT (a -> Int)    -- T :: Type -> Type
                                      -- Not polymorphic, hence no warning

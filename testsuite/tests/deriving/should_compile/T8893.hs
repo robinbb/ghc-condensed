@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wall #-}
 {-# Language DeriveFunctor #-}
-{-# Language PolyKinds #-}
 
 module T8893 where
 

@@ -1,5 +1,4 @@
 {-# Language FlexibleContexts #-}
-{-# Language PolyKinds #-}
 {-# Language StandaloneKindSignatures #-}
 {-# Language TypeFamilyDependencies #-}
 {-# Language UndecidableInstances #-}

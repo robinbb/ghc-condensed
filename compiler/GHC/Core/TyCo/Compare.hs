@@ -524,7 +524,7 @@ So if we change the decision, we just need to change those functions.
 Why don't we distinguish all three? Should GHC type-check the following program
 (adapted from #15740)?
 
-  {-# LANGUAGE PolyKinds, ... #-}
+  {-# LANGUAGE ... #-}
   data D a
   type family F :: forall k. k -> Type
   type instance F = D

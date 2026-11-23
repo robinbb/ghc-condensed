@@ -3,6 +3,8 @@
 
 module Bug where
 
-$([d| class C a where
+import Data.Kind (Type)
+
+$([d| class C (a :: Type) where
         type F a
         type F a = a |])

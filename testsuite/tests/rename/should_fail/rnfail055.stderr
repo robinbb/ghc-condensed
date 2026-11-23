@@ -3,7 +3,7 @@ RnFail055.hs-boot:7:1: error: [GHC-15843]
       and its hs-boot file.
       Main module: type S1 :: * -> * -> *
                    type S1 a b = (a, b)
-        Boot file: type S1 :: * -> * -> * -> *
+        Boot file: type S1 :: forall {k}. * -> * -> k -> *
                    type S1 a b c = (a, b)
       The types have different kinds.
     • In the type synonym declaration for ‘S1’
@@ -11,12 +11,11 @@ RnFail055.hs-boot:7:1: error: [GHC-15843]
 RnFail055.hs-boot:9:1: error: [GHC-15843]
     • Type constructor ‘S2’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type S2 :: * -> * -> *
+      Main module: type S2 :: forall {k}. k -> * -> *
                    type S2 a b = forall a1. (a1, b)
-        Boot file: type S2 :: * -> * -> *
+        Boot file: type S2 :: forall {k}. * -> k -> *
                    type S2 a b = forall b1. (a, b1)
-      The roles do not match.
-      Note: Roles on abstract types default to ‘representational’ in hs-boot files.
+      The types have different kinds.
     • In the type synonym declaration for ‘S2’
 
 RnFail055.hs-boot:13:1: error: [GHC-15843]
@@ -75,26 +74,23 @@ RnFail055.hs-boot:26:1: error: [GHC-15843]
     • Type constructor ‘T7’ has conflicting definitions in the module
       and its hs-boot file.
       Main module: type role T7 phantom
-                   type T7 :: * -> *
+                   type T7 :: forall {k}. k -> *
                    data T7 a = forall a2. T7 a2
         Boot file: type T7 :: * -> *
-                   data T7 a = forall b. T7 a
-      The roles do not match.
-      Note: Roles on abstract types default to ‘representational’ in hs-boot files.
-      The constructors do not match: The types for ‘T7’ differ.
+                   data T7 a = forall {k} (b :: k). T7 a
+      The types have different kinds.
     • In the data type declaration for ‘T7’
 
 RnFail055.hs-boot:28:1: error: [GHC-15843]
     • Class ‘C1’ has conflicting definitions in the module
       and its hs-boot file.
-      Main module: type C1 :: * -> * -> Constraint
+      Main module: type C1 :: forall {k} {k1}. k -> k1 -> Constraint
                    class C1 a b
         Boot file: type C1 :: * -> * -> Constraint
                    class C1 a b where
                      RnFail055.m1 :: a -> b
                      {-# MINIMAL m1 #-}
-      The class methods do not match:
-        The number of class methods differs.
+      The types have different kinds.
     • In the class declaration for ‘C1’
 
 RnFail055.hs-boot:29:1: error: [GHC-15843]

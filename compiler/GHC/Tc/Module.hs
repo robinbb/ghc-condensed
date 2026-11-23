@@ -154,7 +154,6 @@ import GHC.Types.UnresolvedImport
 import GHC.Types.Annotations
 import GHC.Types.SrcLoc
 import GHC.Types.SourceFile
-import qualified GHC.LanguageExtensions as LangExt
 
 import GHC.Unit.Env as UnitEnv
 import GHC.Unit.External
@@ -2796,7 +2795,6 @@ tcRnType :: HscEnv
          -> IO (Messages TcRnMessage, Maybe (Type, Kind))
 tcRnType hsc_env flexi normalise rdr_type
   = runTcInteractive StartAndStopTcMPlugins hsc_env $
-    setXOptM LangExt.PolyKinds $   -- See Note [Kind-generalise in tcRnType]
     do { (HsWC { hswc_ext = wcs, hswc_body = rn_sig_type@(L _ (HsSig{sig_bndrs = outer_bndrs, sig_body = body })) }, _fvs)
                  -- we are using 'rnHsSigWcType' to bind the unbound type variables
                  -- and in combination with 'tcOuterTKBndrs' we are able to
@@ -2904,8 +2902,7 @@ https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0179-printi
 
 Note [Kind-generalise in tcRnType]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We switch on PolyKinds when kind-checking a user type, so that we will
-kind-generalise the type, even when PolyKinds is not otherwise on.
+We kind-generalise a user type when kind-checking it.
 This gives the right default behaviour at the GHCi prompt, where if
 you say ":k T", and T has a polymorphic kind, you'd like to see that
 polymorphism. Of course.  If T isn't kind-polymorphic you won't get

@@ -343,9 +343,6 @@ rnHsSigType ctx level
     (L loc sig_ty@(HsSig { sig_bndrs = outer_bndrs, sig_body = body }))
   = setSrcSpanA loc $
     do { traceRn "rnHsSigType" (ppr sig_ty)
-       ; case outer_bndrs of
-           HsOuterExplicit{} -> checkPolyKinds env (HsSigType sig_ty)
-           HsOuterImplicit{} -> pure ()
        ; imp_vars <- filterInScopeM $ extractHsTyRdrTyVars body
        ; bindHsOuterTyVarBndrs ctx Nothing imp_vars outer_bndrs $ \outer_bndrs' ->
     do { (body', fvs) <- rnLHsTyKi env body
@@ -585,9 +582,8 @@ rnLHsTyKi env (L loc ty)
 
 rnHsTyKi :: RnTyKiEnv -> HsType GhcPs -> RnM (HsType GhcRn, FreeNames)
 
-rnHsTyKi env ty@(HsForAllTy { hst_tele = tele, hst_body = tau })
-  = do { checkPolyKinds env (HsType ty)
-       ; bindHsForAllTelescope (rtke_ctxt env) tele $ \ tele' ->
+rnHsTyKi env (HsForAllTy { hst_tele = tele, hst_body = tau })
+  = do { bindHsForAllTelescope (rtke_ctxt env) tele $ \ tele' ->
     do { (tau',  fvs) <- rnLHsTyKi env tau
        ; return ( HsForAllTy { hst_xforall = noExtField
                              , hst_tele = tele' , hst_body =  tau' }
@@ -604,13 +600,7 @@ rnHsTyKi env (HsQualTy { hst_ctxt = lctxt, hst_body = tau })
                 , fvs1 `plusFN` fvs2) }
 
 rnHsTyKi env (HsTyVar _ ip (L loc rdr_name))
-  = do { when (isRnKindLevel env && isRdrTyVar rdr_name) $
-         unlessXOptM LangExt.PolyKinds $ addErr $
-         TcRnWithHsDocContext (rtke_ctxt env) $
-         TcRnUnexpectedKindVar rdr_name
-           -- Any type variable at the kind level is illegal without the use
-           -- of PolyKinds (see #14710)
-       ; gre <- rnTyVar env rdr_name
+  = do { gre <- rnTyVar env rdr_name
        ; this_mod <- getModule
        ; explicit_level_imports <- xoptM LangExt.ExplicitLevelImports
        ; let loc_gre_with_rdr = L loc $ WithUserRdr rdr_name gre
@@ -912,24 +902,12 @@ wildCardsAllowed env
 
 
 
----------------
--- | Ensures either that we're in a type or that -XPolyKinds is set
-checkPolyKinds :: RnTyKiEnv
-               -> HsTypeOrSigType GhcPs
-               -> RnM ()
-checkPolyKinds env ty
-  | isRnKindLevel env
-  = do { polykinds <- xoptM LangExt.PolyKinds
-       ; unless polykinds $
-         addErr $ TcRnIllegalKind ty True }
-checkPolyKinds _ _ = return ()
-
 notInKinds :: RnTyKiEnv
            -> HsType GhcPs
            -> RnM ()
 notInKinds env ty
   | isRnKindLevel env
-  = addErr $ TcRnIllegalKind (HsType ty) False
+  = addErr $ TcRnIllegalKind (HsType ty)
 notInKinds _ _ = return ()
 
 {- *****************************************************

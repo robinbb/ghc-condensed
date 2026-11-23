@@ -29,6 +29,8 @@
 
 module T4524 where
 
+
+import Data.Kind (Type)
 import Data.Maybe ( mapMaybe )
 import Control.Applicative ( Alternative(..) )
 import Control.Monad ( MonadPlus(..), msum, ap, liftM )
@@ -101,7 +103,7 @@ data Prim x y where
 data FilePatchType x y = FilePatchType
                             deriving (Eq,Ord)
 
-data Patch x y where
+data Patch (x :: Type) (y :: Type) where
     PP :: Prim x y -> Patch x y
     Merger :: FL Patch x y
            -> RL Patch x b
@@ -236,8 +238,8 @@ isFilepatchMerger (PP p) = is_filepatch p
 isFilepatchMerger (Regrem und unw p1 p2)
     = isFilepatchMerger (Merger und unw p1 p2)
 
-type CommuteFunction = forall x y. (Patch :< Patch) x y -> Perhaps ((Patch :< Patch) x y)
-type MaybeCommute = forall x y. (Patch :< Patch) x y -> Maybe ((Patch :< Patch) x y)
+type CommuteFunction = forall (x :: Type) (y :: Type). (Patch :< Patch) x y -> Perhaps ((Patch :< Patch) x y)
+type MaybeCommute = forall (x :: Type) (y :: Type). (Patch :< Patch) x y -> Maybe ((Patch :< Patch) x y)
 
 {- unwind, trueUnwind, reconcleUnwindings, and merger are most likely
  where the problem lies.  Everything above is just brought in to bring

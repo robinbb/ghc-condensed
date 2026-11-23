@@ -4,9 +4,11 @@
 
 module T8002a where
 
+import Data.Kind (Type)
+
 import T8002b
 
-class QA a where
+class QA (a :: Type) where
    type QRep a
    type QRep a = QRep (Maybe a)
 

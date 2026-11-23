@@ -1,8 +1,8 @@
-{-# LANGUAGE NoPolyKinds #-}
 module GHC.Core.TyCo.Rep where
 
 import GHC.Utils.Outputable ( Outputable )
 import Data.Data  ( Data )
+import qualified Data.Kind as K
 import {-# SOURCE #-} GHC.Types.Var( Var, VarBndr, FunTyFlag, ForAllTyFlag )
 import {-# SOURCE #-} GHC.Core.TyCon ( TyCon )
 
@@ -15,7 +15,7 @@ data UnivCoDeps
 data TyLit
 data MCoercion
 
-data Scaled a
+data Scaled (a :: K.Type)
 scaledThing :: Scaled a -> a
 
 type Mult = Type

@@ -1,4 +1,4 @@
-T16356_Fail2.hs:8:3: error: [GHC-48178]
+T16356_Fail2.hs:7:3: error: [GHC-48178]
     • Illegal duplicate variable ‘k’ in:
         ‘type T @k @k a b = ...’
         The arguments to ‘T’ must all be distinct type variables.

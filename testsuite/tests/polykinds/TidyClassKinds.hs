@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE PolyKinds #-}
 {-# OPTIONS_GHC -fprint-explicit-kinds #-}
 
 module TidyClassKinds where

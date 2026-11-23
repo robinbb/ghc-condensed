@@ -1,4 +1,3 @@
-{-# Language PolyKinds             #-}
 {-# Language TypeFamilies          #-}
 {-# Language ConstraintKinds       #-}
 {-# Language FlexibleContexts      #-}

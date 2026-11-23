@@ -2,7 +2,6 @@
              MagicHash,
              FlexibleInstances,
              TypeFamilies,
-             PolyKinds,
              FunctionalDependencies,
              TypeFamilyDependencies #-}
 module T17541 where

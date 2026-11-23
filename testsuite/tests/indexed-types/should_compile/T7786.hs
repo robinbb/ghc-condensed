@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, ConstraintKinds,
-             PolyKinds, TypeOperators,
+             TypeOperators,
              TypeFamilies, UndecidableInstances,
              FlexibleContexts, ScopedTypeVariables #-}
 module T7786 where

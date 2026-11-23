@@ -5,7 +5,7 @@ T26137.hs:12:12: error: [GHC-18872]
       • Note:
         • The data constructor ‘Control.Monad.Trans.Reader.ReaderT’
             of newtype ‘Control.Monad.Trans.Reader.ReaderT’ is not in scope.
-        • The type constructor ‘Control.Monad.Trans.Reader.ReaderT’ has nominal role in its third argument.
+        • The type constructor ‘Control.Monad.Trans.Reader.ReaderT’ has nominal role in its fourth argument.
     • When deriving the instance for (MyClass T)
     Suggested fix:
       Add ‘ReaderT’ to the import list in the import of

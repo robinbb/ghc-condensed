@@ -13,7 +13,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MagicHash                  #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
-{-# LANGUAGE PolyKinds                  #-}
 {-# LANGUAGE ScopedTypeVariables        #-}
 {-# LANGUAGE StandaloneDeriving         #-}
 {-# LANGUAGE StandaloneKindSignatures   #-}
@@ -483,9 +482,8 @@ module GHC.Internal.Generics  (
 --
 -- Like 'Generic', there is a class 'Generic1' that defines a
 -- representation 'Rep1' and conversion functions 'from1' and 'to1',
--- only that 'Generic1' ranges over types of kind @* -> *@. (More generally,
--- it can range over types of kind @k -> *@, for any kind @k@, if the
--- @PolyKinds@ extension is enabled. More on this later.)
+-- only that 'Generic1' ranges over types of kind @k -> *@, for any kind
+-- @k@. More on this later.
 -- The 'Generic1' class is also derivable.
 --
 -- The representation 'Rep1' is ever so slightly different from 'Rep'.
@@ -616,17 +614,14 @@ module GHC.Internal.Generics  (
 --
 -- |
 --
--- The 'Generic1' class can be generalized to range over types of kind
--- @k -> *@, for any kind @k@. To do so, derive a 'Generic1' instance with the
--- @PolyKinds@ extension enabled. For example, the declaration
+-- The 'Generic1' class ranges over types of kind @k -> *@, for any kind
+-- @k@. For example, the declaration
 --
 -- @
 -- data Proxy (a :: k) = Proxy deriving 'Generic1'
 -- @
 --
--- yields a slightly different instance depending on whether @PolyKinds@ is
--- enabled. If compiled without @PolyKinds@, then @'Rep1' Proxy :: * -> *@, but
--- if compiled with @PolyKinds@, then @'Rep1' Proxy :: k -> *@.
+-- yields @'Rep1' Proxy :: k -> *@.
 
 -- *** Representation of unlifted types
 --
@@ -865,8 +860,7 @@ deriving instance Semigroup p => Semigroup (Par1 p)
 -- | @since base-4.12.0.0
 deriving instance Monoid p => Monoid (Par1 p)
 
--- | Recursive calls of kind @* -> *@ (or kind @k -> *@, when @PolyKinds@
--- is enabled)
+-- | Recursive calls of kind @k -> *@
 newtype Rec1 (f :: k -> Type) (p :: k) = Rec1 { unRec1 :: f p }
   deriving ( Eq       -- ^ @since base-4.7.0.0
            , Ord      -- ^ @since base-4.7.0.0
@@ -1372,8 +1366,7 @@ class Generic a where
   to    :: (Rep a) x -> a
 
 
--- | Representable types of kind @* -> *@ (or kind @k -> *@, when @PolyKinds@
--- is enabled).
+-- | Representable types of kind @k -> *@.
 -- This class is derivable in GHC with the @DeriveGeneric@ flag on.
 --
 -- A 'Generic1' instance must satisfy the following laws:

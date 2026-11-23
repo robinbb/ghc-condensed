@@ -1,11 +1,11 @@
 T24064.hs:41:3: error: [GHC-25897]
-    • Could not deduce ‘m ~ X e0’
+    • Could not deduce ‘m ~ X H’
       from the context: (C2 m, F2 m ~ Y)
         bound by the type signature for:
                    test :: forall (m :: * -> *). (C2 m, F2 m ~ Y) => m ()
         at T24064.hs:39:1-32
       Expected: m ()
-        Actual: X e0 ()
+        Actual: X H ()
       ‘m’ is a rigid type variable bound by
         the type signature for:
           test :: forall (m :: * -> *). (C2 m, F2 m ~ Y) => m ()

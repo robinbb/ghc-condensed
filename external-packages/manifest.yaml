@@ -21,6 +21,12 @@ packages:
     git: https://github.com/haskell/aeson.git
     tag: v2.3.2.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the continuation kinds of
+    Data.Aeson.Types.Internal.Parser and the phantom tag of
+    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised, the
+    former made the newtype constructor existential and the latter left the
+    test suite's generated encoders ambiguous (patches/aeson.patch)
 - name: ansi-terminal
   version: 1.1.5
   tier: 1
@@ -125,6 +131,10 @@ packages:
     git: https://github.com/ekmett/bifunctors.git
     tag: v5.6.3
   tests: true
+  patched: >-
+    test suite: the kinds of OneTwoCompose's two functor parameters are written
+    out, since once they are generalised the derived Functor instance no longer
+    serves as Traversable's superclass (patches/bifunctors.patch)
 - name: blaze-builder
   version: 0.4.4.1
   tier: 1
@@ -773,6 +783,11 @@ packages:
     git: https://github.com/ekmett/lens.git
     tag: v5.3.6
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: handlerCatchIO in
+    Control.Lens.Internal.Exception declares its monad parameter at kind
+    Type -> Type, since Control.Monad.Catch.Handler is now kind-polymorphic and no
+    longer fixes it (patches/lens.patch)
 - name: lifted-async
   version: 0.11.0
   tier: 1
@@ -832,6 +847,11 @@ packages:
   source:
     git: https://github.com/mrkkrp/megaparsec.git
     tag: 9.8.3
+  patched: >-
+    deliberate exception to the no-modification rule: the abstract ParseError and
+    Reply in the hs-boot files of Text.Megaparsec.Error and .Internal get the
+    kinds of their definitions, since an abstract declaration is now generalised
+    (patches/megaparsec.patch)
   tests: false
 - name: monad-control
   version: 1.0.3.1
@@ -883,6 +903,11 @@ packages:
     sdist: nothunks-0.3.2
   note: no tag for 0.3.2 in https://github.com/input-output-hk/nothunks.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: the ten standalone deriving
+    via declarations whose via type is a bare type variable or an application
+    of one state its kind, Type, which the instance head needs and which a via
+    type no longer fixes once generalised (patches/nothunks.patch)
 - name: old-locale
   version: 1.0.0.7
   tier: 1
@@ -1553,6 +1578,10 @@ packages:
   source:
     git: https://github.com/haskell/vector.git
     tag: vector-0.13.2.0
+  patched: >-
+    deliberate exception to the no-modification rule: the phantom state parameter
+    of Data.Vector.Storable.Mutable.MVector is pinned to kind Type, which the
+    MVector class instance requires (patches/vector.patch)
   tests: false
   reason: >-
     test suite vector-doctest, vector-inspection needs doctest, tasty-inspection-testing
@@ -1749,6 +1778,11 @@ packages:
     sdist: barbies-2.1.1.0
   note: no tag for 2.1.1.0 in https://github.com/jcpetruzza/barbies.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Barbies.Internal.Containers.Container
+    declares the kind of its barbie parameter, (Type -> Type) -> Type, which
+    the Bifunctor instance of Const used in its Functor instance needs
+    (patches/barbies.patch)
 - name: base-compat-batteries
   version: 0.15.0
   tier: 2
@@ -1799,6 +1833,10 @@ packages:
     git: https://github.com/haskell-foundation/foundation.git
     tag: basement-v0.0.16
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Basement.Block.Base.Block
+    declares its phantom element parameter at kind Type, which the Eq, Ord and
+    other instances that BlockN derives through it require (patches/basement.patch)
 - name: bimap
   version: 0.5.0
   tier: 2
@@ -2040,6 +2078,10 @@ packages:
     git: https://github.com/jgm/commonmark-hs.git
     tag: 0.3.0.2
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Commonmark.Pandoc.Cm
+    declares its phantom first parameter at kind Type; generalised, pandoc's
+    Typeable constraints on it became unsatisfiable (patches/commonmark-pandoc.patch)
 - name: concurrent-output
   version: 1.10.21
   tier: 2
@@ -2170,6 +2212,11 @@ packages:
     git: https://github.com/kazu-yamamoto/crypton.git
     tag: crypton-v2.2.6
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Crypto.Cipher.Types.Block.IV
+    declares its phantom cipher parameter at kind Type; generalised, a local
+    binding over IV picked up an unresolvable ByteArrayAccess (IV c) constraint
+    (patches/crypton.patch)
 - name: crypton-asn1-encoding
   version: 0.10.0
   tier: 2
@@ -3329,6 +3376,10 @@ packages:
     git: https://github.com/ekmett/linear.git
     tag: v1.23.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Linear.V0.V0 declares its
+    phantom element parameter at kind Type, which its Ixed instance requires
+    (patches/linear.patch)
 - name: lpeg
   version: 1.1.0.1
   tier: 2
@@ -3409,6 +3460,10 @@ packages:
     git: https://github.com/stevenfontanella/microlens.git
     tag: microlens-0.5.0.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Lens.Micro.Internal.foldring
+    quantifies the two result-side type variables of its signature at kind Type;
+    generalised, phantom could not retag them (patches/microlens.patch)
 - name: microlens-ghc
   version: 0.4.15.2
   tier: 2
@@ -3540,6 +3595,11 @@ packages:
     sdist: mono-traversable-1.0.21.0
   note: no tag for 1.0.21.0 in https://github.com/snoyberg/mono-traversable.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: the 18 instances for
+    Const m a, K1 i c a, Proxy a, U1 a and V1 a in Data.MonoTraversable state
+    the kind of a, Type, which their Element instances fix
+    (patches/mono-traversable.patch)
 - name: mtl-compat
   version: 0.2.2
   tier: 2
@@ -3749,6 +3809,10 @@ packages:
     is keyed on, so the flag is forced
   tests: false
   flags: "+os-string"
+  patched: >-
+    deliberate exception to the no-modification rule: Path, in both
+    Path.Internal and OsPath.Internal, declares its two phantom parameters at
+    kind Type, which prjSomeBase's rank-2 argument relies on (patches/path.patch)
 - name: path-io
   version: 1.8.2
   tier: 2
@@ -3792,7 +3856,10 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: Database.Persist.TH.Internal
     no longer lists MultiParamTypeClasses or DataKinds among the extensions it
-    requires, since template-haskell lost those constructors with this compiler
+    requires, since template-haskell lost those constructors with this compiler;
+    Database.Persist.Class.PersistStore.PersistCore and
+    Database.Persist.Compatible.Types.Compatible declare their backend parameter
+    at kind Type, which Compatible's standalone-derived instances require
 - name: persistent-template
   version: 2.12.0.0
   tier: 2
@@ -4491,6 +4558,11 @@ packages:
     git: https://github.com/haskell-tls/hs-tls.git
     tag: tls-2.5.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: the rank-2 arguments of
+    Network.TLS.Crypto.withPubKeyEC and withPrivKeyEC quantify their curve at
+    kind Type; generalised, the callers' concrete curves no longer fit
+    (patches/tls.patch)
 - name: toml-parser
   version: 2.0.2.0
   tier: 2
@@ -5006,6 +5078,11 @@ packages:
     sdist: yesod-core-1.7.0.0
   note: no tag for 1.7.0.0 in https://github.com/yesodweb/yesod.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Yesod.Routes.Class.RenderRoute
+    declares its site parameter at kind Type, so that its associated data family
+    Route keeps the kind the ParentSite instance for Route site needs
+    (patches/yesod-core.patch)
 - name: yesod-form
   version: 1.7.11
   tier: 2
@@ -5056,6 +5133,12 @@ packages:
     git: https://github.com/haskell-pkg-janitors/aws.git
     tag: 0.25.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: in Aws.DynamoDb.Core the
+    Parser newtype, a copy of aeson's, quantifies its continuation at kinds
+    Type -> Type and Type, since a generalised kind variable would be existential
+    in a newtype constructor, and valErr's Typeable argument is quantified at
+    kind Type (patches/aws.patch)
 - name: bencode
   version: 0.6.1.1
   tier: 3
@@ -5395,6 +5478,11 @@ packages:
     does not relax build-tool-depends) while the corpus holds 2.2; language-javascript
     accepts any happy, so one copy serves both
   constraints: any.happy ==2.0.2
+  patched: >-
+    deliberate exception to the no-modification rule, for two private copies
+    whose versions differ from the corpus: aeson-2.2.5.1 takes the kinds of
+    aeson.patch and cryptonite-0.30 the IV kind of crypton.patch
+    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch)
 - name: SafeSemaphore
   version: 0.10.1
   tier: 3

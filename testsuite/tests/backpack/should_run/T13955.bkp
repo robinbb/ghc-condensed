@@ -1,5 +1,4 @@
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE PolyKinds #-}
 
 unit number-unknown where
   signature NumberUnknown where

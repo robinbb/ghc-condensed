@@ -16,3 +16,41 @@
              ]
  
  mkSymbolToFieldInstances
+--- a/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
+@@ -14,6 +14,7 @@
+ 
+ import Control.Monad.Trans.Reader (withReaderT)
+ import Data.Aeson
++import Data.Kind (Type)
+ import Database.Persist.Class
+ import Database.Persist.Sql.Class
+ 
+@@ -52,7 +53,7 @@
+ -- @
+ --
+ -- @since 2.12
+-newtype Compatible b s = Compatible {unCompatible :: s}
++newtype Compatible (b :: Type) s = Compatible {unCompatible :: s}
+ 
+ instance
+     (BackendCompatible b s, HasPersistBackend b)
+--- a/external-packages/vendored/persistent/Database/Persist/Class/PersistStore.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Class/PersistStore.hs
+@@ -23,6 +23,7 @@
+     ) where
+ 
+ import Control.Exception (throwIO)
++import Data.Kind (Type)
+ import Control.Monad.IO.Class (MonadIO, liftIO)
+ import Control.Monad.Reader (MonadReader (ask), runReaderT)
+ import Control.Monad.Trans.Reader (ReaderT, withReaderT)
+@@ -155,7 +156,7 @@
+     toBackendKey :: Key record -> BackendKey backend
+     fromBackendKey :: BackendKey backend -> Key record
+ 
+-class PersistCore backend where
++class PersistCore (backend :: Type) where
+     data BackendKey backend
+ 
+ class

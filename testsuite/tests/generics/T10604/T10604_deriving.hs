@@ -1,6 +1,5 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE PolyKinds #-}
 {-# OPTIONS_GHC -fprint-explicit-kinds #-}
 module T10604_deriving where
 

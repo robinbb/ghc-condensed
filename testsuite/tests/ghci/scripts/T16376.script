@@ -1,4 +1,4 @@
-:set -XTypeApplications -XPolyKinds
+:set -XTypeApplications
 :t id @Maybe
 type Id (a :: k) = a
 :k Id @Maybe

@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, StandaloneKindSignatures, PolyKinds, TypeApplications #-}
+{-# LANGUAGE RankNTypes, StandaloneKindSignatures, TypeApplications #-}
 
 module ExplicitSpecificity7 where
 

@@ -88,8 +88,7 @@ datatypes and their internal representation as a sum-of-products: ::
 
 ``Generic1`` is used for functions that can only be defined over type
 containers, such as ``map``. Note that ``Generic1`` ranges over types of kind
-``Type -> Type`` by default, but if the :extension:`PolyKinds` extension is
-enabled, then it can range of types of kind ``k -> Type``, for any kind ``k``.
+``k -> Type``, for any kind ``k``.
 
 .. extension:: DeriveGeneric
     :shortdesc: Allow deriving of ``Generic`` instances.

@@ -1,1 +1,4 @@
-exists Nothing :: Floop a kp => Existential kp
+exists Nothing
+  :: forall {ak} {a} {kp :: KProxy (Maybe ak)}.
+     Floop a kp =>
+     Existential kp

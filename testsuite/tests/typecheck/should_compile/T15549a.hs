@@ -1,7 +1,6 @@
 {-# LANGUAGE EmptyCase #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE PolyKinds #-}
 module T15549a where
 
 import Data.Proxy

@@ -7,9 +7,11 @@
 
 module T17202 where
 
+import Data.Kind (Type)
+
 type family F a
 
-class C1 a
+class C1 (a :: Type)
 class (forall c. C1 c) => C2 a
 class (forall b. (b ~ F a) => C2 a) => C3 a
 

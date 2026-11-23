@@ -1,6 +1,5 @@
 {-# language BangPatterns #-}
 {-# language MagicHash #-}
-{-# language PolyKinds #-}
 {-# language RankNTypes #-}
 {-# language UnboxedTuples #-}
 

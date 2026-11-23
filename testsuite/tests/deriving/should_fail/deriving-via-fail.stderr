@@ -11,11 +11,37 @@ deriving-via-fail.hs:10:34: error: [GHC-25897]
         at deriving-via-fail.hs:10:34-37
     • When deriving the instance for (Show (Foo1 a))
 
-deriving-via-fail.hs:13:12: error: [GHC-63174]
-    • Cannot derive instance via ‘fooo’
-        Class ‘Category’ expects an argument of kind ‘* -> * -> *’,
-        but ‘fooo’ has kind ‘*’
-    • In the newtype declaration for ‘Foo2’
+deriving-via-fail.hs:13:12: error: [GHC-39999]
+    • No instance for ‘Category fooo’
+        arising from the 'deriving' clause of a data type declaration
+      Possible fix:
+        use a standalone 'deriving instance' declaration,
+          so you can specify the instance context yourself
+    • When deriving the instance for (Category Foo2)
+
+deriving-via-fail.hs:13:12: error: [GHC-25897]
+    • Couldn't match type ‘fooo’ with ‘(->)’
+        arising from defaulting the representational equality
+          between: fooo b c
+              and: b -> c
+        arising (via a quantified constraint) from
+          the coercion of derived method ‘Control.Category..’
+      ‘fooo’ is a rigid type variable bound by
+        the deriving clause for ‘Category Foo2’
+        at deriving-via-fail.hs:13:12-19
+    • When deriving the instance for (Category Foo2)
+
+deriving-via-fail.hs:13:12: error: [GHC-25897]
+    • Couldn't match type ‘fooo’ with ‘(->)’
+        arising from defaulting the representational equality
+          between: fooo a a
+              and: a -> a
+        arising (via a quantified constraint) from
+          the coercion of derived method ‘Control.Category.id’
+      ‘fooo’ is a rigid type variable bound by
+        the deriving clause for ‘Category Foo2’
+        at deriving-via-fail.hs:13:12-19
+    • When deriving the instance for (Category Foo2)
 
 deriving-via-fail.hs:16:20: error: [GHC-25897]
     • Couldn't match representation of type ‘a’ with that of ‘Foo3’

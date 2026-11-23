@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, PolyKinds,
+{-# LANGUAGE ExistentialQuantification,
              RankNTypes, GADTs, TypeOperators #-}
 module T10432 where
 

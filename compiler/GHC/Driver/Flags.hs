@@ -169,7 +169,6 @@ extensionName = \case
   LangExt.BlockArguments -> "BlockArguments"
   LangExt.RebindableSyntax -> "RebindableSyntax"
   LangExt.ConstraintKinds -> "ConstraintKinds"
-  LangExt.PolyKinds -> "PolyKinds"                -- Kind polymorphism
   LangExt.TypeData -> "TypeData"                 -- allow @type data@ definitions
   LangExt.ApplicativeDo -> "ApplicativeDo"
   LangExt.Modifiers -> "Modifiers"

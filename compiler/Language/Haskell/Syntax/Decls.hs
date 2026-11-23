@@ -563,7 +563,7 @@ Examples:
   * data T4 (a :: j k) = ...
      -- CUSK; equivalent to   T4 :: j k -> *
      -- which we lexically generalise to  T4 :: forall j k. j k -> *
-     -- and then, if PolyKinds is on, we further generalise to
+     -- and then we further generalise to
      --   T4 :: forall kk (j :: kk -> *) (k :: kk). j k -> *
      -- Again this is exactly like what happens as the term level
      -- when you write

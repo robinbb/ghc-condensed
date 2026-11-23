@@ -1,5 +1,4 @@
 {-# Language GADTs        #-}
-{-# Language PolyKinds    #-}
 {-# Language TypeFamilies #-}
 
 module T16410 where

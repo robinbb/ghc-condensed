@@ -1,4 +1,4 @@
-T18939_Fail.hs:5:1: error: [GHC-91510]
+T18939_Fail.hs:4:1: error: [GHC-91510]
     • Illegal polymorphic type: forall a -> a
     • In the data type declaration for ‘F’
     Suggested fix:

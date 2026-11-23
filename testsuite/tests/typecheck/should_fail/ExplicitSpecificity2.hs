@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, RankNTypes, GADTs, PolyKinds #-}
+{-# LANGUAGE TypeApplications, RankNTypes, GADTs #-}
 
 module ExplicitSpecificity2 where
 

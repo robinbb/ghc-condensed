@@ -975,8 +975,8 @@ Note [No polymorphic recursion in type decls].
 
 If we get cries of pain we can revist this decision.
 
-Note [CUSKs and PolyKinds]
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note [CUSKs and kind generalisation]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consider
 
     data T (a :: *) = MkT (S a)   -- Has CUSK
@@ -994,23 +994,6 @@ a CUSK.  Here we skip the RHS of T, so we eventually get
 This gets us more polymorphism than we would otherwise get, similar
 (but implemented strangely differently from) the treatment of type
 signatures in value declarations.
-
-However, we only want to do so when we have PolyKinds.
-When we have NoPolyKinds, we don't skip those decls, because we have defaulting
-(#16609). Skipping won't bring us more polymorphism when we have defaulting.
-Consider
-
-  data T1 a = MkT1 T2        -- No CUSK
-  data T2 = MkT2 (T1 Maybe)  -- Has CUSK
-
-If we skip the rhs of T2 during kind-checking, the kind of a remains unsolved.
-With PolyKinds, we do generalization to get T1 :: forall a. a -> *. And the
-program type-checks.
-But with NoPolyKinds, we do defaulting to get T1 :: * -> *. Defaulting happens
-in quantifyTyVars, which is called from generaliseTcTyCon. Then type-checking
-(T1 Maybe) will throw a type error.
-
-Summary: with PolyKinds, we must skip; with NoPolyKinds, we must /not/ skip.
 
 Open type families
 ~~~~~~~~~~~~~~~~~~
@@ -1229,8 +1212,8 @@ kcTyClGroup kisig_env decls
           --    3. Generalise the inferred kinds
           -- See Note [Kind checking for type and class decls]
 
-        ; cusks_enabled <- xoptM LangExt.CUSKs <&&> xoptM LangExt.PolyKinds
-                    -- See Note [CUSKs and PolyKinds]
+        ; cusks_enabled <- xoptM LangExt.CUSKs
+                    -- See Note [CUSKs and kind generalisation]
         ; let (kindless_decls, kinded_decls) = partitionWith get_kind decls
               kindless_names = mkNameSet $ map get_name kindless_decls
 
@@ -2922,7 +2905,6 @@ error. The problem is that there is no way to connect this mismatch error to
 the A to type-check, but then find the problem when doing validity checking (and
 where we get make a suitable error message). One potential worry is
 
-  {-# LANGUAGE PolyKinds #-}
   newtype B a = MkB a
 
 This turns out OK, because unconstrained RuntimeReps default to LiftedRep, just

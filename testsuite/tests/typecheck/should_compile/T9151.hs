@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, UndecidableInstances #-}
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 {-# LANGUAGE TypeAbstractions #-}
 
 module T9151 where

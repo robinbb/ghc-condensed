@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
              TypeFamilies, GADTs #-}
 
 import Data.Kind

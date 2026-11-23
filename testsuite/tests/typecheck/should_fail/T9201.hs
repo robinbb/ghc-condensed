@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, FunctionalDependencies #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 module T9201 where
 

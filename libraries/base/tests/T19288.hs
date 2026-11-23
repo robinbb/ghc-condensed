@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeOperators, Safe, TypeFamilies #-}
+{-# LANGUAGE TypeOperators, Safe, TypeFamilies #-}
 
 module Main where
 

@@ -126,7 +126,7 @@ data TyFamEqnValidityInfo
     , vi_non_user_tvs :: TyVarSet
       -- ^ non-user-written type variables (for error message reporting)
       --
-      -- Example: with -XPolyKinds, typechecking @type instance forall a. F = ()@
+      -- Example: typechecking @type instance forall a. F = ()@
       -- introduces the kind variable @k@ for the kind of @a@. See #23734.
     , vi_pats :: [Type]
       -- ^ LHS patterns

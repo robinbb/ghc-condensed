@@ -3,14 +3,16 @@
 {-# LANGUAGE RoleAnnotations #-}
 unit p where
     signature A where
+        import Data.Kind (Type)
         type role K nominal
-        data K a
+        data K (a :: Type)
         instance Show (K Int)
         instance Show (K Bool)
 unit q where
     module A where
+        import Data.Kind (Type)
         type role T representational nominal
-        data T a b = MkT
+        data T a (b :: Type) = MkT
             deriving (Show)
         type K = T ()
 unit r where

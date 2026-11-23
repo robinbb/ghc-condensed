@@ -1,5 +1,4 @@
-
-T15859.hs:9:19: error: [GHC-51580]
+T15859.hs:8:19: error: [GHC-51580]
     • Illegal visible, dependent quantification in the type of a term:
         forall k -> k -> *
     • In an expression type signature: forall k -> k -> Type
@@ -8,3 +7,4 @@ T15859.hs:9:19: error: [GHC-51580]
           a = (undefined :: forall k -> k -> Type) @Int
     Suggested fix:
       Perhaps you intended to use the ‘RequiredTypeArguments’ extension
+

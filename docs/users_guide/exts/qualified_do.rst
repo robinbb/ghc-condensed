@@ -160,7 +160,6 @@ Nested ``do`` blocks do not affect each other's meanings.  ::
 The type of ``(>>=)`` can also be modified, as seen here for a graded monad: ::
 
   {-# LANGUAGE ConstraintKinds #-}
-  {-# LANGUAGE PolyKinds #-}
   {-# LANGUAGE TypeFamilies #-}
   module Control.Monad.Graded (GradedMonad(..)) where
 

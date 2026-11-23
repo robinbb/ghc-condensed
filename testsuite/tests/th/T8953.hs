@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, TypeFamilies, TemplateHaskell,
+{-# LANGUAGE TypeFamilies, TemplateHaskell,
              FlexibleInstances, UndecidableInstances #-}
 
 module T8953 where

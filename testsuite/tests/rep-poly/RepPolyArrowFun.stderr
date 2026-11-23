@@ -1,5 +1,4 @@
-
-RepPolyArrowFun.hs:29:19: error: [GHC-55287]
+RepPolyArrowFun.hs:28:19: error: [GHC-55287]
     • • The function in the first order arrow application of
           ‘undefined’
         to
@@ -25,3 +24,4 @@ RepPolyArrowFun.hs:29:19: error: [GHC-55287]
     • In the command: undefined -< x
       In the expression: proc x -> undefined -< x
       In an equation for ‘foo’: foo _ = proc x -> undefined -< x
+

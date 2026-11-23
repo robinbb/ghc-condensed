@@ -179,7 +179,6 @@ module Language.Haskell.TH where
     | BlockArguments
     | RebindableSyntax
     | ConstraintKinds
-    | PolyKinds
     | TypeData
     | ApplicativeDo
     | LinearTypes
@@ -776,7 +775,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | BlockArguments
     | RebindableSyntax
     | ConstraintKinds
-    | PolyKinds
     | TypeData
     | ApplicativeDo
     | LinearTypes
@@ -1508,7 +1506,6 @@ module Language.Haskell.TH.Syntax where
     | BlockArguments
     | RebindableSyntax
     | ConstraintKinds
-    | PolyKinds
     | TypeData
     | ApplicativeDo
     | LinearTypes

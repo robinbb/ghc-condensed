@@ -1,6 +1,6 @@
 T14172.hs:7:46: error: [GHC-88464]
-    • Found type wildcard ‘_’ standing for ‘a'’
-      Where: ‘a'’ is a rigid type variable bound by
+    • Found type wildcard ‘_’ standing for ‘a' :: k5’
+      Where: ‘k5’, ‘a'’ are rigid type variables bound by
                the inferred type of
                  traverseCompose :: (a -> f b) -> g a -> f (h a')
                at T14172.hs:8:1-46

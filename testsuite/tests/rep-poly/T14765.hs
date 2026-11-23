@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE MagicHash, PolyKinds #-}
+{-# LANGUAGE MagicHash #-}
 
 module T14765 where
 

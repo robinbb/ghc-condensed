@@ -1,4 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 module T8743 where
-class ToRow a
+
+import Data.Kind (Type)
+class ToRow (a :: Type)
 instance ToRow (Maybe a)

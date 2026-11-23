@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators, StarIsType
-           , PolyKinds
            , TypeFamilies
            , GADTs
            , UndecidableInstances

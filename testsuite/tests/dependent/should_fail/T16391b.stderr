@@ -1,8 +1,8 @@
-T16391b.hs:9:8: error: [GHC-25897]
+T16391b.hs:8:8: error: [GHC-25897]
     • Couldn't match kind ‘r’ with ‘LiftedRep’
       Expected kind ‘*’, but ‘T r’ has kind ‘TYPE r’
       ‘r’ is a rigid type variable bound by
         the type signature for ‘foo’
-        at T16391b.hs:9:1-10
+        at T16391b.hs:8:1-10
     • In the type signature: foo :: T r
 

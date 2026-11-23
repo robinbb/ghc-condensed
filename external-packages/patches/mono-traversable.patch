@@ -1,0 +1,130 @@
+--- a/external-packages/vendored/mono-traversable/src/Data/MonoTraversable.hs
++++ b/external-packages/vendored/mono-traversable/src/Data/MonoTraversable.hs
+@@ -65,6 +65,7 @@
+ import qualified Data.List as List
+ import Data.List.NonEmpty (NonEmpty)
+ import Data.Functor.Identity (Identity)
++import Data.Kind (Type)
+ import Data.Functor.Reverse (Reverse (..))
+ import Data.Map (Map)
+ import qualified Data.Map.Strict as Map
+@@ -218,7 +219,7 @@
+ instance MonoFunctor (r -> a)
+ instance MonoFunctor (Either a b)
+ instance MonoFunctor (a, b)
+-instance MonoFunctor (Const m a)
++instance MonoFunctor (Const m (a :: Type))
+ instance Monad m => MonoFunctor (WrappedMonad m a)
+ instance MonoFunctor (Map k v)
+ instance MonoFunctor (HashMap k v)
+@@ -247,7 +248,7 @@
+ -- | @since 1.0.11.0
+ instance (Functor f, Functor g) => MonoFunctor ((f :+: g) a)
+ -- | @since 1.0.11.0
+-instance MonoFunctor (K1 i c a)
++instance MonoFunctor (K1 i c (a :: Type))
+ -- | @since 1.0.11.0
+ instance Functor f => MonoFunctor (M1 i c f a)
+ -- | @since 1.0.11.0
+@@ -255,11 +256,11 @@
+ -- | @since 1.0.11.0
+ instance MonoFunctor (Par1 a)
+ -- | @since 1.0.11.0
+-instance MonoFunctor (U1 a)
++instance MonoFunctor (U1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoFunctor (V1 a)
++instance MonoFunctor (V1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoFunctor (Proxy a)
++instance MonoFunctor (Proxy (a :: Type))
+ instance U.Unbox a => MonoFunctor (U.Vector a) where
+     omap = U.map
+     {-# INLINE omap #-}
+@@ -844,7 +845,7 @@
+     {-# INLINE ofoldr1Ex #-}
+     {-# INLINE ofoldl1Ex' #-}
+ instance MonoFoldable (a, b)
+-instance MonoFoldable (Const m a)
++instance MonoFoldable (Const m (a :: Type))
+ instance F.Foldable f => MonoFoldable (MaybeT f a)
+ #if !MIN_VERSION_transformers(0,6,0)
+ instance F.Foldable f => MonoFoldable (ListT f a)
+@@ -861,7 +862,7 @@
+ -- | @since 1.0.11.0
+ instance (F.Foldable f, F.Foldable g) => MonoFoldable ((f :+: g) a)
+ -- | @since 1.0.11.0
+-instance MonoFoldable (K1 i c a)
++instance MonoFoldable (K1 i c (a :: Type))
+ -- | @since 1.0.11.0
+ instance F.Foldable f => MonoFoldable (M1 i c f a)
+ -- | @since 1.0.11.0
+@@ -869,11 +870,11 @@
+ -- | @since 1.0.11.0
+ instance MonoFoldable (Par1 a)
+ -- | @since 1.0.11.0
+-instance MonoFoldable (U1 a)
++instance MonoFoldable (U1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoFoldable (V1 a)
++instance MonoFoldable (V1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoFoldable (Proxy a)
++instance MonoFoldable (Proxy (a :: Type))
+ -- | @since 1.0.20.0
+ instance MonoFoldable (f a) => MonoFoldable (Reverse f a) where
+     ofoldMap f (Reverse t) = getDual (ofoldMap (Dual . f) t)
+@@ -1118,7 +1119,7 @@
+     {-# INLINE otraverse #-}
+     {-# INLINE omapM #-}
+ instance MonoTraversable (a, b)
+-instance MonoTraversable (Const m a)
++instance MonoTraversable (Const m (a :: Type))
+ instance Traversable f => MonoTraversable (MaybeT f a)
+ #if !MIN_VERSION_transformers(0,6,0)
+ instance Traversable f => MonoTraversable (ListT f a)
+@@ -1135,7 +1136,7 @@
+ -- | @since 1.0.11.0
+ instance (Traversable f, Traversable g) => MonoTraversable ((f :+: g) a)
+ -- | @since 1.0.11.0
+-instance MonoTraversable (K1 i c a)
++instance MonoTraversable (K1 i c (a :: Type))
+ -- | @since 1.0.11.0
+ instance Traversable f => MonoTraversable (M1 i c f a)
+ -- | @since 1.0.11.0
+@@ -1143,11 +1144,11 @@
+ -- | @since 1.0.11.0
+ instance MonoTraversable (Par1 a)
+ -- | @since 1.0.11.0
+-instance MonoTraversable (U1 a)
++instance MonoTraversable (U1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoTraversable (V1 a)
++instance MonoTraversable (V1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoTraversable (Proxy a)
++instance MonoTraversable (Proxy (a :: Type))
+ -- | @since 1.0.20.0
+ instance (MonoTraversable (f a)) => MonoTraversable (Reverse f a) where
+     otraverse f (Reverse t) = (fmap Reverse . forwards) (otraverse (Backwards . f) t)
+@@ -1239,7 +1240,7 @@
+ instance MonoPointed (ZipList a)
+ instance MonoPointed (r -> a)
+ instance Monoid a => MonoPointed (a, b)
+-instance Monoid m => MonoPointed (Const m a)
++instance Monoid m => MonoPointed (Const m (a :: Type))
+ instance Monad m => MonoPointed (WrappedMonad m a)
+ #if !MIN_VERSION_transformers(0,6,0)
+ instance Applicative m => MonoPointed (ListT m a)
+@@ -1263,9 +1264,9 @@
+ -- | @since 1.0.11.0
+ instance MonoPointed (Par1 a)
+ -- | @since 1.0.11.0
+-instance MonoPointed (U1 a)
++instance MonoPointed (U1 (a :: Type))
+ -- | @since 1.0.11.0
+-instance MonoPointed (Proxy a)
++instance MonoPointed (Proxy (a :: Type))
+ 
+ -- Not Applicative
+ instance MonoPointed (Seq a) where

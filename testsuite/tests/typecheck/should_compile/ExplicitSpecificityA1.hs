@@ -1,5 +1,4 @@
 {-# LANGUAGE RankNTypes
-           , PolyKinds
            , GADTs
            , TypeApplications
            , PatternSynonyms

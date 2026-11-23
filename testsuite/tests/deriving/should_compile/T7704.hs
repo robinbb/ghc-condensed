@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds          #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE StandaloneDeriving #-}
 

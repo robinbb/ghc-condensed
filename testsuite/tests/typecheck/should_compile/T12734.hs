@@ -8,7 +8,6 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE UndecidableInstances      #-}
 {-# LANGUAGE GADTs                     #-}
-{-# LANGUAGE PolyKinds                 #-}
 {-# LANGUAGE TypeApplications          #-}
 
 ---------------  The original bug report --------------

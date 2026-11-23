@@ -1,4 +1,4 @@
-{-# Language PolyKinds, TypeFamilies #-}
+{-# Language TypeFamilies #-}
 
 module T12041 where
 

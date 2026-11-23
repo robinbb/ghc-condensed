@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds #-}
+{-# LANGUAGE TypeFamilies #-}
 -- {-# LANGUAGE CUSKs #-}    -- enabled by default
 
 module CuskFam where

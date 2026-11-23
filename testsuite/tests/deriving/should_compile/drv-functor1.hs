@@ -6,6 +6,8 @@
 
 module ShouldCompile where
 
+
+import Data.Kind (Type)
 data Trivial a = Trivial
    deriving (Functor)
 
@@ -33,7 +35,7 @@ data StupidConstraint a b = Stupid a b
   deriving (Functor)
 
 -- requires Functor constraint on f and g
-data Compose f g a = Compose (f (g a))
+data Compose (f :: Type -> Type) (g :: Type -> Type) a = Compose (f (g a))
   deriving (Functor)
 
 -- We can't derive Functor for the following type.
@@ -48,7 +50,7 @@ data Universal a
     = Universal  (forall b. (b,[a]))
     | Universal2 (forall f. Functor f => (f a))
     | Universal3 (forall a. a -> Int) -- reuse a
-    | NotReallyUniversal (forall b. a)
+    | NotReallyUniversal (forall (b :: Type). a)
   deriving (Functor)
 
 -- Ghc doesn't allow deriving for non-Haskell98 data constructors

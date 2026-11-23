@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, TypeApplications, PolyKinds #-}
+{-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
 
 module T14548 where
 

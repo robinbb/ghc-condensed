@@ -1,19 +1,8 @@
-T16181.hs:13:13: error: [GHC-38996]
-    • Cannot eta-reduce to an instance of form
-        instance (...) => Show1 (FlipConst a)
-    • In the newtype declaration for ‘FlipConst’
-
-T16181.hs:13:20: error: [GHC-38996]
-    • Cannot eta-reduce to an instance of form
-        instance (...) => Eq1 (FlipConst a)
-    • In the newtype declaration for ‘FlipConst’
-
-T16181.hs:18:14: error: [GHC-38996]
-    • Cannot eta-reduce to an instance of form
-        instance (...) => MonadTrans (Q x)
-    • In the newtype declaration for ‘Q’
-
-T16181.hs:25:12: error: [GHC-38996]
-    • Cannot eta-reduce to an instance of form instance (...) => C T
-    • In the data type declaration for ‘T’
+T16181.hs:25:25: error: [GHC-25897]
+    • Expected a type, but ‘a’ has kind ‘k’
+      ‘k’ is a rigid type variable bound by
+        a `deriving' clause
+        at T16181.hs:(24,1)-(25,25)
+    • In the first argument of ‘Either’, namely ‘a’
+      In the data type declaration for ‘T’
 

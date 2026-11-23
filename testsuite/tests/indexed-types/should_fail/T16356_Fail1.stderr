@@ -1,4 +1,4 @@
-T16356_Fail1.hs:10:3: error: [GHC-41522]
+T16356_Fail1.hs:9:3: error: [GHC-41522]
     • Illegal argument ‘*’ in:
         ‘type T @(*) a = ...’
         The arguments to ‘T’ must all be distinct type variables.

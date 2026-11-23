@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances #-}
 
 module T7341 where
 

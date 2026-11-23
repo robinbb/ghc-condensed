@@ -116,7 +116,7 @@ does not need to be ``Type``. It can alternatively be:
     data family DF2 (r :: RuntimeRep)  :: TYPE r
     data family DF3 :: Type -> TYPE WordRep
 
-* A bare kind variable (with :extension:`PolyKinds` enabled).
+* A bare kind variable.
   For example: ::
 
     data family DF4 :: k
@@ -930,9 +930,8 @@ variable ``d`` that does not occur in its left-hand side. We cannot
 admit such data instances as they would compromise type safety.
 
 Bear in mind that it is also possible for the *right*-hand side of an
-associated family instance to contain *kind* parameters (by using the
-:extension:`PolyKinds` extension). For instance, this class and instance are
-perfectly admissible: ::
+associated family instance to contain *kind* parameters. For instance, this
+class and instance are perfectly admissible: ::
 
     class C k where
       type T :: k

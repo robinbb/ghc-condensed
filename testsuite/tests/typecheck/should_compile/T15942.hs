@@ -1,6 +1,5 @@
 {-# Language RankNTypes          #-}
 {-# Language TypeApplications    #-}
-{-# Language PolyKinds           #-}
 {-# Language TypeFamilies        #-}
 {-# Language AllowAmbiguousTypes #-}
 module T15942 where

@@ -1,6 +1,5 @@
 {-# Language ConstraintKinds          #-}
 {-# Language GADTs                    #-}
-{-# Language PolyKinds                #-}
 {-# Language RankNTypes               #-}
 {-# Language StandaloneKindSignatures #-}
 {-# Language TypeFamilies             #-}

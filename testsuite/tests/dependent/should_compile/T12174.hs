@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ExistentialQuantification #-}
 module T12174 where
 

@@ -3,7 +3,6 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeAbstractions #-}
 
 {-# LANGUAGE FlexibleInstances, UndecidableInstances, FunctionalDependencies #-}

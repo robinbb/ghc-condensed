@@ -1,4 +1,3 @@
-{-# LANGUAGE PolyKinds #-}
 
 module RepPolyRule1 where
 

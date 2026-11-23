@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, ExistentialQuantification, ScopedTypeVariables,
+{-# LANGUAGE ExistentialQuantification, ScopedTypeVariables,
              TypeFamilies #-}
 
 module T11506 where

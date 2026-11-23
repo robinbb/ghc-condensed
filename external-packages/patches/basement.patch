@@ -1,0 +1,11 @@
+--- a/external-packages/foundation/basement/Basement/Block/Base.hs
++++ b/external-packages/foundation/basement/Basement/Block/Base.hs
+@@ -53,7 +53,7 @@
+ import           Basement.PrimType
+ 
+ -- | A block of memory containing unpacked bytes representing values of type 'ty'
+-data Block ty = Block ByteArray#
++data Block (ty :: Type) = Block ByteArray#
+     deriving (Typeable)
+ 
+ unsafeBlockPtr :: Block ty -> Ptr ty

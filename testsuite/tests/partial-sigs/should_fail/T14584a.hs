@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -fdefer-type-errors #-}     -- Very important to this bug!
 {-# Language PartialTypeSignatures #-}
-{-# Language PolyKinds #-}
 {-# Language ScopedTypeVariables #-}
 {-# Language AllowAmbiguousTypes #-}
 {-# Language TypeApplications #-}

@@ -32,6 +32,7 @@ module GHCi.RemoteTypes
   , ForeignHValue
 ) where
 
+import Data.Kind (Type)
 import Prelude -- See note [Why do we import Prelude here?]
 import Control.DeepSeq
 import Data.Word
@@ -50,7 +51,7 @@ import GHC.ForeignPtr
 -- between machines of different word size. For example, when connecting to
 -- an iserv instance on a different architecture with different word size via
 -- -fexternal-interpreter.
-newtype RemotePtr a = RemotePtr Word64
+newtype RemotePtr (a :: Type) = RemotePtr Word64
 
 toRemotePtr :: Ptr a -> RemotePtr a
 toRemotePtr p = RemotePtr (fromIntegral (ptrToWordPtr p))
@@ -82,7 +83,7 @@ type ForeignHValue = ForeignRef HValue
 
 -- | A reference to a heap object. Potentially in a remote heap!
 -- These are allocated and freed explicitly.
-newtype RemoteRef a = RemoteRef (RemotePtr ())
+newtype RemoteRef (a :: Type) = RemoteRef (RemotePtr ())
   deriving (Show, Binary)
 
 -- We can discard type information if we want
@@ -109,7 +110,7 @@ freeRemoteRef (RemoteRef w) =
   freeStablePtr (castPtrToStablePtr (fromRemotePtr w))
 
 -- | An RemoteRef with a finalizer
-newtype ForeignRef a = ForeignRef (ForeignPtr ())
+newtype ForeignRef (a :: Type) = ForeignRef (ForeignPtr ())
 
 instance NFData (ForeignRef a) where
   rnf x = x `seq` ()

@@ -1,7 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE Safe #-}
-{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE QuantifiedConstraints #-}
 -- Needed because the CPSed versions of Writer and State are secretly State
 -- wrappers, which don't force such constraints, even though they should legally

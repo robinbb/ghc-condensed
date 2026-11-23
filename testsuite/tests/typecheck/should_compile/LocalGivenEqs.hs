@@ -45,7 +45,7 @@ newtype ECP =
   ECP { unECP :: forall b. DisambECP b => PV (Located b) }
 
 data PV a
-data P a
+data P (a :: Type)
 data GhcPs
 data Token
 data Located a

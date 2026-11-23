@@ -89,7 +89,6 @@ Library
         NondecreasingIndentation
         OverloadedStrings
         ParallelListComp
-        PolyKinds
         RankNTypes
         RecordWildCards
         RoleAnnotations

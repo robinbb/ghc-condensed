@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, FlexibleContexts,
+{-# LANGUAGE FlexibleContexts,
              TypeFamilies #-}
 
 module T9200 where

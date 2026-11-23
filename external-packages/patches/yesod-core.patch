@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/yesod-core/src/Yesod/Routes/Class.hs
++++ b/external-packages/vendored/yesod-core/src/Yesod/Routes/Class.hs
+@@ -19,7 +19,7 @@
+ import Data.Set (Set)
+ import Data.Kind (Type)
+ 
+-class Eq (Route a) => RenderRoute a where
++class Eq (Route a) => RenderRoute (a :: Type) where
+     -- | The <http://www.yesodweb.com/book/routing-and-handlers type-safe URLs> associated with a site argument.
+     data Route a
+     renderRoute :: Route a

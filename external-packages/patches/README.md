@@ -89,4 +89,103 @@ exception.
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those
   constructors with this compiler (and both are always on). Blocks the
-  yesod family, hledger-web, persistent-sqlite and git-annex.
+  yesod family, hledger-web, persistent-sqlite and git-annex. The same
+  patch declares the backend parameter of
+  `Database.Persist.Class.PersistStore.PersistCore`, and so of its
+  associated data family `BackendKey`, at kind `Type`, and likewise the
+  phantom backend parameter of
+  `Database.Persist.Compatible.Types.Compatible`. The thirteen instances
+  derived via `BackendKey b` in the latter module constrain `b` with
+  `BackendCompatible`, a class at kind `Type`, and the via type is
+  kind-checked first.
+- `vector.patch`: `Data.Vector.Storable.Mutable.MVector` declares its
+  state parameter at kind `Type`. The parameter is phantom (a storable
+  vector holds a `ForeignPtr`), so with kinds always generalised it
+  would be kind-polymorphic, and the `MVector` class instance, whose
+  state parameter has kind `Type`, would not accept the type. Blocks
+  a quarter of tier 1.
+- `megaparsec.patch`: the hs-boot files of `Text.Megaparsec.Error` and
+  `Text.Megaparsec.Internal` declare the abstract `ParseError` and
+  `Reply` with the kinds of their definitions, `Type` for every
+  parameter. An abstract declaration is generalised like any other, and
+  the boot file's `forall k1 k2. k1 -> k2 -> Type` no longer matched the
+  module.
+- `bifunctors.patch`: test suite only. `OneTwoCompose`'s two functor
+  parameters get their kinds written out. Generalised, the type is
+  `forall k. (k -> Type) -> (Type -> Type -> k) -> ...`, and the
+  derived `Functor` instance, at one instantiation of `k`, is not found
+  as the superclass of the derived `Traversable` instance. GHC 9.12.2
+  rejects the declaration the same way with `-XPolyKinds`.
+- `aeson.patch`: `Data.Aeson.Types.Internal.Parser` quantifies the
+  continuation of its field at kinds `Type -> Type` and `Type`;
+  generalised, the kind variable would be existential in a newtype
+  constructor, which GHC rejects. `Data.Aeson.Encoding.Internal.Encoding'`
+  declares its phantom tag at kind `Type`; generalised, the encoders the
+  test suite generates with Template Haskell left the tag's kind
+  unsolved and the `FromPairs` instance ambiguous. Blocks a third of
+  tier 1.
+- `lens.patch`: `Control.Lens.Internal.Exception.handlerCatchIO` declares
+  its monad parameter at kind `Type -> Type`. The boot library's
+  `Control.Monad.Catch.Handler` is now kind-polymorphic, so the
+  signature no longer fixed the kind that the pattern signature
+  `Handling a s m` in the body needs.
+- `nothunks.patch`: the ten `deriving via` declarations whose via type is
+  a bare type variable (`a`) or an application of one (`f a`) write its
+  kind, `Type`. The via type is kind-checked before the instance head
+  and, generalised, binds the variable at an arbitrary kind. GHC 9.12.2
+  rejects the declarations the same way with `-XPolyKinds`.
+- `basement.patch`: `Basement.Block.Base.Block` declares its element
+  parameter at kind `Type`. It is phantom (the block is a `ByteArray#`),
+  and `BlockN`, a newtype over it, derives `Eq`, `Ord`, `Show` and `Data`
+  through instances that exist only at that kind. Blocks foundation,
+  memory, crypton and the TLS stack.
+- `crypton.patch`: `Crypto.Cipher.Types.Block.IV` declares its phantom
+  cipher parameter at kind `Type`. A local binding in
+  `cbcEncryptGeneric` was otherwise inferred over an `IV c` of arbitrary
+  kind, with a `ByteArrayAccess (IV c)` constraint no instance matches.
+- `barbies.patch`: `Barbies.Internal.Containers.Container` declares the
+  kind of its barbie parameter, `(Type -> Type) -> Type`. Its `Functor`
+  instance maps `first f` over `Const a`, which needs `Const` at kind
+  `Type -> Type -> Type`.
+- `linear.patch`: `Linear.V0.V0` declares its phantom element parameter
+  at kind `Type`; the `Ixed` instance equates it with `IxValue (V0 a)`.
+- `microlens.patch`: `Lens.Micro.Internal.foldring` quantifies the type
+  variables of its result, `b` and `t`, at kind `Type`. The body retags
+  a `Const r a` to `Const r t` with `phantom`, which needs `Functor` and
+  `Contravariant` instances of `Const r`, both at kind `Type`.
+- `mono-traversable.patch`: the eighteen `MonoFunctor`, `MonoFoldable`,
+  `MonoTraversable` and `MonoPointed` instances for `Const m a`,
+  `K1 i c a`, `Proxy a`, `U1 a` and `V1 a` state the kind of `a`,
+  `Type`. Each instance head is generalised on its own, but the
+  `Element` type instance it relies on fixes `a` at `Type`. PureScript's
+  vendored copy carries the same change.
+- `path.patch`: `Path`, in both `Path.Internal` and `OsPath.Internal`,
+  declares its two phantom parameters at kind `Type`. `prjSomeBase` takes
+  a rank-2 function over `Path b t` for every `b`, which generalised to
+  every kind of `b` and no longer accepted `Path Abs t`.
+- `tls.patch`: the rank-2 arguments of `Network.TLS.Crypto.withPubKeyEC`
+  and `withPrivKeyEC` quantify their curve at kind `Type`. crypton's
+  `EllipticCurveECDSA` class and `PublicKey` family are now
+  kind-polymorphic, so the signature generalised the curve's kind, and
+  the concrete curves the bodies pass no longer fit the argument.
+- `yesod-core.patch`: `Yesod.Routes.Class.RenderRoute` declares its site
+  parameter at kind `Type`. Its methods mention the site only through
+  the associated data family `Route`, so class and family were
+  generalised, and the `ParentSite (Route site) = site` instance needs
+  `site` at kind `Type`.
+- `commonmark-pandoc.patch`: `Commonmark.Pandoc.Cm` declares its phantom
+  first parameter at kind `Type`. pandoc's CommonMark reader has
+  `Typeable a` constraints on that parameter, which, once it is
+  generalised, need a `Typeable k` for its kind that nothing provides.
+- `aws.patch`: `Aws.DynamoDb.Core.Parser`, a copy of aeson's `Parser`,
+  quantifies the continuation of its field at kinds `Type -> Type` and
+  `Type`, for the reason given under `aeson.patch`; `valErr` in the same
+  module quantifies the `Typeable` argument of its `Tagged` at kind
+  `Type`, which `typeOf` needs. Blocks git-annex.
+- `purescript-aeson.patch`, `purescript-cryptonite.patch`: PureScript's
+  private copies of aeson (2.2.5.1) and cryptonite (0.30, crypton's
+  ancestor) differ in version from the corpus, so `aeson.patch` and
+  `crypton.patch` do not apply to them; these two carry the same kind
+  pins against the copies' paths under `projects/purescript/vendored/`.
+  `add.rb --fetch` applies them like any other patch, since their paths
+  are relative to the repository root.

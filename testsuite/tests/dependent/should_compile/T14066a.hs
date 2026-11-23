@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, PolyKinds, GADTs,
+{-# LANGUAGE TypeFamilies, GADTs,
              UndecidableInstances, RankNTypes, ScopedTypeVariables #-}
 
 module T14066a where

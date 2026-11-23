@@ -6,7 +6,6 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE PolyKinds #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
 module GHC.Internal.Bignum.WordArray where

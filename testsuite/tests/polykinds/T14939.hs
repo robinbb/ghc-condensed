@@ -1,4 +1,4 @@
-{-# Language RankNTypes, ConstraintKinds, PolyKinds, GADTs #-}
+{-# Language RankNTypes, ConstraintKinds, GADTs #-}
 
 module T14939 where
 

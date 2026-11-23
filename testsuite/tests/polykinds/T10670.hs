@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, RankNTypes, GADTs, PolyKinds #-}
+{-# LANGUAGE ScopedTypeVariables, RankNTypes, GADTs #-}
 
 module T10670 where
 

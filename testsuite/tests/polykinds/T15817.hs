@@ -1,5 +1,4 @@
 {-# Language RankNTypes       #-}
-{-# Language PolyKinds        #-}
 {-# Language TypeFamilies     #-}
 
 module T15817 where

@@ -1,4 +1,4 @@
-T13135.hs:58:10: error: [GHC-39999]
+T13135.hs:57:10: error: [GHC-39999]
     • No instance for ‘Constr :<: Constr’
         arising from a use of ‘smartSym’
     • In the expression: smartSym sym

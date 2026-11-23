@@ -1,7 +1,8 @@
 TYPE CONSTRUCTORS
-  type family F{1} :: * -> *
-    roles nominal
+  type family F{2} :: forall {k}. k -> *
+    roles nominal nominal
 COERCION AXIOMS
-  axiom NamedWildcardInTypeFamilyInstanceLHS.D:R:F :: F _t = Int
+  axiom NamedWildcardInTypeFamilyInstanceLHS.D:R:F ::
+    forall k (_t :: k). F _t = Int
 Dependent modules: []
-Dependent packages: [(normal, base-4.21.0.0)]
+Dependent packages: [(normal, base-4.23.0.0)]

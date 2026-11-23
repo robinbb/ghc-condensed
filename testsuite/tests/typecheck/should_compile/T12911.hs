@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, GADTSyntax,
+{-# LANGUAGE GADTSyntax,
              ExistentialQuantification #-}
 
 module T12911 where

@@ -1,6 +1,5 @@
 {-# Language RankNTypes #-}
 {-# Language TypeApplications #-}
-{-# Language PolyKinds        #-}
 {-# Language GADTs            #-}
 {-# Language TypeFamilies     #-}
 

@@ -8,6 +8,6 @@ T1900.hs:8:3: error: [GHC-83865]
     • In the ambiguity check for ‘trans’
       To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
       When checking the class method:
-        trans :: forall s. Bug s => Depend s -> Depend s
+        trans :: forall {k} (s :: k). Bug s => Depend s -> Depend s
       In the class declaration for ‘Bug’
 
