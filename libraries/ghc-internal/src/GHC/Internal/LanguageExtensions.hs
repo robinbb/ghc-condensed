@@ -45,7 +45,6 @@ data Extension
    | CApiFFI
    | GHCForeignImportPrim
    | JavaScriptFFI
-   | ParallelArrays           -- Syntactic support for parallel arrays
    | Arrows                   -- Arrow-notation syntax
    | TemplateHaskell
    | TemplateHaskellQuotes    -- subset of TH supported by stage1, no splice

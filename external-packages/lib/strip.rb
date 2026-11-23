@@ -20,7 +20,7 @@ module Strip
     ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
     IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    PolyKinds RelaxedPolyRec TypeInType
+    ParallelArrays PolyKinds RelaxedPolyRec TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

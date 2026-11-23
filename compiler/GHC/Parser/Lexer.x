@@ -896,8 +896,6 @@ data Token
   | ITvocurly
   | ITvccurly
   | ITobrack
-  | ITopabrack                  -- [:, for parallel arrays with -XParallelArrays
-  | ITcpabrack                  -- :], for parallel arrays with -XParallelArrays
   | ITcbrack
   | IToparen
   | ITcparen

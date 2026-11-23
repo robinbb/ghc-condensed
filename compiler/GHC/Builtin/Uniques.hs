@@ -347,7 +347,6 @@ Allocation of unique supply characters:
         _:   unifiable tyvars   (above)
         0-9: prelude things below
              (no numbers left any more..)
-        ::   (prelude) parallel array data constructors
 
         other a-z: lower case chars for unique supplies.  Used so far:
 

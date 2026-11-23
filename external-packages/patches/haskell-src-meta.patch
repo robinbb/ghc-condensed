@@ -28,6 +28,15 @@
    Exts.BangPatterns               -> Just TH.BangPatterns
    Exts.TypeSynonymInstances       -> Just TH.TypeSynonymInstances
    Exts.TemplateHaskell            -> Just TH.TemplateHaskell
+@@ -68,7 +68,7 @@
+   Exts.UnliftedFFITypes           -> Just TH.UnliftedFFITypes
+   Exts.LiberalTypeSynonyms        -> Just TH.LiberalTypeSynonyms
+   Exts.TypeOperators              -> Just TH.TypeOperators
+-  Exts.ParallelArrays             -> Just TH.ParallelArrays
++  Exts.ParallelArrays             -> Nothing
+   Exts.RecordWildCards            -> Just TH.RecordWildCards
+ #if __GLASGOW_HASKELL__ >= 904
+   Exts.RecordPuns                 -> Just TH.NamedFieldPuns
 @@ -84,11 +84,11 @@
  #else
      Nothing
@@ -90,7 +99,15 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -218,12 +215,6 @@
+@@ -204,7 +201,6 @@
+   TH.CApiFFI                           -> Just Exts.CApiFFI
+   TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
+   TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
+-  TH.ParallelArrays                    -> Just Exts.ParallelArrays
+   TH.Arrows                            -> Just Exts.Arrows
+   TH.TemplateHaskell                   -> Just Exts.TemplateHaskell
+   TH.TemplateHaskellQuotes             -> Nothing
+@@ -218,12 +214,6 @@
    TH.BangPatterns                      -> Just Exts.BangPatterns
    TH.TypeFamilies                      -> Just Exts.TypeFamilies
    TH.TypeFamilyDependencies            -> Just Exts.TypeFamilyDependencies
@@ -103,7 +120,7 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -248,13 +239,9 @@
+@@ -248,13 +238,9 @@
    TH.DoAndIfThenElse                   -> Just Exts.DoAndIfThenElse
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
@@ -117,7 +134,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,15 +253,11 @@
+@@ -266,15 +252,11 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -133,7 +150,7 @@
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
    TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -290,10 +273,6 @@
+@@ -290,10 +272,6 @@
    TH.TypeOperators                     -> Just Exts.TypeOperators
    TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports

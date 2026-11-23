@@ -292,8 +292,6 @@ classify tok =
     ITvocurly -> TkSpecial
     ITvccurly -> TkSpecial
     ITobrack -> TkSpecial
-    ITopabrack -> TkSpecial
-    ITcpabrack -> TkSpecial
     ITcbrack -> TkSpecial
     IToparen -> TkSpecial
     ITcparen -> TkSpecial

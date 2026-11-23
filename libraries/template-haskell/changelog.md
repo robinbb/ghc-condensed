@@ -5,8 +5,8 @@
     `AutoDeriveTypeable`, `ConstrainedClassMethods`, `DatatypeContexts`,
     `IncoherentInstances`, `MultiParamTypeClasses`, `NullaryTypeClasses`,
     `OverlappingInstances`, `TypeInType`, `ExplicitForAll`, `DataKinds`,
-    `KindSignatures`, `InstanceSigs`, `PolyKinds` and `RelaxedPolyRec`
-    constructors of `Extension`.
+    `KindSignatures`, `InstanceSigs`, `PolyKinds`, `RelaxedPolyRec` and
+    `ParallelArrays` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every
     type has a `Typeable` instance, a data type declaration never has a
     context (a `DataD` or `NewtypeD` with one is refused), class methods
@@ -17,7 +17,9 @@
     always allowed, every data type is promoted to a kind, and kind
     signatures are always allowed, in instance declarations too, kinds
     are always generalised, and the dependency analysis of a binding
-    group always ignores references to variables with type signatures.
+    group always ignores references to variables with type signatures,
+    and `ParallelArrays`, whose syntax left GHC long ago, is no longer a
+    deprecated spelling of `ParallelListComp`.
 
   * Introduce `namedDefaultQuasiQuoter` and `defaultQuasiQuoter`, which fail with a helpful error when used in an inappropriate context.
 

@@ -2310,17 +2310,6 @@ deprecatedForExtension lang turn_on
       flag | turn_on   = lang
            | otherwise = "No" ++ lang
 
-deprecatedForExtensions :: [String] -> TurnOnFlag -> String
-deprecatedForExtensions [] _ = panic "new extension has not been specified"
-deprecatedForExtensions [lang] turn_on = deprecatedForExtension lang turn_on
-deprecatedForExtensions langExts turn_on
-    = "use " ++ xExt flags ++ " instead"
-    where
-      flags | turn_on = langExts
-            | otherwise = ("No" ++) <$> langExts
-
-      xExt fls = intercalate " and "  $ (\flag -> "-X" ++ flag) <$> fls
-
 useInstead :: String -> String -> TurnOnFlag -> String
 useInstead prefix flag turn_on
   = "Use " ++ prefix ++ no ++ flag ++ " instead"
@@ -2816,23 +2805,13 @@ xFlags :: [FlagSpec LangExt.Extension]
 xFlags = map snd xFlagsDeps
 
 makeExtensionFlags :: LangExt.Extension -> [(Deprecation, FlagSpec LangExt.Extension)]
-makeExtensionFlags ext = [ makeExtensionFlag name depr ext | (depr, name) <- extensionNames ext ]
+makeExtensionFlags ext = [ makeExtensionFlag name ext | name <- extensionNames ext ]
 
 xFlagsDeps :: [(Deprecation, FlagSpec LangExt.Extension)]
 xFlagsDeps = concatMap makeExtensionFlags [minBound .. maxBound]
 
-makeExtensionFlag :: String -> ExtensionDeprecation -> LangExt.Extension -> (Deprecation, FlagSpec LangExt.Extension)
-makeExtensionFlag name depr ext = (deprecation depr, spec)
-  where effect = extensionEffect ext
-        spec = FlagSpec name ext (\f -> effect f >> act f) AllModes
-        act = case depr of
-                ExtensionNotDeprecated -> nop
-                ExtensionDeprecatedFor xs
-                  -> deprecate . deprecatedForExtensions (map extensionName xs)
-                ExtensionFlagDeprecated str
-                  -> \f -> deprecate $ if f == turnOn
-                                       then str
-                                       else name ++ " has been deprecated, and need not be disabled."
+makeExtensionFlag :: String -> LangExt.Extension -> (Deprecation, FlagSpec LangExt.Extension)
+makeExtensionFlag name ext = (NotDeprecated, FlagSpec name ext (extensionEffect ext) AllModes)
 
 extensionEffect :: LangExt.Extension -> (TurnOnFlag -> DynP ())
 extensionEffect = \case

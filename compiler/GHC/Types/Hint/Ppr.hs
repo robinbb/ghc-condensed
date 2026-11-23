@@ -496,8 +496,7 @@ pprImpliedExtensions extension = case implied of
     [] -> empty
     xs -> parens $ "implied by" <+> unquotedListWith "and" xs
   where implied = map (quotes . ppr)
-                . filter (\ext -> extensionDeprecation ext == ExtensionNotDeprecated)
-                $ [impl | (impl, On orig) <- impliedXFlags, orig == extension]
+                  [impl | (impl, On orig) <- impliedXFlags, orig == extension]
 
 pprSimilarFields :: TyCon -> TyCon -> FieldLabelString -> [(TyCon, SimilarName)] -> SDoc
 pprSimilarFields _tc rep_tc _fld suggs

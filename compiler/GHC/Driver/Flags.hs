@@ -37,10 +37,7 @@ module GHC.Driver.Flags
    , impliedOffGFlags
    , glasgowExtsFlags
 
-   , ExtensionDeprecation(..)
    , Deprecation(..)
-   , extensionDeprecation
-   , deprecation
    , extensionNames
    , extensionName
    )
@@ -94,27 +91,6 @@ turnOff :: TurnOnFlag; turnOff = False
 
 data Deprecation = NotDeprecated | Deprecated deriving (Eq, Ord)
 
-data ExtensionDeprecation
-  = ExtensionNotDeprecated
-  | ExtensionDeprecatedFor [LangExt.Extension]
-    -- ^ Both turning on and turning off the flag are deprecated, with a message
-    -- suggesting turning on or off the conjunction of the given extensions
-    -- instead.
-  | ExtensionFlagDeprecated String
-    -- ^ Both turning on and turning off the flag are deprecated, with the given
-    -- message when the flag is enabled and a default message when it is disabled.
-  deriving Eq
-
--- | Whether any use of the flag is deprecated.
-deprecation :: ExtensionDeprecation -> Deprecation
-deprecation ExtensionNotDeprecated = NotDeprecated
-deprecation _ = Deprecated
-
-extensionDeprecation :: LangExt.Extension -> ExtensionDeprecation
-extensionDeprecation = \case
-  LangExt.ParallelArrays                    -> ExtensionDeprecatedFor [LangExt.ParallelListComp]
-  _                                         -> ExtensionNotDeprecated
-
 extensionName :: LangExt.Extension -> String
 extensionName = \case
   LangExt.Cpp -> "CPP"
@@ -131,7 +107,6 @@ extensionName = \case
   LangExt.CApiFFI -> "CApiFFI"
   LangExt.GHCForeignImportPrim -> "GHCForeignImportPrim"
   LangExt.JavaScriptFFI -> "JavaScriptFFI"
-  LangExt.ParallelArrays -> "ParallelArrays"           -- Syntactic support for parallel arrays
   LangExt.Arrows -> "Arrows"                   -- Arrow-notation syntax
   LangExt.TemplateHaskell -> "TemplateHaskell"
   LangExt.TemplateHaskellQuotes -> "TemplateHaskellQuotes"    -- subset of TH supported by stage1, no splice
@@ -248,9 +223,8 @@ extensionAlternateNames = \case
   _ -> []
 
 -- | All the names by which an extension is known.
-extensionNames :: LangExt.Extension -> [ (ExtensionDeprecation, String) ]
-extensionNames ext = [ (extensionDeprecation ext, name)
-                     | name <- extensionName ext : extensionAlternateNames ext ]
+extensionNames :: LangExt.Extension -> [String]
+extensionNames ext = extensionName ext : extensionAlternateNames ext
 
 impliedXFlags :: [(LangExt.Extension, OnOff LangExt.Extension)]
 impliedXFlags
@@ -283,7 +257,6 @@ impliedXFlags
         -- if the compiler has just filled in field 'a' of constructor 'C'
     , (LangExt.RecordWildCards,     On LangExt.DisambiguateRecordFields)
 
-    , (LangExt.ParallelArrays, On LangExt.ParallelListComp)
     , (LangExt.MonadComprehensions, On LangExt.ParallelListComp)
     , (LangExt.JavaScriptFFI, On LangExt.InterruptibleFFI)
 
