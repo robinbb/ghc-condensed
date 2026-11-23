@@ -65,7 +65,7 @@ module GHC.Hs.Type (
         mkEmptyWildCardBndrs,
         mkHsForAllVisTele, mkHsForAllInvisTele,
         mkHsQTvs, hsQTvExplicit, emptyLHsQTvs,
-        isHsKindedTyVar, hsBndrVar, hsBndrKind, hsTvbAllKinded,
+        isHsKindedTyVar, hsBndrVar, hsBndrKind,
         hsScopedTvs, hsScopedKvs, hsWcScopedTvs, dropWildCards,
         hsTyVarLName, hsTyVarName,
         hsAllLTyVarNames, hsLTyVarLocNames,
@@ -396,10 +396,6 @@ hsBndrVar = tvb_var
 hsBndrKind :: HsTyVarBndr flag (GhcPass pass) -> HsBndrKind (GhcPass pass)
 hsBndrKind = tvb_kind
 
--- | Do all type variables in this 'LHsQTyVars' come with kind annotations?
-hsTvbAllKinded :: LHsQTyVars (GhcPass p) -> Bool
-hsTvbAllKinded = all (isHsKindedTyVar . unLoc) . hsQTvExplicit
-
 type instance XBndrRequired (GhcPass _) = NoExtField
 
 type instance XBndrInvisible GhcPs = EpToken "@"
@@ -656,7 +652,7 @@ hsLTyVarLocNames qtvs = mapMaybe hsLTyVarLocName (hsQTvExplicit qtvs)
 --   hsTyKindSig   `Maybe ::   Type -> Type  `   =   Just  `Type -> Type`
 --   hsTyKindSig   `Maybe :: ((Type -> Type))`   =   Just  `Type -> Type`
 --
--- This is used to extract the result kind of type synonyms with a CUSK:
+-- This is used to extract the result kind of a type synonym:
 --
 --  type S = (F :: res_kind)
 --                 ^^^^^^^^

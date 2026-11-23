@@ -9,3 +9,26 @@
  handlerCatchIO l f = reifyTypeable (preview l) $ \ (_ :: Proxy s) -> Catch.Handler (\(Handling a :: Handling a s m) -> f a)
  
  ------------------------------------------------------------------------------
+--- a/external-packages/lens/tests/T917.hs
++++ b/external-packages/lens/tests/T917.hs
+@@ -2,6 +2,7 @@
+ {-# LANGUAGE FlexibleInstances #-}
+ {-# LANGUAGE FunctionalDependencies #-}
+ {-# LANGUAGE GADTs #-}
++{-# LANGUAGE StandaloneKindSignatures #-}
+ {-# LANGUAGE TemplateHaskell #-}
+ {-# LANGUAGE TypeFamilies #-}
+ {-# LANGUAGE TypeOperators #-}
+@@ -30,10 +31,12 @@
+ data instance T917DataFam (a :: Type) = MkT917DataFam { _unT917DataFam :: Proxy a }
+ $(makeLenses 'MkT917DataFam)
+ 
++type T917GadtOne :: k -> Type
+ data T917GadtOne (a :: k) where
+   MkT917GadtOne :: T917GadtOne (a :: Type)
+ $(makePrisms ''T917GadtOne)
+ 
++type T917GadtTwo :: k -> Type
+ data T917GadtTwo (a :: k) where
+   MkT917GadtTwo :: T917GadtTwo (a :: Type)
+ $(makePrisms ''T917GadtTwo)

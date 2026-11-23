@@ -1377,7 +1377,7 @@ of ``-W(no-)*``.
     type.
 
 .. ghc-flag:: -Wmissing-kind-signatures
-    :shortdesc: warn when type declarations don't have kind signatures nor CUSKs
+    :shortdesc: warn when type declarations don't have kind signatures
     :type: dynamic
     :reverse: -Wno-missing-kind-signatures
     :category:
@@ -1389,20 +1389,19 @@ of ``-W(no-)*``.
          single: kind signatures, missing
 
     If you would like GHC to check that every data, type family,
-    type-class definition has a :ref:`standalone kind signature <standalone-kind-signatures>` or a :ref:`CUSK <complete-kind-signatures>`, use the
+    type-class definition has a :ref:`standalone kind signature <standalone-kind-signatures>`, use the
     :ghc-flag:`-Wmissing-kind-signatures` option.
-    You can specify the kind via :extension:`StandaloneKindSignatures`
-    or :extension:`CUSKs`.
+    You can specify the kind via :extension:`StandaloneKindSignatures`.
 
     Note that :ghc-flag:`-Wmissing-kind-signatures` does not warn about
     associated type families, as GHC considers an associated type family
-    declaration to have a CUSK if its enclosing class has a CUSK. (See
-    :ref:`complete-kind-signatures` for more on this point.) Therefore, giving
-    the parent class a standalone kind signature or CUSK is sufficient to fix
-    the warning for the class's associated type families as well.
+    declaration to have a complete kind if its enclosing class has a
+    standalone kind signature. Therefore, giving the parent class a
+    standalone kind signature is sufficient to fix the warning for the
+    class's associated type families as well.
 
 .. ghc-flag:: -Wmissing-poly-kind-signatures
-    :shortdesc: warn when inferred polykinded type or class declaration don't have kind signatures nor CUSKs
+    :shortdesc: warn when inferred polykinded type or class declaration don't have kind signatures
     :type: dynamic
     :reverse: -Wno-missing-poly-kind-signatures
     :category:

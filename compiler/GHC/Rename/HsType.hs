@@ -937,9 +937,7 @@ bindHsQTyVars :: forall a b.
               -> LHsQTyVars GhcPs
               -> (LHsQTyVars GhcRn -> FreeKiTyVars -> RnM (b, FreeNames))
                   -- The FreeKiTyVars is null <=> all kind variables used in the
-                  -- kind signature are bound on the left.  Reason:
-                  -- the last clause of Note [CUSKs: complete user-supplied kind signatures]
-                  -- in GHC.Hs.Decls
+                  -- kind signature are bound on the left.
               -> RnM (b, FreeNames)
 
 -- See Note [bindHsQTyVars examples]
@@ -1043,8 +1041,7 @@ Then:
 
 * If body_kv_occs is non-empty, then there is a kind variable
   mentioned in the kind signature that is not bound "on the left".
-  That's one of the rules for a CUSK, so we pass that info on
-  as the second argument to thing_inside.
+  We pass that info on as the second argument to thing_inside.
 
 * Order is important in these lists. Consider
     data T (a::k1) (b::k2)

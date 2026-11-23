@@ -20,7 +20,7 @@ data Prox3 a where
   MkProx3a :: Prox3 (a :: k1)
   MkProx3b :: Prox3 (a :: k2)
 
-  -- This probably should be rejected, as it's polymorphic recursion without a CUSK.
+  -- This probably should be rejected, as it's polymorphic recursion without a kind signature.
   -- But GHC accepts it because the polymorphic occurrence is at a type variable.
 data T0 a = forall k (b :: k). MkT0 (T0 b) Int
 

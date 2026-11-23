@@ -15,7 +15,7 @@ class C2 (a :: Type) (b :: Proxy a) (c :: Proxy b) where
      --     in the kind of T3; else 'b' is Inferred and comes
      --     first, which is ill-scoped
 
--- no CUSK
+-- not all binders annotated
 class C3 (a :: Type) (b :: Proxy a) (c :: Proxy b) d where
   type T4 (x :: Proxy '(a, (c :: Proxy b)))
      -- Ditto to T3

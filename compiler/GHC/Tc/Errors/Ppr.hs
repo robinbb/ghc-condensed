@@ -444,14 +444,9 @@ instance Diagnostic TcRnMessage where
         MissingTopLevelBindingSig name ty ->
           hang (text "Top-level binding with no type signature:")
             2 (pprPrefixName name <+> dcolon <+> pprSigmaType ty)
-        MissingTyConKindSig tc cusks_enabled ->
-          hang msg
+        MissingTyConKindSig tc ->
+          hang (text "Top-level type constructor with no standalone kind signature:")
             2 (text "type" <+> pprPrefixName (tyConName tc) <+> dcolon <+> pprKind (tyConKind tc))
-          where
-            msg | cusks_enabled
-                = text "Top-level type constructor with no standalone kind signature or CUSK:"
-                | otherwise
-                = text "Top-level type constructor with no standalone kind signature:"
 
     TcRnPolymorphicBinderMissingSig n ty
       -> mkSimpleDecorated $
@@ -1984,8 +1979,7 @@ instance Diagnostic TcRnMessage where
       mkSimpleDecorated $
         vcat [ hang (text "Invalid invisible type variable binder:")
                   2 (ppr hs_bndr)
-             , text "Either a standalone kind signature (SAKS)"
-             , text "or a complete user-supplied kind (CUSK, legacy feature)"
+             , text "A standalone kind signature (SAKS)"
              , text "is required to use invisible binders." ]
 
     TcRnImplicitRhsQuantification kv -> mkSimpleDecorated $
@@ -3767,7 +3761,7 @@ missingSignatureWarningFlags (MissingTopLevelBindingSig {}) exported
 missingSignatureWarningFlags (MissingPatSynSig {}) exported
   = Opt_WarnMissingPatternSynonymSignatures :|
     [ Opt_WarnMissingExportedPatternSynonymSignatures | IsExported  == exported ]
-missingSignatureWarningFlags (MissingTyConKindSig ty_con _) _
+missingSignatureWarningFlags (MissingTyConKindSig ty_con) _
   = Opt_WarnMissingKindSignatures :| [Opt_WarnMissingPolyKindSignatures | isForAllTy_invis_ty (tyConKind ty_con) ]
 
 useDerivingStrategies :: GhcHint

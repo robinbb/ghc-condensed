@@ -3225,10 +3225,10 @@ data TcRnMessage where
 
   {-| 'TcRnInvisBndrWithoutSig' is an error triggered by attempting to use
       an invisible type variable binder in a type declaration without a
-      standalone kind signature or a complete user-supplied kind.
+      standalone kind signature.
 
       Example:
-        data T @k (a :: k)     -- No CUSK, no SAKS
+        data T @k (a :: k)     -- No SAKS
 
       Test case: T22560_fail_d
   -}
@@ -5077,9 +5077,7 @@ associatedTyNotParamOverLastTyVar Nothing   = NoAssociatedTyNotParamOverLastTyVa
 data MissingSignature
   = MissingTopLevelBindingSig Name Type
   | MissingPatSynSig PatSyn
-  | MissingTyConKindSig
-      TyCon
-      Bool -- ^ whether -XCUSKs is enabled
+  | MissingTyConKindSig TyCon
 
 -- | Is the object we are dealing with exported or not?
 --

@@ -140,7 +140,6 @@ data Extension
    | QuantifiedConstraints
    | StarIsType
    | ImportQualifiedPost
-   | CUSKs
    | StandaloneKindSignatures
    | LexicalNegation
    | FieldSelectors

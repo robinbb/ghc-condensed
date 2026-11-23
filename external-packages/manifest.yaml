@@ -491,7 +491,7 @@ packages:
     no longer maps the extensions this compiler removed (ConstrainedClassMethods,
     DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
     MultiParamTypeClasses, OverlappingInstances, ParallelArrays, PolyKinds,
-    RelaxedPolyRec, TypeInType and the deprecated aliases) to or from
+    RelaxedPolyRec, TypeInType, CUSKs and the deprecated aliases) to or from
     template-haskell, whose Extension type lost those
     constructors
 - name: heaps
@@ -788,7 +788,9 @@ packages:
     deliberate exception to the no-modification rule: handlerCatchIO in
     Control.Lens.Internal.Exception declares its monad parameter at kind
     Type -> Type, since Control.Monad.Catch.Handler is now kind-polymorphic and no
-    longer fixes it (patches/lens.patch)
+    longer fixes it; the templates test suite gives T917GadtOne and T917GadtTwo
+    standalone kind signatures, their complete user-supplied kinds no longer
+    being detected (patches/lens.patch)
 - name: lifted-async
   version: 0.11.0
   tier: 1
@@ -1782,8 +1784,10 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: Barbies.Internal.Containers.Container
     declares the kind of its barbie parameter, (Type -> Type) -> Type, which
-    the Bifunctor instance of Const used in its Functor instance needs
-    (patches/barbies.patch)
+    the Bifunctor instance of Const used in its Functor instance needs; the
+    kind-indexed families Indexed and FilterIndex in Data.Generics.GenericN and
+    the class ConstraintsT get standalone kind signatures, their complete
+    user-supplied kinds no longer being detected (patches/barbies.patch)
 - name: base-compat-batteries
   version: 0.15.0
   tier: 2
@@ -4128,6 +4132,10 @@ packages:
     git: https://github.com/haskell-servant/servant.git
     tag: servant-0.20.3.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: the kind-indexed family
+    Arity' in Servant.API.TypeErrors gets a standalone kind signature, its
+    complete user-supplied kind no longer being detected (patches/servant.patch)
 - name: servant-server
   version: 0.20.3.0
   tier: 2

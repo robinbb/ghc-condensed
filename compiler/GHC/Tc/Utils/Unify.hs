@@ -626,8 +626,9 @@ buildImplicationFor tclvl skol_info skol_tvs given wanted
   | otherwise
   = assertPpr (all (isSkolemTyVar <||> isTyVarTyVar) skol_tvs) (ppr skol_tvs) $
       -- Why allow TyVarTvs? Because implicitly declared kind variables in
-      -- non-CUSK type declarations are TyVarTvs, and we need to bring them
-      -- into scope as a skolem in an implication. This is OK, though,
+      -- type declarations without a kind signature are TyVarTvs, and we
+      -- need to bring them into scope as a skolem in an implication. This
+      -- is OK, though,
       -- because TyVarTvs will always remain tyvars, even after unification.
     do { ev_binds_var <- newTcEvBinds
        ; implic <- newImplication

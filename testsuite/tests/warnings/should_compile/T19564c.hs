@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wmissing-kind-signatures #-}
 {-# LANGUAGE GADTs, TypeFamilies #-}
--- with cusks but without -XCUSK, warnings
+-- with annotated binders but no standalone kind signatures: warnings
 module T19564c where
 
 import Data.Kind (Type, Constraint)

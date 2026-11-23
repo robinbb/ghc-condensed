@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wmissing-poly-kind-signatures #-}
 {-# LANGUAGE GADTs, TypeFamilies #-}
--- without standalone kind signatures or cusks: warnings
+-- without standalone kind signatures: warnings
 module T22826 where
 
 import Data.Kind (Type)

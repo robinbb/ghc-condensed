@@ -2507,11 +2507,12 @@ data InitialKindStrategy
   = InitialKindCheck SAKS_or_CUSK
   | InitialKindInfer
 
--- Does the declaration have a standalone kind signature (SAKS) or a complete
--- user-supplied kind (CUSK)?
+-- Does the declaration have a standalone kind signature (SAKS), or is it an
+-- associated type whose header is taken as a complete kind (CUSK)?
+-- See Note [Standalone kind signatures for associated types] in GHC.Tc.TyCl
 data SAKS_or_CUSK
   = SAKS Kind  -- Standalone kind signature, fully zonked! (zonkTcTypeToType)
-  | CUSK       -- Complete user-supplied kind (CUSK)
+  | CUSK       -- Complete user-supplied kind: the header of an associated type
 
 instance Outputable SAKS_or_CUSK where
   ppr (SAKS k) = text "SAKS" <+> ppr k
@@ -4488,7 +4489,7 @@ we do the following
     g = f
   They are typechecked as a recursive group, with monomorphic types,
   so 'a' and 'b' will get unified together.  Very like kind inference
-  for mutually recursive data types (sans CUSKs or SAKS); see
+  for mutually recursive data types (sans kind signatures); see
   Note [Cloning for type variable binders]
 
 * In GHC.Tc.Gen.Sig.tcUserSigType we return a PartialSig, which (unlike

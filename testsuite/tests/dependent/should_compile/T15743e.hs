@@ -5,7 +5,7 @@ module T15743e where
 import Data.Proxy
 import Data.Kind
 
--- NO CUSK.
+-- No kind annotations.
 data T k (a :: k) (b :: Proxy k2) f c :: forall k3. Proxy k3 -> forall (k4 :: k5). Proxy k4 -> Type where
   MkT :: f c -> T k a b f c d e
 
@@ -16,6 +16,6 @@ data T k (a :: k) (b :: Proxy k2) f c :: forall k3. Proxy k3 -> forall (k4 :: k5
 --
 --
 
--- CUSK
+-- Fully annotated header.
 data T2 (k :: Type) (a :: k) (b :: Proxy k2) (f :: k7 -> Type) (c :: k7) :: forall k3. Proxy k3 -> forall k5 (k4 :: k5). Proxy k4 -> Type where
   MkT2 :: f c -> T2 k a b f c d e

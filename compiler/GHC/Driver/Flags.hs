@@ -200,7 +200,6 @@ extensionName = \case
   LangExt.QuantifiedConstraints -> "QuantifiedConstraints"
   LangExt.StarIsType -> "StarIsType"
   LangExt.ImportQualifiedPost -> "ImportQualifiedPost"
-  LangExt.CUSKs -> "CUSKs"
   LangExt.StandaloneKindSignatures -> "StandaloneKindSignatures"
   LangExt.LexicalNegation -> "LexicalNegation"
   LangExt.FieldSelectors -> "FieldSelectors"
@@ -241,8 +240,6 @@ impliedXFlags
     , (LangExt.TypeFamilies,     On LangExt.MonoLocalBinds)
 
 
-    -- Standalone kind signatures are a replacement for CUSKs.
-    , (LangExt.StandaloneKindSignatures, Off LangExt.CUSKs)
 
     -- We turn this on so that we can export associated type
     -- type synonyms in subordinates (e.g. MyClass(type AssocType))

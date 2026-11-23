@@ -1744,7 +1744,7 @@ quantifyTyVars skol_info ns_strat dvs
 zonkAndSkolemise :: SkolemInfo -> TcTyCoVar -> ZonkM TcTyCoVar
 -- A tyvar binder is never a unification variable (TauTv),
 -- rather it is always a skolem. It *might* be a TyVarTv.
--- (Because non-CUSK type declarations use TyVarTvs.)
+-- (Because type declarations without a kind signature use TyVarTvs.)
 -- Regardless, it may have a kind that has not yet been zonked,
 -- and may include kind unification variables.
 zonkAndSkolemise skol_info tyvar

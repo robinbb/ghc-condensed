@@ -52,7 +52,7 @@ import GHC.Types.ForeignCall
 import GHC.Types.Name
 import GHC.Types.Name.Set
 import GHC.Types.Name.Env
-import GHC.Types.Basic  ( VisArity,  TyConFlavour(..), TypeOrKind(..), NewOrData(..), RuleName )
+import GHC.Types.Basic  ( VisArity,  TyConFlavour(..), TypeOrKind(..), RuleName )
 import GHC.Types.GREInfo (ConLikeInfo (..), ConInfo, mkConInfo, conInfoFields)
 import GHC.Types.Hint (SigLike(..))
 import GHC.Types.Unique.Set
@@ -76,7 +76,7 @@ import Control.Monad
 import Data.Bifunctor ( first )
 import Data.Foldable ( toList, for_ )
 import Data.List.NonEmpty ( NonEmpty(..), head, nonEmpty )
-import Data.Maybe ( isNothing, fromMaybe, mapMaybe, maybeToList )
+import Data.Maybe ( fromMaybe, mapMaybe, maybeToList )
 import qualified Data.Set as Set ( difference, fromList, toList, null )
 
 {- | @rnSourceDecl@ "renames" declarations.
@@ -1913,19 +1913,16 @@ rnTyClDecl (SynDecl { tcdLName = tycon, tcdTyVars = tyvars,
 rnTyClDecl (DataDecl
     { tcdLName = tycon, tcdTyVars = tyvars,
       tcdFixity = fixity,
-      tcdDataDefn = defn@HsDataDefn{ dd_cons = cons, dd_kindSig = kind_sig},
+      tcdDataDefn = defn,
       tcdModifiers = mods })
   = do { tycon' <- lookupLocatedTopBndrRnN WL_TyCon tycon
        ; let kvs = extractDataDefnKindVars defn
              doc = TyDataCtx tycon
-             new_or_data = dataDefnConsNewOrData cons
        ; traceRn "rntycl-data" (ppr tycon <+> ppr kvs)
        ; bindHsQTyVars doc Nothing kvs tyvars $ \ tyvars' free_rhs_kvs ->
     do { (defn', fvs) <- rnDataDefn doc defn
-       ; cusk <- data_decl_has_cusk tyvars' new_or_data (null free_rhs_kvs) kind_sig
-       ; let rn_info = DataDeclRn { tcdDataCusk = cusk
-                                  , tcdFVs      = fvs }
-       ; traceRn "rndata" (ppr tycon <+> ppr cusk <+> ppr free_rhs_kvs)
+       ; let rn_info = DataDeclRn { tcdFVs = fvs }
+       ; traceRn "rndata" (ppr tycon <+> ppr free_rhs_kvs)
        ; (mods', mods_fvs) <- rnModifiersContextAndWarn doc mods
        ; return (DataDecl { tcdLName    = tycon'
                           , tcdTyVars   = tyvars'
@@ -2006,40 +2003,6 @@ rnTyClDecl (ClassDecl { tcdCtxt = context, tcdLName = lcls,
                   all_fvs ) }
   where
     cls_doc  = ClassDeclCtx lcls
-
--- Does the data type declaration include a CUSK?
-data_decl_has_cusk :: LHsQTyVars (GhcPass p) -> NewOrData -> Bool -> Maybe (LHsKind (GhcPass p')) -> RnM Bool
-data_decl_has_cusk tyvars new_or_data no_rhs_kvs kind_sig = do
-  { -- See Note [Unlifted Newtypes and CUSKs], and for a broader
-    -- picture, see Note [Implementation of UnliftedNewtypes].
-  ; unlifted_newtypes <- xoptM LangExt.UnliftedNewtypes
-  ; let non_cusk_newtype
-          | NewType <- new_or_data =
-              unlifted_newtypes && isNothing kind_sig
-          | otherwise = False
-    -- See Note [CUSKs: complete user-supplied kind signatures] in GHC.Hs.Decls
-  ; return $ hsTvbAllKinded tyvars && no_rhs_kvs && not non_cusk_newtype
-  }
-
-{- Note [Unlifted Newtypes and CUSKs]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When unlifted newtypes are enabled, a newtype must have a kind signature
-in order to be considered have a CUSK. This is because the flow of
-kind inference works differently. Consider:
-
-  newtype Foo = FooC Int
-
-When UnliftedNewtypes is disabled, we decide that Foo has kind
-`TYPE 'LiftedRep` without looking inside the data constructor. So, we
-can say that Foo has a CUSK. However, when UnliftedNewtypes is enabled,
-we fill in the kind of Foo as a metavar that gets solved by unification
-with the kind of the field inside FooC (that is, Int, whose kind is
-`TYPE 'LiftedRep`). But since we have to look inside the data constructors
-to figure out the kind signature of Foo, it does not have a CUSK.
-
-See Note [Implementation of UnliftedNewtypes] for where this fits in to
-the broader picture of UnliftedNewtypes.
--}
 
 -- "type" and "type instance" declarations
 rnTySyn :: HsDocContext -> LHsType GhcPs -> RnM (LHsType GhcRn, FreeNames)

@@ -36,7 +36,7 @@ module GHC.Hs.Decls (
   tyFamInstDeclName, tyFamInstDeclLName,
   countTyClDecls, tyClDeclFlavour,
   tyClDeclLName, tyClDeclTyVars,
-  hsDeclHasCusk, famResultKindSignature,
+  famResultKindSignature,
   FamilyDecl(..), LFamilyDecl,
   FunDep(..), ppDataDefnHeader,
   pp_vanilla_decl_head,
@@ -367,9 +367,7 @@ type instance XDataDecl     GhcRn = DataDeclRn
 type instance XDataDecl     GhcTc = DataDeclRn
 
 data DataDeclRn = DataDeclRn
-             { tcdDataCusk :: Bool    -- ^ does this have a CUSK?
-                 -- See Note [CUSKs: complete user-supplied kind signatures]
-             , tcdFVs      :: NameSet }
+             { tcdFVs :: NameSet }
   deriving Data
 
 type instance XClassDecl    GhcPs = (AnnClassDecl, EpLayout) -- See Note [Class EpLayout]
@@ -533,22 +531,6 @@ countTyClDecls decls
 tcdName :: Anno (IdGhcP p) ~ SrcSpanAnnN
         => TyClDecl (GhcPass p) -> IdP (GhcPass p)
 tcdName = unLoc . tyClDeclLName
-
--- | Does this declaration have a complete, user-supplied kind signature?
--- See Note [CUSKs: complete user-supplied kind signatures]
-hsDeclHasCusk :: TyClDecl GhcRn -> Bool
-hsDeclHasCusk (FamDecl { tcdFam =
-    FamilyDecl { fdInfo      = fam_info
-               , fdTyVars    = tyvars
-               , fdResultSig = L _ resultSig } }) =
-    case fam_info of
-      ClosedTypeFamily {} -> hsTvbAllKinded tyvars
-                          && isJust (famResultKindSignature resultSig)
-      _ -> True -- Un-associated open type/data families have CUSKs
-hsDeclHasCusk (SynDecl { tcdTyVars = tyvars, tcdRhs = rhs })
-  = hsTvbAllKinded tyvars && isJust (hsTyKindSig rhs)
-hsDeclHasCusk (DataDecl { tcdDExt = DataDeclRn { tcdDataCusk = cusk }}) = cusk
-hsDeclHasCusk (ClassDecl { tcdTyVars = tyvars }) = hsTvbAllKinded tyvars
 
 -- Pretty-printing TyClDecl
 -- ~~~~~~~~~~~~~~~~~~~~~~~~

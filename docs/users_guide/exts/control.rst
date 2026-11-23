@@ -190,7 +190,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
 
     .. hlist::
 
-     * :extension:`CUSKs`
      * :extension:`DeepSubsumption`
      * :extension:`DoAndIfThenElse`
      * :extension:`EmptyDataDecls`
@@ -216,7 +215,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
 
     .. hlist::
 
-     * :extension:`CUSKs`
      * :extension:`DeepSubsumption`
      * :extension:`FieldSelectors`
      * :extension:`ImplicitPrelude`

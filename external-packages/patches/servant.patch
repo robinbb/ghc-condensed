@@ -1,0 +1,16 @@
+--- a/external-packages/servant/servant/src/Servant/API/TypeErrors.hs
++++ b/external-packages/servant/servant/src/Servant/API/TypeErrors.hs
+@@ -1,4 +1,5 @@
+ {-# LANGUAGE ConstraintKinds      #-}
++{-# LANGUAGE StandaloneKindSignatures #-}
+ {-# LANGUAGE TypeFamilies         #-}
+ {-# LANGUAGE TypeOperators        #-}
+ {-# LANGUAGE UndecidableInstances #-}
+@@ -36,6 +37,7 @@
+ -- The arity of a combinator, i.e. the number of required arguments.
+ type Arity (ty :: k) = Arity' k
+ 
++type Arity' :: k -> Nat
+ type family Arity' (ty :: k) :: Nat where
+   Arity' (_ -> ty) = 1 + Arity' ty
+   Arity' _ = 0

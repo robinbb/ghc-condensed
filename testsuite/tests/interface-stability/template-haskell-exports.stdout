@@ -239,7 +239,6 @@ module Language.Haskell.TH where
     | QuantifiedConstraints
     | StarIsType
     | ImportQualifiedPost
-    | CUSKs
     | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors
@@ -833,7 +832,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | QuantifiedConstraints
     | StarIsType
     | ImportQualifiedPost
-    | CUSKs
     | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors
@@ -1562,7 +1560,6 @@ module Language.Haskell.TH.Syntax where
     | QuantifiedConstraints
     | StarIsType
     | ImportQualifiedPost
-    | CUSKs
     | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors

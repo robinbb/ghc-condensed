@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeFamilies #-}
--- {-# LANGUAGE CUSKs #-}    -- enabled by default
 
-module CuskFam where
+module OpenFamImplicitKv where
 
 type family F a   -- non-injective
 
@@ -12,5 +11,3 @@ type family X :: F a
     --      NB: ‘F’ is a non-injective type family
     --      The type variable ‘a1’ is ambiguous
     --    • In the type family declaration for ‘X’
-    --
-    -- See Note [Unifying implicit CUSK variables] in GHC.Tc.Gen.HsType

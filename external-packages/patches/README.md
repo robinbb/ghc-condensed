@@ -81,7 +81,7 @@ exception.
   (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`
-  and `TypeInType`) to `Nothing`, and drops those constructors,
+  and `TypeInType`) to `Nothing`, and drops those constructors, `CUSKs`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since
   this compiler's template-haskell no longer has them. Blocks hsx2hs,
@@ -129,7 +129,10 @@ exception.
   its monad parameter at kind `Type -> Type`. The boot library's
   `Control.Monad.Catch.Handler` is now kind-polymorphic, so the
   signature no longer fixed the kind that the pattern signature
-  `Handling a s m` in the body needs.
+  `Handling a s m` in the body needs. The `templates` test suite gives
+  `T917GadtOne` and `T917GadtTwo` standalone kind signatures: the two
+  kind-indexed GADTs relied on a complete user-supplied kind for their
+  polymorphic recursion, and this compiler no longer detects one.
 - `nothunks.patch`: the ten `deriving via` declarations whose via type is
   a bare type variable (`a`) or an application of one (`f a`) write its
   kind, `Type`. The via type is kind-checked before the instance head
@@ -147,7 +150,14 @@ exception.
 - `barbies.patch`: `Barbies.Internal.Containers.Container` declares the
   kind of its barbie parameter, `(Type -> Type) -> Type`. Its `Functor`
   instance maps `first f` over `Const a`, which needs `Const` at kind
-  `Type -> Type -> Type`.
+  `Type -> Type -> Type`. The kind-indexed closed families `Indexed` and
+  `FilterIndex` in `Data.Generics.GenericN` get standalone kind
+  signatures: their recursion at another kind relied on a complete
+  user-supplied kind, which this compiler no longer detects. The class
+  `Barbies.Internal.ConstraintsT.ConstraintsT` gets one as well: its
+  associated type `AllT` calls the class's kind variable `k` where the
+  class header calls it `kl`, which kind inference rejects as two names
+  for one variable and a signature-checked class accepts.
 - `linear.patch`: `Linear.V0.V0` declares its phantom element parameter
   at kind `Type`; the `Ixed` instance equates it with `IxValue (V0 a)`.
 - `microlens.patch`: `Lens.Micro.Internal.foldring` quantifies the type
@@ -190,3 +200,7 @@ exception.
   pins against the copies' paths under `projects/purescript/vendored/`.
   `add.rb --fetch` applies them like any other patch, since their paths
   are relative to the repository root.
+- `servant.patch`: the kind-indexed closed family `Arity'` in
+  `Servant.API.TypeErrors` gets a standalone kind signature, for the
+  reason given under `barbies.patch`. Blocks servant-server,
+  servant-client and the other servant packages.

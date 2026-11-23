@@ -380,10 +380,6 @@ the data families themselves return kinds involving ``TYPE``, such as the
 only required for ``newtype instance`` declarations, such as ``FooKeyBoolC``
 and ``BarTypeWorkRepC`` above.
 
-This extension impacts the determination of whether or not a newtype has
-a Complete User-Supplied Kind (CUSK). The exact impact is specified
-:ref:`the section on CUSKs <complete-kind-signatures>`.
-
 Unlifted Datatypes
 ------------------
 

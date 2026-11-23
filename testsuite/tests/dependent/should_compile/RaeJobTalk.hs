@@ -235,9 +235,9 @@ type family CheckPrim a where
   CheckPrim (_ _) = 'False
   CheckPrim _     = 'True
 
--- NB: We need the ::k and the ::Constraint so that this has a CUSK, allowing
--- the polymorphic recursion with TypeRep. See also #9200, though the requirement
--- for the constraints is correct.
+-- NB: We need the ::k and the ::Constraint to fix the kind of Typeable here,
+-- allowing the polymorphic recursion with TypeRep. See also #9200, though the
+-- requirement for the constraints is correct.
 type Typeable (a :: k) = (Typeable' a (CheckPrim a) :: Constraint)
 
 instance TyConAble a => Typeable' a 'True where

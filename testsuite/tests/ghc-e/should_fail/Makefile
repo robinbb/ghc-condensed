@@ -78,4 +78,4 @@ T18441fail18:
 	-'$(TEST_HC)' $(TEST_HC_OPTS) -ignore-dot-ghci -e ":main" || echo $$? >&2
 
 T23663:
-	-'$(TEST_HC)' $(TEST_HC_OPTS) -ignore-dot-ghci -e ":set -XCUSKS" || echo $$? >&2 # misspelled flag
+	-'$(TEST_HC)' $(TEST_HC_OPTS) -ignore-dot-ghci -e ":set -XGADTS" || echo $$? >&2 # misspelled flag

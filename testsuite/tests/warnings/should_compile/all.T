@@ -49,7 +49,6 @@ test('T18402', normal, compile, [''])
 test('T19564a', normal, compile, [''])
 test('T19564b', normal, compile, [''])
 test('T19564c', normal, compile, [''])
-test('T19564d', normal, compile, [''])
 # When warning about redundant constraints, test only Function context is highlighted by caret diagnostics
 # Also, suppress uniques as one of the warnings is unstable in CI, otherwise.
 test('T19296', normal, compile, ['-fdiagnostics-show-caret -Wredundant-constraints -dsuppress-uniques'])

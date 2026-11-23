@@ -1949,9 +1949,7 @@ warnMissingSignatures gbl_env
 -- inferred kinds.
 warnMissingKindSignatures :: TcGblEnv -> RnM ()
 warnMissingKindSignatures gbl_env
-  = do { cusks_enabled <- xoptM LangExt.CUSKs
-       ; mapM_ (add_ty_warn cusks_enabled) tcs
-       }
+  = mapM_ add_ty_warn tcs
   where
     tcs = tcg_tcs gbl_env
     ksig_ns = tcg_ksigs gbl_env
@@ -1960,14 +1958,14 @@ warnMissingKindSignatures gbl_env
     has_kind_signature :: Name -> Bool
     has_kind_signature name = name `elemNameSet` ksig_ns
 
-    add_ty_warn :: Bool -> TyCon -> RnM ()
-    add_ty_warn cusks_enabled tyCon =
+    add_ty_warn :: TyCon -> RnM ()
+    add_ty_warn tyCon =
       when (has_kind_signature name) $
         addDiagnosticAt (getSrcSpan name) diag
       where
         name = tyConName tyCon
         diag = TcRnMissingSignature missing exported
-        missing = MissingTyConKindSig tyCon cusks_enabled
+        missing = MissingTyConKindSig tyCon
         exported = if name `elemNameSet` exports
                    then IsExported
                    else IsNotExported

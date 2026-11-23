@@ -216,141 +216,6 @@ a `proposal <https://github.com/ghc-proposals/ghc-proposals/>`_ to
 do so.
 
 .. index::
-   single: CUSK
-   single: complete user-supplied kind signature
-
-.. _complete-kind-signatures:
-
-Complete user-supplied kind signatures and polymorphic recursion
-----------------------------------------------------------------
-
-.. extension:: CUSKs
-    :shortdesc: Detect complete user-supplied kind signatures.
-
-    :since: 8.10.1
-    :status: Included in :extension:`Haskell98`, :extension:`Haskell2010`
-
-NB! This is a legacy feature, see :extension:`StandaloneKindSignatures` for the
-modern replacement.
-
-Just as in type inference, kind inference for recursive types can only
-use *monomorphic* recursion. Consider this (contrived) example: ::
-
-    data T m a = MkT (m a) (T Maybe (m a))
-    -- GHC infers kind  T :: (Type -> Type) -> Type -> Type
-
-The recursive use of ``T`` forced the second argument to have kind
-``Type``. However, just as in type inference, you can achieve polymorphic
-recursion by giving a *complete user-supplied kind signature* (or CUSK)
-for ``T``. A CUSK is present when all argument kinds and the result kind
-are known, without any need for inference. For example: ::
-
-    data T (m :: k -> Type) :: k -> Type where
-      MkT :: m a -> T Maybe (m a) -> T m a
-
-The complete user-supplied kind signature specifies the polymorphic kind
-for ``T``, and this signature is used for all the calls to ``T``
-including the recursive ones. In particular, the recursive use of ``T``
-is at kind ``Type``.
-
-What exactly is considered to be a "complete user-supplied kind
-signature" for a type constructor? These are the forms:
-
--  For a datatype, every type variable must be annotated with a kind. In
-   a GADT-style declaration, there may also be a kind signature (with a
-   top-level ``::`` in the header), but the presence or absence of this
-   annotation does not affect whether or not the declaration has a
-   complete signature. ::
-
-       data T1 :: (k -> Type) -> k -> Type       where ...
-       -- Yes;  T1 :: forall k. (k->Type) -> k -> Type
-
-       data T2 (a :: k -> Type) :: k -> Type     where ...
-       -- Yes;  T2 :: forall k. (k->Type) -> k -> Type
-
-       data T3 (a :: k -> Type) (b :: k) :: Type where ...
-       -- Yes;  T3 :: forall k. (k->Type) -> k -> Type
-
-       data T4 (a :: k -> Type) (b :: k)      where ...
-       -- Yes;  T4 :: forall k. (k->Type) -> k -> Type
-
-       data T5 a (b :: k) :: Type             where ...
-       -- No;  kind is inferred
-
-       data T6 a b                         where ...
-       -- No;  kind is inferred
-
--  For a datatype with a top-level ``::``: all kind variables introduced after
-   the ``::`` must be explicitly quantified. ::
-
-     data T1 :: k -> Type            -- No CUSK: `k` is not explicitly quantified
-     data T2 :: forall k. k -> Type  -- CUSK: `k` is bound explicitly
-     data T3 :: forall (k :: Type). k -> Type   -- still a CUSK
-
--  For a newtype, the rules are the same as they are for a data type
-   unless :extension:`UnliftedNewtypes` is enabled.
-   With :extension:`UnliftedNewtypes`, the type constructor
-   only has a CUSK if a kind signature is present. As with a datatype
-   with a top-level ``::``, all kind variables introduced after
-   the ``::`` must be explicitly quantified ::
-
-       {-# LANGUAGE UnliftedNewtypes #-}
-       newtype N1 where                 -- No; missing kind signature
-       newtype N2 :: TYPE IntRep where  -- Yes; kind signature present
-       newtype N3 (a :: Type) where     -- No; missing kind signature
-       newtype N4 :: k -> Type where    -- No; `k` is not explicitly quantified
-       newtype N5 :: forall (k :: Type). k -> Type where -- Yes; good signature
-
--  For a class, every type variable must be annotated with a kind.
-
--  For a type synonym, every type variable and the result type must all
-   be annotated with kinds: ::
-
-       type S1 (a :: k) = (a :: k)    -- Yes   S1 :: forall k. k -> k
-       type S2 (a :: k) = a           -- No    kind is inferred
-       type S3 (a :: k) = Proxy a     -- No    kind is inferred
-
-   Note that in ``S2`` and ``S3``, the kind of the right-hand side is
-   rather apparent, but it is still not considered to have a complete
-   signature -- no inference can be done before detecting the signature.
-
--  An un-associated open type or data family declaration *always* has a CUSK;
-   un-annotated type variables default to kind ``Type``: ::
-
-       data family D1 a                  -- D1 :: Type -> Type
-       data family D2 (a :: k)           -- D2 :: forall k. k -> Type
-       data family D3 (a :: k) :: Type   -- D3 :: forall k. k -> Type
-       type family S1 a :: k -> Type     -- S1 :: forall k. Type -> k -> Type
-
--  An associated type or data family declaration has a CUSK precisely if
-   its enclosing class has a CUSK. ::
-
-       class C a where                -- no CUSK
-         type AT a b                  -- no CUSK, b is defaulted
-
-       class D (a :: k) where         -- yes CUSK
-         type AT2 a b                 -- yes CUSK, b is defaulted
-
--  A closed type family has a complete signature when all of its type
-   variables are annotated and a return kind (with a top-level ``::``)
-   is supplied.
-
-It is possible to write a datatype that syntactically has a CUSK (according to
-the rules above) but actually requires some inference. As a very contrived
-example, consider ::
-
-  data Proxy a           -- Proxy :: forall k. k -> Type
-  data X (a :: Proxy k)
-
-According to the rules above ``X`` has a CUSK. Yet, the kind of ``k`` is undetermined.
-It is thus quantified over, giving ``X`` the kind ``forall k1 (k :: k1). Proxy k -> Type``.
-
-The detection of CUSKs is enabled by the :extension:`CUSKs` flag, which is
-switched off by default in GHC2021 and on in Haskell98 and Haskell2010.
-This extension is scheduled for deprecation to be replaced
-with :extension:`StandaloneKindSignatures`.
-
-.. index::
    single: standalone kind signature
 
 .. _standalone-kind-signatures:
@@ -361,7 +226,6 @@ Standalone kind signatures and polymorphic recursion
 .. extension:: StandaloneKindSignatures
     :shortdesc: Allow standalone kind signature declarations.
 
-    :implies: :extension:`NoCUSKs`
     :since: 8.10.1
     :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
 
@@ -599,10 +463,8 @@ same.
 Note that the datatype ``G`` is used at different kinds in its body, and
 therefore that kind-indexed GADTs use a form of polymorphic recursion.
 It is thus only possible to use this feature if you have provided a
-complete user-supplied kind signature (CUSK)
-for the datatype (:ref:`complete-kind-signatures`), or a standalone
-kind signature (:ref:`standalone-kind-signatures`);
-in the case of ``G`` we both.
+standalone kind signature (:ref:`standalone-kind-signatures`) for the
+datatype, as we have for ``G``.
 If you wish to see the kind indexing explicitly, you can do so by enabling :ghc-flag:`-fprint-explicit-kinds` and querying ``G`` with GHCi's :ghci-cmd:`:info` command: ::
 
   > :set -fprint-explicit-kinds
@@ -752,10 +614,6 @@ Closed type family instances are subject to the same rules: ::
   type family F @k where
     F @k = Just (Nothing :: Maybe k)  -- accepted
 
-  -- CUSKs version (Legacy)  
-  type family F :: Maybe (Maybe k) where
-    F @k = Just (Nothing :: Maybe k)  -- accepted
-
 Kind variables can also be quantified in *visible* positions. Consider the
 following two examples: ::
 
@@ -805,17 +663,15 @@ of data constructors.
 Kind inference in closed type families
 --------------------------------------
 
-Although all open type families are considered to have a complete
-user-supplied kind signature (:ref:`complete-kind-signatures`),
-we can relax this condition for closed
-type families, where we have equations on which to perform kind
-inference. GHC will infer kinds for the arguments and result types of a
-closed type family.
+The kind of an open type family is fixed by its header alone, since
+there are no equations to inspect: an un-annotated argument or a missing
+result kind defaults to ``Type``. A closed type family does have
+equations on which to perform kind inference, so GHC will infer kinds for
+its arguments and result type.
 
 GHC supports *kind-indexed* type families, where the family matches both
 on the kind and type. GHC will *not* infer this behaviour without a
-complete user-supplied kind signature or standalone kind
-signature (see :ref:`standalone-kind-signatures`),
+standalone kind signature (see :ref:`standalone-kind-signatures`),
 because doing so would sometimes infer
 non-principal types. Indeed, we can see kind-indexing as a form
 of polymorphic recursion, where a type is used at a kind other than
@@ -833,20 +689,13 @@ For example: ::
       F2 True  = False
       F2 False = True
       F2 x     = x
-    -- F2 fails to compile: no complete signature
+    -- F2 fails to compile: no standalone kind signature
 
     type F3 :: k -> k 
     type family F3 a where 
       F3 True  = False 
       F3 False = True 
       F3 x     = x  
-
-    -- CUSKs version (legacy)
-    type family F4 (a :: k) :: k where
-      F4 True  = False
-      F4 False = True
-      F4 x     = x
-    -- OK
 
 Higher-rank kinds
 -----------------

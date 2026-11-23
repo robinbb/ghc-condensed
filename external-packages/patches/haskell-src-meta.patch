@@ -161,3 +161,11 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
+@@ -352,7 +330,6 @@
+ -- 2.16.0 ----------------------------------------
+ #if MIN_VERSION_template_haskell(2,16,0)
+   TH.UnliftedNewtypes                  -> Nothing
+-  TH.CUSKs                             -> Nothing
+   TH.StandaloneKindSignatures          -> Nothing
+   TH.ImportQualifiedPost               ->
+ #if MIN_VERSION_haskell_src_exts(1,24,0)

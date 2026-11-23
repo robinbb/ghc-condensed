@@ -710,7 +710,7 @@ aren't lifted (this historically was not true.)
 The downside of not directly reading off the kinds of the RHS of
 type synonyms in topological order is that we don't transparently
 support making synonyms of types with higher-rank kinds.  But
-you can always specify a CUSK directly to make this work out.
+you can always give a standalone kind signature to make this work out.
 See tc269 for an example.
 
 Note [TcTyCon, MonoTcTyCon, and PolyTcTyCon]
@@ -803,8 +803,8 @@ PolyTcTyCon does not: only skolem TcTyVars.  See the invariants above.
 More details about /kind inference/:
 
 S1) In kcTyClGroup, we use inferInitialKinds to look over the
-    declaration of any TyCon that lacks a kind signature or
-    CUSK, to determine its "shape"; for example, the number of
+    declaration of any TyCon that lacks a kind signature, to
+    determine its "shape"; for example, the number of
     parameters, and any kind signatures.
 
     We record that shape record that shape in a MonoTcTyCon; it is
@@ -827,9 +827,8 @@ S4) Finally, back in tcTyClDecls, we extend the environment with
 More details about /kind checking/
 
 S5) In kcTyClGroup, we use checkInitialKinds to get the
-    utterly-final Kind of all TyCons in the group that
-      (a) have a standalone kind signature or
-      (b) have a CUSK.
+    utterly-final Kind of all TyCons in the group that have a
+    standalone kind signature.
     This produces a PolyTcTyCon, that is, a TcTyCon in which the binders
     and result kind are full of TyVars (not TcTyVars).  No unification
     variables here; everything is in its final form.
@@ -849,7 +848,7 @@ Wrinkles:
 
      In the latter two passes, we need to connect the user-written type
      variables in an LHsQTyVars with the variables in the tycon's
-     inferred kind. Because the tycon might not have a CUSK, this
+     inferred kind. Because the tycon might not have a kind signature, this
      matching up is, in general, quite hard to do.  (Look through the
      git history between Dec 2015 and Apr 2016 for
      GHC.Tc.Gen.HsType.splitTelescopeTvs!)
@@ -965,30 +964,31 @@ Note that in *terms* we do not allow
 unless `f` has a type signature.  So we do the same for types:
 
   We allow `@` binders in data type declarations ONLY if the
-  type constructor has a standalone kind signature (or a CUSK).
+  type constructor has a standalone kind signature.
 
 That means that GHC.Tc.Gen.HsType.kcInferDeclHeader, which is used when we
-don't have a kind signature or CUSK, and builds a MonoTcTyCon, we can simply
+don't have a kind signature, and builds a MonoTcTyCon, we can simply
 reject invisible binders outright (GHC.Tc.Gen.HsType.rejectInvisibleBinders);
 and continue to use mkAnonTyConBinders as described in
 Note [No polymorphic recursion in type decls].
 
 If we get cries of pain we can revist this decision.
 
-Note [CUSKs and kind generalisation]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note [Kind signatures and kind generalisation]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consider
 
-    data T (a :: *) = MkT (S a)   -- Has CUSK
-    data S a = MkS (T Int) (S a)  -- No CUSK
+    type T :: * -> *
+    data T a = MkT (S a)          -- Has a kind signature
+    data S a = MkS (T Int) (S a)  -- No kind signature
 
-Via inferInitialKinds we get
+Via checkInitialKinds and inferInitialKinds we get
   T :: * -> *
   S :: kappa -> *
 
 Then we call kcTyClDecl on each decl in the group, to constrain the
 kind unification variables.  BUT we /skip/ the RHS of any decl with
-a CUSK.  Here we skip the RHS of T, so we eventually get
+a kind signature.  Here we skip the RHS of T, so we eventually get
   S :: forall k. k -> *
 
 This gets us more polymorphism than we would otherwise get, similar
@@ -1012,7 +1012,7 @@ See also Note [Kind checking recursive type and class declarations]
 Note [Swizzling the tyvars before generaliseTcTyCon]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This Note only applies when /inferring/ the kind of a TyCon.
-If there is a separate kind signature, or a CUSK, we take an entirely
+If there is a separate kind signature, we take an entirely
 different code path.
 
 For inference, consider
@@ -1022,7 +1022,7 @@ For inference, consider
    class D (g :: j) y where
       op :: C g => y -> blah
 
-Here C and D are considered mutually recursive.  Neither has a CUSK.
+Here C and D are considered mutually recursive.  Neither has a kind signature.
 Just before generalisation we have the (un-quantified) kinds
    C :: k1 -> k2 -> Constraint
    T :: k1 -> Type
@@ -1130,7 +1130,7 @@ We do the following steps:
         B's kind (e.g. (a :: Type)) here
 
       - Extend the type env with these initial kinds (monomorphic for
-        decls that lack a CUSK)
+        decls that lack a kind signature)
             B :-> TcTyCon <initial kind>
         (thereby overriding the B :-> TyConPE binding)
         and do kcLTyClDecl on each decl to get equality constraints on
@@ -1162,9 +1162,9 @@ to Note [Special case for non-recursive function bindings]:
        read the type directly of the rhs.
 
      * Furthermore, we can update our SCC analysis to ignore
-       dependencies on declarations which have CUSKs: we don't
-       have to kind-check these all at once, since we can use
-       the CUSK to initialize the kind environment.
+       dependencies on declarations which have kind signatures: we
+       don't have to kind-check these all at once, since we can use
+       the signature to initialize the kind environment.
 
 Unfortunately this requires reworking a bit of the code in
 'kcLTyClDecl' so I've decided to punt unless someone shouts about it.
@@ -1181,13 +1181,15 @@ The consequence for not doing it this way is #15142:
 We assign k a kind kappa[1]. When checking the tuple (k, Type), we try to unify
 kappa ~ Type, but this gets deferred because we bumped the TcLevel as we bring
 `tuple` into scope. Thus, when we check ListToTuple, kappa[1] still hasn't
-unified with Type. And then, when we generalize the kind of ListToTuple (which
-indeed has a CUSK, according to the rules), we skolemize the free metavariable
+unified with Type. And then, when we generalize the kind of ListToTuple (which,
+under the complete-user-supplied-kind rules of the time, was checked rather
+than inferred), we skolemize the free metavariable
 kappa. Note that we wouldn't skolemize kappa when generalizing the kind of ListTuple,
 because the solveEqualities in kcInferDeclHeader is at TcLevel 1 and so kappa[1]
 will unify with Type.
 
-Bottom line: as associated types should have no effect on a CUSK enclosing class,
+Bottom line: as associated types should have no effect on the kind of an
+enclosing class whose kind is checked rather than inferred,
 we move processing them to a separate action, run after the outer kind has
 been generalized.
 
@@ -1200,7 +1202,7 @@ kcTyClGroup :: KindSigEnv -> [LTyClDecl GhcRn] -> TcM ([PolyTcTyCon], NameSet)
 -- See Note [Kind checking for type and class decls]
 -- and Note [Inferring kinds for type declarations]
 --
--- The NameSet returned contains kindless tycon names, without CUSK or SAKS.
+-- The NameSet returned contains kindless tycon names, without a SAKS.
 kcTyClGroup kisig_env decls
   = do  { mod <- getModule
         ; traceTc "---- kcTyClGroup ---- {"
@@ -1212,8 +1214,7 @@ kcTyClGroup kisig_env decls
           --    3. Generalise the inferred kinds
           -- See Note [Kind checking for type and class decls]
 
-        ; cusks_enabled <- xoptM LangExt.CUSKs
-                    -- See Note [CUSKs and kind generalisation]
+          -- See Note [Kind signatures and kind generalisation]
         ; let (kindless_decls, kinded_decls) = partitionWith get_kind decls
               kindless_names = mkNameSet $ map get_name kindless_decls
 
@@ -1222,9 +1223,6 @@ kcTyClGroup kisig_env decls
               get_kind d
                 | Just ki <- lookupNameEnv kisig_env (get_name d)
                 = Right (d, SAKS ki)
-
-                | cusks_enabled && hsDeclHasCusk (unLoc d)
-                = Right (d, CUSK)
 
                 | otherwise = Left d
 
@@ -1631,10 +1629,10 @@ How it works
 These design choices are implemented by two completely different code
 paths for
 
-  * Declarations with a standalone kind signature or a complete user-specified
-    kind signature (CUSK). Handled by the kcCheckDeclHeader.
+  * Declarations with a standalone kind signature, and the associated types
+    of classes that have one. Handled by the kcCheckDeclHeader.
 
-  * Declarations without a kind signature (standalone or CUSK) are handled by
+  * Declarations without a kind signature are handled by
     kcInferDeclHeader; see Note [Inferring kinds for type declarations].
 
 Note that neither code path worries about point (4) above, as this
@@ -1674,7 +1672,7 @@ Test cases (and tickets) relevant to these design decisions
 Note [Inferring kinds for type declarations]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This note deals with /inference/ for type declarations
-that do not have a CUSK or a SAKS.  Consider
+that do not have a SAKS.  Consider
   data T (a :: k1) k2 (x :: k2) = MkT (S a k2 x)
   data S (b :: k3) k4 (y :: k4) = MkS (T b k4 y)
 
@@ -1844,11 +1842,11 @@ the kind for a visible, dependent quantifier, but
   Note [No polymorphic recursion in type decls]
 in GHC.Tc.Gen.HsType defeats that approach.) addVDQNote is used in
 kcTyClDecl, which is used only when inferring the kind of a tycon
-(never with a CUSK or SAKS).
+(never with a SAKS).
 
 Once upon a time, I (Richard E) thought that the tycon-kind could
 not be a forall-type. But this is wrong: data T :: forall k. k -> Type
-(with -XNoCUSKs) could end up here. And this is all OK.
+could end up here. And this is all OK.
 -}
 
 --------------
@@ -1905,8 +1903,8 @@ inferInitialKinds decls
   where
     infer_initial_kind = addLocM (getInitialKind InitialKindInfer)
 
--- Check type/class declarations against their standalone kind signatures or
--- CUSKs, producing a generalized TcTyCon for each.
+-- Check type/class declarations against their standalone kind signatures,
+-- producing a generalized TcTyCon for each.
 checkInitialKinds :: [(LTyClDecl GhcRn, SAKS_or_CUSK)] -> TcM [PolyTcTyCon]
 checkInitialKinds decls
   = do { traceTc "checkInitialKinds {" $ ppr (mapFst (tcdName . unLoc) decls)
@@ -2060,13 +2058,10 @@ functions, and, by extension, associated types with class methods. And yet we
 give class methods their signatures inside the class, not outside. Neither do
 we have the counterpart of instance signatures for StandaloneKindSignatures.
 
-For now, we dodge the question by using CUSKs for associated types instead of
-standalone kind signatures. This is a simple addition to the rule we used to
-have before standalone kind signatures:
-
-  old rule:  associated type has a CUSK iff its parent class has a CUSK
-  new rule:  associated type has a CUSK iff its parent class has a CUSK or a standalone kind signature
-
+For now, we dodge the question: when the parent class has a standalone kind
+signature, the header of each associated type is taken as a complete kind
+(the CUSK strategy of kcCheckDeclHeader), with un-annotated binders and a
+missing result kind defaulting to Type.
 -}
 
 -- See Note [Data declaration default result kind]
@@ -2122,7 +2117,7 @@ However, there are two twists:
 ------------------------------------------------------------------------
 kcLTyClDecl :: LTyClDecl GhcRn -> TcM ()
   -- See Note [Kind checking for type and class decls]
-  -- Called only for declarations without a signature (no CUSKs or SAKs here)
+  -- Called only for declarations without a kind signature
 kcLTyClDecl (L loc decl)
   = setSrcSpanA loc $
     do { tycon <- tcLookupTcTyCon tc_name   -- Always a MonoTcTyCon
@@ -2377,9 +2372,10 @@ TyVarTvs. It is correctly rejected in the second pass, tcConDecl.
 
 One drawback of this approach is sometimes it will accept a definition that
 a (hypothetical) declarative specification would likely reject. As a general
-rule, we don't want to allow polymorphic recursion without a CUSK. Indeed,
-the whole point of CUSKs is to allow polymorphic recursion. Yet, the TyVarTvs
-approach allows a limited form of polymorphic recursion *without* a CUSK.
+rule, we don't want to allow polymorphic recursion without a kind signature.
+Indeed, the whole point of kind signatures is to allow polymorphic recursion.
+Yet, the TyVarTvs approach allows a limited form of polymorphic recursion
+*without* a kind signature.
 
 To wit:
   data T a = forall k (b :: k). MkT (T b) Int
@@ -2390,9 +2386,9 @@ of T used at a kind other than a's kind. The approach outlined here accepts
 this definition, because this kind is still a kind variable (and so the
 TyVarTvs unify). Stepping back, I (Richard) have a hard time envisioning a
 way to describe exactly what declarations will be accepted and which will
-be rejected (without a CUSK). However, the accepted definitions are indeed
-well-kinded and any rejected definitions would be accepted with a CUSK,
-and so this wrinkle need not cause anyone to lose sleep.
+be rejected (without a kind signature). However, the accepted definitions are
+indeed well-kinded and any rejected definitions would be accepted with a kind
+signature, and so this wrinkle need not cause anyone to lose sleep.
 
 Note [Recursion and promoting data constructors]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2507,7 +2503,7 @@ DT1 Where this applies: Only GADT syntax for data/newtype/instance declarations
     syntax.
 
 DT2 Where these kinds come from: The return kind is part of the TyCon kind, gotten either
-     by checkInitialKind (standalone kind signature / CUSK) or
+     by checkInitialKind (standalone kind signature) or
      inferInitialKind. It is extracted by bindTyClTyVars in tcTyClDecl1. It is
      then passed to tcDataDefn.
 
@@ -2608,9 +2604,9 @@ DF0 Where these kinds come from:
 
     Families: The return kind is either written in a standalone signature
      or extracted from a family declaration in getInitialKind.
-     If a family declaration is missing a result kind, it is assumed to be
-     Type. This assumption is in getInitialKind for CUSKs or
-     get_fam_decl_initial_kind for non-signature & non-CUSK cases.
+     If an open family or associated type is missing a result kind, it is
+     assumed to be Type. This assumption is in get_fam_decl_initial_kind
+     and check_initial_kind_assoc_fam.
 
     Instances: There are potentially *two* return kinds:
      * Master kind:
@@ -2777,14 +2773,15 @@ proposal.
 STEP 1: Getting the initial kind, as done by inferInitialKind. We have
 two sub-cases:
 
-* With a SAK/CUSK: no change in kind-checking; the tycon is given the kind
+* With a SAK: no change in kind-checking; the tycon is given the kind
   the user writes, whatever it may be.
 
-* Without a SAK/CUSK: If there is no kind signature, the tycon is given
+* Without a SAK: If there is no kind signature, the tycon is given
   a kind `TYPE r`, for a fresh unification variable `r`. We do this even
   when -XUnliftedNewtypes is not on; see <Error Messages>, below.
 
-STEP 2: Kind-checking, as done by kcTyClDecl. This step is skipped for CUSKs.
+STEP 2: Kind-checking, as done by kcTyClDecl. This step is skipped for tycons
+with a SAK.
 The key function here is kcConDecl, which looks at an individual constructor
 declaration. When we are processing a newtype (but whether or not -XUnliftedNewtypes
 is enabled; see <Error Messages>, below), we generate a correct ContextKind
@@ -2814,9 +2811,9 @@ STEP 3: Type-checking (desugaring), as done by tcTyClDecl. The key function
 here is tcConDecl. Once again, we must use getArgExpKind to ensure that the
 representation type's kind matches that of the newtype, for two reasons:
 
-  A. It is possible that a GADT has a CUSK. (Note that this is *not*
-     possible for H98 types.) Recall that CUSK types don't go through
-     kcTyClDecl, so we might not have done this kind check.
+  A. It is possible that the newtype has a SAK. Recall that types with a
+     SAK don't go through kcTyClDecl, so we might not have done this kind
+     check.
   B. We need to produce the coercion to put on the argument type
      if the kinds are different (for both H98 and GADT).
 
@@ -2881,14 +2878,6 @@ There are also some changes for dealing with families:
 3. A data family and its newtype instance may be declared with slightly
    different kinds. See point DF6 in Note [Data family/instance return kinds]
 
-There's also a change in the renamer:
-
-* In GHC.RenameSource.rnTyClDecl, enabling UnliftedNewtypes changes what is means
-  for a newtype to have a CUSK. This is necessary since UnliftedNewtypes
-  means that, for newtypes without kind signatures, we must use the field
-  inside the data constructor to determine the result kind.
-  See Note [Unlifted Newtypes and CUSKs] for more detail.
-
 For completeness, it was also necessary to make coerce work on
 unlifted types, resolving #13595.
 
@@ -2935,7 +2924,6 @@ In the frontend, the following tweaks have been made in the typechecker:
 * STEP 1: In the inferInitialKinds phase, newExpectedKind gives data type
   constructors a result kind of `TYPE r` with a fresh unification variable
   `r :: RuntimeRep` when there is a SAKS. (Same as for UnliftedNewtypes.)
-  Not needed with a CUSK, because it can't specify result kinds.
   If there's a GADTSyntax result kind signature, we keep on using that kind.
 
   Similarly, for data instances without a kind signature, we use
@@ -5847,7 +5835,7 @@ tcMkDeclCtxt decl =
 
 addVDQNote :: TcTyCon -> TcM a -> TcM a
 -- See Note [Inferring visible dependent quantification]
--- Only types without a signature (CUSK or SAKS) here
+-- Only types without a kind signature here
 addVDQNote tycon thing_inside
   | assertPpr (isMonoTcTyCon tycon) (ppr tycon $$ ppr tc_kind)
     has_vdq

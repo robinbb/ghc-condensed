@@ -287,7 +287,7 @@ synifyTyCon prr _coax tc
                        else Just $ synifyKindSig res_kind
                 , dd_derivs = []
                 }
-          , tcdDExt = DataDeclRn False emptyNameSet
+          , tcdDExt = DataDeclRn emptyNameSet
           , tcdModifiers = []
           }
   where
@@ -409,7 +409,7 @@ synifyTyCon _prr coax tc
           , tcdTyVars = tyvars
           , tcdFixity = synifyFixity name
           , tcdDataDefn = defn
-          , tcdDExt = DataDeclRn False emptyNameSet
+          , tcdDExt = DataDeclRn emptyNameSet
           , tcdModifiers = []
           }
 

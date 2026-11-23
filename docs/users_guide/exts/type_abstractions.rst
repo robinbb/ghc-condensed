@@ -248,11 +248,9 @@ method signature instead.
 Type checking
 ~~~~~~~~~~~~~
 
-Invisible type variable binders require either a standalone kind signature or a
-complete user-supplied kind.
-
-If a standalone kind signature is given, GHC will match up ``@k``-binders with
-the corresponding ``forall k.`` quantifiers in the signature::
+Invisible type variable binders require a standalone kind signature. GHC will
+match up ``@k``-binders with the corresponding ``forall k.`` quantifiers in the
+signature::
 
     type B :: forall k. k -> forall j. j -> Type
     data B @k (a :: k) @j (b :: j)
@@ -287,15 +285,6 @@ In this example, ``@k`` is matched with ``forall a.``, not ``forall b.``:
 +--------------+----------------------+
 | ``b ->``     | ``y``                |
 +--------------+----------------------+
-
-When a standalone kind signature is absent but the definition has a complete
-user-supplied kind (and the :extension:`CUSKs` extension is enabled),
-a ``@k``-binder gives rise to a ``forall k.`` quantifier in the inferred kind
-signature. The inferred ``forall k.`` does not float to the left; the order of
-quantifiers continues to match the order of binders in the header::
-
-    -- Inferred kind: forall k. k -> forall j. j -> Type
-    data B @(k :: Type) (a :: k) @(j :: Type) (b :: j)
 
 .. _wildcard-binders-in-type-declarations:
 

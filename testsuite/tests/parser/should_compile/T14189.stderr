@@ -21,7 +21,6 @@
          []))
        (DataDecl
         (DataDeclRn
-         (True)
          {NameSet:
           [{Name: GHC.Internal.Types.Int}]})
         []

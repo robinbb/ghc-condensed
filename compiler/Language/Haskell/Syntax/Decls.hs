@@ -407,7 +407,7 @@ data TyClDecl pass
             , tcdRhs    :: LHsType pass }         -- ^ RHS of type declaration
 
   | -- | @data@ declaration
-    DataDecl { tcdDExt     :: XDataDecl pass       -- ^ Post renamer, CUSK flag, FVs
+    DataDecl { tcdDExt     :: XDataDecl pass       -- ^ Post renamer, FVs
              , tcdModifiers :: [LHsModifier pass]  -- ^ Modifiers
              , tcdLName    :: LIdP pass            -- ^ Type constructor
              , tcdTyVars   :: LHsQTyVars pass      -- ^ Type variables
@@ -524,95 +524,6 @@ isDataFamilyDecl (FamDecl _ (FamilyDecl { fdInfo = DataFamily _ })) = True
 isDataFamilyDecl _other      = False
 
 -- Dealing with names
-
-{- Note [CUSKs: complete user-supplied kind signatures]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We kind-check declarations differently if they have a complete, user-supplied
-kind signature (CUSK). This is because we can safely generalise a CUSKed
-declaration before checking all of the others, supporting polymorphic recursion.
-See https://gitlab.haskell.org/ghc/ghc/wikis/ghc-kinds/kind-inference#proposed-new-strategy
-and #9200 for lots of discussion of how we got here.
-
-The detection of CUSKs is enabled by the -XCUSKs extension, switched off by default
-in GHC2021 and on in Haskell98/2010.
-Under -XNoCUSKs, all declarations are treated as if they have no CUSK.
-See https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst
-
-PRINCIPLE:
-  a type declaration has a CUSK iff we could produce a separate kind signature
-  for it, just like a type signature for a function,
-  looking only at the header of the declaration.
-
-Examples:
-  * data T1 (a :: *->*) (b :: *) = ....
-    -- Has CUSK; equivalent to   T1 :: (*->*) -> * -> *
-
- * data T2 a b = ...
-   -- No CUSK; we do not want to guess T2 :: * -> * -> *
-   -- because the full decl might be   data T a b = MkT (a b)
-
-  * data T3 (a :: k -> *) (b :: *) = ...
-    -- CUSK; equivalent to   T3 :: (k -> *) -> * -> *
-    -- We lexically generalise over k to get
-    --    T3 :: forall k. (k -> *) -> * -> *
-    -- The generalisation is here is purely lexical, just like
-    --    f3 :: a -> a
-    -- means
-    --    f3 :: forall a. a -> a
-
-  * data T4 (a :: j k) = ...
-     -- CUSK; equivalent to   T4 :: j k -> *
-     -- which we lexically generalise to  T4 :: forall j k. j k -> *
-     -- and then we further generalise to
-     --   T4 :: forall kk (j :: kk -> *) (k :: kk). j k -> *
-     -- Again this is exactly like what happens as the term level
-     -- when you write
-     --    f4 :: forall a b. a b -> Int
-
-NOTE THAT
-  * A CUSK does /not/ mean that everything about the kind signature is
-    fully specified by the user.  Look at T4 and f4: we had to do kind
-    inference to figure out the kind-quantification.  But in both cases
-    (T4 and f4) that inference is done looking /only/ at the header of T4
-    (or signature for f4), not at the definition thereof.
-
-  * The CUSK completely fixes the kind of the type constructor, forever.
-
-  * The precise rules, for each declaration form, for whether a declaration
-    has a CUSK are given in the user manual section "Complete user-supplied
-    kind signatures and polymorphic recursion".  But they simply implement
-    PRINCIPLE above.
-
-  * Open type families are interesting:
-      type family T5 a b :: *
-    There simply /is/ no accompanying declaration, so that info is all
-    we'll ever get.  So we it has a CUSK by definition, and we default
-    any un-fixed kind variables to *.
-
-  * Associated types are a bit tricker:
-      class C6 a where
-         type family T6 a b :: *
-         op :: a Int -> Int
-    Here C6 does not have a CUSK (in fact we ultimately discover that
-    a :: * -> *).  And hence neither does T6, the associated family,
-    because we can't fix its kind until we have settled C6.  Another
-    way to say it: unlike a top-level, we /may/ discover more about
-    a's kind from C6's definition.
-
-  * A data definition with a top-level :: must explicitly bind all
-    kind variables to the right of the ::. See test
-    dependent/should_compile/KindLevels, which requires this
-    case. (Naturally, any kind variable mentioned before the :: should
-    not be bound after it.)
-
-    This last point is much more debatable than the others; see
-    #15142 comment:22
-
-    Because this is fiddly to check, there is a field in the DataDeclRn
-    structure (included in a DataDecl after the renamer) that stores whether
-    or not the declaration has a CUSK.
--}
-
 
 {- *********************************************************************
 *                                                                      *
@@ -902,8 +813,7 @@ We reject wildcards in 'rnStandaloneKindSignature' by returning False for
 
 The alternative design is to have special treatment for partial standalone kind
 signatures, much like we have special treatment for partial type signatures in
-terms. However, partial standalone kind signatures are not a proper replacement
-for CUSKs, so this would be a separate feature.
+terms. That would be a separate feature.
 -}
 
 -- | Whether a data-type declaration is @data@ or @newtype@, and its constructors.

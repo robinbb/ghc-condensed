@@ -13,10 +13,11 @@
 # IncoherentInstances) is dropped like the others; the per-instance
 # pragmas a package then needs are recorded as a patch.
 module Strip
-  # The extensions this compiler has removed. Their behaviour is always
-  # on, so dropping the name changes nothing for the package.
+  # The extensions this compiler has removed. Their behaviour is fixed
+  # (always on, or always off for CUSKs), so dropping the name changes
+  # nothing the compiler could still do for the package.
   REMOVED = %w[
-    AlternativeLayoutRule AlternativeLayoutRuleTransitional
+    AlternativeLayoutRule AlternativeLayoutRuleTransitional CUSKs
     ConstrainedClassMethods DataKinds DatatypeContexts ExplicitForAll
     IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
