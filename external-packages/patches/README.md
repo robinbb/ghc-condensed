@@ -85,8 +85,8 @@ exception.
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
-  `RecursiveDo` and `ScopedTypeVariables`) to `Nothing`, and drops those
-  constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
+  `RecursiveDo`, `ScopedTypeVariables` and `NPlusKPatterns`) to `Nothing`,
+  and drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
   compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro,

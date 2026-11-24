@@ -208,7 +208,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`FieldSelectors`
      * :extension:`ImplicitPrelude`
      * :extension:`MonomorphismRestriction`
-     * :extension:`NPlusKPatterns`
      * :extension:`NondecreasingIndentation`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`

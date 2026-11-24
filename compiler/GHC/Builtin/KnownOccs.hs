@@ -122,12 +122,11 @@ primOpRdrName op = getRdrName (primOpId op)
 *                                                                      *
 ********************************************************************* -}
 
-eqClassOpOcc, negateClassOpOcc, minusClassOpOcc, geClassOpOcc, toListClassOpOcc,
+eqClassOpOcc, negateClassOpOcc, geClassOpOcc, toListClassOpOcc,
   fromListNClassOpOcc, fromListClassOpOcc, fromLabelClassOpOcc,
   setFieldClassOpOcc, fromStringClassOpOcc :: KnownOcc
 eqClassOpOcc         = mkVarOcc "=="
 negateClassOpOcc     = mkVarOcc "negate"
-minusClassOpOcc      = mkVarOcc "-"
 geClassOpOcc         = mkVarOcc ">="
 toListClassOpOcc     = mkVarOcc "toList"
 fromListNClassOpOcc  = mkVarOcc "fromListN"

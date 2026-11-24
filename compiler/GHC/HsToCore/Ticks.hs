@@ -1500,7 +1500,6 @@ instance CollectFldBinders (Pat GhcTc) where
     go _ LitPat{} = emptyVarEnv
     go _ QualLitPat{} = emptyVarEnv
     go _ NPat{} = emptyVarEnv
-    go _ NPlusKPat{} = emptyVarEnv
     go _ SplicePat{} = emptyVarEnv
     go _ EmbTyPat{} = emptyVarEnv
     go _ InvisPat{} = emptyVarEnv

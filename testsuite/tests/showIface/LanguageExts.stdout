@@ -15,7 +15,6 @@ docs:
        language extensions:
          MonomorphismRestriction
          ImplicitPrelude
-         NPlusKPatterns
          PatternGuards
          NondecreasingIndentation
          TraditionalRecordSyntax

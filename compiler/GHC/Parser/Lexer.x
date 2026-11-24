@@ -2704,7 +2704,6 @@ data ExtBits
   | StaticPointersBit
   | NumericUnderscoresBit
   | BlockArgumentsBit
-  | NPlusKPatternsBit
   | DoAndIfThenElseBit
   | MultiWayIfBit
   | GadtSyntaxBit
@@ -2783,7 +2782,6 @@ mkParserOpts extensionFlags diag_opts
       .|. StaticPointersBit           `xoptBit` LangExt.StaticPointers
       .|. NumericUnderscoresBit       `xoptBit` LangExt.NumericUnderscores
       .|. BlockArgumentsBit           `xoptBit` LangExt.BlockArguments
-      .|. NPlusKPatternsBit           `xoptBit` LangExt.NPlusKPatterns
       .|. DoAndIfThenElseBit          `xoptBit` LangExt.DoAndIfThenElse
       .|. MultiWayIfBit               `xoptBit` LangExt.MultiWayIf
       .|. GadtSyntaxBit               `xoptBit` LangExt.GADTSyntax

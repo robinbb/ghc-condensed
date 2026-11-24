@@ -62,8 +62,12 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -105,8 +105,8 @@
-   Exts.NPlusKPatterns             -> Just TH.NPlusKPatterns
+@@ -102,11 +102,11 @@
+   Exts.RegularPatterns            -> Nothing
+   Exts.TupleSections              -> Just TH.TupleSections
+   Exts.GHCForeignImportPrim       -> Just TH.GHCForeignImportPrim
+-  Exts.NPlusKPatterns             -> Just TH.NPlusKPatterns
++  Exts.NPlusKPatterns             -> Nothing
    Exts.DoAndIfThenElse            -> Just TH.DoAndIfThenElse
    Exts.RebindableSyntax           -> Just TH.RebindableSyntax
 -  Exts.ExplicitForAll             -> Just TH.ExplicitForAll
@@ -137,7 +141,11 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -248,13 +237,8 @@
+@@ -244,17 +233,11 @@
+   TH.ViewPatterns                      -> Just Exts.ViewPatterns
+   TH.GADTs                             -> Just Exts.GADTs
+   TH.GADTSyntax                        -> Nothing
+-  TH.NPlusKPatterns                    -> Just Exts.NPlusKPatterns
    TH.DoAndIfThenElse                   -> Just Exts.DoAndIfThenElse
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
@@ -151,7 +159,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,34 +250,23 @@
+@@ -266,34 +249,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -186,7 +194,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +319,11 @@
+@@ -346,13 +318,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -200,7 +208,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +333,6 @@
+@@ -362,12 +332,6 @@
  #endif
  #endif
  

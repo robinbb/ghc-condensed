@@ -31,7 +31,7 @@ import GHC.Core.DataCon
 import GHC.Types.Var (EvVar)
 import GHC.Core.Coercion
 import GHC.Tc.Types.Evidence (HsWrapper(..), isIdHsWrapper)
-import {-# SOURCE #-} GHC.HsToCore.Expr (dsExpr, dsLExpr, dsSyntaxExpr)
+import {-# SOURCE #-} GHC.HsToCore.Expr (dsExpr, dsLExpr)
 import {-# SOURCE #-} GHC.HsToCore.Binds (dsHsWrapper)
 import GHC.HsToCore.Utils (isTrueLHsExpr, selectMatchVar, decideBangHood)
 import GHC.HsToCore.Match.Literal (dsLit, dsOverLit)
@@ -210,14 +210,7 @@ desugarPat x pat = case pat of
       | otherwise -> do
           (y, grds) <- desugarPatV p
           dsHsWrapper wrapper $ \wrap_rhs_y ->
-            pure (PmLet y (wrap_rhs_y (Var x)) `consGrdDag` grds)  -- (n + k)  ===>   let b = x >= k, True <- b, let n = x-k
-  NPlusKPat _pat_ty (L _ n) k1 k2 ge minus -> do
-    b <- mkPmId boolTy
-    let grd_b = vanillaConGrd b trueDataCon []
-    [ke1, ke2] <- traverse dsOverLit [unLoc k1, k2]
-    rhs_b <- dsSyntaxExpr ge    [Var x, ke1]
-    rhs_n <- dsSyntaxExpr minus [Var x, ke2]
-    pure $ sequencePmGrds [PmLet b rhs_b, grd_b, PmLet n rhs_n]
+            pure (PmLet y (wrap_rhs_y (Var x)) `consGrdDag` grds)
 
   -- (fun -> pat)   ===>   let y = fun x, pat <- y where y is a match var of pat
   ViewPat _arg_ty lexpr pat -> do
@@ -616,7 +609,7 @@ The place to store the 'PmLet' guards for @where@ clauses (which are per
 
 Note [Suppress warnings in PMC desugaring]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This module uses 'dsLExpr', 'dsExpr', and 'dsSyntaxExpr' to desugar
+This module uses 'dsLExpr' and 'dsExpr' to desugar
 expressions into Core for pattern match checking. The main desugaring
 pass in GHC.HsToCore processes these same expressions too, so without
 suppression any warnings would be emitted twice (#25996).

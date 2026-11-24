@@ -173,7 +173,6 @@ test('PprOrPat', [ignore_stderr, req_ppr_deps], makefile_test, ['PprOrPat'])
 test('PprExportWarn', [ignore_stderr, req_ppr_deps], makefile_test, ['PprExportWarn'])
 test('PprInstanceWarn', [ignore_stderr, req_ppr_deps], makefile_test, ['PprInstanceWarn'])
 
-test('Test20243', [ignore_stderr, req_ppr_deps], makefile_test, ['Test20243'])
 test('Test20247', [ignore_stderr, req_ppr_deps], makefile_test, ['Test20247'])
 test('Test20256', [ignore_stderr, req_ppr_deps], makefile_test, ['Test20256'])
 test('Test20258', [ignore_stderr, req_ppr_deps], makefile_test, ['Test20258'])

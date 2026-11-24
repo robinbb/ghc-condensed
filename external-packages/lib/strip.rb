@@ -22,9 +22,10 @@ module Strip
     AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
     DatatypeContexts DeepSubsumption DeriveDataTypeable DoRec
     ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
-    MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    ParallelArrays ParallelListComp PatternSignatures PolyKinds RankNTypes
-    RecursiveDo RelaxedPolyRec ScopedTypeVariables StarIsType TypeInType
+    MultiParamTypeClasses NPlusKPatterns NullaryTypeClasses
+    OverlappingInstances ParallelArrays ParallelListComp PatternSignatures
+    PolyKinds RankNTypes RecursiveDo RelaxedPolyRec ScopedTypeVariables
+    StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

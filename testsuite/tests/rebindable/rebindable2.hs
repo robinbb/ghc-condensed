@@ -1,4 +1,4 @@
-{-# LANGUAGE RebindableSyntax, NPlusKPatterns #-}
+{-# LANGUAGE RebindableSyntax #-}
 
 module Main where
         {
@@ -69,7 +69,6 @@ module Main where
 
         test_fromInteger_pattern a@1 = "1=" ++ (Prelude.show a);
         test_fromInteger_pattern a@(-2) = "(-2)=" ++ (Prelude.show a);
-        test_fromInteger_pattern (a + 7) = "(a + 7)=" ++ Prelude.show a;
 
         test_fromRational_pattern a@0.5 = "0.5=" ++ (Prelude.show a);
         test_fromRational_pattern a@(-0.7) = "(-0.7)=" ++ (Prelude.show a);
@@ -113,10 +112,6 @@ module Main where
                         Prelude.>>
                 (doTest "test_fromInteger_pattern (-2)"
                         (tmPutStrLn (test_fromInteger_pattern (-2))) -- "-2" = 2 * 5 = 10
-                )
-                        Prelude.>>
-                (doTest "test_fromInteger_pattern 9"
-                        (tmPutStrLn (test_fromInteger_pattern 9)) -- "9" = 45, 45 "-" "7" = "7" = 35
                 )
                         Prelude.>>
                 (doTest "test_fromRational_pattern 0.5"

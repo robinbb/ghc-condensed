@@ -1610,15 +1610,6 @@ zonk_pat (NPat ty (L l lit) mb_neg eq_expr)
         ; ty'  <- zonkTcTypeToTypeX ty
         ; return (NPat ty' (L l lit') mb_neg' eq_expr') } }
 
-zonk_pat (NPlusKPat ty (L loc n) (L l lit1) lit2 e1 e2)
-  = do  { e1' <- zonkSyntaxExpr  e1
-        ; e2' <- zonkSyntaxExpr e2
-        ; lit1' <- noBinders $ zonkOverLit lit1
-        ; lit2' <- noBinders $ zonkOverLit lit2
-        ; ty'   <- noBinders $ zonkTcTypeToTypeX ty
-        ; n'    <- zonkIdBndrX n
-        ; return (NPlusKPat ty' (L loc n') (L l lit1') lit2' e1' e2') }
-
 zonk_pat (EmbTyPat ty tp)
   = do { ty' <- noBinders $ zonkTcTypeToTypeX ty
        ; return (EmbTyPat ty' tp) }

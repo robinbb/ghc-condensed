@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**30 language extensions deleted.**
+**31 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -187,6 +187,16 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Stable.
 - Notes: A class may have any number of parameters. Standard practice;
   GHC2021 enables it.
+
+`NPlusKPatterns`
+
+- Category: Syntax.
+- Hard-coded: Off.
+- Editions: Haskell98.
+- Lines: +59 −666, net −607.
+- Stability: Legacy.
+- Notes: An `n+k` pattern is a parse error, as in Haskell 2010. Only the
+  Haskell98 edition enabled it, and no corpus package writes one.
 
 `NullaryTypeClasses`
 

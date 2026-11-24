@@ -2418,7 +2418,6 @@ definitelyLazyPattern (L loc pat) =
     LitPat{}        -> False
     QualLitPat{}    -> False
     NPat{}          -> False -- Some NPats are lazy; False is conservative
-    NPlusKPat{}     -> False
     SplicePat{}     -> False
     ModifiedPat _ _ p -> definitelyLazyPattern p
 

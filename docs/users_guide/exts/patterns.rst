@@ -8,6 +8,5 @@ Patterns
 
     pattern_guards
     view_patterns
-    nk_patterns
     pattern_synonyms
     or_patterns

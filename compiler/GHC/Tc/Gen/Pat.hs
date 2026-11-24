@@ -21,7 +21,7 @@ where
 
 import GHC.Prelude
 
-import {-# SOURCE #-}   GHC.Tc.Gen.Expr( tcSyntaxOp, tcSyntaxOpGen, tcInferExpr )
+import {-# SOURCE #-}   GHC.Tc.Gen.Expr( tcSyntaxOp, tcInferExpr )
 
 import GHC.Hs
 import GHC.Hs.Syn.Type
@@ -52,7 +52,6 @@ import GHC.Core.Coercion
 import GHC.Core.DataCon
 import GHC.Core.PatSyn
 import GHC.Core.ConLike
-import GHC.Builtin.KnownKeys
 import GHC.Driver.DynFlags
 import GHC.Types.SrcLoc
 import GHC.Types.Var.Set
@@ -874,7 +873,7 @@ Another example is #26331.
     pat@QualLitPat{} -> pprPanic "tc_pat: QualLitPat" (ppr pat)
 
 ------------------------
--- Overloaded patterns: n, and n+k
+-- Overloaded patterns: n
 
 -- In the case of a negative literal (the more complicated case),
 -- we get
@@ -916,76 +915,6 @@ Another example is #26331.
       ; res <- thing_inside
       ; pat_ty <- readExpType exp_pat_ty
       ; return (NPat pat_ty (L l lit') mb_neg' eq', res) }
-
-{-
-Note [NPlusK patterns]
-~~~~~~~~~~~~~~~~~~~~~~
-From
-
-  case v of x + 5 -> blah
-
-we get
-
-  if v >= 5 then (\x -> blah) (v - 5) else ...
-
-There are two bits of rebindable syntax:
-  (>=) :: pat_ty -> lit1_ty -> Bool
-  (-)  :: pat_ty -> lit2_ty -> var_ty
-
-lit1_ty and lit2_ty could conceivably be different.
-var_ty is the type inferred for x, the variable in the pattern.
-
-Note that we need to type-check the literal twice, because it is used
-twice, and may be used at different types. The second HsOverLit stored in the
-AST is used for the subtraction operation.
--}
-
--- See Note [NPlusK patterns]
-    NPlusKPat _ (L nm_loc name)
-             (L loc lit) _ ge minus -> do
-      { checkManyPattern OtherPatternReason (noLocA ps_pat) scaled_exp_pat_ty
-      ; let orig = LiteralOrigin lit
-      ; (lit1', ge')
-          <- tcSyntaxOp orig ge [SynType exp_pat_ty, SynRho]
-                                (mkCheckExpType boolTy) $
-             \ [lit1_ty] _ ->
-             newOverloadedLit lit (mkCheckExpType lit1_ty)
-      ; ((lit2', minus_wrap, bndr_id), minus')
-          <- tcSyntaxOpGen orig minus [SynType exp_pat_ty, SynRho] SynAny $
-             \ [lit2_ty, var_ty] _ ->
-             do { lit2' <- newOverloadedLit lit (mkCheckExpType lit2_ty)
-                ; (wrap, bndr_id) <- setSrcSpanA nm_loc $
-                                   tcPatBndr penv name (unrestricted $ mkCheckExpType var_ty)
-                         -- co :: var_ty ~ idType bndr_id
-
-                         -- minus_wrap is applicable to minus'
-                ; return (lit2', wrap, bndr_id) }
-
-      ; pat_ty <- readExpType exp_pat_ty
-
-      -- The Report says that n+k patterns must be in Integral
-      -- but it's silly to insist on this in the RebindableSyntax case
-      ; unlessM (xoptM LangExt.RebindableSyntax) $
-        do { icls <- tcLookupKnownKeyClass integralClassKey
-           ; instWantedTheta orig [mkClassPred icls [pat_ty]] }
-
-      ; res <- tcExtendIdEnv1 name bndr_id thing_inside
-
-      ; let minus'' = case minus' of
-                        NoSyntaxExprTc -> pprPanic "tc_pat NoSyntaxExprTc" (ppr minus')
-                                 -- this should be statically avoidable
-                                 -- Case (3) from Note [NoSyntaxExpr] in "GHC.Hs.Expr"
-                        SyntaxExprTc { syn_expr = minus'_expr
-                                     , syn_arg_wraps = minus'_arg_wraps
-                                     , syn_res_wrap = minus'_res_wrap }
-                          -> SyntaxExprTc { syn_expr = minus'_expr
-                                          , syn_arg_wraps = minus'_arg_wraps
-                                          , syn_res_wrap = minus_wrap <.> minus'_res_wrap }
-                           -- Oy. This should really be a record update, but
-                           -- we get warnings if we try. #17783
-            pat' = NPlusKPat pat_ty (L nm_loc bndr_id) (L loc lit1') lit2'
-                             ge' minus''
-      ; return (pat', res) }
 
 -- Here we get rid of it and add the finalizers to the global environment.
 -- See Note [Delaying modFinalizers in untyped splices] in GHC.Rename.Splice.

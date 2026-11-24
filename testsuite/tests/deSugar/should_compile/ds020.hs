@@ -1,8 +1,6 @@
 -- !!! ds020 -- lazy patterns (in detail)
 --
 
-{-# LANGUAGE NPlusKPatterns #-}
-
 module ShouldCompile where
 
 a ~([],[],[])    = []
@@ -15,9 +13,6 @@ c ~x ~_ ~11111 ~3.14159265 = x
 
 d 11        = 4
 d 12        = 3
-d ~(n+4)    = 2
-d ~(n+43)   = 1
-d ~(n+999)  = 0
 
 f ~(x@[]) = []
 f x@(~[]) = []

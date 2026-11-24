@@ -1,4 +1,4 @@
-{-# LANGUAGE RebindableSyntax, NPlusKPatterns #-}
+{-# LANGUAGE RebindableSyntax #-}
 
 module RebindableCase1 where
         {
@@ -47,7 +47,6 @@ module RebindableCase1 where
 
         test_fromInteger_pattern 1 = undefined;
         test_fromInteger_pattern (-1) = undefined;
-        test_fromInteger_pattern (a + 7) = a;
 
         test_fromRational_pattern 0.5 = undefined;
         test_fromRational_pattern (-0.5) = undefined;

@@ -69,7 +69,6 @@ data Extension
    | OrPatterns
    | GADTs
    | GADTSyntax
-   | NPlusKPatterns
    | DoAndIfThenElse
    | BlockArguments
    | RebindableSyntax

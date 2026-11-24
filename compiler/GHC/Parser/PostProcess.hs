@@ -1374,8 +1374,7 @@ mkInvisLPat tok ty_pat = L l invis_pat
     invis_pat = InvisPat (tok, SpecifiedSpec) ty_pat
 
 checkAPat :: SrcSpanAnnA -> PatBuilder GhcPs -> PV (Pat GhcPs)
-checkAPat loc e0 = do
- nPlusKPatterns <- getBit NPlusKPatternsBit
+checkAPat loc e0 =
  case e0 of
    PatBuilderPat p -> return p
    PatBuilderVar x -> return (VarPat noExtField x)
@@ -1384,16 +1383,6 @@ checkAPat loc e0 = do
    -- Negation is recorded separately, so that the literal is zero or +ve
    -- NB. Negative *primitive* literals are already handled by the lexer
    PatBuilderOverLit pos_lit -> return (mkNPat (L (l2l loc) pos_lit) Nothing noAnn)
-
-   -- n+k patterns
-   PatBuilderOpApp
-           (L _ (PatBuilderVar (L nloc n)))
-           (L l plus)
-           (L lloc (PatBuilderOverLit lit@(OverLit {ol_val = HsIntegral {}})))
-           _
-                     | nPlusKPatterns && (plus == plus_RDR)
-                     -> return (mkNPlusKPat (L nloc n) (L (l2l lloc) lit)
-                                (EpTok $ entry l))
 
    -- Improve error messages for the @-operator when the user meant an @-pattern
    PatBuilderOpApp _ op _ _ | opIsAt (unLoc op) -> do
@@ -1426,9 +1415,8 @@ placeHolderPunRhs :: DisambECP b => PV (LocatedA b)
 -- debugging
 placeHolderPunRhs = mkHsVarPV (noLocA pun_RDR)
 
-plus_RDR, pun_RDR :: RdrName
-plus_RDR = mkUnqual varName (fsLit "+") -- Hack
-pun_RDR  = mkUnqual varName (fsLit "pun-right-hand-side")
+pun_RDR :: RdrName
+pun_RDR = mkUnqual varName (fsLit "pun-right-hand-side")
 
 checkPatField :: LHsRecField GhcPs (LocatedA (PatBuilder GhcPs))
               -> PV (LHsRecField GhcPs (LPat GhcPs))

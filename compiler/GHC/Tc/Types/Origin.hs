@@ -1539,7 +1539,7 @@ data ExpectedFunTyCtxt
   -- | A rebindable syntax operator is expected to have a function type.
   --
   -- Test cases for representation-polymorphism checks:
-  --   RepPolyMc{Bind,Body,Guard}, RepPolyNPlusK
+  --   RepPolyMc{Bind,Body,Guard}
   = forall (p :: Pass)
      . (OutputableBndrId p)
     => ExpectedFunTySyntaxOp !CtOrigin !(HsExpr (GhcPass p))

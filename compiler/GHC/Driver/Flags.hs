@@ -131,7 +131,6 @@ extensionName = \case
   LangExt.ViewPatterns -> "ViewPatterns"
   LangExt.GADTs -> "GADTs"
   LangExt.GADTSyntax -> "GADTSyntax"
-  LangExt.NPlusKPatterns -> "NPlusKPatterns"
   LangExt.DoAndIfThenElse -> "DoAndIfThenElse"
   LangExt.BlockArguments -> "BlockArguments"
   LangExt.RebindableSyntax -> "RebindableSyntax"

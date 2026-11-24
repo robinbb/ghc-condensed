@@ -1056,11 +1056,6 @@ instance (Data (HsModifier (GhcPass p)), HiePass p) => ToHie (PScoped (LocatedA 
         , toHieSyntax (L ospan eq)
         ]
       QualLitPat _ _ -> []
-      NPlusKPat _ n (L loc lit) _ ord _ ->
-        [ toHie $ C (PatternBind scope pscope rsp) n
-        , toHie $ L (l2l loc :: SrcSpanAnnA) lit
-        , toHieSyntax (L ospan ord)
-        ]
       SigPat _ pat sig ->
         [ toHie $ PS rsp scope pscope pat
         , case hiePass @p of

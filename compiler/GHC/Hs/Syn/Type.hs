@@ -64,7 +64,6 @@ hsPatType (ConPat { pat_con = lcon
                                         = conLikeResTy (unLoc lcon) tys
 hsPatType (SigPat ty _ _)               = ty
 hsPatType (NPat ty _ _ _)               = ty
-hsPatType (NPlusKPat ty _ _ _ _ _)      = ty
 hsPatType (EmbTyPat ty _)               = typeKind ty
 hsPatType (InvisPat ty _)               = typeKind ty
 hsPatType (ModifiedPat _ _ pat)         = hsLPatType pat

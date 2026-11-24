@@ -4924,12 +4924,6 @@ instance ExactPrint (Pat GhcPs) where
     ol' <- markAnnotated ol
     return (NPat an0 ol' mn z)
 
-  exact (NPlusKPat an n k lit2 a b) = do
-    n' <- markAnnotated n
-    an' <- markEpToken an
-    k' <- markAnnotated k
-    return (NPlusKPat an' n' k' lit2 a b)
-
   exact (SigPat an pat sig) = do
     pat' <- markAnnotated pat
     an0 <- markEpUniToken an

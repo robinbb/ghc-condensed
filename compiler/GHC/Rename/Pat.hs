@@ -595,18 +595,6 @@ rnPatAndThen _ (NPat x (L l lit) mb_neg _eq)
        ; eq' <- liftCpsFV $ lookupSyntax eqClassOpOcc
        ; return (NPat x (L l lit') mb_neg' eq') }
 
-rnPatAndThen mk (NPlusKPat _ rdr (L l lit) _ _ _ )
-  = do { new_name <- newPatName mk (la2la rdr)
-       ; (lit', _) <- liftCpsFV $ rnOverLit lit -- See Note [Negative zero]
-                                                -- We skip negateName as
-                                                -- negative zero doesn't make
-                                                -- sense in n + k patterns
-       ; minus <- liftCpsFV $ lookupSyntax minusClassOpOcc
-       ; ge    <- liftCpsFV $ lookupSyntax geClassOpOcc
-       ; return (NPlusKPat noExtField (L (noAnnSrcSpan $ nameSrcSpan new_name) new_name)
-                                      (L l lit') lit' ge minus) }
-                -- The Report says that n+k patterns must be in Integral
-
 rnPatAndThen mk (AsPat _ rdr pat)
   = do { new_name <- newPatLName mk rdr
        ; pat' <- rnLPatAndThen mk pat

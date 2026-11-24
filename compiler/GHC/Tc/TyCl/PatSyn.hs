@@ -1145,7 +1145,6 @@ tcPatToExpr ps_name args pat = go pat
     go1 p@(LazyPat {})                       = notInvertible p
     go1 p@(WildPat {})                       = notInvertible p
     go1 p@(AsPat {})                         = notInvertible p
-    go1 p@(NPlusKPat {})                     = notInvertible p
     go1 p@(OrPat {})                         = notInvertible p
 
     notInvertible p = invalidRhs (PatSynNotInvertible p)
@@ -1398,8 +1397,6 @@ tcCollectEx pat = go pat
     go1 (XPat ext) = case ext of
       CoPat _ p _      -> go1 p
       ExpansionPat _ p -> go1 p
-    go1 (NPlusKPat _ n k _ geq subtract)
-      = pprPanic "TODO: NPlusKPat" $ ppr n $$ ppr k $$ ppr geq $$ ppr subtract
     go1 _                   = empty
 
     goConDetails :: HsConPatDetails GhcTc -> ([TyVar], [EvVar])

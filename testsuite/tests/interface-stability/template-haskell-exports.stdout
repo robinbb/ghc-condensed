@@ -170,7 +170,6 @@ module Language.Haskell.TH where
     | OrPatterns
     | GADTs
     | GADTSyntax
-    | NPlusKPatterns
     | DoAndIfThenElse
     | BlockArguments
     | RebindableSyntax
@@ -756,7 +755,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | OrPatterns
     | GADTs
     | GADTSyntax
-    | NPlusKPatterns
     | DoAndIfThenElse
     | BlockArguments
     | RebindableSyntax
@@ -1477,7 +1475,6 @@ module Language.Haskell.TH.Syntax where
     | OrPatterns
     | GADTs
     | GADTSyntax
-    | NPlusKPatterns
     | DoAndIfThenElse
     | BlockArguments
     | RebindableSyntax

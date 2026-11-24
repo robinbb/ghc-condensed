@@ -734,11 +734,6 @@ PprInstanceWarn:
 	$(CHECK_PPR)   $(LIBDIR) PprInstanceWarn.hs
 	$(CHECK_EXACT) $(LIBDIR) PprInstanceWarn.hs
 
-.PHONY: Test20243
-Test20243:
-	$(CHECK_PPR)   $(LIBDIR) Test20243.hs
-	$(CHECK_EXACT) $(LIBDIR) Test20243.hs
-
 .PHONY: Test20247
 Test20247:
 	$(CHECK_PPR)   $(LIBDIR) Test20247.hs

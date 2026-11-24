@@ -62,7 +62,7 @@ module GHC.Hs.Utils(
   mkHsCharPrimLit,
 
   -- * Patterns
-  mkNPat, mkNPlusKPat, nlVarPat, nlLitPat, nlConVarPat, nlConVarPatName, nlConPat,
+  mkNPat, nlVarPat, nlLitPat, nlConVarPat, nlConVarPatName, nlConPat,
   nlConPatName, nlInfixConPat, nlNullaryConPat, nlWildConPat, nlWildPat,
   nlWildPatName, nlTuplePat, mkParPat, nlParPat,
   mkBigLHsVarTup, mkBigLHsTup, mkBigLHsVarPatTup, mkBigLHsPatTup,
@@ -342,8 +342,6 @@ mkHsCompAnns   :: HsDoFlavour -> [ExprLStmt GhcPs] -> LHsExpr GhcPs -> DoAnn
 
 mkNPat      :: LocatedAn NoEpAnns (HsOverLit GhcPs) -> Maybe (SyntaxExpr GhcPs) -> EpToken "-"
             -> Pat GhcPs
-mkNPlusKPat :: LocatedN RdrName -> LocatedAn NoEpAnns (HsOverLit GhcPs) -> EpToken "+"
-            -> Pat GhcPs
 
 -- NB: The following functions all use noSyntaxExpr: the generated expressions
 --     will not work with rebindable syntax if used after the renamer
@@ -408,8 +406,6 @@ mkHsCmdIf :: LHsExpr GhcPs -> LHsCmd GhcPs -> LHsCmd GhcPs -> AnnsIf
 mkHsCmdIf c a b anns = HsCmdIf anns noSyntaxExpr c a b
 
 mkNPat lit neg anns  = NPat anns lit neg noSyntaxExpr
-mkNPlusKPat id lit anns
-  = NPlusKPat anns id lit (unLoc lit) noSyntaxExpr noSyntaxExpr
 
 mkTransformStmt    :: AnnTransStmt -> [ExprLStmt GhcPs] -> LHsExpr GhcPs
                    -> StmtLR GhcPs GhcPs (LHsExpr GhcPs)
@@ -1304,7 +1300,6 @@ collect_pat flag pat bndrs = case pat of
   LitPat _ _            -> bndrs
   QualLitPat {}         -> bndrs
   NPat {}               -> bndrs
-  NPlusKPat _ n _ _ _ _ -> unXRec @p n : bndrs
   SigPat _ pat sig      -> case flag of
     CollNoDictBinders   -> collect_lpat flag pat bndrs
     CollWithDictBinders -> collect_lpat flag pat bndrs
@@ -1402,15 +1397,15 @@ to choose.
    Here's the problem.  Consider
 
         data T a where
-           C :: Num a => a -> Int -> T a
+           C :: (Eq a, Num a) => a -> Int -> T a
 
-        f ~(C (n+1) m) = (n,m)
+        f ~(C 0 m) = m
 
-   Here, the pattern (C (n+1)) binds a hidden dictionary (d::Num a),
-   and *also* uses that dictionary to match the (n+1) pattern.  Yet, the
-   variables bound by the lazy pattern are n,m, *not* the dictionary d.
-   So in mkSelectorBinds in GHC.HsToCore.Utils, we want just m,n as the
-   variables bound.
+   Here, the pattern (C 0 m) binds hidden dictionaries (d1::Eq a, d2::Num a),
+   and *also* uses them to match the literal pattern 0.  Yet, the
+   variable bound by the lazy pattern is m, *not* the dictionaries.
+   So in mkSelectorBinds in GHC.HsToCore.Utils, we want just m as the
+   variable bound.
 
    So in this case, we do *not* gather (a) dictionary and (b) dictionary
    bindings as binders of a ConPatOut pattern.

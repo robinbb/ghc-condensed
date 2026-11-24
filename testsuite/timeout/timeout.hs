@@ -84,7 +84,7 @@ killProcess pid = do
   checkReallyDead 10
   where
     checkReallyDead 0 = hPutStrLn stderr "checkReallyDead: Giving up"
-    checkReallyDead (n+1) =
+    checkReallyDead n =
       do threadDelay (3*100000) -- 3/10 sec
          m <- tryJust (guard . isDoesNotExistError) $
                  getProcessStatus False False pid
@@ -93,7 +93,7 @@ killProcess pid = do
             Left _ -> return ()
             _ -> do
               ignoreIOExceptions (signalProcessGroup sigKILL pid)
-              checkReallyDead n
+              checkReallyDead (n - 1)
 
 ignoreIOExceptions :: IO () -> IO ()
 ignoreIOExceptions io = io `catch` ((\_ -> return ()) :: IOException -> IO ())

@@ -10,7 +10,7 @@
 module GHC.Tc.Utils.Instantiate (
      topSkolemise, skolemiseRequired,
      topInstantiate,
-     instCall, instDFunType, instWantedTheta, instTyVarsWith,
+     instCall, instDFunType, instTyVarsWith,
      newWanted, newWanteds,
 
      tcInstType, tcInstTypeBndrs,
@@ -433,15 +433,6 @@ instDFunType dfun_id dfun_inst_tys
            ; (subst'', tys) <- go subst' tvs mb_tys
            ; return (subst'', mkTyVarTy tv' : tys) }
     go _ _ _ = pprPanic "instDFunTypes" (ppr dfun_id $$ ppr dfun_inst_tys)
-
-----------------
-instWantedTheta :: CtOrigin -> TcThetaType -> TcM ()
--- Similar to instCall, but only emit the constraints in the LIE;
--- used for the Integral constraint of an n+k pattern
-instWantedTheta orig theta
-  = do  { _co <- instCallConstraints orig theta -- Discard the coercion
-        ; return () }
-
 
 {- *********************************************************************
 *                                                                      *

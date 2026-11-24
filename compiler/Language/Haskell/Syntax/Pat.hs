@@ -136,7 +136,7 @@ data Pat p
                     (HsUntypedSplice p)
   -- ^  Splice Pattern, e.g. @$(pat)@
 
-        ------------ Literal and n+k patterns ---------------
+        ------------ Literal patterns ---------------
   | LitPat          (XLitPat p)
                     (HsLit p)
     -- ^ Literal Pattern
@@ -159,17 +159,6 @@ data Pat p
 
   -- ^ Natural Pattern, used for all overloaded literals, including overloaded Strings
   -- with @-XOverloadedStrings@
-
-  | -- | n+k pattern, e.g. @n+1@, used by @-XNPlusKPatterns@
-   NPlusKPat       (XNPlusKPat p)           -- Type of overall pattern
-                    (LIdP p)                 -- n+k pattern
-                    (XRec p (HsOverLit p))   -- It'll always be an HsIntegral
-                    (HsOverLit p)            -- See Note [NPlusK patterns] in GHC.Tc.Gen.Pat
-                     -- NB: This could be (PostTc ...), but that induced a
-                     -- a new hs-boot file. Not worth it.
-
-                    (SyntaxExpr p)   -- (>=) function, of type t1->t2->Bool
-                    (SyntaxExpr p)   -- Name of '-' (see GHC.Rename.Env.lookupSyntax)
 
         ------------ Pattern type signatures ---------------
 

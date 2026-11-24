@@ -151,10 +151,6 @@ type instance XNPat GhcPs = EpToken "-"
 type instance XNPat GhcRn = EpToken "-"
 type instance XNPat GhcTc = Type
 
-type instance XNPlusKPat GhcPs = EpToken "+"
-type instance XNPlusKPat GhcRn = NoExtField
-type instance XNPlusKPat GhcTc = Type
-
 type instance XSigPat GhcPs = TokDcolon
 type instance XSigPat GhcRn = NoExtField
 type instance XSigPat GhcTc = Type
@@ -424,11 +420,6 @@ pprPat (LitPat _ s)             = ppr s
 pprPat (QualLitPat _ lit)       = ppr lit
 pprPat (NPat _ l Nothing  _)    = ppr l
 pprPat (NPat _ l (Just _) _)    = char '-' <> ppr l
-pprPat (NPlusKPat _ n k _ _ _)  = hcat [ppr_n, char '+', ppr k]
-  where ppr_n = case ghcPass @p of
-                  GhcPs -> ppr n
-                  GhcRn -> ppr n
-                  GhcTc -> ppr n
 pprPat (SplicePat ext splice)   =
     case ghcPass @p of
       GhcPs -> pprUntypedSplice True Nothing splice
@@ -679,7 +670,6 @@ isIrrefutableHsPat is_strict irref_conLike pat = go (unLoc pat)
     go (LitPat {})         = False
     go (QualLitPat {})     = False
     go (NPat {})           = False
-    go (NPlusKPat {})      = False
     go (ModifiedPat _ _ pat) = goL pat
 
     -- We conservatively assume that no TH splices are irrefutable
@@ -756,7 +746,6 @@ isBoringHsPat = goL
       LitPat {}     -> True
       QualLitPat {} -> True
       NPat {}       -> True
-      NPlusKPat {}  -> True
       SplicePat {}  -> False
       EmbTyPat {}   -> True
       InvisPat {}   -> True
@@ -1062,7 +1051,6 @@ patNeedsParens p = go @p
     -- Remark: go needs to be polymorphic, as we call it recursively
     -- at a different GhcPass (see the case for GhcTc XPat below).
     go :: forall q. IsPass q => Pat (GhcPass q) -> Bool
-    go (NPlusKPat {})    = p > opPrec
     go (OrPat {})        = p > topPrec
     go (SplicePat {})    = False
     go (ConPat { pat_args = ds })

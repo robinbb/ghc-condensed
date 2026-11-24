@@ -1381,7 +1381,6 @@ languageExtensions Nothing = languageExtensions (Just defaultLanguage)
 languageExtensions (Just Haskell98)
     = [LangExt.ImplicitPrelude,
        LangExt.MonomorphismRestriction,
-       LangExt.NPlusKPatterns,
        LangExt.TraditionalRecordSyntax,
        LangExt.FieldSelectors,
        LangExt.NondecreasingIndentation,

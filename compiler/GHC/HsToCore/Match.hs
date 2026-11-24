@@ -209,7 +209,6 @@ match (v:vs) ty eqns    -- Eqns can be empty, but each equation is nonempty
             PgAny     -> matchVariables  vars ty (dropGroup eqns)
             PgN {}    -> matchNPats      vars ty (dropGroup eqns)
             PgOverS {}-> matchNPats      vars ty (dropGroup eqns)
-            PgNpK {}  -> matchNPlusKPats vars ty (dropGroup eqns)
             PgBang    -> matchBangs      vars ty (dropGroup eqns)
             PgCo {}   -> matchCoercion   vars ty (dropGroup eqns)
             PgView {} -> matchView       vars ty (dropGroup eqns)
@@ -478,13 +477,6 @@ tidy1 _ g (NPat ty (L _ lit@OverLit { ol_val = v }) mb_neg eq)
            in warnAboutOverflowedOverLit lit'
        ; return (idDsWrapper, tidyNPat lit mb_neg eq ty) }
 
--- NPlusKPat: we may want to warn about the literals
-tidy1 _ g n@(NPlusKPat _ _ (L _ lit1) lit2 _ _)
-  = do { unless g $ do
-           warnAboutOverflowedOverLit lit1
-           warnAboutOverflowedOverLit lit2
-       ; return (idDsWrapper, n) }
-
 tidy1 _ _ (OrPat ty lpats)
   -- See Note [Implementation of OrPatterns]. We desugar
   --   (1; 2; 3)
@@ -562,8 +554,7 @@ tidy_bang_pat v g l p@(ConPat { pat_con = L _ (RealDataCon dc)
 --    WildPat,
 --    ViewPat,
 --    pattern synonyms (ConPatOut with PatSynCon)
---    NPat,
---    NPlusKPat
+--    NPat
 --
 -- For LazyPat, remember that it's semantically like a VarPat
 --  i.e.  !(~p) is not like ~p, or p!  (#8952)
@@ -989,7 +980,6 @@ data PatGroup
   | PgN   (FractionalLit GhcTc) -- Overloaded numeric literals;
                         -- see Note [Don't use Literal for PgN]
   | PgOverS FastString  -- Overloaded string literals
-  | PgNpK Integer       -- n+k patterns
   | PgBang              -- Bang patterns
   | PgCo Type           -- Coercion patterns; the type is the type
                         --      of the pattern *inside*
@@ -1010,7 +1000,6 @@ Previously we had, as PatGroup constructors
 
   | ...
   | PgN   Literal       -- Overloaded literals
-  | PgNpK Literal       -- n+k patterns
   | ...
 
 But Literal is really supposed to represent an *unboxed* literal, like Int#.
@@ -1111,7 +1100,6 @@ sameGroup (PgN l1)      (PgN l2)      = l1==l2  -- Order is significant
         -- This is implemented in the Eq instance for FractionalLit, we do this to avoid
         -- computing the value of excessively large rationals.
 sameGroup (PgOverS s1)  (PgOverS s2)  = s1==s2
-sameGroup (PgNpK l1)    (PgNpK l2)    = l1==l2  -- See Note [Grouping overloaded literal patterns]
 sameGroup (PgCo t1)     (PgCo t2)     = t1 `eqType` t2
         -- CoPats are in the same group only if the type of the
         -- enclosed pattern is the same. The patterns outside the CoPat
@@ -1270,10 +1258,6 @@ patGroup _ (NPat _ (L _ (OverLit {ol_val=oval})) mb_neg _) =
       | otherwise -> PgN f
     (HsIsString s, _) -> assert (isNothing mb_neg) $
                             PgOverS (mkFastStringShortText (sl_fs s))
-patGroup _ (NPlusKPat _ _ (L _ (OverLit {ol_val=oval})) _ _ _) =
-  case oval of
-   HsIntegral i -> PgNpK (il_value i)
-   _ -> pprPanic "patGroup NPlusKPat" (ppr oval)
 patGroup _ (ViewPat _ expr p)           = PgView expr (hsPatType (unLoc p))
 patGroup platform (LitPat _ lit)        = PgLit (hsLitKey platform lit)
 patGroup _ EmbTyPat{} = PgAny
@@ -1285,19 +1269,12 @@ patGroup _ pat                          = pprPanic "patGroup" (ppr pat)
 {-
 Note [Grouping overloaded literal patterns]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WATCH OUT!  Consider
-
-        f (n+1) = ...
-        f (n+2) = ...
-        f (n+1) = ...
-
-We can't group the first and third together, because the second may match
-the same thing as the first.  Same goes for *overloaded* literal patterns
+WATCH OUT!  Consider *overloaded* literal patterns
         f 1 True = ...
         f 2 False = ...
         f 1 False = ...
 If the first arg matches '1' but the second does not match 'True', we
 cannot jump to the third equation!  Because the same argument might
 match '2'!
-Hence we don't regard 1 and 2, or (n+1) and (n+2), as part of the same group.
+Hence we don't regard 1 and 2 as part of the same group.
 -}

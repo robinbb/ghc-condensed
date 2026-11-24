@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedLists, TypeFamilies, ApplicativeDo, NPlusKPatterns #-}
+{-# LANGUAGE OverloadedLists, TypeFamilies, ApplicativeDo #-}
 
 module Main where
 
@@ -70,20 +70,7 @@ isZero n = case n of
 -- ^ 8
    _ -> False
 
-instance Real Modulo1 where
-  toRational _ = 0
-
-instance Integral Modulo1 where
-  toInteger _ = 0
-  quotRem _ _ = (0, 0)
-
-isPlusOne :: Modulo1 -> Bool
-isPlusOne n = case n of
-  (a + 1) -> True
-  -- ^ 9
-  _ -> False
-
-point1, point2, point3, point4, point5, point6, point7, point8, point9 :: (Int, Int)
+point1, point2, point3, point4, point5, point6, point7, point8 :: (Int, Int)
 point1 = (15, 8)
 
 point2 = (30, 8)
@@ -100,10 +87,8 @@ point7 = (61, 7)
 
 point8 = (69, 4)
 
-point9 = (82, 6)
-
 points :: [(Int, Int)]
-points = [point1, point2, point3, point4, point5, point6, point7, point8, point9]
+points = [point1, point2, point3, point4, point5, point6, point7, point8]
 
 main = do
   (df, hf) <- readTestHie "T23540.hie"

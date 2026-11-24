@@ -81,5 +81,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "RankNTypes",
                                "ParallelListComp",
                                "RecursiveDo",
-                               "ScopedTypeVariables"
+                               "ScopedTypeVariables",
+                               "NPlusKPatterns"
                               ]

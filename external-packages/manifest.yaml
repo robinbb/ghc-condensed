@@ -523,9 +523,9 @@ packages:
     ExplicitForAll, IncoherentInstances, MultiParamTypeClasses,
     OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
-    RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables and the
-    deprecated aliases) to or from template-haskell, whose Extension type
-    lost those constructors
+    RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables,
+    NPlusKPatterns and the deprecated aliases) to or from template-haskell,
+    whose Extension type lost those constructors
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -3259,12 +3259,17 @@ packages:
   version: 0.4.0
   tier: 2
   role: root
-  expected: ok
+  expected: flaky
   path: vendored/http-client-tls
   source:
     sdist: http-client-tls-0.4.0
   note: no source repository listed
   tests: true
+  reason: >-
+    its examples fetch badssl.com hosts, which intermittently drop the TLS
+    handshake (Error_EOF, connection reset by peer); on 2026-11-24 two then
+    one example failed, different ones each time, and curl against
+    https://BADSSL.COM failed the same way while https://badssl.com answered
 - name: http-conduit
   version: 2.3.9.1
   tier: 2

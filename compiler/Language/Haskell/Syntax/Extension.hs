@@ -700,7 +700,6 @@ type family XSplicePat   x
 type family XLitPat      x
 type family XQualLitPat  x
 type family XNPat        x
-type family XNPlusKPat   x
 type family XSigPat      x
 type family XEmbTyPat    x
 type family XInvisPat    x
