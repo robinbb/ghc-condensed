@@ -194,8 +194,10 @@ end
 # ---- build ----------------------------------------------------------------
 
 # Build the given roots in one cabal project. Returns [status, blocked_by]
-# where status maps every local package of the plan to ok, FAIL or
+# where status maps every local package the roots need to ok, FAIL or
 # blocked, and blocked_by lists the failed dependencies of a blocked one.
+# plan.json lists every local package of the project, needed or not, so
+# the needed ones are the closure of the roots' units over their depends.
 def build_project(common, label, roots, logdir, builddir, opts)
   cmd = common + ['build', "-j#{opts[:jobs]}"]
   cmd << '--keep-going' if opts[:keep_going]
@@ -232,7 +234,20 @@ def build_project(common, label, roots, logdir, builddir, opts)
   end
   graph = Hash.new { |h, k| h[k] = [] }
   local.each { |u| graph[u['pkg-name']] |= deps_of.(u) - [u['pkg-name']] }
-  planned = graph.keys
+  root_names = roots.map { |e| e['name'] }.to_set
+  needed = Set.new
+  queue = local.select { |u| root_names.include?(u['pkg-name']) }
+  until queue.empty?
+    u = queue.shift
+    next if needed.include?(u['id'])
+
+    needed << u['id']
+    ids = (u['depends'] || []) + (u['exe-depends'] || []) +
+          (u['components'] || {}).values.flat_map { |c| (c['depends'] || []) + (c['exe-depends'] || []) }
+    ids.each { |id| queue << by_id[id] if by_id[id] }
+  end
+  needed_pkgs = local.select { |u| needed.include?(u['id']) }.map { |u| u['pkg-name'] }.to_set
+  planned = graph.keys.select { |p| needed_pkgs.include?(p) }
   blocked = Set.new
   loop do
     before = blocked.size

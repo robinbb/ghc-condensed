@@ -131,3 +131,78 @@
      -> [PersistValue]
  mkInsertValues entity =
      Maybe.catMaybes
+--- a/external-packages/vendored/persistent/test/Database/Persist/TH/ToFromPersistValuesSpec.hs
++++ b/external-packages/vendored/persistent/test/Database/Persist/TH/ToFromPersistValuesSpec.hs
+@@ -77,13 +77,13 @@
+ spec = describe "{to,from}PersistValues" $ do
+     let
+         toPersistValues
+-            :: (PersistEntity rec) => rec -> [PersistValue]
++            :: (PersistEntity record) => record -> [PersistValue]
+         toPersistValues =
+             map toPersistValue . toPersistFields
+ 
+         subject
+-            :: (PersistEntity rec, Show rec, Eq rec)
+-            => rec
++            :: (PersistEntity record, Show record, Eq record)
++            => record
+             -> [PersistValue]
+             -> Spec
+         subject model fields = do
+@@ -136,15 +136,15 @@
+     describe "parseEntityValues" $ do
+         let
+             subject
+-                :: forall rec
+-                 . (PersistEntity rec, Show rec, Eq rec)
++                :: forall record
++                 . (PersistEntity record, Show record, Eq record)
+                 => [PersistValue]
+-                -> Entity rec
++                -> Entity record
+                 -> Spec
+-            subject pvs rec =
++            subject pvs record =
+                 it "parses" $ do
+-                    parseEntityValues (entityDef (Proxy @rec)) pvs
+-                        `shouldBe` Right rec
++                    parseEntityValues (entityDef (Proxy @record)) pvs
++                        `shouldBe` Right record
+         describe "NormalModel" $ do
+             subject
+                 [ PersistInt64 20
+@@ -183,10 +183,10 @@
+     describe "entityValues" $ do
+         let
+             subject
+-                :: forall rec
+-                 . (PersistEntity rec, Show rec, Eq rec)
++                :: forall record
++                 . (PersistEntity record, Show record, Eq record)
+                 => [PersistValue]
+-                -> Entity rec
++                -> Entity record
+                 -> Spec
+             subject pvals entity = do
+                 it "renders as you would expect" $ do
+@@ -194,7 +194,7 @@
+                         `shouldBe` pvals
+                 it "round trips with parseEntityValues" $ do
+                     parseEntityValues
+-                        (entityDef $ Proxy @rec)
++                        (entityDef $ Proxy @record)
+                         (entityValues entity)
+                         `shouldBe` Right entity
+         describe "NormalModel" $ do
+--- a/external-packages/vendored/persistent/test/Database/Persist/TH/OverloadedLabelSpec.hs
++++ b/external-packages/vendored/persistent/test/Database/Persist/TH/OverloadedLabelSpec.hs
+@@ -50,7 +50,7 @@
+ 
+     it "works for polymorphic labels" $ do
+         let
+-            name :: (_) => EntityField rec a
++            name :: (_) => EntityField record a
+             name = #name
+ 
+             UserName = name

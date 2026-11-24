@@ -43,10 +43,15 @@ module Strip
 
   module_function
 
+  # Parser test fixtures: Haskell sources a package reads as data, which its
+  # golden tests expect verbatim. The strip leaves them alone.
+  FIXTURES = %w[haskell-src-exts/tests/examples/].freeze
+
   # Rewrites every source and cabal file under dir. Returns the changed paths.
   def tree(dir, names = REMOVED, renamed = RENAMED)
     files = Dir.glob(File.join(dir, SOURCE_GLOB), File::FNM_DOTMATCH)
                 .reject { |f| f.match?(%r{/dist(-newstyle)?/}) || f.include?('/.git/') || File.symlink?(f) || !File.file?(f) }
+                .reject { |f| FIXTURES.any? { |x| f.include?(x) } }
                 .sort
     files.select { |f| file(f, names, renamed) }
   end

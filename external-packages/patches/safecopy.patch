@@ -1,0 +1,35 @@
+--- a/external-packages/safecopy/src/Data/SafeCopy/Instances.hs
++++ b/external-packages/safecopy/src/Data/SafeCopy/Instances.hs
+@@ -17,6 +17,7 @@
+ import qualified Data.Foldable as Foldable
+ import           Data.Fixed (HasResolution, Fixed)
+ import           Data.Int
++import           Data.Kind (Type)
+ import qualified Data.IntMap as IntMap
+ import qualified Data.IntSet as IntSet
+ import           Data.Ix
+@@ -245,7 +246,7 @@
+     putCopy r = contain $ do safePut (numerator   r)
+                              safePut (denominator r)
+     errorTypeName = typeName1
+-instance (HasResolution a, Fractional (Fixed a), Typeable a) => SafeCopy (Fixed a) where
++instance (HasResolution a, Fractional (Fixed a), Typeable a) => SafeCopy (Fixed (a :: Type)) where
+     getCopy   = contain $ fromRational <$> safeGet
+     putCopy   = contain . safePut . toRational
+     errorTypeName = typeName1
+@@ -427,12 +428,12 @@
+                              put     (ctTZ t)
+                              put     (ctIsDST t)
+ 
+-typeName :: Typeable a => Proxy a -> String
++typeName :: Typeable a => Proxy (a :: Type) -> String
+ typeName proxy = show (typeOf (undefined `asProxyType` proxy))
+ 
+ #if MIN_VERSION_base(4,10,0)
+-typeName1 :: (Typeable c) => Proxy (c a) -> String
+-typeName2 :: (Typeable c) => Proxy (c a b) -> String
++typeName1 :: (Typeable c) => Proxy ((c :: Type -> Type) a) -> String
++typeName2 :: (Typeable c) => Proxy ((c :: Type -> Type -> Type) a b) -> String
+ #else
+ typeName1 :: (Typeable1 c) => Proxy (c a) -> String
+ typeName2 :: (Typeable2 c) => Proxy (c a b) -> String

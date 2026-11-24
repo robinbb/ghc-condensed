@@ -1,0 +1,19 @@
+--- a/external-packages/cryptonite/Crypto/Cipher/Types/Block.hs
++++ b/external-packages/cryptonite/Crypto/Cipher/Types/Block.hs
+@@ -34,6 +34,7 @@
+     --, cfb8Decrypt
+     ) where
+ 
++import           Data.Kind (Type)
+ import           Data.Word
+ import           Crypto.Error
+ import           Crypto.Cipher.Types.Base
+@@ -48,7 +49,7 @@
+ import           Foreign.Storable
+ 
+ -- | an IV parametrized by the cipher
+-data IV c = forall byteArray . ByteArray byteArray => IV byteArray
++data IV (c :: Type) = forall byteArray . ByteArray byteArray => IV byteArray
+ 
+ instance BlockCipher c => ByteArrayAccess (IV c) where
+     withByteArray (IV z) f = withByteArray z f

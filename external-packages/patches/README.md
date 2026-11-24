@@ -105,7 +105,8 @@ exception.
   kind-checked first. Variables and type variables called `rec`, a keyword
   with this compiler, are called `record` in
   `Database.Persist.Class.PersistEntity`, `Compatible.Types`,
-  `Sql.Orphan.PersistStore` and `Sql.Util`.
+  `Sql.Orphan.PersistStore` and `Sql.Util`. The two test modules that named
+  a type variable `rec` call it `record` too.
 - `vector.patch`: `Data.Vector.Storable.Mutable.MVector` declares its
   state parameter at kind `Type`. The parameter is phantom (a storable
   vector holds a `ForeignPtr`), so with kinds always generalised it
@@ -155,9 +156,13 @@ exception.
   memory, crypton and the TLS stack. `Basement.Monad.PrimVar` spells its
   kind `Type`, for the reason given under `constraints.patch`.
 - `crypton.patch`: `Crypto.Cipher.Types.Block.IV` declares its phantom
-  cipher parameter at kind `Type`. A local binding in
-  `cbcEncryptGeneric` was otherwise inferred over an `IV c` of arbitrary
-  kind, with a `ByteArrayAccess (IV c)` constraint no instance matches.
+  cipher parameter at kind `Type`. A local binding in `cbcEncryptGeneric`
+  was otherwise inferred over an `IV c` of arbitrary kind, with a
+  `ByteArrayAccess (IV c)` constraint no instance matches. Its
+  `tests/PubKey/MLKEMSpec.hs` and `MLDSASpec.hs` fix the `p` quantified in
+  `withSet` at kind `Type`; `PolyKinds`, always on with this compiler, would
+  otherwise generalise it, and the continuation could not be applied at
+  `MLKEM512`.
 - `barbies.patch`: `Barbies.Internal.Containers.Container` declares the
   kind of its barbie parameter, `(Type -> Type) -> Type`. Its `Functor`
   instance maps `first f` over `Const a`, which needs `Const` at kind
@@ -269,7 +274,11 @@ exception.
   families of `Data.Bytes.Signed` spell their result kind `Type`, for the
   reason given under `constraints.patch`. Blocks linear.
 - `th-expand-syns.patch`: `Language.Haskell.TH.ExpandSyns` calls a fold
-  accumulator `acc` rather than `rec`, a keyword with this compiler.
+  accumulator `acc` rather than `rec`, a keyword with this compiler. The
+  `ForAll` synonym of its `testing/Types.hs` declares its variable at kind
+  `Type`, which `PolyKinds`, always on with this compiler, would otherwise
+  generalise, and `testing/Main.hs` splices `StarT` for the kind `*` in the
+  quoted type it compares against; `StarIsType` is off with this compiler.
 - `directory-tree.patch`: `System.Directory.Tree` calls a local function
   `recurse` rather than `rec`, a keyword with this compiler.
 - `hedgehog.patch`: `Hedgehog.Internal.Gen.recursive` calls its third
@@ -282,3 +291,40 @@ exception.
   `Language.PureScript.Sugar.Names.Imports` and `TypeChecker.Deriving` call
   two variables `record` and `fields` rather than `rec`, a keyword with this
   compiler.
+- `invariant.patch`: `test/THSpec.hs` writes `Type` for `*` in three kind
+  signatures; `StarIsType` is off with this compiler.
+  `purescript-invariant.patch` is the same hunk for PureScript's private
+  copy of invariant 0.6.5.
+- `microlens-th.patch`: `test/T917.hs` writes `Type` for `*` in five kind
+  annotations and `test/templates.hs` in one; `StarIsType` is off with this
+  compiler.
+- `psqueues.patch`: `tests/Data/PSQ/Class.hs` writes `Type` for `*` in the
+  kinds of the `PSQ` class; `StarIsType` is off with this compiler.
+- `th-lift.patch`: `t/Foo.hs` drops the datatype context of `Foo`;
+  `DatatypeContexts` is removed from this compiler, and `Lift` deriving
+  never needed it.
+- `math-functions.patch`: `tests/Tests/Helpers.hs` declares the phantom
+  parameter of `T` at kind `Type`, since `typeName` applies `typeOf` to it;
+  `PolyKinds`, always on with this compiler, would otherwise generalise it.
+- `commonmark.patch`: `Commonmark.Html` declares the phantom parameter of
+  `Html` at kind `Type`, so that `IsBlock (Html a) (Html a)` stays more
+  specific than the `OVERLAPPABLE` instance of `Commonmark.Types`;
+  `PolyKinds`, always on with this compiler, would otherwise generalise it,
+  and commonmark-extensions' tests, which choose between the two, were
+  refused for overlap.
+- `cryptonite.patch`: as `crypton.patch`, `Crypto.Cipher.Types.Block.IV`
+  declares its phantom cipher parameter at kind `Type`. Only the x509 test
+  suite needs cryptonite; PureScript's private copy already had the change
+  from `purescript-cryptonite.patch`.
+- `safecopy.patch`: `Data.SafeCopy.Instances` fixes the `SafeCopy (Fixed a)`
+  instance and the `typeName` helpers at kind `Type`; `Fixed` is
+  kind-polymorphic in base, and `typeOf1` wants a parameter of kind `Type`.
+  Only the acid-state test suites need safecopy.
+- `MissingH.patch`: `Data.BinPacking` drops the datatype context of
+  `BinPackerError`, and `System.IO.HVFS.Combinators` those of `HVFSReadOnly`
+  and `HVFSChroot`; `DatatypeContexts` is removed from this compiler.
+- `acid-state.patch`: `test/Data/Acid/StateMachineTest.hs` writes `Type` for
+  `*` in four kind annotations; `StarIsType` is off with this compiler.
+- `x509.patch`: `Data.X509.Signed` drops the datatype contexts of `Signed`
+  and `SignedExact`; `DatatypeContexts` is removed from this compiler. Only
+  its own test suite needs the package built.

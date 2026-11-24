@@ -1,0 +1,46 @@
+--- a/external-packages/acid-state/test/Data/Acid/StateMachineTest.hs
++++ b/external-packages/acid-state/test/Data/Acid/StateMachineTest.hs
+@@ -39,6 +39,7 @@
+   ) where
+ 
+ import           Control.DeepSeq
++import           Data.Kind (Type)
+ import           Control.Exception (Exception, IOException, throw, catch, try, evaluate)
+ import           Control.Monad.IO.Class ( MonadIO(..) )
+ import           Control.Monad.State    ( State, evalState, execState )
+@@ -118,7 +119,7 @@
+ -- can transition between 'StateOpen' and 'StateClosed' by opening and
+ -- closing the state.  Both of the latter keep track of the current
+ -- value of the state.
+-data Model s (v :: * -> *)
++data Model s (v :: Type -> Type)
+     = StateAbsent    -- ^ State is not present on disk
+     | StateClosed s  -- ^ State is present on disk, but not in memory
+     | StateOpen   s (Var (Opaque (Acid.AcidState s)) v) -- ^ State is open in memory
+@@ -174,7 +175,7 @@
+                        }
+ 
+ 
+-data Open s (v :: * -> *) = Open s
++data Open s (v :: Type -> Type) = Open s
+   deriving Show
+ 
+ #if MIN_VERSION_hedgehog(1,1,0)
+@@ -206,7 +207,7 @@
+     update StateOpen{}     _        _   = error "open: state already open!"
+ 
+ 
+-data WithState s (v :: * -> *) = WithState String (Var (Opaque (Acid.AcidState s)) v)
++data WithState s (v :: Type -> Type) = WithState String (Var (Opaque (Acid.AcidState s)) v)
+   deriving (Show)
+ 
+ #if MIN_VERSION_hedgehog(1,1,0)
+@@ -267,7 +268,7 @@
+ 
+ 
+ 
+-data AcidCommand s e (v :: * -> *) = AcidCommand e (Var (Opaque (Acid.AcidState s)) v)
++data AcidCommand s e (v :: Type -> Type) = AcidCommand e (Var (Opaque (Acid.AcidState s)) v)
+   deriving (Show)
+ 
+ #if MIN_VERSION_hedgehog(1,1,0)

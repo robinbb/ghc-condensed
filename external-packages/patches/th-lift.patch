@@ -1,0 +1,11 @@
+--- a/external-packages/th-lift/t/Foo.hs
++++ b/external-packages/th-lift/t/Foo.hs
+@@ -20,7 +20,7 @@
+ import Language.Haskell.TH.Lift.Internal (unsafeSpliceCoerce)
+ #endif
+ 
+-data (Eq a) => Foo a b = Foo a Char | Bar a
++data Foo a b = Foo a Char | Bar a
+     deriving Show
+ 
+ newtype Rec a = Rec { field :: a }

@@ -4,13 +4,13 @@ packages:
 - name: adjunctions
   version: 4.4.4
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: adjunctions
   source:
     git: https://github.com/ekmett/adjunctions.git
     tag: v4.4.4
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
     no longer reads * as a kind
@@ -166,13 +166,13 @@ packages:
 - name: blaze-markup
   version: 0.8.3.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: blaze-markup
   source:
     git: https://github.com/jaspervdj/blaze-markup.git
     tag: v0.8.3.0
-  tests: false
+  tests: true
 - name: boring
   version: 0.2.2.1
   tier: 1
@@ -196,13 +196,13 @@ packages:
 - name: case-insensitive
   version: 1.2.2.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/case-insensitive
   source:
     sdist: case-insensitive-1.2.2.0
   note: no tag for 1.2.2.0 in https://github.com/basvandijk/case-insensitive.git
-  tests: false
+  tests: true
 - name: character-ps
   version: '0.1'
   tier: 1
@@ -227,13 +227,17 @@ packages:
 - name: clock
   version: 0.8.4
   tier: 1
-  role: dep
-  expected: ok
+  role: root
+  expected: test-failure
   path: clock
   source:
     git: https://github.com/corsis/clock.git
     tag: 0.8.4
-  tests: false
+  tests: true
+  reason: >-
+    the property Seconds truncate is Nano truncate is falsified by
+    -1.000000000, a boundary case of the test itself; nothing in it touches
+    what this compiler changed
 - name: colour
   version: 2.3.7
   tier: 1
@@ -257,13 +261,13 @@ packages:
 - name: constraints
   version: 0.14.4
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: constraints
   source:
     git: https://github.com/ekmett/constraints.git
     tag: v0.14.4
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
     no longer reads * as a kind
@@ -339,13 +343,13 @@ packages:
 - name: extra
   version: 1.8.1
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: extra
   source:
     git: https://github.com/ndmitchell/extra.git
     tag: v1.8.1
-  tests: false
+  tests: true
 - name: fgl
   version: 5.8.3.1
   tier: 1
@@ -359,13 +363,13 @@ packages:
 - name: file-embed
   version: 0.0.16.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/file-embed
   source:
     sdist: file-embed-0.0.16.0
   note: no tag for 0.0.16.0 in https://github.com/snoyberg/file-embed.git
-  tests: false
+  tests: true
 - name: filepattern
   version: 0.1.3
   tier: 1
@@ -445,13 +449,17 @@ packages:
 - name: happy
   version: '2.2'
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/happy
   source:
     sdist: happy-2.2
   note: no tag for 2.2 in https://github.com/haskell/happy.git
   tests: false
+  reason: >-
+    the Makefile harness runs the happy found on PATH, which is the Nix
+    shell's 2.1.7 rather than the built 2.2, so its golden outputs cannot
+    match; not this compiler's doing
 - name: happy-lib
   version: '2.2'
   tier: 1
@@ -489,25 +497,25 @@ packages:
 - name: haskell-src-exts
   version: 1.24.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: haskell-src-exts
   source:
     git: https://github.com/haskell-suite/haskell-src-exts.git
     tag: 1.24.0
-  tests: false
+  tests: true
   note: >-
     needs happy 2.2; happy 2.2.1 (deprecated on Hackage) rejects its %expect directive
 - name: haskell-src-meta
   version: 0.8.16
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: haskell-src-meta/haskell-src-meta
   source:
     git: https://github.com/haskell-party/haskell-src-meta.git
     tag: 0.8.16
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule:
     Language.Haskell.Meta.Extensions no longer maps the extensions this
@@ -541,13 +549,13 @@ packages:
 - name: hslogger
   version: 1.3.2.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: hslogger
   source:
     git: https://github.com/haskell-hvr/hslogger.git
     tag: v1.3.2.0
-  tests: false
+  tests: true
 - name: hslua
   version: 2.5.0
   tier: 1
@@ -701,13 +709,13 @@ packages:
 - name: HUnit
   version: 1.6.2.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: HUnit
   source:
     git: https://github.com/hspec/HUnit.git
     tag: 1.6.2.0
-  tests: false
+  tests: true
 - name: indexed-traversable
   version: 0.1.5
   tier: 1
@@ -741,23 +749,26 @@ packages:
 - name: integer-logarithms
   version: 1.0.5
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: integer-logarithms
   source:
     git: https://github.com/haskellari/integer-logarithms.git
     tag: v1.0.5
-  tests: false
+  tests: true
 - name: invariant
   version: 0.6.5
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: invariant-functors
   source:
     git: https://github.com/nfrisby/invariant-functors.git
     tag: 0.6.5
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: test/THSpec.hs writes
+    Type for * in three kind signatures, since StarIsType is off
 - name: js-dgtable
   version: 0.5.2
   tier: 1
@@ -848,13 +859,13 @@ packages:
 - name: logict
   version: 0.8.2.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: logict
   source:
     git: https://github.com/Bodigrim/logict.git
     tag: 0.8.2.0
-  tests: false
+  tests: true
 - name: lua
   version: 2.3.4
   tier: 1
@@ -897,13 +908,13 @@ packages:
 - name: network
   version: 3.2.12.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/network
   source:
     sdist: network-3.2.12.0
   note: 'not a git repository: https://github.com/haskell/network.git'
-  tests: false
+  tests: true
 - name: network-bsd
   version: 2.8.1.0
   tier: 1
@@ -917,13 +928,13 @@ packages:
 - name: network-uri
   version: 2.6.4.2
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: network-uri
   source:
     git: https://github.com/haskell/network-uri.git
     tag: v2.6.4.2
-  tests: false
+  tests: true
 - name: nothunks
   version: 0.3.2
   tier: 1
@@ -1119,13 +1130,13 @@ packages:
 - name: reflection
   version: 2.1.9
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: reflection
   source:
     git: https://github.com/ekmett/reflection.git
     tag: v2.1.9
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
     no longer reads * as a kind
@@ -1459,47 +1470,59 @@ packages:
 - name: th-compat
   version: 0.1.7
   tier: 1
-  role: dep
-  expected: ok
+  role: root
+  expected: test-failure
   path: th-compat
   source:
     git: https://github.com/haskell-compat/th-compat.git
     tag: 0.1.7
-  tests: false
+  tests: true
+  reason: >-
+    unsafeQToQuote fails at splice time with no instance for qRunQ:
+    th-compat 0.1.7 predates the abstract Q of upstream GHC 10.1
+    (7bf9e3c51c), so this is an upstream incompatibility, not this fork's
 - name: th-expand-syns
   version: 0.4.12.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: th-expand-syns
   source:
     git: https://github.com/DanielSchuessler/th-expand-syns.git
     tag: 0.4.12.0
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule:
     Language.Haskell.TH.ExpandSyns calls a fold accumulator acc rather than
-    rec, a keyword with this compiler (patches/th-expand-syns.patch)
+    rec, a keyword with this compiler (patches/th-expand-syns.patch); the
+    ForAll synonym of testing/Types.hs declares its variable at kind Type,
+    which PolyKinds, always on in this compiler, would otherwise generalise,
+    and testing/Main.hs splices StarT for the kind * in the quoted type it
+    compares against, since StarIsType is off, since StarIsType is off
 - name: th-lift
   version: 0.8.7
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: th-lift
   source:
     git: https://github.com/RyanGlScott/th-lift.git
     tag: v0.8.7
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: t/Foo.hs drops the
+    datatype context of Foo, since DatatypeContexts is removed; Lift
+    deriving is unaffected
 - name: th-orphans
   version: 0.13.17
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: th-orphans
   source:
     git: https://github.com/mgsloan/th-orphans.git
     tag: v0.13.17
-  tests: false
+  tests: true
 - name: th-reify-many
   version: 0.1.10
   tier: 1
@@ -1563,13 +1586,13 @@ packages:
 - name: typed-process
   version: 0.2.13.0
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/typed-process
   source:
     sdist: typed-process-0.2.13.0
   note: no tag for 0.2.13.0 in https://github.com/fpco/typed-process.git
-  tests: false
+  tests: true
 - name: unix-compat
   version: 0.7.4.1
   tier: 1
@@ -1603,13 +1626,13 @@ packages:
 - name: utf8-string
   version: 1.0.2
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: utf8-string
   source:
     git: https://github.com/glguy/utf8-string.git
     tag: v1.0.2
-  tests: false
+  tests: true
 - name: uuid-types
   version: 1.0.6.1
   tier: 1
@@ -1659,33 +1682,37 @@ packages:
 - name: witherable
   version: '0.5'
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: vendored/witherable
   source:
     sdist: witherable-0.5
   note: no tag for 0.5 in https://github.com/fumieval/witherable.git
-  tests: false
+  tests: true
 - name: zlib
   version: 0.7.1.1
   tier: 1
-  role: dep
+  role: root
   expected: ok
   path: zlib/zlib
   source:
     git: https://github.com/haskell/zlib.git
     tag: 0.7.1.1
-  tests: false
+  tests: true
 - name: acid-state
   version: 0.17.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: acid-state
   source:
     git: https://github.com/acid-state/acid-state.git
     tag: v0.17.0
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    test/Data/Acid/StateMachineTest.hs writes Type for * in four kind
+    annotations, since StarIsType is off
 - name: aeson-pretty
   version: 0.8.11
   tier: 2
@@ -1699,13 +1726,13 @@ packages:
 - name: alex
   version: 3.5.4.2
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: alex
   source:
     git: https://github.com/haskell/alex.git
     tag: v3.5.4.2
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: drops the datatype context
     of Data.Ranged.RangedSet.RSet, which this compiler no longer accepts
@@ -1812,13 +1839,13 @@ packages:
 - name: auto-update
   version: 0.2.8
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/auto-update
   source:
     sdist: auto-update-0.2.8
   note: no source repository listed
-  tests: false
+  tests: true
 - name: barbies
   version: 2.1.1.0
   tier: 2
@@ -1839,13 +1866,13 @@ packages:
 - name: base-compat-batteries
   version: 0.15.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: base-compat/base-compat-batteries
   source:
     git: https://github.com/haskell-compat/base-compat.git
     tag: 0.15.0
-  tests: false
+  tests: true
 - name: base-unicode-symbols
   version: 0.2.4.2
   tier: 2
@@ -1935,13 +1962,13 @@ packages:
 - name: brick
   version: '3.0'
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: brick
   source:
     git: https://github.com/jtdaugherty/brick.git
     tag: '3.0'
-  tests: false
+  tests: true
 - name: bsb-http-chunked
   version: 0.0.0.4
   tier: 2
@@ -2088,23 +2115,23 @@ packages:
 - name: citeproc
   version: 0.14.2
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: citeproc
   source:
     git: https://github.com/jgm/citeproc.git
     tag: 0.14.2
-  tests: false
+  tests: true
 - name: clientsession
   version: 0.9.3.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/clientsession
   source:
     sdist: clientsession-0.9.3.0
   note: no tag for 0.9.3.0 in https://github.com/yesodweb/clientsession.git
-  tests: false
+  tests: true
 - name: cmdargs
   version: 0.10.22
   tier: 2
@@ -2125,16 +2152,21 @@ packages:
     git: https://github.com/jgm/commonmark-hs.git
     tag: 0.3.0.2
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Commonmark.Html fixes
+    the phantom parameter of Html at kind Type, so that IsBlock (Html a)
+    (Html a) stays the more specific instance under PolyKinds, always on in
+    this compiler; commonmark-extensions' tests depend on it
 - name: commonmark-extensions
   version: 0.2.7.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: commonmark-hs/commonmark-extensions
   source:
     git: https://github.com/jgm/commonmark-hs.git
     tag: 0.3.0.2
-  tests: false
+  tests: true
 - name: commonmark-pandoc
   version: 0.3.0.2
   tier: 2
@@ -2162,23 +2194,23 @@ packages:
 - name: conduit
   version: 1.3.6.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/conduit
   source:
     sdist: conduit-1.3.6.1
   note: no tag for 1.3.6.1 in https://github.com/snoyberg/conduit.git
-  tests: false
+  tests: true
 - name: conduit-extra
   version: 1.3.8
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/conduit-extra
   source:
     sdist: conduit-extra-1.3.8
   note: 'not a git repository: git://github.com/snoyberg/conduit.git'
-  tests: false
+  tests: true
 - name: config-ini
   version: 0.2.7.0
   tier: 2
@@ -2212,13 +2244,13 @@ packages:
 - name: cookie
   version: 0.5.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/cookie
   source:
     sdist: cookie-0.5.1
   note: no tag for 0.5.1 in https://github.com/snoyberg/cookie.git
-  tests: false
+  tests: true
 - name: criterion-measurement
   version: 0.2.5.0
   tier: 2
@@ -2272,18 +2304,21 @@ packages:
 - name: crypton
   version: 2.2.6
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: crypton
   source:
     git: https://github.com/kazu-yamamoto/crypton.git
     tag: crypton-v2.2.6
-  tests: false
+  tests: true
   patched: >-
-    deliberate exception to the no-modification rule: Crypto.Cipher.Types.Block.IV
-    declares its phantom cipher parameter at kind Type; generalised, a local
-    binding over IV picked up an unresolvable ByteArrayAccess (IV c) constraint
-    (patches/crypton.patch)
+    deliberate exception to the no-modification rule:
+    Crypto.Cipher.Types.Block.IV declares its phantom cipher parameter at
+    kind Type; generalised, a local binding over IV picked up an
+    unresolvable ByteArrayAccess (IV c) constraint (patches/crypton.patch);
+    tests/PubKey/MLKEMSpec.hs and MLDSASpec.hs fix the p quantified in
+    withSet at kind Type, which PolyKinds, always on in this compiler, would
+    otherwise generalise
 - name: crypton-asn1-encoding
   version: 0.10.0
   tier: 2
@@ -2347,14 +2382,14 @@ packages:
 - name: crypton-x509
   version: 1.10.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/crypton-x509
   source:
     sdist: crypton-x509-1.10.1
   note: >-
     no tag for 1.10.1 in https://github.com/kazu-yamamoto/crypton-certificate.git
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: drops the datatype contexts
     of Data.X509.Signed.Signed and SignedExact, which this compiler no longer accepts
@@ -2401,6 +2436,11 @@ packages:
     git: https://github.com/haskell-crypto/cryptonite.git
     tag: cryptonite-v0.30
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Crypto.Cipher.Types.Block fixes the phantom parameter of IV at kind
+    Type, which PolyKinds, always on in this compiler, would otherwise
+    generalise in the inferred types of doEnc and doDec
 - name: cryptostore
   version: 0.6.0.0
   tier: 2
@@ -2444,13 +2484,13 @@ packages:
 - name: data-default
   version: 0.8.0.2
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: data-default
   source:
     git: https://codeberg.org/mauke/data-default.git
     tag: v0.8.0.2
-  tests: false
+  tests: true
 - name: data-default-class
   version: 0.2.0.0
   tier: 2
@@ -2582,13 +2622,13 @@ packages:
 - name: either
   version: 5.0.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: either
   source:
     git: https://github.com/ekmett/either.git
     tag: v5.0.3
-  tests: false
+  tests: true
 - name: email-validate
   version: 2.3.2.21
   tier: 2
@@ -2612,13 +2652,13 @@ packages:
 - name: encoding
   version: 0.10.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/encoding
   source:
     sdist: encoding-0.10.3
   note: no tag for 0.10.3 in https://github.com/dmwit/encoding.git
-  tests: false
+  tests: true
   patched: >-
     hides Data.Sequence.toList, which containers 0.8 (shipped with GHC 10.1) newly
     exports and which clashed with the Data.Foldable import (patches/encoding.patch)
@@ -2663,13 +2703,13 @@ packages:
 - name: fast-logger
   version: 3.2.9
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/fast-logger
   source:
     sdist: fast-logger-3.2.9
   note: no tag for 3.2.9 in https://github.com/kazu-yamamoto/logger.git
-  tests: false
+  tests: true
 - name: fastcgi
   version: 3001.0.2.5
   tier: 2
@@ -2724,13 +2764,13 @@ packages:
 - name: generics-sop
   version: 0.5.1.4
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: generics-sop/generics-sop
   source:
     git: https://github.com/well-typed/generics-sop.git
     tag: generics-sop-0.5.1.4
-  tests: false
+  tests: true
 - name: ghc-hs-meta
   version: 0.1.5.0
   tier: 2
@@ -2884,13 +2924,13 @@ packages:
 - name: hashtables
   version: 1.4.2
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/hashtables
   source:
     sdist: hashtables-1.4.2
   note: no tag for 1.4.2 in https://github.com/gregorycollins/hashtables.git
-  tests: false
+  tests: true
 - name: haskell-src
   version: 1.0.4.2
   tier: 2
@@ -2904,13 +2944,13 @@ packages:
 - name: hedgehog
   version: '1.7'
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: haskell-hedgehog/hedgehog
   source:
     git: https://github.com/hedgehogqa/haskell-hedgehog.git
     tag: '1.7'
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule:
     Hedgehog.Internal.Gen.recursive calls its third argument recur rather
@@ -3153,14 +3193,14 @@ packages:
 - name: HsOpenSSL
   version: 0.11.7.11
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/HsOpenSSL
   source:
     sdist: HsOpenSSL-0.11.7.11
   note: >-
     no tag for 0.11.7.11 in https://github.com/haskell-cryptography/HsOpenSSL.git
-  tests: false
+  tests: true
 - name: HStringTemplate
   version: 0.8.8
   tier: 2
@@ -3194,13 +3234,13 @@ packages:
 - name: http-api-data
   version: '0.7'
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: http-api-data
   source:
     git: https://github.com/fizruk/http-api-data.git
     tag: v0.7
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
     no longer reads * as a kind
@@ -3208,23 +3248,23 @@ packages:
 - name: http-client
   version: 0.7.19
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/http-client
   source:
     sdist: http-client-0.7.19
   note: no source repository listed
-  tests: false
+  tests: true
 - name: http-client-tls
   version: 0.4.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/http-client-tls
   source:
     sdist: http-client-tls-0.4.0
   note: no source repository listed
-  tests: false
+  tests: true
 - name: http-conduit
   version: 2.3.9.1
   tier: 2
@@ -3278,13 +3318,13 @@ packages:
 - name: http2
   version: 5.4.13
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: http2
   source:
     git: https://github.com/kazu-yamamoto/http2.git
     tag: v5.4.13
-  tests: false
+  tests: true
 - name: iconv
   version: 0.4.1.3
   tier: 2
@@ -3328,13 +3368,13 @@ packages:
 - name: iproute
   version: 1.8.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: iproute
   source:
     git: https://github.com/kazu-yamamoto/iproute.git
     tag: v1.8.0
-  tests: false
+  tests: true
 - name: ipynb
   version: '0.2'
   tier: 2
@@ -3452,13 +3492,13 @@ packages:
 - name: linear
   version: 1.23.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: linear
   source:
     git: https://github.com/ekmett/linear.git
     tag: v1.23.3
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: Linear.V0.V0 declares its
     phantom element parameter at kind Type, which its Ixed instance requires,
@@ -3487,13 +3527,13 @@ packages:
 - name: lucid
   version: 2.11.20260427
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/lucid
   source:
     sdist: lucid-2.11.20260427
   note: no tag for 2.11.20260427 in https://github.com/chrisdone/lucid.git
-  tests: false
+  tests: true
 - name: managed
   version: 1.0.11
   tier: 2
@@ -3517,13 +3557,17 @@ packages:
 - name: math-functions
   version: 0.3.4.4
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: math-functions
   source:
     git: https://github.com/bos/math-functions.git
     tag: 0.3.4.4
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: tests/Tests/Helpers.hs
+    fixes the phantom parameter of T at kind Type, which PolyKinds, always
+    on in this compiler, would otherwise generalise
 - name: memory
   version: 0.18.0
   tier: 2
@@ -3581,13 +3625,17 @@ packages:
 - name: microlens-th
   version: 0.4.3.18
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: microlens/microlens-th
   source:
     git: https://github.com/stevenfontanella/microlens.git
     tag: microlens-0.5.0.0
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: test/T917.hs writes
+    Type for * in five kind annotations and test/templates.hs in one, since
+    StarIsType is off
 - name: mime-mail
   version: 0.5.2
   tier: 2
@@ -3611,13 +3659,17 @@ packages:
 - name: MissingH
   version: 1.6.0.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: missingh
   source:
     git: https://github.com/haskell-hvr/missingh.git
     tag: v1.6.0.3
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Data.BinPacking drops
+    the datatype context of BinPackerError and System.IO.HVFS.Combinators
+    those of HVFSReadOnly and HVFSChroot, since DatatypeContexts is removed
 - name: mmorph
   version: 1.2.2
   tier: 2
@@ -3672,18 +3724,24 @@ packages:
 - name: mono-traversable
   version: 1.0.21.0
   tier: 2
-  role: dep
-  expected: ok
+  role: root
+  expected: test-failure
   path: vendored/mono-traversable
   source:
     sdist: mono-traversable-1.0.21.0
   note: no tag for 1.0.21.0 in https://github.com/snoyberg/mono-traversable.git
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: the 18 instances for
     Const m a, K1 i c a, Proxy a, U1 a and V1 a in Data.MonoTraversable state
     the kind of a, Type, which their Element instances fix
     (patches/mono-traversable.patch)
+  reason: >-
+    test/Main.hs binds its Containers helper test with let and no signature
+    and applies it at Map, IntMap and HashMap; this compiler infers it
+    monomorphic at Map Int Int, even under NoMonoLocalBinds and under a
+    partial signature, so some constraint on the map type is not being
+    quantified; whether upstream GHC 10.1 agrees is not yet known
 - name: mtl-compat
   version: 0.2.2
   tier: 2
@@ -3934,13 +3992,13 @@ packages:
 - name: persistent
   version: 2.18.1.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/persistent
   source:
     sdist: persistent-2.18.1.0
   note: no tag for 2.18.1.0 in https://github.com/yesodweb/persistent.git
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule:
     Database.Persist.TH.Internal no longer lists MultiParamTypeClasses or
@@ -3951,7 +4009,8 @@ packages:
     parameter at kind Type, which Compatible's standalone-derived instances
     require; variables and type variables called rec, a keyword with this
     compiler, are called record in PersistEntity, Compatible.Types,
-    Sql.Orphan.PersistStore and Sql.Util (patches/persistent.patch)
+    Sql.Orphan.PersistStore and Sql.Util (patches/persistent.patch); the two
+    test modules that named a type variable rec call it record too
 - name: persistent-template
   version: 2.12.0.0
   tier: 2
@@ -3964,7 +4023,7 @@ packages:
   tests: false
 - name: pretty-show
   version: '1.10'
-  tier: 2
+  tier: 1
   role: dep
   expected: ok
   path: vendored/pretty-show
@@ -3995,13 +4054,17 @@ packages:
 - name: psqueues
   version: 0.2.8.3
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: psqueues
   source:
     git: https://github.com/jaspervdj/psqueues.git
     tag: v0.2.8.3
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    tests/Data/PSQ/Class.hs writes Type for * in the kinds of the PSQ class,
+    since StarIsType is off
 - name: pureMD5
   version: 2.1.4
   tier: 2
@@ -4125,23 +4188,23 @@ packages:
 - name: resourcet
   version: 1.3.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: conduit/resourcet
   source:
     git: https://github.com/snoyberg/conduit.git
     tag: resourcet-1.3.0
-  tests: false
+  tests: true
 - name: retry
   version: 0.9.3.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: retry
   source:
     git: https://github.com/Soostone/retry.git
     tag: 0.9.3.1
-  tests: false
+  tests: true
 - name: RSA
   version: 2.4.1
   tier: 2
@@ -4172,6 +4235,11 @@ packages:
     git: https://github.com/acid-state/safecopy.git
     tag: v0.10.4.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.SafeCopy.Instances fixes the SafeCopy (Fixed a) instance and the
+    typeName helpers at kind Type, which PolyKinds, always on in this
+    compiler, would otherwise generalise
 - name: sdl2
   version: 2.5.6.1
   tier: 2
@@ -4212,13 +4280,13 @@ packages:
 - name: servant
   version: 0.20.3.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: servant/servant
   source:
     git: https://github.com/haskell-servant/servant.git
     tag: servant-0.20.3.0
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: the kind-indexed family
     Arity' in Servant.API.TypeErrors gets a standalone kind signature, its
@@ -4326,13 +4394,13 @@ packages:
 - name: skylighting-core
   version: 0.15.0.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: skylighting/skylighting-core
   source:
     git: https://github.com/jgm/skylighting.git
     tag: 0.15.0.1
-  tests: false
+  tests: true
 - name: skylighting-format-ansi
   version: '0.1'
   tier: 2
@@ -4416,13 +4484,13 @@ packages:
 - name: split
   version: 0.2.5.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/split
   source:
     sdist: split-0.2.5.1
   note: no tag for 0.2.5.1 in https://github.com/byorgey/split.git
-  tests: false
+  tests: true
 - name: stm-chans
   version: 3.0.0.11
   tier: 2
@@ -4436,13 +4504,13 @@ packages:
 - name: streaming-commons
   version: 0.2.3.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: streaming-commons
   source:
     git: https://github.com/fpco/streaming-commons.git
     tag: v0.2.3.1
-  tests: false
+  tests: true
 - name: string-interpolate
   version: 1.0.0.0
   tier: 2
@@ -4506,13 +4574,13 @@ packages:
 - name: tagsoup
   version: 0.14.8
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: tagsoup
   source:
     git: https://github.com/ndmitchell/tagsoup.git
     tag: v0.14.8
-  tests: false
+  tests: true
 - name: tasty-hedgehog
   version: 1.4.0.2
   tier: 2
@@ -4526,13 +4594,13 @@ packages:
 - name: texmath
   version: 0.13.3.4
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: texmath
   source:
     git: https://github.com/jgm/texmath.git
     tag: 0.13.3.4
-  tests: false
+  tests: true
 - name: text-ansi
   version: 0.3.0.1
   tier: 2
@@ -4627,13 +4695,13 @@ packages:
 - name: time-manager
   version: 0.5.2
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/time-manager
   source:
     sdist: time-manager-0.5.2
   note: no source repository listed
-  tests: false
+  tests: true
 - name: timeit
   version: '2.0'
   tier: 2
@@ -4647,13 +4715,13 @@ packages:
 - name: tls
   version: 2.5.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: hs-tls/tls
   source:
     git: https://github.com/haskell-tls/hs-tls.git
     tag: tls-2.5.1
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: the rank-2 arguments of
     Network.TLS.Crypto.withPubKeyEC and withPrivKeyEC quantify their curve at
@@ -4692,13 +4760,13 @@ packages:
 - name: typst
   version: 0.12.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: typst-hs
   source:
     git: https://github.com/jgm/typst-hs.git
     tag: 0.12.1
-  tests: false
+  tests: true
 - name: typst-symbols
   version: '0.3'
   tier: 2
@@ -4762,23 +4830,26 @@ packages:
 - name: unix-time
   version: 0.6.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: unix-time
   source:
     git: https://github.com/kazu-yamamoto/unix-time.git
     tag: v0.6.0
-  tests: false
+  tests: true
 - name: unliftio
   version: 0.2.25.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/unliftio
   source:
     sdist: unliftio-0.2.25.1
   note: no source repository listed
   tests: false
+  reason: >-
+    the hspec-discover preprocessor is expected on PATH and not declared as
+    a build tool, so cabal does not provide it
 - name: userid
   version: 0.1.3.8
   tier: 2
@@ -4802,23 +4873,23 @@ packages:
 - name: vault
   version: 0.3.2.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vault
   source:
     git: https://github.com/HeinrichApfelmus/vault.git
     tag: v0.3.2.0
-  tests: false
+  tests: true
 - name: vector-algorithms
   version: 0.9.1.0
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vector-algorithms
   source:
     git: https://github.com/erikd/vector-algorithms.git
     tag: v0.9.1.0
-  tests: false
+  tests: true
 - name: void
   version: 0.7.4
   tier: 2
@@ -4862,13 +4933,13 @@ packages:
 - name: wai
   version: 3.2.5
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: wai/wai
   source:
     git: https://github.com/yesodweb/wai.git
     tag: warp-tls/3.4.18
-  tests: false
+  tests: true
 - name: wai-app-static
   version: 3.2.1
   tier: 2
@@ -4892,13 +4963,13 @@ packages:
 - name: wai-extra
   version: 3.1.18
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: wai/wai-extra
   source:
     git: https://github.com/yesodweb/wai.git
     tag: warp-tls/3.4.18
-  tests: false
+  tests: true
 - name: wai-handler-launch
   version: 3.0.3.1
   tier: 2
@@ -4912,13 +4983,13 @@ packages:
 - name: wai-logger
   version: 2.5.1
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/wai-logger
   source:
     sdist: wai-logger-2.5.1
   note: no tag for 2.5.1 in https://github.com/kazu-yamamoto/logger.git
-  tests: false
+  tests: true
 - name: warp
   version: 3.5.0
   tier: 2
@@ -4932,13 +5003,13 @@ packages:
 - name: web-routes
   version: 0.27.16
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/web-routes
   source:
     sdist: web-routes-0.27.16
   note: no tag for 0.27.16 in https://github.com/Happstack/web-routes.git
-  tests: false
+  tests: true
 - name: web-routes-boomerang
   version: 0.28.4.5
   tier: 2
@@ -5037,13 +5108,17 @@ packages:
 - name: x509
   version: 1.7.7
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: vendored/x509
   source:
     sdist: x509-1.7.7
   note: 'not a git repository: git://github.com/vincenthz/hs-certificate'
-  tests: false
+  tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Data.X509.Signed drops
+    the datatype contexts of Signed and SignedExact, since DatatypeContexts
+    is removed
 - name: x509-store
   version: 1.6.9
   tier: 2
@@ -5107,13 +5182,13 @@ packages:
 - name: xmlhtml
   version: 0.2.5.4
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: xmlhtml
   source:
     git: https://github.com/snapframework/xmlhtml.git
     tag: 0.2.5.4
-  tests: false
+  tests: true
 - name: xss-sanitize
   version: 0.3.7.2
   tier: 2
@@ -5212,13 +5287,13 @@ packages:
 - name: zip-archive
   version: '0.5'
   tier: 2
-  role: dep
+  role: root
   expected: ok
   path: zip-archive
   source:
     git: https://github.com/jgm/zip-archive.git
     tag: '0.5'
-  tests: false
+  tests: true
 - name: aws
   version: 0.25.3
   tier: 3
@@ -5291,13 +5366,13 @@ packages:
 - name: criterion
   version: 1.6.5.0
   tier: 3
-  role: dep
+  role: root
   expected: ok
   path: criterion
   source:
     git: https://github.com/haskell/criterion.git
     tag: criterion-measurement-0.2.5.0
-  tests: false
+  tests: true
 - name: crypto-token
   version: 0.2.1
   tier: 3
@@ -5341,13 +5416,13 @@ packages:
 - name: dbus
   version: 1.4.3
   tier: 3
-  role: dep
+  role: root
   expected: ok
   path: haskell-dbus
   source:
     git: https://github.com/rblaze/haskell-dbus.git
     tag: v1.4.3
-  tests: false
+  tests: true
   patched: >-
     deliberate exception to the no-modification rule: marks the four instances of
     DBus.Client and DBus.Internal.Types that overlapped OVERLAPPING, since those
@@ -5447,13 +5522,16 @@ packages:
 - name: hjsmin
   version: 0.2.1
   tier: 3
-  role: dep
+  role: root
   expected: ok
   path: vendored/hjsmin
   source:
     sdist: hjsmin-0.2.1
   note: no tag for 0.2.1 in https://github.com/erikd/hjsmin.git
   tests: false
+  reason: >-
+    the test-cli runner looks for the executable under dist-newstyle in the
+    package directory, which the corpus build never creates
 - name: http-client-restricted
   version: 0.1.1
   tier: 3
@@ -5528,7 +5606,7 @@ packages:
   tests: false
 - name: mwc-random
   version: 0.15.3.0
-  tier: 3
+  tier: 2
   role: dep
   expected: ok
   path: mwc-random
@@ -5702,13 +5780,13 @@ packages:
 - name: uuid
   version: 1.3.16.1
   tier: 3
-  role: dep
+  role: root
   expected: ok
   path: uuid/uuid
   source:
     git: https://github.com/haskell-hvr/uuid.git
     tag: uuid-1.3.16.1
-  tests: false
+  tests: true
 - name: vector-binary-instances
   version: 0.2.5.2
   tier: 3
@@ -5721,7 +5799,7 @@ packages:
   tests: false
 - name: vector-th-unbox
   version: 0.2.2
-  tier: 3
+  tier: 2
   role: dep
   expected: ok
   path: vector-th-unbox
@@ -5732,13 +5810,13 @@ packages:
 - name: warp-tls
   version: 3.4.18
   tier: 3
-  role: dep
+  role: root
   expected: ok
   path: wai/warp-tls
   source:
     git: https://github.com/yesodweb/wai.git
     tag: warp-tls/3.4.18
-  tests: false
+  tests: true
 - name: xml-hamlet
   version: 0.5.0.3
   tier: 3

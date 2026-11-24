@@ -547,13 +547,37 @@ benchmarks: False
 index-state: 2026-11-10T18:10:59Z
 allow-newer: all
 
+package HUnit
+  tests: True
+
+package HsOpenSSL
+  tests: True
+
+package MissingH
+  tests: True
+
 package ShellCheck
+  tests: True
+
+package acid-state
+  tests: True
+
+package adjunctions
   tests: True
 
 package aeson
   tests: True
 
+package alex
+  tests: True
+
 package attoparsec
+  tests: True
+
+package auto-update
+  tests: True
+
+package base-compat-batteries
   tests: True
 
 package base-orphans
@@ -562,13 +586,79 @@ package base-orphans
 package bifunctors
   tests: True
 
+package blaze-markup
+  tests: True
+
+package brick
+  tests: True
+
+package case-insensitive
+  tests: True
+
+package citeproc
+  tests: True
+
+package clientsession
+  tests: True
+
+package clock
+  tests: True
+
+package commonmark-extensions
+  tests: True
+
+package conduit
+  tests: True
+
+package conduit-extra
+  tests: True
+
+package constraints
+  tests: True
+
+package cookie
+  tests: True
+
+package criterion
+  tests: True
+
+package crypton
+  tests: True
+
+package crypton-x509
+  tests: True
+
+package data-default
+  tests: True
+
+package dbus
+  tests: True
+
 package distributive
   tests: True
 
 package dlist
   tests: True
 
+package either
+  tests: True
+
+package encoding
+  tests: True
+
+package extra
+  tests: True
+
+package fast-logger
+  tests: True
+
+package file-embed
+  tests: True
+
 package generic-deriving
+  tests: True
+
+package generics-sop
   tests: True
 
 package git-annex
@@ -581,6 +671,18 @@ package happstack-server
   tests: True
 
 package hashable
+  tests: True
+
+package hashtables
+  tests: True
+
+package haskell-src-exts
+  tests: True
+
+package haskell-src-meta
+  tests: True
+
+package hedgehog
   tests: True
 
 package hledger
@@ -598,13 +700,61 @@ package hledger-stockquotes
 package hledger-web
   tests: True
 
+package hslogger
+  tests: True
+
 package hslua
+  tests: True
+
+package http-api-data
+  tests: True
+
+package http-client
+  tests: True
+
+package http-client-tls
+  tests: True
+
+package http2
+  tests: True
+
+package integer-logarithms
+  tests: True
+
+package invariant
+  tests: True
+
+package iproute
   tests: True
 
 package lens
   tests: True
 
+package linear
+  tests: True
+
+package logict
+  tests: True
+
 package lua
+  tests: True
+
+package lucid
+  tests: True
+
+package math-functions
+  tests: True
+
+package microlens-th
+  tests: True
+
+package mono-traversable
+  tests: True
+
+package network
+  tests: True
+
+package network-uri
   tests: True
 
 package optparse-applicative
@@ -616,10 +766,28 @@ package pandoc
 package path
   flags: +os-string
 
+package persistent
+  tests: True
+
 package primitive
   tests: True
 
+package psqueues
+  tests: True
+
+package reflection
+  tests: True
+
+package resourcet
+  tests: True
+
+package retry
+  tests: True
+
 package scientific
+  tests: True
+
+package servant
   tests: True
 
 package shake
@@ -631,17 +799,101 @@ package shakespeare
 package shelly
   tests: True
 
+package skylighting-core
+  tests: True
+
+package split
+  tests: True
+
 package splitmix
+  tests: True
+
+package streaming-commons
   tests: True
 
 package syb
   tests: True
 
+package tagsoup
+  tests: True
+
 package tasty-quickcheck
+  tests: True
+
+package texmath
   tests: True
 
 package th-abstraction
   tests: True
 
+package th-compat
+  tests: True
+
+package th-expand-syns
+  tests: True
+
+package th-lift
+  tests: True
+
+package th-orphans
+  tests: True
+
+package time-manager
+  tests: True
+
+package tls
+  tests: True
+
+package typed-process
+  tests: True
+
+package typst
+  tests: True
+
+package unix-time
+  tests: True
+
 package unordered-containers
+  tests: True
+
+package utf8-string
+  tests: True
+
+package uuid
+  tests: True
+
+package vault
+  tests: True
+
+package vector-algorithms
+  tests: True
+
+package wai
+  tests: True
+
+package wai-extra
+  tests: True
+
+package wai-logger
+  tests: True
+
+package warp-tls
+  tests: True
+
+package web-routes
+  tests: True
+
+package witherable
+  tests: True
+
+package x509
+  tests: True
+
+package xmlhtml
+  tests: True
+
+package zip-archive
+  tests: True
+
+package zlib
   tests: True

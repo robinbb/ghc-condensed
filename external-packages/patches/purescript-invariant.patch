@@ -1,0 +1,33 @@
+--- a/external-packages/projects/purescript/vendored/invariant-0.6.5/test/THSpec.hs
++++ b/external-packages/projects/purescript/vendored/invariant-0.6.5/test/THSpec.hs
+@@ -16,6 +16,7 @@
+ 
+ import Data.Functor.Invariant
+ import Data.Functor.Invariant.TH
++import Data.Kind (Type)
+ 
+ import Test.Hspec
+ import Test.Hspec.QuickCheck (prop)
+@@ -72,7 +73,7 @@
+     = TyCon19a (forall c. c -> (forall d. a -> d) -> a)
+     | TyCon19b (Int -> forall c. c -> b)
+ 
+-type family F :: * -> * -> *
++type family F :: Type -> Type -> Type
+ type instance F = Either
+ 
+ data TyCon20 a b = TyCon20 (F a b)
+@@ -96,11 +97,11 @@
+     | S2Fam a
+     | S3Fam b
+ 
+-data family      ComposeFam (f :: * -> *) (g :: * -> * -> *) a b
++data family      ComposeFam (f :: Type -> Type) (g :: Type -> Type -> Type) a b
+ newtype instance ComposeFam f g a b = ComposeFam (f (g a b))
+   deriving (Arbitrary, Eq, Show)
+ 
+-data family   ComplexConstraintFam (f :: * -> * -> * -> *) a b
++data family   ComplexConstraintFam (f :: Type -> Type -> Type -> Type) a b
+ data instance ComplexConstraintFam f a b =
+     ComplexConstraintFam (f Int Int (f Bool Bool a,a,b))
+ 

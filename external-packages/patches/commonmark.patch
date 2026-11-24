@@ -1,0 +1,17 @@
+--- a/external-packages/commonmark-hs/commonmark/src/Commonmark/Html.hs
++++ b/external-packages/commonmark-hs/commonmark/src/Commonmark/Html.hs
+@@ -29,12 +29,13 @@
+ import           Unicode.Char         (ord, isAlphaNum, isAscii)
+ import           Unicode.Char.General.Compat (isSpace)
+ import           Data.Maybe           (fromMaybe)
++import           Data.Kind            (Type)
+ 
+ data ElementType =
+     InlineElement
+   | BlockElement
+ 
+-data Html a =
++data Html (a :: Type) =
+     HtmlElement !ElementType {-# UNPACK #-} !Text [Attribute] (Maybe (Html a))
+   | HtmlText {-# UNPACK #-} !Text
+   | HtmlRaw {-# UNPACK #-} !Text

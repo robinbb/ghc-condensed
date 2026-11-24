@@ -1,0 +1,20 @@
+--- a/external-packages/vendored/x509/Data/X509/Signed.hs
++++ b/external-packages/vendored/x509/Data/X509/Signed.hs
+@@ -55,7 +55,7 @@
+ --
+ -- When dealing with external certificate, use the SignedExact structure
+ -- not this one.
+-data (Show a, Eq a, ASN1Object a) => Signed a = Signed
++data Signed a = Signed
+     { signedObject    :: a            -- ^ Object to sign
+     , signedAlg       :: SignatureALG -- ^ Signature Algorithm used
+     , signedSignature :: B.ByteString -- ^ Signature as bytes
+@@ -63,7 +63,7 @@
+ 
+ -- | Represent the signed object plus the raw data that we need to
+ -- keep around for non compliant case to be able to verify signature.
+-data (Show a, Eq a, ASN1Object a) => SignedExact a = SignedExact
++data SignedExact a = SignedExact
+     { getSigned          :: Signed a     -- ^ get the decoded Signed data
+     , exactObjectRaw     :: B.ByteString -- ^ The raw representation of the object a
+                                          -- TODO: in later version, replace with offset in exactRaw

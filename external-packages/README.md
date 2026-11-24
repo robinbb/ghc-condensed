@@ -62,7 +62,11 @@ different version it is fine (the corpus holds Hackage's
 haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
 - **Roots and deps.** A *root* is a package chosen for coverage; its
   test suites run. A *dep* is only built. Running a dep's tests would
-  pull in its own test dependencies and so on without end.
+  pull in its own test dependencies and so on without end. The roots
+  are the packages picked for each tier plus, since 2026-11-23, every
+  dep in Hackage's top 500 by downloads (yesod excepted) whose test
+  dependencies were already in the corpus: 87 packages, three of whose
+  test dependencies moved down a tier to be solvable.
 - **Tests.** Only cabal `test-suite` stanzas that can be satisfied inside
   the Nix shell are run. Suites that need doctest, hint,
   inspection-testing (GHC-API packages that break on development
@@ -119,7 +123,9 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   `lib/strip.rb`) in LANGUAGE pragmas, OPTIONS_GHC flags and cabal
   extensions fields, dropping a removed extension, whose behaviour is
   always on, renaming a removed alias such as Rank2Types to the name
-  the compiler keeps. A module-wide instance default
+  the compiler keeps. It leaves parser test fixtures alone
+  (haskell-src-exts's `tests/examples`, listed in `lib/strip.rb`), since
+  those are read as data and compared against golden files. A module-wide instance default
   (OverlappingInstances, IncoherentInstances) is dropped like a removed
   extension; the per-instance pragmas a package then needs, found by
   building it and reading the overlap errors, are a patch. Packages

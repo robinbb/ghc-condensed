@@ -1,0 +1,31 @@
+--- a/external-packages/missingh/src/Data/BinPacking.hs
++++ b/external-packages/missingh/src/Data/BinPacking.hs
+@@ -42,7 +42,7 @@
+ {- | Potential errors returned as Left values by 'BinPacker' functions.
+ Calling 'show' on this value will produce a nice error message suitable for
+ display. -}
+-data (Num size, Ord size, Show size, Show obj) => BinPackerError size obj =
++data BinPackerError size obj =
+     BPTooFewBins [(size, obj)]                -- ^ Ran out of bins; attached value is the list of objects that do not fit
+     | BPSizeTooLarge size (size, obj)   -- ^ Bin size1 exceeded by at least the given object and size
+     | BPOther String                    -- ^ Other error
+--- a/external-packages/missingh/src/System/IO/HVFS/Combinators.hs
++++ b/external-packages/missingh/src/System/IO/HVFS/Combinators.hs
+@@ -51,7 +51,7 @@
+ No constructor is required; just say @HVFSReadOnly fs@ to make a
+ new read-only wrapper around the 'HVFS' instance @fs@.
+ -}
+-data HVFS a => HVFSReadOnly a = HVFSReadOnly a
++data HVFSReadOnly a = HVFSReadOnly a
+                               deriving (Eq, Show)
+ withro :: HVFS a => (a -> b) -> HVFSReadOnly a -> b
+ withro f (HVFSReadOnly x) = f x
+@@ -90,7 +90,7 @@
+ ----------------------------------------------------------------------
+ {- | Access a subdirectory of a real filesystem as if it was the root
+ of that filesystem. -}
+-data HVFS a => HVFSChroot a = HVFSChroot String a
++data HVFSChroot a = HVFSChroot String a
+                             deriving (Eq, Show)
+ 
+ {- | Create a new 'HVFSChroot' object. -}

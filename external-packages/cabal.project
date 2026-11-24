@@ -136,6 +136,7 @@ packages:
   vendored/old-time
   vendored/optparse-applicative
   vendored/parallel
+  vendored/pretty-show
   vendored/primitive
   vendored/quickcheck-classes-base
   vendored/random
@@ -161,7 +162,13 @@ benchmarks: False
 index-state: 2026-11-10T18:10:59Z
 allow-newer: all
 
+package HUnit
+  tests: True
+
 package ShellCheck
+  tests: True
+
+package adjunctions
   tests: True
 
 package aeson
@@ -176,10 +183,28 @@ package base-orphans
 package bifunctors
   tests: True
 
+package blaze-markup
+  tests: True
+
+package case-insensitive
+  tests: True
+
+package clock
+  tests: True
+
+package constraints
+  tests: True
+
 package distributive
   tests: True
 
 package dlist
+  tests: True
+
+package extra
+  tests: True
+
+package file-embed
   tests: True
 
 package generic-deriving
@@ -191,19 +216,46 @@ package happstack-server
 package hashable
   tests: True
 
+package haskell-src-exts
+  tests: True
+
+package haskell-src-meta
+  tests: True
+
+package hslogger
+  tests: True
+
 package hslua
+  tests: True
+
+package integer-logarithms
+  tests: True
+
+package invariant
   tests: True
 
 package lens
   tests: True
 
+package logict
+  tests: True
+
 package lua
+  tests: True
+
+package network
+  tests: True
+
+package network-uri
   tests: True
 
 package optparse-applicative
   tests: True
 
 package primitive
+  tests: True
+
+package reflection
   tests: True
 
 package scientific
@@ -230,5 +282,29 @@ package tasty-quickcheck
 package th-abstraction
   tests: True
 
+package th-compat
+  tests: True
+
+package th-expand-syns
+  tests: True
+
+package th-lift
+  tests: True
+
+package th-orphans
+  tests: True
+
+package typed-process
+  tests: True
+
 package unordered-containers
+  tests: True
+
+package utf8-string
+  tests: True
+
+package witherable
+  tests: True
+
+package zlib
   tests: True

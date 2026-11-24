@@ -1,0 +1,62 @@
+--- a/external-packages/microlens/microlens-th/test/T917.hs
++++ b/external-packages/microlens/microlens-th/test/T917.hs
+@@ -11,6 +11,7 @@
+ 
+ import Lens.Micro.TH
+ import Data.Proxy
++import Data.Kind (Type)
+ 
+ #if __GLASGOW_HASKELL__ >= 800 && __GLASGOW_HASKELL__ < 806
+ import Data.Kind
+@@ -21,15 +22,15 @@
+ newtype Constant a (b :: k) = Constant a
+ 
+ data family   T917DataFam (a :: k)
+-data instance T917DataFam (a :: *) = MkT917DataFam { _unT917DataFam :: Proxy a }
++data instance T917DataFam (a :: Type) = MkT917DataFam { _unT917DataFam :: Proxy a }
+ $(makeLenses 'MkT917DataFam)
+ 
+ {-
+-data T917OneA (a :: k -> *) (b :: k -> *) = MkT917OneA
++data T917OneA (a :: k -> Type) (b :: k -> Type) = MkT917OneA
+ data T917OneB a b = MkT917OneB (T917OneA a (Const b))
+ $(makePrisms ''T917OneB)
+ 
+-data T917TwoA (a :: k -> *) (b :: k -> *) = MkT917TwoA
++data T917TwoA (a :: k -> Type) (b :: k -> Type) = MkT917TwoA
+ data T917TwoB a b = MkT917TwoB (T917TwoA a (Const b))
+ $(makeClassyPrisms ''T917TwoB)
+ -}
+@@ -37,11 +38,11 @@
+ #if __GLASGOW_HASKELL__ >= 800
+ {-
+ data T917GadtOne (a :: k) where
+-  MkT917GadtOne :: T917GadtOne (a :: *)
++  MkT917GadtOne :: T917GadtOne (a :: Type)
+ $(makePrisms ''T917GadtOne)
+ 
+ data T917GadtTwo (a :: k) where
+-  MkT917GadtTwo :: T917GadtTwo (a :: *)
++  MkT917GadtTwo :: T917GadtTwo (a :: Type)
+ $(makePrisms ''T917GadtTwo)
+ -}
+ #endif
+--- a/external-packages/microlens/microlens-th/test/templates.hs
++++ b/external-packages/microlens/microlens-th/test/templates.hs
+@@ -24,6 +24,7 @@
+ 
+ import Lens.Micro
+ import Lens.Micro.TH
++import Data.Kind (Type)
+ import T799 ()
+ import T917 ()
+ import T972 ()
+@@ -463,7 +464,7 @@
+ data OtherTable = OtherTable
+ 
+ class CRUDTable a where
+-  data TableRow a :: *
++  data TableRow a :: Type
+ 
+ instance CRUDTable UserTable where
+   data TableRow UserTable =

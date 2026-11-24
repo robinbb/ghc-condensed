@@ -9,3 +9,33 @@
  
  -- evadeTest = let v = mkName "x"
  --             in
+--- a/external-packages/th-expand-syns/testing/Main.hs
++++ b/external-packages/th-expand-syns/testing/Main.hs
+@@ -16,7 +16,7 @@
+ -- GHC 7.8 always seems to consider the body of 'ForallT' to have a 'PlainTV',
+ -- whereas it always has a 'KindedTV' with GHC 7.10 (in both cases, it doesn't appear
+ -- to matter whether the definition of 'ForAll' is actually written with a kind signature).
+-              [t| forall a. Show a => a -> (forall (x :: *). [] x) -> (Int,[] Integer) |])
++              [t| forall a. Show a => a -> (forall (x :: $(return StarT)). [] x) -> (Int,[] Integer) |])
+ 
+     putStrLn "Variable capture avoidance test..."
+     $(let
+--- a/external-packages/th-expand-syns/testing/Types.hs
++++ b/external-packages/th-expand-syns/testing/Types.hs
+@@ -2,6 +2,7 @@
+ {-# LANGUAGE TypeFamilies    #-}
+ module Types where
+ 
++import qualified Data.Kind as Kind
+ import Language.Haskell.TH.Lib
+ import Language.Haskell.TH.Syntax
+ import Util
+@@ -9,7 +10,7 @@
+ -- type A = forall a. B a; type B a = Maybe a; expand [t|B A|]
+ 
+ type ListOf x = [x]
+-type ForAll f = forall x. f x
++type ForAll f = forall (x :: Kind.Type). f x
+ type ApplyToInteger f = f Integer
+ type Int' = Int
+ type Either' = Either
