@@ -55,7 +55,7 @@ main = do
         let excludeList =
               [ "testsuite/tests/linters/notes.stdout"
               , "linters/lint-notes/test" ]
-            -- The library submodules absorbed into the tree, and nofib, keep
+            -- The submodules absorbed into the tree, and nofib, keep
             -- their own Notes; references inside them are not GHC's to check.
             absorbedLibraries =
               [
@@ -68,7 +68,7 @@ main = do
               "libraries/semaphore-compat/", "libraries/stm/", "libraries/template-haskell-lift/",
               "libraries/template-haskell-quasiquoter/", "libraries/terminfo/", "libraries/text/",
               "libraries/time/", "libraries/transformers/", "libraries/unix/",
-              "libraries/xhtml/", "nofib/" ]
+              "libraries/xhtml/", "utils/hpc/", "utils/hsc2hs/", "nofib/" ]
             excluded f = f `elem` excludeList || any (`isPrefixOf` f) absorbedLibraries
         files <- lines <$> readProcess "git" ["ls-tree", "--name-only", "-r", "HEAD"] ""
         return (parseMode mode, filter (not . excluded) files)

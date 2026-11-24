@@ -6,8 +6,8 @@
 from pathlib import Path
 from linter import run_linters, RegexpLinter
 
-# The library submodules absorbed into the tree, and nofib, keep their
-# own conventions and are not linted.
+# The submodules absorbed into the tree (libraries, hpc, hsc2hs), and
+# nofib, keep their own conventions and are not linted.
 ABSORBED_LIBRARIES = {
     'Cabal', 'Win32', 'array', 'binary',
     'bytestring', 'containers', 'deepseq', 'directory',
@@ -17,6 +17,7 @@ ABSORBED_LIBRARIES = {
     'template-haskell-lift', 'template-haskell-quasiquoter', 'terminfo', 'text',
     'time', 'transformers', 'unix', 'xhtml',
 }
+ABSORBED_UTILS = {'hpc', 'hsc2hs'}
 
 linters = [
     RegexpLinter(r'WARN\s+\(',
@@ -45,9 +46,11 @@ for l in linters:
     l.add_path_filter(lambda path: not path.name == 'core-spec.pdf')
     # Don't lint the linter itself
     l.add_path_filter(lambda path: not path.name == 'check-cpp.py')
-    # Don't lint the absorbed library submodules, nor nofib
+    # Don't lint the absorbed submodules, nor nofib
     l.add_path_filter(lambda path: not (len(path.parts) > 1 and path.parts[0] == 'libraries'
                                         and path.parts[1] in ABSORBED_LIBRARIES)
+                                   and not (len(path.parts) > 1 and path.parts[0] == 'utils'
+                                            and path.parts[1] in ABSORBED_UTILS)
                                    and not (len(path.parts) > 0 and path.parts[0] == 'nofib'))
 
 if __name__ == '__main__':

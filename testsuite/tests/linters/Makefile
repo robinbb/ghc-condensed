@@ -45,6 +45,7 @@ whitespace:
 				libraries/base/tests\
 				utils/hp2ps\
 				utils/hpc\
+				utils/hsc2hs\
 				utils/unlit\
 				utils/haddock\
 				libraries/Cabal\

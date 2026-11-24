@@ -1,13 +1,6 @@
-[submodule "utils/hsc2hs"]
-	path = utils/hsc2hs
-	url = https://gitlab.haskell.org/ghc/hsc2hs.git
-	ignore = untracked
 [submodule "gmp-tarballs"]
 	path = libraries/ghc-internal/gmp/gmp-tarballs
 	url = https://gitlab.haskell.org/ghc/gmp-tarballs.git
-[submodule "utils/hpc"]
-	path = utils/hpc
-	url = https://gitlab.haskell.org/hpc/hpc-bin.git
 [submodule "libraries/libffi-clib"]
 	path = libraries/libffi-clib
 	url = https://gitlab.haskell.org/ghc/libffi-clib.git

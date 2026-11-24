@@ -255,7 +255,7 @@ autogenFiles = [ "iconv.c", "Table.hs" ]
 
 ignoredPrefixes :: [Text]
 ignoredPrefixes = [ "testsuite/", "libraries/base/tests"
-                  , "utils/hp2ps", "utils/hpc", "utils/unlit"
+                  , "utils/hp2ps", "utils/hpc", "utils/hsc2hs", "utils/unlit"
                   ]
 
 isTracked :: [Text] -> [Text] -> FilePath -> Bool
