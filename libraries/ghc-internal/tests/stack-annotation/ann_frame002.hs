@@ -1,5 +1,4 @@
 
-{-# LANGUAGE ScopedTypeVariables #-}
 
 import TestUtils
 

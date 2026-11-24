@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
-             UndecidableInstances, ScopedTypeVariables #-}
+             UndecidableInstances #-}
 
 module T6015 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, GHC2021 #-}
+{-# LANGUAGE GHC2021 #-}
 
 module T11339 where
 

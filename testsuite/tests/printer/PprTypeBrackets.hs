@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeOperators, TypeFamilies #-}
 
 foo (f :: (Maybe t -> Int)) =

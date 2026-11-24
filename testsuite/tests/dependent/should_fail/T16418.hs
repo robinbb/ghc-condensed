@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module T16418 where
 
 import Data.Kind

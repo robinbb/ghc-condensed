@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE TupleSections #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -Wno-orphans -Wno-x-partial #-}
 
 -- Fine if this comes from make/Hadrian or the pre-built base.

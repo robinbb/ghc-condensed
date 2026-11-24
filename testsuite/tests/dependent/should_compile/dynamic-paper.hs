@@ -5,7 +5,7 @@ Stephanie Weirich, Richard Eisenberg, and Dimitrios Vytiniotis, 2016. -}
 -- so will give "simplifier ticks exhausted", at least with -O
 
 {-#  LANGUAGE TypeOperators,
-             ScopedTypeVariables, GADTs, FlexibleInstances,
+             GADTs, FlexibleInstances,
              UndecidableInstances, RebindableSyntax,
              MagicHash #-}
 {-# OPTIONS_GHC -Wno-missing-methods -Wno-redundant-constraints #-}

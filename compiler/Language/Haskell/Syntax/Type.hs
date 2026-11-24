@@ -714,13 +714,13 @@ typechecking.
 
 Note [Lexically scoped type variables]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ScopedTypeVariables extension does two things:
+Type variables are lexically scoped in two ways:
 
-* It allows the use of type signatures in patterns
+* Type signatures in patterns bind them
   (e.g., `f (x :: a -> a) = ...`). See
   Note [Pattern signature binders and scoping] for more on this point.
-* It brings lexically scoped type variables into scope for certain type
-  signatures with outermost invisible 'forall's.
+* Certain type signatures with outermost invisible 'forall's bring them
+  into scope over the body.
 
 This Note concerns the latter bullet point. Per the
 "Lexically scoped type variables" section of the GHC User's Guide, the
@@ -733,8 +733,8 @@ following forms of type signatures can have lexically scoped type variables:
 
   Here, the 'forall a' brings 'a' into scope over the body of 'f'.
 
-  Note that ScopedTypeVariables does /not/ interact with standalone kind
-  signatures, only type signatures.
+  Note that standalone kind signatures do /not/ scope their variables,
+  only type signatures do.
 
 * In explicit type annotations in expressions, e.g.,
 
@@ -1228,8 +1228,8 @@ I don't know if this is a good idea, but there it is.
 
 {- Note [hsScopedTvs and visible foralls]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ScopedTypeVariables can be defined in terms of a desugaring to TypeAbstractions
-(GHC Proposals #155 and #448):
+Lexical scoping of type variables can be defined in terms of a desugaring to
+TypeAbstractions (GHC Proposals #155 and #448):
 
     fn :: forall a b c. tau(a,b,c)            fn :: forall a b c. tau(a,b,c)
     fn = defn(a,b,c)                   ==>    fn @x @y @z = defn(x,y,z)
@@ -1249,8 +1249,8 @@ The `a` and `b` cannot scope over the equations of `vfn`.  In particular,
 `a` and `b` cannot be in scope in <scrutinee> because those type variables
 are bound by the `\x y ->`.
 
-Our solution is simple: ScopedTypeVariables has no effect on visible forall.
-It follows naturally from the fact that ScopedTypeVariables is already subject
+Our solution is simple: a visible forall brings nothing into scope.
+It follows naturally from the fact that lexical scoping is already subject
 to several restrictions:
 
   1. The type signature must be headed by an /explicit/ forall
@@ -1282,7 +1282,7 @@ For example:
    f4 t (x::t) = (x::a)   -- Wrong: the `forall a ->` does not bring `a` into scope
 
 This design choice is reflected in the definition of HsOuterSigTyVarBndrs, which are
-used in every place where ScopedTypeVariables takes effect:
+used in every place where type variables are lexically scoped:
 
   data HsOuterTyVarBndrs flag pass
     = HsOuterImplicit { ... }

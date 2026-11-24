@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module T20584b where
 

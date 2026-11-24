@@ -1,5 +1,5 @@
 {-# LANGUAGE ConstraintKinds, FlexibleInstances, TypeFamilies,
-     FlexibleContexts, UndecidableInstances, ScopedTypeVariables #-}
+     FlexibleContexts, UndecidableInstances #-}
 module T5515 where
 
 

@@ -2,7 +2,6 @@
 {-# LANGUAGE CPP
            , MagicHash
            , UnboxedTuples
-           , ScopedTypeVariables
   #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
 -- kludge for the Control.Concurrent.QSem, Control.Concurrent.QSemN

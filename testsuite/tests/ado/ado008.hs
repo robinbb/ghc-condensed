@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, ExistentialQuantification, ApplicativeDo,
+{-# LANGUAGE ExistentialQuantification, ApplicativeDo,
              RebindableSyntax  #-}
 {- This module is mostly a copy of ado001 but tests that all those
    functions work when we have RebindableSyntax enabled

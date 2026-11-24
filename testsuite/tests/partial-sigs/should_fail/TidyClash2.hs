@@ -1,4 +1,4 @@
-{-# LANGUAGE NamedWildCards, ScopedTypeVariables #-}
+{-# LANGUAGE NamedWildCards #-}
 module TidyClash2 where
 
 {-

@@ -1,4 +1,4 @@
-RepPolyTupleSection.hs:10:7: error: [GHC-55287]
+RepPolyTupleSection.hs:9:7: error: [GHC-55287]
     • The second component of the unboxed tuple section
       does not have a fixed runtime representation.
       Its type is:

@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module SAKS_Fail013 where
 

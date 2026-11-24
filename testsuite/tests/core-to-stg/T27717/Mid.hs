@@ -1,5 +1,5 @@
 {-# LANGUAGE UndecidableInstances, FlexibleInstances, FlexibleContexts #-}
-{-# LANGUAGE GADTs, ConstraintKinds, ScopedTypeVariables #-}
+{-# LANGUAGE GADTs, ConstraintKinds #-}
 module Mid where
 
 import Ty

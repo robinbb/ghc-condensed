@@ -695,10 +695,9 @@ in GHC.Tc.TyCl.swizzleTcTyConBndrs.  In case of (2) it's done by
 findDupTyVarTvs in GHC.Tc.Gen.Bind.chooseInferredQuantifiers.
 
 Historical note: Before #15050 this (under the name SigTv) was also
-used for ScopedTypeVariables in patterns, to make sure these type
-variables only refer to other type variables, but this restriction was
-dropped, and ScopedTypeVariables can now refer to full types (GHC
-Proposal 29).
+used for pattern signatures, to make sure these type variables only
+refer to other type variables, but this restriction was dropped, and
+pattern signatures can now refer to full types (GHC Proposal 29).
 
 Note [Name of a unification variable]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

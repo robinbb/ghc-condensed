@@ -966,9 +966,8 @@ rnMethodBinds is_cls_decl cls ktv_names binds sigs
        ; updGblEnv (\gblEnv -> gblEnv { tcg_complete_matches = tcg_complete_matches gblEnv ++ localCompletePrags
                                       , tcg_complete_match_env = tcg_complete_match_env gblEnv ++ localCompletePrags}) $
     do {
-       -- Rename the bindings RHSs.  Again there's an issue about whether the
-       -- type variables from the class/instance head are in scope.
-       -- Answer no in Haskell 2010, but yes if you have -XScopedTypeVariables
+       -- Rename the bindings RHSs, with the type variables from the
+       -- class/instance head in scope.
        ; (binds'', bind_fvs) <- bindSigTyVarsFV ktv_names $
               do { binds_w_dus <- mapM (rnLBind (mkScopedTvFn other_sigs')) binds'
                  ; let bind_fvs = foldr (\(_,_,fv1) fv2 -> fv1 `plusFN` fv2)

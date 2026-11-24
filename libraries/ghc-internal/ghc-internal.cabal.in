@@ -90,7 +90,6 @@ Library
         RecordWildCards
         RoleAnnotations
         Safe
-        ScopedTypeVariables
         StandaloneDeriving
         Trustworthy
         TypeFamilies

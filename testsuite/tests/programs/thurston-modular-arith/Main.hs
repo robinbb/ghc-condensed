@@ -1,5 +1,4 @@
-{-# LANGUAGE UndecidableInstances, ExistentialQuantification,
-              ScopedTypeVariables #-}
+{-# LANGUAGE UndecidableInstances, ExistentialQuantification #-}
 
 --      Modular arithmetic, due to Dale Thurston
 

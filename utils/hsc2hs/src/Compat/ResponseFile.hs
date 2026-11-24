@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP                 #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- taken from base-4.12.0.0's "GHC.ResponseFile"
 

@@ -1,4 +1,4 @@
-T14846.hs:35:8: error: [GHC-25897]
+T14846.hs:34:8: error: [GHC-25897]
     • Couldn't match type ‘ríki’ with ‘Hom riki’
       Expected: ríki a a
         Actual: Hom riki a a
@@ -8,7 +8,7 @@ T14846.hs:35:8: error: [GHC-25897]
                       (a :: Struct cls2) (ríki :: Struct cls2 -> Struct cls2 -> Type).
                StructI xx a =>
                ríki a a
-        at T14846.hs:35:8-48
+        at T14846.hs:34:8-48
     • When checking that instance signature for ‘i’
         is more general than its signature in the class
         Instance sig: forall {k1} {k2} {cls :: k2 -> Constraint} (xx :: k1)
@@ -21,16 +21,16 @@ T14846.hs:35:8: error: [GHC-25897]
                       ríki a a
       In the instance declaration for ‘Category (Hom riki)’
 
-T14846.hs:36:44: error: [GHC-25897]
+T14846.hs:35:44: error: [GHC-25897]
     • Couldn't match kind ‘k4’ with ‘Struct cls2’
       Expected kind ‘Struct cls2 -> Constraint’,
         but ‘cls’ has kind ‘k4 -> Constraint’
       ‘k4’ is a rigid type variable bound by
         the instance declaration
-        at T14846.hs:34:10-65
+        at T14846.hs:33:10-65
     • In the second argument of ‘Structured’, namely ‘cls’
       In the first argument of ‘AStruct’, namely ‘(Structured a cls)’
       In an expression type signature: AStruct (Structured a cls)
     • Relevant bindings include
-        i :: Hom riki a a (bound at T14846.hs:36:3)
+        i :: Hom riki a a (bound at T14846.hs:35:3)
 

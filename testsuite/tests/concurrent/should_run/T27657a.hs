@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- A retry escaping a catchSTM handler must reach the enclosing orElse. An IO
 -- CATCH_FRAME in the way trips an assertion in findRetryFrameHelper.

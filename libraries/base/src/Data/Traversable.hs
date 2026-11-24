@@ -439,7 +439,7 @@ import GHC.Internal.Data.Traversable
 -- definitions are shown below (see [coercion](#coercion) if unfamiliar with
 -- the use of 'coerce' in the sample code):
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- >
 -- > -- Default in-order traversal
 -- >
@@ -691,7 +691,7 @@ import GHC.Internal.Data.Traversable
 -- pure values and function application.  This allows us to define
 -- 'fmapDefault':
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > import Data.Coercible (coerce)
 -- >
 -- > fmapDefault :: forall t a b. Traversable t => (a -> b) -> t a -> t b
@@ -737,7 +737,7 @@ import GHC.Internal.Data.Traversable
 --
 -- With @StateL@, we can define 'mapAccumL' as follows:
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > mapAccumL :: forall t s a b. Traversable t
 -- >           => (s -> a -> (s, b)) -> s -> t a -> (s, t b)
 -- > mapAccumL g s ts = coerce (traverse @t @(StateL s) @a @b) (flip g) ts s
@@ -775,7 +775,7 @@ import GHC.Internal.Data.Traversable
 --
 -- With @StateR@, we can define 'mapAccumR' as follows:
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > mapAccumR :: forall t s a b. Traversable t
 -- >           => (s -> a -> (s, b)) -> s -> t a -> (s, t b)
 -- > mapAccumR g s0 ts = coerce (traverse @t @(StateR s) @a @b) (flip g) ts s0
@@ -830,7 +830,7 @@ import GHC.Internal.Data.Traversable
 --
 -- We can therefore define a specialisation of 'traverse':
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > traverseC :: forall t a m. (Monoid m, Traversable t)
 -- >           => (a -> Const m ()) -> t a -> Const m (t ())
 -- > traverseC = traverse @t @(Const m) @a @()
@@ -843,7 +843,7 @@ import GHC.Internal.Data.Traversable
 --
 -- In other words, this makes it possible to define:
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > foldMapDefault :: forall t a m. (Monoid m, Traversable t) => (a -> m) -> t a -> m
 -- > foldMapDefault = coerce (traverse @t @(Const m) @a @())
 --
@@ -858,7 +858,7 @@ import GHC.Internal.Data.Traversable
 -- implementations of 'foldr' and 'foldl'', which take a bit more machinery
 -- to construct:
 --
--- > {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+-- > {-# LANGUAGE TypeApplications #-}
 -- > import Data.Coerce (coerce)
 -- > import Data.Functor.Const (Const(..))
 -- > import Data.Semigroup (Dual(..), Endo(..))
@@ -1012,7 +1012,6 @@ import GHC.Internal.Data.Traversable
 -- used to implicitly wrap and unwrap the @ZipList@ @newtype@ as needed, giving
 -- a function that operates on a list of lists:
 --
--- >>> :set -XScopedTypeVariables
 -- >>> import Control.Applicative (ZipList(..))
 -- >>> import Data.Coerce (coerce)
 -- >>>

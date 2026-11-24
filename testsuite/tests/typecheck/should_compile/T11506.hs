@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, ScopedTypeVariables,
+{-# LANGUAGE ExistentialQuantification,
              TypeFamilies #-}
 
 module T11506 where

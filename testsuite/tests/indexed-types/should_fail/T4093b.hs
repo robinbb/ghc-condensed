@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, EmptyDataDecls, ScopedTypeVariables, TypeFamilies #-}
+{-# LANGUAGE GADTs, EmptyDataDecls, TypeFamilies #-}
 
 module T4093b where
 

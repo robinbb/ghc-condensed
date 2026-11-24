@@ -1,4 +1,4 @@
-T16418.hs:8:13: error: [GHC-97739]
+T16418.hs:7:13: error: [GHC-97739]
     • These kind and type variables: a k (b :: k)
       are out of dependency order. Perhaps try this ordering:
         k (a :: k) (b :: k)

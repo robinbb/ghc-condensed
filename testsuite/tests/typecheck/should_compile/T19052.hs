@@ -1,4 +1,4 @@
-{-# LANGUAGE AllowAmbiguousTypes, FlexibleInstances, ScopedTypeVariables, TypeApplications, TypeFamilies, TypeOperators, UndecidableInstances #-}
+{-# LANGUAGE AllowAmbiguousTypes, FlexibleInstances, TypeApplications, TypeFamilies, TypeOperators, UndecidableInstances #-}
 module Overlap where
 
 import Data.Kind (Type)

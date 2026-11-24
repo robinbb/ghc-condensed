@@ -1,7 +1,7 @@
 {-# LANGUAGE GADTs, ConstraintKinds,
              TypeOperators,
              TypeFamilies, UndecidableInstances,
-             FlexibleContexts, ScopedTypeVariables #-}
+             FlexibleContexts #-}
 module T7786 where
 
 import Data.Kind (Type)

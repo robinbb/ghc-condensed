@@ -1,17 +1,17 @@
-deriving-via-fail.hs:10:34: error: [GHC-25897]
+deriving-via-fail.hs:9:34: error: [GHC-25897]
     • Couldn't match representation of type ‘b’ with that of ‘a’
         arising from the coercion of the method ‘showsPrec’
           from type ‘Int -> Identity b -> ShowS’
             to type ‘Int -> Foo1 a -> ShowS’
       ‘b’ is a rigid type variable bound by
         the deriving clause for ‘Show (Foo1 a)’
-        at deriving-via-fail.hs:10:34-37
+        at deriving-via-fail.hs:9:34-37
       ‘a’ is a rigid type variable bound by
         the deriving clause for ‘Show (Foo1 a)’
-        at deriving-via-fail.hs:10:34-37
+        at deriving-via-fail.hs:9:34-37
     • When deriving the instance for (Show (Foo1 a))
 
-deriving-via-fail.hs:13:12: error: [GHC-39999]
+deriving-via-fail.hs:12:12: error: [GHC-39999]
     • No instance for ‘Category fooo’
         arising from the 'deriving' clause of a data type declaration
       Possible fix:
@@ -19,7 +19,7 @@ deriving-via-fail.hs:13:12: error: [GHC-39999]
           so you can specify the instance context yourself
     • When deriving the instance for (Category Foo2)
 
-deriving-via-fail.hs:13:12: error: [GHC-25897]
+deriving-via-fail.hs:12:12: error: [GHC-25897]
     • Couldn't match type ‘fooo’ with ‘(->)’
         arising from defaulting the representational equality
           between: fooo b c
@@ -28,10 +28,10 @@ deriving-via-fail.hs:13:12: error: [GHC-25897]
           the coercion of derived method ‘Control.Category..’
       ‘fooo’ is a rigid type variable bound by
         the deriving clause for ‘Category Foo2’
-        at deriving-via-fail.hs:13:12-19
+        at deriving-via-fail.hs:12:12-19
     • When deriving the instance for (Category Foo2)
 
-deriving-via-fail.hs:13:12: error: [GHC-25897]
+deriving-via-fail.hs:12:12: error: [GHC-25897]
     • Couldn't match type ‘fooo’ with ‘(->)’
         arising from defaulting the representational equality
           between: fooo a a
@@ -40,15 +40,15 @@ deriving-via-fail.hs:13:12: error: [GHC-25897]
           the coercion of derived method ‘Control.Category.id’
       ‘fooo’ is a rigid type variable bound by
         the deriving clause for ‘Category Foo2’
-        at deriving-via-fail.hs:13:12-19
+        at deriving-via-fail.hs:12:12-19
     • When deriving the instance for (Category Foo2)
 
-deriving-via-fail.hs:16:20: error: [GHC-25897]
+deriving-via-fail.hs:15:20: error: [GHC-25897]
     • Couldn't match representation of type ‘a’ with that of ‘Foo3’
         arising from the coercion of the method ‘==’
           from type ‘a -> a -> Bool’ to type ‘Foo3 -> Foo3 -> Bool’
       ‘a’ is a rigid type variable bound by
         the deriving clause for ‘Eq Foo3’
-        at deriving-via-fail.hs:16:20-21
+        at deriving-via-fail.hs:15:20-21
     • When deriving the instance for (Eq Foo3)
 

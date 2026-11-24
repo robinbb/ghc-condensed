@@ -1,4 +1,3 @@
-{-# OPTIONS -XScopedTypeVariables #-}
 
 module Main(main) where
 

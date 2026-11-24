@@ -129,9 +129,8 @@ From a syntactic point of view:
    similar to that for instance declarations.
 
 -  Inside a :pragma:`RULES` "``forall``" is treated as a keyword, regardless of any
-   other flag settings. Furthermore, inside a :pragma:`RULES`, the language
-   extension :extension:`ScopedTypeVariables` is automatically enabled; see
-   :ref:`scoped-type-variables`.
+   other flag settings. Furthermore, the type variables bound in a
+   :pragma:`RULES` are lexically scoped; see :ref:`scoped-type-variables`.
 
 -  Like other pragmas, :pragma:`RULES` pragmas are always checked for scope errors,
    and are typechecked. Typechecking means that the LHS and RHS of a

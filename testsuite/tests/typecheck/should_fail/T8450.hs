@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module T8450 where
 
 runEffect :: Either Bool r -> r

@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs                     #-}
-{-# LANGUAGE ScopedTypeVariables       #-}
 {-# LANGUAGE TypeFamilyDependencies    #-}
 {-# LANGUAGE TypeOperators             #-}
 {-# LANGUAGE TypeAbstractions          #-}

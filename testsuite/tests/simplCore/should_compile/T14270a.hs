@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, ScopedTypeVariables, GADTs #-}
+{-# LANGUAGE TypeApplications, GADTs #-}
 {-# OPTIONS_GHC -O2 #-} -- We are provoking a bug in GHC.Core.Opt.SpecConstr
 
 module T14270a where

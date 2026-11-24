@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
              FunctionalDependencies #-}
 
 -- This tests scoped type variables, used in an expression

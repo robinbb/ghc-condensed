@@ -8,7 +8,6 @@
 {-# Language ConstraintKinds #-}
 {-# Language FlexibleInstances #-}
 {-# Language TypeOperators #-}
-{-# Language ScopedTypeVariables #-}
 {-# Language DefaultSignatures #-}
 {-# Language FunctionalDependencies #-}
 {-# Language UndecidableSuperClasses #-}

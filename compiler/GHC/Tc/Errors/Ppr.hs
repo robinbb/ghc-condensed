@@ -1760,11 +1760,6 @@ instance Diagnostic TcRnMessage where
                           nest 2 (text "namely" <+> ppr_opfix arg_op)]),
              nest 4 (text "in the section:" <+> quotes (ppr section))]
 
-    TcRnUnexpectedPatSigType ty
-      -> mkSimpleDecorated $
-           hang (text "Illegal type signature:" <+> quotes (ppr ty))
-              2 (text "Type signatures are only allowed in patterns with ScopedTypeVariables")
-
     TcRnUnusedQuantifiedTypeVar doc tyVar
       -> mkSimpleDecorated $
            vcat [ text "Unused quantified type variable" <+> quotes (ppr tyVar)
@@ -2571,8 +2566,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnSectionPrecedenceError{}
       -> ErrorWithoutFlag
-    TcRnUnexpectedPatSigType{}
-      -> ErrorWithoutFlag
     TcRnUnusedQuantifiedTypeVar{}
       -> WarningWithFlag Opt_WarnUnusedForalls
     TcRnTypeSynonymCycle{}
@@ -3246,8 +3239,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnSectionPrecedenceError{}
       -> noHints
-    TcRnUnexpectedPatSigType{}
-      -> [suggestExtension LangExt.ScopedTypeVariables]
     TcRnUnusedQuantifiedTypeVar{}
       -> noHints
     TcRnTypeSynonymCycle{}

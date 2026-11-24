@@ -2747,8 +2747,6 @@ fLangFlagsDeps = [
     (deprecatedForExtension "ExtendedDefaultRules"),
   depFlagSpec' "implicit-params"                LangExt.ImplicitParams
     (deprecatedForExtension "ImplicitParams"),
-  depFlagSpec' "scoped-type-variables"          LangExt.ScopedTypeVariables
-    (deprecatedForExtension "ScopedTypeVariables"),
   depFlagSpec' "allow-undecidable-instances"    LangExt.UndecidableInstances
     (deprecatedForExtension "UndecidableInstances")
   ]

@@ -714,7 +714,6 @@ Some details:
               xs :: [b]
               xs = [x,x,x]
 
-   Provided that you also specify :extension:`ScopedTypeVariables`
-   (:ref:`scoped-type-variables`), the ``forall b`` scopes over the
-   definition of ``foo``, and in particular over the type signature for
-   ``xs``.
+   The ``forall b`` scopes over the definition of ``foo``
+   (:ref:`scoped-type-variables`), and in particular over the type
+   signature for ``xs``.

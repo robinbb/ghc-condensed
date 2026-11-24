@@ -51,7 +51,6 @@ data Extension
    | QuasiQuotes
    | ImplicitParams
    | ImplicitPrelude
-   | ScopedTypeVariables
    | AllowAmbiguousTypes
    | UnboxedTuples
    | UnboxedSums

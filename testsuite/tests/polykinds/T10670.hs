@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, GADTs #-}
+{-# LANGUAGE GADTs #-}
 
 module T10670 where
 

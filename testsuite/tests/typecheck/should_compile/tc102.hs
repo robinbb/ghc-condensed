@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- !!! Caused ghc-4.04proto to report a bogus type error
 -- !!! (as reported by Keith)

@@ -1,4 +1,4 @@
-{-# Language PatternSynonyms, ViewPatterns, GADTs, ConstraintKinds, ScopedTypeVariables #-}
+{-# Language PatternSynonyms, ViewPatterns, GADTs, ConstraintKinds #-}
 
 module T14498 where
 

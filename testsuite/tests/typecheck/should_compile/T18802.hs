@@ -1,4 +1,4 @@
-{-# LANGUAGE MonoLocalBinds, ScopedTypeVariables #-}
+{-# LANGUAGE MonoLocalBinds #-}
 
 module T18802 where
 

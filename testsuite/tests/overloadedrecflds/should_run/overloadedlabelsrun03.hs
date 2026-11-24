@@ -3,7 +3,6 @@
 {-# LANGUAGE OverloadedLabels
            , FlexibleContexts
            , FlexibleInstances
-           , ScopedTypeVariables
            , TypeFamilies
            , TypeSynonymInstances
   #-}

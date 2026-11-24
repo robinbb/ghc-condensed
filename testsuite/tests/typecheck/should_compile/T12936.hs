@@ -2,7 +2,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MonomorphismRestriction #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 module Token where
 
 class S s t | s -> t

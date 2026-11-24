@@ -1487,7 +1487,6 @@ Type patterns are renamed differently from ordinary types.
     and other are bindings
 
 Here is an example:
-  {-# LANGUAGE ScopedTypeVariables #-}
   f :: forall b. Proxy _ -> ...
   f (Proxy @(x :: (a, b))) = ...
 

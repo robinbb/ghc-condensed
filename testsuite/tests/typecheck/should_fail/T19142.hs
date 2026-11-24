@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -fdefer-type-errors #-}
 {-# LANGUAGE TypeApplications
-           , ScopedTypeVariables
 #-}
 
 module T19142 where

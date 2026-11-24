@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, MagicHash, ScopedTypeVariables #-}
+{-# LANGUAGE CPP, MagicHash #-}
 
 -- Get definitions for the structs, constants & config etc.
 #include "Rts.h"

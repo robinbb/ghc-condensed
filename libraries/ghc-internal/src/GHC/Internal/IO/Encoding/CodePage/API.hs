@@ -1,6 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE CPP, NoImplicitPrelude, NondecreasingIndentation,
-             RecordWildCards, ScopedTypeVariables,
+             RecordWildCards,
              UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}

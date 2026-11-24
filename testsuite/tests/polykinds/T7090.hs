@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 {-# LANGUAGE GADTs, ConstraintKinds, TypeFamilies, 
-    ScopedTypeVariables, TypeOperators #-}
+    TypeOperators #-}
 
 module T7090 where
 

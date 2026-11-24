@@ -13,7 +13,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MagicHash                  #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
-{-# LANGUAGE ScopedTypeVariables        #-}
 {-# LANGUAGE StandaloneDeriving         #-}
 {-# LANGUAGE StandaloneKindSignatures   #-}
 {-# LANGUAGE Trustworthy                #-}
@@ -1724,8 +1723,8 @@ data family Sing (a :: k)
 
 -- | A 'SingI' constraint is essentially an implicitly-passed singleton.
 class SingI (a :: k) where
-  -- | Produce the singleton explicitly. You will likely need the @ScopedTypeVariables@
-  -- extension to use this method the way you want.
+  -- | Produce the singleton explicitly. You will likely need an explicit
+  -- @forall@ in the enclosing signature to use this method the way you want.
   sing :: Sing a
 
 -- | The 'SingKind' class is essentially a /kind/ class. It classifies all kinds

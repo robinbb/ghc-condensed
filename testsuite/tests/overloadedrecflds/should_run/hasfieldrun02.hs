@@ -1,7 +1,7 @@
 {-# LANGUAGE DuplicateRecordFields, OverloadedLabels,
              ExistentialQuantification,
              FlexibleInstances,
-             ScopedTypeVariables, TypeApplications #-}
+             TypeApplications #-}
 
 import GHC.OverloadedLabels
 import GHC.Records

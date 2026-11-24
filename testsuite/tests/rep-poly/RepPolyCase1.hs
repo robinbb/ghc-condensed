@@ -1,5 +1,4 @@
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
 module RepPolyCase1 where

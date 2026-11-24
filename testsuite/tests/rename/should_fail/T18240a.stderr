@@ -1,40 +1,40 @@
-T18240a.hs:10:11: error: [GHC-71492]
+T18240a.hs:9:11: error: [GHC-71492]
     • Instance head cannot contain nested ‘forall’s or contexts
     • In the instance declaration for ‘(forall a. C [a])’
 
-T18240a.hs:11:15: error: [GHC-76037]
+T18240a.hs:10:15: error: [GHC-76037]
     Not in scope: type variable ‘a’
 
-T18240a.hs:13:11: error: [GHC-71492]
+T18240a.hs:12:11: error: [GHC-71492]
     • Instance head cannot contain nested ‘forall’s or contexts
     • In the instance declaration for ‘(Eq a => C [a])’
 
-T18240a.hs:16:11: error: [GHC-71492]
+T18240a.hs:15:11: error: [GHC-71492]
     • Instance head cannot contain nested ‘forall’s or contexts
     • In the instance declaration for ‘(forall a. C (Either a b))’
 
-T18240a.hs:17:22: error: [GHC-76037]
+T18240a.hs:16:22: error: [GHC-76037]
     Not in scope: type variable ‘a’
 
-T18240a.hs:19:21: error: [GHC-71492]
+T18240a.hs:18:21: error: [GHC-71492]
     • Instance head cannot contain nested ‘forall’s or contexts
     • In the instance declaration for ‘(forall b. C (Either a b))’
 
-T18240a.hs:20:24: error: [GHC-76037]
+T18240a.hs:19:24: error: [GHC-76037]
     Not in scope: type variable ‘b’
 
-T18240a.hs:22:19: error: [GHC-71492]
+T18240a.hs:21:19: error: [GHC-71492]
     • Instance head cannot contain nested ‘forall’s or contexts
     • In the instance declaration for ‘(Eq b => C (Either a b))’
 
-T18240a.hs:27:10: error: [GHC-53946]
+T18240a.hs:26:10: error: [GHC-53946]
     • Illegal head of an instance declaration: ‘42’.
       Instance heads must be of the form
         C ty_1 ... ty_n
       where ‘C’ is a class.
     • In the instance declaration for ‘42’
 
-T18240a.hs:28:10: error: [GHC-53946]
+T18240a.hs:27:10: error: [GHC-53946]
     • Illegal head of an instance declaration: ‘Int -> Int’.
       Instance heads must be of the form
         C ty_1 ... ty_n

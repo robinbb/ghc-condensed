@@ -23,15 +23,14 @@ module Strip
     DatatypeContexts DeepSubsumption DeriveDataTypeable DoRec
     ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    ParallelArrays ParallelListComp PolyKinds RankNTypes RecursiveDo
-    RelaxedPolyRec StarIsType TypeInType
+    ParallelArrays ParallelListComp PatternSignatures PolyKinds RankNTypes
+    RecursiveDo RelaxedPolyRec ScopedTypeVariables StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
   RENAMED = {
-    'PatternSignatures' => 'ScopedTypeVariables',
     'PolymorphicComponents' => 'RankNTypes',
     'Rank2Types' => 'RankNTypes',
     'RecordPuns' => 'NamedFieldPuns'
@@ -79,6 +78,9 @@ module Strip
   def haskell_text(text, names, renamed)
     text.gsub(PRAGMA) do
       whole, opener, kind, body = Regexp.last_match(0), Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3)
+      # An empty pragma, which may sit in a string or a comment, is not ours.
+      next whole if body.strip.empty?
+
       language = kind.casecmp?('LANGUAGE')
       new_body = rewrite(body, names, renamed, flags: !language)
       if new_body.nil? then MARK

@@ -1,13 +1,13 @@
-T19752.hs:11:10: error: [GHC-25897]
+T19752.hs:10:10: error: [GHC-25897]
     • Could not deduce ‘F b0 ~ a’
       from the context: F b ~ a
         bound by the type signature for:
                    f :: forall b. (F b ~ a) => a
-        at T19752.hs:11:10-23
+        at T19752.hs:10:10-23
       ‘a’ is a rigid type variable bound by
         the type signature for:
           g :: forall a. a
-        at T19752.hs:8:1-16
+        at T19752.hs:7:1-16
     • In the ambiguity check for ‘f’
       To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
       In the type signature: f :: (F b ~ a) => a
@@ -16,5 +16,5 @@ T19752.hs:11:10: error: [GHC-25897]
             where
                 f :: (F b ~ a) => a
                 f = undefined
-    • Relevant bindings include g :: a (bound at T19752.hs:9:1)
+    • Relevant bindings include g :: a (bound at T19752.hs:8:1)
 

@@ -18,7 +18,6 @@
  * :extension:`MagicHash`
  * :extension:`PatternGuards`
  * :extension:`PostfixOperators`
- * :extension:`ScopedTypeVariables`
  * :extension:`StandaloneDeriving`
  * :extension:`TypeOperators`
  * :extension:`TypeSynonymInstances`

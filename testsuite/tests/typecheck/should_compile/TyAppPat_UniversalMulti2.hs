@@ -2,7 +2,6 @@
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 

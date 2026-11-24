@@ -2,7 +2,7 @@
                               -- like GHC.Internal.System.Mem.StableName
 {-# LANGUAGE MagicHash, NoImplicitPrelude, TypeFamilies, UnboxedTuples,
              RoleAnnotations, CPP, TypeOperators,
-             NegativeLiterals, ScopedTypeVariables,
+             NegativeLiterals,
              TypeApplications, StandaloneKindSignatures, GADTs,
              FlexibleInstances, UndecidableInstances, UnboxedSums,
              BangPatterns, UnliftedFFITypes #-}

@@ -1,6 +1,5 @@
 {-# LANGUAGE MonoLocalBinds          #-}
 {-# LANGUAGE QuantifiedConstraints   #-}
-{-# LANGUAGE ScopedTypeVariables     #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 

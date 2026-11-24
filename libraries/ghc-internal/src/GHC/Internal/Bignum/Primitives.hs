@@ -6,7 +6,6 @@
 {-# LANGUAGE UnliftedFFITypes #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE BinaryLiterals #-}
 {-# OPTIONS_GHC -fexpose-all-unfoldings #-}

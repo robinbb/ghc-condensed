@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module Main(main,f) where
 
 import Data.List (isPrefixOf)

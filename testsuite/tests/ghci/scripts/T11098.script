@@ -2,7 +2,6 @@
 
 :set -XTemplateHaskell
 :set -XNamedWildCards
-:set -XScopedTypeVariables
 
 :m +Data.Char
 :m +Language.Haskell.TH

@@ -3,7 +3,6 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeAbstractions #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module T19577 where
 

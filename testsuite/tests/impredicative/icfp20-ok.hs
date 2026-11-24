@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, TypeApplications, ImpredicativeTypes #-}
+{-# LANGUAGE TypeApplications, ImpredicativeTypes #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}
 
 module ICFP20 where

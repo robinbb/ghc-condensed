@@ -2,7 +2,6 @@
            , TypeFamilies
            , GADTs
            , UndecidableInstances
-           , ScopedTypeVariables
   #-}
 module Test11321 where
 

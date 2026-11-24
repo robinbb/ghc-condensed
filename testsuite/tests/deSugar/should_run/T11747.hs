@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, Strict, TypeApplications
+{-# LANGUAGE GADTs, Strict, TypeApplications
              #-}
 
 import Data.Typeable

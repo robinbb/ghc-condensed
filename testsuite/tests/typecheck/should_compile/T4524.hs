@@ -3,7 +3,6 @@
 {-# LANGUAGE 
         GADTs,
         TypeOperators,
-        ScopedTypeVariables,
         NoMonoLocalBinds
  #-}
 {-# OPTIONS_GHC -O2 -w #-}

@@ -1,8 +1,8 @@
-T19482.hs:9:25: error: [GHC-25897]
+T19482.hs:8:25: error: [GHC-25897]
     • Expected kind ‘[r]’, but ‘s’ has kind ‘r’
       ‘r’ is a rigid type variable bound by
         the instance declaration
-        at T19482.hs:8:10-35
+        at T19482.hs:7:10-35
     • In the type ‘s’
       In the expression: testF @r @s
       In an equation for ‘bugList’: bugList = testF @r @s

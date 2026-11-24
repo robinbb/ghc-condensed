@@ -19,7 +19,7 @@ Example:
 
 .. code-block:: haskell
 
-  {-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, ScopedTypeVariables, TypeApplications, FlexibleInstances #-}
+  {-# LANGUAGE AllowAmbiguousTypes, FunctionalDependencies, TypeApplications, FlexibleInstances #-}
   {-# LANGUAGE NamedFieldPuns, RecordWildCards #-}
   {-# LANGUAGE OverloadedRecordDot, OverloadedRecordUpdate, RebindableSyntax #-}
 

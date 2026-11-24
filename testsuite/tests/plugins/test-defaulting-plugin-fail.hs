@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, AllowAmbiguousTypes, TypeOperators, TypeFamilies, ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleInstances, AllowAmbiguousTypes, TypeOperators, TypeFamilies #-}
 {-# OPTIONS_GHC -fplugin DefaultLifted -fwarn-type-defaults #-}
 
 -- Tests defaulting plugins

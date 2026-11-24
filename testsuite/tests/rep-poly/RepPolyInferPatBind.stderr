@@ -1,9 +1,9 @@
-RepPolyInferPatBind.hs:20:1: error: [GHC-55287]
+RepPolyInferPatBind.hs:19:1: error: [GHC-55287]
     The binder ‘x’ does not have a fixed runtime representation.
     Its type is:
       T :: TYPE R
 
-RepPolyInferPatBind.hs:20:2: error: [GHC-55287]
+RepPolyInferPatBind.hs:19:2: error: [GHC-55287]
     • The pattern binding does not have a fixed runtime representation.
       Its type is:
         T :: TYPE R

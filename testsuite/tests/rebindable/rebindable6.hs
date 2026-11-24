@@ -1,6 +1,5 @@
 {-# LANGUAGE RebindableSyntax #-}
 {-# LANGUAGE NPlusKPatterns #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeFamilies #-}
 

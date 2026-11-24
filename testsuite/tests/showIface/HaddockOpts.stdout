@@ -17,7 +17,6 @@ docs:
          MonomorphismRestriction
          ForeignFunctionInterface
          ImplicitPrelude
-         ScopedTypeVariables
          BangPatterns
          NamedFieldPuns
          GADTSyntax

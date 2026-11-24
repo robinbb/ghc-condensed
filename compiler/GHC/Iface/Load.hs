@@ -9,7 +9,6 @@
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- | Loading interface files
 module GHC.Iface.Load (

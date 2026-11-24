@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
              TypeFamilies, FlexibleContexts, AllowAmbiguousTypes #-}
 
 module InstanceGivenOverlap where

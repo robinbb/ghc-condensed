@@ -2,7 +2,6 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE UnboxedTuples #-}
 
@@ -46,7 +45,7 @@ main = do
                     Just myCostCentre -> do
                         assertEqual (cc_label myCostCentre) "MyCostCentre"
                         assertEqual (cc_module myCostCentre) "Main"
-                        assertEqual (cc_srcloc myCostCentre) (Just "tso_and_stack_closures.hs:24:48-80")
+                        assertEqual (cc_srcloc myCostCentre) (Just "tso_and_stack_closures.hs:23:48-80")
                         assertEqual (cc_is_caf myCostCentre) False
                     Nothing -> error "MyCostCentre not found"
                       -- Don't print all of 'linkedCostCentres costCentre',

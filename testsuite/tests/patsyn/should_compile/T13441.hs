@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, PatternSynonyms,
+{-# LANGUAGE PatternSynonyms,
              GADTs, TypeOperators, TypeFamilies, TypeFamilyDependencies #-}
 
 module T13441 where

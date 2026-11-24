@@ -3,7 +3,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE UnliftedFFITypes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE Unsafe #-}
 
 -----------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedNewtypes #-}
 

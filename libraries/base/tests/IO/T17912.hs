@@ -1,4 +1,3 @@
-{-# Language ScopedTypeVariables #-}
 module Main where
 
 import Control.Concurrent

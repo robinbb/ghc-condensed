@@ -1,7 +1,6 @@
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE MagicHash             #-}
 {-# LANGUAGE RoleAnnotations       #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE UnboxedTuples         #-}
 
 module T26615a (HashMap, disjointSubtrees) where

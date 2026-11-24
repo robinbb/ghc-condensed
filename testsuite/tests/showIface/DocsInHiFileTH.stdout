@@ -241,7 +241,6 @@ docs:
          TemplateHaskell
          TemplateHaskellQuotes
          ImplicitPrelude
-         ScopedTypeVariables
          BangPatterns
          TypeFamilies
          NamedFieldPuns

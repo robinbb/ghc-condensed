@@ -1,4 +1,4 @@
-{-# LANGUAGE QuantifiedConstraints, ScopedTypeVariables
+{-# LANGUAGE QuantifiedConstraints
            , StandaloneDeriving, RoleAnnotations, TypeApplications
            , UndecidableInstances
            , GeneralizedNewtypeDeriving #-}

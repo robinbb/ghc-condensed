@@ -1,4 +1,4 @@
-{-# LANGUAGE Haskell2010, ScopedTypeVariables, TemplateHaskell #-}
+{-# LANGUAGE Haskell2010, TemplateHaskell #-}
 
 import Language.Haskell.TH (runQ, Type (UnboxedSumT, UnboxedTupleT))
 import Language.Haskell.TH.Ppr (pprint)

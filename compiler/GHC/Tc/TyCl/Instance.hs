@@ -2418,8 +2418,8 @@ generate code that looks more like this:
    instance A [] where
       f = $dmf @[] @x @m
 
-But where should `x` and `m` be bound? It's tempting to use ScopedTypeVariables
-and an instance signature to accomplish this:
+But where should `x` and `m` be bound? It's tempting to use an instance
+signature with scoped type variables to accomplish this:
 
    instance A [] where
       f :: forall x m. Monoid x => [m] -> m

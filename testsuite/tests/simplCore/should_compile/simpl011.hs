@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, ScopedTypeVariables,
+{-# LANGUAGE CPP,
              FunctionalDependencies #-}
 
 -- This one triggered a bug in the indirection-shorting 

@@ -518,7 +518,7 @@ fixing the hole, this can help users understand what options they have.
     in the output, e.g. ``foldl1 (_ :: a -> a -> a)`` is a refinement
     for the hole ``_ :: [a] -> a``. If this flag is toggled off, the output
     will display only ``foldl1 _``, which can be used as a direct replacement
-    for the hole, without requiring ``-XScopedTypeVariables``.
+    for the hole.
 
 
 

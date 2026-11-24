@@ -376,7 +376,8 @@ types of the holes the binding would have to be applied to in order to work.
 In the free monad example above, this is demonstrated with
 `(=<<) (_ :: a -> Free f b)`, which tells the user that the `(=<<)` needs to
 be applied to an expression of type `a -> Free f b` in order to match.
-If -XScopedTypeVariables is enabled, this hole fit can even be copied verbatim.
+With an explicit forall in the signature, this hole fit can even be copied
+verbatim.
 
 Note [Relevant constraints]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

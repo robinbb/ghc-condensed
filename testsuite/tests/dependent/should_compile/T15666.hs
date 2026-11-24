@@ -1,6 +1,5 @@
 {-# LANGUAGE
   NoImplicitPrelude,
-  ScopedTypeVariables,
   TypeFamilies,
   UndecidableInstances
 #-}

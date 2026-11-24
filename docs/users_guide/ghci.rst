@@ -3314,7 +3314,7 @@ option, you can set the reverse option:
 
 .. code-block:: none
 
-    ghci> :set -Wno-incomplete-patterns -XNoScopedTypeVariables
+    ghci> :set -Wno-incomplete-patterns -XNoMonomorphismRestriction
 
 :ref:`flag-reference` lists the reverse for each option where
 applicable.
@@ -3422,14 +3422,13 @@ The :file:`ghci.conf` file is most useful for turning on favourite options
 
 Placing a :file:`.ghci` file in a directory with a Haskell project is a
 useful way to set certain project-wide options so you don't have to type
-them every time you start GHCi: eg. if your project uses multi-parameter
-type classes, scoped type variables, and CPP, and has source files in
-three subdirectories A, B and C, you might put the following lines in
-:file:`.ghci`:
+them every time you start GHCi: eg. if your project uses CPP, and has
+source files in three subdirectories A, B and C, you might put the
+following lines in :file:`.ghci`:
 
 .. code-block:: none
 
-    :set -XScopedTypeVariables -cpp
+    :set -cpp
     :set -iA:B:C
 
 (Note that strictly speaking the :ghc-flag:`-i` flag is a static one, but in

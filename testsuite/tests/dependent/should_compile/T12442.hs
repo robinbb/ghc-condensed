@@ -1,6 +1,6 @@
 -- Based on https://github.com/idris-lang/Idris-dev/blob/v0.9.10/libs/effects/Effects.idr
 
-{-# LANGUAGE ScopedTypeVariables, TypeOperators,
+{-# LANGUAGE TypeOperators,
              TypeApplications, GADTs, TypeFamilies, AllowAmbiguousTypes #-}
 
 module T12442 where

@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeOperators       #-}
 {-# LANGUAGE TypeFamilies        #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GADTs               #-}
 {-# LANGUAGE FlexibleInstances   #-}
 {-# LANGUAGE StandaloneDeriving  #-}

@@ -1,7 +1,6 @@
 {- This program used to cause a panic (#15588), but it should possibly even be
 accepted. See #15589. -}
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies        #-}
 {-# LANGUAGE TypeOperators       #-}
 module T15588 where

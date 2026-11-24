@@ -1,4 +1,4 @@
-T15753d.hs:80:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
+T15753d.hs:79:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
     Pattern match has inaccessible right hand side
     In an equation for ‘mapInsertWithNonEmpty1’:
         mapInsertWithNonEmpty1 sf
@@ -9,14 +9,14 @@ T15753d.hs:80:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
                                Refl | STuple2 sold_k _ `SCons` sold_kvs <- sm,
                                       SFalse <- sold_k %== snew_k = ...
 
-T15753d.hs:82:5: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
+T15753d.hs:81:5: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
     Pattern match(es) are non-exhaustive
     In a case alternative:
         Patterns of type ‘Sing
                             (MapInsertWith f new_k new_v (MkMap xs))’ not matched:
             SMkMap _
 
-T15753d.hs:92:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
+T15753d.hs:91:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
     Pattern match has inaccessible right hand side
     In an equation for ‘mapInsertWithNonEmpty2’:
         mapInsertWithNonEmpty2 sf
@@ -26,12 +26,12 @@ T15753d.hs:92:5: warning: [GHC-94210] [-Woverlapping-patterns (in -Wdefault)]
                                Refl
                                Refl | STuple2 sold_k _ `SCons` sold_kvs <- sm = ...
 
-T15753d.hs:93:5: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
+T15753d.hs:92:5: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
     Pattern match(es) are non-exhaustive
     In a case alternative:
         Patterns of type ‘Sing (x == new_k)’ not matched: STrue
 
-T15753d.hs:95:9: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
+T15753d.hs:94:9: warning: [GHC-62161] [-Wincomplete-patterns (in -Wextra)]
     Pattern match(es) are non-exhaustive
     In a case alternative:
         Patterns of type ‘Sing

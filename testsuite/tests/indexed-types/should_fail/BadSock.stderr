@@ -1,4 +1,4 @@
-BadSock.hs:29:5: error: [GHC-27346]
+BadSock.hs:28:5: error: [GHC-27346]
     • The type family ‘Readable’ should have 1 argument, but has been given none
     • In the equations for closed type family ‘Foo’
       In the type family declaration for ‘Foo’

@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, ScopedTypeVariables, TypeFamilies, UndecidableInstances, AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleInstances, TypeFamilies, UndecidableInstances, AllowAmbiguousTypes #-}
 
 module T8392 where
 

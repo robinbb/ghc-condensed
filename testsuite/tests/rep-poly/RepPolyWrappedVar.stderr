@@ -1,4 +1,4 @@
-RepPolyWrappedVar.hs:12:19: error: [GHC-55287]
+RepPolyWrappedVar.hs:11:19: error: [GHC-55287]
     • The first argument of the primop ‘mkWeak#’
       does not have a fixed runtime representation.
       Its type is:

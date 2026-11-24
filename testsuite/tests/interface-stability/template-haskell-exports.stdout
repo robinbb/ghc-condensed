@@ -152,7 +152,6 @@ module Language.Haskell.TH where
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
-    | ScopedTypeVariables
     | AllowAmbiguousTypes
     | UnboxedTuples
     | UnboxedSums
@@ -739,7 +738,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
-    | ScopedTypeVariables
     | AllowAmbiguousTypes
     | UnboxedTuples
     | UnboxedSums
@@ -1461,7 +1459,6 @@ module Language.Haskell.TH.Syntax where
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
-    | ScopedTypeVariables
     | AllowAmbiguousTypes
     | UnboxedTuples
     | UnboxedSums

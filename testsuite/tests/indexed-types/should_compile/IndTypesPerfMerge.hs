@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE EmptyDataDecls, TypeFamilies, UndecidableInstances,
-             ScopedTypeVariables, TypeOperators,
+             TypeOperators,
              FlexibleInstances, NoMonomorphismRestriction,
              FlexibleContexts #-}
 module IndTypesPerfMerge where

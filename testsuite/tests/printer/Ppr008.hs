@@ -1,7 +1,6 @@
 {-# LANGUAGE Unsafe #-}
 {-# LANGUAGE CPP
            , NoImplicitPrelude
-           , ScopedTypeVariables
            , BangPatterns
   #-}
 

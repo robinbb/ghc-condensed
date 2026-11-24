@@ -1,7 +1,6 @@
 {-# LANGUAGE GHC2021 #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module T22623 where
 

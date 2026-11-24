@@ -1,5 +1,5 @@
 {-# Language DerivingStrategies, TypeApplications,
-    ScopedTypeVariables, GADTs #-}
+    GADTs #-}
 
 module T14154 where
 

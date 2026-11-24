@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ConstraintKinds, ScopedTypeVariables #-}
+{-# LANGUAGE GADTs, ConstraintKinds #-}
 {-# OPTIONS_GHC -fno-worker-wrapper #-}
 module Callee where
 

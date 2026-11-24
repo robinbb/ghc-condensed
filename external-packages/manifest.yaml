@@ -509,14 +509,15 @@ packages:
     tag: 0.8.16
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: Language.Haskell.Meta.Extensions
-    no longer maps the extensions this compiler removed (ConstrainedClassMethods,
-    DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
-    MultiParamTypeClasses, OverlappingInstances, ParallelArrays, PolyKinds,
-    RelaxedPolyRec, TypeInType, CUSKs, StarIsType, DeepSubsumption,
-    DeriveDataTypeable, RankNTypes, ParallelListComp, RecursiveDo and the
-    deprecated aliases) to or from
-    template-haskell, whose Extension type lost those constructors
+    deliberate exception to the no-modification rule:
+    Language.Haskell.Meta.Extensions no longer maps the extensions this
+    compiler removed (ConstrainedClassMethods, DataKinds, DatatypeContexts,
+    ExplicitForAll, IncoherentInstances, MultiParamTypeClasses,
+    OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
+    TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
+    RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables and the
+    deprecated aliases) to or from template-haskell, whose Extension type
+    lost those constructors
 - name: heaps
   version: 0.4.1
   tier: 1

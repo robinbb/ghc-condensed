@@ -5,7 +5,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveLift #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskellQuotes #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -4669,7 +4668,7 @@ reverseNode f (Node3 s a b c) = Node3 s (f c) (f b) (f a)
 -- > mapWithIndex :: (Int -> a -> b) -> Seq a -> Seq b
 -- > mapWithIndex f = splitMap (\n i -> (i, n+i)) f 0
 #ifdef __GLASGOW_HASKELL__
--- We use ScopedTypeVariables to improve performance and make
+-- We use scoped type variables to improve performance and make
 -- performance less sensitive to minor changes.
 
 -- We INLINE this so GHC can see that the function passed in is
@@ -4724,7 +4723,7 @@ splitMap splt f0 s0 (Seq xs0) = Seq $ splitMapTreeE (\s' (Elem a) -> Elem (f0 s'
         (second, third) = splt (size b) r
 
 #else
--- Implementation without ScopedTypeVariables--somewhat slower,
+-- Implementation without scoped type variables--somewhat slower,
 -- and much more sensitive to minor changes in various places.
 
 {-# INLINE splitMap #-}

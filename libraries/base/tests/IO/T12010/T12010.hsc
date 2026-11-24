@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 import Control.Exception
 import Control.Monad

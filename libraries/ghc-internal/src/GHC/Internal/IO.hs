@@ -2,7 +2,6 @@
 {-# LANGUAGE NoImplicitPrelude
            , BangPatterns
            , MagicHash
-           , ScopedTypeVariables
            , UnboxedTuples
   #-}
 

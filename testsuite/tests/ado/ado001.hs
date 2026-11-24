@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, ExistentialQuantification, ApplicativeDo #-}
+{-# LANGUAGE ExistentialQuantification, ApplicativeDo #-}
 module Main where
 
 import Control.Applicative

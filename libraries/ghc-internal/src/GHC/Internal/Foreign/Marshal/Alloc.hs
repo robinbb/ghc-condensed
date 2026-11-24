@@ -1,6 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, UnboxedTuples,
-             ScopedTypeVariables, BangPatterns #-}
+             BangPatterns #-}
 
 -----------------------------------------------------------------------------
 -- |

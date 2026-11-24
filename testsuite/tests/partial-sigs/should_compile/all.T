@@ -52,7 +52,6 @@ test('PatternSig', normal, compile, ['-ddump-types -fno-warn-partial-type-signat
 test('PatternSplice', [req_th, omit_ways(['profasm'])], compile, ['-fno-warn-partial-type-signatures'])
 test('Recursive', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])
 test('ScopedNamedWildcards', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])
-test('ScopedNamedWildcardsGood', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])
 test('ShowNamed', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])
 test('SimpleGen', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])
 test('SkipMany', normal, compile, ['-ddump-types -fno-warn-partial-type-signatures'])

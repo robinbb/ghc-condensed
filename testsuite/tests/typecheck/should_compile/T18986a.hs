@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeApplications,
-             TypeAbstractions, ScopedTypeVariables, TypeFamilies #-}
+             TypeAbstractions, TypeFamilies #-}
 
 module T18986a where
 

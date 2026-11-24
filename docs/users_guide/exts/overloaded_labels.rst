@@ -69,7 +69,7 @@ showing how an overloaded label can be used as a record selector:
 ::
 
     {-# LANGUAGE FunctionalDependencies, FlexibleInstances,
-                 OverloadedLabels, ScopedTypeVariables #-}
+                 OverloadedLabels #-}
 
     import GHC.OverloadedLabels (IsLabel(..))
     import GHC.TypeLits (Symbol)

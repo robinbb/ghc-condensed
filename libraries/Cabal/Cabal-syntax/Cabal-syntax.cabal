@@ -219,7 +219,6 @@ library
     OverloadedStrings
     PatternSynonyms
     RecordWildCards
-    ScopedTypeVariables
     StandaloneDeriving
     Trustworthy
     TypeFamilies

@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- Tests the special case of
 --      non-recursive, function binding,

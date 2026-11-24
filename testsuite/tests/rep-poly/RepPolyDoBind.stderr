@@ -1,4 +1,4 @@
-RepPolyDoBind.hs:25:3: error: [GHC-55287]
+RepPolyDoBind.hs:24:3: error: [GHC-55287]
     • The first argument of the rebindable syntax operator ‘(>>=)’
         arising from a do statement
       does not have a fixed runtime representation.

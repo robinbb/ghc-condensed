@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- #3406
 -- A pattern signature that discards the bound variables

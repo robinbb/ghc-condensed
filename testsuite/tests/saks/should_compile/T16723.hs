@@ -1,5 +1,4 @@
 {-# LANGUAGE StandaloneKindSignatures #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module T16723 where
 

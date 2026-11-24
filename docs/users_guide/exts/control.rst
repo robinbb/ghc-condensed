@@ -101,7 +101,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`RoleAnnotations`
-     * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`
      * :extension:`TraditionalRecordSyntax`
@@ -160,7 +159,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
-     * :extension:`ScopedTypeVariables`
      * :extension:`StandaloneDeriving`
      * :extension:`StandaloneKindSignatures`
      * :extension:`TraditionalRecordSyntax`

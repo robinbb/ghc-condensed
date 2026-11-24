@@ -12,7 +12,7 @@
 -- type representations.
 --
 -----------------------------------------------------------------------------
-{-# LANGUAGE ScopedTypeVariables, Unsafe #-}
+{-# LANGUAGE Unsafe #-}
 
 module GHC.Internal.Type.Reflection.Unsafe (
       -- * Type representations

@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**29 language extensions deleted.**
+**30 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -306,6 +306,18 @@ The entries below are alphabetical. For each extension it gives:
   its inclusion in Haskell2010, GHC2021 and GHC2024.
 - Notes: Dependency analysis always ignores references to variables with
   signatures. Every edition since Haskell 2010 has it on.
+
+`ScopedTypeVariables`
+
+- Category: Type Signatures.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024.
+- Lines: +894 −1668, net −774.
+- Stability: Uncategorized; the user's guide lists it as included in GHC2021
+  and GHC2024.
+- Notes: Type variables are always lexically scoped: an outer `forall`, a
+  class or instance head and a pattern signature bind them over the body.
+  GHC2021 enables it, and the unscoped reading was a trap.
 
 `StarIsType`
 

@@ -1,5 +1,4 @@
 {-# LANGUAGE NumericUnderscores  #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 
 import           Control.Concurrent      (ThreadId, forkIO, killThread,

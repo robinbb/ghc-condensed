@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables        #-}
 
 module T5717 where
 

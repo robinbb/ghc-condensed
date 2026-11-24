@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, MonoLocalBinds #-}
+{-# LANGUAGE MonoLocalBinds #-}
 
 module T14066h where
 

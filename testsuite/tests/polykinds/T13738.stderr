@@ -1,4 +1,4 @@
-T13738.hs:10:31: error: [GHC-76037] Not in scope: type variable ‘k’
+T13738.hs:9:31: error: [GHC-76037] Not in scope: type variable ‘k’
 
-T13738.hs:11:31: error: [GHC-76037] Not in scope: type variable ‘k’
+T13738.hs:10:31: error: [GHC-76037] Not in scope: type variable ‘k’
 

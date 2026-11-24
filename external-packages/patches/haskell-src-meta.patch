@@ -1,6 +1,6 @@
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
-@@ -24,18 +24,18 @@
+@@ -24,28 +24,28 @@
  -- | Returns @Nothing@ when the extension is not supported by template-haskell.
  toExtension :: Exts.KnownExtension -> Maybe TH.Extension
  toExtension e = case e of
@@ -25,8 +25,11 @@
 +  Exts.RankNTypes                 -> Nothing
    Exts.PolymorphicComponents      -> Nothing
    Exts.ExistentialQuantification  -> Just TH.ExistentialQuantification
-   Exts.ScopedTypeVariables        -> Just TH.ScopedTypeVariables
-@@ -45,7 +45,7 @@
+-  Exts.ScopedTypeVariables        -> Just TH.ScopedTypeVariables
++  Exts.ScopedTypeVariables        -> Nothing
+   Exts.PatternSignatures          -> Nothing
+   Exts.ImplicitParams             -> Just TH.ImplicitParams
+   Exts.FlexibleContexts           -> Just TH.FlexibleContexts
    Exts.FlexibleInstances          -> Just TH.FlexibleInstances
    Exts.EmptyDataDecls             -> Just TH.EmptyDataDecls
    Exts.CPP                        -> Just TH.Cpp
@@ -107,7 +110,7 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -204,7 +201,6 @@
+@@ -204,26 +201,18 @@
    TH.CApiFFI                           -> Just Exts.CApiFFI
    TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
    TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
@@ -115,7 +118,13 @@
    TH.Arrows                            -> Just Exts.Arrows
    TH.TemplateHaskell                   -> Just Exts.TemplateHaskell
    TH.TemplateHaskellQuotes             -> Nothing
-@@ -218,12 +214,6 @@
+   TH.QuasiQuotes                       -> Just Exts.QuasiQuotes
+   TH.ImplicitParams                    -> Just Exts.ImplicitParams
+   TH.ImplicitPrelude                   -> Just Exts.ImplicitPrelude
+-  TH.ScopedTypeVariables               -> Just Exts.ScopedTypeVariables
+   TH.AllowAmbiguousTypes               -> Nothing
+   TH.UnboxedTuples                     -> Just Exts.UnboxedTuples
+   TH.UnboxedSums                       -> Just Exts.UnboxedSums
    TH.BangPatterns                      -> Just Exts.BangPatterns
    TH.TypeFamilies                      -> Just Exts.TypeFamilies
    TH.TypeFamilyDependencies            -> Just Exts.TypeFamilyDependencies
@@ -128,7 +137,7 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -248,13 +238,8 @@
+@@ -248,13 +237,8 @@
    TH.DoAndIfThenElse                   -> Just Exts.DoAndIfThenElse
    TH.RebindableSyntax                  -> Just Exts.RebindableSyntax
    TH.ConstraintKinds                   -> Just Exts.ConstraintKinds
@@ -142,7 +151,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,34 +251,23 @@
+@@ -266,34 +250,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -177,7 +186,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +320,11 @@
+@@ -346,13 +319,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -191,7 +200,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +334,6 @@
+@@ -362,12 +333,6 @@
  #endif
  #endif
  

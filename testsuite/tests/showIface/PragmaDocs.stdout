@@ -26,7 +26,6 @@ docs:
          MonoLocalBinds
          ForeignFunctionInterface
          ImplicitPrelude
-         ScopedTypeVariables
          BangPatterns
          DisambiguateRecordFields
          NamedFieldPuns

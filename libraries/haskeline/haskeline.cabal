@@ -77,10 +77,10 @@ Library
                 ForeignFunctionInterface, FlexibleInstances,
                 TypeSynonymInstances
                 FlexibleContexts, ExistentialQuantification
-                ScopedTypeVariables, GeneralizedNewtypeDeriving
+                GeneralizedNewtypeDeriving
                 StandaloneDeriving
                 UndecidableInstances
-                ScopedTypeVariables, CPP,
+                CPP,
                 PatternGuards
     Exposed-Modules:
                 System.Console.Haskeline

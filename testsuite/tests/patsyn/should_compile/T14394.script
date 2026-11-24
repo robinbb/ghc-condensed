@@ -1,5 +1,5 @@
 :set -XHaskell2010
-:set -XPatternSynonyms -XGADTs -XViewPatterns -XScopedTypeVariables
+:set -XPatternSynonyms -XGADTs -XViewPatterns
 
 import Data.Type.Equality
 

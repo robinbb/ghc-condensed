@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, DeriveGeneric, StandaloneDeriving, ScopedTypeVariables,
+{-# LANGUAGE GADTs, DeriveGeneric, StandaloneDeriving,
     GeneralizedNewtypeDeriving, ExistentialQuantification, RecordWildCards,
     CPP, NamedFieldPuns #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-orphans #-}

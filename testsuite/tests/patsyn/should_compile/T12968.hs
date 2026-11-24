@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, PatternSynonyms,
+{-# LANGUAGE GADTs, PatternSynonyms,
       ViewPatterns #-}
 
 module T12968 where

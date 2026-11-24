@@ -6,7 +6,6 @@
            , FlexibleInstances
            , GADTs
            , NoMonomorphismRestriction
-           , ScopedTypeVariables
            , StandaloneDeriving
            , TypeOperators
   #-}

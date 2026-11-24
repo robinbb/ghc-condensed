@@ -2,7 +2,6 @@
 {-# LANGUAGE UnboxedTuples       #-}
 {-# LANGUAGE DerivingStrategies  #-}
 {-# LANGUAGE GeneralisedNewtypeDeriving #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- QuickCheck-like property tests for SIMD vector operations.
 

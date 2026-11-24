@@ -2512,16 +2512,6 @@ data TcRnMessage where
     -> !MatchArgBadMatches
     -> TcRnMessage
 
-  {-| TcRnUnexpectedPatSigType is an error occurring when there is
-      a type signature in a pattern without -XScopedTypeVariables extension
-
-      Examples:
-        f (a :: Bool) = ...
-
-      Test case: rename/should_fail/T11663
-  -}
-  TcRnUnexpectedPatSigType :: HsPatSigType GhcPs -> TcRnMessage
-
   {-| TcRnCannotBindScopedTyVarInPatSig is an error stating that scoped type
      variables cannot be used in pattern bindings.
 

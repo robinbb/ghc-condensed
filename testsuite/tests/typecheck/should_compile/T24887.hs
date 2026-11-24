@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ScopedTypeVariables, TypeAbstractions #-}
+{-# LANGUAGE TypeAbstractions #-}
 
 module Data.Array.Nested.Internal where
 

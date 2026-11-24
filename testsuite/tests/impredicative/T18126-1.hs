@@ -1,4 +1,4 @@
-{-# LANGUAGE ImplicitParams, TypeApplications, ScopedTypeVariables, QuantifiedConstraints, ImpredicativeTypes #-}
+{-# LANGUAGE ImplicitParams, TypeApplications, QuantifiedConstraints, ImpredicativeTypes #-}
 
 module Foo where
 

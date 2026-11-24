@@ -1,4 +1,4 @@
-T13135_simple.hs:32:11: error: [GHC-83865]
+T13135_simple.hs:31:11: error: [GHC-83865]
     • Couldn't match type ‘SmartFun sig0’ with ‘Bool’
       Expected: Int -> Bool
         Actual: SmartFun (SigFun Int sig0)

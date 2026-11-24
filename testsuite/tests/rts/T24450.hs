@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 -- A process may be started with stdout closed -- `prog >&-` from a shell does
 -- exactly that.  Nothing then reserves descriptor 1, so the next descriptor
 -- the runtime opens for itself takes it, and the 'Handle' for stdout, built

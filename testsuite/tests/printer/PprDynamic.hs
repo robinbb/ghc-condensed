@@ -2,7 +2,7 @@
 Stephanie Weirich, Richard Eisenberg, and Dimitrios Vytiniotis, 2016. -}
 
 {-#  LANGUAGE TypeOperators,
-             ScopedTypeVariables, GADTs, FlexibleInstances,
+             GADTs, FlexibleInstances,
              UndecidableInstances, RebindableSyntax,
              MagicHash  #-}
 {-# OPTIONS_GHC -fno-warn-missing-methods -fno-warn-redundant-constraints #-}

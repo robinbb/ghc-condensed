@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, Trustworthy #-}
+{-# LANGUAGE GADTs, Trustworthy #-}
 module Control.Monad.Skeleton.Internal where
 
 data Cat k a b where

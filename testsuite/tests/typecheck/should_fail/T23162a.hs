@@ -1,5 +1,4 @@
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 {- This example came up when working on #23162
    It shows why we must kick out after unification.

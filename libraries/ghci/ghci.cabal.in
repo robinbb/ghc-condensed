@@ -49,7 +49,6 @@ library
         GeneralizedNewtypeDeriving
         MagicHash
         RecordWildCards
-        ScopedTypeVariables
         StandaloneDeriving
         TupleSections
         UnboxedTuples

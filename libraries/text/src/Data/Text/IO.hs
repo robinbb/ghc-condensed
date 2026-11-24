@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, RecordWildCards, ScopedTypeVariables #-}
+{-# LANGUAGE BangPatterns, CPP, RecordWildCards #-}
 {-# LANGUAGE Trustworthy #-}
 -- |
 -- Module      : Data.Text.IO

@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module T16326_Fail5 where
 
 isJust :: Maybe a -> Bool

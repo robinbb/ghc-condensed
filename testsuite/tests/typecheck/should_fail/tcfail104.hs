@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- Test the handling of conditionals in rank-n stuff
 -- Should fail, regardless of branch ordering

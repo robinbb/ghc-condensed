@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeFamilies,
-             TemplateHaskell, UndecidableInstances, ScopedTypeVariables #-}
+             TemplateHaskell, UndecidableInstances #-}
 
 module KindEqualities2 where
 

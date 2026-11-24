@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 module GHC.Internal.Stack.Annotation where
 
 import GHC.Internal.Base

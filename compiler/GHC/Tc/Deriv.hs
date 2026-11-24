@@ -279,8 +279,6 @@ renameDeriv inst_infos bagBinds
     setXOptM LangExt.EmptyCase $
     -- Derived decls (for empty types) can have
     --    case x of {}
-    setXOptM LangExt.ScopedTypeVariables $
-    -- Derived decls (for newtype-deriving) can use ScopedTypeVariables
     setXOptM LangExt.TypeAbstractions $
     setXOptM LangExt.TypeApplications $
     -- GND/DerivingVia uses TypeAbstractions & TypeApplications in generated code

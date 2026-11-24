@@ -1,5 +1,5 @@
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE CPP, NoImplicitPrelude, StandaloneDeriving, ScopedTypeVariables #-}
+{-# LANGUAGE CPP, NoImplicitPrelude, StandaloneDeriving #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
     -- Defines Read

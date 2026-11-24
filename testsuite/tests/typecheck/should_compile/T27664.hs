@@ -1,4 +1,4 @@
-{-# LANGUAGE StaticPointers, ScopedTypeVariables #-}
+{-# LANGUAGE StaticPointers #-}
 module Repro where
 
 import Data.Typeable

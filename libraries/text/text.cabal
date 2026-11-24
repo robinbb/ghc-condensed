@@ -260,7 +260,6 @@ library
     OverloadedStrings
     RecordWildCards
     Safe
-    ScopedTypeVariables
     TemplateHaskellQuotes
     Trustworthy
     TypeFamilies

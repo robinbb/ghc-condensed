@@ -2,7 +2,6 @@
     UnliftedFFITypes, GHC2021 #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE ViewPatterns #-}
 -- |
 -- Module      : Data.Text.Encoding

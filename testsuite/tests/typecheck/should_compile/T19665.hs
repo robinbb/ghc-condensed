@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, TypeApplications, TypeFamilies,
+{-# LANGUAGE TypeApplications, TypeFamilies,
              RoleAnnotations, FlexibleContexts, AllowAmbiguousTypes #-}
 
 -- See #19665 for commentary.

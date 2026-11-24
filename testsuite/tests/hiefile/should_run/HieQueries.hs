@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 
 import TestUtils
@@ -17,13 +16,13 @@ foo :: C a => a -> Char
 foo x = f [x]
 --      ^ this is the point
 point :: (Int,Int)
-point = (17,9)
+point = (16,9)
 
 bar :: Show x => x -> String
 bar x = show [(1,x,A)]
 --      ^ this is the point'
 point' :: (Int,Int)
-point' = (23,9)
+point' = (22,9)
 
 data A = A deriving Show
 

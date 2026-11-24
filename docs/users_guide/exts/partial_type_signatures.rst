@@ -156,8 +156,8 @@ Besides an extra-constraints wildcard (see
 :ref:`extra-constraints-wildcard`), only named wildcards can occur in
 the constraints, e.g. the ``_x`` in ``Show _x``.
 
-When :extension:`ScopedTypeVariables` is on, the named wildcards of a
-function signature scope over the function body just like
+The named wildcards of a function signature scope over the function body
+just like
 explicitly-forall'd type variables (:ref:`scoped-type-variables`),
 even though there is no explicit forall.  For example: ::
 
@@ -291,7 +291,6 @@ wildcards are not supported in pattern or expression signatures.
 In the following example a wildcard is used in each of the three possible contexts.
 ::
 
-    {-# LANGUAGE ScopedTypeVariables #-}
     foo :: _
     foo (x :: _) = (x :: _)
     -- Inferred: forall w_. w_ -> w_
@@ -343,12 +342,11 @@ splices.
    expression splices are supported.
 
 -  Pattern splices: anonymous and named wildcards can be used in pattern
-   signatures. Note that :extension:`ScopedTypeVariables` has to be enabled
-   to allow pattern signatures. Extra-constraints wildcards are not supported,
+   signatures. Extra-constraints wildcards are not supported,
    just like in regular pattern signatures.
    ::
 
-       {-# LANGUAGE TemplateHaskell, ScopedTypeVariables #-}
+       {-# LANGUAGE TemplateHaskell #-}
        foo $( [p| (x :: _) |] ) = x
 
 -  Type splices: only anonymous wildcards are supported in type splices.

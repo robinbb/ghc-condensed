@@ -1,4 +1,4 @@
-T20277.hs:13:9: error: [GHC-55287]
+T20277.hs:12:9: error: [GHC-55287]
     • The unboxed sum does not have a fixed runtime representation.
       Its type is:
         (# Int# | a #) :: TYPE (SumRep [IntRep, rep])

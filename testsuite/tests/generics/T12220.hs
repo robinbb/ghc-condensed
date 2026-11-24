@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeApplications#-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE DefaultSignatures #-}
 module T12220 where
 

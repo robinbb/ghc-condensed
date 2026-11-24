@@ -5,24 +5,13 @@
 Lexically scoped type variables
 ===============================
 
-.. extension:: ScopedTypeVariables
-    :shortdesc: Lexically scoped explicitly-introduced type variables.
-
-
-    :since: 6.8.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Enable lexical scoping of type variables explicitly introduced with
-    ``forall``.
-
 .. tip::
 
-    :extension:`ScopedTypeVariables` breaks GHC's usual rule that explicit ``forall`` is optional and doesn't affect semantics.
+    Lexically scoped type variables break GHC's usual rule that explicit ``forall`` is optional and doesn't affect semantics.
     For the :ref:`decl-type-sigs` (or :ref:`exp-type-sigs`) examples in this section,
     the explicit ``forall`` is required.
     (If omitted, usually the program will not compile; in a few cases it will compile but the functions get a different signature.)
-    To trigger those forms of :extension:`ScopedTypeVariables`, the ``forall`` must appear against the top-level signature (or outer expression)
+    To bring type variables into scope in those forms, the ``forall`` must appear against the top-level signature (or outer expression)
     but *not* against nested signatures referring to the same type variables.
 
     Explicit ``forall`` is not always required -- see :ref:`pattern signature equivalent <pattern-equiv-form>` for the example in this section, or :ref:`pattern-type-sigs`.
@@ -263,9 +252,8 @@ the pattern, rather than the pattern binding the variable.
 Class and instance declarations
 -------------------------------
 
-:extension:`ScopedTypeVariables` allow the type variables bound by the top of a
-``class`` or ``instance`` declaration to scope over the methods defined in the
-``where`` part. Unlike :ref:`decl-type-sigs`, type variables from class and
+The type variables bound by the top of a ``class`` or ``instance`` declaration
+scope over the methods defined in the ``where`` part. Unlike :ref:`decl-type-sigs`, type variables from class and
 instance declarations can be lexically scoped without an explicit ``forall``
 (although you are allowed an explicit ``forall`` in an ``instance``
 declaration; see :ref:`explicit-foralls`). For example: ::
@@ -285,11 +273,8 @@ declaration; see :ref:`explicit-foralls`). For example: ::
       instance forall b. C b => C [b] where
         op xs = reverse (head (xs :: [[b]]))
 
-While :extension:`ScopedTypeVariables` is required for type variables from the
-top of a class or instance declaration to scope over the *bodies* of the
-methods, it is not required for the type variables to scope over the *type
-signatures* of the methods. For example, the following will be accepted without
-explicitly enabling :extension:`ScopedTypeVariables`: ::
+The type variables scope over the *type signatures* of the methods as well as
+over their *bodies*. For example: ::
 
       class D a where
         m :: a -> a
@@ -298,11 +283,8 @@ explicitly enabling :extension:`ScopedTypeVariables`: ::
         m :: [a] -> [a]
         m x = map (*2) x
 
-Similarly, :extension:`ScopedTypeVariables` is not required for type variables
-from the top of the class or instance declaration to scope over associated type
-families, which only requires the :extension:`TypeFamilies` extension. For
-instance, the following will be accepted without explicitly enabling
-:extension:`ScopedTypeVariables`: ::
+Similarly, they scope over associated type families
+(:extension:`TypeFamilies`): ::
 
       class E a where
         type T a

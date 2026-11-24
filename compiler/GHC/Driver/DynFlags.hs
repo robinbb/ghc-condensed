@@ -1439,7 +1439,6 @@ languageExtensions (Just GHC2021)
        LangExt.NamedWildCards,
        LangExt.NumericUnderscores,
        LangExt.PostfixOperators,
-       LangExt.ScopedTypeVariables,
        LangExt.StandaloneDeriving,
        LangExt.StandaloneKindSignatures,
        LangExt.TupleSections,

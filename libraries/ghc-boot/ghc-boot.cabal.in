@@ -46,7 +46,7 @@ Flag bootstrap
 
 Library
     default-language: GHC2024
-    other-extensions: DeriveGeneric, ScopedTypeVariables
+    other-extensions: DeriveGeneric
     default-extensions: NoImplicitPrelude
 
     exposed-modules:

@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 import Control.Exception
 
 -- enumFrom on basic numeric types should be strict

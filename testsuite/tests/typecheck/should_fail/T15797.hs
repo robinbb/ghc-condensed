@@ -1,5 +1,4 @@
 {-# Language    TypeFamilies        #-}
-{-# Language    ScopedTypeVariables #-}
 {-# Language    TypeApplications    #-}
 {-# Language    TypeOperators       #-}
 {-# Language    GADTs               #-}

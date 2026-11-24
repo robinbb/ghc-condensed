@@ -1564,8 +1564,8 @@ One particularly prickly issue is that of implicit quantification. Consider:
       g = ...
 
 Does the signature of `g` refer to `t` bound in `f`, or is it a fresh,
-implicitly quantified variable? This is normally controlled by
-ScopedTypeVariables, but in this example the renamer can't tell `t` from a term
+implicitly quantified variable? Normally a forall-bound type variable scopes
+over the body, but in this example the renamer can't tell `t` from a term
 variable.  Only later (in the type checker) will we find out that it stands for
 the forall-bound type variable `a`.  So when RequiredTypeArguments is in effect,
 we change implicit quantification to take term variables into account; that is,

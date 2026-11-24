@@ -1,9 +1,9 @@
-T15870.hs:29:34: error: [GHC-25897]
+T15870.hs:28:34: error: [GHC-25897]
     • Couldn't match kind ‘k’ with ‘Type’
       Expected kind ‘Optic @{k} a’, but ‘g2’ has kind ‘Optic @{Type} b’
       ‘k’ is a rigid type variable bound by
         a family instance declaration
-        at T15870.hs:(24,1)-(29,35)
+        at T15870.hs:(23,1)-(28,35)
     • In the second argument of ‘Get’, namely ‘g2’
       In the type ‘Get a g2’
       In the associated type family instance declaration for ‘Get’

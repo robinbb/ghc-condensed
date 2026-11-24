@@ -2,7 +2,6 @@
            , FlexibleInstances
            , GADTs
            , OverloadedLabels
-           , ScopedTypeVariables
            , TypeApplications
            , TypeOperators
            , UndecidableInstances

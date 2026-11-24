@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleContexts,  ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies, FlexibleContexts #-}
 
 module T4494 where
 

@@ -1,6 +1,6 @@
 type T1 :: forall k (a :: k). Type
 type family T1
-  	-- Defined at T16724.hs:10:1
+  	-- Defined at T16724.hs:9:1
 type T2 :: forall {k} (a :: k). Type
 type family T2
-  	-- Defined at T16724.hs:14:1
+  	-- Defined at T16724.hs:13:1

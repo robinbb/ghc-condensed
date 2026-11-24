@@ -1,4 +1,4 @@
-RepPolyInferPatSyn.hs:21:16: error: [GHC-55287]
+RepPolyInferPatSyn.hs:20:16: error: [GHC-55287]
     • The pattern synonym argument pattern
       does not have a fixed runtime representation.
       Its type is:

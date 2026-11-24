@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, TypeApplications, ImpredicativeTypes #-}
+{-# LANGUAGE TypeApplications, ImpredicativeTypes #-}
 
 module ICFP20 where
 

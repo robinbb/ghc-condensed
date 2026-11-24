@@ -3,7 +3,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleInstances #-}
 
@@ -24,8 +23,8 @@ data Dict :: Constraint -> Type where
 -- import Data.Singletons hiding( withSomeSing )
 
 class SingI (a :: k) where
-  -- | Produce the singleton explicitly. You will likely need the @ScopedTypeVariables@
-  -- extension to use this method the way you want.
+  -- | Produce the singleton explicitly. You will likely need an explicit
+  -- @forall@ in the enclosing signature to use this method the way you want.
   sing :: Sing a
 
 data family Sing (a :: k)

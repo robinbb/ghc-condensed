@@ -1,7 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes
            , OverloadedLabels
            , RebindableSyntax
-           , ScopedTypeVariables
            , ImplicitPrelude
   #-}
 

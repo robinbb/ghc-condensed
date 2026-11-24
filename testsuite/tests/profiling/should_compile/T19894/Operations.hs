@@ -1,6 +1,5 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module Operations (unfoldrM, drain, postscan, after_, replicate, fold, unfold,
         splitOnSeq) where

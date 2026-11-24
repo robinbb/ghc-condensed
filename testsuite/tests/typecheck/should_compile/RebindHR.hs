@@ -1,4 +1,4 @@
-{-# LANGUAGE RebindableSyntax, GADTs, TypeOperators, ScopedTypeVariables #-}
+{-# LANGUAGE RebindableSyntax, GADTs, TypeOperators #-}
 
 module RebindHR where
 

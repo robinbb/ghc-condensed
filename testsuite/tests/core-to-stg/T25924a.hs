@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, TypeApplications, ScopedTypeVariables, AllowAmbiguousTypes #-}
+{-# LANGUAGE GADTs, TypeApplications, AllowAmbiguousTypes #-}
 module Main where
 
 class D a where

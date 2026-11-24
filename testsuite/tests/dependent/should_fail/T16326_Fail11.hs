@@ -1,6 +1,5 @@
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE ImpredicativeTypes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 module T16326_Fail11 where
 
 class C a where

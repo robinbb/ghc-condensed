@@ -170,17 +170,12 @@ rnHsPatSigTyKi :: TypeOrKind
                -> HsPatSigType GhcPs
                -> (HsPatSigType GhcRn -> RnM (a, FreeNames))
                -> RnM (a, FreeNames)
--- Used for
---   - Pattern type signatures, which are only allowed with ScopedTypeVariables
---   - Signatures on binders in a RULE, which are allowed even if
---     ScopedTypeVariables isn't enabled
+-- Used for pattern type signatures and for signatures on binders in a RULE
 -- Wildcards are allowed
 --
 -- See Note [Pattern signature binders and scoping] in GHC.Hs.Type
 rnHsPatSigTyKi level scoping ctx sig_ty thing_inside
-  = do { ty_sig_okay <- xoptM LangExt.ScopedTypeVariables
-       ; checkErr ty_sig_okay (unexpectedPatSigTypeErr sig_ty)
-       ; free_vars <- filterInScopeM (extractHsTyRdrTyVars pat_sig_ty)
+  = do { free_vars <- filterInScopeM (extractHsTyRdrTyVars pat_sig_ty)
        ; (nwc_rdrs', tv_rdrs) <- partition_nwcs free_vars
        ; let nwc_rdrs = nubN nwc_rdrs'
              implicit_bndrs = case scoping of
@@ -918,13 +913,7 @@ bindSigTyVarsFV :: [Name]
                 -> RnM (a, FreeNames)
 -- Used just before renaming the defn of a function
 -- with a separate type signature, to bring its tyvars into scope
--- With no -XScopedTypeVariables, this is a no-op
-bindSigTyVarsFV tvs thing_inside
-  = do  { scoped_tyvars <- xoptM LangExt.ScopedTypeVariables
-        ; if not scoped_tyvars then
-                thing_inside
-          else
-                bindLocalNamesFV tvs thing_inside }
+bindSigTyVarsFV tvs thing_inside = bindLocalNamesFV tvs thing_inside
 
 ---------------
 bindHsQTyVars :: forall a b.
@@ -1718,10 +1707,6 @@ is_unbound _            = False
 *                                                      *
 ***************************************************** -}
 
-unexpectedPatSigTypeErr :: HsPatSigType GhcPs -> TcRnMessage
-unexpectedPatSigTypeErr ty
-  = TcRnUnexpectedPatSigType ty
-
 -- | If a 'Name' is that of a promoted data constructor written without a
 -- promotion tick, warn about it.
 checkPromotedDataConName ::
@@ -2004,14 +1989,13 @@ quantify over (NB: list, not set, because order matters with TypeApplications)
   * implicitly bound variables in const:     [a, b]
 
 However, variables that are already in scope are captured. Example:
-  {-# LANGUAGE ScopedTypeVariables #-}
   f (x :: a) = ...
     where g :: a -> a
           g _ = x
 When we look at `g` in isolation, `a` is a free variable:
   g :: a -> a
-But due to ScopedTypeVariables, `a` is actually bound in the surrounding
-context, namely the (x :: a) pattern.
+But `a` is actually bound in the surrounding context, namely the (x :: a)
+pattern.
 It is important that we do /not/ insert an implicit forall in the type of `g`
   g :: forall a. a -> a   -- No! That would mean a different thing
 The solution is to use `filterInScopeM` to remove variables already in scope

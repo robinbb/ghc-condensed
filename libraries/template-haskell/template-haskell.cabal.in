@@ -36,7 +36,7 @@ Library
         DeriveGeneric
         FlexibleInstances
         RoleAnnotations
-        ScopedTypeVariables
+
 
     exposed-modules:
         Language.Haskell.TH

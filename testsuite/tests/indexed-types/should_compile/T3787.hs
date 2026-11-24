@@ -16,7 +16,7 @@
 
 -- | Module "Trampoline" defines the trampoline computations and their basic building blocks.
 
-{-# LANGUAGE ScopedTypeVariables, TypeFamilies,
+{-# LANGUAGE TypeFamilies,
              FlexibleContexts, FlexibleInstances, UndecidableInstances
  #-}
 

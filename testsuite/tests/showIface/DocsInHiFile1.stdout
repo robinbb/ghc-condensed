@@ -101,7 +101,6 @@ docs:
          MonoLocalBinds
          ForeignFunctionInterface
          ImplicitPrelude
-         ScopedTypeVariables
          BangPatterns
          TypeFamilies
          NamedFieldPuns

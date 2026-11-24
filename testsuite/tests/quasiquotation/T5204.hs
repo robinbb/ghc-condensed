@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeSynonymInstances, TemplateHaskell, QuasiQuotes, FlexibleInstances, NamedFieldPuns, ScopedTypeVariables #-}
+{-# LANGUAGE TypeSynonymInstances, TemplateHaskell, QuasiQuotes, FlexibleInstances, NamedFieldPuns #-}
 module Pnm where
 import qualified Data.Char as Char
 -- import Language.Pads.Padsc 

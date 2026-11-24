@@ -1,4 +1,4 @@
-{-# LANGUAGE  TypeFamilies, ScopedTypeVariables #-}
+{-# LANGUAGE  TypeFamilies #-}
 module T3169 where
 
 import Data.Kind (Type)

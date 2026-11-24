@@ -1,11 +1,11 @@
-T19142.hs:14:15: error: [GHC-83865]
+T19142.hs:13:15: error: [GHC-83865]
     • Expecting one more argument to ‘Maybe’
       Expected a type, but ‘Maybe’ has kind ‘Type -> Type’
     • In the first argument of ‘Maybe’, namely ‘Maybe’
       In the type ‘Maybe Maybe’
       In a pattern type signature: Maybe Maybe
 
-T19142.hs:20:12: error: [GHC-83865]
+T19142.hs:19:12: error: [GHC-83865]
     • Expected kind ‘Type -> Type’, but ‘Int’ has kind ‘Type’
     • In the type ‘Int’
       In the expression: foo @Int

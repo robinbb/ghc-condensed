@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE TypeFamilies, FlexibleContexts, ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies, FlexibleContexts #-}
 {-# LANGUAGE TypeOperators, AllowAmbiguousTypes #-}
 
 module Simple14 where

@@ -1,6 +1,5 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE UnboxedTuples #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 import GHC.Exts
 import GHC.IO

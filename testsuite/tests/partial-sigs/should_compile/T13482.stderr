@@ -1,31 +1,31 @@
-T13482.hs:9:32: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T13482.hs:8:32: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found extra-constraints wildcard standing for ‘(Eq m, Monoid m)’
       Where: ‘m’ is a rigid type variable bound by
                the inferred type of
                  minimal1_noksig :: (Eq m, Monoid m) => Int -> Bool
-               at T13482.hs:9:27
+               at T13482.hs:8:27
     • In the type signature:
         minimal1_noksig :: forall m. _ => Int -> Bool
 
-T13482.hs:12:33: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T13482.hs:11:33: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found extra-constraints wildcard standing for ‘(Eq m, Monoid m)’
       Where: ‘m’ is a rigid type variable bound by
                the inferred type of minimal1 :: (Eq m, Monoid m) => Bool
-               at T13482.hs:12:21
+               at T13482.hs:11:21
     • In the type signature: minimal1 :: forall (m :: Type). _ => Bool
 
-T13482.hs:15:30: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T13482.hs:14:30: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found extra-constraints wildcard standing for ‘Monoid m’
       Where: ‘m’ is a rigid type variable bound by
                the inferred type of minimal2 :: (Eq m, Monoid m) => Bool
-               at T13482.hs:15:20
+               at T13482.hs:14:20
     • In the type signature: minimal2 :: forall m. (Eq m, _) => Bool
 
-T13482.hs:18:34: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T13482.hs:17:34: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found extra-constraints wildcard standing for ‘Eq m’
       Where: ‘m’ is a rigid type variable bound by
                the inferred type of minimal3 :: (Monoid m, Eq m) => Bool
-               at T13482.hs:18:20
+               at T13482.hs:17:20
     • In the type signature:
         minimal3 :: forall m. (Monoid m, _) => Bool
 

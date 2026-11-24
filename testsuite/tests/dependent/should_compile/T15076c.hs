@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables,
+{-# LANGUAGE GADTs,
              TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 

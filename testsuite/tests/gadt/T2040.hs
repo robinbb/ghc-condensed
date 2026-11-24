@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, FlexibleContexts #-}
+{-# LANGUAGE GADTs, FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module T2040 where

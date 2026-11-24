@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 import Foreign.Ptr (Ptr)
 import Foreign.Marshal.Alloc (mallocBytes, free)
 import System.IO (hPutBuf, withBinaryFile, IOMode (WriteMode))

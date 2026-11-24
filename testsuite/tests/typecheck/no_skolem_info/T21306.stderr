@@ -1,4 +1,4 @@
-T21306.hs:22:15: error: [GHC-25897]
+T21306.hs:21:15: error: [GHC-25897]
     • Couldn't match type ‘xs’ with ‘xs1’
       Expected: EqualLists xs xs2
         Actual: EqualLists xs1 ys
@@ -6,22 +6,22 @@ T21306.hs:22:15: error: [GHC-25897]
         a pattern with constructor:
           Cons :: forall x xs. x -> HList xs -> HList (x, xs),
         in an equation for ‘foo’
-        at T21306.hs:20:23-45
+        at T21306.hs:19:23-45
       ‘xs1’ is a rigid type variable bound by
         a pattern with constructor:
           ConsRefl :: forall xs ys x.
                       EqualLists xs ys -> EqualLists (x, xs) (x, ys),
         in an equation for ‘foo’
-        at T21306.hs:20:6-19
+        at T21306.hs:19:6-19
     • In the first argument of ‘foo’, namely ‘equal’
       In the expression: foo equal xs ys
       In an equation for ‘k’: k = foo equal xs ys
     • Relevant bindings include
-        k :: Foo xs d -> Foo xs2 d (bound at T21306.hs:22:7)
-        xs :: HList xs (bound at T21306.hs:20:31)
-        equal :: EqualLists xs1 ys (bound at T21306.hs:20:15)
+        k :: Foo xs d -> Foo xs2 d (bound at T21306.hs:21:7)
+        xs :: HList xs (bound at T21306.hs:19:31)
+        equal :: EqualLists xs1 ys (bound at T21306.hs:19:15)
 
-T21306.hs:24:5: error: [GHC-27346]
+T21306.hs:23:5: error: [GHC-27346]
     • The data constructor ‘Foo’ should have 2 arguments, but has been given 1
     • In the pattern: Foo bar
       In a case alternative: Foo bar -> Foo bar $ k foo

@@ -1,4 +1,3 @@
-{-# LANGUAGE ScopedTypeVariables #-}
 
 -- An async exception delivered while a catchSTM handler runs must abort the
 -- transaction, not be swallowed by a restart of the invalidated one.

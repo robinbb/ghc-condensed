@@ -12,7 +12,6 @@
 {-# language LinearTypes #-}
 {-# language QuantifiedConstraints #-}
 {-# language RoleAnnotations #-}
-{-# language ScopedTypeVariables #-}
 {-# language StandaloneDeriving #-}
 {-# language StandaloneKindSignatures #-}
 {-# language StrictData #-}

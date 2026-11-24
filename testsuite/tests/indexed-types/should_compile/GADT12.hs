@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, GADTs, ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 {-# LANGUAGE EmptyDataDecls #-}
 
 -- Tests whether a type signature can refine a type

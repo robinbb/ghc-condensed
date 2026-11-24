@@ -113,7 +113,6 @@ extensionName = \case
   LangExt.QuasiQuotes -> "QuasiQuotes"
   LangExt.ImplicitParams -> "ImplicitParams"
   LangExt.ImplicitPrelude -> "ImplicitPrelude"
-  LangExt.ScopedTypeVariables -> "ScopedTypeVariables"
   LangExt.AllowAmbiguousTypes -> "AllowAmbiguousTypes"
   LangExt.UnboxedTuples -> "UnboxedTuples"
   LangExt.UnboxedSums -> "UnboxedSums"
@@ -321,7 +320,6 @@ glasgowExtsFlags = [
            , LangExt.MagicHash
            , LangExt.PatternGuards
            , LangExt.PostfixOperators
-           , LangExt.ScopedTypeVariables
            , LangExt.StandaloneDeriving
            , LangExt.TypeOperators
            , LangExt.TypeSynonymInstances

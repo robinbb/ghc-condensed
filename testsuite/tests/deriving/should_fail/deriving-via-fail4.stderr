@@ -1,14 +1,14 @@
-deriving-via-fail4.hs:14:12: error: [GHC-18872]
+deriving-via-fail4.hs:13:12: error: [GHC-18872]
     • Couldn't match representation of type ‘Char’ with that of ‘Int’
         arising from the coercion of the method ‘==’
           from type ‘Char -> Char -> Bool’ to type ‘F1 -> F1 -> Bool’
     • When deriving the instance for (Eq F1)
 
-deriving-via-fail4.hs:17:15: error: [GHC-25897]
+deriving-via-fail4.hs:16:15: error: [GHC-25897]
     • Expected a type, but ‘a’ has kind ‘k’
       ‘k’ is a rigid type variable bound by
         the deriving clause for ‘a’
-        at deriving-via-fail4.hs:17:22-32
+        at deriving-via-fail4.hs:16:22-32
     • In the first argument of ‘C’, namely ‘a’
       In the newtype declaration for ‘F2’
 

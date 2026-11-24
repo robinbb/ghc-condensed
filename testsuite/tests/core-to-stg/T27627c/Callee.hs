@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ScopedTypeVariables, UndecidableInstances, FlexibleInstances #-}
+{-# LANGUAGE GADTs, UndecidableInstances, FlexibleInstances #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 {-# OPTIONS_GHC -fno-worker-wrapper #-}
 module Callee where

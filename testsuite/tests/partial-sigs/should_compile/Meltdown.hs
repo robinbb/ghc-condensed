@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE PartialTypeSignatures, ScopedTypeVariables, NamedWildCards #-}
+{-# LANGUAGE PartialTypeSignatures, NamedWildCards #-}
 module Meltdown where
 
 import Control.Applicative

@@ -502,7 +502,7 @@ data PScoped a = PS (Maybe Span)
 
 {- Note [TyVar Scopes]
    ~~~~~~~~~~~~~~~~~~~
-Due to -XScopedTypeVariables, type variables can be in scope quite far from
+Because type variables are lexically scoped, they can be in scope quite far from
 their original binding. We resolve the scope of these type variables
 in a separate pass
 -}

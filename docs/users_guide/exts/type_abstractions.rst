@@ -115,7 +115,8 @@ The difference is that ``a`` is in scope in the type signature, while ``t`` is
 in scope in the function equation.
 
 The scope of ``a`` can be extended to cover the function equation as well by
-enabling :extension:`ScopedTypeVariables`. Using a separate binder like ``@t``
+writing an explicit ``forall`` (:ref:`scoped-type-variables`). Using a
+separate binder like ``@t``
 is the modern and more flexible alternative for that, capable of handling
 higher-rank scenarios (see the ``higherRank`` example below).
 
@@ -145,7 +146,7 @@ one of the following forms:
     * type variable pattern with a kind annotation ``@(f :: Type -> Type)``
     * wildcard ``@_``, with or without a kind annotation
 
-The main advantage to using ``@``-binders over :extension:`ScopedTypeVariables`
+The main advantage to using ``@``-binders over scoped type variables
 is the ability to use them in lambdas passed to higher-rank functions::
 
     higherRank :: (forall a. (Num a, Bounded a) => a -> a) -> (Int8, Int16)

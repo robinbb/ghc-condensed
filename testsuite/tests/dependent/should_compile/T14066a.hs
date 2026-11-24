@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies, GADTs,
-             UndecidableInstances, ScopedTypeVariables #-}
+             UndecidableInstances #-}
 
 module T14066a where
 

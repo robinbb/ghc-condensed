@@ -6,7 +6,6 @@
 {-# language FlexibleInstances #-}
 {-# LANGUAGE TypeAbstractions #-}
 {-# language TypeOperators #-}
-{-# language ScopedTypeVariables #-}
 {-# language DefaultSignatures #-}
 {-# language FunctionalDependencies #-}
 {-# language UndecidableSuperClasses #-}

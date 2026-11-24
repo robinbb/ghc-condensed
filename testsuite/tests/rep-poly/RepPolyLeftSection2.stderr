@@ -1,4 +1,4 @@
-RepPolyLeftSection2.hs:12:11: error: [GHC-55287]
+RepPolyLeftSection2.hs:11:11: error: [GHC-55287]
     • The argument ‘undefined’ of ‘f’
       does not have a fixed runtime representation.
       Its type is:

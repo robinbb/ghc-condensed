@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, ScopedTypeVariables,
+{-# LANGUAGE TypeApplications,
              TypeFamilies,
              FlexibleContexts #-}
 -- tests about visible type application

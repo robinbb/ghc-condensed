@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, ScopedTypeVariables,
+{-# LANGUAGE TypeFamilies,
              GeneralizedNewtypeDeriving #-}
 
 module T7148a where

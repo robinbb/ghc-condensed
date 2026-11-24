@@ -28,4 +28,4 @@ executable changelog-d
   other-extensions:
     OverloadedStrings
     RecordWildCards
-    ScopedTypeVariables
+

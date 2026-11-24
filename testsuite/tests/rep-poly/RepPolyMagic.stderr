@@ -1,4 +1,4 @@
-RepPolyMagic.hs:10:7: error: [GHC-55287]
+RepPolyMagic.hs:9:7: error: [GHC-55287]
     • The second argument of ‘seq’
       does not have a fixed runtime representation.
       Its type is:
@@ -11,7 +11,7 @@ RepPolyMagic.hs:10:7: error: [GHC-55287]
     • In the expression: seq
       In an equation for ‘foo’: foo = seq
 
-RepPolyMagic.hs:13:7: error: [GHC-55287]
+RepPolyMagic.hs:12:7: error: [GHC-55287]
     • The second argument of ‘oneShot’
       does not have a fixed runtime representation.
       Its type is:

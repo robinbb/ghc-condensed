@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE ScopedTypeVariables, FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE FunctionalDependencies, FlexibleContexts #-}
 
 module Bug where
 

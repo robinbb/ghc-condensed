@@ -10,8 +10,6 @@
 -dsource-stats
 -dstg-stats
 -dsuppress-stg-exts
--fallow-incoherent-instances
--fallow-overlapping-instances
 -fallow-undecidable-instances
 -farrows
 -fbang-patterns
@@ -50,7 +48,6 @@
 -fprint-bind-contents
 -freduction-depth
 -frewrite-rules
--fscoped-type-variables
 -fshared-implib
 -fshow-valid-hole-fits
 -fshow-valid-substitutions

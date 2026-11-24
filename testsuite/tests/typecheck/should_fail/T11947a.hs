@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeApplications, ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
 module T11947 where
 
 theFloatDigits :: forall a. RealFloat a => Int

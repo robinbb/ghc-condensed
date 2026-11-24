@@ -115,7 +115,7 @@ When kind-checking a type, GHC considers only what is written in that
 type when figuring out how to generalise the type's kind.
 
 For example,
-consider these definitions (with :extension:`ScopedTypeVariables`): ::
+consider these definitions: ::
 
   data Proxy a    -- Proxy :: forall k. k -> Type
   p :: forall a. Proxy a

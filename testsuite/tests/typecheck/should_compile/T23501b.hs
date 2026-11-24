@@ -1,6 +1,6 @@
 
 {-# LANGUAGE GADTs, TypeApplications,
-             TypeAbstractions, ScopedTypeVariables #-}
+             TypeAbstractions #-}
 
 -- Derived from T18986a by replacing tyvar binders with wildcards
 module T23501b where

@@ -1,7 +1,7 @@
-T16152.hs:6:18: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T16152.hs:5:18: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found type wildcard ‘_’ standing for ‘w’
       Where: ‘w’ is a rigid type variable bound by
                the inferred type of top :: w
-               at T16152.hs:7:1-15
+               at T16152.hs:6:1-15
     • In the type signature: top :: forall f. _
 

@@ -1,6 +1,5 @@
 {-# language Haskell2010
            , AllowAmbiguousTypes
-           , ScopedTypeVariables
            , StandaloneKindSignatures
            , TypeFamilies #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}

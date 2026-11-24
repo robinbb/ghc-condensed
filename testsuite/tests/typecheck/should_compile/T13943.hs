@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeOperators           #-}
 {-# LANGUAGE FlexibleInstances       #-}
 {-# LANGUAGE FlexibleContexts        #-}
-{-# LANGUAGE ScopedTypeVariables     #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE TypeApplications        #-}
 {-# LANGUAGE AllowAmbiguousTypes     #-}

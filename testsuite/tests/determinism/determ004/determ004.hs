@@ -2,7 +2,6 @@
            , TypeFamilies
            , GADTs
            , UndecidableInstances
-           , ScopedTypeVariables
   #-}
 
 {-# OPTIONS_GHC -Wall #-}

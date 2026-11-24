@@ -1,4 +1,4 @@
-T17817.hs:13:10: error: [GHC-55287]
+T17817.hs:12:10: error: [GHC-55287]
     • The first argument of the primop ‘mkWeak#’
       does not have a fixed runtime representation.
       Its type is:

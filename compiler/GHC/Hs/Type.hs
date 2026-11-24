@@ -1056,9 +1056,9 @@ allowed in ordinary types. For example, the following will be rejected:
   instance (Eq a => Show (Maybe a)) where ...
 
 This restriction is partly motivated by an unusual quirk of instance
-declarations. Namely, if ScopedTypeVariables is enabled, then the type
-variables from the top of an instance will scope over the bodies of the
-instance methods, /even if the type variables are implicitly quantified/.
+declarations. Namely, the type variables from the top of an instance scope
+over the bodies of the instance methods, /even if the type variables are
+implicitly quantified/.
 For example, GHC will accept the following:
 
   instance Monoid a => Monoid (Identity a) where
@@ -1078,19 +1078,19 @@ Somewhat surprisingly, old versions of GHC would accept the instance above.
 Even though the `forall` only quantifies `a`, the outermost parentheses mean
 that the `forall` is nested, and per the forall-or-nothing rule, this means
 that implicit quantification would occur. Therefore, the `a` is explicitly
-bound and the `b` is implicitly bound. Moreover, ScopedTypeVariables would
-bring /both/ sorts of type variables into scope over the body of `m`.
+bound and the `b` is implicitly bound. Moreover, /both/ sorts of type
+variables would be in scope over the body of `m`.
 How utterly confusing!
 
 To avoid this sort of confusion, we simply disallow nested `forall`s in
 instance types, which makes things like the instance above become illegal.
 For the sake of consistency, we also disallow nested contexts, even though they
-don't have the same strange interaction with ScopedTypeVariables.
+don't have the same strange interaction with scoping.
 
 Just as we forbid nested `forall`s and contexts in normal instance
 declarations, we also forbid them in SPECIALISE instance pragmas (#18455).
-Unlike normal instance declarations, ScopedTypeVariables don't have any impact
-on SPECIALISE instance pragmas, but we use the same validity checks for
+Unlike normal instance declarations, SPECIALISE instance pragmas bring no type
+variables into scope, but we use the same validity checks for
 SPECIALISE instance pragmas anyway to be consistent.
 
 -----
@@ -1099,8 +1099,6 @@ SPECIALISE instance pragmas anyway to be consistent.
 
 `deriving` clauses and standalone `deriving` declarations also permit bringing
 type variables into scope, either through explicit or implicit quantification.
-Unlike in the tops of instance declarations, however, one does not need to
-enable ScopedTypeVariables for this to take effect.
 
 Just as GHC forbids nested `forall`s in the top of instance declarations, it
 also forbids them in types involved with `deriving`:

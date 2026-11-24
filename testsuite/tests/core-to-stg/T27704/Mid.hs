@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, ConstraintKinds, ScopedTypeVariables #-}
+{-# LANGUAGE GADTs, ConstraintKinds #-}
 module Mid where
 
 import {-# SOURCE #-} Callee
