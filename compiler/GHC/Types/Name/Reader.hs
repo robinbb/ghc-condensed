@@ -1086,19 +1086,18 @@ value, indicating what we are looking for:
    (lookupExprOccRn).
 
  * WantBoth: any name or field will do, regardless of whether the selector
-   function is available, e.g. record updates (lookupRecUpdFields) with
-   NoDisambiguateRecordFields.
+   function is available, e.g. :info in GHCi (lookupInfoOccRn).
 
  * WantField: any field will do, regardless of whether the selector function is
    available, but ignoring any non-field names, e.g. record updates
-   (lookupRecUpdFields with DisambiguateRecordFields.
+   (lookupFieldGREs).
 
 -----------------------------------------------------------------------------------
   Context                                  FieldsOrSelectors
 -----------------------------------------------------------------------------------
-  Record construction/pattern match        WantField, but unless DisambiguateRecordFields
-  e.g. MkT { foo = 3 }                     is in effect, also look up using WantBoth
-  Record update, e.g. e { foo = 3 }        to report when a non-field clashes with a field.
+  Record construction/pattern match        the data constructor's fields
+  e.g. MkT { foo = 3 }                     (lookupRecFieldOcc)
+  Record update, e.g. e { foo = 3 }        WantField
 
   :info in GHCi                            WantBoth
 

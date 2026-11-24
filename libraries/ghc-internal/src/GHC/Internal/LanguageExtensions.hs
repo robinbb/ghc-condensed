@@ -62,7 +62,6 @@ data Extension
    | OverloadedStrings
    | OverloadedLists
    | NumDecimals
-   | DisambiguateRecordFields
    | RecordWildCards
    | NamedFieldPuns
    | ViewPatterns

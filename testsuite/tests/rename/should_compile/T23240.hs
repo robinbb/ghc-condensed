@@ -1,9 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE TemplateHaskell #-}
 
--- Crucial to triggering the bug.
-{-# LANGUAGE DisambiguateRecordFields #-}
-
 -- Need to enable the unused imports warning to trigger the bug.
 {-# OPTIONS_GHC -Wunused-imports #-}
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 module T18999_FieldSelectors where
 
 data Foo = Foo { not :: Int }

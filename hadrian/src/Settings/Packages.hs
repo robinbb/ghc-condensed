@@ -68,6 +68,7 @@ packageArgs = do
         , stage0Ghc ? arg "-XParallelListComp"
         , stage0Ghc ? arg "-XRecursiveDo"
         , stage0Ghc ? arg "-XScopedTypeVariables"
+        , stage0Ghc ? arg "-XDisambiguateRecordFields"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

@@ -51,10 +51,9 @@ If you have multiple datatypes with the same field name, you need to enable
 It is never permitted for a single module to define multiple top-level bindings
 with the same name.
 
-The :extension:`DisambiguateRecordFields` extension (implied by
-:extension:`DuplicateRecordFields`) is useful in conjunction with
-:extension:`NoFieldSelectors`, because it excludes non-fields from consideration
-when resolving field names in record construction, update and pattern matching.
+Non-fields are never considered when resolving field names in record
+construction, update and pattern matching, so a field and a non-field of the
+same name do not clash there under :extension:`NoFieldSelectors`.
 
 
 Import and export of selector functions

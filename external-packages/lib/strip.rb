@@ -21,12 +21,12 @@ module Strip
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
     AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
-    DatatypeContexts DeepSubsumption DeriveDataTypeable DoRec
-    ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
-    MultiParamTypeClasses NPlusKPatterns NondecreasingIndentation NullaryTypeClasses
-    OverlappingInstances ParallelArrays ParallelListComp PatternSignatures
-    PolyKinds RankNTypes RecursiveDo RelaxedPolyRec ScopedTypeVariables
-    StarIsType TypeInType
+    DatatypeContexts DeepSubsumption DeriveDataTypeable
+    DisambiguateRecordFields DoRec ExplicitForAll IncoherentInstances
+    InstanceSigs KindSignatures MultiParamTypeClasses NPlusKPatterns
+    NondecreasingIndentation NullaryTypeClasses OverlappingInstances
+    ParallelArrays ParallelListComp PatternSignatures PolyKinds RankNTypes
+    RecursiveDo RelaxedPolyRec ScopedTypeVariables StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

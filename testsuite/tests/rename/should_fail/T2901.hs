@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 -- #2901
 
 module T2901 where

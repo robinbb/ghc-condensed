@@ -6,14 +6,11 @@ Duplicate record fields
 .. extension:: DuplicateRecordFields
     :shortdesc: Allow definition of record types with identically-named fields.
 
-    :implies: :extension:`DisambiguateRecordFields`
-
     :since: 8.0.1
 
     Allow definition of record types with identically-named fields.
 
-Going beyond :extension:`DisambiguateRecordFields` (see :ref:`disambiguate-fields`),
-the :extension:`DuplicateRecordFields` extension allows multiple datatypes to be
+The :extension:`DuplicateRecordFields` extension allows multiple datatypes to be
 declared using the same field names in a single module. For example, it allows
 this: ::
 
@@ -23,8 +20,7 @@ this: ::
 
 Uses of fields that are always unambiguous because they mention the constructor,
 including construction and pattern-matching, may freely use duplicated field
-names. For example, the following are permitted (just as with
-:extension:`DisambiguateRecordFields`): ::
+names. For example, the following are permitted: ::
 
     s = MkS { x = 3 }
 

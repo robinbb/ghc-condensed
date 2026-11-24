@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**32 language extensions deleted.**
+**33 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -124,6 +124,18 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Stable.
 - Notes: An instance of `Data` may always be derived. Harmless and common;
   GHC2021 enables it.
+
+`DisambiguateRecordFields`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: GHC2024; also implied by RecordWildCards and
+  DuplicateRecordFields.
+- Lines: +85 −432, net −347.
+- Stability: Stable.
+- Notes: A field in record construction or pattern matching is resolved
+  through its data constructor, and a field in an update among the fields in
+  scope alone. Accepts strictly more programs; GHC2024 enables it.
 
 `DoRec`
 

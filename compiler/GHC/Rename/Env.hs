@@ -554,21 +554,15 @@ counterparts.
 
 -----------------------------------------------
 -- | Look up an occurrence of a field in record construction or pattern
--- matching (but not update).
---
--- If -XDisambiguateRecordFields is off, then we will pass 'Nothing' for the
--- 'DataCon' 'Name', i.e. we don't use the data constructor for disambiguation.
+-- matching (but not update), using the data constructor to disambiguate.
 -- See Note [DisambiguateRecordFields] and Note [NoFieldSelectors].
-lookupRecFieldOcc :: Maybe (WithUserRdr Name)
-                       -- Nothing  => just look it up as usual
-                       -- Just con => use data con to disambiguate
+lookupRecFieldOcc :: WithUserRdr Name  -- ^ the data constructor
                   -> RdrName
                   -> RnM Name
-lookupRecFieldOcc mb_con rdr_name
-  | Just (WithUserRdr _ con) <- mb_con
-  , isUnboundName con  -- Avoid error cascade
+lookupRecFieldOcc qcon@(WithUserRdr _ con) rdr_name
+  | isUnboundName con  -- Avoid error cascade
   = return $ mk_unbound_rec_fld con
-  | Just qcon@(WithUserRdr _ con) <- mb_con
+  | otherwise
   = do { let lbl = FieldLabelString $ fastStringToShortText (occNameFS (rdrNameOcc rdr_name))
        ; mb_nm <- lookupExactOrOrig rdr_name ensure_recfld $  -- See Note [Record field names and Template Haskell]
             do { flds <- lookupConstructorFields qcon
@@ -583,7 +577,7 @@ lookupRecFieldOcc mb_con rdr_name
                                  then listToMaybe $ pickGREs rdr_name [gre]
                                  else return gre
                ; traceRn "lookupRecFieldOcc" $
-                   vcat [ text "mb_con:" <+> ppr mb_con
+                   vcat [ text "con:" <+> ppr con
                         , text "rdr_name:" <+> ppr rdr_name
                         , text "flds:" <+> ppr flds
                         , text "mb_gre:" <+> ppr mb_gre ]
@@ -593,20 +587,7 @@ lookupRecFieldOcc mb_con rdr_name
           { Nothing  -> do { addErr (badFieldConErr con lbl)
                            ; return $ mk_unbound_rec_fld con }
           ; Just nm -> return nm } }
-
-  | otherwise  -- Can't use the data constructor to disambiguate
-  = lookupExactOrOrig rdr_name greName $
-    do { mb_gre <- lookupGlobalOccRn_base which_gres rdr_name
-       ; case mb_gre of
-           Just gre -> return (greName gre)
-           Nothing  -> do { traceRn "lookupGlobalOccRn" (ppr rdr_name)
-                          ; unboundName looking_for rdr_name } }
   where
-    which_gres   = RelevantGREsFOS WantField
-    looking_for  = LF { lf_which = WL_RecField, lf_where =  WL_Global }
-      -- This use of Global is right as we are looking up a selector,
-      -- which can only be defined at the top level.
-
     -- When lookup fails, make an unbound name with the right record field
     -- namespace, as that's what we expect to be returned
     -- from 'lookupRecFieldOcc'. See T14307.
@@ -621,9 +602,8 @@ lookupRecFieldOcc mb_con rdr_name
 {- Note [DisambiguateRecordFields]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When we are looking up record fields in record construction or pattern
-matching, we can take advantage of the data constructor name to
-resolve fields that would otherwise be ambiguous (provided the
--XDisambiguateRecordFields flag is on).
+matching, we take advantage of the data constructor name to resolve
+fields that would otherwise be ambiguous.
 
 For example, consider:
 
@@ -665,17 +645,15 @@ is unqualified.
 
 Note [DisambiguateRecordFields for updates]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When we are looking up record fields in record update, we can take advantage of
-the fact that we know we are looking for a field, even though we do not know the
-data constructor name (as in Note [DisambiguateRecordFields]), provided the
--XDisambiguateRecordFields flag is on.
+When we are looking up record fields in record update, we take advantage of
+the fact that we know we are looking for a field, even though we do not know
+the data constructor name (as in Note [DisambiguateRecordFields]).
 
 For example, consider:
 
   module N where
     f = ()
 
-  {-# LANGUAGE DisambiguateRecordFields #-}
   module M where
     import N (f)
     data T = MkT { f :: Int }
@@ -686,15 +664,6 @@ We filter out non-fields in lookupFieldGREs by using isRecFldGRE, which allows
 us to accept the above program.
 Of course, if a record update has two fields in scope with the same name,
 it is still ambiguous.
-
-We also look up the non-fields with the same textual name
-
-  1. to throw an error if the user hasn't enabled DisambiguateRecordFields,
-  2. in order to improve the error message when a user mistakenly tries to use
-     a non-field in a record update:
-
-        f = ()
-        e x = x { f = () }
 
 Unlike with constructors or pattern-matching, we do not allow the module
 qualifier to be omitted from the field names, because we do not have a
@@ -1519,9 +1488,12 @@ lookupFieldGREs :: GlobalRdrEnv -> LocatedN RdrName -> RnM (NE.NonEmpty FieldGlo
 lookupFieldGREs env (L loc rdr)
   = setSrcSpanA loc
   $ do { res <- lookupExactOrOrig rdr (\ gre -> maybeToList $ fieldGRE_maybe gre) $
-           do { let (env_fld_gres, env_var_gres) =
-                      partition isRecFldGRE $
-                      lookupGRE env (LookupRdrName rdr (RelevantGREsFOS WantBoth))
+           do { let env_fld_gres =
+                      filter isRecFldGRE $
+                      lookupGRE env (LookupRdrName rdr (RelevantGREsFOS WantField))
+                -- Non-fields with the same name are ignored: see
+                -- Note [DisambiguateRecordFields for updates].
+                --
                 -- Make sure to use 'LookupRdrName': if a record update contains
                 -- a qualified field name, only look up GREs which are in scope
                 -- with that same qualification.
@@ -1530,24 +1502,10 @@ lookupFieldGREs env (L loc rdr)
                 -- in Note [Disambiguating record updates] in GHC.Rename.Pat.
 
               -- Handle implicit qualified imports in GHCi. See T10439.
-              ; ghci_gres <- lookupQualifiedNameGHCi WantBoth rdr
-              ; let (ghci_fld_gres, ghci_var_gres) =
-                      partition isRecFldGRE $
-                      ghci_gres
+              ; ghci_gres <- lookupQualifiedNameGHCi WantField rdr
+              ; let ghci_fld_gres = filter isRecFldGRE ghci_gres
 
-              ; let fld_gres = ghci_fld_gres ++ env_fld_gres
-                    var_gres = ghci_var_gres ++ env_var_gres
-
-              -- Add an error for ambiguity when -XDisambiguateRecordFields is off.
-              --
-              -- See Note [DisambiguateRecordFields for updates].
-              ; disamb_ok <- xoptM LangExt.DisambiguateRecordFields
-              ;  if | not disamb_ok
-                    , gre1 : gre2 : others <- fld_gres ++ var_gres
-                    -> addErrTc $ TcRnAmbiguousFieldInUpdate (gre1, gre2, others)
-                    | otherwise
-                    -> return ()
-              ; return fld_gres }
+              ; return (ghci_fld_gres ++ env_fld_gres) }
 
        -- Add an error if lookup failed.
        ; case res of

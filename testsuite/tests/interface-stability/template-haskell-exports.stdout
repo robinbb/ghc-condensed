@@ -163,7 +163,6 @@ module Language.Haskell.TH where
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals
-    | DisambiguateRecordFields
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns
@@ -747,7 +746,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals
-    | DisambiguateRecordFields
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns
@@ -1466,7 +1464,6 @@ module Language.Haskell.TH.Syntax where
     | OverloadedStrings
     | OverloadedLists
     | NumDecimals
-    | DisambiguateRecordFields
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns

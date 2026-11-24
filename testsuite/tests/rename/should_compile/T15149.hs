@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 module Main where
 import T15149B
 import T15149C

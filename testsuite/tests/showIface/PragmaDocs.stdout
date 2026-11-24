@@ -27,7 +27,6 @@ docs:
          ForeignFunctionInterface
          ImplicitPrelude
          BangPatterns
-         DisambiguateRecordFields
          NamedFieldPuns
          GADTs
          GADTSyntax

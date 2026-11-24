@@ -6,13 +6,11 @@ Record wildcards
 .. extension:: RecordWildCards
     :shortdesc: Allow use of record wildcard syntax.
 
-    :implies: :extension:`DisambiguateRecordFields`.
     :since: 6.8.1
 
     Allow the use of wildcards in record construction and pattern matching.
 
-Record wildcards are enabled by the language extension :extension:`RecordWildCards`. This
-extension implies :extension:`DisambiguateRecordFields`.
+Record wildcards are enabled by the language extension :extension:`RecordWildCards`.
 
 For records with many fields, it can be tiresome to write out each field
 individually in a record pattern, as in ::

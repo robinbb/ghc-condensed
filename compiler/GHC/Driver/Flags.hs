@@ -125,7 +125,6 @@ extensionName = \case
   LangExt.OverloadedLists -> "OverloadedLists"
   LangExt.NumDecimals -> "NumDecimals"
   LangExt.OrPatterns -> "OrPatterns"
-  LangExt.DisambiguateRecordFields -> "DisambiguateRecordFields"
   LangExt.RecordWildCards -> "RecordWildCards"
   LangExt.NamedFieldPuns -> "NamedFieldPuns"
   LangExt.ViewPatterns -> "ViewPatterns"
@@ -238,19 +237,10 @@ impliedXFlags
     , (LangExt.TypeOperators, On LangExt.ExplicitNamespaces)
 
 
-        -- Record wild-cards implies field disambiguation
-        -- Otherwise if you write (C {..}) you may well get
-        -- stuff like " 'a' not in scope ", which is a bit silly
-        -- if the compiler has just filled in field 'a' of constructor 'C'
-    , (LangExt.RecordWildCards,     On LangExt.DisambiguateRecordFields)
-
     , (LangExt.JavaScriptFFI, On LangExt.InterruptibleFFI)
 
     , (LangExt.DeriveTraversable, On LangExt.DeriveFunctor)
     , (LangExt.DeriveTraversable, On LangExt.DeriveFoldable)
-
-    -- Duplicate record fields require field disambiguation
-    , (LangExt.DuplicateRecordFields, On LangExt.DisambiguateRecordFields)
 
     , (LangExt.TemplateHaskell, On LangExt.TemplateHaskellQuotes)
     , (LangExt.Strict, On LangExt.StrictData)

@@ -12,24 +12,24 @@ A record field name `x` can be used in four contexts:
 
 In these four cases, here are the rules for field name resolution: 
 
-#. An unqualified name "x" is unambiguous *if and only if* there is just one "x" in scope unqualified.
+#. As a standalone selector, an unqualified name "x" is unambiguous *if and only if* there is just one "x" in scope unqualified,
+   and a qualified name "M.x" is unambiguous *if and only if* there is just one "M.x" in scope.
 
-#. A qualified name "M.x" is unambiguous *if and only if* there is just one "M.x" in scope.
+#. In record construction and pattern matching
+   (``C{ x = …}``), an unqualified field name ``x`` is unambiguous if and only if the data constructor (``C``)
+   has a field ``x``, and that field is in scope unqualified, or qualified as ``Q.x``, regardless of ``Q``.
+   Similarly, a qualified field name ``M.x`` is unambiguous if and only if the data
+   constructor (``C``) has a field ``x``, and that field is in scope qualified as ``M.x``.
+
+#. In record updates (``r{ x = 3 }``), the field name x is unambiguous if and only if there is just one field name x in scope unqualified.
+   Similarly, the record update with a qualified field ``r{ M.x = 3 }`` is unambiguous if just one
+   field name is in scope as ``M.x``.
+   In both cases, non-field names are ignored.
 
 Those rules are amended by the following extensions:
 
-* :extension:`DisambiguateRecordFields`: In record construction and pattern matching
-  (``C{ x = …}``), an unqualified field name ``x`` is unambiguous if and only if the data constructor (``C``)
-  has a field ``x``, and that field is in scope unqualified, or qualified as ``Q.x``, regardless of ``Q``.
-  Similarly, in record construction and pattern matching, a qualified field name ``M.x`` is unambiguous if and only if the data
-  constructor (``C``) has a field ``x``, and that field is in scope qualified as ``M.x``.
-
-  In record updates (``r{ x = 3 }``), the field name x is unambiguous if and only if there is just one field name x in scope unqualified.
-  Similarly, the record update with a qualified field ``r{ M.x = 3 }`` is unambiguous if just one
-  field name is in scope as ``M.x``.
-  In both cases, non-field names are ignored.
 * :extension:`DuplicateRecordFields`: This extension allows record updates if exactly
-  one type has all the fields being updated, even if they are individually ambiguous according to the two rules for field name resolution above.
+  one type has all the fields being updated, even if they are individually ambiguous according to the rules for field name resolution above.
   
   For example::
 

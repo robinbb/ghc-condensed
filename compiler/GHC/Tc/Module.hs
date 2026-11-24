@@ -1082,7 +1082,7 @@ checkHiBootIface'
               = lookupGRE gre_env $
                 LookupOccName missing_occ (RelevantGREsFOS WantField)
               | otherwise
-              = [] -- BootFldReexport T18999_NoDisambiguateRecordFields T16745A
+              = [] -- BootFldReexport T16745A
 
         in case mapMaybe mb_ok $ matching_flds of
 

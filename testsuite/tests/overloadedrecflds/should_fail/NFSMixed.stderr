@@ -1,5 +1,5 @@
 
-NFSMixed.hs:7:14: error: [GHC-99339]
+NFSMixed.hs:6:14: error: [GHC-99339]
     • Ambiguous record update with field ‘foo’
       This field appears in both datatypes ‘Foo’ and ‘Bar’
     • In the expression: x {foo = 0}

@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 
 module T22160 where
 

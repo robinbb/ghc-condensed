@@ -75,7 +75,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`DeriveLift`
      * :extension:`DeriveTraversable`
      * :extension:`DerivingStrategies`
-     * :extension:`DisambiguateRecordFields`
      * :extension:`DoAndIfThenElse`
      * :extension:`EmptyCase`
      * :extension:`EmptyDataDecls`

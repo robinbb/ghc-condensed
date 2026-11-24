@@ -8,8 +8,8 @@
     `KindSignatures`, `InstanceSigs`, `PolyKinds`, `RelaxedPolyRec`,
     `ParallelArrays`, `CUSKs`, `StarIsType`, `DeepSubsumption`,
     `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`, `RecursiveDo`,
-    `ScopedTypeVariables`, `NPlusKPatterns` and `NondecreasingIndentation`
-    constructors of `Extension`.
+    `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation` and
+    `DisambiguateRecordFields` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every
     type has a `Typeable` instance, a data type declaration never has a
     context (a `DataD` or `NewtypeD` with one is refused), class methods
@@ -33,7 +33,9 @@
     an outer `forall`, a class or instance head and a pattern signature
     bind them over the body, an `n+k` pattern is a parse error, as in
     Haskell 2010, and a nested `do` block must be indented further than
-    its enclosing context, as the Haskell 2010 layout rule requires.
+    its enclosing context, as the Haskell 2010 layout rule requires, and a field in record construction or pattern matching is always
+    resolved through its data constructor, a field in a record update among
+    the fields in scope alone.
 
   * `pprint` prints `StarT` as `Type` rather than `*`, since GHC no
     longer reads `*` as a kind.

@@ -1,5 +1,4 @@
 {-# Language TemplateHaskell #-}
-{-# Language DisambiguateRecordFields #-}
 
 module T12130 where
 

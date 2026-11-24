@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 {-# LANGUAGE NoFieldSelectors #-}
 module T18999_NoFieldSelectors where
 

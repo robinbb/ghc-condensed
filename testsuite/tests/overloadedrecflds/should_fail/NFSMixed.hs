@@ -1,4 +1,3 @@
-{-# LANGUAGE DisambiguateRecordFields #-}
 
 module NFSMixed where
 

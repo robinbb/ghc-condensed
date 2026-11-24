@@ -1,4 +1,4 @@
-{-# LANGUAGE PatternSynonyms, DisambiguateRecordFields #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 module T14747 where
 

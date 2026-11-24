@@ -38,7 +38,7 @@
    Exts.BangPatterns               -> Just TH.BangPatterns
    Exts.TypeSynonymInstances       -> Just TH.TypeSynonymInstances
    Exts.TemplateHaskell            -> Just TH.TemplateHaskell
-@@ -68,7 +68,7 @@
+@@ -68,14 +68,14 @@
    Exts.UnliftedFFITypes           -> Just TH.UnliftedFFITypes
    Exts.LiberalTypeSynonyms        -> Just TH.LiberalTypeSynonyms
    Exts.TypeOperators              -> Just TH.TypeOperators
@@ -47,6 +47,14 @@
    Exts.RecordWildCards            -> Just TH.RecordWildCards
  #if __GLASGOW_HASKELL__ >= 904
    Exts.RecordPuns                 -> Just TH.NamedFieldPuns
+ #else
+   Exts.RecordPuns                 -> Just TH.RecordPuns
+ #endif
+-  Exts.DisambiguateRecordFields   -> Just TH.DisambiguateRecordFields
++  Exts.DisambiguateRecordFields   -> Nothing
+   Exts.OverloadedStrings          -> Just TH.OverloadedStrings
+   Exts.GADTs                      -> Just TH.GADTs
+   Exts.MonoPatBinds               ->
 @@ -84,11 +84,11 @@
  #else
      Nothing
@@ -118,7 +126,7 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -204,26 +201,18 @@
+@@ -204,30 +201,21 @@
    TH.CApiFFI                           -> Just Exts.CApiFFI
    TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
    TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
@@ -145,7 +153,11 @@
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
    TH.NumDecimals                       -> Nothing
-@@ -244,17 +233,11 @@
+-  TH.DisambiguateRecordFields          -> Just Exts.DisambiguateRecordFields
+   TH.RecordWildCards                   -> Just Exts.RecordWildCards
+ #if __GLASGOW_HASKELL__ >= 904
+   TH.NamedFieldPuns                    -> Just Exts.RecordPuns
+@@ -244,17 +232,11 @@
    TH.ViewPatterns                      -> Just Exts.ViewPatterns
    TH.GADTs                             -> Just Exts.GADTs
    TH.GADTSyntax                        -> Nothing
@@ -163,7 +175,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,35 +249,23 @@
+@@ -266,35 +248,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -199,7 +211,7 @@
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
    TH.LambdaCase                        -> Just Exts.LambdaCase
-@@ -346,13 +317,11 @@
+@@ -346,13 +316,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -213,7 +225,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +331,6 @@
+@@ -362,12 +330,6 @@
  #endif
  #endif
  

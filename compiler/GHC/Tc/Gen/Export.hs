@@ -1152,7 +1152,7 @@ addDuplicateFieldExportErr gre others
        ; addErr (TcRnDuplicateFieldExport gre other_gres) }
 
 -- | Is it OK to export two clashing duplicate record fields coming from the
--- given export items, with @-XDisambiguateRecordFields@ disabled?
+-- given export items, with @-XDuplicateRecordFields@ disabled?
 --
 -- See Note [Exporting duplicate record fields].
 dupFieldExport_ok :: IE GhcPs -> IE GhcPs -> Bool

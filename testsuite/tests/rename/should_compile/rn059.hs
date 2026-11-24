@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -XDisambiguateRecordFields #-}
-
 module Foo () where
 
 import Rn059_A

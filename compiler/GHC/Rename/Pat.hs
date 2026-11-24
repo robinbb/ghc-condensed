@@ -75,7 +75,7 @@ import GHC.Builtin.WiredIn.Types   ( nilDataCon )
 import GHC.Core.DataCon
 import qualified GHC.LanguageExtensions as LangExt
 
-import Control.Monad       ( when, ap, guard, unless )
+import Control.Monad       ( when, ap, unless )
 import Data.Containers.ListUtils (nubOrdOn)
 import Data.Foldable
 import Data.Function       ( on )
@@ -797,7 +797,7 @@ rnHsRecFields
     -> RnM ([LHsRecField GhcRn (LocatedA arg)], FreeNames)
 
 -- This surprisingly complicated pass
---   a) looks up the field name (possibly using disambiguation)
+--   a) looks up the field name, using the data constructor to disambiguate
 --   b) fills in puns and dot-dot stuff
 -- When we've finished, we've renamed the LHS, but not the RHS,
 -- of each x=e binding
@@ -806,22 +806,20 @@ rnHsRecFields
 
 rnHsRecFields ctxt mk_arg (HsRecFields { rec_flds = flds, rec_dotdot = dotdot })
   = do { pun_ok      <- xoptM LangExt.NamedFieldPuns
-       ; disambig_ok <- xoptM LangExt.DisambiguateRecordFields
-       ; let parent = guard disambig_ok >> mb_con
-       ; flds1  <- mapM (rn_fld pun_ok parent) flds
+       ; flds1  <- mapM (rn_fld pun_ok rec_con) flds
        ; mapM_ (addErr . dupFieldErr ctxt) dup_flds
-       ; dotdot_flds <- rn_dotdot dotdot mb_con flds1
+       ; dotdot_flds <- rn_dotdot dotdot rec_con flds1
        ; let all_flds | null dotdot_flds = flds1
                       | otherwise        = flds1 ++ dotdot_flds
        ; return (all_flds, mkFNs (getFieldIds all_flds)) }
   where
-    mb_con = case ctxt of
-                HsRecFieldCon con  -> Just con
-                HsRecFieldPat con  -> Just con
-                HsRecFieldUpd      -> Nothing
+    rec_con = case ctxt of
+                HsRecFieldCon con -> con
+                HsRecFieldPat con -> con
+                HsRecFieldUpd     -> panic "rnHsRecFields: record update"
 
     rn_fld :: Bool
-           -> Maybe (WithUserRdr Name)
+           -> WithUserRdr Name
            -> LHsRecField GhcPs (LocatedA arg)
            -> RnM (LHsRecField GhcRn (LocatedA arg))
     rn_fld pun_ok parent (L l
@@ -846,11 +844,10 @@ rnHsRecFields ctxt mk_arg (HsRecFields { rec_flds = flds, rec_dotdot = dotdot })
                  , hfbPun = pun } }
 
     rn_dotdot :: Maybe (LocatedA RecFieldsDotDot)     -- See Note [DotDot fields] in GHC.Hs.Pat
-              -> Maybe (WithUserRdr Name)
-                  -- The constructor (Nothing for an out of scope constructor)
+              -> WithUserRdr Name                   -- The constructor
               -> [LHsRecField GhcRn (LocatedA arg)] -- Explicit fields
               -> RnM [LHsRecField GhcRn (LocatedA arg)]   -- Field Labels we need to fill in
-    rn_dotdot (Just (L loc_e (RecFieldsDotDot n))) (Just qcon@(WithUserRdr _ con)) flds -- ".." on record construction / pat match
+    rn_dotdot (Just (L loc_e (RecFieldsDotDot n))) qcon@(WithUserRdr _ con) flds -- ".." on record construction / pat match
       | not (isUnboundName con) -- This test is because if the constructor
                                 -- isn't in scope the constructor lookup will add
                                 -- an error but still return an unbound name. We
@@ -899,11 +896,10 @@ rnHsRecFields ctxt mk_arg (HsRecFields { rec_flds = flds, rec_dotdot = dotdot })
                                   $ recFieldToVarOcc
                                   $ nameOccName sel ] }
 
-    rn_dotdot _dotdot _mb_con _flds
+    rn_dotdot _dotdot _con _flds
       = return []
       -- _dotdot = Nothing => No ".." at all
-      -- _mb_con = Nothing => Record update
-      -- _mb_con = Just unbound => Out of scope data constructor
+      -- _con unbound => Out of scope data constructor
 
     dup_flds :: [NE.NonEmpty RdrName]
         -- Each list represents a RdrName that occurred more than once

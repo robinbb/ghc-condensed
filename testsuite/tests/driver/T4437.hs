@@ -83,5 +83,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "RecursiveDo",
                                "ScopedTypeVariables",
                                "NPlusKPatterns",
-                               "NondecreasingIndentation"
+                               "NondecreasingIndentation",
+                               "DisambiguateRecordFields"
                               ]

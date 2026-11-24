@@ -530,8 +530,9 @@ packages:
     OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
     RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables,
-    NPlusKPatterns, NondecreasingIndentation and the deprecated aliases) to
-    or from template-haskell, whose Extension type lost those constructors
+    NPlusKPatterns, NondecreasingIndentation, DisambiguateRecordFields and
+    the deprecated aliases) to or from template-haskell, whose Extension
+    type lost those constructors
 - name: heaps
   version: 0.4.1
   tier: 1

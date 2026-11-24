@@ -748,21 +748,6 @@ instance Diagnostic TcRnMessage where
           where
             fld_cons :: [ConLikeName]
             fld_cons = nonDetEltsUniqSet $ recFieldCons $ fieldGREInfo gre
-    TcRnAmbiguousFieldInUpdate (gre1, gre2, gres)
-      -> mkSimpleDecorated $
-          vcat [ text "Ambiguous record field" <+> fld <> dot
-               , hang (text "It could refer to any of the following:")
-                  2 $ vcat (map pprSugg (gre1 : gre2 : gres))
-               ]
-        where
-          fld = quotes $ ppr (occNameFS $ greOccName gre1)
-          pprSugg gre = vcat [ bullet <+> pprGRE gre <> comma
-                             , nest 2 (pprNameProvenance gre) ]
-          pprGRE gre = case greInfo gre of
-            IAmRecField {}
-              | ParentIs { par_is = parent } <- greParent gre
-              -> text "record field" <+> fld <+> text "of" <+> quotes (ppr parent)
-            _ -> text "variable" <+> fld
     TcRnAmbiguousRecordUpdate _rupd tc
       -> mkSimpleDecorated $
           vcat [ text "Ambiguous record update with parent" <+> what <> dot
@@ -2234,8 +2219,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnDuplicateFieldExport {}
       -> ErrorWithoutFlag
-    TcRnAmbiguousFieldInUpdate {}
-      -> ErrorWithoutFlag
     TcRnAmbiguousRecordUpdate{}
       -> WarningWithFlag Opt_WarnAmbiguousFields
     TcRnMissingFields{}
@@ -2903,8 +2886,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnDuplicateFieldExport {}
       -> [suggestExtension LangExt.DuplicateRecordFields]
-    TcRnAmbiguousFieldInUpdate {}
-      -> [suggestExtension LangExt.DisambiguateRecordFields]
     TcRnAmbiguousRecordUpdate{}
       -> noHints
     TcRnMissingFields{}

@@ -1781,27 +1781,6 @@ data TcRnMessage where
   -}
   TcRnMissingStrictFields :: ConLike -> [(FieldLabelString, TcType)] -> TcRnMessage
 
-  {-| TcRnAmbiguousFieldInUpdate is an error that occurs when a field in a
-      record update clashes with another field or top-level function of the
-      same name, and the user hasn't enabled -XDisambiguateRecordFields.
-
-      Example:
-
-        {-# LANGUAGE NoFieldSelectors #-}
-        {-# LANGUAGE NoDisambiguateRecordFields #-}
-        module M where
-
-          data A = MkA { fld :: Int }
-
-          fld :: Bool
-          fld = False
-
-          f r = r { fld = 3 }
-
-  -}
-  TcRnAmbiguousFieldInUpdate :: (GlobalRdrElt, GlobalRdrElt, [GlobalRdrElt])
-                                -> TcRnMessage
-
   {-| TcRnBadRecordUpdate is an error when a regular (non-overloaded)
      record update cannot be pinned down to any one parent.
 
@@ -3964,7 +3943,7 @@ data TcRnMessage where
     used that doesn't exist in a constructor.
 
     Test cases:
-      T13644, T13847, T17469, T8448, T8570, tcfail083, tcfail084
+      T13644, T17469, T8448, T8570, tcfail083, tcfail084
   -}
   TcRnInvalidRecordField :: !Name -- ^ The constructor name
                          -> !FieldLabelString -- ^ The name of the field
@@ -4005,12 +3984,12 @@ data TcRnMessage where
 
     Test cases:
       BootFldReexport, DRFUnused, duplicaterecfldsghci01, GHCiDRF, mod110,
-      mod151, mod152, mod153, mod164, mod165, NoFieldSelectorsFail,
+      mod151, mod152, mod153, mod164, mod165,
       overloadedrecfldsfail02, overloadedrecfldsfail04, overloadedrecfldsfail11,
       overloadedrecfldsfail12, overloadedrecfldsfail13,
       overloadedrecfldswasrunnowfail06, rnfail044, T11167_ambig,
       T11167_ambiguous_fixity, T13132_duplicaterecflds, T15487, T16745, T17420,
-      T18999_NoDisambiguateRecordFields, T19397E1, T19397E2, T23010_fail,
+      T19397E1, T19397E2, T23010_fail,
       tcfail037
   -}
   TcRnAmbiguousName :: !GlobalRdrEnv
