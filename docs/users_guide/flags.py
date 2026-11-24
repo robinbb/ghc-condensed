@@ -258,8 +258,8 @@ class LanguageExtension(GenericFlag):
     # Invert the flag
     @staticmethod
     def _noname(name):
-        # We check isupper() so that NondecreasingIndentation
-        # is not counted as "No-ndecreasingIndentation"
+        # We check isupper() so that a name that merely begins with "No"
+        # is not taken for the negation of another extension
         if name[:2] == "No" and name[2].isupper():
           return name[2:]
         else:

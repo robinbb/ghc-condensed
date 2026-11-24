@@ -1,4 +1,3 @@
-{-# LANGUAGE NoNondecreasingIndentation #-}
 module T20147 where
 
 main = do

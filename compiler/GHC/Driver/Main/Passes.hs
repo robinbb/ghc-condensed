@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE MultiWayIf #-}
 
 {-# OPTIONS_GHC -fprof-auto-top #-}
@@ -203,90 +202,90 @@ hscParse' mod_summary
     {-# SCC "Parser" #-} withTiming logger
                 (text "Parser"<+>brackets (ppr $ ms_mod mod_summary))
                 (const ()) $ do
-    let src_filename  = ms_hspp_file mod_summary
-        maybe_src_buf = ms_hspp_buf  mod_summary
+      let src_filename  = ms_hspp_file mod_summary
+          maybe_src_buf = ms_hspp_buf  mod_summary
 
-    --------------------------  Parser  ----------------
-    -- sometimes we already have the buffer in memory, perhaps
-    -- because we needed to parse the imports out of it, or get the
-    -- module name.
-    buf <- case maybe_src_buf of
-               Just b  -> return b
-               Nothing -> liftIO $ hGetStringBuffer src_filename
+      --------------------------  Parser  ----------------
+      -- sometimes we already have the buffer in memory, perhaps
+      -- because we needed to parse the imports out of it, or get the
+      -- module name.
+      buf <- case maybe_src_buf of
+                 Just b  -> return b
+                 Nothing -> liftIO $ hGetStringBuffer src_filename
 
-    let loc = mkRealSrcLoc (mkFastString src_filename) 1 1
+      let loc = mkRealSrcLoc (mkFastString src_filename) 1 1
 
-    let diag_opts = initDiagOpts dflags
-    when (wopt Opt_WarnUnicodeBidirectionalFormatCharacters dflags) $ do
-      case checkBidirectionFormatChars (PsLoc loc (BufPos 0)) buf of
-        Nothing -> pure ()
-        Just chars@((eloc,chr,_) :| _) ->
-          let span = mkSrcSpanPs $ mkPsSpan eloc (advancePsLoc eloc chr)
-          in logDiagnostics $ singleMessage $
-               mkPlainMsgEnvelope diag_opts span $
-               GhcPsMessage $ PsWarnBidirectionalFormatChars chars
+      let diag_opts = initDiagOpts dflags
+      when (wopt Opt_WarnUnicodeBidirectionalFormatCharacters dflags) $ do
+        case checkBidirectionFormatChars (PsLoc loc (BufPos 0)) buf of
+          Nothing -> pure ()
+          Just chars@((eloc,chr,_) :| _) ->
+            let span = mkSrcSpanPs $ mkPsSpan eloc (advancePsLoc eloc chr)
+            in logDiagnostics $ singleMessage $
+                 mkPlainMsgEnvelope diag_opts span $
+                 GhcPsMessage $ PsWarnBidirectionalFormatChars chars
 
-    let parseMod | HsigFile == ms_hsc_src mod_summary
-                 = parseSignature
-                 | otherwise = parseModule
+      let parseMod | HsigFile == ms_hsc_src mod_summary
+                   = parseSignature
+                   | otherwise = parseModule
 
-    case unP parseMod (initParserState (initParserOpts dflags) buf loc) of
-        PFailed pst -> do
-            handleWarningsThrowErrors (getPsMessages pst)
-        POk pst rdr_module -> do
-            liftIO $ putDumpFileMaybe logger Opt_D_dump_parsed "Parser"
-                        FormatHaskell (ppr rdr_module)
-            liftIO $ putDumpFileMaybe logger Opt_D_dump_parsed_ast "Parser AST"
-                        FormatHaskell (showAstData NoBlankSrcSpan
-                                                   NoBlankEpAnnotations
-                                                   rdr_module)
-            liftIO $ putDumpFileMaybe logger Opt_D_source_stats "Source Statistics"
-                        FormatText (ppSourceStats False rdr_module)
+      case unP parseMod (initParserState (initParserOpts dflags) buf loc) of
+          PFailed pst -> do
+              handleWarningsThrowErrors (getPsMessages pst)
+          POk pst rdr_module -> do
+              liftIO $ putDumpFileMaybe logger Opt_D_dump_parsed "Parser"
+                          FormatHaskell (ppr rdr_module)
+              liftIO $ putDumpFileMaybe logger Opt_D_dump_parsed_ast "Parser AST"
+                          FormatHaskell (showAstData NoBlankSrcSpan
+                                                     NoBlankEpAnnotations
+                                                     rdr_module)
+              liftIO $ putDumpFileMaybe logger Opt_D_source_stats "Source Statistics"
+                          FormatText (ppSourceStats False rdr_module)
 
-            -- To get the list of extra source files, we take the list
-            -- that the parser gave us,
-            --   - eliminate files beginning with '<'.  gcc likes to use
-            --     pseudo-filenames like "<built-in>" and "<command-line>"
-            --   - normalise them (eliminate differences between ./f and f)
-            --   - filter out the preprocessed source file
-            --   - filter out anything beginning with tmpdir
-            --   - remove duplicates
-            --   - filter out the .hs/.lhs source filename if we have one
-            --
-            let n_hspp  = FilePath.normalise src_filename
-                TempDir tmp_dir = tmpDir dflags
-                srcs0 = nub $ filter (not . (tmp_dir `isPrefixOf`))
-                            $ filter (not . (== n_hspp))
-                            $ map FilePath.normalise
-                            $ filter (not . isPrefixOf "<")
-                            $ map unpackFS
-                            $ srcfiles pst
-                srcs1 = case ml_hs_file (ms_location mod_summary) of
-                          Just f  -> filter (/= FilePath.normalise f) srcs0
-                          Nothing -> srcs0
+              -- To get the list of extra source files, we take the list
+              -- that the parser gave us,
+              --   - eliminate files beginning with '<'.  gcc likes to use
+              --     pseudo-filenames like "<built-in>" and "<command-line>"
+              --   - normalise them (eliminate differences between ./f and f)
+              --   - filter out the preprocessed source file
+              --   - filter out anything beginning with tmpdir
+              --   - remove duplicates
+              --   - filter out the .hs/.lhs source filename if we have one
+              --
+              let n_hspp  = FilePath.normalise src_filename
+                  TempDir tmp_dir = tmpDir dflags
+                  srcs0 = nub $ filter (not . (tmp_dir `isPrefixOf`))
+                              $ filter (not . (== n_hspp))
+                              $ map FilePath.normalise
+                              $ filter (not . isPrefixOf "<")
+                              $ map unpackFS
+                              $ srcfiles pst
+                  srcs1 = case ml_hs_file (ms_location mod_summary) of
+                            Just f  -> filter (/= FilePath.normalise f) srcs0
+                            Nothing -> srcs0
 
-            -- sometimes we see source files from earlier
-            -- preprocessing stages that cannot be found, so just
-            -- filter them out:
-            srcs2 <- liftIO $ filterM doesFileExist srcs1
+              -- sometimes we see source files from earlier
+              -- preprocessing stages that cannot be found, so just
+              -- filter them out:
+              srcs2 <- liftIO $ filterM doesFileExist srcs1
 
-            let res = HsParsedModule {
-                      hpm_module    = rdr_module,
-                      hpm_src_files = srcs2
-                   }
+              let res = HsParsedModule {
+                        hpm_module    = rdr_module,
+                        hpm_src_files = srcs2
+                     }
 
-            -- apply parse transformation of plugins
-            let applyPluginAction p opts
-                  = parsedResultAction p opts mod_summary
-            hsc_env <- getHscEnv
-            (ParsedResult transformed (PsMessages warns errs)) <-
-              withPlugins (hsc_plugins hsc_env) applyPluginAction
-                (ParsedResult { parsedResultModule = res, parsedResultMessages = (uncurry PsMessages $ getPsMessages pst) })
+              -- apply parse transformation of plugins
+              let applyPluginAction p opts
+                    = parsedResultAction p opts mod_summary
+              hsc_env <- getHscEnv
+              (ParsedResult transformed (PsMessages warns errs)) <-
+                withPlugins (hsc_plugins hsc_env) applyPluginAction
+                  (ParsedResult { parsedResultModule = res, parsedResultMessages = (uncurry PsMessages $ getPsMessages pst) })
 
-            sec <- getSourceErrorContext
-            logDiagnostics (GhcPsMessage <$> warns)
-            unless (isEmptyMessages errs) $ throwErrors sec (GhcPsMessage <$> errs)
-            return transformed
+              sec <- getSourceErrorContext
+              logDiagnostics (GhcPsMessage <$> warns)
+              unless (isEmptyMessages errs) $ throwErrors sec (GhcPsMessage <$> errs)
+              return transformed
 
 checkBidirectionFormatChars :: PsLoc -> StringBuffer -> Maybe (NonEmpty (PsLoc, Char, String))
 checkBidirectionFormatChars start_loc sb

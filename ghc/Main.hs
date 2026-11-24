@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# OPTIONS_GHC -Wno-x-partial -Wno-incomplete-patterns -optc-DNON_POSIX_SOURCE #-}
 
 -----------------------------------------------------------------------------
@@ -224,64 +223,64 @@ main' postLoadMode units dflags0 args flagWarnings = do
 
   GHC.prettyPrintGhcErrors logger4 $ do
 
-  let diag_opts = initDiagOpts dflags4
-  let flagWarnings' = GhcDriverMessage <$> mconcat [warnsToMessages diag_opts flagWarnings, dynamicFlagWarnings]
+    let diag_opts = initDiagOpts dflags4
+    let flagWarnings' = GhcDriverMessage <$> mconcat [warnsToMessages diag_opts flagWarnings, dynamicFlagWarnings]
 
-  handleSourceError (\e -> do
-       GHC.printException e
-       liftIO $ exitWith (ExitFailure 1)) $ do
-         liftIO $ printOrThrowDiagnostics logger4 (initPrintConfig dflags4) diag_opts flagWarnings'
+    handleSourceError (\e -> do
+         GHC.printException e
+         liftIO $ exitWith (ExitFailure 1)) $ do
+           liftIO $ printOrThrowDiagnostics logger4 (initPrintConfig dflags4) diag_opts flagWarnings'
 
-  liftIO $ showBanner postLoadMode dflags4
+    liftIO $ showBanner postLoadMode dflags4
 
-  let (dflags5, srcs, objs) = parseTargetFiles dflags4 (map unLoc fileish_args)
+    let (dflags5, srcs, objs) = parseTargetFiles dflags4 (map unLoc fileish_args)
 
-  -- we've finished manipulating the DynFlags, update the session
-  _ <- GHC.setSessionDynFlags dflags5
-  dflags6 <- GHC.getSessionDynFlags
+    -- we've finished manipulating the DynFlags, update the session
+    _ <- GHC.setSessionDynFlags dflags5
+    dflags6 <- GHC.getSessionDynFlags
 
-  -- Must do this before loading plugins
-  liftIO $ initUniqSupply (initialUnique dflags6) (uniqueIncrement dflags6)
+    -- Must do this before loading plugins
+    liftIO $ initUniqSupply (initialUnique dflags6) (uniqueIncrement dflags6)
 
-  -- Initialise plugins here because the plugin author might already expect this
-  -- subsequent call to `getLogger` to be affected by a plugin.
-  initializeSessionPlugins
-  hsc_env <- getSession
-  logger <- getLogger
+    -- Initialise plugins here because the plugin author might already expect this
+    -- subsequent call to `getLogger` to be affected by a plugin.
+    initializeSessionPlugins
+    hsc_env <- getSession
+    logger <- getLogger
 
 
-        ---------------- Display configuration -----------
-  case verbosity dflags6 of
-    v | v == 4 -> liftIO $ dumpUnitsSimple hsc_env
-      | v >= 5 -> liftIO $ dumpUnits       hsc_env
-      | otherwise -> return ()
+          ---------------- Display configuration -----------
+    case verbosity dflags6 of
+      v | v == 4 -> liftIO $ dumpUnitsSimple hsc_env
+        | v >= 5 -> liftIO $ dumpUnits       hsc_env
+        | otherwise -> return ()
 
-        ---------------- Final sanity checking -----------
-  liftIO $ checkOptions postLoadMode dflags6 srcs objs units
+          ---------------- Final sanity checking -----------
+    liftIO $ checkOptions postLoadMode dflags6 srcs objs units
 
-  ---------------- Do the business -----------
-  handleSourceError (\e -> do
-       GHC.printException e
-       liftIO $ exitWith (ExitFailure 1)) $ do
-    case postLoadMode of
-       ShowInterface f        -> liftIO $ showIface logger
-                                                    (hsc_dflags hsc_env)
-                                                    (hsc_units  hsc_env)
-                                                    (hsc_NC     hsc_env)
-                                                    f
-       ShowByteCode f         -> liftIO $ showByteCode logger hsc_env f
-       DoMake                 -> doMake units srcs
-       DoMkDependHS           -> doMkDependHS (map fst srcs)
-       StopBefore p           -> liftIO (oneShot hsc_env p srcs)
-       DoInteractive          -> ghciUI units srcs Nothing
-       DoEval exprs           -> ghciUI units srcs $ Just $ reverse exprs
-       DoRun                  -> doRun units srcs args
-       DoAbiHash              -> abiHash (map fst srcs)
-       ShowPackages           -> liftIO $ showUnits hsc_env
-       DoFrontend f           -> doFrontend f srcs
-       DoBackpack             -> doBackpack (map fst srcs)
+    ---------------- Do the business -----------
+    handleSourceError (\e -> do
+         GHC.printException e
+         liftIO $ exitWith (ExitFailure 1)) $ do
+      case postLoadMode of
+         ShowInterface f        -> liftIO $ showIface logger
+                                                      (hsc_dflags hsc_env)
+                                                      (hsc_units  hsc_env)
+                                                      (hsc_NC     hsc_env)
+                                                      f
+         ShowByteCode f         -> liftIO $ showByteCode logger hsc_env f
+         DoMake                 -> doMake units srcs
+         DoMkDependHS           -> doMkDependHS (map fst srcs)
+         StopBefore p           -> liftIO (oneShot hsc_env p srcs)
+         DoInteractive          -> ghciUI units srcs Nothing
+         DoEval exprs           -> ghciUI units srcs $ Just $ reverse exprs
+         DoRun                  -> doRun units srcs args
+         DoAbiHash              -> abiHash (map fst srcs)
+         ShowPackages           -> liftIO $ showUnits hsc_env
+         DoFrontend f           -> doFrontend f srcs
+         DoBackpack             -> doBackpack (map fst srcs)
 
-  liftIO $ dumpFinalStats logger
+    liftIO $ dumpFinalStats logger
 
 doRun :: [String] -> [(FilePath, Maybe Phase)] -> [Located String] -> Ghc ()
 doRun units srcs args = do
@@ -493,30 +492,30 @@ abiHash strs = do
 
   liftIO $ do
 
-  let find_it str = do
-         let modname = mkModuleName str
-         r <- findImportedModule hsc_env LookupUser modname NoPkgQual
-         case r of
-           Found _ m -> return m
-           _error    ->
-            let opts   = initIfaceMessageOpts dflags
-                err_txt = missingInterfaceErrorDiagnostic opts
-                        $ cannotFindModule hsc_env modname r
-            in throwGhcException . CmdLineError $ showSDoc dflags err_txt
+    let find_it str = do
+           let modname = mkModuleName str
+           r <- findImportedModule hsc_env LookupUser modname NoPkgQual
+           case r of
+             Found _ m -> return m
+             _error    ->
+              let opts   = initIfaceMessageOpts dflags
+                  err_txt = missingInterfaceErrorDiagnostic opts
+                          $ cannotFindModule hsc_env modname r
+              in throwGhcException . CmdLineError $ showSDoc dflags err_txt
 
-  mods <- mapM find_it strs
+    mods <- mapM find_it strs
 
-  -- MP: loadUserInterface is inefficient here since we will never find a cached
-  -- interface. computeInterface is probably better.
-  let get_iface modl = loadUserInterface NotBoot (text "abiHash") modl
-  ifaces <- initIfaceCheck (text "abiHash") hsc_env $ mapM get_iface mods
+    -- MP: loadUserInterface is inefficient here since we will never find a cached
+    -- interface. computeInterface is probably better.
+    let get_iface modl = loadUserInterface NotBoot (text "abiHash") modl
+    ifaces <- initIfaceCheck (text "abiHash") hsc_env $ mapM get_iface mods
 
-  bh <- openBinMem (3*1024) -- just less than a block
-  put_ bh hiVersion
-    -- package hashes change when the compiler version changes (for now)
-    -- see #5328
-  mapM_ (put_ bh . mi_mod_hash) ifaces
-  f <- fingerprintBinMem bh
+    bh <- openBinMem (3*1024) -- just less than a block
+    put_ bh hiVersion
+      -- package hashes change when the compiler version changes (for now)
+      -- see #5328
+    mapM_ (put_ bh . mi_mod_hash) ifaces
+    f <- fingerprintBinMem bh
 
-  putStrLn (showPpr dflags f)
+    putStrLn (showPpr dflags f)
 

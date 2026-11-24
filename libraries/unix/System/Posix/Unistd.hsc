@@ -1,5 +1,4 @@
 {-# LANGUAGE CApiFFI #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE Safe #-}
 -----------------------------------------------------------------------------
 -- |
@@ -158,23 +157,23 @@ nanosleep = error "nanosleep: not available on this platform"
 nanosleep 0 = return ()
 nanosleep nsecs = do
   allocaBytes (#const sizeof(struct timespec)) $ \pts1 -> do
-  allocaBytes (#const sizeof(struct timespec)) $ \pts2 -> do
-     let (tv_sec0, tv_nsec0) = nsecs `divMod` 1000000000
-     let
-       loop tv_sec tv_nsec = do
-         (#poke struct timespec, tv_sec)  pts1 tv_sec
-         (#poke struct timespec, tv_nsec) pts1 tv_nsec
-         res <- c_nanosleep pts1 pts2
-         if res == 0
-            then return ()
-            else do errno <- getErrno
-                    if errno == eINTR
-                       then do
-                           tv_sec'  <- (#peek struct timespec, tv_sec)  pts2
-                           tv_nsec' <- (#peek struct timespec, tv_nsec) pts2
-                           loop tv_sec' tv_nsec'
-                       else throwErrno "nanosleep"
-     loop (fromIntegral tv_sec0 :: CTime) (fromIntegral tv_nsec0 :: CTime)
+    allocaBytes (#const sizeof(struct timespec)) $ \pts2 -> do
+       let (tv_sec0, tv_nsec0) = nsecs `divMod` 1000000000
+       let
+         loop tv_sec tv_nsec = do
+           (#poke struct timespec, tv_sec)  pts1 tv_sec
+           (#poke struct timespec, tv_nsec) pts1 tv_nsec
+           res <- c_nanosleep pts1 pts2
+           if res == 0
+              then return ()
+              else do errno <- getErrno
+                      if errno == eINTR
+                         then do
+                             tv_sec'  <- (#peek struct timespec, tv_sec)  pts2
+                             tv_nsec' <- (#peek struct timespec, tv_nsec) pts2
+                             loop tv_sec' tv_nsec'
+                         else throwErrno "nanosleep"
+       loop (fromIntegral tv_sec0 :: CTime) (fromIntegral tv_nsec0 :: CTime)
 
 data {-# CTYPE "struct timespec" #-} CTimeSpec
 

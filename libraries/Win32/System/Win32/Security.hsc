@@ -201,9 +201,9 @@ getFileSecurity filename si =
   needed <- peek lpnLengthNeeded
   fpSd <- mallocForeignPtrBytes (fromIntegral needed)
   withForeignPtr fpSd $ \pSd -> do
-  failIfFalse_ "getFileSecurity" $
-    c_GetFileSecurity lpFileName si pSd needed lpnLengthNeeded
-  return (SecurityDescriptor fpSd)
+    failIfFalse_ "getFileSecurity" $
+      c_GetFileSecurity lpFileName si pSd needed lpnLengthNeeded
+    return (SecurityDescriptor fpSd)
 
 foreign import WINDOWS_CCONV unsafe "windows.h GetFileSecurityW"
   c_GetFileSecurity

@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 module GHC.Driver.Session.Mode where
 
 import GHC.Driver.CmdLine

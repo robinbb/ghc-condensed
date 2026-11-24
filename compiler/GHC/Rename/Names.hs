@@ -4,7 +4,6 @@
 Extracting imported and top-level names in scope
 -}
 
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module GHC.Rename.Names (
@@ -382,91 +381,91 @@ rnImportDecl this_mod
     -- {-# SOURCE #-} we should not get a hi-boot file
     warnPprTrace ((want_boot == NotBoot) && (mi_boot iface == IsBoot)) "rnImportDecl" (ppr imp_mod_name) $ do
 
-    -- Issue a user warning for a redundant {- SOURCE -} import
-    -- NB that we arrange to read all the ordinary imports before
-    -- any of the {- SOURCE -} imports.
-    --
-    -- in --make and GHCi, the compilation manager checks for this,
-    -- and indeed we shouldn't do it here because the existence of
-    -- the non-boot module depends on the compilation order, which
-    -- is not deterministic.  The hs-boot test can show this up.
-    dflags <- getDynFlags
-    warnIf ((want_boot == IsBoot) && (mi_boot iface == NotBoot) && isOneShot (ghcMode dflags))
-           (TcRnRedundantSourceImport imp_mod_name)
-    when (mod_safe && not (safeImportsOn dflags)) $
-        addErr (TcRnSafeImportsDisabled imp_mod_name)
+      -- Issue a user warning for a redundant {- SOURCE -} import
+      -- NB that we arrange to read all the ordinary imports before
+      -- any of the {- SOURCE -} imports.
+      --
+      -- in --make and GHCi, the compilation manager checks for this,
+      -- and indeed we shouldn't do it here because the existence of
+      -- the non-boot module depends on the compilation order, which
+      -- is not deterministic.  The hs-boot test can show this up.
+      dflags <- getDynFlags
+      warnIf ((want_boot == IsBoot) && (mi_boot iface == NotBoot) && isOneShot (ghcMode dflags))
+             (TcRnRedundantSourceImport imp_mod_name)
+      when (mod_safe && not (safeImportsOn dflags)) $
+          addErr (TcRnSafeImportsDisabled imp_mod_name)
 
-    let imp_mod = mi_module iface
-        qual_mod_name = fmap (hsModuleName . unLoc) as_mod `orElse` imp_mod_name
-        imp_spec  = ImpDeclSpec { is_mod = imp_mod, is_qual = qual_only,
-                                  is_dloc = locA loc, is_as = qual_mod_name,
-                                  is_pkg_qual = pkg_qual, is_isboot = want_boot,
-                                  is_level = convImportLevel import_level }
+      let imp_mod = mi_module iface
+          qual_mod_name = fmap (hsModuleName . unLoc) as_mod `orElse` imp_mod_name
+          imp_spec  = ImpDeclSpec { is_mod = imp_mod, is_qual = qual_only,
+                                    is_dloc = locA loc, is_as = qual_mod_name,
+                                    is_pkg_qual = pkg_qual, is_isboot = want_boot,
+                                    is_level = convImportLevel import_level }
 
-    let filter_imports = do
-          -- filter the imports according to the import declaration
-          (new_imp_details, imp_user_list, gbl_env)
-            <- filterImports hsc_env iface imp_spec imp_details
-          -- for certain error messages, we’d like to know what could be
-          -- imported here, if everything were imported
-          potential_gres <- (\(_,_,x) -> x) <$> filterImports hsc_env iface imp_spec Nothing
-          return (new_imp_details, imp_user_list, gbl_env, potential_gres)
+      let filter_imports = do
+            -- filter the imports according to the import declaration
+            (new_imp_details, imp_user_list, gbl_env)
+              <- filterImports hsc_env iface imp_spec imp_details
+            -- for certain error messages, we’d like to know what could be
+            -- imported here, if everything were imported
+            potential_gres <- (\(_,_,x) -> x) <$> filterImports hsc_env iface imp_spec Nothing
+            return (new_imp_details, imp_user_list, gbl_env, potential_gres)
 
-    (new_imp_details, imp_user_list, gbl_env, potential_gres) <-
-      case origin of
-        ImplicitEssentialsImport ->
-          -- The implicit GHC.Essentials import does not bring anything into scope.
-          -- See Note [Finding GHC.Essentials] in GHC.Builtin.
-          return (Nothing, ImpUserDependOnly, emptyGlobalRdrEnv, emptyGlobalRdrEnv)
-        UserWrittenImport     -> filter_imports
-        ImplicitPreludeImport -> filter_imports
-        PluginImport          -> filter_imports
+      (new_imp_details, imp_user_list, gbl_env, potential_gres) <-
+        case origin of
+          ImplicitEssentialsImport ->
+            -- The implicit GHC.Essentials import does not bring anything into scope.
+            -- See Note [Finding GHC.Essentials] in GHC.Builtin.
+            return (Nothing, ImpUserDependOnly, emptyGlobalRdrEnv, emptyGlobalRdrEnv)
+          UserWrittenImport     -> filter_imports
+          ImplicitPreludeImport -> filter_imports
+          PluginImport          -> filter_imports
 
-    let is_hiding | Just (EverythingBut,_) <- imp_details = True
-                  | otherwise                             = False
+      let is_hiding | Just (EverythingBut,_) <- imp_details = True
+                    | otherwise                             = False
 
-        -- should the import be safe?
-        mod_safe' = mod_safe
-                    || (not generated && safeDirectImpsReq dflags)
-                    || (generated && safeImplicitImpsReq dflags)
+          -- should the import be safe?
+          mod_safe' = mod_safe
+                      || (not generated && safeDirectImpsReq dflags)
+                      || (generated && safeImplicitImpsReq dflags)
 
-    hsc_env <- getTopEnv
-    let home_unit = hsc_home_unit hsc_env
-        other_home_units = hsc_all_home_unit_ids hsc_env
+      hsc_env <- getTopEnv
+      let home_unit = hsc_home_unit hsc_env
+          other_home_units = hsc_all_home_unit_ids hsc_env
 
-        imported_by
-          | isDependOnlyImport imp_user_list
-          = ImportedBySystem
-          | otherwise
-          = ImportedByUser $ ImportedModsVal
-              { imv_name        = is_as imp_spec
-              , imv_span        = locA loc
-              , imv_is_safe     = mod_safe'
-              , imv_is_hiding   = is_hiding
-              , imv_all_exports = potential_gres
-              , imv_qualified   = qual_only
-              , imv_is_level   = convImportLevel import_level
-              }
-        imports = calculateAvails home_unit other_home_units iface mod_safe' want_boot imported_by
+          imported_by
+            | isDependOnlyImport imp_user_list
+            = ImportedBySystem
+            | otherwise
+            = ImportedByUser $ ImportedModsVal
+                { imv_name        = is_as imp_spec
+                , imv_span        = locA loc
+                , imv_is_safe     = mod_safe'
+                , imv_is_hiding   = is_hiding
+                , imv_all_exports = potential_gres
+                , imv_qualified   = qual_only
+                , imv_is_level   = convImportLevel import_level
+                }
+          imports = calculateAvails home_unit other_home_units iface mod_safe' want_boot imported_by
 
-    -- Complain if we import a deprecated module
-    case fromIfaceWarnings (mi_warns iface) of
-       WarnAll txt -> addDiagnostic (TcRnDeprecatedModule imp_mod_name txt)
-       _           -> return ()
+      -- Complain if we import a deprecated module
+      case fromIfaceWarnings (mi_warns iface) of
+         WarnAll txt -> addDiagnostic (TcRnDeprecatedModule imp_mod_name txt)
+         _           -> return ()
 
-    let new_imp_decl = ImportDecl
-          { ideclExt       = ideclExt decl
-          , ideclName      = ideclName decl
-          , ideclPkgQual   = pkg_qual
-          , ideclSource    = ideclSource decl
-          , ideclSafe      = mod_safe'
-          , ideclQualified = ideclQualified decl
-          , ideclAs        = ideclAs decl
-          , ideclImportList = new_imp_details
-          , ideclLevelSpec  = ideclLevelSpec decl
-          }
+      let new_imp_decl = ImportDecl
+            { ideclExt       = ideclExt decl
+            , ideclName      = ideclName decl
+            , ideclPkgQual   = pkg_qual
+            , ideclSource    = ideclSource decl
+            , ideclSafe      = mod_safe'
+            , ideclQualified = ideclQualified decl
+            , ideclAs        = ideclAs decl
+            , ideclImportList = new_imp_details
+            , ideclLevelSpec  = ideclLevelSpec decl
+            }
 
-    return (L loc new_imp_decl, ImpUserSpec imp_spec imp_user_list, gbl_env, imports)
+      return (L loc new_imp_decl, ImpUserSpec imp_spec imp_user_list, gbl_env, imports)
 
 -- | The error message to emit when we failed to load an interface.
 importDeclLoadFailure :: ImportDeclOrigin -> ModuleName -> IsBootInterface

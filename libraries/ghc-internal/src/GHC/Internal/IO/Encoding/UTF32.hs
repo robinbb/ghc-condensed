@@ -1,7 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude
            , BangPatterns
-           , NondecreasingIndentation
            , MagicHash
            , UnboxedTuples
   #-}
@@ -225,8 +224,8 @@ utf32be_decode
                   !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
               let x1 = chr4 c0 c1 c2 c3
               if not (validate x1) then invalid st4 else do
-              let !(# st5, ow' #) = unIO (writeCharBuf oraw ow x1) st4
-              loop (ir+4) ow' st5
+                let !(# st5, ow' #) = unIO (writeCharBuf oraw ow x1) st4
+                loop (ir+4) ow' st5
          where
            invalid :: DecodingBuffer#
            invalid st' = done InvalidSequence ir ow st'
@@ -258,8 +257,8 @@ utf32le_decode
                   !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
               let x1 = chr4 c3 c2 c1 c0
               if not (validate x1) then invalid st4 else do
-              let !(# st5, ow' #) = unIO (writeCharBuf oraw ow x1) st4
-              loop (ir+4) ow' st5
+                let !(# st5, ow' #) = unIO (writeCharBuf oraw ow x1) st4
+                loop (ir+4) ow' st5
          where
            invalid :: DecodingBuffer#
            invalid st' = done InvalidSequence ir ow st'

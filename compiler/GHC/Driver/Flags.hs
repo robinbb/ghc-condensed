@@ -170,7 +170,6 @@ extensionName = \case
   LangExt.TypeOperators -> "TypeOperators"
   LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
   LangExt.PackageImports -> "PackageImports"
-  LangExt.NondecreasingIndentation -> "NondecreasingIndentation"
   LangExt.RelaxedLayout -> "RelaxedLayout"
   LangExt.TraditionalRecordSyntax -> "TraditionalRecordSyntax"
   LangExt.LambdaCase -> "LambdaCase"

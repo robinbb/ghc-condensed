@@ -2,7 +2,6 @@
 {-# LANGUAGE CPP
            , NoImplicitPrelude
            , RecordWildCards
-           , NondecreasingIndentation
   #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
 
@@ -148,15 +147,15 @@ hIsEOF handle = wantReadableHandle_ "hIsEOF" handle $ \Handle__{..} -> do
   cbuf <- readIORef haCharBuffer
   if not (isEmptyBuffer cbuf) then return False else do
 
-  bbuf <- readIORef haByteBuffer
-  if not (isEmptyBuffer bbuf) then return False else do
+    bbuf <- readIORef haByteBuffer
+    if not (isEmptyBuffer bbuf) then return False else do
 
-  -- NB. do no decoding, just fill the byte buffer; see #3808
-  (r,bbuf') <- Buffered.fillReadBuffer haDevice bbuf
-  if r == 0
-     then return True
-     else do writeIORef haByteBuffer bbuf'
-             return False
+      -- NB. do no decoding, just fill the byte buffer; see #3808
+      (r,bbuf') <- Buffered.fillReadBuffer haDevice bbuf
+      if r == 0
+         then return True
+         else do writeIORef haByteBuffer bbuf'
+                 return False
 
 -- ---------------------------------------------------------------------------
 -- isEOF
@@ -261,12 +260,12 @@ hSetEncoding hdl encoding =
     flushCharBuffer h_
     closeTextCodecs h_
     openTextEncoding (Just encoding) haType $ \ mb_encoder mb_decoder -> do
-    bbuf <- readIORef haByteBuffer
-    ref <- newIORef (errorWithoutStackTrace "last_decode")
-    return (Handle__{ haLastDecode = ref,
-                      haDecoder = mb_decoder,
-                      haEncoder = mb_encoder,
-                      haCodec   = Just encoding, .. })
+      bbuf <- readIORef haByteBuffer
+      ref <- newIORef (errorWithoutStackTrace "last_decode")
+      return (Handle__{ haLastDecode = ref,
+                        haDecoder = mb_decoder,
+                        haEncoder = mb_encoder,
+                        haCodec   = Just encoding, .. })
 
 -- | Return the current 'TextEncoding' for the specified 'Handle', or
 -- 'Nothing' if the 'Handle' is in binary mode.
@@ -413,19 +412,19 @@ hSeek handle mode offset =
                 writeIORef haByteBuffer bbuf2
         else do
 
-    let r = bufL cbuf; w = bufR cbuf
-    if mode == RelativeSeek && isNothing haDecoder &&
-       offset >= 0 && offset < fromIntegral (w - r)
-        then writeIORef haCharBuffer cbuf{ bufL = r + fromIntegral offset }
-        else do
+      let r = bufL cbuf; w = bufR cbuf
+      if mode == RelativeSeek && isNothing haDecoder &&
+         offset >= 0 && offset < fromIntegral (w - r)
+          then writeIORef haCharBuffer cbuf{ bufL = r + fromIntegral offset }
+          else do
 
-    flushCharReadBuffer handle_
-    flushByteReadBuffer handle_
-    -- read the updated values
-    bbuf2 <- readIORef haByteBuffer
-    new_offset <- IODevice.seek haDevice mode offset
-    debugIO $ "hSeek after: " ++ show new_offset
-    writeIORef haByteBuffer bbuf2{ bufOffset = fromIntegral new_offset }
+        flushCharReadBuffer handle_
+        flushByteReadBuffer handle_
+        -- read the updated values
+        bbuf2 <- readIORef haByteBuffer
+        new_offset <- IODevice.seek haDevice mode offset
+        debugIO $ "hSeek after: " ++ show new_offset
+        writeIORef haByteBuffer bbuf2{ bufOffset = fromIntegral new_offset }
 
 
 -- | Computation 'hTell' @hdl@ returns the current position of the
@@ -622,19 +621,19 @@ hSetBinaryMode handle bin =
 
          openTextEncoding mb_te haType $ \ mb_encoder mb_decoder -> do
 
-         -- should match the default newline mode, whatever that is
-         let nl    | bin       = noNewlineTranslation
-                   | otherwise = nativeNewlineMode
+           -- should match the default newline mode, whatever that is
+           let nl    | bin       = noNewlineTranslation
+                     | otherwise = nativeNewlineMode
 
-         bbuf <- readIORef haByteBuffer
-         ref <- newIORef (errorWithoutStackTrace "codec_state", bbuf)
+           bbuf <- readIORef haByteBuffer
+           ref <- newIORef (errorWithoutStackTrace "codec_state", bbuf)
 
-         return Handle__{ haLastDecode = ref,
-                          haEncoder  = mb_encoder,
-                          haDecoder  = mb_decoder,
-                          haCodec    = mb_te,
-                          haInputNL  = inputNL nl,
-                          haOutputNL = outputNL nl, .. }
+           return Handle__{ haLastDecode = ref,
+                            haEncoder  = mb_encoder,
+                            haDecoder  = mb_decoder,
+                            haCodec    = mb_te,
+                            haInputNL  = inputNL nl,
+                            haOutputNL = outputNL nl, .. }
 
 -- -----------------------------------------------------------------------------
 -- Setting and getting the newline mode

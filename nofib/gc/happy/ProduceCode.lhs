@@ -5,7 +5,6 @@ The code generator.
 -----------------------------------------------------------------------------
 
 > {-# LANGUAGE FlexibleContexts #-}
-> {-# LANGUAGE NondecreasingIndentation #-}
 > module ProduceCode (produceParser) where
 
 > import Paths_happy		( version )

@@ -1,5 +1,4 @@
 {-# LANGUAGE CApiFFI #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE Safe #-}
 

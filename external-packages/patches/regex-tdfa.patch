@@ -1,0 +1,84 @@
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
+@@ -327,9 +327,9 @@
+ newQNFA s qt = do
+   (thisI,oldQs) <- get
+   let futureI = succ thisI in seq futureI $ debug (">newQNFA< "++s++" : "++show thisI) $ do
+-  let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
+-  put $! (futureI, oldQs . ((thisI,qnfa):))
+-  return qnfa
++    let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
++    put $! (futureI, oldQs . ((thisI,qnfa):))
++    return qnfa
+ 
+ -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- ==
+ -- E related functions
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
+@@ -448,10 +448,10 @@
+   if start <= startE
+     then writeSTRef earliest start >> writeSTRef list [mqa]
+     else do
+-  old <- readSTRef list
+-  let !rest = dropWhile (\ m -> start <= mqa_start m) old
+-      !new = mqa : rest
+-  writeSTRef list new
++    old <- readSTRef list
++    let !rest = dropWhile (\ m -> start <= mqa_start m) old
++        !new = mqa : rest
++    writeSTRef list new
+ 
+ getMQ :: Position -> MQ s -> ST s [WScratch s]
+ getMQ pos (MQ {mq_earliest=earliest,mq_list=list}) = do
+@@ -658,15 +658,15 @@
+         flagVal <- pos !! flagtag
+         if (-1) == flagVal then act this_index gs
+           else do
+-        startPos <- pos !! start
+-        stopPos <- pos !! stop
+-        (startParent,lengthParent) <- ma !! parent
+-        let ok = (0 <= startParent &&
+-                  0 <= lengthParent &&
+-                  startParent <= startPos &&
+-                  stopPos <= startPos + lengthParent)
+-        if not ok then act this_index gs
+-          else set ma this_index (startPos,stopPos-startPos)
++          startPos <- pos !! start
++          stopPos <- pos !! stop
++          (startParent,lengthParent) <- ma !! parent
++          let ok = (0 <= startParent &&
++                    0 <= lengthParent &&
++                    startParent <= startPos &&
++                    stopPos <= startPos + lengthParent)
++          if not ok then act this_index gs
++            else set ma this_index (startPos,stopPos-startPos)
+   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
+   unsafeFreeze ma
+ 
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
+@@ -552,15 +552,15 @@
+         flagVal <- pos !! flagtag
+         if (-1) == flagVal then act this_index gs
+           else do
+-        startPos <- pos !! start
+-        stopPos <- pos !! stop
+-        (startParent,lengthParent) <- ma !! parent
+-        let ok = (0 <= startParent &&
+-                  0 <= lengthParent &&
+-                  startParent <= startPos &&
+-                  stopPos <= startPos + lengthParent)
+-        if not ok then act this_index gs
+-          else set ma this_index (startPos,stopPos-startPos)
++          startPos <- pos !! start
++          stopPos <- pos !! stop
++          (startParent,lengthParent) <- ma !! parent
++          let ok = (0 <= startParent &&
++                    0 <= lengthParent &&
++                    startParent <= startPos &&
++                    stopPos <= startPos + lengthParent)
++          if not ok then act this_index gs
++            else set ma this_index (startPos,stopPos-startPos)
+   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
+   unsafeFreeze ma
+ 

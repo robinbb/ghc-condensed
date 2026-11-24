@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE MultiWayIf #-}

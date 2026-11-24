@@ -1383,12 +1383,6 @@ languageExtensions (Just Haskell98)
        LangExt.MonomorphismRestriction,
        LangExt.TraditionalRecordSyntax,
        LangExt.FieldSelectors,
-       LangExt.NondecreasingIndentation,
-           -- strictly speaking non-standard, but we always had this
-           -- on implicitly before the option was added in 7.1, and
-           -- turning it off breaks code, so we're keeping it on for
-           -- backwards compatibility.  Cabal uses -XHaskell98 by
-           -- default unless you specify another language.
        LangExt.ListTuplePuns,
        LangExt.ImplicitStagePersistence
       ]

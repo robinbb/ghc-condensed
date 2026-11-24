@@ -62,7 +62,7 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -102,11 +102,11 @@
+@@ -102,23 +102,23 @@
    Exts.RegularPatterns            -> Nothing
    Exts.TupleSections              -> Just TH.TupleSections
    Exts.GHCForeignImportPrim       -> Just TH.GHCForeignImportPrim
@@ -77,7 +77,11 @@
    Exts.MonoLocalBinds             -> Just TH.MonoLocalBinds
    Exts.DeriveFunctor              -> Just TH.DeriveFunctor
    Exts.DeriveGeneric              -> Just TH.DeriveGeneric
-@@ -117,8 +117,8 @@
+   Exts.DeriveTraversable          -> Just TH.DeriveTraversable
+   Exts.DeriveFoldable             -> Just TH.DeriveFoldable
+-  Exts.NondecreasingIndentation   -> Just TH.NondecreasingIndentation
++  Exts.NondecreasingIndentation   -> Nothing
+   Exts.InterruptibleFFI           -> Just TH.InterruptibleFFI
    Exts.CApiFFI                    -> Just TH.CApiFFI
    Exts.JavaScriptFFI              -> Just TH.JavaScriptFFI
    Exts.ExplicitNamespaces         -> Just TH.ExplicitNamespaces
@@ -159,7 +163,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,34 +249,23 @@
+@@ -266,35 +249,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -191,10 +195,11 @@
 -  TH.AlternativeLayoutRule             -> Nothing
 -  TH.AlternativeLayoutRuleTransitional -> Nothing
 -  TH.DatatypeContexts                  -> Just Exts.DatatypeContexts
-   TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
+-  TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +318,11 @@
+   TH.LambdaCase                        -> Just Exts.LambdaCase
+@@ -346,13 +317,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -208,7 +213,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +332,6 @@
+@@ -362,12 +331,6 @@
  #endif
  #endif
  

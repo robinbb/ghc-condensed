@@ -93,21 +93,21 @@ createSemaphore :: Maybe SECURITY_ATTRIBUTES
 createSemaphore mb_sec initial_count max_count mb_name =
   maybeWith with mb_sec $ \ c_sec -> do
   maybeWith withCAString mb_name $ \ c_name -> do
-  handle <- c_CreateSemaphore c_sec initial_count max_count c_name
-  err_code <- getLastError
-  already_exists <-
-    case err_code of
-      (# const ERROR_INVALID_HANDLE) ->
-        errorWin $ "createSemaphore: semaphore name '"
-                ++ fromMaybe "" mb_name
-                ++ "' matches non-semaphore"
-      (# const ERROR_ALREADY_EXISTS) ->
-        return True
-      _                              ->
-        return False
-  if handle == nullPtr
-  then errorWin "createSemaphore"
-  else return (Semaphore handle, already_exists)
+    handle <- c_CreateSemaphore c_sec initial_count max_count c_name
+    err_code <- getLastError
+    already_exists <-
+      case err_code of
+        (# const ERROR_INVALID_HANDLE) ->
+          errorWin $ "createSemaphore: semaphore name '"
+                  ++ fromMaybe "" mb_name
+                  ++ "' matches non-semaphore"
+        (# const ERROR_ALREADY_EXISTS) ->
+          return True
+        _                              ->
+          return False
+    if handle == nullPtr
+    then errorWin "createSemaphore"
+    else return (Semaphore handle, already_exists)
 
 foreign import WINDOWS_CCONV unsafe "windows.h CreateSemaphoreA"
   c_CreateSemaphore :: LPSECURITY_ATTRIBUTES -> LONG -> LONG -> LPCSTR -> IO HANDLE

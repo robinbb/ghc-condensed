@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 
 -- | A simple mutable union-find data structure.
 --

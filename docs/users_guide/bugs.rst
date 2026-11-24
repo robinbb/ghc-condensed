@@ -126,41 +126,6 @@ Lexical syntax
 Context-free syntax
 ^^^^^^^^^^^^^^^^^^^
 
--  In Haskell 98 mode (but not in Haskell 2010 mode), GHC
-   is a little less strict about the layout rule when used in ``do``
-   expressions. Specifically, the restriction that "a nested context
-   must be indented further to the right than the enclosing context" is
-   relaxed to allow the nested context to be at the same level as the
-   enclosing context, if the nested context is a ``do`` expression.
-
-   For example, the following code, in which a ``do`` context is nested
-   within a case context, and the statement ``feed animal`` is indented by
-   the same amount as the case alt, is accepted by GHC: ::
-
-       main = case animal of
-                Wombat -> do
-                feed animal
-
-   But this code, with the inverse nesting, is not: ::
-
-       main = do
-         case animal of
-         Wombat -> feed animal
-
-   This behaviour is controlled by the :extension:`NondecreasingIndentation`
-   extension.
-
-.. extension:: NondecreasingIndentation
-    :shortdesc: Allow nested contexts to be at the same indentation level as
-      its enclosing context.
-
-    :since: 7.2.1
-
-    :status: Included in :extension:`Haskell98`
-
-    Allow nested contexts to be at the same indentation level as
-    its enclosing context.
-
 -  GHC doesn't do the fixity resolution in expressions during parsing as
    required by Haskell 98 (but not by Haskell 2010). For example,
    according to the Haskell 98 report, the following expression is

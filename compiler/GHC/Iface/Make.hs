@@ -1,5 +1,4 @@
 
-{-# LANGUAGE NondecreasingIndentation #-}
 
 {-
 (c) The University of Glasgow 2006-2008

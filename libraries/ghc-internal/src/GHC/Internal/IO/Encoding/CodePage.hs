@@ -2,7 +2,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE Trustworthy #-}
 
 module GHC.Internal.IO.Encoding.CodePage(

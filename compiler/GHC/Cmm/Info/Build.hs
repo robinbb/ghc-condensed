@@ -1,5 +1,4 @@
 {-# LANGUAGE RecordWildCards,
-             NondecreasingIndentation,
              OverloadedStrings #-}
 {-# LANGUAGE UndecidableInstances #-}
 

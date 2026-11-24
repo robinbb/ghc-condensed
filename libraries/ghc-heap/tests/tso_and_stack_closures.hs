@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
@@ -45,7 +44,7 @@ main = do
                     Just myCostCentre -> do
                         assertEqual (cc_label myCostCentre) "MyCostCentre"
                         assertEqual (cc_module myCostCentre) "Main"
-                        assertEqual (cc_srcloc myCostCentre) (Just "tso_and_stack_closures.hs:23:48-80")
+                        assertEqual (cc_srcloc myCostCentre) (Just "tso_and_stack_closures.hs:22:48-80")
                         assertEqual (cc_is_caf myCostCentre) False
                     Nothing -> error "MyCostCentre not found"
                       -- Don't print all of 'linkedCostCentres costCentre',
@@ -90,80 +89,80 @@ createAndUnpackTSOAndSTACKClosure
 createAndUnpackTSOAndSTACKClosure = do
 
     alloca $ \ptrPtrTso -> do
-    alloca $ \ptrPtrTsoInfoTable -> do
-    alloca $ \ptrTsoHeapRepSize -> do
-    alloca $ \ptrPtrTsoHeapRep -> do
-    alloca $ \ptrTsoPointersSize -> do
-    alloca $ \ptrPtrPtrTsoPointers -> do
+      alloca $ \ptrPtrTsoInfoTable -> do
+        alloca $ \ptrTsoHeapRepSize -> do
+          alloca $ \ptrPtrTsoHeapRep -> do
+            alloca $ \ptrTsoPointersSize -> do
+              alloca $ \ptrPtrPtrTsoPointers -> do
 
-    alloca $ \ptrPtrStack -> do
-    alloca $ \ptrPtrStackInfoTable -> do
-    alloca $ \ptrStackHeapRepSize -> do
-    alloca $ \ptrPtrStackHeapRep -> do
-    alloca $ \ptrStackPointersSize -> do
-    alloca $ \ptrPtrPtrStackPointers -> do
+                alloca $ \ptrPtrStack -> do
+                  alloca $ \ptrPtrStackInfoTable -> do
+                    alloca $ \ptrStackHeapRepSize -> do
+                      alloca $ \ptrPtrStackHeapRep -> do
+                        alloca $ \ptrStackPointersSize -> do
+                          alloca $ \ptrPtrPtrStackPointers -> do
 
-    c_create_and_unpack_tso_and_stack
+                            c_create_and_unpack_tso_and_stack
 
-        ptrPtrTso
-        ptrPtrTsoInfoTable
-        ptrTsoHeapRepSize
-        ptrPtrTsoHeapRep
-        ptrTsoPointersSize
-        ptrPtrPtrTsoPointers
+                                ptrPtrTso
+                                ptrPtrTsoInfoTable
+                                ptrTsoHeapRepSize
+                                ptrPtrTsoHeapRep
+                                ptrTsoPointersSize
+                                ptrPtrPtrTsoPointers
 
-        ptrPtrStack
-        ptrPtrStackInfoTable
-        ptrStackHeapRepSize
-        ptrPtrStackHeapRep
-        ptrStackPointersSize
-        ptrPtrPtrStackPointers
+                                ptrPtrStack
+                                ptrPtrStackInfoTable
+                                ptrStackHeapRepSize
+                                ptrPtrStackHeapRep
+                                ptrStackPointersSize
+                                ptrPtrPtrStackPointers
 
-    let fromHeapRep
-          ptrPtrClosureInfoTable
-          ptrClosureHeapRepSize
-          ptrPtrClosureHeapRep
-          ptrClosurePointersSize
-          ptrPtrPtrClosurePointers = do
-            ptrInfoTable :: Ptr StgInfoTable <- peek ptrPtrClosureInfoTable
+                            let fromHeapRep
+                                  ptrPtrClosureInfoTable
+                                  ptrClosureHeapRepSize
+                                  ptrPtrClosureHeapRep
+                                  ptrClosurePointersSize
+                                  ptrPtrPtrClosurePointers = do
+                                    ptrInfoTable :: Ptr StgInfoTable <- peek ptrPtrClosureInfoTable
 
-            heapRepSize :: Int <- fromIntegral <$> peek ptrClosureHeapRepSize
-            let I# heapRepSize# = heapRepSize
-            ptrHeapRep :: Ptr Word8 <- peek ptrPtrClosureHeapRep
-            MBA mutHeapRepBA <- IO $ \s -> let
-                (# s', mba# #) = newByteArray# heapRepSize# s
-                in (# s', MBA mba# #)
-            forM_ [0..heapRepSize-1] $ \i@(I# i#) -> do
-                W8# w <- peekElemOff ptrHeapRep i
-                IO (\s -> (# writeWord8Array# mutHeapRepBA i# w s, () #))
-            BA heapRep <- IO $ \s -> let
-                (# s', ba# #) = unsafeFreezeByteArray# mutHeapRepBA s
-                in (# s', BA ba# #)
+                                    heapRepSize :: Int <- fromIntegral <$> peek ptrClosureHeapRepSize
+                                    let I# heapRepSize# = heapRepSize
+                                    ptrHeapRep :: Ptr Word8 <- peek ptrPtrClosureHeapRep
+                                    MBA mutHeapRepBA <- IO $ \s -> let
+                                        (# s', mba# #) = newByteArray# heapRepSize# s
+                                        in (# s', MBA mba# #)
+                                    forM_ [0..heapRepSize-1] $ \i@(I# i#) -> do
+                                        W8# w <- peekElemOff ptrHeapRep i
+                                        IO (\s -> (# writeWord8Array# mutHeapRepBA i# w s, () #))
+                                    BA heapRep <- IO $ \s -> let
+                                        (# s', ba# #) = unsafeFreezeByteArray# mutHeapRepBA s
+                                        in (# s', BA ba# #)
 
-            pointersSize :: Int <- fromIntegral <$> peek ptrClosurePointersSize
-            ptrPtrPointers :: Ptr (Ptr Any) <- peek ptrPtrPtrClosurePointers
-            ptrPtrPointers :: [Ptr Any] <- sequence
-                [ peekElemOff ptrPtrPointers i
-                | i <- [0..pointersSize-1]
-                ]
+                                    pointersSize :: Int <- fromIntegral <$> peek ptrClosurePointersSize
+                                    ptrPtrPointers :: Ptr (Ptr Any) <- peek ptrPtrPtrClosurePointers
+                                    ptrPtrPointers :: [Ptr Any] <- sequence
+                                        [ peekElemOff ptrPtrPointers i
+                                        | i <- [0..pointersSize-1]
+                                        ]
 
-            getClosureDataFromHeapRep
-                heapRep
-                ptrInfoTable
-                ptrPtrPointers
+                                    getClosureDataFromHeapRep
+                                        heapRep
+                                        ptrInfoTable
+                                        ptrPtrPointers
 
-    tso <- fromHeapRep
-        ptrPtrTsoInfoTable
-        ptrTsoHeapRepSize
-        ptrPtrTsoHeapRep
-        ptrTsoPointersSize
-        ptrPtrPtrTsoPointers
+                            tso <- fromHeapRep
+                                ptrPtrTsoInfoTable
+                                ptrTsoHeapRepSize
+                                ptrPtrTsoHeapRep
+                                ptrTsoPointersSize
+                                ptrPtrPtrTsoPointers
 
-    stack <- fromHeapRep
-        ptrPtrStackInfoTable
-        ptrStackHeapRepSize
-        ptrPtrStackHeapRep
-        ptrStackPointersSize
-        ptrPtrPtrStackPointers
+                            stack <- fromHeapRep
+                                ptrPtrStackInfoTable
+                                ptrStackHeapRepSize
+                                ptrPtrStackHeapRep
+                                ptrStackPointersSize
+                                ptrPtrPtrStackPointers
 
-    return (tso, stack)
+                            return (tso, stack)

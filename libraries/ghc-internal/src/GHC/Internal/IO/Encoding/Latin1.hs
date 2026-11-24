@@ -1,7 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude
            , BangPatterns
-           , NondecreasingIndentation
            , UnboxedTuples
            , MagicHash
   #-}

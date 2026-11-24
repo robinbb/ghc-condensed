@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 module FrontendPlugin where
 
 import GHC.Plugins
@@ -39,16 +38,16 @@ doMake opts srcs  = do
        then liftIO (oneShot hsc_env NoStop srcs)
        else do
 
-    o_files <- mapMaybeM (\x -> liftIO $ compileFile hsc_env NoStop x)
-                 non_hs_srcs
-    dflags <- GHC.getSessionDynFlags
-    let dflags' = dflags { ldInputs = map (FileOption "") o_files
-                                      ++ ldInputs dflags }
-    _ <- GHC.setSessionDynFlags dflags'
+      o_files <- mapMaybeM (\x -> liftIO $ compileFile hsc_env NoStop x)
+                   non_hs_srcs
+      dflags <- GHC.getSessionDynFlags
+      let dflags' = dflags { ldInputs = map (FileOption "") o_files
+                                        ++ ldInputs dflags }
+      _ <- GHC.setSessionDynFlags dflags'
 
-    targets <- mapM (\(src, phase) -> GHC.guessTarget src Nothing phase) hs_srcs
-    GHC.setTargets targets
-    ok_flag <- GHC.load LoadAllTargets
+      targets <- mapM (\(src, phase) -> GHC.guessTarget src Nothing phase) hs_srcs
+      GHC.setTargets targets
+      ok_flag <- GHC.load LoadAllTargets
 
-    when (failed ok_flag) (liftIO $ exitWith (ExitFailure 1))
-    return ()
+      when (failed ok_flag) (liftIO $ exitWith (ExitFailure 1))
+      return ()

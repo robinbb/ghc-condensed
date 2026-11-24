@@ -1,5 +1,5 @@
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE CPP, NoImplicitPrelude, NondecreasingIndentation,
+{-# LANGUAGE CPP, NoImplicitPrelude,
              RecordWildCards,
              UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}

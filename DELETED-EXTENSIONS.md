@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**31 language extensions deleted.**
+**32 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -187,6 +187,17 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Stable.
 - Notes: A class may have any number of parameters. Standard practice;
   GHC2021 enables it.
+
+`NondecreasingIndentation`
+
+- Category: Syntax.
+- Hard-coded: Off.
+- Editions: Haskell98.
+- Lines: +1281 −1443, net −162.
+- Stability: Legacy.
+- Notes: A nested `do` block must be indented further than its enclosing
+  context, as the Haskell 2010 layout rule requires. A Haskell 98 leniency
+  that GHC2021 had already dropped.
 
 `NPlusKPatterns`
 

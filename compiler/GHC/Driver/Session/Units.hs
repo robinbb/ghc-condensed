@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 module GHC.Driver.Session.Units (initMake, initMulti) where
 
 -- The official GHC API
@@ -66,13 +65,13 @@ initMake srcs  = do
        then liftIO (oneShot hsc_env NoStop srcs) >> return []
        else do
 
-    o_files <- mapMaybeM (\x -> liftIO $ compileFile hsc_env NoStop x)
-                 non_hs_srcs
-    dflags <- GHC.getSessionDynFlags
-    let dflags' = dflags { ldInputs = map (FileOption "") o_files
-                                      ++ ldInputs dflags }
-    _ <- GHC.setSessionDynFlags dflags'
-    return hs_srcs
+      o_files <- mapMaybeM (\x -> liftIO $ compileFile hsc_env NoStop x)
+                   non_hs_srcs
+      dflags <- GHC.getSessionDynFlags
+      let dflags' = dflags { ldInputs = map (FileOption "") o_files
+                                        ++ ldInputs dflags }
+      _ <- GHC.setSessionDynFlags dflags'
+      return hs_srcs
 
 initMulti :: NE.NonEmpty String
           -> (DynFlags -> [(String,Maybe Phase)] -> [String] -> [String] -> IO ())
@@ -109,14 +108,14 @@ initMulti unitArgsFiles lintDynFlagsAndSrcs = do
        then liftIO (oneShot dubious_hsc_env NoStop srcs) >> return (dflags4, [])
        else do
 
-    o_files <- mapMaybeM (\x -> liftIO $ compileFile dubious_hsc_env NoStop x)
-                 non_hs_srcs
-    let dflags5 = dflags4 { ldInputs = map (FileOption "") o_files
-                                      ++ ldInputs dflags4 }
+      o_files <- mapMaybeM (\x -> liftIO $ compileFile dubious_hsc_env NoStop x)
+                   non_hs_srcs
+      let dflags5 = dflags4 { ldInputs = map (FileOption "") o_files
+                                        ++ ldInputs dflags4 }
 
-    liftIO $ lintDynFlagsAndSrcs dflags5 srcs objs []
+      liftIO $ lintDynFlagsAndSrcs dflags5 srcs objs []
 
-    pure (dflags5, hs_srcs)
+      pure (dflags5, hs_srcs)
 
   let
     unitDflags = NE.map fst dynFlagsAndSrcs
@@ -175,10 +174,10 @@ initMulti unitArgsFiles lintDynFlagsAndSrcs = do
                 (concat non_hs_srcs)
                 -}
 
-  -- MP: This should probably modify dflags for each unit?
-  --let dflags' = dflags { ldInputs = map (FileOption "") o_files
-  --                                  ++ ldInputs dflags }
-  return $ concat hs_srcs
+    -- MP: This should probably modify dflags for each unit?
+    --let dflags' = dflags { ldInputs = map (FileOption "") o_files
+    --                                  ++ ldInputs dflags }
+    return $ concat hs_srcs
 
 checkUnitCycles :: DynFlags -> HUG.HomeUnitGraph -> Ghc ()
 checkUnitCycles dflags graph = processSCCs (HUG.hugSCCs graph)

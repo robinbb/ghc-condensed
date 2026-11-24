@@ -1,5 +1,4 @@
 {-# LANGUAGE DuplicateRecordFields    #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE TypeFamilies             #-}
 
 module GHC.Tc.Utils.Backpack (
@@ -132,8 +131,8 @@ checkHsigIface tcg_env gre_env sig_iface
                         tcg_fam_inst_env = emptyFamInstEnv,
                         tcg_insts = [],
                         tcg_fam_insts = [] } $ do
-    mapM_ check_inst (instEnvElts sig_insts)
-    failIfErrsM
+      mapM_ check_inst (instEnvElts sig_insts)
+      failIfErrsM
   where
     -- NB: the Names in sig_type_env are bogus.  Let's say we have H.hsig
     -- in package p that defines T; and we implement with himpl:H.  Then the
@@ -522,364 +521,364 @@ mergeSignatures
         -- tcg_th_used           = tcg_th_used orig_tcg_env,
         -- tcg_th_splice_used    = tcg_th_splice_used orig_tcg_env
        }) $ do
-    tcg_env <- getGblEnv
+      tcg_env <- getGblEnv
 
-    let outer_mod  = tcg_mod tcg_env
-    let inner_mod  = tcg_semantic_mod tcg_env
-    let mod_name   = moduleName outer_mod
-    let unit_state = hsc_units hsc_env
-    let dflags     = hsc_dflags hsc_env
+      let outer_mod  = tcg_mod tcg_env
+      let inner_mod  = tcg_semantic_mod tcg_env
+      let mod_name   = moduleName outer_mod
+      let unit_state = hsc_units hsc_env
+      let dflags     = hsc_dflags hsc_env
 
-    -- STEP 1: Figure out all of the external signature interfaces
-    -- we are going to merge in.
-    let reqs = requirementMerges unit_state mod_name
+      -- STEP 1: Figure out all of the external signature interfaces
+      -- we are going to merge in.
+      let reqs = requirementMerges unit_state mod_name
 
-    addErrCtxt (MergeSignaturesCtxt unit_state mod_name reqs) $ do
+      addErrCtxt (MergeSignaturesCtxt unit_state mod_name reqs) $ do
 
-    -- STEP 2: Read in the RAW forms of all of these interfaces
-    ireq_ifaces0 <- liftIO $ forM reqs $ \(Module iuid mod_name) -> do
-        let m = mkModule (VirtUnit iuid) mod_name
-            im = fst (getModuleInstantiation m)
-            ctx = initSDocContext dflags defaultUserStyle
-        fmap fst
-         . withIfaceErr ctx
-         $ findAndReadIface hsc_env (text "mergeSignatures") im m NotBoot
+        -- STEP 2: Read in the RAW forms of all of these interfaces
+        ireq_ifaces0 <- liftIO $ forM reqs $ \(Module iuid mod_name) -> do
+            let m = mkModule (VirtUnit iuid) mod_name
+                im = fst (getModuleInstantiation m)
+                ctx = initSDocContext dflags defaultUserStyle
+            fmap fst
+             . withIfaceErr ctx
+             $ findAndReadIface hsc_env (text "mergeSignatures") im m NotBoot
 
-    -- STEP 3: Get the unrenamed exports of all these interfaces,
-    -- thin it according to the export list, and do shaping on them.
-    let extend_ns nsubst as = liftIO $ extendNameShape hsc_env nsubst as
-        -- This function gets run on every inherited interface, and
-        -- it's responsible for:
-        --
-        --  1. Merging the exports of the interface into @nsubst@,
-        --  2. Adding these exports to the "OK to import" set (@oks@)
-        --  if they came from a package with no exposed modules
-        --  (this means we won't report a PVP error in this case), and
-        --  3. Thinning the interface according to an explicit export
-        --  list.
-        --
-        gen_subst (nsubst,oks,ifaces) (imod@(Module iuid _), ireq_iface) = do
-            let insts = instUnitInsts iuid
-                isFromSignaturePackage =
-                    let inst_uid = instUnitInstanceOf iuid
-                        pkg = unsafeLookupUnitId unit_state inst_uid
-                    in null (unitExposedModules pkg)
-            -- 3(a). Rename the exports according to how the dependency
-            -- was instantiated.  The resulting export list will be accurate
-            -- except for exports *from the signature itself* (which may
-            -- be subsequently updated by exports from other signatures in
-            -- the merge.
-            as1 <- tcRnModExports insts ireq_iface
-            -- 3(b). Thin the interface if it comes from a signature package.
-            (thinned_iface, as2) <- case mb_exports of
-                    Just es
-                      -- Check if the package containing this signature is
-                      -- a signature package (i.e., does not expose any
-                      -- modules.)  If so, we can thin it.
-                      | isFromSignaturePackage
-                      -> setSrcSpan (locA (listLocation es)) $ do
-                        -- Suppress missing errors; they might be used to refer
-                        -- to entities from other signatures we are merging in.
-                        -- If an identifier truly doesn't exist in any of the
-                        -- signatures that are merged in, we will discover this
-                        -- when we run exports_from_avail on the final merged
-                        -- export list.
-                        (mb_r, msgs) <- tryTc $ do
-                            -- Suppose that we have written in a signature:
-                            --  signature A ( module A ) where {- empty -}
-                            -- If I am also inheriting a signature from a
-                            -- signature package, does 'module A' scope over
-                            -- all of its exports?
-                            --
-                            -- There are two possible interpretations:
-                            --
-                            --  1. For non self-reexports, a module reexport
-                            --  is interpreted only in terms of the local
-                            --  signature module, and not any of the inherited
-                            --  ones.  The reason for this is because after
-                            --  typechecking, module exports are completely
-                            --  erased from the interface of a file, so we
-                            --  have no way of "interpreting" a module reexport.
-                            --  Thus, it's only useful for the local signature
-                            --  module (where we have a useful GlobalRdrEnv.)
-                            --
-                            --  2. On the other hand, a common idiom when
-                            --  you want to "export everything, plus a reexport"
-                            --  in modules is to say module A ( module A, reex ).
-                            --  This applies to signature modules too; and in
-                            --  particular, you probably still want the entities
-                            --  from the inherited signatures to be preserved
-                            --  too.
-                            --
-                            -- We think it's worth making a special case for
-                            -- self reexports to make use case (2) work.  To
-                            -- do this, we take the exports of the inherited
-                            -- signature @as1@, and bundle them into a
-                            -- GlobalRdrEnv where we treat them as having come
-                            -- from the import @import A@.  Thus, we will
-                            -- pick them up if they are referenced explicitly
-                            -- (@foo@) or even if we do a module reexport
-                            -- (@module A@).
-                            let ispec = ImpSpec ImpDeclSpec{
-                                            -- NB: This needs to be mod name
-                                            -- of the local signature, not
-                                            -- the (original) module name of
-                                            -- the inherited signature,
-                                            -- because we need module
-                                            -- LocalSig (from the local
-                                            -- export list) to match it!
-                                            is_mod      = mi_module ireq_iface,
-                                            is_as       = mod_name,
-                                            is_pkg_qual = NoPkgQual,
-                                            is_qual     = False,
-                                            is_isboot   = NotBoot,
-                                            is_dloc     = locA loc,
-                                            is_level    = NormalLevel
-                                          } ImpAll
-                                rdr_env = mkGlobalRdrEnv $ gresFromAvails hsc_env (Just ispec) as1
-                            setGblEnv tcg_env {
-                                tcg_rdr_env = rdr_env
-                            } $ exports_from_avail mb_exports rdr_env
-                                    -- NB: tcg_imports is also empty!
-                                    emptyImportAvails
-                                    (tcg_semantic_mod tcg_env)
-                        case mb_r of
-                            Just (_, _, as2, _) -> return (thinModIface as2 ireq_iface, as2)
-                            Nothing -> addMessages msgs >> failM
-                    -- We can't thin signatures from non-signature packages
-                    _ -> return (ireq_iface, as1)
-            -- 3(c). Only identifiers from signature packages are "ok" to
-            -- import (that is, they are safe from a PVP perspective.)
-            -- (NB: This code is actually dead right now.)
-            let oks' | isFromSignaturePackage
-                     = extendOccSetList oks (exportOccs as2)
-                     | otherwise
-                     = oks
-            -- 3(d). Extend the name substitution (performing shaping)
-            mb_r <- extend_ns nsubst as2
-            case mb_r of
-                Left err -> failWithTc (TcRnHsigShapeMismatch err)
-                Right nsubst' -> return (nsubst',oks',(imod, thinned_iface):ifaces)
-        nsubst0 = mkNameShape (moduleName inner_mod) (mi_exports lcl_iface0)
-        ok_to_use0 = mkOccSet (exportOccs (mi_exports lcl_iface0))
-    -- Process each interface, getting the thinned interfaces as well as
-    -- the final, full set of exports @nsubst@ and the exports which are
-    -- "ok to use" (we won't attach 'inheritedSigPvpWarning' to them.)
-    (nsubst, ok_to_use, rev_thinned_ifaces)
-        <- foldM gen_subst (nsubst0, ok_to_use0, []) (zip reqs ireq_ifaces0)
-    let thinned_ifaces = reverse rev_thinned_ifaces
-        exports        = nameShapeExports nsubst
-        rdr_env        = mkGlobalRdrEnv (gresFromAvails hsc_env Nothing exports)
-        _warn_occs     = filter (not . (`elemOccSet` ok_to_use)) (exportOccs exports)
-        warns          = emptyWarn
-        {-
-        -- TODO: Warnings are transitive, but this is not what we want here:
-        -- if a module reexports an entity from a signature, that should be OK.
-        -- Not supported in current warning framework
-        warns | null warn_occs = NoWarnings
-              | otherwise = WarnSome $ map (\o -> (o, inheritedSigPvpWarning)) warn_occs
-        -}
-    setGblEnv tcg_env {
-        -- The top-level GlobalRdrEnv is quite interesting.  It consists
-        -- of two components:
-        --  1. First, we reuse the GlobalRdrEnv of the local signature.
-        --     This is very useful, because it means that if we have
-        --     to print a message involving some entity that the local
-        --     signature imported, we'll qualify it accordingly.
-        --  2. Second, we need to add all of the declarations we are
-        --     going to merge in (as they need to be in scope for the
-        --     final test of the export list.)
-        tcg_rdr_env = rdr_env `plusGlobalRdrEnv` tcg_rdr_env orig_tcg_env,
-        -- Inherit imports from the local signature, so that module
-        -- reexports are picked up correctly
-        tcg_imports = tcg_imports orig_tcg_env,
-        tcg_exports = exports,
-        tcg_dus     = usesOnly (availsToNameSet exports),
-        tcg_warns   = warns
-        } $ do
-    tcg_env <- getGblEnv
+        -- STEP 3: Get the unrenamed exports of all these interfaces,
+        -- thin it according to the export list, and do shaping on them.
+        let extend_ns nsubst as = liftIO $ extendNameShape hsc_env nsubst as
+            -- This function gets run on every inherited interface, and
+            -- it's responsible for:
+            --
+            --  1. Merging the exports of the interface into @nsubst@,
+            --  2. Adding these exports to the "OK to import" set (@oks@)
+            --  if they came from a package with no exposed modules
+            --  (this means we won't report a PVP error in this case), and
+            --  3. Thinning the interface according to an explicit export
+            --  list.
+            --
+            gen_subst (nsubst,oks,ifaces) (imod@(Module iuid _), ireq_iface) = do
+                let insts = instUnitInsts iuid
+                    isFromSignaturePackage =
+                        let inst_uid = instUnitInstanceOf iuid
+                            pkg = unsafeLookupUnitId unit_state inst_uid
+                        in null (unitExposedModules pkg)
+                -- 3(a). Rename the exports according to how the dependency
+                -- was instantiated.  The resulting export list will be accurate
+                -- except for exports *from the signature itself* (which may
+                -- be subsequently updated by exports from other signatures in
+                -- the merge.
+                as1 <- tcRnModExports insts ireq_iface
+                -- 3(b). Thin the interface if it comes from a signature package.
+                (thinned_iface, as2) <- case mb_exports of
+                        Just es
+                          -- Check if the package containing this signature is
+                          -- a signature package (i.e., does not expose any
+                          -- modules.)  If so, we can thin it.
+                          | isFromSignaturePackage
+                          -> setSrcSpan (locA (listLocation es)) $ do
+                            -- Suppress missing errors; they might be used to refer
+                            -- to entities from other signatures we are merging in.
+                            -- If an identifier truly doesn't exist in any of the
+                            -- signatures that are merged in, we will discover this
+                            -- when we run exports_from_avail on the final merged
+                            -- export list.
+                            (mb_r, msgs) <- tryTc $ do
+                                -- Suppose that we have written in a signature:
+                                --  signature A ( module A ) where {- empty -}
+                                -- If I am also inheriting a signature from a
+                                -- signature package, does 'module A' scope over
+                                -- all of its exports?
+                                --
+                                -- There are two possible interpretations:
+                                --
+                                --  1. For non self-reexports, a module reexport
+                                --  is interpreted only in terms of the local
+                                --  signature module, and not any of the inherited
+                                --  ones.  The reason for this is because after
+                                --  typechecking, module exports are completely
+                                --  erased from the interface of a file, so we
+                                --  have no way of "interpreting" a module reexport.
+                                --  Thus, it's only useful for the local signature
+                                --  module (where we have a useful GlobalRdrEnv.)
+                                --
+                                --  2. On the other hand, a common idiom when
+                                --  you want to "export everything, plus a reexport"
+                                --  in modules is to say module A ( module A, reex ).
+                                --  This applies to signature modules too; and in
+                                --  particular, you probably still want the entities
+                                --  from the inherited signatures to be preserved
+                                --  too.
+                                --
+                                -- We think it's worth making a special case for
+                                -- self reexports to make use case (2) work.  To
+                                -- do this, we take the exports of the inherited
+                                -- signature @as1@, and bundle them into a
+                                -- GlobalRdrEnv where we treat them as having come
+                                -- from the import @import A@.  Thus, we will
+                                -- pick them up if they are referenced explicitly
+                                -- (@foo@) or even if we do a module reexport
+                                -- (@module A@).
+                                let ispec = ImpSpec ImpDeclSpec{
+                                                -- NB: This needs to be mod name
+                                                -- of the local signature, not
+                                                -- the (original) module name of
+                                                -- the inherited signature,
+                                                -- because we need module
+                                                -- LocalSig (from the local
+                                                -- export list) to match it!
+                                                is_mod      = mi_module ireq_iface,
+                                                is_as       = mod_name,
+                                                is_pkg_qual = NoPkgQual,
+                                                is_qual     = False,
+                                                is_isboot   = NotBoot,
+                                                is_dloc     = locA loc,
+                                                is_level    = NormalLevel
+                                              } ImpAll
+                                    rdr_env = mkGlobalRdrEnv $ gresFromAvails hsc_env (Just ispec) as1
+                                setGblEnv tcg_env {
+                                    tcg_rdr_env = rdr_env
+                                } $ exports_from_avail mb_exports rdr_env
+                                        -- NB: tcg_imports is also empty!
+                                        emptyImportAvails
+                                        (tcg_semantic_mod tcg_env)
+                            case mb_r of
+                                Just (_, _, as2, _) -> return (thinModIface as2 ireq_iface, as2)
+                                Nothing -> addMessages msgs >> failM
+                        -- We can't thin signatures from non-signature packages
+                        _ -> return (ireq_iface, as1)
+                -- 3(c). Only identifiers from signature packages are "ok" to
+                -- import (that is, they are safe from a PVP perspective.)
+                -- (NB: This code is actually dead right now.)
+                let oks' | isFromSignaturePackage
+                         = extendOccSetList oks (exportOccs as2)
+                         | otherwise
+                         = oks
+                -- 3(d). Extend the name substitution (performing shaping)
+                mb_r <- extend_ns nsubst as2
+                case mb_r of
+                    Left err -> failWithTc (TcRnHsigShapeMismatch err)
+                    Right nsubst' -> return (nsubst',oks',(imod, thinned_iface):ifaces)
+            nsubst0 = mkNameShape (moduleName inner_mod) (mi_exports lcl_iface0)
+            ok_to_use0 = mkOccSet (exportOccs (mi_exports lcl_iface0))
+        -- Process each interface, getting the thinned interfaces as well as
+        -- the final, full set of exports @nsubst@ and the exports which are
+        -- "ok to use" (we won't attach 'inheritedSigPvpWarning' to them.)
+        (nsubst, ok_to_use, rev_thinned_ifaces)
+            <- foldM gen_subst (nsubst0, ok_to_use0, []) (zip reqs ireq_ifaces0)
+        let thinned_ifaces = reverse rev_thinned_ifaces
+            exports        = nameShapeExports nsubst
+            rdr_env        = mkGlobalRdrEnv (gresFromAvails hsc_env Nothing exports)
+            _warn_occs     = filter (not . (`elemOccSet` ok_to_use)) (exportOccs exports)
+            warns          = emptyWarn
+            {-
+            -- TODO: Warnings are transitive, but this is not what we want here:
+            -- if a module reexports an entity from a signature, that should be OK.
+            -- Not supported in current warning framework
+            warns | null warn_occs = NoWarnings
+                  | otherwise = WarnSome $ map (\o -> (o, inheritedSigPvpWarning)) warn_occs
+            -}
+        setGblEnv tcg_env {
+            -- The top-level GlobalRdrEnv is quite interesting.  It consists
+            -- of two components:
+            --  1. First, we reuse the GlobalRdrEnv of the local signature.
+            --     This is very useful, because it means that if we have
+            --     to print a message involving some entity that the local
+            --     signature imported, we'll qualify it accordingly.
+            --  2. Second, we need to add all of the declarations we are
+            --     going to merge in (as they need to be in scope for the
+            --     final test of the export list.)
+            tcg_rdr_env = rdr_env `plusGlobalRdrEnv` tcg_rdr_env orig_tcg_env,
+            -- Inherit imports from the local signature, so that module
+            -- reexports are picked up correctly
+            tcg_imports = tcg_imports orig_tcg_env,
+            tcg_exports = exports,
+            tcg_dus     = usesOnly (availsToNameSet exports),
+            tcg_warns   = warns
+            } $ do
+          tcg_env <- getGblEnv
 
-    -- Make sure we didn't refer to anything that doesn't actually exist
-    -- pprTrace "mergeSignatures: exports_from_avail" (ppr exports) $ return ()
-    (mb_lies, exp_dflts, _, _) <-
-      exports_from_avail mb_exports rdr_env
-          (tcg_imports tcg_env) (tcg_semantic_mod tcg_env)
+          -- Make sure we didn't refer to anything that doesn't actually exist
+          -- pprTrace "mergeSignatures: exports_from_avail" (ppr exports) $ return ()
+          (mb_lies, exp_dflts, _, _) <-
+            exports_from_avail mb_exports rdr_env
+                (tcg_imports tcg_env) (tcg_semantic_mod tcg_env)
 
-    {- -- NB: This is commented out, because warns above is disabled.
-    -- If you tried to explicitly export an identifier that has a warning
-    -- attached to it, that's probably a mistake.  Warn about it.
-    case mb_lies of
-      Nothing -> return ()
-      Just lies ->
-        forM_ (concatMap (\(L loc x) -> map (L loc) (ieNames x)) lies) $ \(L loc n) ->
-          setSrcSpan loc $
-            unless (nameOccName n `elemOccSet` ok_to_use) $
-                addWarn NoReason $ vcat [
-                    text "Exported identifier" <+> quotes (ppr n) <+> text "will cause warnings if used.",
-                    parens (text "To suppress this warning, remove" <+> quotes (ppr n) <+> text "from the export list of this signature.")
-                    ]
-    -}
+          {- -- NB: This is commented out, because warns above is disabled.
+          -- If you tried to explicitly export an identifier that has a warning
+          -- attached to it, that's probably a mistake.  Warn about it.
+          case mb_lies of
+            Nothing -> return ()
+            Just lies ->
+              forM_ (concatMap (\(L loc x) -> map (L loc) (ieNames x)) lies) $ \(L loc n) ->
+                setSrcSpan loc $
+                  unless (nameOccName n `elemOccSet` ok_to_use) $
+                      addWarn NoReason $ vcat [
+                          text "Exported identifier" <+> quotes (ppr n) <+> text "will cause warnings if used.",
+                          parens (text "To suppress this warning, remove" <+> quotes (ppr n) <+> text "from the export list of this signature.")
+                          ]
+          -}
 
-    failIfErrsM
+          failIfErrsM
 
-    -- Save the exports
-    setGblEnv tcg_env { tcg_rn_exports = mb_lies, tcg_default_exports = exp_dflts } $ do
-    tcg_env <- getGblEnv
+          -- Save the exports
+          setGblEnv tcg_env { tcg_rn_exports = mb_lies, tcg_default_exports = exp_dflts } $ do
+            tcg_env <- getGblEnv
 
-    let home_unit = hsc_home_unit hsc_env
+            let home_unit = hsc_home_unit hsc_env
 
-    -- STEP 4: Rename the interfaces
-    ext_ifaces <- forM thinned_ifaces $ \((Module iuid _), ireq_iface) ->
-        tcRnModIface (instUnitInsts iuid) (Just nsubst) ireq_iface
-    lcl_iface <- tcRnModIface (homeUnitInstantiations home_unit) (Just nsubst) lcl_iface0
-    let ifaces = lcl_iface : ext_ifaces
+            -- STEP 4: Rename the interfaces
+            ext_ifaces <- forM thinned_ifaces $ \((Module iuid _), ireq_iface) ->
+                tcRnModIface (instUnitInsts iuid) (Just nsubst) ireq_iface
+            lcl_iface <- tcRnModIface (homeUnitInstantiations home_unit) (Just nsubst) lcl_iface0
+            let ifaces = lcl_iface : ext_ifaces
 
-    -- STEP 4.1: Merge fixities (we'll verify shortly) tcg_fix_env
-    let fix_env = mkNameEnv [ (greName rdr_elt, FixItem occ f)
-                            | (occ, f) <- concatMap mi_fixities ifaces
-                            , rdr_elt <- lookupGRE rdr_env (LookupOccName occ AllRelevantGREs) ]
+            -- STEP 4.1: Merge fixities (we'll verify shortly) tcg_fix_env
+            let fix_env = mkNameEnv [ (greName rdr_elt, FixItem occ f)
+                                    | (occ, f) <- concatMap mi_fixities ifaces
+                                    , rdr_elt <- lookupGRE rdr_env (LookupOccName occ AllRelevantGREs) ]
 
-    -- STEP 5: Typecheck the interfaces
-    let knot_type_env = tcg_knot_vars tcg_env
+            -- STEP 5: Typecheck the interfaces
+            let knot_type_env = tcg_knot_vars tcg_env
 
-    -- typecheckIfacesForMerging does two things:
-    --      1. It merges the all of the ifaces together, and typechecks the
-    --      result to type_env.
-    --      2. It typechecks each iface individually, but with their 'Name's
-    --      resolving to the merged type_env from (1).
-    -- See typecheckIfacesForMerging for more details.
-    (type_env, detailss) <- initIfaceTcRn $
-                            typecheckIfacesForMerging inner_mod ifaces knot_type_env
-    let infos = zip ifaces detailss
+            -- typecheckIfacesForMerging does two things:
+            --      1. It merges the all of the ifaces together, and typechecks the
+            --      result to type_env.
+            --      2. It typechecks each iface individually, but with their 'Name's
+            --      resolving to the merged type_env from (1).
+            -- See typecheckIfacesForMerging for more details.
+            (type_env, detailss) <- initIfaceTcRn $
+                                    typecheckIfacesForMerging inner_mod ifaces knot_type_env
+            let infos = zip ifaces detailss
 
-    -- Test for cycles
-    checkSynCycles (homeUnitAsUnit home_unit) (typeEnvTyCons type_env) []
+            -- Test for cycles
+            checkSynCycles (homeUnitAsUnit home_unit) (typeEnvTyCons type_env) []
 
-    -- NB on type_env: it contains NO dfuns.  DFuns are recorded inside
-    -- detailss, and given a Name that doesn't correspond to anything real.  See
-    -- also Note [Signature merging DFuns]
+            -- NB on type_env: it contains NO dfuns.  DFuns are recorded inside
+            -- detailss, and given a Name that doesn't correspond to anything real.  See
+            -- also Note [Signature merging DFuns]
 
-    -- Add the merged type_env to TcGblEnv, so that it gets serialized
-    -- out when we finally write out the interface.
-    --
-    -- NB: Why do we set tcg_tcs/tcg_patsyns/tcg_type_env directly,
-    -- rather than use tcExtendGlobalEnv (the normal method to add newly
-    -- defined types to TcGblEnv?)  tcExtendGlobalEnv adds these
-    -- TyThings to 'tcg_knot_vars', which is consulted when
-    -- we read in interfaces to tie the knot.  But *these TyThings themselves
-    -- come from interface*, so that would result in deadlock.  Don't
-    -- update it!
-    setGblEnv tcg_env {
-        tcg_tcs = typeEnvTyCons type_env,
-        tcg_patsyns = typeEnvPatSyns type_env,
-        tcg_type_env = type_env,
-        tcg_fix_env = fix_env
-        } $ do
-    tcg_env <- getGblEnv
+            -- Add the merged type_env to TcGblEnv, so that it gets serialized
+            -- out when we finally write out the interface.
+            --
+            -- NB: Why do we set tcg_tcs/tcg_patsyns/tcg_type_env directly,
+            -- rather than use tcExtendGlobalEnv (the normal method to add newly
+            -- defined types to TcGblEnv?)  tcExtendGlobalEnv adds these
+            -- TyThings to 'tcg_knot_vars', which is consulted when
+            -- we read in interfaces to tie the knot.  But *these TyThings themselves
+            -- come from interface*, so that would result in deadlock.  Don't
+            -- update it!
+            setGblEnv tcg_env {
+                tcg_tcs = typeEnvTyCons type_env,
+                tcg_patsyns = typeEnvPatSyns type_env,
+                tcg_type_env = type_env,
+                tcg_fix_env = fix_env
+                } $ do
+              tcg_env <- getGblEnv
 
-    -- STEP 6: Check for compatibility/merge things
-    tcg_env <- (\x -> foldM x tcg_env infos)
-             $ \tcg_env (iface, details) -> do
+              -- STEP 6: Check for compatibility/merge things
+              tcg_env <- (\x -> foldM x tcg_env infos)
+                       $ \tcg_env (iface, details) -> do
 
-        let check_export name
-              | Just sig_thing <- lookupTypeEnv (md_types details) name
-              = case lookupTypeEnv type_env (getName sig_thing) of
-                  Just thing -> checkHsigDeclM iface sig_thing thing
-                  Nothing -> panic "mergeSignatures: check_export"
-              -- Oops! We're looking for this export but it's
-              -- not actually in the type environment of the signature's
-              -- ModDetails.
+                  let check_export name
+                        | Just sig_thing <- lookupTypeEnv (md_types details) name
+                        = case lookupTypeEnv type_env (getName sig_thing) of
+                            Just thing -> checkHsigDeclM iface sig_thing thing
+                            Nothing -> panic "mergeSignatures: check_export"
+                        -- Oops! We're looking for this export but it's
+                        -- not actually in the type environment of the signature's
+                        -- ModDetails.
+                        --
+                        -- NB: This case happens because the we're iterating
+                        -- over the union of all exports, so some interfaces
+                        -- won't have everything.  Note that md_exports is nonsense
+                        -- (it's the same as exports); maybe we should fix this
+                        -- eventually.
+                        | otherwise
+                        = return ()
+                  mapM_ check_export (map availName exports)
+
+                  -- Note [Signature merging instances]
+                  -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                  -- Merge instances into the global environment.  The algorithm here is
+                  -- dumb and simple: if an instance has exactly the same DFun type
+                  -- (tested by 'memberInstEnv') as an existing instance, we drop it;
+                  -- otherwise, we add it even, even if this would cause overlap.
+                  --
+                  -- Why don't we deduplicate instances with identical heads?  There's no
+                  -- good choice if they have premises:
+                  --
+                  --      instance K1 a => K (T a)
+                  --      instance K2 a => K (T a)
+                  --
+                  -- Why not eagerly error in this case?  The overlapping head does not
+                  -- necessarily mean that the instances are unimplementable: in fact,
+                  -- they may be implemented without overlap (if, for example, the
+                  -- implementing module has 'instance K (T a)'; both are implemented in
+                  -- this case.)  The implements test just checks that the wanteds are
+                  -- derivable assuming the givens.
+                  --
+                  -- Still, overlapping instances with hypotheses like above are going
+                  -- to be a bad deal, because instance resolution when we're typechecking
+                  -- against the merged signature is going to have a bad time when
+                  -- there are overlapping heads like this: we never backtrack, so it
+                  -- may be difficult to see that a wanted is derivable.  For now,
+                  -- we hope that we get lucky / the overlapping instances never
+                  -- get used, but it is not a very good situation to be in.
+                  --
+                  let merge_inst (insts, inst_env) inst
+                          | memberInstEnv inst_env inst -- test DFun Type equality
+                          = (insts, inst_env)
+                          | otherwise
+                          -- NB: is_dfun_name inst is still nonsense here,
+                          -- see Note [Signature merging DFuns]
+                          = (inst:insts, extendInstEnv inst_env inst)
+                      (insts, inst_env) = foldl' merge_inst
+                                              (tcg_insts tcg_env, tcg_inst_env tcg_env)
+                                              (instEnvElts $ md_insts details)
+                      -- Use mi_deps directly rather than calculateAvails.
+                      -- because a module is NOT
+                      -- supposed to include itself in its dep_orphs/dep_finsts.  See #13214
+                      avails = tcg_imports tcg_env
+                      deps = mi_deps iface
+                      avails_with_trans = addTransitiveDepInfo avails deps
+
+                  return tcg_env {
+                      tcg_inst_env = inst_env,
+                      tcg_insts    = insts,
+                      tcg_imports  = avails_with_trans,
+                      tcg_merged   =
+                          if outer_mod == mi_module iface
+                              -- Don't add ourselves!
+                              then tcg_merged tcg_env
+                              else (mi_module iface, mi_mod_hash iface) : tcg_merged tcg_env
+                      }
+
+              -- Note [Signature merging DFuns]
+              -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              -- Once we know all of instances which will be defined by this merged
+              -- signature, we go through each of the DFuns and rename them with a fresh,
+              -- new, unique DFun Name, and add these DFuns to tcg_type_env (thus fixing
+              -- up the "bogus" names that were setup in 'typecheckIfacesForMerging'.
               --
-              -- NB: This case happens because the we're iterating
-              -- over the union of all exports, so some interfaces
-              -- won't have everything.  Note that md_exports is nonsense
-              -- (it's the same as exports); maybe we should fix this
-              -- eventually.
-              | otherwise
-              = return ()
-        mapM_ check_export (map availName exports)
+              -- We can't do this fixup earlier, because we need a way to identify each
+              -- source DFun (from each of the signatures we are merging in) so that
+              -- when we have a ClsInst, we can pull up the correct DFun to check if
+              -- the types match.
+              --
+              -- See also Note [rnIfaceNeverExported] in GHC.Iface.Rename
+              dfun_insts <- forM (tcg_insts tcg_env) $ \inst -> do
+                  n <- newDFunName (is_cls inst) (is_tys inst) (nameSrcSpan (is_dfun_name inst))
+                  let dfun = setVarName (is_dfun inst) n
+                  return (dfun, inst { is_dfun_name = n, is_dfun = dfun })
 
-        -- Note [Signature merging instances]
-        -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        -- Merge instances into the global environment.  The algorithm here is
-        -- dumb and simple: if an instance has exactly the same DFun type
-        -- (tested by 'memberInstEnv') as an existing instance, we drop it;
-        -- otherwise, we add it even, even if this would cause overlap.
-        --
-        -- Why don't we deduplicate instances with identical heads?  There's no
-        -- good choice if they have premises:
-        --
-        --      instance K1 a => K (T a)
-        --      instance K2 a => K (T a)
-        --
-        -- Why not eagerly error in this case?  The overlapping head does not
-        -- necessarily mean that the instances are unimplementable: in fact,
-        -- they may be implemented without overlap (if, for example, the
-        -- implementing module has 'instance K (T a)'; both are implemented in
-        -- this case.)  The implements test just checks that the wanteds are
-        -- derivable assuming the givens.
-        --
-        -- Still, overlapping instances with hypotheses like above are going
-        -- to be a bad deal, because instance resolution when we're typechecking
-        -- against the merged signature is going to have a bad time when
-        -- there are overlapping heads like this: we never backtrack, so it
-        -- may be difficult to see that a wanted is derivable.  For now,
-        -- we hope that we get lucky / the overlapping instances never
-        -- get used, but it is not a very good situation to be in.
-        --
-        let merge_inst (insts, inst_env) inst
-                | memberInstEnv inst_env inst -- test DFun Type equality
-                = (insts, inst_env)
-                | otherwise
-                -- NB: is_dfun_name inst is still nonsense here,
-                -- see Note [Signature merging DFuns]
-                = (inst:insts, extendInstEnv inst_env inst)
-            (insts, inst_env) = foldl' merge_inst
-                                    (tcg_insts tcg_env, tcg_inst_env tcg_env)
-                                    (instEnvElts $ md_insts details)
-            -- Use mi_deps directly rather than calculateAvails.
-            -- because a module is NOT
-            -- supposed to include itself in its dep_orphs/dep_finsts.  See #13214
-            avails = tcg_imports tcg_env
-            deps = mi_deps iface
-            avails_with_trans = addTransitiveDepInfo avails deps
+              tcg_env <- return $
+                tcg_env { tcg_insts    = map snd dfun_insts
+                        , tcg_type_env = extendTypeEnvWithIds (tcg_type_env tcg_env) (map fst dfun_insts) }
 
-        return tcg_env {
-            tcg_inst_env = inst_env,
-            tcg_insts    = insts,
-            tcg_imports  = avails_with_trans,
-            tcg_merged   =
-                if outer_mod == mi_module iface
-                    -- Don't add ourselves!
-                    then tcg_merged tcg_env
-                    else (mi_module iface, mi_mod_hash iface) : tcg_merged tcg_env
-            }
+              addDependentFiles src_files
 
-    -- Note [Signature merging DFuns]
-    -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    -- Once we know all of instances which will be defined by this merged
-    -- signature, we go through each of the DFuns and rename them with a fresh,
-    -- new, unique DFun Name, and add these DFuns to tcg_type_env (thus fixing
-    -- up the "bogus" names that were setup in 'typecheckIfacesForMerging'.
-    --
-    -- We can't do this fixup earlier, because we need a way to identify each
-    -- source DFun (from each of the signatures we are merging in) so that
-    -- when we have a ClsInst, we can pull up the correct DFun to check if
-    -- the types match.
-    --
-    -- See also Note [rnIfaceNeverExported] in GHC.Iface.Rename
-    dfun_insts <- forM (tcg_insts tcg_env) $ \inst -> do
-        n <- newDFunName (is_cls inst) (is_tys inst) (nameSrcSpan (is_dfun_name inst))
-        let dfun = setVarName (is_dfun inst) n
-        return (dfun, inst { is_dfun_name = n, is_dfun = dfun })
-
-    tcg_env <- return $
-      tcg_env { tcg_insts    = map snd dfun_insts
-              , tcg_type_env = extendTypeEnvWithIds (tcg_type_env tcg_env) (map fst dfun_insts) }
-
-    addDependentFiles src_files
-
-    return tcg_env
+              return tcg_env
 
 -- | Add on the necessary transitive information from the merged signature to
 -- the 'ImportAvails' of the result of merging. This propagates the orphan instances
@@ -959,46 +958,46 @@ checkImplements impl_mod req_mod@(Module uid mod_name) = do
         tcg_fix_env = fix_env
         }) $ do
 
-    -- STEP 2: Load the *unrenamed, uninstantiated* interface for
-    -- the ORIGINAL signature.  We are going to eventually rename it,
-    -- but we must proceed slowly, because it is NOT known if the
-    -- instantiation is correct.
-    let sig_mod = mkModule (VirtUnit uid) mod_name
-        isig_mod = fst (getModuleInstantiation sig_mod)
-    hsc_env <- getTopEnv
-    mb_isig_iface <- liftIO $ findAndReadIface hsc_env
-                                               (text "checkImplements 2")
-                                               isig_mod sig_mod NotBoot
-    isig_iface <- case mb_isig_iface of
-        Succeeded (iface, _) -> return iface
-        Failed err ->
-          failWithTc $ TcRnInterfaceError $
-          Can'tFindInterface err (LookingForSig isig_mod)
+      -- STEP 2: Load the *unrenamed, uninstantiated* interface for
+      -- the ORIGINAL signature.  We are going to eventually rename it,
+      -- but we must proceed slowly, because it is NOT known if the
+      -- instantiation is correct.
+      let sig_mod = mkModule (VirtUnit uid) mod_name
+          isig_mod = fst (getModuleInstantiation sig_mod)
+      hsc_env <- getTopEnv
+      mb_isig_iface <- liftIO $ findAndReadIface hsc_env
+                                                 (text "checkImplements 2")
+                                                 isig_mod sig_mod NotBoot
+      isig_iface <- case mb_isig_iface of
+          Succeeded (iface, _) -> return iface
+          Failed err ->
+            failWithTc $ TcRnInterfaceError $
+            Can'tFindInterface err (LookingForSig isig_mod)
 
-    -- STEP 3: Check that the implementing interface exports everything
-    -- we need.  (Notice we IGNORE the Modules in the AvailInfos.)
-    forM_ (exportOccs (mi_exports isig_iface)) $ \occ ->
-        case lookupGRE impl_gr (LookupOccName occ SameNameSpace) of
-            [] -> addErr $ TcRnHsigMissingModuleExport occ unit_state impl_mod
-            _ -> return ()
-    failIfErrsM
+      -- STEP 3: Check that the implementing interface exports everything
+      -- we need.  (Notice we IGNORE the Modules in the AvailInfos.)
+      forM_ (exportOccs (mi_exports isig_iface)) $ \occ ->
+          case lookupGRE impl_gr (LookupOccName occ SameNameSpace) of
+              [] -> addErr $ TcRnHsigMissingModuleExport occ unit_state impl_mod
+              _ -> return ()
+      failIfErrsM
 
-    -- STEP 4: Now that the export is complete, rename the interface...
-    sig_iface <- tcRnModIface insts (Just nsubst) isig_iface
+      -- STEP 4: Now that the export is complete, rename the interface...
+      sig_iface <- tcRnModIface insts (Just nsubst) isig_iface
 
-    -- STEP 5: ...and typecheck it.  (Note that in both cases, the nsubst
-    -- lets us determine how top-level identifiers should be handled.)
-    sig_details <- initIfaceTcRn $ typecheckIfaceForInstantiate nsubst sig_iface
+      -- STEP 5: ...and typecheck it.  (Note that in both cases, the nsubst
+      -- lets us determine how top-level identifiers should be handled.)
+      sig_details <- initIfaceTcRn $ typecheckIfaceForInstantiate nsubst sig_iface
 
-    -- STEP 6: Check that it's sufficient
-    tcg_env <- getGblEnv
-    checkHsigIface tcg_env impl_gr sig_iface sig_details
+      -- STEP 6: Check that it's sufficient
+      tcg_env <- getGblEnv
+      checkHsigIface tcg_env impl_gr sig_iface sig_details
 
-    -- STEP 7: Return the updated 'TcGblEnv' with the signature exports,
-    -- so we write them out.
-    return tcg_env {
-        tcg_exports = mi_exports sig_iface
-        }
+      -- STEP 7: Return the updated 'TcGblEnv' with the signature exports,
+      -- so we write them out.
+      return tcg_env {
+          tcg_exports = mi_exports sig_iface
+          }
 
 -- | Given 'tcg_mod', instantiate a 'ModIface' from the indefinite
 -- library to use the actual implementations of the relevant entities,

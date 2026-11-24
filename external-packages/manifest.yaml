@@ -470,6 +470,12 @@ packages:
     sdist: happy-lib-2.2
   note: no tag for 2.2 in https://github.com/haskell/happy.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: two do blocks that began
+    at the indentation of their enclosing block are indented further, as the
+    Haskell 2010 layout rule requires; the package is Haskell 98, whose
+    NondecreasingIndentation this compiler no longer has (patches/happy-lib.patch;
+    PureScript's 2.0.2 copy takes patches/purescript-happy-lib.patch)
 - name: hashable
   version: 1.5.1.0
   tier: 1
@@ -524,8 +530,8 @@ packages:
     OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
     RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables,
-    NPlusKPatterns and the deprecated aliases) to or from template-haskell,
-    whose Extension type lost those constructors
+    NPlusKPatterns, NondecreasingIndentation and the deprecated aliases) to
+    or from template-haskell, whose Extension type lost those constructors
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -846,6 +852,11 @@ packages:
     git: https://github.com/basvandijk/lifted-base.git
     tag: 0.2.3.12
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: two do blocks that began
+    at the indentation of their enclosing block are indented further, as the
+    Haskell 2010 layout rule requires; the package is Haskell 98, whose
+    NondecreasingIndentation this compiler no longer has (patches/lifted-base.patch)
 - name: list-tries
   version: 0.6.7.1
   tier: 1
@@ -925,6 +936,12 @@ packages:
     git: https://github.com/haskell/network-bsd.git
     tag: v2.8.1.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: five do blocks in
+    Network.BSD that began at the indentation of their enclosing block are
+    indented further, as the Haskell 2010 layout rule requires; the module
+    enabled NondecreasingIndentation, which this compiler no longer has
+    (patches/network-bsd.patch)
 - name: network-uri
   version: 2.6.4.2
   tier: 1
@@ -1161,6 +1178,12 @@ packages:
     git: https://github.com/haskell-hvr/regex-tdfa.git
     tag: v1.3.2.7
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: three do blocks that began
+    at the indentation of their enclosing block are indented further, as the
+    Haskell 2010 layout rule requires; the package enabled
+    NondecreasingIndentation, which this compiler no longer has
+    (patches/regex-tdfa.patch)
 - name: safe
   version: 0.3.21
   tier: 1
@@ -1263,6 +1286,11 @@ packages:
     git: https://github.com/koalaman/shellcheck.git
     tag: v0.11.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: eight do blocks that began
+    at the indentation of their enclosing block are indented further, as the
+    Haskell 2010 layout rule requires; the package is Haskell 98, whose
+    NondecreasingIndentation this compiler no longer has (patches/ShellCheck.patch)
 - name: shelly
   version: 1.12.1.1
   tier: 1
@@ -1735,7 +1763,10 @@ packages:
   tests: true
   patched: >-
     deliberate exception to the no-modification rule: drops the datatype context
-    of Data.Ranged.RangedSet.RSet, which this compiler no longer accepts
+    of Data.Ranged.RangedSet.RSet, which this compiler no longer accepts, and
+    indents Main's output block, which began at the indentation of its
+    enclosing do block, as the Haskell 2010 layout rule requires now that
+    NondecreasingIndentation is gone (patches/alex.patch)
 - name: ansi-wl-pprint
   version: 1.1.1
   tier: 2

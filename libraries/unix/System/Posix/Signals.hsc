@@ -1,4 +1,4 @@
-{-# LANGUAGE CApiFFI, CPP, NondecreasingIndentation #-}
+{-# LANGUAGE CApiFFI, CPP #-}
 {-# OPTIONS_GHC -fno-cse #-} -- global variables
 {-# LANGUAGE Trustworthy #-}
 -----------------------------------------------------------------------------
@@ -847,12 +847,12 @@ awaitSignal maybe_sigset = do
           Nothing -> do SignalSet fp <- getSignalMask; return fp
           Just (SignalSet fp) -> return fp
   withForeignPtr fp $ \p -> do
-  _ <- c_sigsuspend p
-  return ()
-  -- ignore the return value; according to the docs it can only ever be
-  -- (-1) with errno set to EINTR.
-  -- XXX My manpage says it can also return EFAULT. And why is ignoring
-  -- EINTR the right thing to do?
+    _ <- c_sigsuspend p
+    return ()
+    -- ignore the return value; according to the docs it can only ever be
+    -- (-1) with errno set to EINTR.
+    -- XXX My manpage says it can also return EFAULT. And why is ignoring
+    -- EINTR the right thing to do?
 
 #endif // HAVE_SIGNAL_H
 

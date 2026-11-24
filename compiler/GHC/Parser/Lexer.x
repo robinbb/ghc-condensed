@@ -329,7 +329,7 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 -- after a layout keyword (let, where, do, of), we begin a new layout
 -- context if the curly brace is missing.
 -- Careful! This stuff is quite delicate.
-<layout, layout_do, layout_if> {
+<layout, layout_if> {
   \{ / { notFollowedBy '-' }            { hopefully_open_brace }
         -- we might encounter {-# here, but {- has been handled already
   \n                                    ;
@@ -338,13 +338,11 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 
 -- after an 'if', a vertical bar starts a layout context for MultiWayIf
 <layout_if> {
-  \| / { notFollowedBySymbol }          { new_layout_context True dontGenerateSemic ITvbar }
+  \| / { notFollowedBySymbol }          { new_layout_context dontGenerateSemic ITvbar }
   ()                                    { pop }
 }
 
--- do is treated in a subtly different way, see new_layout_context
-<layout>    ()                          { new_layout_context True  generateSemic ITvocurly }
-<layout_do> ()                          { new_layout_context False generateSemic ITvocurly }
+<layout>    ()                          { new_layout_context generateSemic ITvocurly }
 
 -- after a new layout context which was found to be to the left of the
 -- previous context, we have generated a '{' token, and we now need to
@@ -2022,8 +2020,8 @@ do_bol span _str _len _buf2 = do
 -- add an opening curly brace.
 maybe_layout :: Token -> P ()
 maybe_layout t = f t
-    where f (ITdo _)    = pushLexState layout_do
-          f (ITmdo _)   = pushLexState layout_do
+    where f (ITdo _)    = pushLexState layout
+          f (ITmdo _)   = pushLexState layout
           f ITof        = pushLexState layout
           f ITlcase     = pushLexState layout
           f ITlcases    = pushLexState layout
@@ -2037,22 +2035,14 @@ maybe_layout t = f t
 -- next token is not greater than the previous layout context, then
 -- Haskell 98 says that the new layout context should be empty; that is
 -- the lexer must generate {}.
---
--- We are slightly more lenient than this: when the new context is started
--- by a 'do', then we allow the new context to be at the same indentation as
--- the previous context.  This is what the 'strict' argument is for.
-new_layout_context :: Bool -> Bool -> Token -> Action
-new_layout_context strict gen_semic tok span _buf len _buf2 = do
+new_layout_context :: Bool -> Token -> Action
+new_layout_context gen_semic tok span _buf len _buf2 = do
     _ <- popLexState
     (AI l _) <- getInput
     let offset = srcLocCol (psRealLoc l) - len
     ctx <- getContext
-    nondecreasing <- getBit NondecreasingIndentationBit
-    let strict' = strict || not nondecreasing
     case ctx of
-        Layout prev_off _ : _  |
-           (strict'     && prev_off >= offset  ||
-            not strict' && prev_off > offset) -> do
+        Layout prev_off _ : _  | prev_off >= offset -> do
                 -- token is indented to the left of the previous context.
                 -- we must generate a {} sequence now.
                 pushLexState layout_left
@@ -2649,7 +2639,7 @@ getLexState = P $ \s@PState{ lex_state=ls:_ } -> POk s ls
 -- decide whether to prompt for another.
 activeContext :: P Bool
 activeContext = P $ \s@PState{ context = ctx, lex_state = ls } ->
-  POk s (not (null ctx) || any (`elem` [layout, layout_do, layout_if]) ls)
+  POk s (not (null ctx) || any (`elem` [layout, layout_if]) ls)
 
 -- | For reasons of efficiency, boolean parsing flags (eg, language extensions
 -- or whether we are currently in a @RULE@ pragma) are represented by a bitmap
@@ -2693,7 +2683,6 @@ data ExtBits
   | QqBit -- enable quasiquoting
   | RawTokenStreamBit -- producing a token stream with all comments included
   | RelaxedLayoutBit
-  | NondecreasingIndentationBit
   | SafeHaskellBit
   | TraditionalRecordSyntaxBit
   | ExplicitNamespacesBit
@@ -2771,7 +2760,6 @@ mkParserOpts extensionFlags diag_opts
       .|. TransformComprehensionsBit  `xoptBit` LangExt.TransformListComp
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout
-      .|. NondecreasingIndentationBit `xoptBit` LangExt.NondecreasingIndentation
       .|. TraditionalRecordSyntaxBit  `xoptBit` LangExt.TraditionalRecordSyntax
       .|. ExplicitNamespacesBit       `xoptBit` LangExt.ExplicitNamespaces
       .|. LambdaCaseBit               `xoptBit` LangExt.LambdaCase

@@ -1,6 +1,5 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE PatternSynonyms #-}
 
@@ -1198,18 +1197,18 @@ guessTargetId str
         if exists
            then pure (TargetFile hs_file Nothing)
            else do
-        exists <- liftIO $ doesFileExist lhs_file
-        if exists
-           then pure (TargetFile lhs_file Nothing)
-           else do
-        if looksLikeModuleName file
-           then pure (TargetModule (mkModuleName file))
-           else do
-        dflags <- getDynFlags
-        liftIO $ throwGhcExceptionIO
-                 (ProgramError (showSDoc dflags $
-                 text "target" <+> quotes (text file) <+>
-                 text "is not a module name or a source file"))
+          exists <- liftIO $ doesFileExist lhs_file
+          if exists
+             then pure (TargetFile lhs_file Nothing)
+             else do
+            if looksLikeModuleName file
+               then pure (TargetModule (mkModuleName file))
+               else do
+              dflags <- getDynFlags
+              liftIO $ throwGhcExceptionIO
+                       (ProgramError (showSDoc dflags $
+                       text "target" <+> quotes (text file) <+>
+                       text "is not a module name or a source file"))
      where
         file
           | '*':rest <- str = rest

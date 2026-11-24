@@ -402,9 +402,9 @@ getWindowText wnd size
   | size <= 0 = errorWin "GetWindowTextW"
   | otherwise  = do
       allocaArray size $ \ p_buf -> do
-      _ <- c_GetWindowText wnd p_buf size
-      failUnlessSuccess "GetWindowTextW" getLastError
-      peekTString p_buf
+        _ <- c_GetWindowText wnd p_buf size
+        failUnlessSuccess "GetWindowTextW" getLastError
+        peekTString p_buf
 foreign import WINDOWS_CCONV "windows.h GetWindowTextW"
   c_GetWindowText :: HWND -> LPTSTR -> Int -> IO Int
 

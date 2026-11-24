@@ -16,7 +16,6 @@ docs:
          MonomorphismRestriction
          ImplicitPrelude
          PatternGuards
-         NondecreasingIndentation
          TraditionalRecordSyntax
          FieldSelectors
          ListTuplePuns

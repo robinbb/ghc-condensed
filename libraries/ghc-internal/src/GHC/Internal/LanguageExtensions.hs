@@ -110,7 +110,6 @@ data Extension
    | TypeOperators
    | ExplicitNamespaces
    | PackageImports
-   | NondecreasingIndentation
    | RelaxedLayout
    | TraditionalRecordSyntax
    | LambdaCase

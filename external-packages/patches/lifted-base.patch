@@ -1,0 +1,36 @@
+--- a/external-packages/lifted-base/Control/Concurrent/MVar/Lifted.hs
++++ b/external-packages/lifted-base/Control/Concurrent/MVar/Lifted.hs
+@@ -157,11 +157,11 @@
+ modifyMVar mv f = control $ \runInIO -> mask $ \restore -> do
+     aborted <- newIORef True
+     let f' x = do
+-        (x', a) <- f x
+-        liftBase $ mask_ $ do
+-          writeIORef aborted False
+-          MVar.putMVar mv x'
+-        return a
++          (x', a) <- f x
++          liftBase $ mask_ $ do
++            writeIORef aborted False
++            MVar.putMVar mv x'
++          return a
+     x <- MVar.takeMVar mv
+     stM <- restore (runInIO (f' x)) `onException` MVar.putMVar mv x
+     abort <- readIORef aborted
+@@ -195,11 +195,11 @@
+ modifyMVarMasked mv f = control $ \runInIO -> mask_ $ do
+     aborted <- newIORef True
+     let f' x = do
+-        (x', a) <- f x
+-        liftBase $ do
+-          writeIORef aborted False
+-          MVar.putMVar mv x'
+-        return a
++          (x', a) <- f x
++          liftBase $ do
++            writeIORef aborted False
++            MVar.putMVar mv x'
++          return a
+     x <- MVar.takeMVar mv
+     stM <- runInIO (f' x) `onException` MVar.putMVar mv x
+     abort <- readIORef aborted

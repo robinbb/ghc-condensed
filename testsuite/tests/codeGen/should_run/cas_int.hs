@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE CPP, MagicHash, BlockArguments, UnboxedTuples #-}
 
 -- Test the atomic exchange primop.
@@ -28,26 +27,26 @@ import GHC.Ptr
 
 main = do
    alloca $ \(ptr_p :: Ptr (Ptr Word)) -> do
-   alloca $ \(ptr_i :: Ptr Word) -> do
-   alloca $ \(ptr_j :: Ptr Word) -> do
-      poke ptr_i (1 :: Word)
-      poke ptr_j (2 :: Word)
+     alloca $ \(ptr_i :: Ptr Word) -> do
+       alloca $ \(ptr_j :: Ptr Word) -> do
+          poke ptr_i (1 :: Word)
+          poke ptr_j (2 :: Word)
 
-      --expected to swap
-      res_i <- cas ptr_i 1 3 :: IO Word
-      -- expected to fail
-      res_j <- cas ptr_j 1 4 :: IO Word
+          --expected to swap
+          res_i <- cas ptr_i 1 3 :: IO Word
+          -- expected to fail
+          res_j <- cas ptr_j 1 4 :: IO Word
 
-      putStrLn "Returned results:"
-      --(1,2)
-      print (res_i, res_j)
+          putStrLn "Returned results:"
+          --(1,2)
+          print (res_i, res_j)
 
-      i <-peek ptr_i
-      j <-peek ptr_j
+          i <-peek ptr_i
+          j <-peek ptr_j
 
-      putStrLn "Stored results:"
-      --(3,2)
-      print (i,j)
+          putStrLn "Stored results:"
+          --(3,2)
+          print (i,j)
 
 cas :: Ptr Word -> Word -> Word -> IO Word
 cas (Ptr ptr) (W# expected) (W# desired)= do

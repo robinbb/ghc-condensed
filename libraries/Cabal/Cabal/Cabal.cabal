@@ -400,7 +400,6 @@ library
     GeneralizedNewtypeDeriving
     ImplicitParams
     LambdaCase
-    NondecreasingIndentation
     OverloadedStrings
     PatternSynonyms
     RecordWildCards

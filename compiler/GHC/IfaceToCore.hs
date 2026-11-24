@@ -5,7 +5,6 @@
 Type checking of type signatures in interface files
 -}
 
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE RecordWildCards #-}
 
 {-# OPTIONS_GHC -Wno-incomplete-record-updates #-}
@@ -477,22 +476,22 @@ typecheckIfacesForMerging mod ifaces tc_env_vars =
         -- But note that we use this type_env to typecheck references to DFun
         -- in 'IfaceInst'
         setImplicitEnvM type_env $ do
-        defaults  <- tcIfaceDefaults (mi_semantic_module iface) (mi_defaults iface)
-        insts     <- mapM tcIfaceInst (mi_insts iface)
-        fam_insts <- mapM tcIfaceFamInst (mi_fam_insts iface)
-        rules     <- tcIfaceRules ignore_prags (mi_rules iface)
-        anns      <- tcIfaceAnnotations (mi_anns iface)
-        exports   <- ifaceExportNames (mi_exports iface)
-        complete_matches <- tcIfaceCompleteMatches (mi_complete_matches iface)
-        return $ ModDetails { md_types     = type_env
-                            , md_defaults  = defaults
-                            , md_insts     = mkInstEnv insts
-                            , md_fam_insts = fam_insts
-                            , md_rules     = rules
-                            , md_anns      = anns
-                            , md_exports   = exports
-                            , md_complete_matches = complete_matches
-                            }
+          defaults  <- tcIfaceDefaults (mi_semantic_module iface) (mi_defaults iface)
+          insts     <- mapM tcIfaceInst (mi_insts iface)
+          fam_insts <- mapM tcIfaceFamInst (mi_fam_insts iface)
+          rules     <- tcIfaceRules ignore_prags (mi_rules iface)
+          anns      <- tcIfaceAnnotations (mi_anns iface)
+          exports   <- ifaceExportNames (mi_exports iface)
+          complete_matches <- tcIfaceCompleteMatches (mi_complete_matches iface)
+          return $ ModDetails { md_types     = type_env
+                              , md_defaults  = defaults
+                              , md_insts     = mkInstEnv insts
+                              , md_fam_insts = fam_insts
+                              , md_rules     = rules
+                              , md_anns      = anns
+                              , md_exports   = exports
+                              , md_complete_matches = complete_matches
+                              }
     return (global_type_env, details)
 
 -- | Typecheck a signature 'ModIface' under the assumption that we have
@@ -519,22 +518,22 @@ typecheckIfaceForInstantiate nsubst iface
             return (mkNameEnv decls)
     -- See Note [rnIfaceNeverExported]
     setImplicitEnvM type_env $ do
-    defaults  <- tcIfaceDefaults iface_mod (mi_defaults iface)
-    insts     <- mapM tcIfaceInst (mi_insts iface)
-    fam_insts <- mapM tcIfaceFamInst (mi_fam_insts iface)
-    rules     <- tcIfaceRules ignore_prags (mi_rules iface)
-    anns      <- tcIfaceAnnotations (mi_anns iface)
-    exports   <- ifaceExportNames (mi_exports iface)
-    complete_matches <- tcIfaceCompleteMatches (mi_complete_matches iface)
-    return $ ModDetails { md_types     = type_env
-                        , md_defaults  = defaults
-                        , md_insts     = mkInstEnv insts
-                        , md_fam_insts = fam_insts
-                        , md_rules     = rules
-                        , md_anns      = anns
-                        , md_exports   = exports
-                        , md_complete_matches = complete_matches
-                        }
+      defaults  <- tcIfaceDefaults iface_mod (mi_defaults iface)
+      insts     <- mapM tcIfaceInst (mi_insts iface)
+      fam_insts <- mapM tcIfaceFamInst (mi_fam_insts iface)
+      rules     <- tcIfaceRules ignore_prags (mi_rules iface)
+      anns      <- tcIfaceAnnotations (mi_anns iface)
+      exports   <- ifaceExportNames (mi_exports iface)
+      complete_matches <- tcIfaceCompleteMatches (mi_complete_matches iface)
+      return $ ModDetails { md_types     = type_env
+                          , md_defaults  = defaults
+                          , md_insts     = mkInstEnv insts
+                          , md_fam_insts = fam_insts
+                          , md_rules     = rules
+                          , md_anns      = anns
+                          , md_exports   = exports
+                          , md_complete_matches = complete_matches
+                          }
 
 -- Note [Resolving never-exported Names]
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

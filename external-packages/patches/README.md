@@ -27,6 +27,22 @@ exception.
   nothing else changes. alex is a build tool of half the corpus.
 - `crypton-x509.patch`: the same for `Data.X509.Signed.Signed` and
   `SignedExact`.
+- `regex-tdfa.patch`, `lifted-base.patch`, `ShellCheck.patch`,
+  `happy-lib.patch`, `network-bsd.patch`, and the second hunk of
+  `alex.patch`: `do` blocks that began at the indentation of their enclosing
+  block, which the Haskell 98 layout relaxation `NondecreasingIndentation`
+  allowed, are indented two columns further, as the Haskell 2010 layout rule
+  requires and this compiler now enforces. regex-tdfa and alex enabled the
+  extension in their cabal files and network-bsd in a pragma; lifted-base,
+  ShellCheck and happy-lib wrote the pattern in Haskell 98 mode, where it
+  was on by default. The blocks were found by parsing every candidate module
+  with the rule on and off and comparing the parses, and each re-indented
+  module parses with the rule off exactly as the original did with it on. In
+  network-bsd a `>>= peek` line at the blocks' shared column had closed the
+  inner block through the layout rule's parse-error clause and so applied to
+  that block alone; it now sits one column short of the inner block, which
+  keeps that reading. `purescript-happy-lib.patch` is the same change for
+  PureScript's private happy-lib 2.0.2.
 - `wizards.patch`: one `OVERLAPPING` pragma, on the `f :<: (f :+: g)`
   instance of `System.Console.Wizard.Internal`. The cabal file enabled
   OverlappingInstances for the package; this is the only instance that
@@ -85,8 +101,8 @@ exception.
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
-  `RecursiveDo`, `ScopedTypeVariables` and `NPlusKPatterns`) to `Nothing`,
-  and drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
+  `RecursiveDo`, `ScopedTypeVariables`, `NPlusKPatterns` and
+  `NondecreasingIndentation`) to `Nothing`, and drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
   compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro,

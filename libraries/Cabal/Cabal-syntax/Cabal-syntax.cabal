@@ -215,7 +215,6 @@ library
     FlexibleInstances
     GeneralizedNewtypeDeriving
     ImplicitParams
-    NondecreasingIndentation
     OverloadedStrings
     PatternSynonyms
     RecordWildCards

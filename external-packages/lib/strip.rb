@@ -14,7 +14,8 @@
 # pragmas a package then needs are recorded as a patch.
 module Strip
   # The extensions this compiler has removed. Their behaviour is fixed
-  # (always on, or always off for CUSKs, StarIsType and DeepSubsumption),
+  # (always on, or always off for CUSKs, StarIsType, DeepSubsumption,
+  # NPlusKPatterns and NondecreasingIndentation),
   # so dropping the name changes nothing the compiler could still do for
   # the package.
   REMOVED = %w[
@@ -22,7 +23,7 @@ module Strip
     AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
     DatatypeContexts DeepSubsumption DeriveDataTypeable DoRec
     ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
-    MultiParamTypeClasses NPlusKPatterns NullaryTypeClasses
+    MultiParamTypeClasses NPlusKPatterns NondecreasingIndentation NullaryTypeClasses
     OverlappingInstances ParallelArrays ParallelListComp PatternSignatures
     PolyKinds RankNTypes RecursiveDo RelaxedPolyRec ScopedTypeVariables
     StarIsType TypeInType

@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE MultiWayIf #-}
 
 module GHC.Driver.Main.Passes

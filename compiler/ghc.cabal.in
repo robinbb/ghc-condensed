@@ -167,7 +167,6 @@ Library
     Other-Extensions:
         CPP
         MagicHash
-        NondecreasingIndentation
         RecordWildCards
         Trustworthy
         TypeFamilies

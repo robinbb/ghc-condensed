@@ -85,7 +85,6 @@ Library
         GeneralizedNewtypeDeriving
         MagicHash
         NegativeLiterals
-        NondecreasingIndentation
         OverloadedStrings
         RecordWildCards
         RoleAnnotations

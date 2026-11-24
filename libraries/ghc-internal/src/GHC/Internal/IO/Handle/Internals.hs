@@ -2,7 +2,6 @@
 {-# LANGUAGE NoImplicitPrelude
            , RecordWildCards
            , BangPatterns
-           , NondecreasingIndentation
   #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
@@ -607,45 +606,45 @@ flushCharReadBuffer Handle__{..} = do
   cbuf <- readIORef haCharBuffer
   if isWriteBuffer cbuf || isEmptyBuffer cbuf then return () else do
 
-  -- haLastDecode is the byte buffer just before we did our last batch of
-  -- decoding.  We're going to re-decode the bytes up to the current char,
-  -- to find out where we should revert the byte buffer to.
-  (codec_state, bbuf0) <- readIORef haLastDecode
+    -- haLastDecode is the byte buffer just before we did our last batch of
+    -- decoding.  We're going to re-decode the bytes up to the current char,
+    -- to find out where we should revert the byte buffer to.
+    (codec_state, bbuf0) <- readIORef haLastDecode
 
-  cbuf0 <- readIORef haCharBuffer
-  writeIORef haCharBuffer cbuf0{ bufL=0, bufR=0 }
+    cbuf0 <- readIORef haCharBuffer
+    writeIORef haCharBuffer cbuf0{ bufL=0, bufR=0 }
 
-  -- if we haven't used any characters from the char buffer, then just
-  -- re-install the old byte buffer.
-  if bufL cbuf0 == 0
-     then do writeIORef haByteBuffer bbuf0
-             return ()
-     else do
+    -- if we haven't used any characters from the char buffer, then just
+    -- re-install the old byte buffer.
+    if bufL cbuf0 == 0
+       then do writeIORef haByteBuffer bbuf0
+               return ()
+       else do
 
-  case haDecoder of
-    Nothing ->
-      writeIORef haByteBuffer bbuf0 { bufL = bufL bbuf0 + bufL cbuf0 }
-      -- no decoder: the number of bytes to decode is the same as the
-      -- number of chars we have used up.
+      case haDecoder of
+        Nothing ->
+          writeIORef haByteBuffer bbuf0 { bufL = bufL bbuf0 + bufL cbuf0 }
+          -- no decoder: the number of bytes to decode is the same as the
+          -- number of chars we have used up.
 
-    Just decoder -> do
-      debugIO ("flushCharReadBuffer re-decode, bbuf=" ++ summaryBuffer bbuf0 ++
-               " cbuf=" ++ summaryBuffer cbuf0)
+        Just decoder -> do
+          debugIO ("flushCharReadBuffer re-decode, bbuf=" ++ summaryBuffer bbuf0 ++
+                   " cbuf=" ++ summaryBuffer cbuf0)
 
-      -- restore the codec state
-      setState decoder codec_state
+          -- restore the codec state
+          setState decoder codec_state
 
-      (bbuf1,cbuf1) <- (streamEncode decoder) bbuf0
-                               cbuf0{ bufL=0, bufR=0, bufSize = bufL cbuf0 }
+          (bbuf1,cbuf1) <- (streamEncode decoder) bbuf0
+                                   cbuf0{ bufL=0, bufR=0, bufSize = bufL cbuf0 }
 
-      -- We should not need to update the offset here. The bytebuffer contains the
-      -- offset for the next read after it's used up. But this function only flushes
-      -- the char buffer.
-      -- let bbuf2 = bbuf1 -- {bufOffset = bufOffset bbuf1 - fromIntegral (bufL bbuf1)}
-      -- debugIO ("finished, bbuf=" ++ summaryBuffer bbuf2 ++
-      --          " cbuf=" ++ summaryBuffer cbuf1)
+          -- We should not need to update the offset here. The bytebuffer contains the
+          -- offset for the next read after it's used up. But this function only flushes
+          -- the char buffer.
+          -- let bbuf2 = bbuf1 -- {bufOffset = bufOffset bbuf1 - fromIntegral (bufL bbuf1)}
+          -- debugIO ("finished, bbuf=" ++ summaryBuffer bbuf2 ++
+          --          " cbuf=" ++ summaryBuffer cbuf1)
 
-      writeIORef haByteBuffer bbuf1
+          writeIORef haByteBuffer bbuf1
 
 
 -- When flushing the byte read buffer, we seek backwards by the number
@@ -659,22 +658,22 @@ flushByteReadBuffer h_@Handle__{..} = do
 
   if isEmptyBuffer bbuf then return () else do
 
-  seekable <- IODevice.isSeekable haDevice
-  when (not seekable) $ ioe_cannotFlushNotSeekable
+    seekable <- IODevice.isSeekable haDevice
+    when (not seekable) $ ioe_cannotFlushNotSeekable
 
-  let seek = negate (bufR bbuf - bufL bbuf)
-  let offset = bufOffset bbuf - fromIntegral (bufR bbuf - bufL bbuf)
+    let seek = negate (bufR bbuf - bufL bbuf)
+    let offset = bufOffset bbuf - fromIntegral (bufR bbuf - bufL bbuf)
 
-  debugIO ("flushByteReadBuffer: new file offset = " ++ show seek)
-  debugIO ("flushByteReadBuffer: " ++ summaryBuffer bbuf)
+    debugIO ("flushByteReadBuffer: new file offset = " ++ show seek)
+    debugIO ("flushByteReadBuffer: " ++ summaryBuffer bbuf)
 
-  let mIOSeek   = IODevice.seek haDevice RelativeSeek (fromIntegral seek)
-  -- win-io doesn't need this, but it allows us to error out on invalid offsets
-  let winIOSeek = IODevice.seek haDevice AbsoluteSeek (fromIntegral offset)
+    let mIOSeek   = IODevice.seek haDevice RelativeSeek (fromIntegral seek)
+    -- win-io doesn't need this, but it allows us to error out on invalid offsets
+    let winIOSeek = IODevice.seek haDevice AbsoluteSeek (fromIntegral offset)
 
-  _ <- mIOSeek <!> winIOSeek  -- execute one of these two seek functions
+    _ <- mIOSeek <!> winIOSeek  -- execute one of these two seek functions
 
-  writeIORef haByteBuffer bbuf{ bufL=0, bufR=0, bufOffset=offset }
+    writeIORef haByteBuffer bbuf{ bufL=0, bufR=0, bufOffset=offset }
 
 -- ----------------------------------------------------------------------------
 -- Making Handles
@@ -1012,7 +1011,7 @@ readTextDevice h_@Handle__{..} cbuf = do
                    (r,bbuf1) <- Buffered.fillReadBuffer haDevice bbuf0
                    debugIO $ "readBuf after " ++ show (bufferOffset bbuf1)
                    if r == 0 then ioe_EOF else do  -- raise EOF
-                   return bbuf1
+                     return bbuf1
 
   debugIO ("readTextDevice after reading: bbuf=" ++ summaryBuffer bbuf1)
 
@@ -1057,19 +1056,19 @@ readTextDevice' h_@Handle__{..} bbuf0 cbuf0 = do
      -- bbuf2 can be empty here when we encounter an invalid byte sequence at the end of the input
      -- with a //IGNORE codec which consumes bytes without outputting characters
      if isEmptyBuffer bbuf2 then ioe_EOF else do
-     (bbuf3, cbuf1) <- recover decoder bbuf2 cbuf0
-     debugIO ("readTextDevice' after recovery: bbuf=" ++ summaryBuffer bbuf3 ++ ", cbuf=" ++ summaryBuffer cbuf1)
-     writeIORef haByteBuffer bbuf3
-     -- We should recursively invoke readTextDevice after recovery,
-     -- if recovery did not add at least one new character to the buffer:
-     --  1. If we were using IgnoreCodingFailure it might be the case that
-     --     cbuf1 is the same length as cbuf0 and we need to raise ioe_EOF
-     --  2. If we were using TransliterateCodingFailure we might have *mutated*
-     --     the byte buffer without changing the pointers into either buffer.
-     --     We need to try and decode it again - it might just go through this time.
-     if bufR cbuf1 == bufR cbuf0
-      then readTextDevice h_ cbuf1
-      else return cbuf1
+       (bbuf3, cbuf1) <- recover decoder bbuf2 cbuf0
+       debugIO ("readTextDevice' after recovery: bbuf=" ++ summaryBuffer bbuf3 ++ ", cbuf=" ++ summaryBuffer cbuf1)
+       writeIORef haByteBuffer bbuf3
+       -- We should recursively invoke readTextDevice after recovery,
+       -- if recovery did not add at least one new character to the buffer:
+       --  1. If we were using IgnoreCodingFailure it might be the case that
+       --     cbuf1 is the same length as cbuf0 and we need to raise ioe_EOF
+       --  2. If we were using TransliterateCodingFailure we might have *mutated*
+       --     the byte buffer without changing the pointers into either buffer.
+       --     We need to try and decode it again - it might just go through this time.
+       if bufR cbuf1 == bufR cbuf0
+        then readTextDevice h_ cbuf1
+        else return cbuf1
    else do
     debugIO ("readTextDevice' after reading: bbuf=" ++ summaryBuffer bbuf2)
 
@@ -1095,7 +1094,7 @@ readTextDeviceNonBlocking h_@Handle__{..} cbuf = do
   when (isEmptyBuffer bbuf0) $ do
      (r,bbuf1) <- Buffered.fillReadBuffer0 haDevice bbuf0
      if isNothing r then ioe_EOF else do  -- raise EOF
-     writeIORef haByteBuffer bbuf1
+       writeIORef haByteBuffer bbuf1
 
   decodeByteBuf h_ cbuf
 

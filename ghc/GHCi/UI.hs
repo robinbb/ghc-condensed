@@ -1,7 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ViewPatterns #-}
@@ -4742,20 +4741,20 @@ list2 [arg1,arg2] | looksLikeModuleName arg1, all isDigit arg2 = do
         listModuleLine md (read arg2)
 list2 [arg] = do
         wantNameFromInterpretedModule noCanDo arg $ \name -> do
-        let loc = GHC.srcSpanStart (GHC.nameSrcSpan name)
-        case loc of
-            RealSrcLoc l _ ->
-               do tickArray <- assert (isExternalName name) $
-                               getTickArray (GHC.nameModule name)
-                  let mb_span = findBreakByCoord
-                                        (GHC.srcLocLine l, GHC.srcLocCol l)
-                                        tickArray
-                  case mb_span of
-                    Nothing       -> listAround (realSrcLocSpan l) False
-                    Just (_, pan) -> listAround pan False
-            UnhelpfulLoc _ ->
-                  noCanDo name $ text "can't find its location: " <>
-                                 ppr loc
+          let loc = GHC.srcSpanStart (GHC.nameSrcSpan name)
+          case loc of
+              RealSrcLoc l _ ->
+                 do tickArray <- assert (isExternalName name) $
+                                 getTickArray (GHC.nameModule name)
+                    let mb_span = findBreakByCoord
+                                          (GHC.srcLocLine l, GHC.srcLocCol l)
+                                          tickArray
+                    case mb_span of
+                      Nothing       -> listAround (realSrcLocSpan l) False
+                      Just (_, pan) -> listAround pan False
+              UnhelpfulLoc _ ->
+                    noCanDo name $ text "can't find its location: " <>
+                                   ppr loc
     where
         noCanDo n why = printForUser $
             text "cannot list source code for " <> ppr n <> text ": " <> why
@@ -5107,11 +5106,11 @@ wantNameFromInterpretedModule noCanDo str and_then =
        then noCanDo n $ ppr n <>
                         text " is not defined in an interpreted module"
        else do
-    is_interpreted <- GHC.moduleIsInterpreted modl
-    if not is_interpreted
-       then noCanDo n $ text "module " <> ppr modl <>
-                        text " is not interpreted"
-       else and_then n
+      is_interpreted <- GHC.moduleIsInterpreted modl
+      if not is_interpreted
+         then noCanDo n $ text "module " <> ppr modl <>
+                          text " is not interpreted"
+         else and_then n
 
 clearCaches :: GhciMonad m => m ()
 clearCaches = discardActiveBreakPoints

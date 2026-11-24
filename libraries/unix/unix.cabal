@@ -68,7 +68,6 @@ library
         CApiFFI
         CPP
         InterruptibleFFI
-        NondecreasingIndentation
         RecordWildCards
         Safe
         Trustworthy

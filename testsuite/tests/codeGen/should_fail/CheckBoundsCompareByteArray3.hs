@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation  #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}
 

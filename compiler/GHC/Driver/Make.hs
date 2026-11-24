@@ -1,4 +1,3 @@
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE MultiWayIf #-}
@@ -669,64 +668,64 @@ load' mhmi_cache how_much diag_wrapper mHscMessage mod_graph = do
 
     checkHowMuch how_much $ do
 
-    -- mg2_with_srcimps drops the hi-boot nodes, returning a
-    -- graph with cycles. It is just used for warning about unnecessary source imports.
-    let mg2_with_srcimps :: [SCC ModuleGraphNode]
-        mg2_with_srcimps = topSortModuleGraph True mod_graph Nothing
+      -- mg2_with_srcimps drops the hi-boot nodes, returning a
+      -- graph with cycles. It is just used for warning about unnecessary source imports.
+      let mg2_with_srcimps :: [SCC ModuleGraphNode]
+          mg2_with_srcimps = topSortModuleGraph True mod_graph Nothing
 
-    -- If we can determine that any of the {-# SOURCE #-} imports
-    -- are definitely unnecessary, then emit a warning.
-    warnUnnecessarySourceImports (filterToposortToModules mg2_with_srcimps)
+      -- If we can determine that any of the {-# SOURCE #-} imports
+      -- are definitely unnecessary, then emit a warning.
+      warnUnnecessarySourceImports (filterToposortToModules mg2_with_srcimps)
 
-    let maybe_top_mods = case how_much of
-                          LoadUpTo m           -> Just m
-                          LoadDependenciesOf m -> Just [m]
-                          _                    -> Nothing
+      let maybe_top_mods = case how_much of
+                            LoadUpTo m           -> Just m
+                            LoadDependenciesOf m -> Just [m]
+                            _                    -> Nothing
 
-        build_plan = createBuildPlan mod_graph maybe_top_mods
-
-
-    cache <- liftIO $ maybe (return []) iface_clearCache mhmi_cache
-    let
-        -- prune the HPT so everything is not retained when doing an
-        -- upsweep.
-        !pruned_cache = pruneCache cache
-                            [ms | (ModuleNodeCompile ms) <- (flattenSCCs (filterToposortToModules  mg2_with_srcimps))]
+          build_plan = createBuildPlan mod_graph maybe_top_mods
 
 
+      cache <- liftIO $ maybe (return []) iface_clearCache mhmi_cache
+      let
+          -- prune the HPT so everything is not retained when doing an
+          -- upsweep.
+          !pruned_cache = pruneCache cache
+                              [ms | (ModuleNodeCompile ms) <- (flattenSCCs (filterToposortToModules  mg2_with_srcimps))]
 
-    -- before we unload anything, make sure we don't leave an old
-    -- interactive context around pointing to dead bindings.  Also,
-    -- write an empty HPT to allow the old HPT to be GC'd.
 
-    let pruneHomeUnitEnv hme = do
-          emptyHPT <- liftIO emptyHomePackageTable
-          pure $! hme{ homeUnitEnv_hpt = emptyHPT }
-    hug' <- traverse pruneHomeUnitEnv (ue_home_unit_graph $ hsc_unit_env hsc_env)
-    let ue' = (hsc_unit_env hsc_env){ ue_home_unit_graph = hug' }
-    setSession $ discardIC hsc_env{hsc_unit_env = ue' }
-    hsc_env <- getSession
 
-    -- Unload everything
-    liftIO $ unload interp hsc_env
+      -- before we unload anything, make sure we don't leave an old
+      -- interactive context around pointing to dead bindings.  Also,
+      -- write an empty HPT to allow the old HPT to be GC'd.
 
-    liftIO $ debugTraceMsg logger 2 (hang (text "Ready for upsweep")
-                                    2 (ppr build_plan))
-
-    worker_limit <- liftIO $ mkWorkerLimit dflags
-
-    (upsweep_ok, new_deps) <- withDeferredDiagnostics $ do
+      let pruneHomeUnitEnv hme = do
+            emptyHPT <- liftIO emptyHomePackageTable
+            pure $! hme{ homeUnitEnv_hpt = emptyHPT }
+      hug' <- traverse pruneHomeUnitEnv (ue_home_unit_graph $ hsc_unit_env hsc_env)
+      let ue' = (hsc_unit_env hsc_env){ ue_home_unit_graph = hug' }
+      setSession $ discardIC hsc_env{hsc_unit_env = ue' }
       hsc_env <- getSession
-      liftIO $ upsweep worker_limit hsc_env mhmi_cache diag_wrapper mHscMessage (toCache pruned_cache) build_plan
 
-    -- At this point, all the HPT variables will be populated, but we don't want
-    -- to leak the contents of a failed session.
-    liftIO $ restrictDepsHscEnv new_deps hsc_env
-    case upsweep_ok of
-      Failed -> loadFinish upsweep_ok
-      Succeeded -> do
-          liftIO $ debugTraceMsg logger 2 (text "Upsweep completely successful.")
-          loadFinish upsweep_ok
+      -- Unload everything
+      liftIO $ unload interp hsc_env
+
+      liftIO $ debugTraceMsg logger 2 (hang (text "Ready for upsweep")
+                                      2 (ppr build_plan))
+
+      worker_limit <- liftIO $ mkWorkerLimit dflags
+
+      (upsweep_ok, new_deps) <- withDeferredDiagnostics $ do
+        hsc_env <- getSession
+        liftIO $ upsweep worker_limit hsc_env mhmi_cache diag_wrapper mHscMessage (toCache pruned_cache) build_plan
+
+      -- At this point, all the HPT variables will be populated, but we don't want
+      -- to leak the contents of a failed session.
+      liftIO $ restrictDepsHscEnv new_deps hsc_env
+      case upsweep_ok of
+        Failed -> loadFinish upsweep_ok
+        Succeeded -> do
+            liftIO $ debugTraceMsg logger 2 (text "Upsweep completely successful.")
+            loadFinish upsweep_ok
 
 
 

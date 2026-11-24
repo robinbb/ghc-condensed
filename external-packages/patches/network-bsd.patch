@@ -1,0 +1,56 @@
+--- a/external-packages/network-bsd/Network/BSD.hsc
++++ b/external-packages/network-bsd/Network/BSD.hsc
+@@ -199,10 +199,10 @@
+                  -> IO ServiceEntry     -- Service Entry
+ getServiceByName name proto = withLock $ do
+  withCString name  $ \ cstr_name  -> do
+- withCString proto $ \ cstr_proto -> do
+- throwNoSuchThingIfNull "Network.BSD.getServiceByName" "no such service entry"
+-   $ c_getservbyname cstr_name cstr_proto
+- >>= peek
++   withCString proto $ \ cstr_proto -> do
++     throwNoSuchThingIfNull "Network.BSD.getServiceByName" "no such service entry"
++       $ c_getservbyname cstr_name cstr_proto
++    >>= peek
+ 
+ foreign import CALLCONV unsafe "getservbyname"
+   c_getservbyname :: CString -> CString -> IO (Ptr ServiceEntry)
+@@ -211,9 +211,9 @@
+ getServiceByPort :: N.PortNumber -> ProtocolName -> IO ServiceEntry
+ getServiceByPort port proto = withLock $ do
+  withCString proto $ \ cstr_proto -> do
+- throwNoSuchThingIfNull "Network.BSD.getServiceByPort" "no such service entry"
+-   $ c_getservbyport (fromIntegral port) cstr_proto
+- >>= peek
++   throwNoSuchThingIfNull "Network.BSD.getServiceByPort" "no such service entry"
++     $ c_getservbyport (fromIntegral port) cstr_proto
++  >>= peek
+ 
+ foreign import CALLCONV unsafe "getservbyport"
+   c_getservbyport :: CInt -> CString -> IO (Ptr ServiceEntry)
+@@ -316,9 +316,9 @@
+ getProtocolByName :: ProtocolName -> IO ProtocolEntry
+ getProtocolByName name = withLock $ do
+  withCString name $ \ name_cstr -> do
+- throwNoSuchThingIfNull "Network.BSD.getProtocolByName" ("no such protocol name: " ++ name)
+-   $ c_getprotobyname name_cstr
+- >>= peek
++   throwNoSuchThingIfNull "Network.BSD.getProtocolByName" ("no such protocol name: " ++ name)
++     $ c_getprotobyname name_cstr
++  >>= peek
+ 
+ foreign import  CALLCONV unsafe  "getprotobyname"
+    c_getprotobyname :: CString -> IO (Ptr ProtocolEntry)
+@@ -450,9 +450,9 @@
+ getHostByAddr :: N.Family -> N.HostAddress -> IO HostEntry
+ getHostByAddr family addr = do
+  with addr $ \ ptr_addr -> withLock $ do
+- throwNoSuchThingIfNull "Network.BSD.getHostByAddr" "no such host entry"
+-   $ c_gethostbyaddr ptr_addr (fromIntegral (sizeOf addr)) (N.packFamily family)
+- >>= peek
++   throwNoSuchThingIfNull "Network.BSD.getHostByAddr" "no such host entry"
++     $ c_gethostbyaddr ptr_addr (fromIntegral (sizeOf addr)) (N.packFamily family)
++  >>= peek
+ 
+ foreign import CALLCONV safe "gethostbyaddr"
+    c_gethostbyaddr :: Ptr N.HostAddress -> CInt -> CInt -> IO (Ptr HostEntry)

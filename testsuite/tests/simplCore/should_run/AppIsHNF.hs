@@ -1,5 +1,4 @@
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 
 import GHC.Exts
 import Debug.Trace

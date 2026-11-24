@@ -1,7 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE ViewPatterns #-}
 
 -----------------------------------------------------------------------------
@@ -430,40 +429,40 @@ link' hsc_env batch_attempt_linking mHscMessager hpt
                   return Succeeded
           else do
 
-        -- linkObjectLinkable is generic across LinkStaticLib and LinkDynLib
-        let linkObjectLinkable action =
-              checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink (checkNativeLibraryLinkingNeeded staticLink) homeMod_object $ \linkables ->
-                let obj_files = concatMap linkableObjs linkables
-                in action obj_files
-            linkBytecodeLinkable action =
-              checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink checkBytecodeLibraryLinkingNeeded homeModLinkableByteCode $ \linkables ->
-                let bytecode = concatMap linkableModuleByteCodes linkables
-                in action bytecode
+          -- linkObjectLinkable is generic across LinkStaticLib and LinkDynLib
+          let linkObjectLinkable action =
+                checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink (checkNativeLibraryLinkingNeeded staticLink) homeMod_object $ \linkables ->
+                  let obj_files = concatMap linkableObjs linkables
+                  in action obj_files
+              linkBytecodeLinkable action =
+                checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink checkBytecodeLibraryLinkingNeeded homeModLinkableByteCode $ \linkables ->
+                  let bytecode = concatMap linkableModuleByteCodes linkables
+                  in action bytecode
 
-        -- Don't showPass in Batch mode; doLink will do that for us.
-        case ghcLink dflags of
-          LinkExecutable blm ->
-            let opts = initExecutableLinkOpts dflags blm
-                -- this is almost linke 'linkObjectLinkable', except that we need additional
-                -- relinking checks on the executable options
-                linkExecutableLinkable action =
-                  checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink (\l d u ls us -> checkNativeLibraryLinkingNeeded staticLink l d u ls us >>= \case
-                      UpToDate -> checkExecutableRelinkingNeeded l d u us opts
-                      x -> pure x) homeMod_object $ \linkables ->
-                    let obj_files = concatMap linkableObjs linkables
-                    in action obj_files
-            in if | backendUseJSLinker (backend dflags) ->
-                      linkExecutableLinkable $ \obj_files -> linkJSBinary logger tmpfs fc dflags unit_env obj_files pkg_deps
-                  | otherwise ->
-                      linkExecutableLinkable $ \obj_files -> do linkExecutable logger tmpfs opts unit_env obj_files pkg_deps
-          LinkStaticLib ->
-            linkObjectLinkable $ \obj_files -> linkStaticLib logger dflags unit_env obj_files pkg_deps
-          LinkDynLib    ->
-            linkObjectLinkable $ \obj_files -> linkDynLibCheck logger tmpfs dflags unit_env obj_files pkg_deps
-          LinkBytecodeLib -> linkBytecodeLinkable $ \bytecode -> linkBytecodeLib hsc_env bytecode
-          other         -> panicBadLink other
+          -- Don't showPass in Batch mode; doLink will do that for us.
+          case ghcLink dflags of
+            LinkExecutable blm ->
+              let opts = initExecutableLinkOpts dflags blm
+                  -- this is almost linke 'linkObjectLinkable', except that we need additional
+                  -- relinking checks on the executable options
+                  linkExecutableLinkable action =
+                    checkLinkablesUpToDate hsc_env mHscMessager home_mods pkg_deps staticLink (\l d u ls us -> checkNativeLibraryLinkingNeeded staticLink l d u ls us >>= \case
+                        UpToDate -> checkExecutableRelinkingNeeded l d u us opts
+                        x -> pure x) homeMod_object $ \linkables ->
+                      let obj_files = concatMap linkableObjs linkables
+                      in action obj_files
+              in if | backendUseJSLinker (backend dflags) ->
+                        linkExecutableLinkable $ \obj_files -> linkJSBinary logger tmpfs fc dflags unit_env obj_files pkg_deps
+                    | otherwise ->
+                        linkExecutableLinkable $ \obj_files -> do linkExecutable logger tmpfs opts unit_env obj_files pkg_deps
+            LinkStaticLib ->
+              linkObjectLinkable $ \obj_files -> linkStaticLib logger dflags unit_env obj_files pkg_deps
+            LinkDynLib    ->
+              linkObjectLinkable $ \obj_files -> linkDynLibCheck logger tmpfs dflags unit_env obj_files pkg_deps
+            LinkBytecodeLib -> linkBytecodeLinkable $ \bytecode -> linkBytecodeLib hsc_env bytecode
+            other         -> panicBadLink other
 
-        return Succeeded
+          return Succeeded
 
    | otherwise
    = do debugTraceMsg (hsc_logger hsc_env) 3 (text "link(batch): upsweep (partially) failed OR" $$
@@ -582,28 +581,28 @@ checkNativeLibraryLinkingNeeded staticLink _ dflags unit_env linkables pkg_deps 
             then return $ needsRecompileBecause ObjectsChanged
             else do
 
-        -- next, check libraries. XXX this only checks Haskell libraries,
-        -- not extra_libraries or -l things from the command line.
-        -- pkg_deps is just the direct dependencies so take the transitive closure here
-        -- to decide if we need to relink or not.
-        let pkg_hslibs acc uid
-              | uid `elementOfUniqDSet` acc = acc
-              | Just c <- lookupUnitId unit_state uid =
-                  foldl' @[] pkg_hslibs (addOneToUniqDSet acc uid) (unitDepends c)
-              | otherwise = acc
+          -- next, check libraries. XXX this only checks Haskell libraries,
+          -- not extra_libraries or -l things from the command line.
+          -- pkg_deps is just the direct dependencies so take the transitive closure here
+          -- to decide if we need to relink or not.
+          let pkg_hslibs acc uid
+                | uid `elementOfUniqDSet` acc = acc
+                | Just c <- lookupUnitId unit_state uid =
+                    foldl' @[] pkg_hslibs (addOneToUniqDSet acc uid) (unitDepends c)
+                | otherwise = acc
 
-            all_pkg_deps = foldl' @[] pkg_hslibs emptyUniqDSet pkg_deps
+              all_pkg_deps = foldl' @[] pkg_hslibs emptyUniqDSet pkg_deps
 
-        let pkg_hslibs  = [ (collectLibraryDirs (ways dflags) [c], lib)
-                          | Just c <- map (lookupUnitId unit_state) (uniqDSetToList all_pkg_deps),
-                            lib <- unitHsLibs (ghcNameVersion dflags) (ways dflags) c ]
+          let pkg_hslibs  = [ (collectLibraryDirs (ways dflags) [c], lib)
+                            | Just c <- map (lookupUnitId unit_state) (uniqDSetToList all_pkg_deps),
+                              lib <- unitHsLibs (ghcNameVersion dflags) (ways dflags) c ]
 
-        pkg_libfiles <- mapM (uncurry (findHSLib platform (ways dflags))) pkg_hslibs
-        if any isNothing pkg_libfiles then return $ needsRecompileBecause LibraryChanged else do
-        (lib_errs,lib_times) <- partitionWithM (tryIO . getModificationUTCTime) (catMaybes pkg_libfiles)
-        if not (null lib_errs) || any (t <) lib_times
-           then return $ needsRecompileBecause LibraryChanged
-           else return UpToDate
+          pkg_libfiles <- mapM (uncurry (findHSLib platform (ways dflags))) pkg_hslibs
+          if any isNothing pkg_libfiles then return $ needsRecompileBecause LibraryChanged else do
+            (lib_errs,lib_times) <- partitionWithM (tryIO . getModificationUTCTime) (catMaybes pkg_libfiles)
+            if not (null lib_errs) || any (t <) lib_times
+               then return $ needsRecompileBecause LibraryChanged
+               else return UpToDate
 
 -- | Check if we have new executable linking options and need to recompile.
 -- This only concerns the executable options. For checking whether libraries/objects changed

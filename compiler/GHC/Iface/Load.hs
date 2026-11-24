@@ -4,7 +4,6 @@
 
 -}
 
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE TypeFamilies #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -1041,9 +1040,9 @@ dontLeakTheHUG thing_inside = do
                 }
 
   updTopEnvIO cleanTopEnv $ updGblEnv cleanGblEnv $ do
-  !_ <- getTopEnv        -- force the updTopEnv
-  !_ <- getGblEnv
-  thing_inside
+    !_ <- getTopEnv        -- force the updTopEnv
+    !_ <- getGblEnv
+    thing_inside
 
 
 -- | Returns @True@ if a 'ModIface' comes from an external package.

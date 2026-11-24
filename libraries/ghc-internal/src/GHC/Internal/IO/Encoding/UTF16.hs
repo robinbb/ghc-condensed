@@ -1,7 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude
            , BangPatterns
-           , NondecreasingIndentation
            , MagicHash
            , UnboxedTuples
   #-}
@@ -226,8 +225,8 @@ utf16be_decode
                           !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
                           x2 = fromIntegral c2 `shiftL` 8 + fromIntegral c3
                       if not (validate2 x1 x2) then invalid st4 else do
-                      let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
-                      loop (ir+4) ow' st5
+                        let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
+                        loop (ir+4) ow' st5
          where
            invalid :: DecodingBuffer#
            invalid st' = done InvalidSequence ir ow st'
@@ -265,8 +264,8 @@ utf16le_decode
                           !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
                           x2 = fromIntegral c3 `shiftL` 8 + fromIntegral c2
                       if not (validate2 x1 x2) then invalid st4 else do
-                      let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
-                      loop (ir+4) ow' st5
+                        let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
+                        loop (ir+4) ow' st5
          where
            invalid :: DecodingBuffer#
            invalid st' = done InvalidSequence ir ow st'
@@ -306,19 +305,19 @@ utf16be_encode
                     loop ir' (ow+2) st3
                | otherwise -> do
                     if os - ow < 4 then done OutputUnderflow ir ow st1 else do
-                    let
-                         n1 = x - 0x10000
-                         c1 = fromIntegral (n1 `shiftR` 18 + 0xD8)
-                         c2 = fromIntegral (n1 `shiftR` 10)
-                         n2 = n1 .&. 0x3FF
-                         c3 = fromIntegral (n2 `shiftR` 8 + 0xDC)
-                         c4 = fromIntegral n2
-                    --
-                         !(# st2, () #) = unIO (writeWord8Buf oraw ow     c1) st1
-                         !(# st3, () #) = unIO (writeWord8Buf oraw (ow+1) c2) st2
-                         !(# st4, () #) = unIO (writeWord8Buf oraw (ow+2) c3) st3
-                         !(# st5, () #) = unIO (writeWord8Buf oraw (ow+3) c4) st4
-                    loop ir' (ow+4) st5
+                      let
+                           n1 = x - 0x10000
+                           c1 = fromIntegral (n1 `shiftR` 18 + 0xD8)
+                           c2 = fromIntegral (n1 `shiftR` 10)
+                           n2 = n1 .&. 0x3FF
+                           c3 = fromIntegral (n2 `shiftR` 8 + 0xDC)
+                           c4 = fromIntegral n2
+                      --
+                           !(# st2, () #) = unIO (writeWord8Buf oraw ow     c1) st1
+                           !(# st3, () #) = unIO (writeWord8Buf oraw (ow+1) c2) st2
+                           !(# st4, () #) = unIO (writeWord8Buf oraw (ow+2) c3) st3
+                           !(# st5, () #) = unIO (writeWord8Buf oraw (ow+3) c4) st4
+                      loop ir' (ow+4) st5
     in
     loop ir0 ow0 st
 

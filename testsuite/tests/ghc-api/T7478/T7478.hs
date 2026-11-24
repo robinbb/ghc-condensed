@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE NamedFieldPuns #-}
 module Main (main) where
 
@@ -58,11 +57,11 @@ main = do
   [libdir] <- getArgs
   runGhc (Just libdir) $ do
 
-  liftIO $ putStrLn "----- 0 ------"
-  compileInGhc ["A.hs", "B.hs"] $ \msg -> print (0 :: Int, msg)
+    liftIO $ putStrLn "----- 0 ------"
+    compileInGhc ["A.hs", "B.hs"] $ \msg -> print (0 :: Int, msg)
 
-  liftIO $ putStrLn "----- 1 ------"
-  compileInGhc ["A.hs", "B.hs"] $ \msg -> print (1 :: Int, msg)
+    liftIO $ putStrLn "----- 1 ------"
+    compileInGhc ["A.hs", "B.hs"] $ \msg -> print (1 :: Int, msg)
 
-  liftIO $ putStrLn "----- 2 ------"
-  compileInGhc ["C.hs"] $ \msg -> print (2 :: Int, msg)
+    liftIO $ putStrLn "----- 2 ------"
+    compileInGhc ["C.hs"] $ \msg -> print (2 :: Int, msg)

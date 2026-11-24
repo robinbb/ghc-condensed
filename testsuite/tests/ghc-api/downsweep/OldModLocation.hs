@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 {-# LANGUAGE ViewPatterns #-}
 
 import GHC
@@ -48,20 +47,20 @@ main = do
 
     liftIO $ do
 
-    _emss <- downsweep hsc_env mkUnknownDiagnostic Nothing [] Nothing [] False
+      _emss <- downsweep hsc_env mkUnknownDiagnostic Nothing [] Nothing [] False
 
-    flushFinderCaches (hsc_FC hsc_env) (hsc_unit_env hsc_env)
-    createDirectoryIfMissing False "mydir"
-    renameFile "B.hs" "mydir/B.hs"
+      flushFinderCaches (hsc_FC hsc_env) (hsc_unit_env hsc_env)
+      createDirectoryIfMissing False "mydir"
+      renameFile "B.hs" "mydir/B.hs"
 
-    (_, nodes) <- downsweep hsc_env mkUnknownDiagnostic Nothing [] Nothing [] False
+      (_, nodes) <- downsweep hsc_env mkUnknownDiagnostic Nothing [] Nothing [] False
 
-    -- If 'checkSummaryTimestamp' were to call 'addHomeModuleToFinder' with
-    -- (ms_location old_summary) like summariseFile used to instead of
-    -- using the 'location' parameter we'd end up using the old location of
-    -- the "B" module in this test. Make sure that doesn't happen.
+      -- If 'checkSummaryTimestamp' were to call 'addHomeModuleToFinder' with
+      -- (ms_location old_summary) like summariseFile used to instead of
+      -- using the 'location' parameter we'd end up using the old location of
+      -- the "B" module in this test. Make sure that doesn't happen.
 
-    hPrint stderr $ sort (map (ml_hs_file . ms_location) (mgModSummaries nodes))
+      hPrint stderr $ sort (map (ml_hs_file . ms_location) (mgModSummaries nodes))
 
 writeMod :: [String] -> IO ()
 writeMod src@(head -> stripPrefix "module " -> Just (takeWhile (/=' ') -> mod))

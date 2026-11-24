@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE NondecreasingIndentation #-}
 module GHC.Driver.Session.Lint (checkOptions) where
 
 import GHC.Driver.Backend
@@ -48,40 +47,40 @@ checkOptions mode dflags srcs objs units = do
         then throwGhcException (UsageError "-ohi can only be used when compiling a single source file")
         else do
 
-   if (isJust (dynOutputHi dflags) &&
-      (isCompManagerMode mode || srcs `lengthExceeds` 1))
-     then throwGhcException (UsageError "-dynohi can only be used when compiling a single source file")
-     else do
+     if (isJust (dynOutputHi dflags) &&
+        (isCompManagerMode mode || srcs `lengthExceeds` 1))
+       then throwGhcException (UsageError "-dynohi can only be used when compiling a single source file")
+       else do
 
-        -- -o sanity checking
-   if (srcs `lengthExceeds` 1 && isJust (outputFile dflags)
-         && not (isLinkMode mode))
-        then throwGhcException (UsageError "can't apply -o to multiple source files")
-        else do
+            -- -o sanity checking
+       if (srcs `lengthExceeds` 1 && isJust (outputFile dflags)
+             && not (isLinkMode mode))
+            then throwGhcException (UsageError "can't apply -o to multiple source files")
+            else do
 
-   let not_linking = not (isLinkMode mode) || isNoLink (ghcLink dflags)
+         let not_linking = not (isLinkMode mode) || isNoLink (ghcLink dflags)
 
-   when (not_linking && not (null objs)) $
-        hPutStrLn stderr ("Warning: the following files would be used as linker inputs, but linking is not being done: " ++ unwords objs)
+         when (not_linking && not (null objs)) $
+              hPutStrLn stderr ("Warning: the following files would be used as linker inputs, but linking is not being done: " ++ unwords objs)
 
-        -- Check that there are some input files
-        -- (except in the interactive case)
-   if null srcs && (null objs || not_linking) && needsInputsMode mode && null units
-        then throwGhcException (UsageError "no input files" )
-        else do
+              -- Check that there are some input files
+              -- (except in the interactive case)
+         if null srcs && (null objs || not_linking) && needsInputsMode mode && null units
+              then throwGhcException (UsageError "no input files" )
+              else do
 
-   case mode of
-      StopBefore StopC | not (backendGeneratesHc (backend dflags))
-        -> throwGhcException $ UsageError $
-           "the option -C is only available with an unregisterised GHC"
-      StopBefore StopAs | ghcLink dflags == NoLink
-        -> throwGhcException $ UsageError $
-           "the options -S and -fno-code are incompatible. Please omit -S"
+           case mode of
+              StopBefore StopC | not (backendGeneratesHc (backend dflags))
+                -> throwGhcException $ UsageError $
+                   "the option -C is only available with an unregisterised GHC"
+              StopBefore StopAs | ghcLink dflags == NoLink
+                -> throwGhcException $ UsageError $
+                   "the options -S and -fno-code are incompatible. Please omit -S"
 
-      _ -> return ()
+              _ -> return ()
 
-     -- Verify that output files point somewhere sensible.
-   verifyOutputFiles dflags
+             -- Verify that output files point somewhere sensible.
+           verifyOutputFiles dflags
 
 -- Compiler output options
 

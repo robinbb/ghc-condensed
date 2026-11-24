@@ -1,5 +1,4 @@
 
-{-# LANGUAGE NoNondecreasingIndentation #-}
 
 module ShouldCompile where
 

@@ -3,7 +3,6 @@
            , NoImplicitPrelude
            , RecordWildCards
            , BangPatterns
-           , NondecreasingIndentation
            , MagicHash
            , LambdaCase
   #-}
@@ -104,28 +103,28 @@ hWaitForInput h msecs =
 
   if not (isEmptyBuffer cbuf) then return True else do
 
-  if msecs < 0
-        then do cbuf' <- readTextDevice handle_ cbuf
-                writeIORef haCharBuffer cbuf'
-                return True
-        else do
-               -- there might be bytes in the byte buffer waiting to be decoded
-               cbuf' <- decodeByteBuf handle_ cbuf
-               writeIORef haCharBuffer cbuf'
+    if msecs < 0
+          then do cbuf' <- readTextDevice handle_ cbuf
+                  writeIORef haCharBuffer cbuf'
+                  return True
+          else do
+                 -- there might be bytes in the byte buffer waiting to be decoded
+                 cbuf' <- decodeByteBuf handle_ cbuf
+                 writeIORef haCharBuffer cbuf'
 
-               if not (isEmptyBuffer cbuf') then return True else do
+                 if not (isEmptyBuffer cbuf') then return True else do
 
-                r <- IODevice.ready haDevice False{-read-} msecs
-                if r then do -- Call hLookAhead' to throw an EOF
-                             -- exception if appropriate
-                             _ <- hLookAhead_ handle_
-                             return True
-                     else return False
-                -- XXX we should only return when there are full characters
-                -- not when there are only bytes.  That would mean looping
-                -- and re-running IODevice.ready if we don't have any full
-                -- characters; but we don't know how long we've waited
-                -- so far.
+                  r <- IODevice.ready haDevice False{-read-} msecs
+                  if r then do -- Call hLookAhead' to throw an EOF
+                               -- exception if appropriate
+                               _ <- hLookAhead_ handle_
+                               return True
+                       else return False
+                  -- XXX we should only return when there are full characters
+                  -- not when there are only bytes.  That would mean looping
+                  -- and re-running IODevice.ready if we don't have any full
+                  -- characters; but we don't know how long we've waited
+                  -- so far.
 
 -- ---------------------------------------------------------------------------
 -- hGetChar
@@ -982,19 +981,19 @@ bufReadNonEmpty h_@Handle__{..}
                 return (so_far + count)
            else do
 
-        copyFromRawBuffer ptr raw r avail
-        let buf' = buf{ bufR=0, bufL=0 }
-        writeIORef haByteBuffer buf'
-        let remaining = count - avail
-            so_far' = so_far + avail
-            ptr' = ptr `plusPtr` avail
+          copyFromRawBuffer ptr raw r avail
+          let buf' = buf{ bufR=0, bufL=0 }
+          writeIORef haByteBuffer buf'
+          let remaining = count - avail
+              so_far' = so_far + avail
+              ptr' = ptr `plusPtr` avail
 
-        debugIO ("bufReadNonEmpty: " ++ summaryBuffer buf' ++ " s:" ++ show so_far' ++ " r:" ++ show remaining)
-        b <- if remaining == 0
-           then return so_far'
-           else bufReadEmpty h_ buf' ptr' so_far' remaining
-        debugIO ":: bufReadNonEmpty - done"
-        return b
+          debugIO ("bufReadNonEmpty: " ++ summaryBuffer buf' ++ " s:" ++ show so_far' ++ " r:" ++ show remaining)
+          b <- if remaining == 0
+             then return so_far'
+             else bufReadEmpty h_ buf' ptr' so_far' remaining
+          debugIO ":: bufReadNonEmpty - done"
+          return b
 
 -- We want to read more data, but the buffer is empty. (buffL == buffR == 0)
 -- See also Note [INVARIANTS on Buffers] in Buffer.hs
@@ -1153,16 +1152,16 @@ bufReadNBNonEmpty h_@Handle__{..}
                 return (so_far + count)
            else do
 
-        copyFromRawBuffer ptr raw r avail
-        let buf' = buf{ bufR=0, bufL=0 }
-        writeIORef haByteBuffer buf'
-        let remaining = count - avail
-            so_far' = so_far + avail
-            ptr' = ptr `plusPtr` avail
+          copyFromRawBuffer ptr raw r avail
+          let buf' = buf{ bufR=0, bufL=0 }
+          writeIORef haByteBuffer buf'
+          let remaining = count - avail
+              so_far' = so_far + avail
+              ptr' = ptr `plusPtr` avail
 
-        if remaining == 0
-           then return so_far'
-           else bufReadNBEmpty h_ buf' ptr' so_far' remaining
+          if remaining == 0
+             then return so_far'
+             else bufReadNBEmpty h_ buf' ptr' so_far' remaining
 
 -- ---------------------------------------------------------------------------
 -- memcpy wrappers

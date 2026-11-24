@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, CApiFFI, NondecreasingIndentation, NumDecimals #-}
+{-# LANGUAGE CPP, CApiFFI, NumDecimals #-}
 
 #include "HsFFI.h"
 #include "HsBaseConfig.h"
@@ -26,16 +26,16 @@ getCPUTime = do
      -- NOTE: GetProcessTimes() is only supported on NT-based OSes.
      -- The counts reported by GetProcessTimes() are in 100-ns (10^-7) units.
     allocaBytes (#const sizeof(FILETIME)) $ \ p_creationTime -> do
-    allocaBytes (#const sizeof(FILETIME)) $ \ p_exitTime -> do
-    allocaBytes (#const sizeof(FILETIME)) $ \ p_kernelTime -> do
-    allocaBytes (#const sizeof(FILETIME)) $ \ p_userTime -> do
-    pid <- getCurrentProcess
-    ok <- getProcessTimes pid p_creationTime p_exitTime p_kernelTime p_userTime
-    if toBool ok then do
-      ut <- ft2psecs p_userTime
-      kt <- ft2psecs p_kernelTime
-      return (ut + kt)
-     else return 0
+      allocaBytes (#const sizeof(FILETIME)) $ \ p_exitTime -> do
+        allocaBytes (#const sizeof(FILETIME)) $ \ p_kernelTime -> do
+          allocaBytes (#const sizeof(FILETIME)) $ \ p_userTime -> do
+            pid <- getCurrentProcess
+            ok <- getProcessTimes pid p_creationTime p_exitTime p_kernelTime p_userTime
+            if toBool ok then do
+              ut <- ft2psecs p_userTime
+              kt <- ft2psecs p_kernelTime
+              return (ut + kt)
+             else return 0
   where
         ft2psecs :: Ptr FILETIME -> IO Integer
         ft2psecs ft = do

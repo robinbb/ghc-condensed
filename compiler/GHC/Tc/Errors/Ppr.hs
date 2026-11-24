@@ -3087,8 +3087,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnListComprehensionDuplicateBinding{}
       -> noHints
-    TcRnEmptyStmtsGroup EmptyStmtsGroupInDoNotation{}
-      -> [suggestExtension LangExt.NondecreasingIndentation]
     TcRnEmptyStmtsGroup{}
       -> noHints
     TcRnLastStmtNotExpr{}

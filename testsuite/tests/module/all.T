@@ -126,7 +126,6 @@ test('mod101', [extra_files(['Mod101_AuxA.hs', 'Mod101_AuxB.hs'])], multimod_com
 
 test('mod102', [extra_files(['Mod102_AuxA.hs', 'Mod102_AuxB.hs'])], multimod_compile_fail, ['mod102', '-v0'])
 
-test('mod103', normal, compile, [''])
 test('mod104', normal, compile, [''])
 test('mod105', normal, compile, [''])
 test('mod106', normal, compile, [''])
