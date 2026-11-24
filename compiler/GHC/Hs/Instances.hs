@@ -214,9 +214,9 @@ deriving instance Data (ConDecl GhcRn)
 deriving instance Data (ConDecl GhcTc)
 
 -- HsConDetails instances
-deriving instance (Data arg, Data rcd) => Data (HsConDetails GhcPs arg rcd)
-deriving instance (Data arg, Data rcd) => Data (HsConDetails GhcRn arg rcd)
-deriving instance (Data arg, Data rcd) => Data (HsConDetails GhcTc arg rcd)
+deriving instance (Data arg, Data rec) => Data (HsConDetails GhcPs arg rec)
+deriving instance (Data arg, Data rec) => Data (HsConDetails GhcRn arg rec)
+deriving instance (Data arg, Data rec) => Data (HsConDetails GhcTc arg rec)
 
 -- deriving instance DataIdLR p p => Data (HsConDeclGADTDetails p)
 deriving instance Data (HsConDeclGADTDetails GhcPs)

@@ -664,11 +664,6 @@ PprArrowLambdaCase:
 	$(CHECK_PPR)   $(LIBDIR) PprArrowLambdaCase.hs
 	$(CHECK_EXACT) $(LIBDIR) PprArrowLambdaCase.hs
 
-.PHONY: PprRecursiveDo
-PprRecursiveDo:
-	$(CHECK_PPR)   $(LIBDIR) PprRecursiveDo.hs
-	$(CHECK_EXACT) $(LIBDIR) PprRecursiveDo.hs
-
 .PHONY: PprTypeBrackets
 PprTypeBrackets:
 	$(CHECK_PPR)   $(LIBDIR) PprTypeBrackets.hs

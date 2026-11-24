@@ -52,7 +52,6 @@ import GHC.Core.TyCo.Rep
 import GHC.Core.Utils
 import GHC.Core.Make
 import GHC.Core.Make.Box ( mkBox, mkUnbox )
-import GHC.Core.Make.BigTuple ( mkBigCoreTupTy )
 import GHC.Core.PatSyn
 
 import GHC.Driver.Session
@@ -440,7 +439,6 @@ dsExpr (HsDo res_ty ListComp          (L _ stmts)) = dsListComp stmts res_ty
 dsExpr (HsDo _      MonadComp         (L _ stmts)) = dsMonadComp stmts
 dsExpr (HsDo res_ty ctx@DoExpr{}      (L _ stmts)) = dsDo ctx stmts res_ty
 dsExpr (HsDo res_ty ctx@GhciStmtCtxt  (L _ stmts)) = dsDo ctx stmts res_ty
-dsExpr (HsDo res_ty ctx@MDoExpr{}     (L _ stmts)) = dsDo ctx stmts res_ty
 
 dsExpr (HsIf _ guard_expr then_expr else_expr)
   = do { pred <- dsLExpr guard_expr
@@ -1129,7 +1127,7 @@ dsArithSeq expr (FromThenTo from thn to)
        return $ mkApps expr' [from', thn', to']
 
 {-
-Desugar 'do' and 'mdo' expressions (NOT list comprehensions, they're
+Desugar 'do' expressions (NOT list comprehensions, they're
 handled in GHC.HsToCore.ListComp).  Basically does the translation given in the
 Haskell 98 report:
 -}
@@ -1177,48 +1175,6 @@ dsDo ctx stmts res_ty
             ; match_code <- dsHandleMonadicFailure ctx pat res_ty match (xbstc_failOp xbs)
             ; dsSyntaxExpr (xbstc_bindOp xbs) [rhs', Lam var match_code] }
 
-    go loc (RecStmt { recS_stmts = L _ rec_stmts, recS_later_ids = later_ids
-                    , recS_rec_ids = rec_ids, recS_ret_fn = return_op
-                    , recS_mfix_fn = mfix_op, recS_bind_fn = bind_op
-                    , recS_ext = RecStmtTc
-                        { recS_bind_ty = bind_ty
-                        , recS_rec_rets = rec_rets
-                        , recS_ret_ty = body_ty} }) stmts
-      = goL (new_bind_stmt : stmts)  -- rec_ids can be empty; eg  rec { print 'x' }
-      where
-        new_bind_stmt = L loc $ BindStmt
-          XBindStmtTc
-            { xbstc_bindOp          = bind_op
-            , xbstc_boundResultType = bind_ty
-            , xbstc_boundResultMult = ManyTy
-            , xbstc_failOp          = Nothing -- Tuple cannot fail
-            }
-          -- The recursive tuple is boxed, so we unbox when binding it and box
-          -- when building it; see Note [Boxing big tuple elements] in
-          -- GHC.HsToCore.Utils.
-          (mkBigLHsVarPatTupId tup_ids)
-          mfix_app
-
-        tup_ids      = rec_ids ++ filterOut (`elem` rec_ids) later_ids
-        tup_ty       = mkBigCoreTupTy (map idType tup_ids) -- Deals with singleton case
-        rets         = zipWith mkHsBoxApp (map idType tup_ids) (map noLocA rec_rets)
-        mfix_app     = nlHsSyntaxApps mfix_op [mfix_arg]
-        match_group  = MatchGroupTc [unrestricted tup_ty] body_ty (Generated OtherExpansion SkipPmc)
-        mfix_arg     = noLocA $ HsLam noAnn LamSingle
-                           (MG { mg_alts = noLocA [mkSimpleMatch
-                                                    (LamAlt LamSingle)
-                                                    (noLocA [mfix_pat]) body]
-                               , mg_ext = match_group
-                               })
-        mfix_pat     = noLocA $ LazyPat noExtField $ mkBigLHsVarPatTupId tup_ids
-        body         = noLocA $ HsDo body_ty
-                                ctx (noLocA (rec_stmts ++ [ret_stmt]))
-        ret_app      = nlHsSyntaxApps return_op [mkBigLHsTupId rets]
-        ret_stmt     = noLocA $ mkLastStmt ret_app
-                     -- This LastStmt will be desugared with dsDo,
-                     -- which ignores the return_op in the LastStmt,
-                     -- so we must apply the return_op explicitly
-
     go _ (XStmtLR (ApplicativeStmt body_ty args mb_join)) stmts
       = do {
              let
@@ -1252,6 +1208,7 @@ dsDo ctx stmts res_ty
 
     go _ (ParStmt   {}) _ = panic "dsDo ParStmt"
     go _ (TransStmt {}) _ = panic "dsDo TransStmt"
+    go _ (RecStmt   {}) _ = panic "dsDo RecStmt"
 
 {- Note [Long-distance information in do notation]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -148,11 +148,10 @@ composeIdOcc         = mkVarOcc "."
 mapIdOcc             = mkVarOcc "map"
 foldrListIdOcc       = mkVarOcc "foldrList"
 
-guardMIdOcc, mfixIdOcc, joinMIdOcc, mzipIdOcc, apAClassOpOcc, failMClassOpOcc, fmapClassOpOcc,
+guardMIdOcc, joinMIdOcc, mzipIdOcc, apAClassOpOcc, failMClassOpOcc, fmapClassOpOcc,
   fromIntegerClassOpOcc,
   fromRationalClassOpOcc, mkRationalBase2IdOcc, mkRationalBase10IdOcc :: KnownOcc
 guardMIdOcc            = mkVarOcc "guard"
-mfixIdOcc              = mkVarOcc "mfix"
 joinMIdOcc             = mkVarOcc "join"
 mzipIdOcc              = mkVarOcc "mzip"
 apAClassOpOcc          = mkVarOcc "<*>"

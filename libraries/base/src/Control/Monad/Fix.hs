@@ -10,7 +10,7 @@
 -- Stability   :  stable
 -- Portability :  portable
 --
--- Monadic fixpoints, used for desugaring ``mdo`` and ``rec`` blocks.
+-- Monadic fixpoints.
 --
 -- Consider the generalized version of so-called @repmin@
 -- (/replace with minimum/) problem:
@@ -89,22 +89,20 @@
 -- 2
 -- [13,15,12]
 --
--- Incredibly, GHC is capable to do this transformation automatically,
--- with the recursive do-notation. Namely, the following
--- implementation of @repminM@ works (note @mdo@ instead of @do@):
+-- The same knot can be tied with 'mfix' directly: the following
+-- implementation of @repminM@ works, taking @b@ lazily from the result of
+-- the very computation that produces it:
 --
 -- @
 -- repminM
 --   :: (Traversable t, Monoid b, MonadFix m)
 --   => (a -> b) -> (a -> b -> m c) -> t a -> m (t c)
--- repminM f g as = mdo
---   (b, cs) \<- mapAccumM (\\acc a -> (f a <> acc,) \<$\> g a b) mempty as
---   pure cs
+-- repminM f g as = snd \<$\> mfix (\ ~(b, _) ->
+--   mapAccumM (\acc a -> (f a <> acc,) \<$\> g a b) mempty as)
 -- @
 --
 -- Further reading:
 --
--- * GHC User’s Guide, The recursive do-notation.
 -- * Haskell Wiki, <https://wiki.haskell.org/MonadFix MonadFix>.
 -- * Levent Erkök, <https://leventerkok.github.io/papers/erkok-thesis.pdf Value recursion in monadic computations>, Oregon Graduate Institute, 2002.
 -- * Levent Erkök, John Launchbury, <https://leventerkok.github.io/papers/recdo.pdf A recursive do for Haskell>, Haskell '02, 29-37, 2002.

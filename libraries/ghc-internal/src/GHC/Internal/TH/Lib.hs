@@ -210,9 +210,6 @@ noBindS e = do { e1 <- e; pure (NoBindS e1) }
 parS :: Quote m => [[m Stmt]] -> m Stmt
 parS sss = do { sss1 <- traverse sequenceA sss; pure (ParS sss1) }
 
-recS :: Quote m => [m Stmt] -> m Stmt
-recS ss = do { ss1 <- sequenceA ss; pure (RecS ss1) }
-
 -------------------------------------------------------------------------------
 -- *   Range
 
@@ -356,9 +353,6 @@ caseE e ms = do { e1 <- e; ms1 <- sequenceA ms; pure (CaseE e1 ms1) }
 
 doE :: Quote m => Maybe ModName -> [m Stmt] -> m Exp
 doE m ss = do { ss1 <- sequenceA ss; pure (DoE m ss1) }
-
-mdoE :: Quote m => Maybe ModName -> [m Stmt] -> m Exp
-mdoE m ss = do { ss1 <- sequenceA ss; pure (MDoE m ss1) }
 
 compE :: Quote m => [m Stmt] -> m Exp
 compE ss = do { ss1 <- sequenceA ss; pure (CompE ss1) }

@@ -407,7 +407,6 @@ Such implicit dependencies can be introduced in at least the following ways:
    * Uses of OverloadedRecordDot introduce references to GHC.Internal.Records.
    * Do-notation introduces references to GHC.Internal.Base for Monad stuff.
      * Likewise arrow-notation to GHC.Internal.Control.Arrow
-     * Likewise mdo and rec blocks to GHC.Internal.Control.Monad.Fix
    * TemplateHaskell quotes introduce references to GHC.Internal.TH.Lib.
 
   These are not problematic in practice, because we do not make use of

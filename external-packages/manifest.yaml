@@ -26,13 +26,13 @@ packages:
     tag: v2.3.2.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: the continuation kinds
-    of Data.Aeson.Types.Internal.Parser and the phantom tag of
-    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised,
-    the former made the newtype constructor existential and the latter left
-    the test suite's generated encoders ambiguous (patches/aeson.patch);
-    Data.Aeson.Decoding.Conversion calls a token variable r rather than rec,
-    a keyword with this compiler
+    deliberate exception to the no-modification rule: the continuation kinds of
+    Data.Aeson.Types.Internal.Parser and the phantom tag of
+    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised, the
+    former made the newtype constructor existential and the latter left the
+    test suite's generated encoders ambiguous; the two mdo parsers of the
+    MonadFix unit test tie their knots with mfix, since this compiler has no
+    recursive do-notation (patches/aeson.patch)
 - name: ansi-terminal
   version: 1.1.5
   tier: 1
@@ -401,11 +401,9 @@ packages:
     tag: 1.14.7
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: in the test suite,
-    kind annotations written with * are spelt Type, since this compiler no
-    longer reads * as a kind (patches/generic-deriving.patch); the Nested
-    record of ExampleSpec calls its field recd rather than rec, a keyword
-    with this compiler
+    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
+    no longer reads * as a kind
+    (patches/generic-deriving.patch)
 - name: generically
   version: 0.1.1
   tier: 1
@@ -529,10 +527,10 @@ packages:
     ExplicitForAll, IncoherentInstances, MultiParamTypeClasses,
     OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
-    RankNTypes, ParallelListComp, RecursiveDo, ScopedTypeVariables,
-    NPlusKPatterns, NondecreasingIndentation, DisambiguateRecordFields and
-    the deprecated aliases) to or from template-haskell, whose Extension
-    type lost those constructors
+    RankNTypes, ParallelListComp, ScopedTypeVariables, NPlusKPatterns,
+    NondecreasingIndentation, DisambiguateRecordFields and the deprecated
+    aliases) to or from template-haskell, whose Extension type lost those
+    constructors
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -832,7 +830,9 @@ packages:
     Type -> Type, since Control.Monad.Catch.Handler is now kind-polymorphic and no
     longer fixes it; the templates test suite gives T917GadtOne and T917GadtTwo
     standalone kind signatures, their complete user-supplied kinds no longer
-    being detected (patches/lens.patch)
+    being detected; Language.Haskell.TH.Lens drops the _MDoE and _RecS prisms,
+    since template-haskell lost those constructors with this compiler
+    (patches/lens.patch)
 - name: lifted-async
   version: 0.11.0
   tier: 1
@@ -1019,6 +1019,11 @@ packages:
     sdist: parallel-3.3.0.0
   note: no tag for 3.3.0.0 in https://github.com/haskell/parallel.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Control.Parallel.Strategies.parListChunk ties its knot with mfix rather
+    than mdo, since this compiler has no recursive do-notation
+    (patches/parallel.patch)
 - name: parser-combinators
   version: 1.3.1
   tier: 1
@@ -1183,8 +1188,9 @@ packages:
     deliberate exception to the no-modification rule: three do blocks that began
     at the indentation of their enclosing block are indented further, as the
     Haskell 2010 layout rule requires; the package enabled
-    NondecreasingIndentation, which this compiler no longer has
-    (patches/regex-tdfa.patch)
+    NondecreasingIndentation, which this compiler no longer has; the five mdo
+    blocks of Text.Regex.TDFA.CorePattern and .TNFA tie their knots with mfix,
+    since this compiler has no recursive do-notation (patches/regex-tdfa.patch)
 - name: safe
   version: 0.3.21
   tier: 1
@@ -1521,13 +1527,11 @@ packages:
     tag: 0.4.12.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule:
-    Language.Haskell.TH.ExpandSyns calls a fold accumulator acc rather than
-    rec, a keyword with this compiler (patches/th-expand-syns.patch); the
-    ForAll synonym of testing/Types.hs declares its variable at kind Type,
-    which PolyKinds, always on in this compiler, would otherwise generalise,
-    and testing/Main.hs splices StarT for the kind * in the quoted type it
-    compares against, since StarIsType is off, since StarIsType is off
+    deliberate exception to the no-modification rule: the ForAll synonym of
+    testing/Types.hs declares its variable at kind Type, which PolyKinds,
+    always on in this compiler, would otherwise generalise, and
+    testing/Main.hs splices StarT for the kind * in the quoted type it
+    compares against, since StarIsType is off (patches/th-expand-syns.patch)
 - name: th-lift
   version: 0.8.7
   tier: 1
@@ -2587,10 +2591,6 @@ packages:
     git: https://github.com/jberryman/directory-tree.git
     tag: 0.12.1
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule: System.Directory.Tree
-    calls a local function recurse rather than rec, a keyword with this
-    compiler (patches/directory-tree.patch)
 - name: djot
   version: 0.1.4.3
   tier: 2
@@ -2983,10 +2983,6 @@ packages:
     git: https://github.com/hedgehogqa/haskell-hedgehog.git
     tag: '1.7'
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Hedgehog.Internal.Gen.recursive calls its third argument recur rather
-    than rec, a keyword with this compiler (patches/hedgehog.patch)
 - name: heist
   version: 1.1.1.2
   tier: 2
@@ -3571,6 +3567,10 @@ packages:
     sdist: lucid-2.11.20260427
   note: no tag for 2.11.20260427 in https://github.com/chrisdone/lucid.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the MonadFix test ties
+    its knot with mfix rather than mdo, since this compiler has no recursive
+    do-notation (patches/lucid.patch)
 - name: managed
   version: 1.0.11
   tier: 2
@@ -3912,10 +3912,6 @@ packages:
     built against the corpus haddock-library 1.11.0; the tree ships 1.12.0 with
     a Text-based API
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Text.Pandoc.Readers.RIS calls a reference ref rather than rec, a keyword
-    with this compiler (patches/pandoc.patch)
   reason: >-
     2 of 4488 tests fail: citeproc punctuation placement (period inside versus
     outside quotes) differs with the newer citeproc that allow-newer admits
@@ -4037,17 +4033,13 @@ packages:
   note: no tag for 2.18.1.0 in https://github.com/yesodweb/persistent.git
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule:
-    Database.Persist.TH.Internal no longer lists MultiParamTypeClasses or
-    DataKinds among the extensions it requires, since template-haskell lost
-    those constructors with this compiler;
+    deliberate exception to the no-modification rule: Database.Persist.TH.Internal
+    no longer lists MultiParamTypeClasses or DataKinds among the extensions it
+    requires, since template-haskell lost those constructors with this compiler;
     Database.Persist.Class.PersistStore.PersistCore and
     Database.Persist.Compatible.Types.Compatible declare their backend
     parameter at kind Type, which Compatible's standalone-derived instances
-    require; variables and type variables called rec, a keyword with this
-    compiler, are called record in PersistEntity, Compatible.Types,
-    Sql.Orphan.PersistStore and Sql.Util (patches/persistent.patch); the two
-    test modules that named a type variable rec call it record too
+    require (patches/persistent.patch)
 - name: persistent-template
   version: 2.12.0.0
   tier: 2
@@ -5540,12 +5532,10 @@ packages:
   tests: false
   flags: "-memory"
   patched: >-
-    adds memory to the build-depends of the ram branch (Memory flag off):
-    Utility.IPAddress, Utility.AuthToken and Utility.Hash.Types import from
-    "memory" unconditionally while Utility.Hash.Crypton switches to "ram"
-    for crypton >= 1.1; magic is pinned at 1.1 to honour its magic <= 1.1
-    bound (patches/git-annex.patch); Logs.Migrate calls a local helper
-    mktree rather than rec, a keyword with this compiler
+    adds memory to the build-depends of the ram branch (Memory flag off): Utility.IPAddress,
+    Utility.AuthToken and Utility.Hash.Types import from "memory" unconditionally
+    while Utility.Hash.Crypton switches to "ram" for crypton >= 1.1; magic is
+    pinned at 1.1 to honour its magic <= 1.1 bound (patches/git-annex.patch)
 - name: git-lfs
   version: 1.2.5
   tier: 3
@@ -5671,10 +5661,6 @@ packages:
     sdist: persistent-sqlite-2.13.3.1
   note: vendored on request
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Database.Persist.Sqlite calls two record arguments record rather than
-    rec, a keyword with this compiler (patches/persistent-sqlite.patch)
 - name: purescript
   version: 0.15.16
   tier: 3
@@ -5699,11 +5685,7 @@ packages:
     deliberate exception to the no-modification rule, for two private copies
     whose versions differ from the corpus: aeson-2.2.5.1 takes the kinds of
     aeson.patch and cryptonite-0.30 the IV kind of crypton.patch
-    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch);
-    purescript.patch renames two variables called rec, a keyword with this
-    compiler, in Language.PureScript.Sugar.Names.Imports and
-    TypeChecker.Deriving, and purescript-aeson.patch carries aeson.patch's
-    rename too
+    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch)
 - name: SafeSemaphore
   version: 0.10.1
   tier: 3

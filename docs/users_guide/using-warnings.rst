@@ -1875,7 +1875,7 @@ of ``-W(no-)*``.
        single: unused do binding, warning
        single: do binding, unused
 
-    Report expressions occurring in ``do`` and ``mdo`` blocks that
+    Report expressions occurring in ``do`` blocks that
     appear to silently throw information away. For instance
     ``do { mapM popInt xs ; return 10 }`` would report the first
     statement in the ``do`` block as suspicious, as it has the type
@@ -2061,7 +2061,7 @@ of ``-W(no-)*``.
        single: apparently erroneous do binding, warning
        single: do binding, apparently erroneous
 
-    Report expressions occurring in ``do`` and ``mdo`` blocks that
+    Report expressions occurring in ``do`` blocks that
     appear to lack a binding. For instance
     ``do { return (popInt 10) ; return 10 }`` would report the first
     statement in the ``do`` block as suspicious, as it has the type

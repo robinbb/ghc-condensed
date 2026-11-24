@@ -220,7 +220,6 @@ $docsym    = [\| \^ \* \$]
 -- QualifiedDo needs to parse "M.do" not as a variable, so as to keep the
 -- layout rules.
 @qdo    = @qual "do"
-@qmdo   = @qual "mdo"
 
 @floating_point = @numspc @decimal \. @decimal @exponent? | @numspc @decimal @exponent
 @hex_floating_point = @numspc @hexadecimal \. @hexadecimal @bin_exponent? | @numspc @hexadecimal @bin_exponent
@@ -509,7 +508,6 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 
 <0,option_prags> {
   @qdo                                      { qdo_token ITdo }
-  @qmdo                         { qdo_token ITmdo }
   @qvarid                       { idtoken qvarid }
   @qconid                       { idtoken qconid }
   @varid                        { varid }
@@ -819,7 +817,6 @@ data Token
   | ITcapiconv
   | ITprimcallconv
   | ITjavascriptcallconv
-  | ITmdo (Maybe HText)
   | ITfamily
   | ITrole
   | ITgroup
@@ -1068,7 +1065,6 @@ reservedWordsFM = listToUFM $
          ( "where",          ITwhere,         0 ),
 
          ( "forall",         ITforall NormalSyntax, 0),
-         ( "mdo",            ITmdo Nothing,   0 ),
              -- See Note [Lexing type pseudo-keywords]
          ( "family",         ITfamily,        0 ),
          ( "role",           ITrole,          0 ),
@@ -1099,7 +1095,7 @@ reservedWordsFM = listToUFM $
          ( "dependency",     ITdependency,       0 ),
          ( "signature",      ITsignature,     0 ),
 
-         ( "rec",            ITrec,           0 ),
+         ( "rec",            ITrec,           xbit ArrowsBit),
          ( "proc",           ITproc,          xbit ArrowsBit),
          ( "splice",         ITsplice,        xbit LevelImportsBit),
          ( "quote",          ITquote,         xbit LevelImportsBit)
@@ -2021,7 +2017,6 @@ do_bol span _str _len _buf2 = do
 maybe_layout :: Token -> P ()
 maybe_layout t = f t
     where f (ITdo _)    = pushLexState layout
-          f (ITmdo _)   = pushLexState layout
           f ITof        = pushLexState layout
           f ITlcase     = pushLexState layout
           f ITlcases    = pushLexState layout
@@ -2675,7 +2670,7 @@ data ExtBits
   | PatternSynonymsBit -- pattern synonyms
   | HaddockBit-- Lex and parse Haddock comments
   | MagicHashBit -- "#" in both functions and operators
-  | QualifiedDoBit -- .do and .mdo
+  | QualifiedDoBit -- .do
   | UnicodeSyntaxBit -- the forall symbol, arrow symbols, etc
   | UnboxedParensBit -- (# and #)
   | MonadComprehensionsBit

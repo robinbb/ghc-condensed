@@ -2,8 +2,6 @@
 
 module T3263 where
 
-import Control.Monad.Fix
-
 -- No warning
 t1 :: Monad m => m Int
 t1 = do
@@ -29,12 +27,6 @@ t4 = do
 t5 :: forall m. Monad m => m Int
 t5 = do
   _ <- return (return 10 :: m Int)
-  return 10
-
--- Warning
-t6 :: forall m. MonadFix m => m Int
-t6 = mdo
-  return (return 10 :: m Int)
   return 10
 
 unit :: ()

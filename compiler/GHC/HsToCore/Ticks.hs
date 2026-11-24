@@ -853,13 +853,8 @@ addTickStmt isGuard stmt@(TransStmt { trS_stmts = stmts
     return $ stmt { trS_stmts = t_s, trS_by = t_y, trS_using = t_u
                   , trS_ret = t_f, trS_bind = t_b, trS_fmap = t_m }
 
-addTickStmt isGuard stmt@(RecStmt {})
-  = do { stmts' <- addTickLStmts isGuard (unLoc $ recS_stmts stmt)
-       ; ret'   <- addTickSyntaxExpr hpcSrcSpan (recS_ret_fn stmt)
-       ; mfix'  <- addTickSyntaxExpr hpcSrcSpan (recS_mfix_fn stmt)
-       ; bind'  <- addTickSyntaxExpr hpcSrcSpan (recS_bind_fn stmt)
-       ; return (stmt { recS_stmts = noLocA stmts', recS_ret_fn = ret'
-                      , recS_mfix_fn = mfix', recS_bind_fn = bind' }) }
+addTickStmt _isGuard stmt@(RecStmt {})
+  = pprPanic "addTickStmt: rec statement in a do block" (ppr stmt)
 
 addTickStmt isGuard (XStmtLR (ApplicativeStmt body_ty args mb_join)) = do
     args' <- mapM (addTickApplicativeArg isGuard) args
@@ -910,9 +905,9 @@ addTickHsLocalBinds (EmptyLocalBinds x)  = return (EmptyLocalBinds x)
 addTickHsValBinds :: HsValBindsLR GhcTc (GhcPass a)
                   -> TM (HsValBindsLR GhcTc (GhcPass b))
 addTickHsValBinds (XValBindsLR (HsVBG grps sigs)) = do
-        grps' <- mapM (\ (rec_flag,binds) ->
+        grps' <- mapM (\ (rec,binds) ->
                        do { binds' <- addTickLHsBinds binds
-                          ; return (rec_flag,binds') })
+                          ; return (rec,binds') })
                       grps
         return $ XValBindsLR (HsVBG grps' sigs)
 addTickHsValBinds _ = panic "addTickHsValBinds"
@@ -1066,11 +1061,7 @@ addTickCmdStmt (LetStmt x binds) =
                 (addTickHsLocalBinds binds)
 addTickCmdStmt stmt@(RecStmt {})
   = do { stmts' <- addTickLCmdStmts (unLoc $ recS_stmts stmt)
-       ; ret'   <- addTickSyntaxExpr hpcSrcSpan (recS_ret_fn stmt)
-       ; mfix'  <- addTickSyntaxExpr hpcSrcSpan (recS_mfix_fn stmt)
-       ; bind'  <- addTickSyntaxExpr hpcSrcSpan (recS_bind_fn stmt)
-       ; return (stmt { recS_stmts = noLocA stmts', recS_ret_fn = ret'
-                      , recS_mfix_fn = mfix', recS_bind_fn = bind' }) }
+       ; return (stmt { recS_stmts = noLocA stmts' }) }
 addTickCmdStmt (XStmtLR (ApplicativeStmt{})) =
   panic "ToDo: addTickCmdStmt ApplicativeLastStmt"
 

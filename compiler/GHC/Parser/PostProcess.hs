@@ -1166,7 +1166,6 @@ checkCmdBlockArguments :: LHsCmd GhcPs -> PV ()
     checkExpr :: LHsExpr GhcPs -> PV ()
     checkExpr expr = case unLoc expr of
       HsDo _ (DoExpr m) _      -> check (PsErrDoInFunAppExpr m)               expr
-      HsDo _ (MDoExpr m) _     -> check (PsErrMDoInFunAppExpr m)              expr
       HsCase {}                -> check PsErrCaseInFunAppExpr                 expr
       HsLam _ lam_variant _    -> check (PsErrLambdaInFunAppExpr lam_variant) expr
       HsLet {}                 -> check PsErrLetInFunAppExpr                  expr

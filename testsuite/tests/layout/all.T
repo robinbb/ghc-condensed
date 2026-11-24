@@ -12,6 +12,5 @@ test('layout006', [], compile, [''])
 
 test('layout007', [req_th], compile, [''])
 
-test('layout008', [], compile, [''])
 
 test('layout009', [], compile, [''])

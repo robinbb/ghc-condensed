@@ -89,7 +89,7 @@ import qualified GHC.LanguageExtensions as LangExt
 
 import Data.ByteString ( unpack )
 import Control.Monad
-import Data.List (sort, sortBy)
+import Data.List (sortBy)
 import Data.List.NonEmpty ( NonEmpty(..), toList )
 import Data.Function
 import Control.Monad.Trans.Reader
@@ -1655,11 +1655,6 @@ repE e@(HsDo _ ctxt (L _ sts))
         e'      <- repComp (nonEmptyCoreList zs);
         wrapGenSyms ss e' }
 
- | MDoExpr maybeModuleName <- ctxt
- = do { (ss,zs) <- repLSts sts;
-        e'      <- repMDoE maybeModuleName (nonEmptyCoreList zs);
-        wrapGenSyms ss e' }
-
   | otherwise
   = notHandled (ThMonadComprehensionSyntax e)
 
@@ -1953,16 +1948,6 @@ repSts [LastStmt _ e _ _]
   = do { e2 <- repLE e
        ; z <- repNoBindSt e2
        ; return ([], [z]) }
-repSts (stmt@RecStmt{} : ss)
-  = do { let binders = collectLStmtsBinders CollNoDictBinders (unLoc $ recS_stmts stmt)
-       ; ss1 <- mkGenSyms binders
-       -- Bring all of binders in the recursive group into scope for the
-       -- whole group.
-       ; (ss1_other,rss) <- addBinds ss1 $ repSts (map unLoc (unLoc $ recS_stmts stmt))
-       ; massert (sort ss1 == sort ss1_other)
-       ; z <- repRecSt (nonEmptyCoreList rss)
-       ; (ss2,zs) <- addBinds ss1 (repSts ss)
-       ; return (ss1++ss2, z : zs) }
 repSts []    = return ([],[])
 repSts other = notHandled (ThExoticStatement other)
 
@@ -2218,7 +2203,7 @@ repP (ConPat NoExtField dc details)
          PrefixCon _ ps -> do { ts' <- repListM typeTyConOcc (repTy . unLoc . hstp_body) (takeHsConPatTyArgs ps)
                               ; ps' <- repLPs (dropHsConPatTyArgs ps)
                               ; repPcon con_str ts' ps' }
-         RecCon _ rcon   -> do { fps <- repListM fieldPatTyConOcc rep_fld (rec_flds rcon)
+         RecCon _ rec   -> do { fps <- repListM fieldPatTyConOcc rep_fld (rec_flds rec)
                               ; repPrec con_str fps }
          InfixCon _ p1 p2 -> do { p1' <- repLP p1;
                                   p2' <- repLP p2;
@@ -2608,9 +2593,6 @@ repCaseE (MkC e) (MkC ms) = krep2 caseEOcc [e, ms]
 repDoE :: Maybe HsModuleName -> Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
 repDoE = repDoBlock doEOcc
 
-repMDoE :: Maybe HsModuleName -> Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
-repMDoE = repDoBlock mdoEOcc
-
 repDoBlock :: KnownOcc -> Maybe HsModuleName -> Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
 repDoBlock doName maybeModName (MkC ss) = do
     MkC coreModName <- coreModNameM
@@ -2685,9 +2667,6 @@ repNoBindSt (MkC e) = krep2 noBindSOcc [e]
 
 repParSt :: Core [[(M TH.Stmt)]] -> MetaM (Core (M TH.Stmt))
 repParSt (MkC sss) = krep2 parSOcc [sss]
-
-repRecSt :: Core [(M TH.Stmt)] -> MetaM (Core (M TH.Stmt))
-repRecSt (MkC ss) = krep2 recSOcc [ss]
 
 -------------- Range (Arithmetic sequences) -----------
 repFrom :: Core (M TH.Exp) -> MetaM (Core (M TH.Exp))

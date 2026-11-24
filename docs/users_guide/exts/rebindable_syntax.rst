@@ -59,8 +59,7 @@ not the Prelude versions:
 
 -  "Do" notation is translated using whatever functions ``(>>=)``,
    ``(>>)``, and ``fail``, are in scope (not the Prelude versions). List
-   comprehensions, ``mdo`` (:ref:`recursive-do-notation`), and parallel
-   array comprehensions, are unaffected.
+   comprehensions and parallel array comprehensions are unaffected.
 
 -  Arrow notation (see :ref:`arrow-notation`) uses whatever ``arr``,
    ``(>>>)``, ``first``, ``app``, ``(|||)`` and ``loop`` functions are

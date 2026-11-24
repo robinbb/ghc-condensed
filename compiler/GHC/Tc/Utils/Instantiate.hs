@@ -533,18 +533,20 @@ tcSkolDFunType :: Type -> TcM (SkolemInfoAnon, [TcTyVar], TcThetaType, Class, [T
 tcSkolDFunType dfun_ty
   = do { let (tvs, theta, cls, tys) = tcSplitDFunTy dfun_ty
 
-         -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-         --           in GHC.Tc.Utils.TcType
-       ; rec { skol_info <- mkSkolemInfo skol_info_anon
-             ; (subst, inst_tvs) <- tcInstSuperSkolTyVars skol_info tvs
-                     -- We instantiate the dfun_tyd with superSkolems.
-                     -- See Note [Subtle interaction of recursion and overlap]
-                     -- and Note [Super skolems: binding when looking up instances]
-             ; let inst_tys       = substTys subst tys
-                   skol_info_anon = InstSkol IsClsInst (pSizeClassPred cls inst_tys)
-                     -- We need to take the size of `inst_tys` (not `tys`) because
-                     -- Paterson sizes mention the free type variables
-             }
+         -- fixM: see Note [Keeping SkolemInfo inside a SkolemTv]
+         --       in GHC.Tc.Utils.TcType
+       ; (subst, inst_tvs, inst_tys, skol_info_anon)
+           <- fixM $ \ ~(_, _, _, skol_info_anon) ->
+              do { skol_info <- mkSkolemInfo skol_info_anon
+                 ; (subst, inst_tvs) <- tcInstSuperSkolTyVars skol_info tvs
+                         -- We instantiate the dfun_tyd with superSkolems.
+                         -- See Note [Subtle interaction of recursion and overlap]
+                         -- and Note [Super skolems: binding when looking up instances]
+                 ; let inst_tys       = substTys subst tys
+                       skol_info_anon = InstSkol IsClsInst (pSizeClassPred cls inst_tys)
+                         -- We need to take the size of `inst_tys` (not `tys`) because
+                         -- Paterson sizes mention the free type variables
+                 ; return (subst, inst_tvs, inst_tys, skol_info_anon) }
 
        ; let inst_theta = substTheta subst theta
        ; return (skol_info_anon, inst_tvs, inst_theta, cls, inst_tys) }

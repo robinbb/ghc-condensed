@@ -1,5 +1,6 @@
+{-# LANGUAGE MultiWayIf #-}
 
 main = pure ()
 
 foo :: forall a. a -> a
-foo x = mdo x
+foo x = if | otherwise -> x

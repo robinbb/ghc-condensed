@@ -15,7 +15,7 @@
 module Strip
   # The extensions this compiler has removed. Their behaviour is fixed
   # (always on, or always off for CUSKs, StarIsType, DeepSubsumption,
-  # NPlusKPatterns and NondecreasingIndentation),
+  # NPlusKPatterns, NondecreasingIndentation and RecursiveDo),
   # so dropping the name changes nothing the compiler could still do for
   # the package.
   REMOVED = %w[

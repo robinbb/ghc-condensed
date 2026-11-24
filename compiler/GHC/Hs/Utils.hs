@@ -78,7 +78,7 @@ module GHC.Hs.Utils(
   mkLastStmt,
   emptyTransStmt, mkGroupUsingStmt, mkGroupByUsingStmt,
   emptyRecStmt, emptyRecStmtName, emptyRecStmtId, mkRecStmt,
-  unitRecStmtTc,
+  emptyRecStmtTc,
   mkLetStmt,
 
   -- * Collecting binders
@@ -450,20 +450,15 @@ emptyRecStmt' tyVal =
      { recS_stmts = wrapXRec @(GhcPass idR) []
      , recS_later_ids = []
      , recS_rec_ids = []
-     , recS_ret_fn = noSyntaxExpr
-     , recS_mfix_fn = noSyntaxExpr
-     , recS_bind_fn = noSyntaxExpr
      , recS_ext = tyVal }
 
-unitRecStmtTc :: RecStmtTc
-unitRecStmtTc = RecStmtTc { recS_bind_ty = unitTy
-                          , recS_later_rets = []
-                          , recS_rec_rets = []
-                          , recS_ret_ty = unitTy }
+emptyRecStmtTc :: RecStmtTc
+emptyRecStmtTc = RecStmtTc { recS_later_rets = []
+                           , recS_rec_rets = [] }
 
 emptyRecStmt     = emptyRecStmt' noAnn
 emptyRecStmtName = emptyRecStmt' noExtField
-emptyRecStmtId   = emptyRecStmt' unitRecStmtTc
+emptyRecStmtId   = emptyRecStmt' emptyRecStmtTc
                                         -- a panic might trigger during zonking
 
 mkLetStmt :: EpToken "let" -> HsLocalBinds GhcPs -> StmtLR GhcPs GhcPs (LocatedA b)

@@ -109,7 +109,6 @@ module Language.Haskell.TH where
     | LetE [Dec] Exp
     | CaseE Exp [Match]
     | DoE (GHC.Internal.Maybe.Maybe GHC.Internal.TH.Syntax.ModName) [Stmt]
-    | MDoE (GHC.Internal.Maybe.Maybe GHC.Internal.TH.Syntax.ModName) [Stmt]
     | CompE [Stmt]
     | ArithSeqE Range
     | ListE [Exp]
@@ -359,7 +358,7 @@ module Language.Haskell.TH where
   type Specificity :: GHC.Internal.Types.Type
   data Specificity = SpecifiedSpec | InferredSpec
   type Stmt :: GHC.Internal.Types.Type
-  data Stmt = BindS Pat Exp | LetS [Dec] | NoBindS Exp | ParS [[Stmt]] | RecS [Stmt]
+  data Stmt = BindS Pat Exp | LetS [Dec] | NoBindS Exp | ParS [[Stmt]]
   type StmtQ :: GHC.Internal.Types.Type
   type StmtQ = Q Stmt
   type Strict :: GHC.Internal.Types.Type
@@ -537,7 +536,6 @@ module Language.Haskell.TH where
   lookupValueName :: GHC.Internal.Base.String -> Q (GHC.Internal.Maybe.Maybe Name)
   match :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => m Pat -> m Body -> [m Dec] -> m Match
   maxPrecedence :: GHC.Internal.Types.Int
-  mdoE :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => [m Stmt] -> m Exp
   mkBytes :: GHC.Internal.ForeignPtr.ForeignPtr GHC.Internal.Word.Word8 -> GHC.Internal.Types.Word -> GHC.Internal.Types.Word -> GHC.Internal.TH.Syntax.Bytes
   mkName :: GHC.Internal.Base.String -> Name
   moduleAnnotation :: AnnTarget
@@ -608,7 +606,6 @@ module Language.Haskell.TH where
   recConE :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => Name -> [m (Name, Exp)] -> m Exp
   recGadtC :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => [Name] -> [m GHC.Internal.TH.Syntax.VarStrictType] -> m Type -> m Con
   recP :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => Name -> [m FieldPat] -> m Pat
-  recS :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => [m Stmt] -> m Stmt
   recUpdE :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => m Exp -> [m (Name, Exp)] -> m Exp
   recordPatSyn :: forall (m :: GHC.Internal.Types.Type -> GHC.Internal.Types.Type). Quote m => [Name] -> m PatSynArgs
   recover :: forall a. Q a -> Q a -> Q a
@@ -1032,7 +1029,6 @@ module Language.Haskell.TH.Lib where
   litP :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => GHC.Internal.TH.Syntax.Lit -> m GHC.Internal.TH.Syntax.Pat
   litT :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => m GHC.Internal.TH.Syntax.TyLit -> m GHC.Internal.TH.Syntax.Type
   match :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => m GHC.Internal.TH.Syntax.Pat -> m GHC.Internal.TH.Syntax.Body -> [m GHC.Internal.TH.Syntax.Dec] -> m GHC.Internal.TH.Syntax.Match
-  mdoE :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => [m GHC.Internal.TH.Syntax.Stmt] -> m GHC.Internal.TH.Syntax.Exp
   mkBytes :: GHC.Internal.ForeignPtr.ForeignPtr GHC.Internal.Word.Word8 -> GHC.Internal.Types.Word -> GHC.Internal.Types.Word -> GHC.Internal.TH.Syntax.Bytes
   moduleAnnotation :: GHC.Internal.TH.Syntax.AnnTarget
   mulArrowT :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => m GHC.Internal.TH.Syntax.Type
@@ -1091,7 +1087,6 @@ module Language.Haskell.TH.Lib where
   recConE :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => GHC.Internal.TH.Syntax.Name -> [m (GHC.Internal.TH.Syntax.Name, GHC.Internal.TH.Syntax.Exp)] -> m GHC.Internal.TH.Syntax.Exp
   recGadtC :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => [GHC.Internal.TH.Syntax.Name] -> [m GHC.Internal.TH.Syntax.VarStrictType] -> m GHC.Internal.TH.Syntax.Type -> m GHC.Internal.TH.Syntax.Con
   recP :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => GHC.Internal.TH.Syntax.Name -> [m GHC.Internal.TH.Syntax.FieldPat] -> m GHC.Internal.TH.Syntax.Pat
-  recS :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => [m GHC.Internal.TH.Syntax.Stmt] -> m GHC.Internal.TH.Syntax.Stmt
   recUpdE :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => m GHC.Internal.TH.Syntax.Exp -> [m (GHC.Internal.TH.Syntax.Name, GHC.Internal.TH.Syntax.Exp)] -> m GHC.Internal.TH.Syntax.Exp
   recordPatSyn :: forall (m :: Type -> Type). GHC.Internal.TH.Monad.Quote m => [GHC.Internal.TH.Syntax.Name] -> m GHC.Internal.TH.Syntax.PatSynArgs
   representationalR :: GHC.Internal.TH.Syntax.Role
@@ -1412,7 +1407,6 @@ module Language.Haskell.TH.Syntax where
     | LetE [Dec] Exp
     | CaseE Exp [Match]
     | DoE (GHC.Internal.Maybe.Maybe ModName) [Stmt]
-    | MDoE (GHC.Internal.Maybe.Maybe ModName) [Stmt]
     | CompE [Stmt]
     | ArithSeqE Range
     | ListE [Exp]
@@ -1677,7 +1671,7 @@ module Language.Haskell.TH.Syntax where
   type Specificity :: GHC.Internal.Types.Type
   data Specificity = SpecifiedSpec | InferredSpec
   type Stmt :: GHC.Internal.Types.Type
-  data Stmt = BindS Pat Exp | LetS [Dec] | NoBindS Exp | ParS [[Stmt]] | RecS [Stmt]
+  data Stmt = BindS Pat Exp | LetS [Dec] | NoBindS Exp | ParS [[Stmt]]
   type Strict :: GHC.Internal.Types.Type
   type Strict = Bang
   type StrictType :: GHC.Internal.Types.Type

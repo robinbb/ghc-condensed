@@ -44,7 +44,6 @@ import GHC.Tc.Errors.Types
 import GHC.Tc.Utils.Monad
 import GHC.Tc.Utils.Env
 import GHC.Tc.Gen.Pat
-import GHC.Tc.Gen.Head( tcCheckId )
 import GHC.Tc.Utils.TcMType
 import GHC.Tc.Utils.TcType
 import GHC.Tc.Gen.Bind
@@ -398,7 +397,7 @@ tcDoStmts doExpr@(DoExpr _) (L l stmts) res_ty
        ; res_ty <- readExpType res_ty
        ; return (HsDo res_ty doExpr (L l stmts')) }
 
--- NB: ghcistmts should fail, MDoExpr is handled by expansions
+-- NB: ghcistmts should fail
 tcDoStmts ctxt _ _ = pprPanic "tcDoStmts" (pprHsDoFlavour ctxt)
 
 tcBody :: LHsExpr GhcRn -> ExpRhoType -> TcM (LHsExpr GhcTc)
@@ -1029,58 +1028,6 @@ tcDoStmt _ (BodyStmt _ rhs then_op _) res_ty thing_inside
         ; hasFixedRuntimeRep_syntactic (FRRBodyStmt DoNotation 1) rhs_ty
         ; hasFixedRuntimeRep_syntactic (FRRBodyStmt DoNotation 2) new_res_ty
         ; return (BodyStmt rhs_ty rhs' then_op' noSyntaxExpr, thing) }
-tcDoStmt ctxt (RecStmt { recS_stmts = L l stmts, recS_later_ids = later_names
-                       , recS_rec_ids = rec_names, recS_ret_fn = ret_op
-                       , recS_mfix_fn = mfix_op, recS_bind_fn = bind_op })
-         res_ty thing_inside
-  = do  { let tup_names = rec_names ++ filterOut (`elem` rec_names) later_names
-        ; tup_elt_tys <- mapM (newOpenFlexiFRRTyVarTy . FRRBinder) tup_names
-        ; let tup_ids = zipWith (\n t -> mkLocalId n ManyTy t) tup_names tup_elt_tys
-                -- Many because it's a recursive definition
-              tup_ty  = mkBigCoreTupTy tup_elt_tys
-
-        ; tcExtendIdEnv tup_ids $ do
-        { ((stmts', (ret_op', tup_rets)), stmts_ty)
-                <- runInferRho $ \ exp_ty ->
-                   tcStmtsAndThen ctxt tcDoStmt stmts exp_ty $ \ inner_res_ty ->
-                   do { tup_rets <- zipWithM tcCheckId tup_names
-                                      (map mkCheckExpType tup_elt_tys)
-                             -- Unify the types of the "final" Ids (which may
-                             -- be polymorphic) with those of "knot-tied" Ids
-                      ; (_, ret_op')
-                          <- tcSyntaxOp DoStmtOrigin ret_op [synKnownType tup_ty]
-                                        inner_res_ty $ \_ _ -> return ()
-                      ; return (ret_op', tup_rets) }
-
-        ; ((_, mfix_op'), mfix_res_ty)
-            <- runInferRho $ \ exp_ty ->
-               tcSyntaxOp DoStmtOrigin mfix_op
-                          [synKnownType (mkVisFunTyMany tup_ty stmts_ty)] exp_ty $
-               \ _ _ -> return ()
-
-        ; ((thing, new_res_ty), bind_op')
-            <- tcSyntaxOp DoStmtOrigin bind_op
-                          [ synKnownType mfix_res_ty
-                          , SynFun (synKnownType tup_ty) SynRho ]
-                          res_ty $
-               \ [new_res_ty] _ ->
-               do { thing <- thing_inside (mkCheckExpType new_res_ty)
-                  ; return (thing, new_res_ty) }
-
-        ; let rec_ids = takeList rec_names tup_ids
-        ; later_ids <- tcLookupLocalIds later_names
-        ; traceTc "tcdo" $ vcat [ppr rec_ids <+> ppr (map idType rec_ids),
-                                 ppr later_ids <+> ppr (map idType later_ids)]
-        ; return (RecStmt { recS_stmts = L l stmts', recS_later_ids = later_ids
-                          , recS_rec_ids = rec_ids, recS_ret_fn = ret_op'
-                          , recS_mfix_fn = mfix_op', recS_bind_fn = bind_op'
-                          , recS_ext = RecStmtTc
-                            { recS_bind_ty = new_res_ty
-                            , recS_later_rets = []
-                            , recS_rec_rets = tup_rets
-                            , recS_ret_ty = stmts_ty} }, thing)
-        }}
-
 tcDoStmt ctxt (XStmtLR (ApplicativeStmt _ pairs mb_join)) res_ty thing_inside
   = do  { let tc_app_stmts ty = tcApplicativeStmts ctxt pairs ty $
                                 thing_inside . mkCheckExpType

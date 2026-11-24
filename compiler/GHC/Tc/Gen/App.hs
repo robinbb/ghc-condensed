@@ -1004,13 +1004,13 @@ newOpenFlexiTyVarTyQL do_ql rr_info
 
 newArgTyVarTyQL :: QLFlag -> FixedRuntimeRepContext -> TcM TcType
 newArgTyVarTyQL do_ql frr_ctxt
-  = mdo { let conc_orig = ConcreteFRR $
-                          FixedRuntimeRepOrigin
-                            { frr_context = frr_ctxt
-                            , frr_type    = arg_nu }
-        ; rr_info <- mkConcreteInfo conc_orig
-        ; arg_nu  <- newOpenFlexiTyVarTyQL do_ql rr_info
-        ; return arg_nu }
+  = fixM $ \ arg_nu ->   -- The origin mentions the type variable it is for
+    do { let conc_orig = ConcreteFRR $
+                         FixedRuntimeRepOrigin
+                           { frr_context = frr_ctxt
+                           , frr_type    = arg_nu }
+       ; rr_info <- mkConcreteInfo conc_orig
+       ; newOpenFlexiTyVarTyQL do_ql rr_info }
 
 instantiateSigmaQL :: QLFlag
                    -> CtOrigin
@@ -1023,7 +1023,8 @@ instantiateSigmaQL :: QLFlag
 --     constraints theta, and returns the (instantiated) type ty
 -- See Note [Instantiating type variables in QuickLook]
 instantiateSigmaQL do_ql orig concs tvs theta body_ty
-  = do { rec (subst, inst_tvs) <- mapAccumLM (new_meta subst) empty_subst tvs
+  = do { (subst, inst_tvs) <- fixM $ \ ~(subst, _) ->   -- new_meta wants the final subst
+                              mapAccumLM (new_meta subst) empty_subst tvs
        ; let inst_theta  = substTheta subst theta
              inst_body   = substTy subst body_ty
 

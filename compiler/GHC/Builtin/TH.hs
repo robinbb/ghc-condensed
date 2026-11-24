@@ -105,7 +105,7 @@ clauseOcc   = mkVarOcc "clause"
 -- data Exp = ...
 varEOcc, conEOcc, litEOcc, appEOcc, appTypeEOcc, infixAppOcc, sectionLOcc,
   sectionROcc, lamEOcc, lamCaseEOcc, lamCasesEOcc, tupEOcc, unboxedTupEOcc,
-  unboxedSumEOcc, condEOcc, multiIfEOcc, letEOcc, caseEOcc, doEOcc, mdoEOcc,
+  unboxedSumEOcc, condEOcc, multiIfEOcc, letEOcc, caseEOcc, doEOcc,
   compEOcc, staticEOcc, unboundVarEOcc, labelEOcc, implicitParamVarEOcc,
   getFieldEOcc, projectionEOcc, typeEOcc, forallEOcc, forallVisEOcc,
   constrainedEOcc :: KnownOcc
@@ -128,7 +128,6 @@ multiIfEOcc          = mkVarOcc "multiIfE"
 letEOcc              = mkVarOcc "letE"
 caseEOcc             = mkVarOcc "caseE"
 doEOcc               = mkVarOcc "doE"
-mdoEOcc              = mkVarOcc "mdoE"
 compEOcc             = mkVarOcc "compE"
 -- ArithSeq skips a level
 fromEOcc, fromThenEOcc, fromToEOcc, fromThenToEOcc :: KnownOcc
@@ -168,12 +167,11 @@ normalGEOcc = mkVarOcc "normalGE"
 patGEOcc    = mkVarOcc "patGE"
 
 -- data Stmt = ...
-bindSOcc, letSOcc, noBindSOcc, parSOcc, recSOcc :: KnownOcc
+bindSOcc, letSOcc, noBindSOcc, parSOcc :: KnownOcc
 bindSOcc   = mkVarOcc "bindS"
 letSOcc    = mkVarOcc "letS"
 noBindSOcc = mkVarOcc "noBindS"
 parSOcc    = mkVarOcc "parS"
-recSOcc    = mkVarOcc "recS"
 
 -- data Dec = ...
 funDOcc, valDOcc, dataDOcc, newtypeDOcc, typeDataDOcc, tySynDOcc, classDOcc,

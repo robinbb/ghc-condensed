@@ -769,9 +769,6 @@ tuple" (see Note [Big tuples] in GHC.Core.Make.BigTuple). Specifically, this hap
     which pass the bound variables through the @using@ function and 'unzip' the
     grouped result;
 
-  - recursive @do@ blocks (@mdo@/@rec@), in 'GHC.HsToCore.Expr.dsDo', which tie
-    the knot through 'mfix' over a tuple of the recursive binders;
-
   - arrows, in "GHC.HsToCore.Arrows", which thread the command environment
     through arrow combinators by using a big tuple.
 

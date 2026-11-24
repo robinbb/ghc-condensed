@@ -18,12 +18,13 @@ data Pull = Pull
 
 makePull :: (Weak Pull -> IO Int) -> IO Pull
 makePull f = do
-  rec
+  (foo, _) <- mfix $ \ ~(foo, weak) -> do
     -- This seems to be the culprit, changing the order makes the weakRef get gc'ed
     -- In this configuration it crashes
 
     !foo <- Pull weak f <$> newIORef [] <*> newIORef Nothing
     weak <- mkWeakPtr foo Nothing
+    return (foo, weak)
 
   return foo
 

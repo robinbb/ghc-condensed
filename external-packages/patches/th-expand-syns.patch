@@ -1,14 +1,3 @@
---- a/external-packages/th-expand-syns/Language/Haskell/TH/ExpandSyns.hs
-+++ b/external-packages/th-expand-syns/Language/Haskell/TH/ExpandSyns.hs
-@@ -231,7 +231,7 @@
- evades :: (Data t) => [Name] -> t -> [Name]
- evades ns t = foldr c [] ns
-     where
--      c n rec = evade n (rec,t) : rec
-+      c n acc = evade n (acc,t) : acc
- 
- -- evadeTest = let v = mkName "x"
- --             in
 --- a/external-packages/th-expand-syns/testing/Main.hs
 +++ b/external-packages/th-expand-syns/testing/Main.hs
 @@ -16,7 +16,7 @@

@@ -42,7 +42,6 @@ test('mc05', normal, compile_and_run, [''])
 test('mc06', normal, compile_and_run, [''])
 test('mc07', normal, compile_and_run, [''])
 test('mc08', normal, compile_and_run, [''])
-test('T5742', normal, compile_and_run, [''])
 test('DsLambdaCase', [], compile_and_run, [''])
 test('DsMultiWayIf', [], compile_and_run, [''])
 test('DsStaticPointers', [when(doing_ghci(), extra_hc_opts('-fobject-code'))],

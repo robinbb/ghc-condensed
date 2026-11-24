@@ -1150,9 +1150,9 @@ data HsConDeclRecField pass
 -- a separate data type entirely (see 'HsConDeclGADTDetails' in
 -- "GHC.Hs.Decls"). This is because GADT constructors cannot be declared with
 -- infix syntax, unlike the concepts above (#18844).
-data HsConDetails p arg rcd
+data HsConDetails p arg rec
   = PrefixCon !(XPrefixCon p) [arg]    -- C @t1 @t2 p1 p2 p3
-  | RecCon    !(XRecCon p)    rcd      -- C { x = p1, y = p2 }
+  | RecCon    !(XRecCon p)    rec      -- C { x = p1, y = p2 }
   | InfixCon  !(XInfixCon p)  arg arg  -- p1 `C` p2
   | XHsConDetails !(XXHsConDetails p)
 

@@ -32,3 +32,70 @@
  data T917GadtTwo (a :: k) where
    MkT917GadtTwo :: T917GadtTwo (a :: Type)
  $(makePrisms ''T917GadtTwo)
+--- a/external-packages/lens/src/Language/Haskell/TH/Lens.hs
++++ b/external-packages/lens/src/Language/Haskell/TH/Lens.hs
+@@ -266,7 +266,6 @@
+   , _LabelE
+ #endif
+ #if MIN_VERSION_template_haskell(2,15,0)
+-  , _MDoE
+   , _ImplicitParamVarE
+ #endif
+ #if MIN_VERSION_template_haskell(2,18,0)
+@@ -299,9 +298,6 @@
+   , _LetS
+   , _NoBindS
+   , _ParS
+-#if MIN_VERSION_template_haskell(2,15,0)
+-  , _RecS
+-#endif
+   -- ** Range Prisms
+   , _FromR
+   , _FromThenR
+@@ -2069,29 +2065,6 @@
+ #endif
+ 
+ #if MIN_VERSION_template_haskell(2,15,0)
+--- |
+--- @
+--- _MDoE :: 'Prism'' 'Exp' ('Maybe' 'ModName', ['Stmt']) -- template-haskell-2.17+
+--- _MDoE :: 'Prism'' 'Exp' ['Stmt']                  -- Earlier versions
+--- @
+-# if MIN_VERSION_template_haskell(2,17,0)
+-_MDoE :: Prism' Exp (Maybe ModName, [Stmt])
+-_MDoE
+-  = prism' reviewer remitter
+-  where
+-      reviewer (x, y) = MDoE x y
+-      remitter (MDoE x y) = Just (x, y)
+-      remitter _ = Nothing
+-# else
+-_MDoE :: Prism' Exp [Stmt]
+-_MDoE
+-  = prism' reviewer remitter
+-  where
+-      reviewer = MDoE
+-      remitter (MDoE x) = Just x
+-      remitter _ = Nothing
+-# endif
+-
+ _ImplicitParamVarE :: Prism' Exp String
+ _ImplicitParamVarE
+   = prism' reviewer remitter
+@@ -2247,16 +2220,6 @@
+       remitter (ParS x) = Just x
+       remitter _ = Nothing
+ 
+-#if MIN_VERSION_template_haskell(2,15,0)
+-_RecS :: Prism' Stmt [Stmt]
+-_RecS
+-  = prism' reviewer remitter
+-  where
+-      reviewer = RecS
+-      remitter (RecS x) = Just x
+-      remitter _ = Nothing
+-#endif
+-
+ _FromR :: Prism' Range Exp
+ _FromR
+   = prism' reviewer remitter

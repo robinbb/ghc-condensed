@@ -48,7 +48,6 @@ import GHC.Builtin.KnownOccs
 import GHC.Builtin.WiredIn.Types ( nilDataConName, oneDataConName )
 import GHC.Builtin.WiredIn.Ids( rightSectionName, leftSectionName )
 
-import GHC.Unit.Module ( isInteractiveModule )
 
 import GHC.Types.Basic (TypeOrKind (TypeLevel))
 import GHC.Types.FieldLabel
@@ -73,12 +72,10 @@ import qualified GHC.LanguageExtensions as LangExt
 
 import Control.Monad
 import qualified Data.Foldable as Partial (maximum)
-import Data.List (unzip4)
 import Data.List.NonEmpty ( NonEmpty(..), head, init, last, nonEmpty, scanl, tail )
 import Data.Ord
 import Data.Array
 import GHC.Driver.Env (HscEnv)
-import Data.Foldable (toList)
 
 {- Note [Handling overloaded and rebindable constructs]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1111,18 +1108,17 @@ rnArithSeq (FromThenTo expr1 expr2 expr3)
 -}
 
 {-
-Note [Deterministic ApplicativeDo and mdo desugaring]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Both ApplicativeDo and mdo need to create tuples not
-present in the source text.
+Note [Deterministic ApplicativeDo and rec desugaring]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Both ApplicativeDo and the rec statements of arrow notation need to
+create tuples not present in the source text.
 
 For ApplicativeDo we create:
 
   (a,b,c) <- (\c b a -> (a,b,c)) <$>
 
-For mdo we create:
-
-  mfix (\ ~(a,b,c) -> do ...; return (a',b',c'))
+For a rec statement we create the tuples of its later_ids and rec_ids
+that GHC.HsToCore.Arrows feeds through the loop combinator.
 
 The order of the components in those tuples needs to be stable
 across recompilations, otherwise they can get optimized differently
@@ -1197,14 +1193,6 @@ rnStmtsWithFreeNames ctxt _ [] thing_inside
        ; (thing, fvs) <- thing_inside []
        ; return (([], thing), fvs) }
 
-rnStmtsWithFreeNames mDoExpr@(HsDoStmt MDoExpr{}) rnBody (nonEmpty -> Just stmts) thing_inside    -- Deal with mdo
-  = -- Behave like do { rec { ...all but last... }; last }
-    do { ((stmts1, (stmts2, thing)), fvs)
-           <- rnStmt mDoExpr rnBody (noLocA $ mkRecStmt noAnn (noLocA (NE.init stmts))) $ \ _ ->
-              do { last_stmt' <- checkLastStmt mDoExpr (NE.last stmts)
-                 ; rnStmt mDoExpr rnBody last_stmt' thing_inside }
-        ; return (((stmts1 ++ stmts2), thing), fvs) }
-
 rnStmtsWithFreeNames ctxt rnBody (lstmt@(L loc _) : lstmts) thing_inside
   | null lstmts
   = setSrcSpanA loc $
@@ -1226,7 +1214,7 @@ rnStmtsWithFreeNames ctxt rnBody (lstmt@(L loc _) : lstmts) thing_inside
 Note [Failing pattern matches in Stmts]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Many things desugar to HsStmts including monadic things like `do` and `mdo`
+Many things desugar to HsStmts including monadic things like `do`
 statements, pattern guards, and list comprehensions (see 'HsStmtContext' for an
 exhaustive list). How we deal with pattern match failure is context-dependent.
 
@@ -1235,7 +1223,7 @@ exhaustive list). How we deal with pattern match failure is context-dependent.
    entirely. So, for list comprehensions, the fail function is set to 'Nothing'
    for clarity.
 
-* In the case of monadic contexts (e.g. monad comprehensions, do, and mdo
+* In the case of monadic contexts (e.g. monad comprehensions and do
    expressions) we want pattern match failure to be desugared to the
    'fail' function (from MonadFail type class).
 
@@ -1306,39 +1294,24 @@ rnStmt _ _ (L loc (LetStmt _ binds)) thing_inside
                  , fvs) }
 
 rnStmt ctxt rnBody (L loc (RecStmt { recS_stmts = L _ rec_stmts })) thing_inside
-  = do  { (return_op, fvs1)  <- lookupQualifiedDoStmtName ctxt returnMClassOpOcc
-        ; (mfix_op,   fvs2)  <- lookupQualifiedDoStmtName ctxt mfixIdOcc
-        ; (bind_op,   fvs3)  <- lookupQualifiedDoStmtName ctxt bindMClassOpOcc
-        ; let empty_rec_stmt = (emptyRecStmtName :: StmtLR GhcRn GhcRn (LocatedA (body GhcRn)))
-                                { recS_ret_fn  = return_op
-                                , recS_mfix_fn = mfix_op
-                                , recS_bind_fn = bind_op }
+  = do  { let empty_rec_stmt = (emptyRecStmtName :: StmtLR GhcRn GhcRn (LocatedA (body GhcRn)))
 
-        -- Step1: Bring all the binders of the mdo into scope
+        -- Bring all the binders of the rec block into scope
         -- (Remember that this also removes the binders from the
         -- finally-returned free-vars.)
-        -- And rename each individual stmt, making a
-        -- singleton segment.  At this stage the FwdRefs field
-        -- isn't finished: it's empty for all except a BindStmt
-        -- for which it's the fwd refs within the bind itself
-        -- (This set may not be empty, because we're in a recursive
-        -- context.)
+        -- And rename each individual stmt, making a segment per stmt.
         ; rnRecStmtsAndThen ctxt rnBody rec_stmts   $ \ segs -> do
         { let bndrs = nameSetElemsStable $
-                        foldr (unionNameSet . (\(ds,_,_,_) -> ds))
+                        foldr (unionNameSet . (\(ds,_,_) -> ds))
                               emptyNameSet
                               segs
-          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
+          -- See Note [Deterministic ApplicativeDo and rec desugaring]
         ; (thing, fvs_later) <- thing_inside bndrs
-        -- In interactive mode, all variables could be used later. So we pass whether
-        -- we are in GHCi along to segmentRecStmts. See Note [What is "used later" in a rec stmt]
-        ; is_interactive <- isInteractiveModule . tcg_mod <$> getGblEnv
-        ; let
-             (rec_stmts', fvs) = segmentRecStmts (locA loc) ctxt empty_rec_stmt segs (fvs_later, is_interactive)
+        ; let (rec_stmts', fvs) = segmentRecStmts (locA loc) empty_rec_stmt segs fvs_later
         -- We aren't going to try to group RecStmts with
         -- ApplicativeDo, so attaching empty FVs is fine.
         ; return ( ((zip rec_stmts' (repeat emptyNameSet)), thing)
-                 , fvs `plusFN` fvs1 `plusFN` fvs2 `plusFN` fvs3) } }
+                 , fvs) } }
 
 rnStmt ctxt _ (L loc (ParStmt _ segs _ _)) thing_inside
   = do  { (mzip_op, fvs1)   <- lookupQualifiedDoStmtNameE ctxt mzipIdOcc
@@ -1506,24 +1479,19 @@ rebindableDoStmtContext :: HsDoFlavour -> Bool
 rebindableDoStmtContext flavour = case flavour of
   ListComp     -> False
   DoExpr {}    -> True
-  MDoExpr {}   -> True
   MonadComp    -> True
   GhciStmtCtxt -> True   -- I suppose?
 
 {-
 ************************************************************************
 *                                                                      *
-\subsubsection{mdo expressions}
+\subsubsection{rec statements}
 *                                                                      *
 ************************************************************************
 -}
 
-type FwdRefs = NameSet
 type Segment stmts = (Defs,
                       Uses,     -- May include defs
-                      FwdRefs,  -- A subset of uses that are
-                                --   (a) used before they are bound in this segment, or
-                                --   (b) used here, and bound in subsequent segments
                       stmts)    -- Either Stmt or [Stmt]
 
 
@@ -1602,14 +1570,13 @@ rn_rec_stmt_lhs fix_env (L loc (LetStmt _ (HsValBinds x binds)))
                  emptyFNs
                  )]
 
--- XXX Do we need to do something with the return and mfix names?
 rn_rec_stmt_lhs fix_env (L _ (RecStmt { recS_stmts = L _ stmts }))  -- Flatten Rec inside Rec
     = rn_rec_stmts_lhs fix_env stmts
 
-rn_rec_stmt_lhs _ stmt@(L _ (ParStmt {}))       -- Syntactically illegal in mdo
+rn_rec_stmt_lhs _ stmt@(L _ (ParStmt {}))       -- Syntactically illegal in a rec block
   = pprPanic "rn_rec_stmt" (ppr stmt)
 
-rn_rec_stmt_lhs _ stmt@(L _ (TransStmt {}))     -- Syntactically illegal in mdo
+rn_rec_stmt_lhs _ stmt@(L _ (TransStmt {}))     -- Syntactically illegal in a rec block
   = pprPanic "rn_rec_stmt" (ppr stmt)
 
 rn_rec_stmt_lhs _ (L _ (LetStmt _ (EmptyLocalBinds _)))
@@ -1636,19 +1603,19 @@ rn_rec_stmt :: AnnoBody body =>
             -> [Name]
             -> (LStmtLR GhcRn GhcPs (LocatedA (body GhcPs)), FreeNames)
             -> RnM [Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-        -- Rename a Stmt that is inside a RecStmt (or mdo)
+        -- Rename a Stmt that is inside a RecStmt
         -- Assumes all binders are already in scope
         -- Turns each stmt into a singleton Stmt
 rn_rec_stmt ctxt rnBody _ (L loc (LastStmt _ (L lb body) noret _), _)
   = do  { (body', fv_expr) <- rnBody body
         ; (ret_op, fvs1)   <- lookupQualifiedDoStmtName ctxt returnMClassOpOcc
-        ; return [(emptyNameSet, fv_expr `plusFN` fvs1, emptyNameSet,
+        ; return [(emptyNameSet, fv_expr `plusFN` fvs1,
                    L loc (LastStmt noExtField (L lb body') noret ret_op))] }
 
 rn_rec_stmt ctxt rnBody _ (L loc (BodyStmt _ (L lb body) _ _), _)
   = do { (body', fvs) <- rnBody body
        ; (then_op, fvs1) <- lookupQualifiedDoStmtName ctxt thenMClassOpOcc
-       ; return [(emptyNameSet, fvs `plusFN` fvs1, emptyNameSet,
+       ; return [(emptyNameSet, fvs `plusFN` fvs1,
                  L loc (BodyStmt noExtField (L lb body') then_op noSyntaxExpr))] }
 
 rn_rec_stmt ctxt rnBody _ (L loc (BindStmt _ pat' (L lb body)), fv_pat)
@@ -1660,7 +1627,7 @@ rn_rec_stmt ctxt rnBody _ (L loc (BindStmt _ pat' (L lb body)), fv_pat)
        ; let bndrs = mkNameSet (collectPatBinders CollNoDictBinders pat')
              fvs   = fv_expr `plusFN` fv_pat `plusFN` fvs1 `plusFN` fvs2
        ; let xbsrn = XBindStmtRn { xbsrn_bindOp = bind_op, xbsrn_failOp = fail_op }
-       ; return [(bndrs, fvs, bndrs `intersectNameSet` fvs,
+       ; return [(bndrs, fvs,
                   L loc (BindStmt xbsrn pat' (L lb body')))] }
 
 rn_rec_stmt _ _ _ (L _ (LetStmt _ binds@(HsIPBinds {})), _)
@@ -1670,17 +1637,17 @@ rn_rec_stmt _ _ all_bndrs (L loc (LetStmt _ (HsValBinds x binds')), _)
   = do { (binds', du_binds) <- rnLocalValBindsRHS (mkNameSet all_bndrs) binds'
            -- fixities and unused are handled above in rnRecStmtsAndThen
        ; let fvs = allUses du_binds
-       ; return [(duDefs du_binds, fvs, emptyNameSet,
+       ; return [(duDefs du_binds, fvs,
                  L loc (LetStmt noAnn (HsValBinds x binds')))] }
 
 -- no RecStmt case because they get flattened above when doing the LHSes
 rn_rec_stmt _ _ _ stmt@(L _ (RecStmt {}), _)
   = pprPanic "rn_rec_stmt: RecStmt" (ppr stmt)
 
-rn_rec_stmt _ _ _ stmt@(L _ (ParStmt {}), _)       -- Syntactically illegal in mdo
+rn_rec_stmt _ _ _ stmt@(L _ (ParStmt {}), _)       -- Syntactically illegal in a rec block
   = pprPanic "rn_rec_stmt: ParStmt" (ppr stmt)
 
-rn_rec_stmt _ _ _ stmt@(L _ (TransStmt {}), _)     -- Syntactically illegal in mdo
+rn_rec_stmt _ _ _ stmt@(L _ (TransStmt {}), _)     -- Syntactically illegal in a rec block
   = pprPanic "rn_rec_stmt: TransStmt" (ppr stmt)
 
 rn_rec_stmt _ _ _ (L _ (LetStmt _ (EmptyLocalBinds _)), _)
@@ -1697,199 +1664,43 @@ rn_rec_stmts ctxt rnBody bndrs stmts
        ; return (concat segs_s) }
 
 ---------------------------------------------
-segmentRecStmts :: SrcSpan -> HsStmtContextRn
+-- Turn the renamed statements of a rec block into one RecStmt, recording
+-- which of its binders are used inside the block (recS_rec_ids) and which
+-- after it (recS_later_ids). See Note [What is "used later" in a rec stmt].
+segmentRecStmts :: SrcSpan
                 -> Stmt GhcRn (LocatedA (body GhcRn))
                 -> [Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-                -> (FreeNames, Bool)
-                    -- ^ The free variables used in later statements.
-                    -- If the boolean is 'True', this might be an underestimate
-                    -- because we are in GHCi, and might thus be missing some "used later"
-                    -- FVs. See Note [What is "used later" in a rec stmt]
+                -> FreeNames   -- ^ The free variables used in later statements
                 -> ([LStmt GhcRn (LocatedA (body GhcRn))], FreeNames)
 
-segmentRecStmts loc ctxt empty_rec_stmt segs (fvs_later, might_be_more_fvs_later)
+segmentRecStmts loc empty_rec_stmt segs fvs_later
   | null segs
-  = ([], final_fv_uses)
-
-  | HsDoStmt (MDoExpr _) <- ctxt
-  = segsToStmts empty_rec_stmt grouped_segs fvs_later
-               -- Step 4: Turn the segments into Stmts
-                --         Use RecStmt when and only when there are fwd refs
-                --         Also gather up the uses from the end towards the
-                --         start, so we can tell the RecStmt which things are
-                --         used 'after' the RecStmt
+  = ([], fvs_later)
 
   | otherwise
   = ([ L (noAnnSrcSpan loc) $
        empty_rec_stmt { recS_stmts = noLocA ss
-                      , recS_later_ids = nameSetElemsStable final_fvs_later
+                      , recS_later_ids = nameSetElemsStable
+                                           (defs `intersectNameSet` fvs_later)
                       , recS_rec_ids   = nameSetElemsStable
                                            (defs `intersectNameSet` uses) }]
-          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
-    , uses `plusFN` final_fv_uses)
-
+          -- See Note [Deterministic ApplicativeDo and rec desugaring]
+    , uses `plusFN` fvs_later)
   where
-    (final_fv_uses, final_fvs_later)
-      | might_be_more_fvs_later
-      = (defs, defs)
-        -- If there might be more uses later (e.g. we are in GHCi and have not
-        -- yet seen the whole rec statement), conservatively assume that everything
-        -- will be used later (as is possible).
-      | otherwise
-      = ( uses `plusFN` fvs_later
-        , defs `intersectNameSet` fvs_later )
-
-    (defs_s, uses_s, _, ss) = unzip4 segs
+    (defs_s, uses_s, ss) = unzip3 segs
     defs = plusFNs defs_s
     uses = plusFNs uses_s
 
-                -- Step 2: Fill in the fwd refs.
-                --         The segments are all singletons, but their fwd-ref
-                --         field mentions all the things used by the segment
-                --         that are bound after their use
-    segs_w_fwd_refs = addFwdRefs segs
-
-                -- Step 3: Group together the segments to make bigger segments
-                --         Invariant: in the result, no segment uses a variable
-                --                    bound in a later segment
-    grouped_segs = glomSegments ctxt segs_w_fwd_refs
-
-----------------------------
-addFwdRefs :: [Segment a] -> [Segment a]
--- So far the segments only have forward refs *within* the Stmt
---      (which happens for bind:  x <- ...x...)
--- This function adds the cross-seg fwd ref info
-
-addFwdRefs segs
-  = fst (foldr mk_seg ([], emptyNameSet) segs)
-  where
-    mk_seg (defs, uses, fwds, stmts) (segs, later_defs)
-        = (new_seg : segs, all_defs)
-        where
-          new_seg = (defs, uses, new_fwds, stmts)
-          all_defs = later_defs `unionNameSet` defs
-          new_fwds = fwds `unionNameSet` (uses `intersectNameSet` later_defs)
-                -- Add the downstream fwd refs here
-
 {-
-Note [Segmenting mdo]
-~~~~~~~~~~~~~~~~~~~~~
-NB. June 7 2012: We only glom segments that appear in an explicit mdo;
-and leave those found in "do rec"'s intact.  See
-https://gitlab.haskell.org/ghc/ghc/issues/4148 for the discussion
-leading to this design choice.  Hence the test in segmentRecStmts.
-
-Note [Glomming segments]
-~~~~~~~~~~~~~~~~~~~~~~~~
-Glomming the singleton segments of an mdo into minimal recursive groups.
-
-At first I thought this was just strongly connected components, but
-there's an important constraint: the order of the stmts must not change.
-
-Consider
-     mdo { x <- ...y...
-           p <- z
-           y <- ...x...
-           q <- x
-           z <- y
-           r <- x }
-
-Here, the first stmt mention 'y', which is bound in the third.
-But that means that the innocent second stmt (p <- z) gets caught
-up in the recursion.  And that in turn means that the binding for
-'z' has to be included... and so on.
-
-Start at the tail { r <- x }
-Now add the next one { z <- y ; r <- x }
-Now add one more     { q <- x ; z <- y ; r <- x }
-Now one more... but this time we have to group a bunch into rec
-     { rec { y <- ...x... ; q <- x ; z <- y } ; r <- x }
-Now one more, which we can add on without a rec
-     { p <- z ;
-       rec { y <- ...x... ; q <- x ; z <- y } ;
-       r <- x }
-Finally we add the last one; since it mentions y we have to
-glom it together with the first two groups
-     { rec { x <- ...y...; p <- z ; y <- ...x... ;
-             q <- x ; z <- y } ;
-       r <- x }
-
 Note [What is "used later" in a rec stmt]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We desugar a recursive Stmt to something like
-
-  (a,_,c) <- mfix (\(a,b,_) -> do { ... ; return (a,b,c) })
-  ...stuff after the rec...
-
-The knot-tied tuple must contain
+The knot-tied tuple of a rec statement must contain
 * All the variables that are used before they are bound in the `rec` block
+  (the recS_rec_ids)
 * All the variables that are used after the entire `rec` block
-
-In the case of GHCi, however, we don't know what variables will be used
-after the `rec` (#20206).  For example, we might have
-    ghci>  rec { x <- e1; y <- e2 }
-    ghci>  print x
-    ghci>  print y
-
-So we have to assume that *all* the variables bound in the `rec` are used
-afterwards.  We pass a Boolean to segmentRecStmts to signal such a situation,
-in which case that function conservatively assumes that everything might well
-be used later.
+  (the recS_later_ids)
+See Note [How RecStmt works] in Language.Haskell.Syntax.Expr.
 -}
-
-glomSegments :: HsStmtContextRn
-             -> [Segment (LStmt GhcRn body)]
-             -> [Segment (NonEmpty (LStmt GhcRn body))]
-                                  -- Each segment has a non-empty list of Stmts
--- See Note [Glomming segments]
-
-glomSegments _ [] = []
-glomSegments ctxt ((defs,uses,fwds,stmt) : segs)
-        -- Actually stmts will always be a singleton
-  = (seg_defs, seg_uses, seg_fwds, seg_stmts)  : others
-  where
-    segs'            = glomSegments ctxt segs
-    (extras, others) = grab uses segs'
-    (ds, us, fs, ss) = unzip4 extras
-
-    seg_defs  = plusFNs ds `plusFN` defs
-    seg_uses  = plusFNs us `plusFN` uses
-    seg_fwds  = plusFNs fs `plusFN` fwds
-    seg_stmts = stmt :| concatMap toList ss
-
-    grab :: NameSet             -- The client
-         -> [Segment a]
-         -> ([Segment a],       -- Needed by the 'client'
-             [Segment a])       -- Not needed by the client
-        -- The result is simply a split of the input
-    grab uses dus
-        = (reverse yeses, reverse noes)
-        where
-          (noes, yeses)           = span not_needed (reverse dus)
-          not_needed (defs,_,_,_) = disjointNameSet defs uses
-
-----------------------------------------------------
-segsToStmts :: Stmt GhcRn (LocatedA (body GhcRn))
-                                  -- A RecStmt with the SyntaxOps filled in
-            -> [Segment (NonEmpty (LStmt GhcRn (LocatedA (body GhcRn))))]
-                                  -- Each Segment has a non-empty list of Stmts
-            -> FreeNames           -- Free vars used 'later'
-            -> ([LStmt GhcRn (LocatedA (body GhcRn))], FreeNames)
-
-segsToStmts _ [] fvs_later = ([], fvs_later)
-segsToStmts empty_rec_stmt ((defs, uses, fwds, ss) : segs) fvs_later
-  = (new_stmt : later_stmts, later_uses `plusFN` uses)
-  where
-    (later_stmts, later_uses) = segsToStmts empty_rec_stmt segs fvs_later
-    new_stmt | non_rec   = head ss
-             | otherwise = L (getLoc (head ss)) rec_stmt
-    rec_stmt = empty_rec_stmt { recS_stmts     = noLocA (toList ss)
-                              , recS_later_ids = nameSetElemsStable used_later
-                              , recS_rec_ids   = nameSetElemsStable fwds }
-          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
-    non_rec    = NE.isSingleton ss && isEmptyNameSet fwds
-    used_later = defs `intersectNameSet` later_uses
-                                -- The ones needed after the RecStmt
 
 {-
 ************************************************************************
@@ -2277,7 +2088,7 @@ stmtTreeToStmts monad_names ctxt (StmtTreeApplicative trees) tail tail_fvs = do
          pvarset = mkNameSet (concatMap (collectStmtBinders CollNoDictBinders . unLoc . fst) stmts)
                      `intersectNameSet` tail_fvs
          pvars = nameSetElemsStable pvarset
-           -- See Note [Deterministic ApplicativeDo and mdo desugaring]
+           -- See Note [Deterministic ApplicativeDo and rec desugaring]
          pat = mkBigLHsVarPatTup pvars
          tup = mkBigLHsVarTup pvars noExtField
      (stmts',fvs2) <- stmtTreeToStmts monad_names ctxt tree [] pvarset
@@ -2632,7 +2443,6 @@ checkLastStmt ctxt lstmt@(L loc stmt)
       HsDoStmt ListComp  -> check_comp
       HsDoStmt MonadComp -> check_comp
       HsDoStmt DoExpr{}  -> check_do
-      HsDoStmt MDoExpr{} -> check_do
       ArrowExpr -> check_do
       _         -> check_other
   where
@@ -2690,7 +2500,6 @@ okDoFlavourStmt
   -> Stmt GhcPs (LocatedA (body GhcPs)) -> Validity' (Maybe LangExt.Extension)
 okDoFlavourStmt dflags flavour ctxt stmt = case flavour of
       DoExpr{}     -> okDoStmt   dflags ctxt stmt
-      MDoExpr{}    -> okDoStmt   dflags ctxt stmt
       GhciStmtCtxt -> okDoStmt   dflags ctxt stmt
       ListComp     -> okCompStmt dflags ctxt stmt
       MonadComp    -> okCompStmt dflags ctxt stmt
@@ -2711,9 +2520,11 @@ okParStmt dflags ctxt stmt
       _                        -> okStmt dflags ctxt stmt
 
 ----------------
-okDoStmt _ _ stmt
+okDoStmt _ ctxt stmt
   = case stmt of
-       RecStmt {}  -> IsValid
+       RecStmt {}
+         | ArrowExpr <- ctxt -> IsValid    -- Arrows allows 'rec'
+         | otherwise         -> emptyInvalid
        BindStmt {} -> IsValid
        LetStmt {}  -> IsValid
        BodyStmt {} -> IsValid

@@ -1,0 +1,41 @@
+--- a/external-packages/vendored/lucid/test/Main.hs
++++ b/external-packages/vendored/lucid/test/Main.hs
+@@ -11,6 +11,7 @@
+ import Lucid.Bootstrap
+ 
+ import Control.Monad
++import Control.Monad.Fix
+ import Control.Applicative
+ import Control.Monad.State.Strict
+ 
+@@ -242,20 +243,21 @@
+ 
+ testMonadFix :: Spec
+ testMonadFix =
+-  do it "mdo" (renderText example == renderText expected)
++  do it "mfix" (renderText example == renderText expected)
+   where
+    toSectionId i = T.pack $ "section_" ++ show i
+ 
+    toSectionTitle i = T.pack $ "Section " ++ show i
+ 
+-   example = mdo
+-     forM_ sections $ \(sectionName, sectionId) ->
+-       a_ [href_ sectionId] $ toHtml sectionName
+-     sections <- forM [1 .. 2] $ \sectionNum -> do
+-       let sectionId = toSectionId sectionNum
+-           sectionTitle = toSectionTitle sectionNum
+-       h1_ [id_ sectionId] $ toHtml sectionTitle
+-       return (sectionTitle, sectionId)
++   example = do
++     _ <- mfix $ \sections -> do
++       forM_ sections $ \(sectionName, sectionId) ->
++         a_ [href_ sectionId] $ toHtml sectionName
++       forM [1 .. 2] $ \sectionNum -> do
++         let sectionId = toSectionId sectionNum
++             sectionTitle = toSectionTitle sectionNum
++         h1_ [id_ sectionId] $ toHtml sectionTitle
++         return (sectionTitle, sectionId)
+      return ()
+ 
+    expected = do

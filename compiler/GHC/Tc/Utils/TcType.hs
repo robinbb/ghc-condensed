@@ -622,13 +622,16 @@ the SkolemInfo until we have the TcTyVars!
 
 Example: in `GHC.Tc.Utils.Unify.tcSkolemise` we create SkolemTvs whose
 `SkolemInfo` is `SigSkol`, whose arguments in turn mention the newly-created
-SkolemTvs.  So we a RecrusiveDo idiom, like this:
+SkolemTvs.  So we tie the knot with fixM, like this:
 
-  rec { (wrap, tv_prs, given, rho_ty) <- skolemise skol_info expected_ty
-      ; skol_info <- mkSkolemInfo (SigSkol ctxt expected_ty tv_prs) }
+  (wrap, tv_prs, given, rho_ty, _) <- fixM $ \ ~(_, _, _, _, skol_info) ->
+     do { (wrap, tv_prs, given, rho_ty) <- skolemise skol_info expected_ty
+        ; skol_info <- mkSkolemInfo (SigSkol ctxt expected_ty tv_prs)
+        ; return (wrap, tv_prs, given, rho_ty, skol_info) }
 
 Note that the `skol_info` can't be created until we have the `tv_prs` returned
-by `skolemise`. Note also that `skolemise` had better be lazy in `skol_info`.
+by `skolemise`. Note also that `skolemise` had better be lazy in `skol_info`,
+and that the lambda's tuple pattern must be lazy.
 
 All uses of this idiom should be flagged with a reference to this Note.
 -}

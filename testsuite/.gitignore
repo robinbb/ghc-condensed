@@ -414,7 +414,6 @@ mk/ghcconfig*_test___spaces_ghc*.exe.mk
 /tests/deSugar/should_run/T246
 /tests/deSugar/should_run/T3126
 /tests/deSugar/should_run/T3382
-/tests/deSugar/should_run/T5742
 /tests/deSugar/should_run/T8952
 /tests/deSugar/should_run/T9844
 /tests/deSugar/should_run/dsrun001
@@ -1043,17 +1042,6 @@ mk/ghcconfig*_test___spaces_ghc*.exe.mk
 /tests/lib/should_run/text001
 /tests/lib/should_run/tup001
 /tests/lib/should_run/weak001
-/tests/mdo/should_compile/mdo001
-/tests/mdo/should_compile/mdo002
-/tests/mdo/should_compile/mdo003
-/tests/mdo/should_compile/mdo004
-/tests/mdo/should_compile/mdo005
-/tests/mdo/should_fail/mdofail006
-/tests/mdo/should_run/mdorun001
-/tests/mdo/should_run/mdorun002
-/tests/mdo/should_run/mdorun003
-/tests/mdo/should_run/mdorun004
-/tests/mdo/should_run/mdorun005
 /tests/module/Mod145_A.mod146_hi
 /tests/module/Mod145_A.mod146_o
 /tests/module/Mod157_A.mod158_hi

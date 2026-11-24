@@ -32,25 +32,13 @@ The following syntax is stolen:
     <https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0193-forall-keyword.rst>`__.
 
 
-``mdo``
-    .. index::
-       single: mdo
-
-    Stolen by default: ``mdo`` is always a keyword.
-
 ``foreign``
     .. index::
        single: foreign
 
     Stolen by: :extension:`ForeignFunctionInterface`
 
-``rec``
-    .. index::
-       single: rec
-
-    Stolen by default: ``rec`` is always a keyword.
-
-``proc``, ``-<``, ``>-``, ``-<<``, ``>>-``, ``(|``, ``|)``
+``rec``, ``proc``, ``-<``, ``>-``, ``-<<``, ``>>-``, ``(|``, ``|)``
     .. index::
        single: proc
 

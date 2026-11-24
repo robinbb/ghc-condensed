@@ -490,10 +490,10 @@ inferResultToType (IR { ir_uniq = u, ir_lvl = tc_lvl
     new_meta = case mb_frr of
       IFRR_Any ->  do { rr  <- newMetaTyVarTyAtLevel tc_lvl runtimeRepTy
                       ; newMetaTyVarTyAtLevel tc_lvl (mkTYPEapp rr) }
-      IFRR_Check frr -> mdo { rr  <- newConcreteTyVarTyAtLevel conc_orig tc_lvl runtimeRepTy
-                            ; tau <- newMetaTyVarTyAtLevel tc_lvl (mkTYPEapp rr)
-                            ; let conc_orig = ConcreteFRR $ FixedRuntimeRepOrigin tau frr
-                            ; return tau }
+      IFRR_Check frr -> fixM $ \ tau ->   -- The origin mentions the type it is for
+                        do { let conc_orig = ConcreteFRR $ FixedRuntimeRepOrigin tau frr
+                           ; rr  <- newConcreteTyVarTyAtLevel conc_orig tc_lvl runtimeRepTy
+                           ; newMetaTyVarTyAtLevel tc_lvl (mkTYPEapp rr) }
 
 adjustExpTypeForCaseBranches :: ExpRhoType -> [branch] -> ExpRhoType
 -- See Note [fillInferResult: multiple branches]
@@ -971,13 +971,14 @@ newOpenFlexiTyVar
 -- in GHC.Tc.Utils.Concrete.
 newOpenFlexiFRRTyVarTy :: FixedRuntimeRepContext -> TcM TcType
 newOpenFlexiFRRTyVarTy frr_ctxt
-  = mdo { let conc_orig = ConcreteFRR $
-                          FixedRuntimeRepOrigin
-                            { frr_context = frr_ctxt
-                            , frr_type    = mkTyVarTy tv }
-        ; rr_tv <- newConcreteTyVar conc_orig (fsLit "cx") runtimeRepTy
-        ; tv <- newFlexiTyVar (mkTYPEapp (mkTyVarTy rr_tv))
-        ; return (mkTyVarTy tv) }
+  = do { tv <- fixM $ \ tv ->   -- The origin mentions the type variable it is for
+               do { let conc_orig = ConcreteFRR $
+                                    FixedRuntimeRepOrigin
+                                      { frr_context = frr_ctxt
+                                      , frr_type    = mkTyVarTy tv }
+                  ; rr_tv <- newConcreteTyVar conc_orig (fsLit "cx") runtimeRepTy
+                  ; newFlexiTyVar (mkTYPEapp (mkTyVarTy rr_tv)) }
+       ; return (mkTyVarTy tv) }
 
 newMetaTyVars :: [TyVar] -> TcM (Subst, [TcTyVar])
 -- Instantiate with META type variables

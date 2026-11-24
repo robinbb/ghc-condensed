@@ -97,14 +97,6 @@ The semantics of ``do`` notation statements with ``-XQualifiedDo`` is as follows
   identifiably a ``return``. With ``-XQualifiedDo`` enabled, ``-XApplicativeDo``
   looks only for the qualified ``return``/``pure`` in a qualified do-block.
 
-*  ``rec`` and ``mdo`` blocks use ``M.mfix`` and ``M.return``: ::
-
-     M.do { rec { x1 <- u1; … ; xn <- un }; stmts }  =
-       M.do
-       { (x1, …, xn) <- M.mfix (\~(x1, …, xn) -> M.do { x1 <- u1; …; xn <- un; M.return (x1, …, xn)})
-       ; stmts
-       }
-
 If a name ``M.op`` is required by the desugaring process (and only if it's required!) but the name is
 not in scope, it is reported as an error.
 

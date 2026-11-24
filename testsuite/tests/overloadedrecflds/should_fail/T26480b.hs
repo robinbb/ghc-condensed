@@ -12,8 +12,8 @@ import GHC.Records
 
 
 setField
-  :: forall (fld :: Symbol) r ty
-  .  HasField fld r ty => ty -> r -> r
+  :: forall (fld :: Symbol) rec ty
+  .  HasField fld rec ty => ty -> rec -> rec
 setField _ r = r
 
 data N = N { no :: H }

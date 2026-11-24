@@ -225,7 +225,7 @@ module GHC.Essentials
          , bangP, asP, wildP, recP, listP, sigP, viewP, orP, typeP, invisP
     , Exp, varE, conE, litE, appE, appTypeE, infixE, infixApp, sectionL, sectionR
          , lamE, lamCaseE, lamCasesE, tupE, unboxedTupE, unboxedSumE, condE, multiIfE
-         , letE, caseE, doE, mdoE, compE, fromE, fromThenE, fromToE, fromThenToE
+         , letE, caseE, doE, compE, fromE, fromThenE, fromToE, fromThenToE
          , listE, sigE, recConE, recUpdE, staticE, unboundVarE, labelE, implicitParamVarE
          , getFieldE, projectionE, typeE, forallE, forallVisE, constrainedE
     , TH.cxt
@@ -235,7 +235,7 @@ module GHC.Essentials
     , FieldPat, fieldPat
     , Match, match
     , Clause, clause
-    , Stmt, bindS, letS, noBindS, parS, recS
+    , Stmt, bindS, letS, noBindS, parS
     , Body, normalB, guardedB
     , Guard, normalGE, patGE
     , normalC, recC, infixC, forallC, gadtC, recGadtC

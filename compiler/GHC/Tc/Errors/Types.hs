@@ -2930,12 +2930,12 @@ data TcRnMessage where
   TcRnIllegalTupleSection :: TcRnMessage
 
   {-| TcRnIllegalImplicitParameterBindings is an error triggered by binding
-      an implicit parameter in an mdo block.
+      an implicit parameter in a rec block of arrow notation.
 
       Example(s):
-      mdo { let { ?x = 5 }; () }
+      proc x -> do { rec { let { ?y = 5 } }; returnA -< x }
 
-     Test cases: rename/should_fail/RnImplicitBindInMdoNotation
+     Test cases: arrows/should_fail/ArrowRecIPBinds
   -}
   TcRnIllegalImplicitParameterBindings
     :: Either (HsLocalBindsLR GhcPs GhcPs) (HsLocalBindsLR GhcRn GhcPs)
@@ -4001,7 +4001,7 @@ data TcRnMessage where
     top-level bindings have the same name.
 
     Test cases:
-      dsrun006, mdofail002, mdofail003, mod23, mod24, qq006, rnfail001,
+      dsrun006, mod23, mod24, qq006, rnfail001,
       rnfail004, SimpleFail6, T14114, T16110_Fail1, tcfail038, TH_spliceD1,
       T22478b, TyAppPat_NonlinearMultiAppPat, TyAppPat_NonlinearMultiPat,
       TyAppPat_NonlinearSinglePat,

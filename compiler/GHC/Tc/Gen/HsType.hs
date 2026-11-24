@@ -725,9 +725,10 @@ tcDerivStrategy mb_lds
     tc_deriv_strategy (NewtypeStrategy  _) = boring_case (NewtypeStrategy  noExtField)
     tc_deriv_strategy (ViaStrategy hs_sig)
       = do { ty <- tcTopLHsType DerivClauseCtxt hs_sig
-             -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-             --           in GHC.Tc.Utils.TcType
-           ; rec { (via_tvs, via_pred) <- tcSkolemiseInvisibleBndrs (DerivSkol via_pred) ty }
+             -- fixM: see Note [Keeping SkolemInfo inside a SkolemTv]
+             --       in GHC.Tc.Utils.TcType
+           ; (via_tvs, via_pred) <- fixM $ \ ~(_, via_pred) ->
+                                    tcSkolemiseInvisibleBndrs (DerivSkol via_pred) ty
            ; pure (ViaStrategy via_pred, via_tvs) }
 
     boring_case :: ds -> TcM (ds, [a])

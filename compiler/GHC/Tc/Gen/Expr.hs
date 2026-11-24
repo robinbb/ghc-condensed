@@ -558,9 +558,6 @@ tcExpr (HsDo _ do_or_lc stmts) res_ty
          -- See Note [Typechecking by expansion: overview]
          else do { hse <- expandDoStmts do_or_lc stmts
                  ; tcHsExpansion hse res_ty }
-  | MDoExpr{} <- do_or_lc
-  = do hse <- expandDoStmts do_or_lc stmts
-       tcHsExpansion hse res_ty
   | otherwise
   -- ListComp and MonadComp are handled by legacy tcDoStmts for now,
   -- The ultimate goal is to handle them via expandDoStmts.

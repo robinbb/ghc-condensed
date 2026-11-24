@@ -423,11 +423,14 @@ tcSkolemiseGeneral ctxt top_ty expected_ty thing_inside
        ; return (mkWpLet ev_binds, result) }
 
   | otherwise
-  = do { -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-         --           in GHC.Tc.Utils.TcType
-       ; rec { (wrap, tv_prs, given, rho_ty) <- topSkolemise skol_info expected_ty
-             ; let sig_skol = SigSkol ctxt top_ty (map (fmap binderVar) tv_prs)
-             ; skol_info <- mkSkolemInfo sig_skol }
+  = do { -- fixM: see Note [Keeping SkolemInfo inside a SkolemTv]
+         --       in GHC.Tc.Utils.TcType
+       ; (wrap, tv_prs, given, rho_ty, sig_skol, _)
+           <- fixM $ \ ~(_, _, _, _, _, skol_info) ->
+              do { (wrap, tv_prs, given, rho_ty) <- topSkolemise skol_info expected_ty
+                 ; let sig_skol = SigSkol ctxt top_ty (map (fmap binderVar) tv_prs)
+                 ; skol_info <- mkSkolemInfo sig_skol
+                 ; return (wrap, tv_prs, given, rho_ty, sig_skol, skol_info) }
 
        ; let skol_tvs = map (binderVar . snd) tv_prs
        ; traceTc "tcSkolemiseGeneral {" (pprUserTypeCtxt ctxt <+> ppr skol_tvs <+> ppr given)
@@ -824,12 +827,15 @@ matchExpectedFunTys herald ctx arity (Check top_ty) thing_inside
     check n_req rev_pat_tys ty
       | isSigmaTy ty                     -- An invisible quantifier at the top
         || (n_req > 0 && isForAllTy ty)  -- A visible quantifier at top, and we need it
-      = do { rec { (n_req', wrap_gen, tv_nms, bndrs, given, inner_ty) <- skolemiseRequired skol_info n_req ty
-                 ; let sig_skol = SigSkol ctx top_ty (tv_nms `zip` skol_tvs)
-                       skol_tvs = binderVars bndrs
-                 ; skol_info <- mkSkolemInfo sig_skol }
-             -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-             --           in GHC.Tc.Utils.TcType
+      = do { -- fixM: see Note [Keeping SkolemInfo inside a SkolemTv]
+             --       in GHC.Tc.Utils.TcType
+           ; (n_req', wrap_gen, bndrs, given, inner_ty, skol_tvs, skol_info)
+               <- fixM $ \ ~(_, _, _, _, _, _, skol_info) ->
+                  do { (n_req', wrap_gen, tv_nms, bndrs, given, inner_ty) <- skolemiseRequired skol_info n_req ty
+                     ; let sig_skol = SigSkol ctx top_ty (tv_nms `zip` skol_tvs)
+                           skol_tvs = binderVars bndrs
+                     ; skol_info <- mkSkolemInfo sig_skol
+                     ; return (n_req', wrap_gen, bndrs, given, inner_ty, skol_tvs, skol_info) }
            ; (ev_binds, (wrap_res, result))
                   <- checkConstraints (getSkolemInfo skol_info) skol_tvs given $
                      check n_req'

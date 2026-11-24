@@ -1,0 +1,23 @@
+--- a/external-packages/vendored/parallel/Control/Parallel/Strategies.hs
++++ b/external-packages/vendored/parallel/Control/Parallel/Strategies.hs
+@@ -624,13 +624,15 @@
+   | otherwise = go
+   where
+     go [] = pure []
+-    go as = mdo
++    go as = do
+       -- Calculate the first chunk in parallel, passing it the result
+-      -- of calculating the rest
+-      bs <- rpar $ runEval $ evalChunk strat more n as
++      -- of calculating the rest, which mfix feeds back in
++      (bs, _) <- mfix $ \ ~(_, more) -> do
++        bs <- rpar $ runEval $ evalChunk strat more n as
+ 
+-      -- Calculate the rest
+-      more <- go (drop n as)
++        -- Calculate the rest
++        more <- go (drop n as)
++        return (bs, more)
+       return bs
+ 
+ -- | @evalChunk strat end n as@ uses @strat@ to evaluate the first @n@

@@ -1841,8 +1841,7 @@ instance Outputable GrhsAnn where
 -- Extra fields available post typechecking for RecStmt.
 data RecStmtTc =
   RecStmtTc
-     { recS_bind_ty :: Type       -- S in (>>=) :: Q -> (R -> S) -> T
-     , recS_later_rets :: [PostTcExpr] -- (only used in the arrow version)
+     { recS_later_rets :: [PostTcExpr]
      , recS_rec_rets :: [PostTcExpr] -- These expressions correspond 1-to-1
                                   -- with recS_later_ids and recS_rec_ids,
                                   -- and are the expressions that should be
@@ -1851,11 +1850,6 @@ data RecStmtTc =
                                   -- because the Id may be *polymorphic*, but
                                   -- the returned thing has to be *monomorphic*,
                                   -- so they may be type applications
-
-      , recS_ret_ty :: Type        -- The type of
-                                   -- do { stmts; return (a,b,c) }
-                                   -- With rebindable syntax the type might not
-                                   -- be quite as simple as (m (tya, tyb, tyc)).
       }
 
 
@@ -2102,8 +2096,6 @@ pprDo :: (OutputableBndrId p, Outputable body,
 pprDo (DoExpr m)    stmts =
   ppr_module_name_prefix m <> text "do"  <+> ppr_do_stmts stmts
 pprDo GhciStmtCtxt  stmts = text "do"  <+> ppr_do_stmts stmts
-pprDo (MDoExpr m)   stmts =
-  ppr_module_name_prefix m <> text "mdo"  <+> ppr_do_stmts stmts
 pprDo ListComp      stmts = brackets    $ pprComp stmts
 pprDo MonadComp     stmts = brackets    $ pprComp stmts
 
@@ -2480,7 +2472,6 @@ matchArrowContextErrString (ArrowLamAlt lam_variant) = lamCaseKeyword lam_varian
 matchDoContextErrString :: HsDoFlavour -> SDoc
 matchDoContextErrString GhciStmtCtxt = text "interactive GHCi command"
 matchDoContextErrString (DoExpr m)   = prependQualified m (text "'do' block")
-matchDoContextErrString (MDoExpr m)  = prependQualified m (text "'mdo' block")
 matchDoContextErrString ListComp     = text "list comprehension"
 matchDoContextErrString MonadComp    = text "monad comprehension"
 
@@ -2601,11 +2592,9 @@ pprAHsDoFlavour flavour = article <+> pprHsDoFlavour flavour
     pp_an = text "an"
     pp_a  = text "a"
     article = case flavour of
-                  MDoExpr Nothing -> pp_an
                   GhciStmtCtxt  -> pp_an
                   _             -> pp_a
 pprHsDoFlavour (DoExpr m)      = prependQualified m (text "'do' block")
-pprHsDoFlavour (MDoExpr m)     = prependQualified m (text "'mdo' block")
 pprHsDoFlavour ListComp        = text "list comprehension"
 pprHsDoFlavour MonadComp       = text "monad comprehension"
 pprHsDoFlavour GhciStmtCtxt    = text "interactive GHCi command"

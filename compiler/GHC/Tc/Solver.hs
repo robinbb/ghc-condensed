@@ -1003,23 +1003,24 @@ simplifyInfer top_lvl rhs_tclvl infer_mode sigs name_taus wanteds
        -- NB: bound_theta are constraints we want to quantify over,
        --     including the psig_theta, which we always quantify over
        -- NB: bound_theta are fully zonked
-       -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-       --           in GHC.Tc.Utils.TcType
-       ; rec { (qtvs, bound_theta, co_vars) <- decideQuantification
+       -- fixM: see Note [Keeping SkolemInfo inside a SkolemTv]
+       --       in GHC.Tc.Utils.TcType
+       ; (qtvs, co_vars, bound_theta_vars, skol_info)
+           <- fixM $ \ ~(_, _, _, skol_info) ->
+              do { (qtvs, bound_theta, co_vars) <- decideQuantification
                                                      top_lvl rhs_tclvl infer_mode
                                                      skol_info name_taus partial_sigs
                                                      wanted_dq
 
-             ; bound_theta_vars <- mapM TcM.newEvVar bound_theta
+                 ; bound_theta_vars <- mapM TcM.newEvVar bound_theta
 
-             ; let full_theta = map idType bound_theta_vars
-                   skol_info  = InferSkol [ (name, mkPhiTy full_theta ty)
-                                          | (name, ty) <- name_taus ]
-                 -- mkPhiTy: we don't add the quantified variables here, because
-                 -- they are also bound in ic_skols and we want them to be tidied
-                 -- uniformly.
-       }
-
+                 ; let full_theta = map idType bound_theta_vars
+                       skol_info  = InferSkol [ (name, mkPhiTy full_theta ty)
+                                              | (name, ty) <- name_taus ]
+                     -- mkPhiTy: we don't add the quantified variables here, because
+                     -- they are also bound in ic_skols and we want them to be tidied
+                     -- uniformly.
+                 ; return (qtvs, co_vars, bound_theta_vars, skol_info) }
 
        -- Now emit the residual constraint
        ; emitResidualConstraints rhs_tclvl skol_info ev_binds_var

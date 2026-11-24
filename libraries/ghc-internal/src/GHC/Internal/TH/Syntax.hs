@@ -865,8 +865,6 @@ data Exp
   | CaseE Exp [Match]                  -- ^ @{ case e of m1; m2 }@
   | DoE (Maybe ModName) [Stmt]         -- ^ @{ do { p <- e1; e2 }  }@ or a qualified do if
                                        -- the module name is present
-  | MDoE (Maybe ModName) [Stmt]        -- ^ @{ mdo { x <- e1 y; y <- e2 x; } }@ or a qualified
-                                       -- mdo if the module name is present
   | CompE [Stmt]                       -- ^ @{ [ (x,y) | x <- xs, y <- ys ] }@
       --
       -- The result expression of the comprehension is
@@ -928,7 +926,6 @@ data Stmt
   | LetS [ Dec ]  -- ^ @{ let { x=e1; y=e2 } }@
   | NoBindS Exp   -- ^ @e@
   | ParS [[Stmt]] -- ^ @x <- e1 | s2, s3 | s4@ (in 'CompE')
-  | RecS [Stmt]   -- ^ @rec { s1; s2 }@
   deriving( Show, Eq, Ord, Generic )
 
 -- | A list/enum range expression.

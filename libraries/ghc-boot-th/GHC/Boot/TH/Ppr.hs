@@ -206,14 +206,6 @@ pprExp i (DoE m ss_) = parensIf (i > noPrec) $
     pprStms []  = empty
     pprStms [s] = ppr s
     pprStms ss  = braces (semiSep ss)
-pprExp i (MDoE m ss_) = parensIf (i > noPrec) $
-    pprQualifier m <> text "mdo" <+> pprStms ss_
-  where
-    pprQualifier Nothing = empty
-    pprQualifier (Just modName) = text (modString modName) <> char '.'
-    pprStms []  = empty
-    pprStms [s] = ppr s
-    pprStms ss  = braces (semiSep ss)
 
 pprExp _ (CompE []) = text "<<Empty CompExp>>"
 -- This will probably break with fixity declarations - would need a ';'
@@ -265,7 +257,6 @@ instance Ppr Stmt where
     ppr (NoBindS e) = ppr e
     ppr (ParS sss) = sep $ punctuate bar
                          $ map commaSep sss
-    ppr (RecS ss) = text "rec" <+> (braces (semiSep ss))
 
 ------------------------------
 instance Ppr Match where

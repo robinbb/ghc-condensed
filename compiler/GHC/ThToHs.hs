@@ -1131,7 +1131,6 @@ cvtl e = wrapLA (cvt e)
                             ; th_origin <- getOrigin
                             ; wrapParLA (HsCase noAnn e' . mkMatchGroup th_origin noAnn) ms' }
     cvt (DoE m ss)     = cvtHsDo (DoExpr (mk_modtext <$> m)) ss
-    cvt (MDoE m ss)    = cvtHsDo (MDoExpr (mk_modtext <$> m)) ss
     cvt (CompE ss)     = cvtHsDo ListComp ss
     cvt (ArithSeqE dd) = do { dd' <- cvtDD dd
                             ; return $ ArithSeq noAnn Nothing dd' }
@@ -1388,9 +1387,6 @@ cvtStmt (TH.ParS dss)  = case nonEmpty dss of
   where
     cvt_one ds = do { ds' <- cvtStmts ds
                     ; return (ParStmtBlock noExtField ds' undefined noSyntaxExpr) }
-cvtStmt (TH.RecS ss) = do { ss' <- mapM cvtStmt ss
-                          ; rec_stmt <- wrapParLA (mkRecStmt noAnn) ss'
-                          ; returnLA rec_stmt }
 
 cvtMatch :: HsMatchContextPs -> TH.Match -> CvtM (Hs.LMatch GhcPs (LHsExpr GhcPs))
 cvtMatch ctxt (TH.Match p body decs)

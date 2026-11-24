@@ -726,7 +726,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
 
  -- QualifiedDo
  DO             { L _ (ITdo  _) }
- MDO            { L _ (ITmdo _) }
 
  IPDUPVARID     { L _ (ITdupipvarid   _) }              -- GHC extension
  LABELVARID     { L _ (ITlabelvarid _ _) }
@@ -3135,12 +3134,6 @@ aexp    :: { ECP }
                                                  (Right $ stmtlistAnns $2, glR $1)
                                                  (fmap HsModuleName $ getDO $1)
                                                  (stmtlistStmts $2) }
-        | MDO stmtlist             {% hintQualifiedDo $1 >> runPV $2 >>= \ $2 ->
-                                       fmap ecpFromExp $
-                                       amsA' (L (comb2 $1 $2)
-                                              (mkHsDoAnns (MDoExpr $ fmap HsModuleName (getMDO $1))
-                                                          (stmtlistStmts $2)
-                                                          (Right $ stmtlistAnns $2, glR $1))) }
         | 'proc' aexp '->' exp
                        {% (checkPattern <=< runPV) (unECP $2) >>= \ p ->
                            runPV (unECP $4) >>= \ $4@cmd ->
@@ -4258,7 +4251,6 @@ getCONID          (L _ (ITconid    x)) = x
 getVARSYM         (L _ (ITvarsym   x)) = x
 getCONSYM         (L _ (ITconsym   x)) = x
 getDO             (L _ (ITdo      x)) = x
-getMDO            (L _ (ITmdo     x)) = x
 getQVARID         (L _ (ITqvarid   x)) = x
 getQCONID         (L _ (ITqconid   x)) = x
 getQVARSYM        (L _ (ITqvarsym  x)) = x
@@ -4534,7 +4526,6 @@ hintQualifiedDo tok = do
   where
     maybeQDoDoc = case unLoc tok of
       ITdo (Just m) -> Just $ ppr m <> text ".do"
-      ITmdo (Just m) -> Just $ ppr m <> text ".mdo"
       t -> Nothing
 
 -- Hint about MultilineStrings

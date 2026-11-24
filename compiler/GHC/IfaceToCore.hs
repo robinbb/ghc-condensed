@@ -985,13 +985,17 @@ mk_top_id (IfGblTopBndr gbl_name)
   | otherwise = tcIfaceExtId gbl_name
 mk_top_id (IfLclTopBndr raw_name iface_type info details) = do
    ty <- tcIfaceType iface_type
-   rec { details' <- tcIdDetails name ty details
-       ; let occ = case details' of
+   -- The details mention the name and the name's OccName depends on the
+   -- details, so tie the knot; tcIdDetails must be lazy in the name.
+   (details', name) <- fixM $ \ ~(_, name) -> do
+       details' <- tcIdDetails name ty details
+       let occ = case details' of
                  RecSelId { sel_tycon = parent }
                    -> let con_fs = getOccFS $ recSelFirstConName parent
                       in mkRecFieldOccFS con_fs (ifLclNameFS raw_name)
                  _ -> mkVarOccFS (ifLclNameFS raw_name)
-       ; name <- newIfaceName occ }
+       name <- newIfaceName occ
+       return (details', name)
    info' <- tcIdInfo False TopLevel name ty info
    let new_id = mkGlobalId details' name ty info'
    return new_id

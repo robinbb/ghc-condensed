@@ -498,7 +498,7 @@ report b s = Q $ \h -> mReport h b s
 recover :: Q a -- ^ handler to invoke on failure
         -> Q a -- ^ computation to run
         -> Q a
-recover handler main = Q $ \h -> mRecover h handler main
+recover rec main = Q $ \h -> mRecover h rec main
 
 -- We don't export lookupName; the Bool isn't a great API
 -- Instead we export lookupTypeName, lookupValueName

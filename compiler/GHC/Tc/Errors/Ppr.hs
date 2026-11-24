@@ -1349,7 +1349,7 @@ instance Diagnostic TcRnMessage where
         either msg msg eBinds
       where
         msg binds = hang
-          (text "Implicit-parameter bindings illegal in an mdo expression")
+          (text "Implicit-parameter bindings illegal in a rec block")
           2 (ppr binds)
     TcRnSectionWithoutParentheses expr -> mkSimpleDecorated $
       hang (text "A section must be enclosed in parentheses")

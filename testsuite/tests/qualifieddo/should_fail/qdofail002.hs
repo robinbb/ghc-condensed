@@ -7,6 +7,3 @@ main = do
   print $ P.do
     x <- [1, 2]
     P.return x
-  print 1 $ P.mdo
-    x <- [1, 2]
-    P.return x

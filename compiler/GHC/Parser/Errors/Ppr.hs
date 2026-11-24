@@ -385,8 +385,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "do command") a
     PsErrDoInFunAppExpr m a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (prependQualified m (text "do block")) a
-    PsErrMDoInFunAppExpr m a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (prependQualified m (text "mdo block")) a
     PsErrCaseInFunAppExpr a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "case expression") a
     PsErrLambdaInFunAppExpr lam_variant a
@@ -654,7 +652,6 @@ instance Diagnostic PsMessage where
     PsErrLetCmdInFunAppCmd{}                      -> ErrorWithoutFlag
     PsErrDoCmdInFunAppCmd{}                       -> ErrorWithoutFlag
     PsErrDoInFunAppExpr{}                         -> ErrorWithoutFlag
-    PsErrMDoInFunAppExpr{}                        -> ErrorWithoutFlag
     PsErrLambdaInFunAppExpr{}                     -> ErrorWithoutFlag
     PsErrCaseInFunAppExpr{}                       -> ErrorWithoutFlag
     PsErrLetInFunAppExpr{}                        -> ErrorWithoutFlag
@@ -795,7 +792,6 @@ instance Diagnostic PsMessage where
     PsErrLetCmdInFunAppCmd{}                      -> suggestParensAndBlockArgs
     PsErrDoCmdInFunAppCmd{}                       -> suggestParensAndBlockArgs
     PsErrDoInFunAppExpr{}                         -> suggestParensAndBlockArgs
-    PsErrMDoInFunAppExpr{}                        -> suggestParensAndBlockArgs
     PsErrLambdaInFunAppExpr{}                     -> suggestParensAndBlockArgs
     PsErrCaseInFunAppExpr{}                       -> suggestParensAndBlockArgs
     PsErrLetInFunAppExpr{}                        -> suggestParensAndBlockArgs

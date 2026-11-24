@@ -6,7 +6,7 @@ x :: Foo
 x = Foo { foo = id, bar = 3 }
 
 f :: Foo -> Foo
-f r = r { foo = id }
+f rec = rec { foo = id }
 
 g :: Foo -> Foo
-g r = r { bar = 3 }
+g rec = rec { bar = 3 }

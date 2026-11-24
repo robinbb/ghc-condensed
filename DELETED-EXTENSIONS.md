@@ -321,13 +321,13 @@ The entries below are alphabetical. For each extension it gives:
 `RecursiveDo`
 
 - Category: Syntax.
-- Hard-coded: On.
+- Hard-coded: Off.
 - Editions: none.
-- Lines: +154 −368, net −214.
+- Lines: +295 −2130, net −1835.
 - Stability: Stable.
-- Notes: `mdo` and `rec` are keywords everywhere. The notation is well
-  understood, but the stolen keywords forced renames in the tree and in ten
-  corpus packages.
+- Notes: There is no recursive do-notation: `mdo` is an ordinary
+  identifier and `rec` a keyword of arrow notation alone; knots are tied
+  with `mfix`. Hard-coding it on stole two keywords from every module.
 
 `RelaxedPolyRec`
 

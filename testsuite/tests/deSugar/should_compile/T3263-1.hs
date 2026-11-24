@@ -29,8 +29,3 @@ t4 = do
 t5 = do
   _ <- nonNullM
   nullM
-
--- Warning
-t6 = mdo
-  nonNullM
-  nullM

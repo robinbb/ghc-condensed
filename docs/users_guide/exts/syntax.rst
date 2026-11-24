@@ -8,7 +8,6 @@ Syntax
 
     unicode_syntax
     magic_hash
-    recursive_do
     applicative_do
     qualified_do
     parallel_list_comprehensions

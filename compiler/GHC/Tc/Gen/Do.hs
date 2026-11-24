@@ -18,7 +18,6 @@ import GHC.Rename.Utils
 import GHC.Rename.Env   ( irrefutableConLikeRn )
 
 import GHC.Tc.Utils.Monad
-import GHC.Tc.Utils.TcMType
 import GHC.Tc.Types.ErrCtxt
 import GHC.Hs
 
@@ -31,7 +30,6 @@ import GHC.Types.SrcLoc
 import GHC.Types.Basic
 import qualified GHC.LanguageExtensions as LangExt
 
-import Data.List ((\\))
 
 
 {-
@@ -127,54 +125,6 @@ expand_do_stmts doFlavour (stmt@(L loc (BodyStmt _ (L _ e) (SyntaxExprRn then_op
                      [ wrapGenSpan e
                      , expand_stmts_expr ]
      return $ L loc (mkExpandedStmt stmt doFlavour expansion)
-
-expand_do_stmts doFlavour
-       ((L loc (RecStmt { recS_stmts = L stmts_loc rec_stmts
-                        , recS_later_ids = later_ids  -- forward referenced local ids
-                        , recS_rec_ids = local_ids     -- ids referenced outside of the rec block
-                        , recS_bind_fn = SyntaxExprRn bind_fun   -- the (>>=) expr
-                        , recS_mfix_fn = SyntaxExprRn mfix_fun   -- the `mfix` expr
-                        , recS_ret_fn  = SyntaxExprRn return_fun -- the `return` expr
-                                                          -- use it explicitly
-                                                          -- at the end of expanded rec block
-                        }))
-         : lstmts) =
--- See Note [Typing a RecStmt] in Language.Haskell.Syntax.Expr
--- See  Note [Expanding HsDo with XXExprGhcRn] Equation (4) and (6) below
---                                   stmts ~~> stmts'
---    -------------------------------------------------------------------------------------------
---      rec { later_ids, local_ids, rec_block } ; stmts
---                    ~~> (>>=) (mfix (\[ local_only_ids ++ later_ids ]
---                                           -> do { rec_stmts
---                                                 ; return (local_only_ids ++ later_ids) } ))
---                              (\ [ local_only_ids ++ later_ids ] -> stmts')
-  do expand_stmts_expr <- expand_do_stmts doFlavour lstmts
-     -- NB: No need to wrap the expansion with an ExpandedStmt
-     -- as we want to flatten the rec block statements into its parent do block anyway
-     return $ (mkHsApps (wrapGenSpan bind_fun)                                          -- (>>=)
-                      [ (wrapGenSpan mfix_fun) `mkHsApp` mfix_expr                      -- (mfix (do block))
-                      , genHsLamDoExp doFlavour [ mkBigLHsVarPatTup all_ids ]           --        (\ x ->
-                                       expand_stmts_expr                                --  stmts')
-                      ])
-  where
-    local_only_ids = local_ids \\ later_ids -- get unique local rec ids;
-                                            -- local rec ids and later ids can overlap
-    all_ids = local_only_ids ++ later_ids   -- put local ids before return ids
-
-    return_stmt  :: ExprLStmt GhcRn
-    return_stmt  = wrapGenSpan $ LastStmt noExtField
-                                     (mkBigLHsTup (map nlHsVar all_ids) noExtField)
-                                     Nothing
-                                     (SyntaxExprRn return_fun)
-    do_stmts     :: XRec GhcRn [ExprLStmt GhcRn]
-    do_stmts     = L stmts_loc $ rec_stmts ++ [return_stmt]
-    do_block     :: LHsExpr GhcRn
-    do_block     = L loc $ HsDo noExtField doFlavour do_stmts
-    mfix_expr    :: LHsExpr GhcRn
-    mfix_expr    = genHsLamDoExp doFlavour [ wrapGenSpan (LazyPat noExtField $ mkBigLHsVarPatTup all_ids) ]
-                                          $ do_block
-                             -- NB: LazyPat because we do not want to eagerly evaluate the pattern
-                             -- and potentially loop forever
 
 expand_do_stmts _ stmts = pprPanic "expand_do_stmts: impossible happened" $ (ppr stmts)
 
@@ -288,17 +238,7 @@ They capture the essence of statement expansions as implemented in `expand_do_st
                                  = ‹ExpansionStmt (let x = e)› (let x = e in (DO【 ss 】))
 
 
-          (4) DO【 rec ss; sss 】
-                                 = (>>=) e (\vars -> DO【 sss 】))
-                                           where (vars, e) = RECDO【 ss 】
-
-          (5) DO【 s 】          = s
-
-  RECDO【 _ 】 maps a sequence of recursively dependent monadic statements and converts it into an expression paired
-              with the variables that the rec finds a fix point of.
-
-          (6) RECDO【 ss 】     = (vars, mfix (\~vars -> (>>=) (DO【 ss 】) (return vars)))
-                                  where vars are all the variables free in ss
+          (4) DO【 s 】          = s
 
 
 For a concrete example, consider a `do`-block written by the user

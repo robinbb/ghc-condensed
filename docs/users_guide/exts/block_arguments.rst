@@ -15,8 +15,7 @@ In Haskell 2010, certain kinds of expressions can be used without parentheses
 as an argument to an operator, but not as an argument to a function.
 They include ``do``, lambda, ``if``, ``case``, and ``let``
 expressions. Some GHC extensions also define language constructs of this type:
-``mdo`` (:ref:`recursive-do-notation`), ``\case`` (:ref:`lambda-case`), and
-``proc`` (:ref:`arrow-notation`).
+``\case`` (:ref:`lambda-case`) and ``proc`` (:ref:`arrow-notation`).
 
 The :extension:`BlockArguments` extension allows these constructs to be directly
 used as a function argument. For example::

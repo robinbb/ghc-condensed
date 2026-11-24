@@ -1331,20 +1331,11 @@ zonkStmt _ (ParStmt bind_ty stmts_w_bndrs mzip_op bind_op)
 
 zonkStmt zBody (RecStmt { recS_stmts = L _ segStmts, recS_later_ids = lvs
                         , recS_rec_ids = rvs
-                        , recS_ret_fn = ret_id, recS_mfix_fn = mfix_id
-                        , recS_bind_fn = bind_id
                         , recS_ext =
-                                   RecStmtTc { recS_bind_ty = bind_ty
-                                             , recS_later_rets = later_rets
-                                             , recS_rec_rets = rec_rets
-                                             , recS_ret_ty = ret_ty} })
-  = do { new_bind_id <- zonkSyntaxExpr bind_id
-       ; new_mfix_id <- zonkSyntaxExpr mfix_id
-       ; new_ret_id  <- zonkSyntaxExpr ret_id
-       ; new_bind_ty <- noBinders $ zonkTcTypeToTypeX bind_ty
-       ; new_rvs     <- noBinders $ zonkIdBndrs rvs
+                                   RecStmtTc { recS_later_rets = later_rets
+                                             , recS_rec_rets = rec_rets } })
+  = do { new_rvs     <- noBinders $ zonkIdBndrs rvs
        ; new_lvs     <- noBinders $ zonkIdBndrs lvs
-       ; new_ret_ty  <- noBinders $ zonkTcTypeToTypeX ret_ty
 
     -- Zonk the ret-expressions in an environment that
     -- has the polymorphic bindings
@@ -1356,13 +1347,10 @@ zonkStmt zBody (RecStmt { recS_stmts = L _ segStmts, recS_later_ids = lvs
              ; return $
                RecStmt { recS_stmts = noLocA new_segStmts
                        , recS_later_ids = new_lvs
-                       , recS_rec_ids = new_rvs, recS_ret_fn = new_ret_id
-                       , recS_mfix_fn = new_mfix_id, recS_bind_fn = new_bind_id
+                       , recS_rec_ids = new_rvs
                        , recS_ext = RecStmtTc
-                           { recS_bind_ty = new_bind_ty
-                           , recS_later_rets = new_later_rets
-                           , recS_rec_rets = new_rec_rets
-                           , recS_ret_ty = new_ret_ty } } }
+                           { recS_later_rets = new_later_rets
+                           , recS_rec_rets = new_rec_rets } } }
 
     -- Only the lvs are needed
        ; extendIdZonkEnvRec new_lvs

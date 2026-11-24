@@ -54,6 +54,7 @@ import GHC.Driver.Session
 
 
 import Control.Monad
+import Control.Monad.Fix ( mfix )
 
 import Data.List( deleteFirstsBy )
 import qualified Data.Semigroup as S
@@ -1644,14 +1645,17 @@ solveWantedQCI mode ct@(CQuantCan (QCI { qci_ev =  ev, qci_tvs = tvs
     -- This setSrcSpan is important: the TcM.newImplication uses that
     -- TcLclEnv for the implication, and that in turn sets the location
     -- for the Givens when solving the constraint (#21006)
-    do { -- rec {..}: see Note [Keeping SkolemInfo inside a SkolemTv]
-         --           in GHC.Tc.Utils.TcType
+    do { -- mfix: see Note [Keeping SkolemInfo inside a SkolemTv]
+         --       in GHC.Tc.Utils.TcType
          -- Very like the code in tcSkolDFunType
-       ; rec { skol_info <- mkSkolemInfo skol_info_anon
-             ; (subst, skol_tvs) <- tcInstSkolTyVarsX skol_info empty_subst tvs
-             ; let inst_pred  = substTy    subst body_pred
-                   inst_theta = substTheta subst theta
-                   skol_info_anon = InstSkol is_qc (pSizeHead inst_pred) }
+       ; (skol_info, skol_tvs, inst_pred, inst_theta, skol_info_anon)
+           <- mfix $ \ ~(_, _, _, _, skol_info_anon) ->
+              do { skol_info <- mkSkolemInfo skol_info_anon
+                 ; (subst, skol_tvs) <- tcInstSkolTyVarsX skol_info empty_subst tvs
+                 ; let inst_pred  = substTy    subst body_pred
+                       inst_theta = substTheta subst theta
+                       skol_info_anon = InstSkol is_qc (pSizeHead inst_pred)
+                 ; return (skol_info, skol_tvs, inst_pred, inst_theta, skol_info_anon) }
 
        ; given_ev_vars <- mapM TcS.newEvVar inst_theta
        ; (lvl, wanted_ev)

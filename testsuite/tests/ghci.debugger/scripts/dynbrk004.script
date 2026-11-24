@@ -1,7 +1,0 @@
--- Instrumentation of mdo notation 
-                                   
-:l mdo.hs
-:break Main 13
-:break Main 12
-:break Main 11
-:break Main 14

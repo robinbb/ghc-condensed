@@ -158,7 +158,6 @@ test('PprOverloadedLabels', [ignore_stderr, req_ppr_deps], makefile_test, ['PprO
 test('PprArrows', [ignore_stderr, req_ppr_deps], makefile_test, ['PprArrows'])
 test('PprOverloadedRecords', [ignore_stderr, req_ppr_deps], makefile_test, ['PprOverloadedRecords'])
 test('PprArrowLambdaCase', [ignore_stderr, req_ppr_deps], makefile_test, ['PprArrowLambdaCase'])
-test('PprRecursiveDo', [ignore_stderr, req_ppr_deps], makefile_test, ['PprRecursiveDo'])
 test('PprTypeBrackets', [ignore_stderr, req_ppr_deps], makefile_test, ['PprTypeBrackets'])
 test('PprDynamic', [ignore_stderr, req_ppr_deps], makefile_test, ['PprDynamic'])
 test('PprEmptyMostly', [ignore_stderr, req_ppr_deps], makefile_test, ['PprEmptyMostly'])

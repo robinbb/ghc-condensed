@@ -18,10 +18,10 @@ In GHC, a fixity declaration may accompany a local binding: ::
 
 and the fixity declaration applies wherever the binding is in scope. For
 example, in a ``let``, it applies in the right-hand sides of other
-``let``-bindings and the body of the ``let``\ C. Or, in recursive ``do``
-expressions (:ref:`recursive-do-notation`), the local fixity
-declarations of a ``let`` statement scope over other statements in the
-group, just as the bound name does.
+``let``-bindings and the body of the ``let``\ C. Or, in the ``rec`` blocks
+of arrow notation (:ref:`arrow-notation`), the local fixity declarations
+of a ``let`` statement scope over other statements in the block, just as
+the bound name does.
 
 Moreover, a local fixity declaration *must* accompany a local binding
 of that name: it is not possible to revise the fixity of name bound

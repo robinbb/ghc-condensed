@@ -987,7 +987,7 @@ type GhciStmt   id = Stmt  id (LHsExpr id)
 -- comprehensions, which have rebindable syntax. Otherwise they are unused.
 data StmtLR idL idR body -- body should always be (LHs**** idR)
   = LastStmt  -- Always the last Stmt in ListComp, MonadComp,
-              -- and (after the renamer, see GHC.Rename.Expr.checkLastStmt) DoExpr, MDoExpr
+              -- and (after the renamer, see GHC.Rename.Expr.checkLastStmt) DoExpr
               -- Not used for GhciStmtCtxt, PatGuard, which scope over other stuff
           (XLastStmt idL idR body)
           body
@@ -998,7 +998,7 @@ data StmtLR idL idR body -- body should always be (LHs**** idR)
           (SyntaxExpr idR)   -- The return operator
             -- The return operator is used only for MonadComp
             -- For ListComp we use the baked-in 'return'
-            -- For DoExpr, MDoExpr, we don't apply a 'return' at all
+            -- For DoExpr, we don't apply a 'return' at all
             -- See Note [Monad Comprehensions]
 
   | BindStmt (XBindStmt idL idR body)
@@ -1069,11 +1069,6 @@ data StmtLR idL idR body -- body should always be (LHs**** idR)
         -- An Id can be in both groups
         -- Both sets of Ids are (now) treated monomorphically
         -- See Note [How RecStmt works] for why they are separate
-
-        -- Rebindable syntax
-     , recS_bind_fn :: SyntaxExpr idR -- The bind function
-     , recS_ret_fn  :: SyntaxExpr idR -- The return function
-     , recS_mfix_fn :: SyntaxExpr idR -- The mfix function
       }
   | XStmtLR !(XXStmtLR idL idR body)
 
@@ -1172,42 +1167,39 @@ Array comprehensions are handled like list comprehensions.
 
 Note [How RecStmt works]
 ~~~~~~~~~~~~~~~~~~~~~~~~
-Example:
-   HsDo [ BindStmt x ex
+A RecStmt appears only in the do block of an arrow command (the rec
+keyword of arrow notation). Example:
+   HsCmdDo [ BindStmt x ex
 
-        , RecStmt { recS_rec_ids   = [a, c]
-                  , recS_stmts     = [ BindStmt b (return (a,c))
-                                     , LetStmt a = ...b...
-                                     , BindStmt c ec ]
-                  , recS_later_ids = [a, b]
+           , RecStmt { recS_rec_ids   = [a, c]
+                     , recS_stmts     = [ BindStmt b (returnA -< (a,c))
+                                        , LetStmt a = ...b...
+                                        , BindStmt c ec ]
+                     , recS_later_ids = [a, b]
 
-        , return (a b) ]
+           , returnA -< (a b) ]
 
 Here, the RecStmt binds a,b,c; but
   - Only a,b are used in the stmts *following* the RecStmt,
   - Only a,c are used in the stmts *inside* the RecStmt
         *before* their bindings
 
-Why do we need *both* rec_ids and later_ids?  For monads they could be
-combined into a single set of variables, but not for arrows.  That
-follows from the types of the respective feedback operators:
+Why do we need *both* rec_ids and later_ids?  Because they are the two
+halves of the type of the arrow feedback operator:
 
-        mfix :: MonadFix m => (a -> m a) -> m a
         loop :: ArrowLoop a => a (b,d) (c,d) -> a b c
 
-* For mfix, the 'a' covers the union of the later_ids and the rec_ids
-* For 'loop', 'c' is the later_ids and 'd' is the rec_ids
+'c' is the later_ids and 'd' is the rec_ids.
 
 Note [Typing a RecStmt]
 ~~~~~~~~~~~~~~~~~~~~~~~
-A (RecStmt stmts) types as if you had written
-
-  (v1,..,vn, _, ..., _) <- mfix (\~(_, ..., _, r1, ..., rm) ->
-                                 do { stmts
-                                    ; return (v1,..vn, r1, ..., rm) })
-
-where v1..vn are the later_ids
-      r1..rm are the rec_ids
+A (RecStmt stmts) binds the later_ids v1..vn for the statements that
+follow it and the rec_ids r1..rm for the statements inside it; all of
+them are in scope, at monomorphic types, over stmts.  GHC.Tc.Gen.Arrow
+typechecks the statements that way (tcArrDoStmt), recording in
+recS_rec_rets and recS_later_rets the expressions that return the
+knot-tied values, and GHC.HsToCore.Arrows (dsCmdStmt) ties the knot
+with the arrow's loop combinator.
 
 Note [Monad Comprehensions]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1441,7 +1433,6 @@ data HsArrowMatchContext
 
 data HsDoFlavour
   = DoExpr (Maybe HsModuleName)      -- ^[ModuleName.]do { ... }
-  | MDoExpr (Maybe HsModuleName)     -- ^[ModuleName.]mdo { ... }  ie recursive do-expression
   | GhciStmtCtxt                     -- ^A command-line Stmt in GHCi pat <- rhs
   | ListComp
   | MonadComp
@@ -1450,7 +1441,6 @@ data HsDoFlavour
 qualifiedDoModuleName_maybe :: HsStmtContext fn -> Maybe HsModuleName
 qualifiedDoModuleName_maybe ctxt = case ctxt of
   HsDoStmt (DoExpr m) -> m
-  HsDoStmt (MDoExpr m) -> m
   _ -> Nothing
 
 isPatSynCtxt :: HsMatchContext fn -> Bool
@@ -1470,7 +1460,6 @@ isComprehensionContext (HsDoStmt flavour) = isDoComprehensionContext flavour
 isDoComprehensionContext :: HsDoFlavour -> Bool
 isDoComprehensionContext GhciStmtCtxt = False
 isDoComprehensionContext (DoExpr _) = False
-isDoComprehensionContext (MDoExpr _) = False
 isDoComprehensionContext ListComp = True
 isDoComprehensionContext MonadComp = True
 
@@ -1486,7 +1475,6 @@ isMonadDoStmtContext :: HsDoFlavour -> Bool
 isMonadDoStmtContext ListComp     = False
 isMonadDoStmtContext MonadComp    = True
 isMonadDoStmtContext DoExpr{}     = True
-isMonadDoStmtContext MDoExpr{}    = True
 isMonadDoStmtContext GhciStmtCtxt = True
 
 isMonadCompContext :: HsStmtContext fn -> Bool
@@ -1501,4 +1489,3 @@ isMonadDoCompContext MonadComp    = True
 isMonadDoCompContext ListComp     = False
 isMonadDoCompContext GhciStmtCtxt = False
 isMonadDoCompContext (DoExpr _)   = False
-isMonadDoCompContext (MDoExpr _)  = False

@@ -82,3 +82,168 @@
    forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
    unsafeFreeze ma
  
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/CorePattern.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/CorePattern.hs
+@@ -35,6 +35,7 @@
+                                   ,patternToQ,cleanNullView,cannotAccept,mustAccept) where
+ 
+ import Control.Monad (liftM2, forM, replicateM)
++import Control.Monad.Fix (mfix)
+ import Control.Monad.RWS (RWS, runRWS, ask, local, listens, tell, get, put)
+ 
+ import Data.Array.IArray(Array,(!),accumArray,listArray)
+@@ -252,7 +253,7 @@
+ -- created top down and passed to children.  Thus information flows up
+ -- from the dfs of the children and simultaneously down in the form of
+ -- pre and post HandleTag data.  This bidirectional flow is handled
+--- declaratively by using the MonadFix (i.e. mdo).
++-- declaratively by using the MonadFix (i.e. mfix).
+ --
+ -- Invariant: A tag should exist in Q in exactly one place (and will
+ -- be in a preTag,postTag, or getOrbit field).  This is partly because
+@@ -389,27 +390,27 @@
+           front'end | rightAssoc compOpt = liftM2 (,)
+                     | otherwise = flip (liftM2 (flip (,)))
+           combineSeq :: HHQ -> HHQ -> HHQ
+-          combineSeq pFront pEnd = (\ m1 m2 -> mdo
+-            let bothVary = varies qFront && varies qEnd
++          combineSeq pFront pEnd = (\ m1 m2 -> fmap snd $ mfix $ \ ~((qFront',qEnd'),_) -> do
++            let bothVary = varies qFront' && varies qEnd'
+             a <- if noTag m1 && bothVary then uniq "combineSeq start" else return m1
+             b <- if noTag m2 && bothVary then uniq "combineSeq stop" else return m2
+-            mid <- case (noTag a,canAccept qFront,noTag b,canAccept qEnd) of
++            mid <- case (noTag a,canAccept qFront',noTag b,canAccept qEnd') of
+                      (False,False,_,_) -> return (toAdvice a)
+                      (_,_,False,False) -> return (toAdvice b)
+-                     _ -> if tagged qFront || tagged qEnd then uniq "combineSeq mid" else return NoTag
++                     _ -> if tagged qFront' || tagged qEnd' then uniq "combineSeq mid" else return NoTag
+       --      qFront <- pFront a mid
+       --      qEnd <- pEnd (toAdvice mid) b
+             (qFront,qEnd) <- front'end (pFront a mid) (pEnd (toAdvice mid) b)
+             -- XXX: Perhaps a "produces" should be created to compliment "wants",
+             -- then "produces qEnd" could be compared to "wants qFront"
+             let wanted = if WantsEither == wants qEnd then wants qFront else wants qEnd
+-            return $ Q { nullQ = mergeNullViews (nullQ qFront) (nullQ qEnd)
++            return ((qFront,qEnd), Q { nullQ = mergeNullViews (nullQ qFront) (nullQ qEnd)
+                              , takes = seqTake (takes qFront) (takes qEnd)
+                              , preReset = [], postSet = [], preTag = Nothing, postTag = Nothing
+                              , tagged = bothVary
+                              , childGroups = childGroups qFront || childGroups qEnd
+                              , wants = wanted
+-                             , unQ = Seq qFront qEnd }
++                             , unQ = Seq qFront qEnd })
+                                    )
+   go :: Pattern -> HHQ
+   go pIn m1 m2 =
+@@ -434,7 +435,7 @@
+          PEmpty -> nil
+          POr [] -> nil
+          POr [branch] -> go branch m1 m2
+-         POr branches -> mdo
++         POr branches -> mfix $ \ans' -> do
+            -- 2009 : The PNonEmpty p as POr [PEmpty,p] takes no branch tracking tag.
+            --        I claim this is because only accepting branches need tags,
+            --        and the last accepting branch does not need a tag.
+@@ -443,10 +444,10 @@
+            --    Does the above require changes in POr handling in TNFA?  Yes.
+            --    Have to always use nullQ instead of "recapitulating" it.
+            --    Could also create a constant-writing tag instead of many index tags.
+-           -- Exasperation: This POr recursive mdo is very easy to make loop and lockup the program
++           -- Exasperation: This POr recursive knot is very easy to make loop and lockup the program
+            -- if needTags is False then there is no way to disambiguate branches so fewer tags are needed
+-           let needUniqTags = childGroups ans
+-           let needTags = varies ans || childGroups ans -- childGroups detects that "abc|a(b)c" needs tags
++           let needUniqTags = childGroups ans'
++           let needTags = varies ans' || childGroups ans' -- childGroups detects that "abc|a(b)c" needs tags
+            a <- if noTag m1 && needTags then uniq "POr start" else return m1 -- whole POr
+            b <- if noTag m2 && needTags then uniq "POr stop" else return m2 -- whole POr
+            let aAdvice = toAdvice a -- all branches share 'aAdvice'
+@@ -482,11 +483,11 @@
+            return ans
+          PConcat [] -> nil -- fatal to pass [] to combineConcat
+          PConcat ps -> combineConcat ps m1 m2
+-         PStar mayFirstBeNull p -> mdo
+-           let accepts    = canAccept q
++         PStar mayFirstBeNull p -> fmap snd $ mfix $ \ ~(q',_) -> do
++           let accepts    = canAccept q'
+                -- if needsOrbit is False then there is no need to disambiguate captures on each orbit
+                -- Both checks are useful because (varies q) of True does not imply (childGroups q) of True when under PNonCapture
+-               needsOrbit = varies q && childGroups q
++               needsOrbit = varies q' && childGroups q'
+                -- if needsOrbit then must check start/stop before the Orbit tag
+                -- if accepts then must check start/stop of whole pattern
+                needsTags  = needsOrbit || accepts       -- important that needsOrbit implies needsTags
+@@ -500,7 +501,7 @@
+                         | otherwise = skipView
+                  where childViews = tagWrapNullView a b . orbitWrapNullView mOrbit resetOrbitTags $ nullQ q
+                        skipView = makeEmptyNullView a b
+-           return $ Q { nullQ = nullView
++           return (q, Q { nullQ = nullView
+                       , takes = (0,if accepts then Nothing else (Just 0))
+                       , preReset = [], postSet = []
+                       , preTag = apply a, postTag = apply b
+@@ -510,7 +511,7 @@
+                       , unQ =Star { getOrbit = mOrbit
+                                   , resetOrbits = resetOrbitTags
+                                   , firstNull = mayFirstBeNull
+-                                  , unStar = q } }
++                                  , unStar = q } })
+          PCarat dopa -> test (Test_BOL,dopa)
+          PDollar dopa -> test (Test_EOL,dopa)
+          PChar {} -> one
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
+@@ -37,6 +37,7 @@
+ {- By Chris Kuklewicz, 2007. BSD License, see the LICENSE file. -}
+ 
+ import Control.Monad(when)
++import Control.Monad.Fix(mfix)
+ import Control.Monad.State(State,runState,execState,get,put,modify)
+ import Data.Array.IArray(Array,array)
+ import Data.Char(toLower,toUpper,isAlpha,ord)
+@@ -493,8 +494,8 @@
+                               _ -> (fromQT . preferNullViews (nullQ q) . getQT $ e,False)  -- is NOT same as skipping
+                        else (fromQT . resetOrbitsQT resetTheseOrbits . enterOrbitQT mOrbit -- resetOrbitsQT and enterOrbitQT commute
+                              . preferNullViews (nullQ q) . getQT . leaveOrbit mOrbit $ e,False)  -- perform resets when accepting 0 characters
+-        in if cannotAccept q then return e' else mdo
+-        mqt <- inStar q this
++        in if cannotAccept q then return e' else fmap snd $ mfix $ \ ~(this',_) -> do
++        mqt <- inStar q this'
+         (this,ans) <- case mqt of
+                         Nothing -> err ("Weird pattern in getTransTagless/Star: " ++ show (qTop,qIn))
+                         Just qt -> do
+@@ -505,9 +506,9 @@
+                                   then return . fromQNFA =<< newQNFA "getTransTagless/Star" thisQT
+                                   else return . fromQT $ thisQT
+                           return (thisE,ansE)
+-        return (if mayFirstBeNull then (if clear then this  -- optimization to possibly preserve QNFA
+-                                                 else ans)
+-                  else this)
++        return (this, if mayFirstBeNull then (if clear then this  -- optimization to possibly preserve QNFA
++                                                       else ans)
++                        else this)
+ 
+       {- NonEmpty is like actNullable (Or [Empty,q]) without the extra tag to prefer the first Empty branch -}
+       NonEmpty q -> ecart ("\n> getTransTagless/NonEmpty"++show qIn)  $ do
+@@ -659,8 +660,8 @@
+                        else let nQ = fromQT . resetOrbitsQT resetTheseOrbits . enterOrbitQT mOrbit
+                                      . preferNullViews (nullQ q) . getQT . leaveOrbit mOrbit
+                             in ((nQ eLoop,fmap nQ mAccepting,Nothing),False)
+-        if cannotAccept q then return ac0 else mdo
+-          mChildAccepting <- act q (this,Nothing,Nothing)
++        if cannotAccept q then return ac0 else fmap snd $ mfix $ \ ~(this',_) -> do
++          mChildAccepting <- act q (this',Nothing,Nothing)
+           (thisAC@(this,_,_),ansAC) <-
+             case mChildAccepting of
+               Nothing -> err $ "Weird pattern in getTransTagless/Star: " ++ show (qTop,qIn)
+@@ -682,8 +683,8 @@
+                         Nothing -> Just . fromQT $ childQT
+                     ansAll = (fromQT skipQT, skipAccepting, Nothing)
+                 return (thisAll,ansAll)
+-          return (if mayFirstBeNull then (if clear then thisAC else ansAC)
+-                    else thisAC)
++          return (this, if mayFirstBeNull then (if clear then thisAC else ansAC)
++                          else thisAC)
+       NonEmpty q -> ecart ("\n> actNullableTagless/NonEmpty"++show qIn) $ do
+         -- We *know* that q is nullable from Pattern and CorePattern checks, but assert here anyway
+         when (mustAccept q) (err $ "actNullableTagless/NonEmpty : provided with a *mustAccept* pattern: "++show (qTop,qIn))

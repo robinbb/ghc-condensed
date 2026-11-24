@@ -607,14 +607,18 @@ rnClsInstDecl (ClsInstDecl { cid_ext = (inst_warn_ps, _)
                            , cid_decls = decls
                            , cid_overlap_mode = omode
                            , cid_modifiers = modifiers })
-  = do { rec { let HsNestedGroup { ng_meths = mbinds, ng_sigs = uprags
-                                 , ng_tyfam_insts = ats
-                                 , ng_datafam_insts = adts} = partitionBindsAndSigs decls
-             ; let ctxt = ClassInstanceCtx head_ty'
-             ; checkInferredVars ctxt inst_ty
-             ; (inst_ty', inst_fvs) <- rnHsSigType ctxt TypeLevel inst_ty
-             ; let (ktv_names, _, head_ty') = splitLHsInstDeclTy inst_ty'
-             }
+  = do { let HsNestedGroup { ng_meths = mbinds, ng_sigs = uprags
+                           , ng_tyfam_insts = ats
+                           , ng_datafam_insts = adts} = partitionBindsAndSigs decls
+         -- The context for the instance type mentions the renamed instance
+         -- head, so tie the knot; the head is used only in messages.
+      ; (ctxt, inst_ty', inst_fvs, ktv_names, head_ty')
+          <- fixM $ \ ~(_, _, _, _, head_ty') ->
+             do { let ctxt = ClassInstanceCtx head_ty'
+                ; checkInferredVars ctxt inst_ty
+                ; (inst_ty', inst_fvs) <- rnHsSigType ctxt TypeLevel inst_ty
+                ; let (ktv_names, _, head_ty') = splitLHsInstDeclTy inst_ty'
+                ; return (ctxt, inst_ty', inst_fvs, ktv_names, head_ty') }
       ; env <- getGlobalRdrEnv
       ; let
           -- Check if there are any nested `forall`s or contexts, which are

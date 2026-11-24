@@ -55,8 +55,8 @@ module Language.Haskell.TH.Lib (
     arithSeqE,
     fromR, fromThenR, fromToR, fromThenToR,
     -- **** Statements
-    doE, mdoE, compE,
-    bindS, letS, noBindS, parS, recS,
+    doE, compE,
+    bindS, letS, noBindS, parS,
 
     -- *** Types
         forallT, forallVisT, varT, conT, appT, appKindT, arrowT, mulArrowT,
@@ -175,7 +175,6 @@ import GHC.Boot.TH.Lib hiding
   , standaloneDerivWithStrategyD
 
   , doE
-  , mdoE
   , tupE
   , unboxedTupE
 
@@ -389,9 +388,6 @@ unboxedTupE es = do { es1 <- sequenceA es; return (UnboxedTupE $ map Just es1)}
 
 doE :: Quote m => [m Stmt] -> m Exp
 doE = Internal.doE Nothing
-
-mdoE :: Quote m => [m Stmt] -> m Exp
-mdoE = Internal.mdoE Nothing
 
 -------------------------------------------------------------------------------
 -- * Patterns

@@ -13,5 +13,3 @@ fIfThenElse x = (*2) if x then 1 else 0
 fLetIn x = swap let y = x+1 in (x,y)
 
 fDo x = id do x
-
-fMDo x = id mdo x

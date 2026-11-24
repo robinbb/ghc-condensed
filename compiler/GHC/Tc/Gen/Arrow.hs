@@ -491,7 +491,7 @@ arity_map = mkOccEnv
 -}
 
 --------------------------------
---      Mdo-notation
+--      Do-notation for commands
 -- The distinctive features here are
 --      (a) RecStmts, and
 --      (b) no rebindable syntax
@@ -545,10 +545,9 @@ tcArrDoStmt env ctxt (RecStmt { recS_stmts = L l stmts, recS_later_ids = later_n
                                  -- { recS_stmts = _ stmts'
                                  , recS_later_ids = later_ids
                                  , recS_rec_ids = rec_ids
-                                 , recS_ext = unitRecStmtTc
+                                 , recS_ext = emptyRecStmtTc
                                      { recS_later_rets = later_rets
-                                     , recS_rec_rets = rec_rets
-                                     , recS_ret_ty = res_ty} }
+                                     , recS_rec_rets = rec_rets } }
         ; return (stmt, thing)
         }}
 

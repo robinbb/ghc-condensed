@@ -325,8 +325,6 @@ data PsMessage
    -- | Unexpected do block in function application
    | PsErrDoInFunAppExpr !(Maybe HsModuleName) !(LHsExpr GhcPs)
 
-   -- | Unexpected mdo block in function application
-   | PsErrMDoInFunAppExpr !(Maybe HsModuleName) !(LHsExpr GhcPs)
 
    -- | Unexpected case expression in function application
    | PsErrCaseInFunAppExpr !(LHsExpr GhcPs)
