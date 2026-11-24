@@ -3,9 +3,9 @@ module Main where
 
 import Prelude
 
-{-# LANGUAGE RecursiveDo #-}
+{-# LANGUAGE LambdaCase #-}
 
 main = pure ()
 
 foo :: forall a. a -> a
-foo x = mdo x
+foo x = lambdaCase x

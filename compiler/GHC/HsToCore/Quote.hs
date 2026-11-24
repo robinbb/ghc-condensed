@@ -2218,7 +2218,7 @@ repP (ConPat NoExtField dc details)
          PrefixCon _ ps -> do { ts' <- repListM typeTyConOcc (repTy . unLoc . hstp_body) (takeHsConPatTyArgs ps)
                               ; ps' <- repLPs (dropHsConPatTyArgs ps)
                               ; repPcon con_str ts' ps' }
-         RecCon _ rec   -> do { fps <- repListM fieldPatTyConOcc rep_fld (rec_flds rec)
+         RecCon _ rcon   -> do { fps <- repListM fieldPatTyConOcc rep_fld (rec_flds rcon)
                               ; repPrec con_str fps }
          InfixCon _ p1 p2 -> do { p1' <- repLP p1;
                                   p2' <- repLP p2;

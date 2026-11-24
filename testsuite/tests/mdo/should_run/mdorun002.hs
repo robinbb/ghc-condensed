@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 module Main(main) where
 

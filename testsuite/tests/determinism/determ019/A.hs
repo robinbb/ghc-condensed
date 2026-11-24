@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE TupleSections #-}
 module A where
 

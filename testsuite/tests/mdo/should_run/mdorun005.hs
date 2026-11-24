@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 
 -- check that do-rec does not perform segmentation
 -- compare with ../should_fail/mdofail006.hs

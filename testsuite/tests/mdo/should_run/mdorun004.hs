@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 
 -- check that mdo does perform segmentation
 t :: IO [Int]

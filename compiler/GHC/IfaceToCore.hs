@@ -6,7 +6,6 @@ Type checking of type signatures in interface files
 -}
 
 {-# LANGUAGE NondecreasingIndentation #-}
-{-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE RecordWildCards #-}
 
 {-# OPTIONS_GHC -Wno-incomplete-record-updates #-}

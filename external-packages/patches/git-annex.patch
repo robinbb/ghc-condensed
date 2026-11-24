@@ -11,3 +11,22 @@
  
    -- Fully optimize for production.
    if flag(Production)
+--- a/external-packages/vendored/git-annex/Logs/Migrate.hs
++++ b/external-packages/vendored/git-annex/Logs/Migrate.hs
+@@ -95,13 +95,13 @@
+ 				let !n' = succ n
+ 				writeTVar nv n'
+ 				return (asTopFilePath (toOsPath (show n')))
+-			let rec h r = liftIO $ sendMkTree h
++			let mktree h r = liftIO $ sendMkTree h
+ 				(fromTreeItemType TreeFile)
+ 				BlobObject
+ 				(Git.Ref (encodeBS r))
+ 				fn
+-			rec oldh old
+-			rec newh new
++			mktree oldh old
++			mktree newh new
+ 		_ -> error "migrate.log parse error"
+ 	finalizer nv oldh newh g = do
+ 		oldt <- liftIO $ finishMkTree oldh

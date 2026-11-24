@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 module TH_recursiveDoImport where
 import Data.IORef
 import Language.Haskell.TH

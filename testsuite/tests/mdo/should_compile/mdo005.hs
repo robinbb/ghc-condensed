@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 -- test scoping
 

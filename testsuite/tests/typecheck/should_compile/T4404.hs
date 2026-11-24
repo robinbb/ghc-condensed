@@ -1,4 +1,4 @@
-{-# LANGUAGE RecordWildCards, RecursiveDo #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -Wno-unused-record-wildcards #-}
 
 module TT where

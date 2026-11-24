@@ -1,4 +1,4 @@
-{-# LANGUAGE ImpredicativeTypes, RecursiveDo #-}
+{-# LANGUAGE ImpredicativeTypes #-}
 
 type Id = forall a. a -> a
 

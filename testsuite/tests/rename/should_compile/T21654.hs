@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 {-# OPTIONS_GHC -Wunused-top-binds #-}
 
 module T21654 ( patternToQ ) where

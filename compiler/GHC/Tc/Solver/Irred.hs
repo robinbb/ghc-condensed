@@ -1,6 +1,5 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE RecursiveDo #-}
 
 module GHC.Tc.Solver.Irred(
      solveIrred

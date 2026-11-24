@@ -156,9 +156,9 @@ instance Outputable FloatLang where
   ppr EndBindingGroup = char ')'
   ppr (PlainTopBinding StgTopStringLit{}) = text "<str>"
   ppr (PlainTopBinding (StgTopLifted b)) = ppr (LiftedBinding b)
-  ppr (LiftedBinding bind) = (if isRec rec then char 'r' else char 'n') <+> ppr (map fst pairs)
+  ppr (LiftedBinding bind) = (if isRec rec_flag then char 'r' else char 'n') <+> ppr (map fst pairs)
     where
-      (rec, pairs) = decomposeStgBinding bind
+      (rec_flag, pairs) = decomposeStgBinding bind
 
 -- | Flattens an expression in @['FloatLang']@ into an STG program, see "GHC.Stg.Lift.Monad#floats".
 -- Important pre-conditions: The nesting of opening 'StartBindinGroup's and

@@ -140,11 +140,12 @@ data GhcHint
         to guess when the user is using the syntax of a particular language extension
         without having the relevant extension enabled.
 
-        Example: If the user uses the keyword \"mdo\" (and we are in a monadic block), but
-        the relevant extension is not enabled, GHC will emit a 'SuggestExtension RecursiveDo'.
+        Example: If the user uses the keyword \"pattern\" to declare a pattern
+        synonym, but PatternSynonyms is not enabled, GHC will emit a
+        'SuggestExtension PatternSynonyms'.
 
-        Test case(s): parser/should_fail/T12429, parser/should_fail/T8501c,
-                      parser/should_fail/T18251e, ... (and many more)
+        Test case(s): parser/should_fail/T12429, parser/should_fail/T18251e,
+                      ... (and many more)
 
     -}
   | SuggestExtension !LanguageExtensionHint

@@ -1347,16 +1347,13 @@ checkPat :: SrcSpanAnnA -> EpAnnComments -> LocatedA (PatBuilder GhcPs) -> [LPat
          -> PV (LPat GhcPs, EpAnnComments)
 -- SG: I think this function checks what Haskell2010 calls the `pat` and `lpat`
 -- productions
-checkPat loc cs (L l e@(PatBuilderVar (L ln c))) args
+checkPat loc cs (L l (PatBuilderVar (L ln c))) args
   | isRdrDataCon c || isRdrTc c
   = return (L loc $ ConPat
       { pat_con_ext = noExtField
       , pat_con = L ln c
       , pat_args = PrefixCon noExtField args
       }, comments l Semi.<> cs)
-  | (not (null args) && patIsRec c) = do
-      ctx <- askParseContext
-      patFail (locA l) . PsErrInPat e $ PEIP_RecPattern args YesPatIsRecursive ctx
 checkPat loc cs (L la (PatBuilderAppType f at t)) args =
   checkPat loc (cs Semi.<> comments la) f (mkInvisLPat at t : args)
 checkPat loc cs (L la (PatBuilderApp f e)) args = do
@@ -1440,9 +1437,6 @@ checkPatField (L l fld) = do p <- checkLPat (hfbRHS fld)
 
 patFail :: SrcSpan -> PsMessage -> PV a
 patFail loc msg = addFatalError $ mkPlainErrorMsgEnvelope loc $ msg
-
-patIsRec :: RdrName -> Bool
-patIsRec e = e == mkUnqual varName (fsLit "rec")
 
 ---------------------------------------------------------------------------
 -- Check Equation Syntax

@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 -- From https://ocharles.org.uk/blog/posts/2014-12-09-recursive-do.html
 
 import Control.Monad.Fix

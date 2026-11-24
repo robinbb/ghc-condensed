@@ -50,11 +50,11 @@ infixl 1 &
 -- This uses the fact that Haskell’s @let@ introduces recursive bindings. We can
 -- rewrite this definition using 'fix',
 --
--- Instead of making a recursive call, we introduce a dummy parameter @rec@;
+-- Instead of making a recursive call, we introduce a dummy parameter @self@;
 -- when used within 'fix', this parameter then refers to 'fix'’s argument, hence
 -- the recursion is reintroduced.
 --
--- >>> fix (\rec n -> if n <= 1 then 1 else n * rec (n-1)) 5
+-- >>> fix (\self n -> if n <= 1 then 1 else n * self (n-1)) 5
 -- 120
 --
 -- Using 'fix', we can implement versions of 'GHC.Internal.Data.List.repeat' as @'fix' '.' '(:)'@
@@ -63,7 +63,7 @@ infixl 1 &
 -- >>> take 10 $ fix (0:)
 -- [0,0,0,0,0,0,0,0,0,0]
 --
--- >>> map (fix (\rec n -> if n < 2 then n else rec (n - 1) + rec (n - 2))) [1..10]
+-- >>> map (fix (\self n -> if n < 2 then n else self (n - 1) + self (n - 2))) [1..10]
 -- [1,1,2,3,5,8,13,21,34,55]
 --
 -- ==== __Implementation Details__

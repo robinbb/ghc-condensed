@@ -805,7 +805,7 @@ andFF FltLifted  flt        = flt
 
 doFloatFromRhs :: FloatEnable -> TopLevelFlag -> RecFlag -> Bool -> SimplFloats -> OutExpr -> Bool
 -- If you change this function look also at FloatIn.noFloatIntoRhs
-doFloatFromRhs fe lvl rec strict_bind (SimplFloats { sfLetFloats = LetFloats fs ff }) rhs
+doFloatFromRhs fe lvl rec_flag strict_bind (SimplFloats { sfLetFloats = LetFloats fs ff }) rhs
   = floatEnabled lvl fe
       && not (isNilOL fs)
       && want_to_float
@@ -816,8 +816,8 @@ doFloatFromRhs fe lvl rec strict_bind (SimplFloats { sfLetFloats = LetFloats fs 
 
      can_float = case ff of
                    FltLifted  -> True
-                   FltOkSpec  -> isNotTopLevel lvl && isNonRec rec
-                   FltCareful -> isNotTopLevel lvl && isNonRec rec && strict_bind
+                   FltOkSpec  -> isNotTopLevel lvl && isNonRec rec_flag
+                   FltCareful -> isNotTopLevel lvl && isNonRec rec_flag && strict_bind
 
      -- Whether any floating is allowed by flags.
      floatEnabled :: TopLevelFlag -> FloatEnable -> Bool

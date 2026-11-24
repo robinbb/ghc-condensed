@@ -1,0 +1,15 @@
+--- a/external-packages/directory-tree/System/Directory/Tree.hs
++++ b/external-packages/directory-tree/System/Directory/Tree.hs
+@@ -377,10 +377,10 @@
+                      files <- getDirsFiles p
+ 
+                      -- HERE IS THE UNSAFE LINE:
+-                     dirTrees <- unsafeMapM (rec . combine p) files
++                     dirTrees <- unsafeMapM (recurse . combine p) files
+ 
+                      return (Dir n dirTrees)
+-     where rec = buildLazilyUnsafe' f
++     where recurse = buildLazilyUnsafe' f
+            n = topDir p
+ 
+ 

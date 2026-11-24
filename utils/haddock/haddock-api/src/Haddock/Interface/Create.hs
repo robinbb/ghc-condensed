@@ -934,8 +934,8 @@ extractDecl prr dflags sDocContext name decl
                     | L _ d'@(DataFamInstDecl d) <-
                         insts
                     , -- , L _ ConDecl { con_details = RecCon rec } <- toList $ dd_cons (feqn_rhs d)
-                    Just rec <- toList $ getRecConArgs_maybe . unLoc <$> dd_cons (feqn_rhs d)
-                    , HsConDeclRecField{cdrf_names = ns} <- map unLoc (unLoc rec)
+                    Just rcon <- toList $ getRecConArgs_maybe . unLoc <$> dd_cons (feqn_rhs d)
+                    , HsConDeclRecField{cdrf_names = ns} <- map unLoc (unLoc rcon)
                     , L _ n <- ns
                     , unLoc (foLabel n) == name
                     ]

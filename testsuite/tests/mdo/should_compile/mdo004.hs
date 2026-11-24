@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 -- test let bindings, polymorphism is ok provided they are not
 -- isolated in a recursive segment

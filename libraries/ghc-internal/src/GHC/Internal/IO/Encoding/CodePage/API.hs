@@ -144,7 +144,7 @@ newCP :: (Buffer from -> Buffer to -> IO (Buffer from, Buffer to))
       -> (Word32 -> Int -> CodeBuffer from to)
       -> Word32
       -> IO (BufferCodec from to ())
-newCP rec fn cp = do
+newCP recov fn cp = do
   -- Fail early if the code page doesn't exist, to match the behaviour of the IConv TextEncoding
   max_char_size <- alloca $ \cpinfo_ptr -> do
     success <- c_GetCPInfo cp cpinfo_ptr
@@ -155,7 +155,7 @@ newCP rec fn cp = do
 
   return $ BufferCodec {
     encode = fn cp max_char_size,
-    recover = rec,
+    recover = recov,
     close  = return (),
     -- Windows doesn't supply a way to save/restore the state and doesn't need one
     -- since it's a dumb string->string API rather than a clever streaming one.

@@ -203,7 +203,6 @@ module Language.Haskell.TH where
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving
-    | RecursiveDo
     | PostfixOperators
     | TupleSections
     | PatternGuards
@@ -791,7 +790,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving
-    | RecursiveDo
     | PostfixOperators
     | TupleSections
     | PatternGuards
@@ -1514,7 +1512,6 @@ module Language.Haskell.TH.Syntax where
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving
-    | RecursiveDo
     | PostfixOperators
     | TupleSections
     | PatternGuards

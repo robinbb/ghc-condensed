@@ -20,7 +20,7 @@ newtype instance Key User = UserKey String
 class Convert lhs result where
     convert :: Proxy lhs -> Proxy result
 
-instance (rec ~ rec') => Convert rec rec' where
+instance (r ~ r') => Convert r r' where
     convert _ = Proxy
 
 a :: Maybe ()

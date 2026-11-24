@@ -1,5 +1,4 @@
 
-{-# LANGUAGE RecursiveDo #-}
 
 module Foo where
 

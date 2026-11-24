@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo #-}
 import Data.IORef
 import Language.Haskell.TH
 import Language.Haskell.TH.Syntax

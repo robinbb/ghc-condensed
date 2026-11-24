@@ -512,8 +512,6 @@ data PsErrParseDetails
     -- Is 'TemplateHaskell' enabled?
   , ped_do_in_last_100 :: !Bool
     -- ^ Is there a 'do' in the last 100 characters?
-  , ped_mdo_in_last_100 :: !Bool
-    -- ^ Is there an 'mdo' in the last 100 characters?
   , ped_pat_syn_enabled :: !Bool
     -- ^ Is 'PatternSynonyms' enabled?
   , ped_pattern_parsed :: !Bool
@@ -524,11 +522,6 @@ data PsInvalidTypeSignature
   = PsErrInvalidTypeSig_Qualified
   | PsErrInvalidTypeSig_DataCon
   | PsErrInvalidTypeSig_Other
-
--- | Is the parsed pattern recursive?
-data PatIsRecursive
-  = YesPatIsRecursive
-  | NoPatIsRecursive
 
 data PatIncompleteDoBlock
   = YesIncompleteDoBlock
@@ -549,9 +542,6 @@ data ParseContext
 data PsErrInPatDetails
   = PEIP_NegApp
     -- ^ Negative application pattern?
-  | PEIP_RecPattern [LPat GhcPs]    -- ^ The pattern arguments
-                    !PatIsRecursive -- ^ Is the parsed pattern recursive?
-                    !ParseContext
   | PEIP_OtherPatDetails !ParseContext
 
 data PsErrPunDetails

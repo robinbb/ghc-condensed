@@ -1,6 +1,5 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE MultiWayIf            #-}
-{-# LANGUAGE RecursiveDo           #-}
 
 {-# OPTIONS_GHC -Wno-incomplete-record-updates #-}
 {-

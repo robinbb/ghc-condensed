@@ -910,9 +910,9 @@ addTickHsLocalBinds (EmptyLocalBinds x)  = return (EmptyLocalBinds x)
 addTickHsValBinds :: HsValBindsLR GhcTc (GhcPass a)
                   -> TM (HsValBindsLR GhcTc (GhcPass b))
 addTickHsValBinds (XValBindsLR (HsVBG grps sigs)) = do
-        grps' <- mapM (\ (rec,binds) ->
+        grps' <- mapM (\ (rec_flag,binds) ->
                        do { binds' <- addTickLHsBinds binds
-                          ; return (rec,binds') })
+                          ; return (rec_flag,binds') })
                       grps
         return $ XValBindsLR (HsVBG grps' sigs)
 addTickHsValBinds _ = panic "addTickHsValBinds"

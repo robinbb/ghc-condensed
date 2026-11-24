@@ -5,15 +5,15 @@ module Prog where
 class AddName i d | d->i where 
   addName :: d -> d
 
-class Rec rec struct | rec->struct where
-  mapRec :: (struct->struct) -> rec -> rec
+class Rec r struct | r->struct where
+  mapRec :: (struct->struct) -> r -> r
 
 -- We got a very bogus siguature for addNameRec in thc 7.6rc1
--- addNameRec :: forall rec struct.
---                Recursive.Rec rec struct
+-- addNameRec :: forall r struct.
+--                Recursive.Rec r struct
 --                -> DefinedNames.AddName (GHC.Prim.Any *) struct
---                -> rec
---                -> rec
+--                -> r
+--                -> r
 
 addNameRec x = mapRec addName x
 

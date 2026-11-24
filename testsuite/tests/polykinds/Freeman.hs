@@ -97,10 +97,10 @@ definitions are as before, but with explicit composition, constructors
 and destructors replaced with the equivalent type class methods, and
 hmap in place of fmap: -}
 
-fold :: (Category hom, HFunctor hom f, Rec hom f rec) => hom (f t) t -> hom rec t
+fold :: (Category hom, HFunctor hom f, Rec hom f r) => hom (f t) t -> hom r t
 fold phi = compose out (compose (hmap (fold phi)) phi)
 
-unfold :: (Category hom, HFunctor hom f, Rec hom f rec) => hom t (f t) -> hom t rec
+unfold :: (Category hom, HFunctor hom f, Rec hom f r) => hom t (f t) -> hom t r
 unfold phi = compose phi (compose (hmap (unfold phi)) _in)
 
 -- Now for some examples.

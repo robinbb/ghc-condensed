@@ -1,4 +1,4 @@
-{-# LANGUAGE RecursiveDo, LambdaCase, BangPatterns #-}
+{-# LANGUAGE LambdaCase, BangPatterns #-}
 
 import Control.Monad.Fix
 import Data.IORef

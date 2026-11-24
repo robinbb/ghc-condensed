@@ -48,3 +48,37 @@
  
  $(deriveAll0And1 ''Empty)
  $(deriveAll0And1 ''(:/:))
+--- a/external-packages/generic-deriving/tests/ExampleSpec.hs
++++ b/external-packages/generic-deriving/tests/ExampleSpec.hs
+@@ -164,7 +164,7 @@
+ -- Example: Nested datatype, record selectors
+ -------------------------------------------------------------------------------
+ 
+-data Nested a = Leaf | Nested { value :: a, rec :: Nested [a] }
++data Nested a = Leaf | Nested { value :: a, recd :: Nested [a] }
+   deriving Functor
+ 
+ $(deriveAll0And1 ''Nested)
+@@ -176,7 +176,7 @@
+   gmap = gmapdefault
+ 
+ nested :: Nested Int
+-nested = Nested { value = 1, rec = Nested [2] (Nested [[3],[4,5],[]] Leaf) }
++nested = Nested { value = 1, recd = Nested [2] (Nested [[3],[4,5],[]] Leaf) }
+ 
+ -------------------------------------------------------------------------------
+ -- Example: Nested datatype Bush (minimal)
+@@ -375,11 +375,11 @@
+     describe "Tests for Nested" $ do
+         it "gshow nested" $
+             gshow nested `shouldBe`
+-                "Nested {value = 1, rec = Nested {value = [2], rec = Nested {value = [[3],[4,5],[]], rec = Leaf}}}"
++                "Nested {value = 1, recd = Nested {value = [2], recd = Nested {value = [[3],[4,5],[]], recd = Leaf}}}"
+ 
+         it "gshow (gmap gshow nested)" $
+             gshow (gmap gshow nested) `shouldBe`
+-                "Nested {value = \"1\", rec = Nested {value = [\"2\"], rec = Nested {value = [[\"3\"],[\"4\",\"5\"],[]], rec = Leaf}}}"
++                "Nested {value = \"1\", recd = Nested {value = [\"2\"], recd = Nested {value = [[\"3\"],[\"4\",\"5\"],[]], recd = Leaf}}}"
+ 
+     describe "Tests for Bush" $ do
+         it "gshow bush1" $

@@ -36,7 +36,7 @@ The following syntax is stolen:
     .. index::
        single: mdo
 
-    Stolen by: :extension:`RecursiveDo`
+    Stolen by default: ``mdo`` is always a keyword.
 
 ``foreign``
     .. index::
@@ -44,7 +44,13 @@ The following syntax is stolen:
 
     Stolen by: :extension:`ForeignFunctionInterface`
 
-``rec``, ``proc``, ``-<``, ``>-``, ``-<<``, ``>>-``, ``(|``, ``|)``
+``rec``
+    .. index::
+       single: rec
+
+    Stolen by default: ``rec`` is always a keyword.
+
+``proc``, ``-<``, ``>-``, ``-<<``, ``>>-``, ``(|``, ``|)``
     .. index::
        single: proc
 

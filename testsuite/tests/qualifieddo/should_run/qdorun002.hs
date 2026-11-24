@@ -1,5 +1,4 @@
 {-# LANGUAGE QualifiedDo #-}
-{-# LANGUAGE RecursiveDo #-}
 
 import qualified Monad.Graded as Graded
 import Vector as Graded

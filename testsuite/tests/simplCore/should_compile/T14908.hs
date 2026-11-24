@@ -7,16 +7,16 @@ import System.Environment
 data Expr = Var String | Not Expr | Expr :|: Expr | Expr :&: Expr deriving Eq
 
 nfd e = if e == e' then e else nfd e'
-  where e' = rec e
-        rec x@(Var _) = x
-        rec x@(Not (Var _)) = x
-        rec (Not (Not x)) = x
-        rec (Not (a :|: b)) = rec $ Not a :&: Not b
-        rec (Not (a :&: b)) = rec $ Not a :|: Not b
-        rec ((a :|: b) :&: c) = rec $ (a :&: c) :|: (b :&: c)
-        rec (a :&: (b :|: c)) = rec $ (a :&: b) :|: (a :&: c)
-        rec (a :&: b) = rec a :&: rec b
-        rec (a :|: b) = rec a :|: rec b
+  where e' = rew e
+        rew x@(Var _) = x
+        rew x@(Not (Var _)) = x
+        rew (Not (Not x)) = x
+        rew (Not (a :|: b)) = rew $ Not a :&: Not b
+        rew (Not (a :&: b)) = rew $ Not a :|: Not b
+        rew ((a :|: b) :&: c) = rew $ (a :&: c) :|: (b :&: c)
+        rew (a :&: (b :|: c)) = rew $ (a :&: b) :|: (a :&: c)
+        rew (a :&: b) = rew a :&: rew b
+        rew (a :|: b) = rew a :|: rew b
 
 eval :: Expr -> Reader [(String, Bool)] Bool
 eval (Var x) = asks (lookup x) >>= maybe (error $ "Var `" ++ x ++ "` not defined!") return

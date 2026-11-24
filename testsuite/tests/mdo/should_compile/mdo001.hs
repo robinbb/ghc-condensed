@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 -- test that we have all the promised instances
 

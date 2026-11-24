@@ -3,13 +3,6 @@
 The recursive do-notation
 -------------------------
 
-.. extension:: RecursiveDo
-    :shortdesc: Allow recursive do (e.g. ``mdo``) notation.
-
-    :since: 6.8.1
-
-    Allow the use of recursive ``do`` notation.
-
 The do-notation of Haskell 98 does not allow *recursive bindings*, that
 is, the variables bound in a do-expression are visible only in the
 textually following code block. Compare this to a let-expression, where
@@ -30,10 +23,9 @@ the negative side, the continuation monad, with the signature
 ``(a -> r) -> r``, does not.
 
 For monads that do belong to the ``MonadFix`` class, GHC provides an
-extended version of the do-notation that allows recursive bindings. The
-:extension:`RecursiveDo` (language pragma: ``RecursiveDo``) provides the
-necessary syntactic support, introducing the keywords ``mdo`` and
-``rec`` for higher and lower levels of the notation respectively. Unlike
+extended version of the do-notation that allows recursive bindings, with
+the keywords ``mdo`` and ``rec`` for higher and lower levels of the
+notation respectively. Unlike
 bindings in a ``do`` expression, those introduced by ``mdo`` and ``rec``
 are recursively defined, much like in an ordinary let-expression. Due to
 the new keyword ``mdo``, we also call this notation the *mdo-notation*.
@@ -42,7 +34,6 @@ Here is a simple (albeit contrived) example:
 
 ::
 
-    {-# LANGUAGE RecursiveDo #-}
     justOnes = mdo { xs <- Just (1:xs)
                    ; return (map negate xs) }
 
@@ -50,7 +41,6 @@ or equivalently
 
 ::
 
-    {-# LANGUAGE RecursiveDo #-}
     justOnes = do { rec { xs <- Just (1:xs) }
                   ; return (map negate xs) }
 
@@ -67,8 +57,7 @@ lower level syntax flagged by the ``rec`` keyword, as we describe next.
 Recursive binding groups
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The extension :extension:`RecursiveDo` also introduces a new keyword ``rec``, which
-wraps a mutually-recursive group of monadic statements inside a ``do``
+The keyword ``rec`` wraps a mutually-recursive group of monadic statements inside a ``do``
 expression, producing a single statement. Similar to a ``let`` statement
 inside a ``do``, variables bound in the ``rec`` are visible throughout
 the ``rec`` group, and below it. For example, compare
@@ -185,11 +174,6 @@ original ``mdo``-expression typechecks exactly when the desugared
 version would do so.
 
 Here are some other important points in using the recursive-do notation:
-
--  It is enabled with the extension :extension:`RecursiveDo`, or the
-   ``LANGUAGE RecursiveDo`` pragma. (The same extension enables both
-   ``mdo``-notation, and the use of ``rec`` blocks inside ``do``
-   expressions.)
 
 -  ``rec`` blocks can also be used inside ``mdo``-expressions, which
    will be treated as a single statement. However, it is good style to

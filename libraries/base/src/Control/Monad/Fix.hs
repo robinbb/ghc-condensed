@@ -10,7 +10,7 @@
 -- Stability   :  stable
 -- Portability :  portable
 --
--- Monadic fixpoints, used for desugaring of @{-# LANGUAGE RecursiveDo #-}@.
+-- Monadic fixpoints, used for desugaring ``mdo`` and ``rec`` blocks.
 --
 -- Consider the generalized version of so-called @repmin@
 -- (/replace with minimum/) problem:
@@ -90,12 +90,10 @@
 -- [13,15,12]
 --
 -- Incredibly, GHC is capable to do this transformation automatically,
--- when @{-# LANGUAGE RecursiveDo #-}@ is enabled. Namely, the following
+-- with the recursive do-notation. Namely, the following
 -- implementation of @repminM@ works (note @mdo@ instead of @do@):
 --
 -- @
--- {-# LANGUAGE RecursiveDo #-}
---
 -- repminM
 --   :: (Traversable t, Monoid b, MonadFix m)
 --   => (a -> b) -> (a -> b -> m c) -> t a -> m (t c)

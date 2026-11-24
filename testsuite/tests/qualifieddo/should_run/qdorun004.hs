@@ -1,5 +1,4 @@
 {-# LANGUAGE QualifiedDo #-}
-{-# LANGUAGE RecursiveDo #-}
 import qualified Control.Monad.Fix as P
 import Prelude (print, ($))
 import qualified Prelude as P

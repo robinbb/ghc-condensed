@@ -138,7 +138,7 @@ newIConv :: String -> String
    -> (Buffer a -> Buffer b -> IO (Buffer a, Buffer b))
    -> (IConv -> Buffer a -> Buffer b -> IO (CodingProgress, Buffer a, Buffer b))
    -> IO (BufferCodec a b ())
-newIConv from to rec fn =
+newIConv from to recov fn =
   -- Assume charset names are ASCII
   withCAString from $ \ from_str ->
   withCAString to   $ \ to_str -> do
@@ -148,14 +148,14 @@ newIConv from to rec fn =
           (# st', (prog, ibuf', obuf') #) -> (# st', prog, ibuf', obuf' #)
     return BufferCodec# {
                 encode#   = fn_iconvt,
-                recover#  = rec#,
+                recover#  = recov#,
                 close#    = iclose,
                 -- iconv doesn't supply a way to save/restore the state
                 getState# = return (),
                 setState# = const $ return ()
                 }
   where
-    rec# ibuf obuf st = case unIO (rec ibuf obuf) st of
+    recov# ibuf obuf st = case unIO (recov ibuf obuf) st of
       (# st', (ibuf', obuf') #) -> (# st', ibuf', obuf' #)
 
 iconvDecode :: IConv -> Buffer Word8 -> Buffer Char -> IO (CodingProgress, Buffer Word8, Buffer Char)

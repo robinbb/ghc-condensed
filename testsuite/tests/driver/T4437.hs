@@ -79,5 +79,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "DeepSubsumption",
                                "DeriveDataTypeable",
                                "RankNTypes",
-                               "ParallelListComp"
+                               "ParallelListComp",
+                               "RecursiveDo"
                               ]

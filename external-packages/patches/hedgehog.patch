@@ -1,0 +1,17 @@
+--- a/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
++++ b/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
+@@ -1295,12 +1295,12 @@
+ --   there is a 2 in 3 chance that we will recurse again.
+ --
+ recursive :: MonadGen m => ([m a] -> m a) -> [m a] -> [m a] -> m a
+-recursive f nonrec rec =
++recursive f nonrec recur =
+   sized $ \n ->
+     if n <= 1 then
+       f nonrec
+     else
+-      f $ nonrec ++ fmap small rec
++      f $ nonrec ++ fmap small recur
+ 
+ ------------------------------------------------------------------------
+ -- Combinators - Conditional

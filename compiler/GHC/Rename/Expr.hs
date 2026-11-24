@@ -1111,16 +1111,16 @@ rnArithSeq (FromThenTo expr1 expr2 expr3)
 -}
 
 {-
-Note [Deterministic ApplicativeDo and RecursiveDo desugaring]
+Note [Deterministic ApplicativeDo and mdo desugaring]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Both ApplicativeDo and RecursiveDo need to create tuples not
+Both ApplicativeDo and mdo need to create tuples not
 present in the source text.
 
 For ApplicativeDo we create:
 
   (a,b,c) <- (\c b a -> (a,b,c)) <$>
 
-For RecursiveDo we create:
+For mdo we create:
 
   mfix (\ ~(a,b,c) -> do ...; return (a',b',c'))
 
@@ -1328,7 +1328,7 @@ rnStmt ctxt rnBody (L loc (RecStmt { recS_stmts = L _ rec_stmts })) thing_inside
                         foldr (unionNameSet . (\(ds,_,_,_) -> ds))
                               emptyNameSet
                               segs
-          -- See Note [Deterministic ApplicativeDo and RecursiveDo desugaring]
+          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
         ; (thing, fvs_later) <- thing_inside bndrs
         -- In interactive mode, all variables could be used later. So we pass whether
         -- we are in GHCi along to segmentRecStmts. See Note [What is "used later" in a rec stmt]
@@ -1725,7 +1725,7 @@ segmentRecStmts loc ctxt empty_rec_stmt segs (fvs_later, might_be_more_fvs_later
                       , recS_later_ids = nameSetElemsStable final_fvs_later
                       , recS_rec_ids   = nameSetElemsStable
                                            (defs `intersectNameSet` uses) }]
-          -- See Note [Deterministic ApplicativeDo and RecursiveDo desugaring]
+          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
     , uses `plusFN` final_fv_uses)
 
   where
@@ -1886,7 +1886,7 @@ segsToStmts empty_rec_stmt ((defs, uses, fwds, ss) : segs) fvs_later
     rec_stmt = empty_rec_stmt { recS_stmts     = noLocA (toList ss)
                               , recS_later_ids = nameSetElemsStable used_later
                               , recS_rec_ids   = nameSetElemsStable fwds }
-          -- See Note [Deterministic ApplicativeDo and RecursiveDo desugaring]
+          -- See Note [Deterministic ApplicativeDo and mdo desugaring]
     non_rec    = NE.isSingleton ss && isEmptyNameSet fwds
     used_later = defs `intersectNameSet` later_uses
                                 -- The ones needed after the RecStmt
@@ -2277,7 +2277,7 @@ stmtTreeToStmts monad_names ctxt (StmtTreeApplicative trees) tail tail_fvs = do
          pvarset = mkNameSet (concatMap (collectStmtBinders CollNoDictBinders . unLoc . fst) stmts)
                      `intersectNameSet` tail_fvs
          pvars = nameSetElemsStable pvarset
-           -- See Note [Deterministic ApplicativeDo and RecursiveDo desugaring]
+           -- See Note [Deterministic ApplicativeDo and mdo desugaring]
          pat = mkBigLHsVarPatTup pvars
          tup = mkBigLHsVarTup pvars noExtField
      (stmts',fvs2) <- stmtTreeToStmts monad_names ctxt tree [] pvarset
@@ -2712,12 +2712,9 @@ okParStmt dflags ctxt stmt
       _                        -> okStmt dflags ctxt stmt
 
 ----------------
-okDoStmt dflags ctxt stmt
+okDoStmt _ _ stmt
   = case stmt of
-       RecStmt {}
-         | LangExt.RecursiveDo `xopt` dflags -> IsValid
-         | ArrowExpr <- ctxt -> IsValid    -- Arrows allows 'rec'
-         | otherwise         -> NotValid (Just LangExt.RecursiveDo)
+       RecStmt {}  -> IsValid
        BindStmt {} -> IsValid
        LetStmt {}  -> IsValid
        BodyStmt {} -> IsValid

@@ -1,7 +1,6 @@
 {-# LANGUAGE MonadComprehensions #-}
 {-# LANGUAGE TypeFamilies        #-}
 {-# LANGUAGE ViewPatterns        #-}
-{-# LANGUAGE RecursiveDo        #-}
 
 {-
 (c) The University of Glasgow 2006

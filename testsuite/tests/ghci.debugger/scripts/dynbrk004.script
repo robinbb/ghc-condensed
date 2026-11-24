@@ -1,6 +1,5 @@
 -- Instrumentation of mdo notation 
                                    
-:set -XRecursiveDo
 :l mdo.hs
 :break Main 13
 :break Main 12

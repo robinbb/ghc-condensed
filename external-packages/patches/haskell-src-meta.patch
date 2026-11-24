@@ -12,9 +12,10 @@
 +  Exts.IncoherentInstances        -> Nothing
 +  Exts.InstanceSigs               -> Nothing
    Exts.DoRec                      -> Nothing
-   Exts.RecursiveDo                -> Just TH.RecursiveDo
+-  Exts.RecursiveDo                -> Just TH.RecursiveDo
 -  Exts.ParallelListComp           -> Just TH.ParallelListComp
 -  Exts.MultiParamTypeClasses      -> Just TH.MultiParamTypeClasses
++  Exts.RecursiveDo                -> Nothing
 +  Exts.ParallelListComp           -> Nothing
 +  Exts.MultiParamTypeClasses      -> Nothing
    Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
@@ -141,7 +142,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,17 +251,12 @@
+@@ -266,34 +251,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -159,7 +160,8 @@
    TH.TransformListComp                 -> Just Exts.TransformListComp
    TH.MonadComprehensions               -> Nothing
    TH.GeneralizedNewtypeDeriving        -> Just Exts.GeneralizedNewtypeDeriving
-@@ -285,15 +265,10 @@
+-  TH.RecursiveDo                       -> Just Exts.RecursiveDo
+   TH.PostfixOperators                  -> Just Exts.PostfixOperators
    TH.TupleSections                     -> Just Exts.TupleSections
    TH.PatternGuards                     -> Just Exts.PatternGuards
    TH.LiberalTypeSynonyms               -> Just Exts.LiberalTypeSynonyms
@@ -175,7 +177,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +321,11 @@
+@@ -346,13 +320,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -189,7 +191,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +335,6 @@
+@@ -362,12 +334,6 @@
  #endif
  #endif
  

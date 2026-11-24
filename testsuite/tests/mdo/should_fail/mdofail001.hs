@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 -- let bindings are monomorphic if used prior to their definition
 

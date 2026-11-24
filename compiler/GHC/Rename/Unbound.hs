@@ -39,7 +39,6 @@ where
 import GHC.Prelude
 
 import GHC.Driver.DynFlags
-import qualified GHC.LanguageExtensions as LangExt
 import GHC.Driver.Ppr
 import GHC.Driver.Env (hsc_units)
 import GHC.Driver.Env.Types
@@ -52,12 +51,10 @@ import GHC.Utils.Misc
 import GHC.Utils.Panic (panic)
 
 import GHC.Data.Maybe
-import GHC.Data.FastString
 
 
 import GHC.Types.Hint
-  ( GhcHint (SuggestExtension, RemindFieldSelectorSuppressed, ImportSuggestion, SuggestSimilarNames)
-  , LanguageExtensionHint (SuggestSingleExtension)
+  ( GhcHint (RemindFieldSelectorSuppressed, ImportSuggestion, SuggestSimilarNames)
   , ImportSuggestion(..), SimilarName(..), HowInScope(..) )
 import GHC.Types.SrcLoc as SrcLoc
 import GHC.Types.Name
@@ -226,7 +223,6 @@ unknownNameSuggestions_ looking_for dflags hpt curr_mod global_env local_env
       [ if_ne (SuggestSimilarNames tried_rdr_name) $
           similarNameSuggestions looking_for dflags global_env local_env tried_rdr_name
       , map (ImportSuggestion $ rdrNameOcc tried_rdr_name) imp_suggs
-      , extensionSuggestions tried_rdr_name
       , fieldSelectorSuggestions global_env tried_rdr_name ]
     (imp_errs, imp_suggs) = sameQualImportSuggestions looking_for hpt curr_mod imports tried_rdr_name
 
@@ -486,14 +482,6 @@ exactNameImportSuggestions imports wanted_nm =
           | (mod, mod_imports) <- M.toList (imp_mods imports)
           , imp <- importedByUser mod_imports
           ]
-
-extensionSuggestions :: RdrName -> [GhcHint]
-extensionSuggestions rdrName
-  | rdrName == mkUnqual varName (fsLit "mdo") ||
-    rdrName == mkUnqual varName (fsLit "rec")
-  = [SuggestExtension $ SuggestSingleExtension empty LangExt.RecursiveDo]
-  | otherwise
-  = []
 
 qualsInScope :: GlobalRdrElt -> [(ModuleName, HowInScope)]
 -- Ones for which the qualified version is in scope

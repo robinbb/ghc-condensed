@@ -36,3 +36,47 @@
                     JSONPath
                  -> Failure f r
                  -> Success a f r
+--- a/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Decoding/Conversion.hs
++++ b/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/Decoding/Conversion.hs
+@@ -62,7 +62,7 @@
+     num (NumDecimal s)    = s
+     num (NumScientific s) = s
+ convert (TkArrayOpen arr)  g f = convertA arr g $ \xs k -> f (A.Array xs) k
+-convert (TkRecordOpen rec) g f = convertR rec g $ \xs k -> f (A.Object xs) k
++convert (TkRecordOpen r) g f = convertR r g $ \xs k -> f (A.Object xs) k
+ convert (TkErr e)          g _ = g e
+ 
+ convertA :: TkArray k e -> (e -> r) -> (A.Array -> k -> r) -> r
+--- a/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/TH.hs
++++ b/external-packages/projects/purescript/vendored/aeson-2.2.5.1/src/Data/Aeson/TH.hs
+@@ -1119,24 +1119,24 @@
+           ]
+ 
+ lookupFieldOmit :: Maybe a -> (Value -> Parser a) -> String -> String -> Object -> Key -> Parser a
+-lookupFieldOmit maybeDefault pj tName rec obj key =
++lookupFieldOmit maybeDefault pj tName rName obj key =
+     case KM.lookup key obj of
+       Nothing ->
+         case maybeDefault of
+-          Nothing -> unknownFieldFail tName rec (Key.toString key)
++          Nothing -> unknownFieldFail tName rName (Key.toString key)
+           Just x -> pure x
+       Just v  -> pj v <?> Key key
+ 
+ lookupFieldNoOmit :: (Value -> Parser a) -> String -> String -> Object -> Key -> Parser a
+-lookupFieldNoOmit pj tName rec obj key =
++lookupFieldNoOmit pj tName rName obj key =
+     case KM.lookup key obj of
+-      Nothing -> unknownFieldFail tName rec (Key.toString key)
++      Nothing -> unknownFieldFail tName rName (Key.toString key)
+       Just v  -> pj v <?> Key key
+ 
+ unknownFieldFail :: String -> String -> String -> Parser fail
+-unknownFieldFail tName rec key =
++unknownFieldFail tName rName key =
+     fail $ printf "When parsing the record %s of type %s the key %s was not present."
+-                  rec tName key
++                  rName tName key
+ 
+ noArrayFail :: String -> String -> Parser fail
+ noArrayFail t o = fail $ printf "When parsing %s expected Array but got %s." t o

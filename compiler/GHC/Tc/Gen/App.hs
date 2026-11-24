@@ -1,5 +1,4 @@
 {-# LANGUAGE MultiWayIf          #-}
-{-# LANGUAGE RecursiveDo         #-}
 {-# LANGUAGE TypeFamilies        #-}
 {-# LANGUAGE UndecidableInstances #-} -- Wrinkle in Note [Trees That Grow]
 

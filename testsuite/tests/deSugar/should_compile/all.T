@@ -66,8 +66,8 @@ test('ds062', normal, compile, [''])
 test('ds063', normal, compile, [''])
 
 test('T2409', normal, compile, [''])
-test('T3263-1', normal, compile, ['-fwarn-unused-do-bind -XRecursiveDo'])
-test('T3263-2', normal, compile, ['-fwarn-wrong-do-bind -XScopedTypeVariables -XRecursiveDo'])
+test('T3263-1', normal, compile, ['-fwarn-unused-do-bind'])
+test('T3263-2', normal, compile, ['-fwarn-wrong-do-bind -XScopedTypeVariables'])
 
 test('GadtOverlap', normal, compile, ['-Wall'])
 test('T2395', normal, compile, [''])

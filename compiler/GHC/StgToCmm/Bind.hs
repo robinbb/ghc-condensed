@@ -83,7 +83,7 @@ cgTopRhsClosure :: Platform
                 -> CgStgExpr
                 -> (CgIdInfo, FCode ())
 
-cgTopRhsClosure platform rec id ccs upd_flag args body =
+cgTopRhsClosure platform rec_flag id ccs upd_flag args body =
   let closure_label = mkClosureLabel (idName id) (idCafInfo id)
       cg_id_info    = litIdInfo platform id lf_info (CmmLabel closure_label)
       lf_info       = mkClosureLFInfo platform id TopLevel [] upd_flag args
@@ -108,7 +108,7 @@ cgTopRhsClosure platform rec id ccs upd_flag args body =
   gen_code _ closure_label
     | StgApp f [] <- body
     , null args
-    , isNonRec rec
+    , isNonRec rec_flag
     = do
          cg_info <- getCgIdInfo f
          emitDataCon closure_label indStaticInfoTable ccs [unLit (idInfoToAmode cg_info)]

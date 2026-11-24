@@ -1338,10 +1338,10 @@ instance OutputableBndr HsIPName where
     pprInfixOcc  n = ppr n
     pprPrefixOcc n = ppr n
 
-instance (Outputable arg, Outputable rec)
-         => Outputable (HsConDetails (GhcPass p) arg rec) where
+instance (Outputable arg, Outputable rcd)
+         => Outputable (HsConDetails (GhcPass p) arg rcd) where
   ppr (PrefixCon _ args) = text "PrefixCon:" <+> ppr args
-  ppr (RecCon _ rec)     = text "RecCon:" <+> ppr rec
+  ppr (RecCon _ rcd)     = text "RecCon:" <+> ppr rcd
   ppr (InfixCon _ l r)   = text "InfixCon:" <+> ppr [l, r]
 
 instance Outputable arg

@@ -1,4 +1,4 @@
-{-# OPTIONS -XRecursiveDo -XScopedTypeVariables #-}
+{-# OPTIONS -XScopedTypeVariables #-}
 
 module Main(main) where
 

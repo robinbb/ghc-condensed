@@ -720,8 +720,7 @@ instance Diagnostic PsMessage where
       ""                         -> []
       "$"  | not ped_th_enabled  -> [suggestExtension LangExt.TemplateHaskell]   -- #7396
       "$$" | not ped_th_enabled  -> [suggestExtension LangExt.TemplateHaskell]   -- #20157
-      "<-" | ped_mdo_in_last_100 -> [suggestExtension LangExt.RecursiveDo]
-           | otherwise           -> [SuggestMissingDo]
+      "<-"                       -> [SuggestMissingDo]
       "="  | ped_do_in_last_100  -> [SuggestLetInDo]                             -- #15849
       _    | not ped_pat_syn_enabled
            , ped_pattern_parsed  -> [suggestExtension LangExt.PatternSynonyms]   -- #12429
@@ -818,13 +817,9 @@ instance Diagnostic PsMessage where
     PsErrIllegalTraditionalRecordSyntax{}         -> [suggestExtension LangExt.TraditionalRecordSyntax]
     PsErrParseErrorInCmd{}                        -> noHints
     PsErrInPat _ details                          -> case details of
-      PEIP_RecPattern args YesPatIsRecursive ctx
-       | length args /= 0 -> catMaybes [sug_recdo, sug_missingdo ctx]
-       | otherwise        -> catMaybes [sug_missingdo ctx]
       PEIP_OtherPatDetails ctx -> catMaybes [sug_missingdo ctx]
       _                        -> []
       where
-        sug_recdo                                           = Just (suggestExtension LangExt.RecursiveDo)
         sug_missingdo (ParseContext _ YesIncompleteDoBlock) = Just SuggestMissingDo
         sug_missingdo _                                     = Nothing
     PsErrParseRightOpSectionInPat{}               -> noHints

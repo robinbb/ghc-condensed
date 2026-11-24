@@ -255,9 +255,9 @@ cgTopRhs cfg _rec bndr (StgRhsCon _cc con mn _ts args _typ)
       -- con args are always non-void,
       -- see Note [Post-unarisation invariants] in GHC.Stg.Unarise
 
-cgTopRhs cfg rec bndr (StgRhsClosure fvs cc upd_flag args body _typ)
+cgTopRhs cfg rec_flag bndr (StgRhsClosure fvs cc upd_flag args body _typ)
   = assertPpr (isEmptyDVarSet fvs) (text "fvs:" <> ppr fvs) $   -- There should be no free variables
-    cgTopRhsClosure (stgToCmmPlatform cfg) rec bndr cc upd_flag args body
+    cgTopRhsClosure (stgToCmmPlatform cfg) rec_flag bndr cc upd_flag args body
 
 
 ---------------------------------------------------------------

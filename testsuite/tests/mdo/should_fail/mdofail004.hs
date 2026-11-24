@@ -1,4 +1,3 @@
-{-# OPTIONS -XRecursiveDo #-}
 
 -- OLD: mdo requires MonadFix instance, even
 --      if no recursion is present

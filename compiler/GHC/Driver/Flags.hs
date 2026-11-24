@@ -164,7 +164,6 @@ extensionName = \case
   LangExt.TransformListComp -> "TransformListComp"
   LangExt.MonadComprehensions -> "MonadComprehensions"
   LangExt.GeneralizedNewtypeDeriving -> "GeneralizedNewtypeDeriving"
-  LangExt.RecursiveDo -> "RecursiveDo"
   LangExt.PostfixOperators -> "PostfixOperators"
   LangExt.TupleSections -> "TupleSections"
   LangExt.PatternGuards -> "PatternGuards"
@@ -322,7 +321,6 @@ glasgowExtsFlags = [
            , LangExt.MagicHash
            , LangExt.PatternGuards
            , LangExt.PostfixOperators
-           , LangExt.RecursiveDo
            , LangExt.ScopedTypeVariables
            , LangExt.StandaloneDeriving
            , LangExt.TypeOperators

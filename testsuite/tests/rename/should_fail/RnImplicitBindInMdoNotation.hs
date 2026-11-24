@@ -1,4 +1,3 @@
-{-# LANGUAGE RecursiveDo    #-}
 {-# LANGUAGE ImplicitParams #-}
 
 module ShouldFail where

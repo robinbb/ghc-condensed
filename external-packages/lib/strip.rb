@@ -20,18 +20,17 @@ module Strip
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional
     AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
-    DatatypeContexts DeepSubsumption DeriveDataTypeable ExplicitForAll
-    IncoherentInstances InstanceSigs KindSignatures
+    DatatypeContexts DeepSubsumption DeriveDataTypeable DoRec
+    ExplicitForAll IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    ParallelArrays ParallelListComp PolyKinds RankNTypes RelaxedPolyRec
-    StarIsType TypeInType
+    ParallelArrays ParallelListComp PolyKinds RankNTypes RecursiveDo
+    RelaxedPolyRec StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still
   # accepts. The alias meant exactly the current name, so renaming it
   # changes nothing for the package either.
   RENAMED = {
-    'DoRec' => 'RecursiveDo',
     'PatternSignatures' => 'ScopedTypeVariables',
     'PolymorphicComponents' => 'RankNTypes',
     'Rank2Types' => 'RankNTypes',

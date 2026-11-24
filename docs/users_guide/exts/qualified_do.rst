@@ -97,7 +97,7 @@ The semantics of ``do`` notation statements with ``-XQualifiedDo`` is as follows
   identifiably a ``return``. With ``-XQualifiedDo`` enabled, ``-XApplicativeDo``
   looks only for the qualified ``return``/``pure`` in a qualified do-block.
 
-*  With ``-XRecursiveDo``, ``rec`` and ``mdo`` blocks use ``M.mfix`` and ``M.return``: ::
+*  ``rec`` and ``mdo`` blocks use ``M.mfix`` and ``M.return``: ::
 
      M.do { rec { x1 <- u1; … ; xn <- un }; stmts }  =
        M.do

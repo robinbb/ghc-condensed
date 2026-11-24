@@ -54,3 +54,80 @@
      data BackendKey backend
  
  class
+--- a/external-packages/vendored/persistent/Database/Persist/Class/PersistEntity.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Class/PersistEntity.hs
+@@ -604,14 +604,14 @@
+ -- the right fields.
+ --
+ -- @since 2.11.0.0
+-class SymbolToField (sym :: Symbol) rec typ | sym rec -> typ where
+-    symbolToField :: EntityField rec typ
++class SymbolToField (sym :: Symbol) record typ | sym record -> typ where
++    symbolToField :: EntityField record typ
+ 
+ -- | This instance delegates to 'SymbolToField' to provide
+ -- @OverloadedLabels@ support to the 'EntityField' type.
+ --
+ -- @since 2.11.0.0
+-instance (SymbolToField sym rec typ) => IsLabel sym (EntityField rec typ) where
++instance (SymbolToField sym record typ) => IsLabel sym (EntityField record typ) where
+     fromLabel = symbolToField @sym
+ 
+ -- | A type class which is used to witness that a type is safe to insert into
+--- a/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
+@@ -145,8 +145,8 @@
+     where
+     deleteBy = withReaderT (projectBackend @b @s . unCompatible) . deleteBy
+     insertUnique = withReaderT (projectBackend @b @s . unCompatible) . insertUnique
+-    upsert rec = withReaderT (projectBackend @b @s . unCompatible) . upsert rec
+-    upsertBy uniq rec = withReaderT (projectBackend @b @s . unCompatible) . upsertBy uniq rec
++    upsert record = withReaderT (projectBackend @b @s . unCompatible) . upsert record
++    upsertBy uniq record = withReaderT (projectBackend @b @s . unCompatible) . upsertBy uniq record
+     putMany = withReaderT (projectBackend @b @s . unCompatible) . putMany
+ 
+ deriving via
+--- a/external-packages/vendored/persistent/Database/Persist/Sql/Orphan/PersistStore.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Sql/Orphan/PersistStore.hs
+@@ -93,13 +93,13 @@
+        , Monad m
+        )
+     => record -> ReaderT backend m Text
+-getTableName rec = withCompatibleBackend $ do
++getTableName record = withCompatibleBackend $ do
+     conn <- ask
+-    return $ connEscapeTableName conn (entityDef $ Just rec)
++    return $ connEscapeTableName conn (entityDef $ Just record)
+ 
+ -- | useful for a backend to implement tableName by adding escaping
+ tableDBName :: (PersistEntity record) => record -> EntityNameDB
+-tableDBName rec = getEntityDBName $ entityDef (Just rec)
++tableDBName record = getEntityDBName $ entityDef (Just record)
+ 
+ -- | get the SQL string for the field that an EntityField represents
+ -- Useful for raw SQL queries
+@@ -114,9 +114,9 @@
+        , Monad m
+        )
+     => EntityField record typ -> ReaderT backend m Text
+-getFieldName rec = withCompatibleBackend $ do
++getFieldName record = withCompatibleBackend $ do
+     conn <- ask
+-    return $ connEscapeFieldName conn (fieldDB $ persistFieldDef rec)
++    return $ connEscapeFieldName conn (fieldDB $ persistFieldDef record)
+ 
+ -- | useful for a backend to implement fieldName by adding escaping
+ fieldDBName
+--- a/external-packages/vendored/persistent/Database/Persist/Sql/Util.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Sql/Util.hs
+@@ -249,8 +249,8 @@
+ --
+ -- @since 2.11.0.0
+ mkInsertValues
+-    :: (PersistEntity rec)
+-    => rec
++    :: (PersistEntity record)
++    => record
+     -> [PersistValue]
+ mkInsertValues entity =
+     Maybe.catMaybes

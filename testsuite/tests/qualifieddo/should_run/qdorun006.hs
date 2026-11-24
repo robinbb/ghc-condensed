@@ -1,5 +1,4 @@
 {-# LANGUAGE QualifiedDo #-}
-{-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 import qualified Monad.Graded as Graded

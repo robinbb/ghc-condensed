@@ -1,5 +1,4 @@
 {-# LANGUAGE NoBlockArguments #-}
-{-# LANGUAGE RecursiveDo #-}
 
 module NoBlockArgumentsFail4 where
 

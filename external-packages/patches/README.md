@@ -71,38 +71,41 @@ exception.
   stanzas. crypton 2.x takes its `Data.ByteArray` classes from `ram`,
   so with `memory` in scope the `ByteArrayAccess` instance of `Digest`
   is a different class and is not found. Unblocks git-annex.
-- `git-annex.patch`: adds `memory` to the build-depends of the `ram`
-  branch (the Memory flag is forced off in the manifest). Three modules
-  import from `"memory"` unconditionally while `Utility.Hash.Crypton`
-  switches to `"ram"` for crypton 1.1 and later, so under crypton 2
-  that branch needs both packages. `magic` is pinned at 1.1, the newest
-  release inside git-annex's own `magic <= 1.1` bound, which needs no
-  source change.
+- `git-annex.patch`: adds `memory` to the build-depends of the `ram` branch
+  (the Memory flag is forced off in the manifest). Three modules import from
+  `"memory"` unconditionally while `Utility.Hash.Crypton` switches to
+  `"ram"` for crypton 1.1 and later, so under crypton 2 that branch needs
+  both packages. `magic` is pinned at 1.1, the newest release inside
+  git-annex's own `magic <= 1.1` bound, which needs no source change.
+  `Logs.Migrate` calls a local helper `mktree` rather than `rec`, a keyword
+  with this compiler.
 - `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
   haskell-src-exts constructors of the extensions this compiler removed
   (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
-  `TypeInType`, `DeriveDataTypeable`, `RankNTypes` and `ParallelListComp`)
-  to `Nothing`, and drops those
+  `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp` and
+  `RecursiveDo`) to `Nothing`, and drops those
   constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
   `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
   compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro,
   interpolatedstring-perl6 and persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
-  `MultiParamTypeClasses` or `DataKinds` among the extensions its
-  Template Haskell code requires, since template-haskell lost those
-  constructors with this compiler (and both are always on). Blocks the
-  yesod family, hledger-web, persistent-sqlite and git-annex. The same
-  patch declares the backend parameter of
-  `Database.Persist.Class.PersistStore.PersistCore`, and so of its
-  associated data family `BackendKey`, at kind `Type`, and likewise the
-  phantom backend parameter of
+  `MultiParamTypeClasses` or `DataKinds` among the extensions its Template
+  Haskell code requires, since template-haskell lost those constructors with
+  this compiler (and both are always on). Blocks the yesod family,
+  hledger-web, persistent-sqlite and git-annex. The same patch declares the
+  backend parameter of `Database.Persist.Class.PersistStore.PersistCore`,
+  and so of its associated data family `BackendKey`, at kind `Type`, and
+  likewise the phantom backend parameter of
   `Database.Persist.Compatible.Types.Compatible`. The thirteen instances
   derived via `BackendKey b` in the latter module constrain `b` with
   `BackendCompatible`, a class at kind `Type`, and the via type is
-  kind-checked first.
+  kind-checked first. Variables and type variables called `rec`, a keyword
+  with this compiler, are called `record` in
+  `Database.Persist.Class.PersistEntity`, `Compatible.Types`,
+  `Sql.Orphan.PersistStore` and `Sql.Util`.
 - `vector.patch`: `Data.Vector.Storable.Mutable.MVector` declares its
   state parameter at kind `Type`. The parameter is phantom (a storable
   vector holds a `ForeignPtr`), so with kinds always generalised it
@@ -124,13 +127,14 @@ exception.
   `OneTwoComposeFam` and `ComplexConstraintFam` also spell their kinds
   `Type`, for the reason given under `constraints.patch`.
 - `aeson.patch`: `Data.Aeson.Types.Internal.Parser` quantifies the
-  continuation of its field at kinds `Type -> Type` and `Type`;
-  generalised, the kind variable would be existential in a newtype
-  constructor, which GHC rejects. `Data.Aeson.Encoding.Internal.Encoding'`
-  declares its phantom tag at kind `Type`; generalised, the encoders the
-  test suite generates with Template Haskell left the tag's kind
-  unsolved and the `FromPairs` instance ambiguous. Blocks a third of
-  tier 1.
+  continuation of its field at kinds `Type -> Type` and `Type`; generalised,
+  the kind variable would be existential in a newtype constructor, which GHC
+  rejects. `Data.Aeson.Encoding.Internal.Encoding'` declares its phantom tag
+  at kind `Type`; generalised, the encoders the test suite generates with
+  Template Haskell left the tag's kind unsolved and the `FromPairs` instance
+  ambiguous. Blocks a third of tier 1. `Data.Aeson.Decoding.Conversion`
+  calls a token variable `r` rather than `rec`, a keyword with this
+  compiler.
 - `lens.patch`: `Control.Lens.Internal.Exception.handlerCatchIO` declares
   its monad parameter at kind `Type -> Type`. The boot library's
   `Control.Monad.Catch.Handler` is now kind-polymorphic, so the
@@ -206,10 +210,11 @@ exception.
 - `purescript-aeson.patch`, `purescript-cryptonite.patch`: PureScript's
   private copies of aeson (2.2.5.1) and cryptonite (0.30, crypton's
   ancestor) differ in version from the corpus, so `aeson.patch` and
-  `crypton.patch` do not apply to them; these two carry the same kind
-  pins against the copies' paths under `projects/purescript/vendored/`.
-  `add.rb --fetch` applies them like any other patch, since their paths
-  are relative to the repository root.
+  `crypton.patch` do not apply to them; these two carry the same kind pins
+  against the copies' paths under `projects/purescript/vendored/`. `add.rb
+  --fetch` applies them like any other patch, since their paths are relative
+  to the repository root. The aeson copy also takes aeson.patch's rename of
+  a variable called `rec`, a keyword with this compiler.
 - `servant.patch`: the kind-indexed closed family `Arity'` in
   `Servant.API.TypeErrors` gets a standalone kind signature, for the
   reason given under `barbies.patch`. Blocks servant-server,
@@ -237,9 +242,10 @@ exception.
 - `th-abstraction.patch`: test suite only. `Types` and `Main` spell
   their kinds `Type`, inside a declaration quote too, for the reason
   given under `constraints.patch`.
-- `generic-deriving.patch`: test suite only. `T68Spec` and
-  `ExampleSpec` spell their kinds `Type`, for the reason given under
-  `constraints.patch`.
+- `generic-deriving.patch`: test suite only. `T68Spec` and `ExampleSpec`
+  spell their kinds `Type`, for the reason given under `constraints.patch`.
+  The `Nested` record of `ExampleSpec` calls its field `recd` rather than
+  `rec`, a keyword with this compiler.
 - `profunctors.patch`: the associated types `Rep` and `Corep` of
   `Data.Profunctor.Rep` spell their kinds `Type`, for the reason given
   under `constraints.patch`. Blocks adjunctions, lens and the rest of the
@@ -262,3 +268,17 @@ exception.
 - `bytes.patch`: the associated types of `Data.Bytes.Get` and the
   families of `Data.Bytes.Signed` spell their result kind `Type`, for the
   reason given under `constraints.patch`. Blocks linear.
+- `th-expand-syns.patch`: `Language.Haskell.TH.ExpandSyns` calls a fold
+  accumulator `acc` rather than `rec`, a keyword with this compiler.
+- `directory-tree.patch`: `System.Directory.Tree` calls a local function
+  `recurse` rather than `rec`, a keyword with this compiler.
+- `hedgehog.patch`: `Hedgehog.Internal.Gen.recursive` calls its third
+  argument `recur` rather than `rec`, a keyword with this compiler.
+- `pandoc.patch`: `Text.Pandoc.Readers.RIS` calls a reference `ref` rather
+  than `rec`, a keyword with this compiler.
+- `persistent-sqlite.patch`: `Database.Persist.Sqlite` calls two record
+  arguments `record` rather than `rec`, a keyword with this compiler.
+- `purescript.patch`: PureScript's own
+  `Language.PureScript.Sugar.Names.Imports` and `TypeChecker.Deriving` call
+  two variables `record` and `fields` rather than `rec`, a keyword with this
+  compiler.

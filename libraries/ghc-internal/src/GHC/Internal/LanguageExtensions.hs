@@ -104,7 +104,6 @@ data Extension
    | TransformListComp
    | MonadComprehensions
    | GeneralizedNewtypeDeriving
-   | RecursiveDo
    | PostfixOperators
    | TupleSections
    | PatternGuards

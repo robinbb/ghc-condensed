@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XArrows -XRecursiveDo#-}
+{-# OPTIONS_GHC -XArrows#-}
 -- Test #2111
 
 module Foo where

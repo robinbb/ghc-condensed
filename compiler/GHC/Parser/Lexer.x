@@ -511,7 +511,7 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 
 <0,option_prags> {
   @qdo                                      { qdo_token ITdo }
-  @qmdo    / { ifExtension RecursiveDoBit } { qdo_token ITmdo }
+  @qmdo                         { qdo_token ITmdo }
   @qvarid                       { idtoken qvarid }
   @qconid                       { idtoken qconid }
   @varid                        { varid }
@@ -1070,7 +1070,7 @@ reservedWordsFM = listToUFM $
          ( "where",          ITwhere,         0 ),
 
          ( "forall",         ITforall NormalSyntax, 0),
-         ( "mdo",            ITmdo Nothing,   xbit RecursiveDoBit),
+         ( "mdo",            ITmdo Nothing,   0 ),
              -- See Note [Lexing type pseudo-keywords]
          ( "family",         ITfamily,        0 ),
          ( "role",           ITrole,          0 ),
@@ -1101,8 +1101,7 @@ reservedWordsFM = listToUFM $
          ( "dependency",     ITdependency,       0 ),
          ( "signature",      ITsignature,     0 ),
 
-         ( "rec",            ITrec,           xbit ArrowsBit .|.
-                                              xbit RecursiveDoBit),
+         ( "rec",            ITrec,           0 ),
          ( "proc",           ITproc,          xbit ArrowsBit),
          ( "splice",         ITsplice,        xbit LevelImportsBit),
          ( "quote",          ITquote,         xbit LevelImportsBit)
@@ -2686,7 +2685,6 @@ data ExtBits
   | PatternSynonymsBit -- pattern synonyms
   | HaddockBit-- Lex and parse Haddock comments
   | MagicHashBit -- "#" in both functions and operators
-  | RecursiveDoBit -- mdo
   | QualifiedDoBit -- .do and .mdo
   | UnicodeSyntaxBit -- the forall symbol, arrow symbols, etc
   | UnboxedParensBit -- (# and #)
@@ -2768,7 +2766,6 @@ mkParserOpts extensionFlags diag_opts
       .|. OverloadedLabelsBit         `xoptBit` LangExt.OverloadedLabels
       .|. BangPatBit                  `xoptBit` LangExt.BangPatterns
       .|. MagicHashBit                `xoptBit` LangExt.MagicHash
-      .|. RecursiveDoBit              `xoptBit` LangExt.RecursiveDo
       .|. QualifiedDoBit              `xoptBit` LangExt.QualifiedDo
       .|. UnicodeSyntaxBit            `xoptBit` LangExt.UnicodeSyntax
       .|. UnboxedParensBit            `orXoptsBit` [LangExt.UnboxedTuples, LangExt.UnboxedSums]
@@ -3043,13 +3040,11 @@ srcParseErr options buf len loc = mkPlainErrorMsgEnvelope loc (PsErrParse token 
    pattern_ = decodePrevNChars 8 buf
    last100 = decodePrevNChars 100 buf
    doInLast100 = "do" `isInfixOf` last100
-   mdoInLast100 = "mdo" `isInfixOf` last100
    th_enabled = ThQuotesBit `xtest` pExtsBitmap options
    ps_enabled = PatternSynonymsBit `xtest` pExtsBitmap options
    details = PsErrParseDetails {
        ped_th_enabled      = th_enabled
      , ped_do_in_last_100  = doInLast100
-     , ped_mdo_in_last_100 = mdoInLast100
      , ped_pat_syn_enabled = ps_enabled
      , ped_pattern_parsed  = pattern_ == "pattern "
      }

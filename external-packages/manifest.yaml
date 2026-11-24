@@ -26,11 +26,13 @@ packages:
     tag: v2.3.2.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: the continuation kinds of
-    Data.Aeson.Types.Internal.Parser and the phantom tag of
-    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised, the
-    former made the newtype constructor existential and the latter left the
-    test suite's generated encoders ambiguous (patches/aeson.patch)
+    deliberate exception to the no-modification rule: the continuation kinds
+    of Data.Aeson.Types.Internal.Parser and the phantom tag of
+    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised,
+    the former made the newtype constructor existential and the latter left
+    the test suite's generated encoders ambiguous (patches/aeson.patch);
+    Data.Aeson.Decoding.Conversion calls a token variable r rather than rec,
+    a keyword with this compiler
 - name: ansi-terminal
   version: 1.1.5
   tier: 1
@@ -395,9 +397,11 @@ packages:
     tag: 1.14.7
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
-    (patches/generic-deriving.patch)
+    deliberate exception to the no-modification rule: in the test suite,
+    kind annotations written with * are spelt Type, since this compiler no
+    longer reads * as a kind (patches/generic-deriving.patch); the Nested
+    record of ExampleSpec calls its field recd rather than rec, a keyword
+    with this compiler
 - name: generically
   version: 0.1.1
   tier: 1
@@ -510,8 +514,8 @@ packages:
     DataKinds, DatatypeContexts, ExplicitForAll, IncoherentInstances,
     MultiParamTypeClasses, OverlappingInstances, ParallelArrays, PolyKinds,
     RelaxedPolyRec, TypeInType, CUSKs, StarIsType, DeepSubsumption,
-    DeriveDataTypeable, RankNTypes, ParallelListComp and the deprecated
-    aliases) to or from
+    DeriveDataTypeable, RankNTypes, ParallelListComp, RecursiveDo and the
+    deprecated aliases) to or from
     template-haskell, whose Extension type lost those constructors
 - name: heaps
   version: 0.4.1
@@ -1471,6 +1475,10 @@ packages:
     git: https://github.com/DanielSchuessler/th-expand-syns.git
     tag: 0.4.12.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Language.Haskell.TH.ExpandSyns calls a fold accumulator acc rather than
+    rec, a keyword with this compiler (patches/th-expand-syns.patch)
 - name: th-lift
   version: 0.8.7
   tier: 1
@@ -2506,6 +2514,10 @@ packages:
     git: https://github.com/jberryman/directory-tree.git
     tag: 0.12.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: System.Directory.Tree
+    calls a local function recurse rather than rec, a keyword with this
+    compiler (patches/directory-tree.patch)
 - name: djot
   version: 0.1.4.3
   tier: 2
@@ -2898,6 +2910,10 @@ packages:
     git: https://github.com/hedgehogqa/haskell-hedgehog.git
     tag: '1.7'
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Hedgehog.Internal.Gen.recursive calls its third argument recur rather
+    than rec, a keyword with this compiler (patches/hedgehog.patch)
 - name: heist
   version: 1.1.1.2
   tier: 2
@@ -3800,6 +3816,10 @@ packages:
     built against the corpus haddock-library 1.11.0; the tree ships 1.12.0 with
     a Text-based API
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.Pandoc.Readers.RIS calls a reference ref rather than rec, a keyword
+    with this compiler (patches/pandoc.patch)
   reason: >-
     2 of 4488 tests fail: citeproc punctuation placement (period inside versus
     outside quotes) differs with the newer citeproc that allow-newer admits
@@ -3921,12 +3941,16 @@ packages:
   note: no tag for 2.18.1.0 in https://github.com/yesodweb/persistent.git
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: Database.Persist.TH.Internal
-    no longer lists MultiParamTypeClasses or DataKinds among the extensions it
-    requires, since template-haskell lost those constructors with this compiler;
+    deliberate exception to the no-modification rule:
+    Database.Persist.TH.Internal no longer lists MultiParamTypeClasses or
+    DataKinds among the extensions it requires, since template-haskell lost
+    those constructors with this compiler;
     Database.Persist.Class.PersistStore.PersistCore and
-    Database.Persist.Compatible.Types.Compatible declare their backend parameter
-    at kind Type, which Compatible's standalone-derived instances require
+    Database.Persist.Compatible.Types.Compatible declare their backend
+    parameter at kind Type, which Compatible's standalone-derived instances
+    require; variables and type variables called rec, a keyword with this
+    compiler, are called record in PersistEntity, Compatible.Types,
+    Sql.Orphan.PersistStore and Sql.Util (patches/persistent.patch)
 - name: persistent-template
   version: 2.12.0.0
   tier: 2
@@ -5403,10 +5427,12 @@ packages:
   tests: false
   flags: "-memory"
   patched: >-
-    adds memory to the build-depends of the ram branch (Memory flag off): Utility.IPAddress,
-    Utility.AuthToken and Utility.Hash.Types import from "memory" unconditionally
-    while Utility.Hash.Crypton switches to "ram" for crypton >= 1.1; magic is
-    pinned at 1.1 to honour its magic <= 1.1 bound (patches/git-annex.patch)
+    adds memory to the build-depends of the ram branch (Memory flag off):
+    Utility.IPAddress, Utility.AuthToken and Utility.Hash.Types import from
+    "memory" unconditionally while Utility.Hash.Crypton switches to "ram"
+    for crypton >= 1.1; magic is pinned at 1.1 to honour its magic <= 1.1
+    bound (patches/git-annex.patch); Logs.Migrate calls a local helper
+    mktree rather than rec, a keyword with this compiler
 - name: git-lfs
   version: 1.2.5
   tier: 3
@@ -5529,6 +5555,10 @@ packages:
     sdist: persistent-sqlite-2.13.3.1
   note: vendored on request
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Database.Persist.Sqlite calls two record arguments record rather than
+    rec, a keyword with this compiler (patches/persistent-sqlite.patch)
 - name: purescript
   version: 0.15.16
   tier: 3
@@ -5553,7 +5583,11 @@ packages:
     deliberate exception to the no-modification rule, for two private copies
     whose versions differ from the corpus: aeson-2.2.5.1 takes the kinds of
     aeson.patch and cryptonite-0.30 the IV kind of crypton.patch
-    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch)
+    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch);
+    purescript.patch renames two variables called rec, a keyword with this
+    compiler, in Language.PureScript.Sugar.Names.Imports and
+    TypeChecker.Deriving, and purescript-aeson.patch carries aeson.patch's
+    rename too
 - name: SafeSemaphore
   version: 0.10.1
   tier: 3
