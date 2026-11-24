@@ -13,8 +13,9 @@
 +  Exts.InstanceSigs               -> Nothing
    Exts.DoRec                      -> Nothing
    Exts.RecursiveDo                -> Just TH.RecursiveDo
-   Exts.ParallelListComp           -> Just TH.ParallelListComp
+-  Exts.ParallelListComp           -> Just TH.ParallelListComp
 -  Exts.MultiParamTypeClasses      -> Just TH.MultiParamTypeClasses
++  Exts.ParallelListComp           -> Nothing
 +  Exts.MultiParamTypeClasses      -> Nothing
    Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
    Exts.FunctionalDependencies     -> Just TH.FunctionalDependencies
@@ -140,7 +141,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,15 +251,11 @@
+@@ -266,17 +251,12 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -154,9 +155,11 @@
    TH.EmptyDataDecls                    -> Just Exts.EmptyDataDecls
 -  TH.KindSignatures                    -> Just Exts.KindSignatures
    TH.RoleAnnotations                   -> Just Exts.RoleAnnotations
-   TH.ParallelListComp                  -> Just Exts.ParallelListComp
+-  TH.ParallelListComp                  -> Just Exts.ParallelListComp
    TH.TransformListComp                 -> Just Exts.TransformListComp
-@@ -285,15 +266,10 @@
+   TH.MonadComprehensions               -> Nothing
+   TH.GeneralizedNewtypeDeriving        -> Just Exts.GeneralizedNewtypeDeriving
+@@ -285,15 +265,10 @@
    TH.TupleSections                     -> Just Exts.TupleSections
    TH.PatternGuards                     -> Just Exts.PatternGuards
    TH.LiberalTypeSynonyms               -> Just Exts.LiberalTypeSynonyms
@@ -172,7 +175,7 @@
    TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
-@@ -346,13 +322,11 @@
+@@ -346,13 +321,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -186,7 +189,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +336,6 @@
+@@ -362,12 +335,6 @@
  #endif
  #endif
  

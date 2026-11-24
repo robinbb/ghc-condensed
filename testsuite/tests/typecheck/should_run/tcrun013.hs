@@ -1,4 +1,3 @@
-{-# LANGUAGE ParallelListComp #-}
 
 -- !!! Parallel list comprehensions
 

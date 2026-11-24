@@ -7,15 +7,6 @@ Parallel List Comprehensions
    single: list comprehensions; parallel
    single: parallel list comprehensions
 
-.. extension:: ParallelListComp
-    :shortdesc: Allow parallel list comprehension syntax.
-
-    :implied by: :extension:`MonadComprehensions`
-
-    :since: 6.8.1
-
-    Allow parallel list comprehension syntax.
-
 Parallel list comprehensions are a natural extension to list
 comprehensions. List comprehensions can be thought of as a nice syntax
 for writing maps and filters. Parallel comprehensions extend this to

@@ -1,5 +1,4 @@
-{-# LANGUAGE ParallelListComp,
-             TransformListComp,
+{-# LANGUAGE TransformListComp,
              RecordWildCards #-}
 --             MonadComprehensions,
 

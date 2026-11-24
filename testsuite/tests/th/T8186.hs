@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, ParallelListComp #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Main where
 

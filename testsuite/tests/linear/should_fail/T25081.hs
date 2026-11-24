@@ -1,5 +1,4 @@
 {-# LANGUAGE LinearTypes #-}
-{-# LANGUAGE ParallelListComp #-}
 {-# LANGUAGE TransformListComp #-}
 
 module T25081 where

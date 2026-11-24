@@ -16,7 +16,6 @@
  * :extension:`InterruptibleFFI`
  * :extension:`LiberalTypeSynonyms`
  * :extension:`MagicHash`
- * :extension:`ParallelListComp`
  * :extension:`PatternGuards`
  * :extension:`PostfixOperators`
  * :extension:`RecursiveDo`

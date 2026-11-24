@@ -1,6 +1,6 @@
 -- "Big tuple" stress test for parallel and transform comprehensions
 
-{-# OPTIONS_GHC -XTransformListComp -XParallelListComp #-}
+{-# OPTIONS_GHC -XTransformListComp #-}
 
 module Main where
 

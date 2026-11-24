@@ -7,7 +7,8 @@
     `OverlappingInstances`, `TypeInType`, `ExplicitForAll`, `DataKinds`,
     `KindSignatures`, `InstanceSigs`, `PolyKinds`, `RelaxedPolyRec`,
     `ParallelArrays`, `CUSKs`, `StarIsType`, `DeepSubsumption`,
-    `DeriveDataTypeable` and `RankNTypes` constructors of `Extension`.
+    `DeriveDataTypeable`, `RankNTypes` and `ParallelListComp` constructors
+    of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every
     type has a `Typeable` instance, a data type declaration never has a
     context (a `DataD` or `NewtypeD` with one is refused), class methods
@@ -25,8 +26,8 @@
     the only way to fix the kind of a type constructor, `*` is an
     ordinary type operator, never a spelling of `Type`, and subsumption
     is always simple: GHC never eta-expands to match up nested foralls,
-    an instance of `Data` may always be derived, and a type may have any
-    rank.
+    an instance of `Data` may always be derived, a type may have any
+    rank, and a list comprehension may have parallel branches.
 
   * `pprint` prints `StarT` as `Type` rather than `*`, since GHC no
     longer reads `*` as a kind.

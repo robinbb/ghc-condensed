@@ -1,5 +1,4 @@
-{-# LANGUAGE ParallelListComp,
-             TransformListComp,
+{-# LANGUAGE TransformListComp,
              RecordWildCards #-}
 module Test10312 where
 -- From

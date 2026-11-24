@@ -1,6 +1,5 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE ParallelListComp #-}
 {-# LANGUAGE NondecreasingIndentation #-}
 
 -----------------------------------------------------------------------------

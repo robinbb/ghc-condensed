@@ -1,6 +1,6 @@
 -- "Big tuple" stress test for monad comprehensions
 
-{-# OPTIONS_GHC -XMonadComprehensions -XTransformListComp -XParallelListComp #-}
+{-# OPTIONS_GHC -XMonadComprehensions -XTransformListComp #-}
 
 module Main where
 

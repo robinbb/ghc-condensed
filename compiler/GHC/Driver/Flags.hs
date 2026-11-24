@@ -161,7 +161,6 @@ extensionName = \case
   LangExt.MagicHash -> "MagicHash"
   LangExt.EmptyDataDecls -> "EmptyDataDecls"
   LangExt.RoleAnnotations -> "RoleAnnotations"
-  LangExt.ParallelListComp -> "ParallelListComp"
   LangExt.TransformListComp -> "TransformListComp"
   LangExt.MonadComprehensions -> "MonadComprehensions"
   LangExt.GeneralizedNewtypeDeriving -> "GeneralizedNewtypeDeriving"
@@ -249,7 +248,6 @@ impliedXFlags
         -- if the compiler has just filled in field 'a' of constructor 'C'
     , (LangExt.RecordWildCards,     On LangExt.DisambiguateRecordFields)
 
-    , (LangExt.MonadComprehensions, On LangExt.ParallelListComp)
     , (LangExt.JavaScriptFFI, On LangExt.InterruptibleFFI)
 
     , (LangExt.DeriveTraversable, On LangExt.DeriveFunctor)
@@ -322,7 +320,6 @@ glasgowExtsFlags = [
            , LangExt.ImplicitParams
            , LangExt.LiberalTypeSynonyms
            , LangExt.MagicHash
-           , LangExt.ParallelListComp
            , LangExt.PatternGuards
            , LangExt.PostfixOperators
            , LangExt.RecursiveDo

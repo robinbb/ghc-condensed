@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-unused-matches #-}
-{-# LANGUAGE MonadComprehensions, ParallelListComp #-}
+{-# LANGUAGE MonadComprehensions #-}
 -- Test for parallel list comp should work for monad comp as well:
 --
 -- GHC 6.4 erroneously reported that the 

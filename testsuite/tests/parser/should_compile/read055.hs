@@ -1,5 +1,4 @@
 
-{-# LANGUAGE ParallelListComp #-}
 
 module Foo where
 

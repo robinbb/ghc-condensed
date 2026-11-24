@@ -1,4 +1,3 @@
-{-# LANGUAGE ParallelListComp #-}
 
 -- !!! Illegal conflicting parallel bindings
 

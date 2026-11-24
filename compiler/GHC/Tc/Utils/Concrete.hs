@@ -1,5 +1,4 @@
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE ParallelListComp #-}
 
 -- | Checking for representation-polymorphism using the Concrete mechanism.
 --

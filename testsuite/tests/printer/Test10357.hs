@@ -1,4 +1,3 @@
-{-# LANGUAGE ParallelListComp #-}
 module Test10357 where
 
 legendres = one : x :

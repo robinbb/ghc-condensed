@@ -1,4 +1,3 @@
-{-# LANGUAGE ParallelListComp #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE MagicHash, NoImplicitPrelude, TypeFamilies, UnboxedTuples #-}
 module RdrNames where

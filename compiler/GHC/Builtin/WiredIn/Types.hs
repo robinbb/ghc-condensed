@@ -5,7 +5,6 @@ Wired-in knowledge about {\em non-primitive} types
 -}
 
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ParallelListComp #-}
 {-# LANGUAGE MultiWayIf #-}
 
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}

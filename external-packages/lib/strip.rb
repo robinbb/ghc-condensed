@@ -23,8 +23,8 @@ module Strip
     DatatypeContexts DeepSubsumption DeriveDataTypeable ExplicitForAll
     IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses NullaryTypeClasses OverlappingInstances
-    ParallelArrays PolyKinds RankNTypes RelaxedPolyRec StarIsType
-    TypeInType
+    ParallelArrays ParallelListComp PolyKinds RankNTypes RelaxedPolyRec
+    StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

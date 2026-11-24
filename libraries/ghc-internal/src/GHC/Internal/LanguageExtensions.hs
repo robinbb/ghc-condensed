@@ -101,7 +101,6 @@ data Extension
    | MagicHash
    | EmptyDataDecls
    | RoleAnnotations
-   | ParallelListComp
    | TransformListComp
    | MonadComprehensions
    | GeneralizedNewtypeDeriving

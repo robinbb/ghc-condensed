@@ -2729,9 +2729,7 @@ okCompStmt dflags _ stmt
        BindStmt {} -> IsValid
        LetStmt {}  -> IsValid
        BodyStmt {} -> IsValid
-       ParStmt {}
-         | LangExt.ParallelListComp `xopt` dflags -> IsValid
-         | otherwise -> NotValid (Just LangExt.ParallelListComp)
+       ParStmt {}  -> IsValid
        TransStmt {}
          | LangExt.TransformListComp `xopt` dflags -> IsValid
          | otherwise -> NotValid (Just LangExt.TransformListComp)

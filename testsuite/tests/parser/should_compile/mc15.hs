@@ -1,5 +1,5 @@
 
-{-# LANGUAGE MonadComprehensions, ParallelListComp #-}
+{-# LANGUAGE MonadComprehensions #-}
 
 module Foo where
 

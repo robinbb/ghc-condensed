@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**27 language extensions deleted.**
+**28 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -240,6 +240,19 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: The `[:` `:]` syntax left GHC with Data Parallel Haskell; the flag
   had become a spelling of ParallelListComp. The feature it named no longer
   exists.
+
+`ParallelListComp`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: none; implied by MonadComprehensions.
+- Lines: +40 −89, net −49.
+- Stability: Stable.
+- Notes: A list comprehension may have parallel branches, separated by `|`,
+  which desugar to zips. The syntax collides with nothing else, so without
+  the flag the parser accepted a parallel branch and the renamer rejected
+  it; hard-coding it on accepts strictly more programs and removes that one
+  check. MonadComprehensions implied the extension already.
 
 `PatternSignatures`
 

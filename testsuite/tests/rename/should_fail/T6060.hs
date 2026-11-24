@@ -1,4 +1,3 @@
-{-# LANGUAGE ParallelListComp #-}
 
 module T6060 where
 

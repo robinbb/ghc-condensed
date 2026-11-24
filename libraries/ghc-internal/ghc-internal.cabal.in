@@ -87,7 +87,6 @@ Library
         NegativeLiterals
         NondecreasingIndentation
         OverloadedStrings
-        ParallelListComp
         RecordWildCards
         RoleAnnotations
         Safe

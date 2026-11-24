@@ -200,7 +200,6 @@ module Language.Haskell.TH where
     | MagicHash
     | EmptyDataDecls
     | RoleAnnotations
-    | ParallelListComp
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving
@@ -789,7 +788,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | MagicHash
     | EmptyDataDecls
     | RoleAnnotations
-    | ParallelListComp
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving
@@ -1513,7 +1511,6 @@ module Language.Haskell.TH.Syntax where
     | MagicHash
     | EmptyDataDecls
     | RoleAnnotations
-    | ParallelListComp
     | TransformListComp
     | MonadComprehensions
     | GeneralizedNewtypeDeriving

@@ -9,7 +9,6 @@ Monad comprehensions
 .. extension:: MonadComprehensions
     :shortdesc: Allow list comprehension syntax to be used at monads other than ``List``.
 
-    :implies: :extension:`ParallelListComp`
 
     :since: 7.2.1
 
@@ -62,7 +61,8 @@ Monad comprehensions support:
        [ x | x <- [1,1,2,2,3], then group by x using GHC.Exts.groupWith ]
        [ x | x <- [1,1,2,2,3], then group using myGroup ]
 
--  Parallel statements (as with :extension:`ParallelListComp`):
+-  Parallel statements (as in list comprehensions, see
+   :ref:`parallel-list-comprehensions`):
 
    ::
 
