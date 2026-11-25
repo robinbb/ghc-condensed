@@ -1,5 +1,4 @@
 {-# LANGUAGE TemplateHaskell, FlexibleInstances, TypeFamilies, GHC2021 #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE PatternSynonyms #-}
 
 -- |This is the module header

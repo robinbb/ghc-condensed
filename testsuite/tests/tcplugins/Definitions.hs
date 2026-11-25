@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Definitions where

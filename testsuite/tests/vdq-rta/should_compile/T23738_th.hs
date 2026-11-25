@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module T23738_th where

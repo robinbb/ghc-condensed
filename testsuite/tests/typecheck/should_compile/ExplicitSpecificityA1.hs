@@ -2,7 +2,6 @@
            , TypeApplications
            , PatternSynonyms
            , ExistentialQuantification
-           , StandaloneKindSignatures
            , ExistentialQuantification
 #-}
 

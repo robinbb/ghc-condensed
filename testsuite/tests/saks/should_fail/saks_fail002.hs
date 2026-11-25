@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module SAKS_Fail002 where
 

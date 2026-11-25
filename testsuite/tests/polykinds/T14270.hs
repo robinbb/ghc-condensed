@@ -1,7 +1,6 @@
 {-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE UndecidableInstances #-}

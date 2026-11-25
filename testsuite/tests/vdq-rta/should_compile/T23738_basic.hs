@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 -- Overloaded string literals checked in T23738_overlit.
 {-# LANGUAGE NoOverloadedStrings #-}

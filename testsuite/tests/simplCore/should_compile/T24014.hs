@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, RequiredTypeArguments #-}
+{-# LANGUAGE RequiredTypeArguments #-}
 module T24014 where
 
 visId :: forall a -> a -> a

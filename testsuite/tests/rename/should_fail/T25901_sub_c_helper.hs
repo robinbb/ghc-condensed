@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 -- Only the type operator (#) is exported
 module T25901_sub_c_helper (C(type ..)) where

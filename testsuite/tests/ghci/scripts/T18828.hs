@@ -1,6 +1,5 @@
 {-# Language ConstraintKinds          #-}
 {-# Language GADTs                    #-}
-{-# Language StandaloneKindSignatures #-}
 {-# Language TypeFamilies             #-}
 {-# Language TypeOperators            #-}
 module T18828 where

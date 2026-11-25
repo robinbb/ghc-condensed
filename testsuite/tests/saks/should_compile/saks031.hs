@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedNewtypes #-}
 {-# LANGUAGE TypeFamilies, MagicHash #-}
 

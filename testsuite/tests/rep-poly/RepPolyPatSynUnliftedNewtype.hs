@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedNewtypes #-}
 
 module RepPolyPatSynUnliftedNewtype where

@@ -1,4 +1,4 @@
-T22326_fail_top.hs:6:9: error: [GHC-35499]
+T22326_fail_top.hs:5:9: error: [GHC-35499]
     • Illegal keyword ‘type’
       Type syntax may only be used in a required type argument,
       i.e. to instantiate a visible forall.

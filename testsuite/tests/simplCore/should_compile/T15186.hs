@@ -1,6 +1,5 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 module Bar (data PointerExpr) where
 
 import Data.Kind (Type)

@@ -1,4 +1,3 @@
-:set -XStandaloneKindSignatures
 import Data.Kind (Type)
 type T :: forall (x :: Type) -> Type; data T a
 :kind T

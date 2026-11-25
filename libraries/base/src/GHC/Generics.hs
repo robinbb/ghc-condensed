@@ -1,6 +1,5 @@
 {-# LANGUAGE Safe #-}
 
-{-# LANGUAGE ExplicitNamespaces #-}
 
 -- |
 -- Module      :  GHC.Generics

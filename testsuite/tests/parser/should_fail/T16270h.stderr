@@ -1,8 +1,3 @@
-T16270h.hs:9:17: error: [GHC-47007]
-    Illegal keyword ‘type’
-    Suggested fix:
-      Perhaps you intended to use the ‘ExplicitNamespaces’ extension (implied by ‘TypeFamilies’ and ‘TypeOperators’)
-
 T16270h.hs:11:8: error: [GHC-21926]
     Parse error: ‘pkg?’
     Version number or non-alphanumeric character in package name

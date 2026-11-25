@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeFamilies #-}
 -- 
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE GADTs ,ExplicitNamespaces#-}
+{-# LANGUAGE GADTs#-}
 {-# LANGUAGE UnboxedTuples #-}
 
 module T14111 where

@@ -1,5 +1,4 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 module T25056a
   ( T
   , T_(unT)

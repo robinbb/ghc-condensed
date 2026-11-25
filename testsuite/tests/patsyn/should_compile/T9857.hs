@@ -1,6 +1,5 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -----------------------------------------------------------------------------
 -- |

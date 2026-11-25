@@ -1,4 +1,3 @@
-{-# Language StandaloneKindSignatures #-}
 {-# Language TypeApplications         #-}
 module T17963 where
 

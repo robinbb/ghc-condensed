@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE TypeFamilies, StandaloneKindSignatures #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
 

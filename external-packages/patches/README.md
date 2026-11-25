@@ -101,10 +101,11 @@ exception.
   `ExplicitForAll`, `IncoherentInstances`, `MultiParamTypeClasses`,
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
-  `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation` and
-  `DisambiguateRecordFields`) to `Nothing`, and drops those constructors,
-  `CUSKs`, `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
-  `AutoDeriveTypeable`, `ApplicativeDo`, `QualifiedDo` and the two
+  `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
+  `DisambiguateRecordFields` and `ExplicitNamespaces`) to `Nothing`, and
+  drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
+  `NullaryTypeClasses`, `AutoDeriveTypeable`, `ApplicativeDo`,
+  `QualifiedDo`, `StandaloneKindSignatures` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
   compiler's template-haskell no longer has them.
   `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module

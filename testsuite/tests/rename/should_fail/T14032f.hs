@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T14032f where
 

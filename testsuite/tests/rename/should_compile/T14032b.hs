@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module Main where
 

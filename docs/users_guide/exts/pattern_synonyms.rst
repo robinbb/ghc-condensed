@@ -290,9 +290,9 @@ prefix pattern names with either the ``data`` or the ``pattern`` keyword, e.g.: 
 Without the ``data`` namespace specifier, ``Zero`` would be interpreted as a
 type constructor in the export list.
 
-The use of the ``data`` keyword in import/export lists requires
-:extension:`ExplicitNamespaces` and GHC ≥9.14, and is preferred over
-``pattern`` unless there is a need to support older GHC versions.
+The ``data`` keyword in import/export lists requires GHC ≥9.14, and is
+preferred over ``pattern`` unless there is a need to support older GHC
+versions.
 
 You may also use the ``data`` (or ``pattern``) keyword in an import/export
 specification to import or export an ordinary data constructor. For example: ::

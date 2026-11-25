@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T23738_tyvar where
 

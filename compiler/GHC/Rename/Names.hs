@@ -2531,9 +2531,8 @@ badImportItemErr
   -> [AvailInfo]
   -> TcRn (NonEmpty ImportLookupReason)
 badImportItemErr iface decl_spec ie sub avails = do
-  exts <- importLookupExtensions
   let import_lookup_bad :: BadImportKind -> ImportLookupReason
-      import_lookup_bad k = ImportLookupBad k iface decl_spec ie exts
+      import_lookup_bad k = ImportLookupBad k iface decl_spec ie
   dflags <- getDynFlags
   hsc_env <- getTopEnv
   let rdr_env = mkGlobalRdrEnv
@@ -2598,12 +2597,6 @@ badImportItemErr iface decl_spec ie sub avails = do
     importedFS = occNameFS $ rdrNameOcc rdr
     imp_spec = ImpSpec { is_decl = decl_spec, is_item = ImpAll }
     all_avails = mi_exports iface
-
-importLookupExtensions :: TcRn ImportLookupExtensions
-importLookupExtensions = do
-  ile_pattern_synonyms    <- xoptM LangExt.PatternSynonyms
-  ile_explicit_namespaces <- xoptM LangExt.ExplicitNamespaces
-  return ImportLookupExtensions{ile_pattern_synonyms, ile_explicit_namespaces}
 
 addDupDeclErr :: NonEmpty GlobalRdrElt -> TcRn ()
 addDupDeclErr gres@(gre :| _)

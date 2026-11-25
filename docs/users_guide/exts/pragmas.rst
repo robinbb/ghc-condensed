@@ -240,8 +240,7 @@ When a deprecated name appears in both value and type namespaces (i.e. punning o
     {-# DEPRECATED D "This will deprecate both the type D and the pattern synonym D" #-}
 
 It is possible to specify the namespace of the name to be warned about
-or deprecated using ``type`` and ``data`` specifiers, but this feature
-requires enabling :extension:`ExplicitNamespaces`: ::
+or deprecated using ``type`` and ``data`` specifiers: ::
 
     {-# LANGUAGE PatternSynonyms #-}
 

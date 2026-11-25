@@ -1,4 +1,4 @@
-T18725b.hs:8:14: error: [GHC-85413]
+T18725b.hs:7:14: error: [GHC-85413]
     • Type constructor ‘U’ cannot be used here
         (it is defined and used in the same recursive group)
     • In the kind ‘U’

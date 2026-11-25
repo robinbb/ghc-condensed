@@ -2667,7 +2667,6 @@ data ExtBits
   | RelaxedLayoutBit
   | SafeHaskellBit
   | TraditionalRecordSyntaxBit
-  | ExplicitNamespacesBit
   | LambdaCaseBit
   | BinaryLiteralsBit
   | NegativeLiteralsBit
@@ -2742,7 +2741,6 @@ mkParserOpts extensionFlags diag_opts
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout
       .|. TraditionalRecordSyntaxBit  `xoptBit` LangExt.TraditionalRecordSyntax
-      .|. ExplicitNamespacesBit       `xoptBit` LangExt.ExplicitNamespaces
       .|. LambdaCaseBit               `xoptBit` LangExt.LambdaCase
       .|. BinaryLiteralsBit           `xoptBit` LangExt.BinaryLiterals
       .|. NegativeLiteralsBit         `xoptBit` LangExt.NegativeLiterals

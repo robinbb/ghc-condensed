@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 

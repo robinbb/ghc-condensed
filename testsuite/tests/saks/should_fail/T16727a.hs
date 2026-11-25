@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module T16727a where
 

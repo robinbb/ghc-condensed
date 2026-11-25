@@ -1,4 +1,4 @@
-{-# LANGUAGE PatternSynonyms, ExplicitNamespaces, ViewPatterns #-}
+{-# LANGUAGE PatternSynonyms, ViewPatterns #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}
 module T11959Lib (Vec2(Nil,(:>)), data (:>)) where
 

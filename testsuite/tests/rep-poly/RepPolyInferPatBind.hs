@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UnboxedTuples #-}
 

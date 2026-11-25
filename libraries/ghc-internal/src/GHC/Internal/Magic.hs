@@ -1,7 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
     -- Defines inline etc

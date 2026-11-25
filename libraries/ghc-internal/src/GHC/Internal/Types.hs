@@ -3,7 +3,7 @@
 {-# LANGUAGE MagicHash, NoImplicitPrelude, TypeFamilies, UnboxedTuples,
              RoleAnnotations, CPP, TypeOperators,
              NegativeLiterals,
-             TypeApplications, StandaloneKindSignatures, GADTs,
+             TypeApplications, GADTs,
              FlexibleInstances, UndecidableInstances, UnboxedSums,
              BangPatterns, UnliftedFFITypes #-}
 -- NegativeLiterals: see Note [Fixity of (->)]

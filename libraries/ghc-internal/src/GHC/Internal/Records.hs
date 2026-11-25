@@ -1,7 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE Trustworthy #-}
 
 {-# OPTIONS_GHC -Wno-unused-foralls #-}

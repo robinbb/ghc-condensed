@@ -1,4 +1,3 @@
-test('T22326_fail_ext1', normal, compile_fail, [''])
 test('T22326_fail_ext2', normal, compile_fail, [''])
 test('T22326_fail_top', normal, compile_fail, [''])
 test('T22326_fail_app', normal, compile_fail, [''])
@@ -28,7 +27,6 @@ test('T24159_pat_parse_error_5', normal, compile_fail, [''])
 test('T24159_pat_parse_error_6', normal, compile_fail, [''])
 test('T24159_type_syntax_rn_fail', normal, compile_fail, [''])
 test('T24159_type_syntax_tc_fail', normal, compile_fail, [''])
-test('T24159_type_syntax_th_fail', normal, ghci_script, ['T24159_type_syntax_th_fail.script'])
 test('T25127_fail_th_quote', normal, compile_fail, [''])
 test('T25127_fail_arity', normal, compile_fail, [''])
 

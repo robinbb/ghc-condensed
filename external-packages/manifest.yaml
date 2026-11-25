@@ -527,9 +527,11 @@ packages:
     ExplicitForAll, IncoherentInstances, MultiParamTypeClasses,
     OverlappingInstances, ParallelArrays, PolyKinds, RelaxedPolyRec,
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
-    RankNTypes, ParallelListComp, ScopedTypeVariables, NPlusKPatterns, NondecreasingIndentation, DisambiguateRecordFields,
-    ApplicativeDo, QualifiedDo and the deprecated aliases) to or from
-    template-haskell, whose Extension type lost those constructors, and
+    RankNTypes, ParallelListComp, ScopedTypeVariables, NPlusKPatterns,
+    NondecreasingIndentation, DisambiguateRecordFields, ApplicativeDo,
+    QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures and the
+    deprecated aliases) to or from template-haskell, whose Extension type
+    lost those constructors, and
     Language.Haskell.Meta.Syntax.Translate builds a DoE without the module
     qualifier field that template-haskell dropped with QualifiedDo
 - name: heaps

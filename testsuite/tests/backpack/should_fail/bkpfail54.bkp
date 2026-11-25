@@ -2,7 +2,6 @@
 -- Check that we do something sensible when we implement
 -- abstract data with a quantified type.
 
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 
 unit p where

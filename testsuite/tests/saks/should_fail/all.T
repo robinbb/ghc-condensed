@@ -1,5 +1,4 @@
 test('saks007_fail', normal, compile_fail, [''])
-test('saks_fail001', normal, compile_fail, [''])
 test('saks_fail002', normal, compile_fail, [''])
 test('saks_fail003', normal, compile_fail, [''])
 test('saks_fail004', normal, compile_fail, [''])

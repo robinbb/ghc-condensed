@@ -1,5 +1,5 @@
 {-# Language TypeApplications,
-             TypeOperators, StandaloneKindSignatures, TypeFamilies,
+             TypeOperators, TypeFamilies,
              FlexibleInstances #-}
 
 module T19093 where

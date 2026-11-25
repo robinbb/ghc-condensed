@@ -6,8 +6,6 @@ Type operators
 .. extension:: TypeOperators
     :shortdesc: Allow type constructors to be given operator names.
 
-    :implies: :extension:`ExplicitNamespaces`
-
     :since: 6.8.1
 
     :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
@@ -35,9 +33,8 @@ in types.
 -  There is now some potential ambiguity in import and export lists; for
    example if you write ``import M( (+) )`` do you mean the *function*
    ``(+)`` or the *type constructor* ``(+)``? The default is the former,
-   but with :extension:`ExplicitNamespaces` (which is implied by
-   :extension:`TypeOperators`) GHC allows you to specify the latter by
-   preceding it with the keyword ``type``, thus: ::
+   but GHC allows you to specify the latter by preceding it with the
+   keyword ``type``, thus: ::
 
        import M( type (+) )
 

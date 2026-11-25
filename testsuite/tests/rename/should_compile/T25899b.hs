@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T25899b where
 

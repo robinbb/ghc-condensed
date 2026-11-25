@@ -224,7 +224,6 @@ test('T23570', [extra_files(['T23570_aux.hs'])], multimod_compile_fail, ['T23570
 test('T23570b', [extra_files(['T23570_aux.hs'])], multimod_compile, ['T23570b', '-v0'])
 test('T17594b', normal, compile_fail, [''])
 test('T17594b_th', req_th, compile_fail, [''])
-test('T14032c', normal, compile_fail, [''])
 test('T14032f', normal, compile_fail, [''])
 test('T25877', [extra_files(['T25877_aux.hs'])], multimod_compile_fail, ['T25877', '-v0'])
 test('T23501_fail', normal, compile_fail, [''])

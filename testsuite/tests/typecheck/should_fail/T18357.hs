@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneKindSignatures, TypeFamilies, GADTs #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T18357 where
 

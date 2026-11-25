@@ -437,27 +437,16 @@ pprImportSuggestion dc_occ (ImportDataCon { ies_suggest_import_from = Nothing
   = text "Import the data constructor" <+> quotes (ppr dc_occ) <+>
     text "of" <+> quotes (ppr parent_occ)
 pprImportSuggestion dc_occ (ImportDataCon { ies_suggest_import_from = Just mod
-                                          , ies_suggest_pattern_keyword = suggest_pattern
-                                          , ies_suggest_data_keyword = suggest_data
                                           , ies_parent = parent_occ })
-  = vcat $ basic_suggestion
-            ++ (if suggest_pattern then pattern_suggestion else [])
-            ++ (if suggest_data    then data_suggestion    else [])
-  where
-    basic_suggestion =
+  = vcat
       [ text "Use"
       , nest 2 $ import_stmt (pprPrefixOcc parent_occ <> parens_sp (pprPrefixOcc dc_occ))
       , text "or"
       , nest 2 $ import_stmt (pprPrefixOcc parent_occ <> text "(..)")
-      ]
-    pattern_suggestion =
-      [ text "or"
-      , nest 2 $ import_stmt (text "pattern" <+> pprPrefixOcc dc_occ)
-      ]
-    data_suggestion =
-      [ text "or"
+      , text "or"
       , nest 2 $ import_stmt (text "data" <+> pprPrefixOcc dc_occ)
       ]
+  where
     import_stmt sub = text "import" <+> ppr mod <+> parens_sp sub
     parens_sp d = parens (space <> d <> space)
 

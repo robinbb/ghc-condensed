@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, RequiredTypeArguments #-}
+{-# LANGUAGE RequiredTypeArguments #-}
 
 module T24318 where
 

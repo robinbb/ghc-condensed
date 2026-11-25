@@ -1,7 +1,6 @@
 
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module T11715b where
 

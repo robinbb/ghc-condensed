@@ -13,7 +13,7 @@ type unification.
 -}
 
 {-# LANGUAGE TypeOperators, TypeApplications,
-             StandaloneKindSignatures, GADTs,
+             GADTs,
              TypeFamilies, NamedWildCards, PartialTypeSignatures #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
 

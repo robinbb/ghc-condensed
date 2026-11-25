@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module SAKS_020 where
 

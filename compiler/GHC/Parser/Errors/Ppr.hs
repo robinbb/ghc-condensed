@@ -241,13 +241,6 @@ instance Diagnostic PsMessage where
                   2 (pprWithCommas ppr vs)
                 , text "See https://gitlab.haskell.org/ghc/ghc/issues/16754 for details."
                 ]
-    PsErrIllegalExplicitNamespace kw
-      -> mkSimpleDecorated $
-           text "Illegal keyword" <+> quotes kw_doc
-         where
-           kw_doc = case kw of
-             ExplicitTypeNamespace{} -> text "type"
-             ExplicitDataNamespace{} -> text "data"
     PsErrUnsupportedExplicitNamespace kw pos
       -> mkDecorated
            [ text "Unsupported use of keyword" <+> quotes kw_doc
@@ -309,7 +302,7 @@ instance Diagnostic PsMessage where
              <+> quotes (ppr name) <> text "."
            $$ if isSymOcc $ rdrNameOcc name
               then text "If" <+> quotes (ppr name) <+> text "is a type constructor"
-                    <+> text "then enable ExplicitNamespaces and use the 'type' keyword."
+                    <+> text "then use the 'type' keyword."
               else empty
     PsErrMalformedEntityString
       -> mkSimpleDecorated $ text "Malformed entity string"
@@ -555,7 +548,7 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $
            text "SPECIALISE pragmas with multiple type ascriptions are deprecated, and will be removed in GHC 9.18"
 
-    PsWarnPatternNamespaceSpecifier _explicit_namespaces
+    PsWarnPatternNamespaceSpecifier
       -> mkSimpleDecorated $
           text "The" <+> quotes (text "pattern") <+> "namespace specifier is deprecated."
 
@@ -600,7 +593,6 @@ instance Diagnostic PsMessage where
     PsErrNoSingleWhereBindInPatSynDecl{}          -> ErrorWithoutFlag
     PsErrDeclSpliceNotAtTopLevel{}                -> ErrorWithoutFlag
     PsErrMultipleNamesInStandaloneKindSignature{} -> ErrorWithoutFlag
-    PsErrIllegalExplicitNamespace{}               -> ErrorWithoutFlag
     PsErrUnsupportedExplicitNamespace{}           -> ErrorWithoutFlag
     PsErrPlainWildcardImport{}                    -> ErrorWithoutFlag
     PsErrPlainWildcardExport{}                    -> ErrorWithoutFlag
@@ -738,7 +730,6 @@ instance Diagnostic PsMessage where
     PsErrNoSingleWhereBindInPatSynDecl{}          -> noHints
     PsErrDeclSpliceNotAtTopLevel{}                -> noHints
     PsErrMultipleNamesInStandaloneKindSignature{} -> noHints
-    PsErrIllegalExplicitNamespace{}               -> [suggestExtension LangExt.ExplicitNamespaces]
     PsErrUnsupportedExplicitNamespace{}           -> noHints
     PsErrPlainWildcardImport{}                    -> [SuggestRemoveImportList]
     PsErrPlainWildcardExport{}                    -> [SuggestNamedModuleSelfExport]
@@ -843,12 +834,7 @@ instance Diagnostic PsMessage where
     PsErrTypeSyntaxInPat{}                        -> noHints
     PsErrSpecExprMultipleTypeAscription {}        -> [SuggestSplittingIntoSeveralSpecialisePragmas]
     PsWarnSpecMultipleTypeAscription{}            -> [SuggestSplittingIntoSeveralSpecialisePragmas]
-    PsWarnPatternNamespaceSpecifier explicit_namespaces
-      | explicit_namespaces -> [SuggestDataKeyword]
-      | otherwise ->
-          let info = text "and replace" <+> quotes (text "pattern")
-                        <+> text "with" <+> quotes (text "data") <> "."
-          in [useExtensionInOrderTo info LangExt.ExplicitNamespaces]
+    PsWarnPatternNamespaceSpecifier{}                 -> [SuggestDataKeyword]
 
   diagnosticCode = constructorCode @GHC
 

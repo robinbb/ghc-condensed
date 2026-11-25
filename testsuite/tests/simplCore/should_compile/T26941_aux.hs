@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeOperators #-}
 
 module T26941_aux where

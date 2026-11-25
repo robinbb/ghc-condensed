@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T25901_imp_sq_fail_3 where
 

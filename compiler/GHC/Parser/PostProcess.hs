@@ -3344,40 +3344,28 @@ mkPlainImpExp name = ImpExpQcName Nothing name
 
 mkTypeImpExp :: EpToken "type"
              -> LocatedN RdrName   -- TcCls or Var name space
-             -> P ImpExpQcSpec
-mkTypeImpExp tok name = do
-  let name' = fmap (`setRdrNameSpace` tcClsName) name
-      ns_kw = ExplicitTypeNamespace tok
-  requireExplicitNamespaces ns_kw
-  return (ImpExpQcName (Just ns_kw) name')
+             -> ImpExpQcSpec
+mkTypeImpExp tok name = ImpExpQcName (Just (ExplicitTypeNamespace tok)) name'
+  where name' = fmap (`setRdrNameSpace` tcClsName) name
 
 mkDataImpExp :: EpToken "data"
              -> LocatedN RdrName
-             -> P ImpExpQcSpec
-mkDataImpExp tok name = do
-  let ns_kw = ExplicitDataNamespace tok
-  requireExplicitNamespaces ns_kw
-  return (ImpExpQcName (Just ns_kw) name)
+             -> ImpExpQcSpec
+mkDataImpExp tok name = ImpExpQcName (Just (ExplicitDataNamespace tok)) name
 
 mkTypeWcImpExp :: SrcSpan
                -> EpToken "type"
                -> EpToken ".."
-               -> P (LocatedA ImpExpQcSpec)
-mkTypeWcImpExp loc tk_ns tk_wc = do
-  let ns_kw = ExplicitTypeNamespace tk_ns
-  requireExplicitNamespaces ns_kw
-  let ie_spec = ImpExpQcWildcard (Just ns_kw) tk_wc noEpTok
-  return (L (noAnnSrcSpan loc) ie_spec)
+               -> LocatedA ImpExpQcSpec
+mkTypeWcImpExp loc tk_ns tk_wc =
+  L (noAnnSrcSpan loc) (ImpExpQcWildcard (Just (ExplicitTypeNamespace tk_ns)) tk_wc noEpTok)
 
 mkDataWcImpExp :: SrcSpan
                -> EpToken "data"
                -> EpToken ".."
-               -> P (LocatedA ImpExpQcSpec)
-mkDataWcImpExp loc tk_ns tk_wc = do
-  let ns_kw = ExplicitDataNamespace tk_ns
-  requireExplicitNamespaces ns_kw
-  let ie_spec = ImpExpQcWildcard (Just ns_kw) tk_wc noEpTok
-  return (L (noAnnSrcSpan loc) ie_spec)
+               -> LocatedA ImpExpQcSpec
+mkDataWcImpExp loc tk_ns tk_wc =
+  L (noAnnSrcSpan loc) (ImpExpQcWildcard (Just (ExplicitDataNamespace tk_ns)) tk_wc noEpTok)
 
 mkIEWholeNamespacePs :: Maybe (LWarningTxt GhcPs)
                      -> NamespaceSpecifier GhcPs
@@ -3392,21 +3380,17 @@ mkWholeTypeWcImpExp :: SrcSpan
                     -> Maybe (LWarningTxt GhcPs)
                     -> EpToken "type"
                     -> EpToken ".."
-                    -> P (LIE GhcPs)
-mkWholeTypeWcImpExp loc warning tk_ns tk_wc = do
-  requireExplicitNamespaces (ExplicitTypeNamespace tk_ns)
-  let ie_spec = mkIEWholeNamespacePs warning (TypeNamespaceSpecifier tk_ns) tk_wc
-  return (L (noAnnSrcSpan loc) ie_spec)
+                    -> LIE GhcPs
+mkWholeTypeWcImpExp loc warning tk_ns tk_wc =
+  L (noAnnSrcSpan loc) (mkIEWholeNamespacePs warning (TypeNamespaceSpecifier tk_ns) tk_wc)
 
 mkWholeDataWcImpExp :: SrcSpan
                     -> Maybe (LWarningTxt GhcPs)
                     -> EpToken "data"
                     -> EpToken ".."
-                    -> P (LIE GhcPs)
-mkWholeDataWcImpExp loc warning tk_ns tk_wc = do
-  requireExplicitNamespaces (ExplicitDataNamespace tk_ns)
-  let ie_spec = mkIEWholeNamespacePs warning (DataNamespaceSpecifier tk_ns) tk_wc
-  return (L (noAnnSrcSpan loc) ie_spec)
+                    -> LIE GhcPs
+mkWholeDataWcImpExp loc warning tk_ns tk_wc =
+  L (noAnnSrcSpan loc) (mkIEWholeNamespacePs warning (DataNamespaceSpecifier tk_ns) tk_wc)
 
 mkPlainWcImpExp :: Maybe (LWarningTxt GhcPs)
                 -> EpToken ".."
@@ -3459,16 +3443,6 @@ failOpFewArgs (L l (HsWildCardTy _)) =
   addFatalError $ mkPlainErrorMsgEnvelope (getHasLoc l) $ PsErrInvalidInfixHole
 failOpFewArgs op = pprPanic "failOpFewArgs: impossible type operator" (ppr op)
 
-requireExplicitNamespaces :: MonadP m => ExplicitNamespaceKeyword -> m ()
-requireExplicitNamespaces kw = do
-  allowed <- getBit ExplicitNamespacesBit
-  unless allowed $
-    addError $ mkPlainErrorMsgEnvelope loc $ PsErrIllegalExplicitNamespace kw
-  where
-    loc = case kw of
-      ExplicitTypeNamespace tok -> getEpTokenSrcSpan tok
-      ExplicitDataNamespace tok -> getEpTokenSrcSpan tok
-
 unsupportedExplicitNamespaceKeyword :: MonadP m => ExplicitNamespaceKeyword -> UnsupportedNamespacePosition -> m ()
 unsupportedExplicitNamespaceKeyword kw pos =
   addError $ mkPlainErrorMsgEnvelope loc $
@@ -3479,9 +3453,7 @@ unsupportedExplicitNamespaceKeyword kw pos =
       ExplicitDataNamespace tok -> getEpTokenSrcSpan tok
 
 warnPatternNamespaceSpecifier :: MonadP m => SrcSpan -> m ()
-warnPatternNamespaceSpecifier l = do
-  explicit_namespaces <- getBit ExplicitNamespacesBit
-  addPsMessage l (PsWarnPatternNamespaceSpecifier explicit_namespaces)
+warnPatternNamespaceSpecifier l = addPsMessage l PsWarnPatternNamespaceSpecifier
 
 -----------------------------------------------------------------------------
 -- Misc utils

@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE ConstraintKinds #-}
 
 module SAKS_004 where

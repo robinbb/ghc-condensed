@@ -1,6 +1,6 @@
 {-# LANGUAGE Safe #-}
 {-# LANGUAGE NoImplicitPrelude, MagicHash, UnboxedTuples, NoListTuplePuns #-}
-{-# LANGUAGE StandaloneKindSignatures, TypeFamilyDependencies #-}
+{-# LANGUAGE TypeFamilyDependencies #-}
 
 {-
 Module      :  Data.Tuple.Experimental

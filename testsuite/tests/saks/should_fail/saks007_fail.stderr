@@ -1,4 +1,4 @@
-saks007_fail.hs:13:11: error: [GHC-01259]
+saks007_fail.hs:12:11: error: [GHC-01259]
     • Illegal constraint in a kind: forall k1 k2.
                                     (F k1 ~ G k2) =>
                                     k1 -> k2 -> Type

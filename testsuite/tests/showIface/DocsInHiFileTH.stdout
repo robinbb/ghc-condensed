@@ -263,7 +263,6 @@ docs:
          TupleSections
          PatternGuards
          TypeOperators
-         ExplicitNamespaces
          TraditionalRecordSyntax
          BinaryLiterals
          HexFloatLiterals
@@ -274,7 +273,6 @@ docs:
          EmptyDataDeriving
          NumericUnderscores
          ImportQualifiedPost
-         StandaloneKindSignatures
          FieldSelectors
          ListTuplePuns
          ImplicitStagePersistence

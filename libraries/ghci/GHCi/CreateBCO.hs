@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -fno-warn-name-shadowing #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedNewtypes #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE FlexibleInstances #-}

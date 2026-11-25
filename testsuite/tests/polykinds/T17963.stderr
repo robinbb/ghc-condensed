@@ -1,11 +1,11 @@
-T17963.hs:12:23: error: [GHC-25897]
+T17963.hs:11:23: error: [GHC-25897]
     • Couldn't match kind ‘rep’ with ‘GHC.Internal.Types.LiftedRep’
       When matching kinds
         k0 :: Type
         ob :: TYPE rep
       ‘rep’ is a rigid type variable bound by
         the class declaration for ‘Category'’
-        at T17963.hs:11:18-35
+        at T17963.hs:10:18-35
     • In the first argument of ‘cat’, namely ‘a’
       In the type signature: id' :: forall a. cat a a
       In the class declaration for ‘Category'’

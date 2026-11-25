@@ -182,9 +182,6 @@ data PsMessage
    -- | Post qualified import without 'ImportQualifiedPost'
    | PsErrImportPostQualified
 
-   -- | Explicit namespace keyword without 'ExplicitNamespaces'
-   | PsErrIllegalExplicitNamespace !ExplicitNamespaceKeyword
-
    -- | Explicit namespace keyword in unsupported position
    | PsErrUnsupportedExplicitNamespace !ExplicitNamespaceKeyword !UnsupportedNamespacePosition
 
@@ -485,7 +482,6 @@ data PsMessage
    -- | The deprecated ``pattern`` namespace specifier was used in an import or
    -- export list. Suggested fix: use the ``data`` keyword instead.
    | PsWarnPatternNamespaceSpecifier
-      !Bool -- ^ Is ExplicitNamespaces on?
 
    deriving Generic
 

@@ -80,7 +80,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`EmptyDataDecls`
      * :extension:`EmptyDataDeriving`
      * :extension:`ExistentialQuantification`
-     * :extension:`ExplicitNamespaces`
      * :extension:`FieldSelectors`
      * :extension:`FlexibleContexts`
      * :extension:`FlexibleInstances`
@@ -101,7 +100,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PostfixOperators`
      * :extension:`RoleAnnotations`
      * :extension:`StandaloneDeriving`
-     * :extension:`StandaloneKindSignatures`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
@@ -117,12 +115,7 @@ Similarly, language extensions can be controlled (either enabled or disabled):
     See :extension:`GHC2024` for general comments about ``GHC20xx`` language
     editions.
 
-    Also note that due to a `minor oversight
-    <https://github.com/ghc-proposals/ghc-proposals/issues/551>`_, enabling
-    this edition behaves slightly differently than enabling each of its
-    constituent extensions. Specifically, while :extension:`TypeOperators` implies
-    :extension:`ExplicitNamespaces`, :extension:`ExplicitNamespaces` is not included
-    in :extension:`GHC2021`. Moreover, while :extension:`GADTs` is not part of
+    Also note that while :extension:`GADTs` is not part of
     :extension:`GHC2021`, the combination of :extension:`GADTSyntax` and
     :extension:`ExistentialQuantification` is enough to define and use GADTs.
 
@@ -159,13 +152,11 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`StandaloneDeriving`
-     * :extension:`StandaloneKindSignatures`
      * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
      * :extension:`TypeOperators`
      * :extension:`TypeSynonymInstances`
-     * :extension:`NoExplicitNamespaces <ExplicitNamespaces>`
      * :extension:`ImplicitStagePersistence`
 
 

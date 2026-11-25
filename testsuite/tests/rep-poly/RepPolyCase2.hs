@@ -1,6 +1,5 @@
 {-# LANGUAGE EmptyCase #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 

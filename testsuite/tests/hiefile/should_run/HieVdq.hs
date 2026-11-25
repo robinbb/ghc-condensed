@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module Main where
@@ -14,9 +13,9 @@ f (type t) (x :: t) = Just (x :: t)
 --      ^p1      ^p2             ^p3
 
 p1,p2 :: (Int,Int)
-p1 = (13,9)
-p2 = (13,18)
-p3 = (13,34)
+p1 = (12,9)
+p2 = (12,18)
+p3 = (12,34)
 
 selectPoint' :: HieFile -> (Int,Int) -> HieAST Int
 selectPoint' hf loc =

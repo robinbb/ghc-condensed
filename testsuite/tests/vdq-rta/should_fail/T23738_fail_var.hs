@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE TypeAbstractions #-}
 
 module T23738_fail_var where

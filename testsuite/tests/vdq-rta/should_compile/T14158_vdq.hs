@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module T14158_vdq where

@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module WithSpineVDQ_LintErr (uSSZ) where

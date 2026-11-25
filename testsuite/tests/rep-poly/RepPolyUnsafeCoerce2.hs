@@ -1,6 +1,5 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module RepPolyUnsafeCoerce2 where
 

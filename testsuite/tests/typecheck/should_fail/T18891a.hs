@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, UnliftedNewtypes, StandaloneKindSignatures, TypeFamilies #-}
+{-# LANGUAGE GADTs, UnliftedNewtypes, TypeFamilies #-}
 
 module T18891 where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, TypeFamilies, TypeData #-}
+{-# LANGUAGE TypeFamilies, TypeData #-}
 
 module T25901_sub_f
     ( C(type ..)       -- exports class C and data family D

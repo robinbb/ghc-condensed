@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, StandaloneKindSignatures #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeAbstractions #-}
 
 module T22310 where

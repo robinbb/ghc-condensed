@@ -92,9 +92,10 @@
    Exts.InterruptibleFFI           -> Just TH.InterruptibleFFI
    Exts.CApiFFI                    -> Just TH.CApiFFI
    Exts.JavaScriptFFI              -> Just TH.JavaScriptFFI
-   Exts.ExplicitNamespaces         -> Just TH.ExplicitNamespaces
+-  Exts.ExplicitNamespaces         -> Just TH.ExplicitNamespaces
 -  Exts.DataKinds                  -> Just TH.DataKinds
 -  Exts.PolyKinds                  -> Just TH.PolyKinds
++  Exts.ExplicitNamespaces         -> Nothing
 +  Exts.DataKinds                  -> Nothing
 +  Exts.PolyKinds                  -> Nothing
    Exts.MultiWayIf                 -> Just TH.MultiWayIf
@@ -179,7 +180,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,35 +246,23 @@
+@@ -266,35 +246,22 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -205,7 +206,7 @@
 -  TH.RankNTypes                        -> Just Exts.RankNTypes
    TH.ImpredicativeTypes                -> Just Exts.ImpredicativeTypes
    TH.TypeOperators                     -> Just Exts.TypeOperators
-   TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
+-  TH.ExplicitNamespaces                -> Just Exts.ExplicitNamespaces
    TH.PackageImports                    -> Just Exts.PackageImports
 -  TH.ExplicitForAll                    -> Just Exts.ExplicitForAll
 -  TH.AlternativeLayoutRule             -> Nothing
@@ -215,7 +216,7 @@
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
    TH.LambdaCase                        -> Just Exts.LambdaCase
-@@ -346,13 +314,11 @@
+@@ -346,14 +313,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -226,10 +227,11 @@
  #if MIN_VERSION_template_haskell(2,16,0)
    TH.UnliftedNewtypes                  -> Nothing
 -  TH.CUSKs                             -> Nothing
-   TH.StandaloneKindSignatures          -> Nothing
+-  TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +328,6 @@
+     Just Exts.ImportQualifiedPost
+@@ -362,12 +326,6 @@
  #endif
  #endif
  

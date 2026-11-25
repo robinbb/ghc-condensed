@@ -46,12 +46,14 @@ packageArgs = do
     mconcat
         -- This compiler has no MultiParamTypeClasses, DataKinds,
         -- KindSignatures, InstanceSigs, PolyKinds, DeriveDataTypeable,
-        -- RankNTypes, ParallelListComp or ScopedTypeVariables extension:
+        -- RankNTypes, ParallelListComp, ScopedTypeVariables or
+        -- StandaloneKindSignatures extension:
         -- classes may have any number of parameters, data types are always
         -- promoted, kinds may always be given, instance methods may carry
         -- signatures, kinds are always generalised, Data may always be
         -- derived, types may have any rank, comprehensions may have parallel
-        -- branches and type variables are lexically scoped, so no source in
+        -- branches, type variables are lexically scoped and a standalone kind
+        -- signature may always be given, so no source in
         -- the tree names them. The bootstrap compiler still wants them all
         -- for the stage 0
         -- packages whose language edition lacks them (mtl, parsec, array,
@@ -68,6 +70,7 @@ packageArgs = do
         , stage0Ghc ? arg "-XParallelListComp"
         , stage0Ghc ? arg "-XScopedTypeVariables"
         , stage0Ghc ? arg "-XDisambiguateRecordFields"
+        , stage0Ghc ? arg "-XStandaloneKindSignatures"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

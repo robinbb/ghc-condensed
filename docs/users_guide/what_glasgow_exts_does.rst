@@ -6,7 +6,6 @@
  * :extension:`DeriveTraversable`
  * :extension:`EmptyDataDecls`
  * :extension:`ExistentialQuantification`
- * :extension:`ExplicitNamespaces`
  * :extension:`FlexibleContexts`
  * :extension:`FlexibleInstances`
  * :extension:`ForeignFunctionInterface`

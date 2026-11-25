@@ -1,7 +1,6 @@
 
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UnboxedTuples #-}
 

@@ -6,5 +6,5 @@ T17541b.hs:8:20: error: [GHC-25897]
       NB: Type ‘T’ was inferred to use visible dependent quantification.
       Most types with visible dependent quantification are
       polymorphically recursive and need a standalone kind
-      signature. Perhaps supply one, with StandaloneKindSignatures.
+      signature. Perhaps supply one.
 

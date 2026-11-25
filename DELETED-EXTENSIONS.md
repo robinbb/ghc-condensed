@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**35 language extensions deleted.**
+**37 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -170,6 +170,18 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: `forall` is always a keyword in types. Nearly every type-level
   extension implied it; the only cost is that `forall` cannot name a type
   variable.
+
+`ExplicitNamespaces`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: GHC2024; also implied by TypeFamilies and TypeOperators.
+- Lines: +439 −1244, net −805 (shared with StandaloneKindSignatures).
+- Stability: Uncategorized; the user's guide lists it as included in
+  GHC2024.
+- Notes: The `type` and `data` namespace keywords are always accepted in
+  import and export lists, fixity declarations, pragmas, expressions and
+  patterns. GHC2024 enables it, and the keywords are unambiguous.
 
 `IncoherentInstances`
 
@@ -373,6 +385,17 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: Type variables are always lexically scoped: an outer `forall`, a
   class or instance head and a pattern signature bind them over the body.
   GHC2021 enables it, and the unscoped reading was a trap.
+
+`StandaloneKindSignatures`
+
+- Category: Type Signatures.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024; also implied by UnliftedDatatypes.
+- Lines: +439 −1244, net −805 (shared with ExplicitNamespaces).
+- Stability: Stable.
+- Notes: A standalone kind signature may always be given. As ordinary as a
+  type signature; GHC2021 enables it, and without CUSKs it is the only way
+  to fix a type constructor's kind.
 
 `StarIsType`
 

@@ -38,7 +38,6 @@ main = do
       runGhc (Just libdir) $ do
         raw_dflags <- getSessionDynFlags
         let dflags = raw_dflags `xopt_set` LangExt.MagicHash
-                         `xopt_set` LangExt.StandaloneKindSignatures
                          `xopt_set` LangExt.UnliftedDatatypes
                          `dopt_set` Opt_D_no_debug_output
         setSessionDynFlags dflags

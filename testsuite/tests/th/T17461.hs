@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 module T17461 where

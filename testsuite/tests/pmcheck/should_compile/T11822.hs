@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wincomplete-patterns -fforce-recomp #-}
 {-# LANGUAGE OverloadedLists #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE GeneralisedNewtypeDeriving #-}
 
 module T11822 where

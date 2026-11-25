@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T22326_fail_match where
 

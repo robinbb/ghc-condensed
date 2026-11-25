@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 module T12488a
   ( T (type A)
   , (:!) (type (:/))

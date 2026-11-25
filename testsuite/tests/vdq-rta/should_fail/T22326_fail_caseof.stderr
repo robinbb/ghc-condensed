@@ -1,5 +1,5 @@
 
-T22326_fail_caseof.hs:9:6: error: [GHC-70206]
+T22326_fail_caseof.hs:8:6: error: [GHC-70206]
     • Illegal type pattern.
       A type pattern must be checked against a visible forall.
     • In the pattern: type _

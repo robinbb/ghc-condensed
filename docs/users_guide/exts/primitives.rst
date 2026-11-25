@@ -386,7 +386,6 @@ Unlifted Datatypes
 .. extension:: UnliftedDatatypes
     :shortdesc: Allow the definition of unlifted data types.
 
-    :implies: :extension:`StandaloneKindSignatures`
     :since: 9.2.1
 
     Enable the declaration of data types with unlifted or levity-polymorphic
@@ -417,7 +416,8 @@ for how this can improve performance for some programs.
 The above data declaration in GADT syntax correctly suggests that unlifted
 data types are compatible with the full GADT feature set. Somewhat conversely,
 you can also declare unlifted data types in Haskell98 syntax, which requires you
-to specify the result kind via :extension:`StandaloneKindSignatures`: ::
+to specify the result kind via a standalone kind signature
+(:ref:`standalone-kind-signatures`): ::
 
   type UList :: Type -> UnliftedType
   data UList a = UCons a (UList a) | UNil

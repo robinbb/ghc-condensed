@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies,
              TypeApplications, TypeAbstractions, TypeOperators, GADTs #-}
 

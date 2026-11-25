@@ -2,7 +2,6 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UnboxedTuples #-}

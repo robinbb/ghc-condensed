@@ -2,7 +2,6 @@
 {-# LANGUAGE GADTs                    #-}
 {-# LANGUAGE NoImplicitPrelude        #-}
 {-# LANGUAGE StandaloneDeriving       #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE Trustworthy              #-}
 {-# LANGUAGE TypeFamilies             #-}
 {-# LANGUAGE TypeOperators            #-}

@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE PatternSynonyms #-}
 
 module T22326_fail_patsyn where

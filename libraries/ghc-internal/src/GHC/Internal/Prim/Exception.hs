@@ -1,7 +1,6 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 {-# OPTIONS -Wno-unused-imports #-}
     -- See wrinkle (TD1)

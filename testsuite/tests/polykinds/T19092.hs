@@ -1,4 +1,4 @@
-{-# Language TypeApplications, TypeOperators, StandaloneKindSignatures, TypeFamilies, FlexibleInstances #-}
+{-# Language TypeApplications, TypeOperators, TypeFamilies, FlexibleInstances #-}
 
 module T19092 where
 

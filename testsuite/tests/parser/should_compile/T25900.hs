@@ -1,5 +1,5 @@
 {-# OPTIONS -Wcompat -Wno-error=pattern-namespace-specifier #-}
-{-# LANGUAGE PatternSynonyms, ExplicitNamespaces #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 module T25900 ( pattern Just
               , pattern Left

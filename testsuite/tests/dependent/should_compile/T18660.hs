@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 module T18660 where
 
 type F :: forall a -> b -> b

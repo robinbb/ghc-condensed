@@ -1,4 +1,3 @@
-{-# Language StandaloneKindSignatures #-}
 module T18863a where
 
 import Data.Kind

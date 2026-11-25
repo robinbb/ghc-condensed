@@ -1,6 +1,5 @@
 {-# LANGUAGE RequiredTypeArguments #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE NoExplicitNamespaces #-}
 
 module T23739_th_pprint1 where
 

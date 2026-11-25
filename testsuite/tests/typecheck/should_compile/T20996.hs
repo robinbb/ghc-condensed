@@ -2,7 +2,6 @@
 {-# language FlexibleContexts #-}
 {-# language FlexibleInstances #-}
 {-# language QuantifiedConstraints #-}
-{-# language StandaloneKindSignatures #-}
 {-# language TypeApplications #-}
 {-# language TypeFamilies #-}
 {-# language TypeOperators #-}

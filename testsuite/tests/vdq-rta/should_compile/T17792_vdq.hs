@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 {-# OPTIONS_GHC -fdefer-type-errors #-}
 

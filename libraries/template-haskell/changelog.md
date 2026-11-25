@@ -9,8 +9,9 @@
     `ParallelArrays`, `CUSKs`, `StarIsType`, `DeepSubsumption`,
     `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
     `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
-    `DisambiguateRecordFields`, `RecursiveDo`, `ApplicativeDo` and
-    `QualifiedDo` constructors of `Extension`.
+    `DisambiguateRecordFields`, `RecursiveDo`, `ApplicativeDo`,
+    `QualifiedDo`, `ExplicitNamespaces` and `StandaloneKindSignatures`
+    constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every
     type has a `Typeable` instance, a data type declaration never has a
     context (a `DataD` or `NewtypeD` with one is refused), class methods
@@ -40,7 +41,10 @@
     do-notation: `mdo` is an ordinary identifier and `rec` a keyword of
     arrow notation alone, a `do` block always desugars through `>>=` and
     `>>`, never through `<$>` and `<*>`, and its operators are the ones in
-    scope, never those of a module named before the `do`.
+    scope, never those of a module named before the `do`, the `type` and
+    `data` namespace keywords are always allowed in import and export
+    lists, fixity declarations, warning pragmas, expressions and patterns,
+    and a standalone kind signature may always be given.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With

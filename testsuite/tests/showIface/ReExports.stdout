@@ -54,7 +54,6 @@ docs:
          EmptyDataDeriving
          NumericUnderscores
          ImportQualifiedPost
-         StandaloneKindSignatures
          FieldSelectors
          ListTuplePuns
          ImplicitStagePersistence

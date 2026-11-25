@@ -1388,7 +1388,6 @@ of ``-W(no-)*``.
     If you would like GHC to check that every data, type family,
     type-class definition has a :ref:`standalone kind signature <standalone-kind-signatures>`, use the
     :ghc-flag:`-Wmissing-kind-signatures` option.
-    You can specify the kind via :extension:`StandaloneKindSignatures`.
 
     Note that :ghc-flag:`-Wmissing-kind-signatures` does not warn about
     associated type families, as GHC considers an associated type family

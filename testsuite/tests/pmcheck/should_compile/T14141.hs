@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}

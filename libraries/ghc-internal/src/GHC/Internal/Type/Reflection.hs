@@ -1,5 +1,4 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE MagicHash #-}
 
 -----------------------------------------------------------------------------

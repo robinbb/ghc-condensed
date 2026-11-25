@@ -1,5 +1,4 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE ViewPatterns #-}
 module Bug (data P) where
 

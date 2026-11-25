@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, ExplicitNamespaces #-}
+{-# LANGUAGE MagicHash #-}
 module DataToTagWarnings (X(X2, X3), f, g) where
 
 import GHC.Exts (dataToTag#, (+#), Int#)

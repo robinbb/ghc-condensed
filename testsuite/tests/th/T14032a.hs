@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, ExplicitNamespaces #-}
+{-# LANGUAGE TemplateHaskell #-}
 module T14032a where
 
 $([d|

@@ -86,5 +86,7 @@ expectedCabalOnlyExtensions = ["Generics",
                                "NondecreasingIndentation",
                                "DisambiguateRecordFields",
                                "ApplicativeDo",
-                               "QualifiedDo"
+                               "QualifiedDo",
+                               "ExplicitNamespaces",
+                               "StandaloneKindSignatures"
                               ]

@@ -8,3 +8,6 @@ T5385.hs:4:16: error: [GHC-35373]
         import T5385a ( T( (:::) ) )
       or
         import T5385a ( T(..) )
+      or
+        import T5385a ( data (:::) )
+

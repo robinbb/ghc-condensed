@@ -1,25 +1,15 @@
 .. _explicit-namespaces:
 
-Explicit namespaces in import/export
-------------------------------------
+Explicit namespaces
+-------------------
 
-.. extension:: ExplicitNamespaces
-    :shortdesc: Allow use of the ``type`` and ``data`` keywords to specify the namespace of
-        entries in import/export lists and in other contexts.
-
-    :implied by: :extension:`TypeOperators`, :extension:`TypeFamilies`
-    :since: 7.6.1
-    :status: Included in :extension:`GHC2024`
-
-    Enable use of explicit namespace specifiers ``type`` and ``data``
-    in import declarations, module export lists, fixity declarations,
-    and warning/deprecation pragmas; as well as the ``type`` namespace
-    specifier in expressions and patterns.
+The namespace specifiers ``type`` and ``data`` say which namespace a name
+belongs to. They may be used in import declarations, module export lists,
+fixity declarations and warning/deprecation pragmas; the ``type``
+specifier may also be used in expressions and patterns.
 
 The ``type`` keyword in import/export lists
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Since:** GHC 7.6
 
 In an import or export list, such as ::
 
@@ -32,9 +22,8 @@ operators (:ref:`type-operators`) it becomes possible to declare
 ``(++)`` as a *type constructor*. In that case, how would you export or
 import it?
 
-The :extension:`ExplicitNamespaces` extension allows you to prefix the name of
-a type constructor in an import or export list with "``type``" to
-disambiguate this case, thus: ::
+The name of a type constructor in an import or export list may be
+prefixed with "``type``" to disambiguate this case, thus: ::
 
       module M( f, type (++) ) where ...
         import N( f, type (++) )
@@ -56,13 +45,8 @@ import and export lists:
         -- (T.#) is the associated type
         -- (D.#) is the class method
 
-The extension :extension:`ExplicitNamespaces` is implied by
-:extension:`TypeOperators` and (for some reason) by :extension:`TypeFamilies`.
-
 The ``data`` keyword in import/export lists
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Since:** GHC 9.14
 
 In an import or export list, such as ::
 
@@ -94,7 +78,7 @@ The ``pattern`` keyword does the same, with only a few differences:
 * Required compiler versions and flags
 
   - ``pattern`` is provided by the :extension:`PatternSynonyms` extension and requires GHC ≥7.8
-  - ``data`` is enabled by :extension:`ExplicitNamespaces` and requires GHC ≥9.14
+  - ``data`` requires GHC ≥9.14
 
   See :ref:`patsyn-impexp`.
 
@@ -120,8 +104,6 @@ there is a need to support older GHC versions.
 
 Wildcards in import/export lists
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Since:** GHC 10.0
 
 Namespace-specified wildcards ``type ..`` and ``data ..`` may be used to import
 all names in the corresponding namespace from a module: ::
@@ -151,12 +133,10 @@ it is equivalent to a whole module reexport ``module M (module M)``.
 Explicit namespaces in fixity declarations and warning/deprecation pragmas
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Since:** GHC 9.10
-
-When :extension:`ExplicitNamespaces` is enabled, it is possible to use the
-``type`` and ``data`` keywords to specify the namespace of the name used in
-a fixity signature or a ``WARNING``/``DEPRECATED`` pragma. This can be useful for disambiguating
-between names in different namespaces that may conflict with each other.
+The ``type`` and ``data`` keywords may specify the namespace of the name used
+in a fixity signature or a ``WARNING``/``DEPRECATED`` pragma. This can be
+useful for disambiguating between names in different namespaces that may
+conflict with each other.
 
 Here is an example of using namespace specifiers to set different fixities for
 type-level and term-level operators: ::
@@ -188,10 +168,7 @@ doing so will become an error in a future version of GHC.
 The ``type`` keyword in expressions and patterns
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Since:** GHC 9.10
-
-Furthermore, :extension:`ExplicitNamespaces` permits the use of the ``type``
-keyword in patterns and expressions::
+The ``type`` keyword may also be used in patterns and expressions::
 
   f (type t) x = ...       -- in a pattern
   r = f (type Integer) 10  -- in an expression

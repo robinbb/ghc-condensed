@@ -1048,12 +1048,10 @@ export  :: { LIE GhcPs }
         | maybe_warning_pragma 'default' qtycon          {% do { let { span = (maybe comb2 comb3 $1) $2 $> }
                                                           ; locImpExp <- return (sL span (IEThingAbs $1 (sLLa $2 $> (IEDefault (epTok $2) $3)) Nothing))
                                                           ; return $ reLoc $ locImpExp } }
-        | maybe_warning_pragma 'type' '..'               {% do { let { span = (maybe comb2 comb3 $1) $2 $> }
-                                                          ; locImpExp <- mkWholeTypeWcImpExp span $1 (epTok $2) (epTok $3)
-                                                          ; return $ reLoc locImpExp } }
-        | maybe_warning_pragma 'data' '..'               {% do { let { span = (maybe comb2 comb3 $1) $2 $> }
-                                                          ; locImpExp <- mkWholeDataWcImpExp span $1 (epTok $2) (epTok $3)
-                                                          ; return $ reLoc locImpExp } }
+        | maybe_warning_pragma 'type' '..'               { let { span = (maybe comb2 comb3 $1) $2 $> }
+                                                          in reLoc (mkWholeTypeWcImpExp span $1 (epTok $2) (epTok $3)) }
+        | maybe_warning_pragma 'data' '..'               { let { span = (maybe comb2 comb3 $1) $2 $> }
+                                                          in reLoc (mkWholeDataWcImpExp span $1 (epTok $2) (epTok $3)) }
         | maybe_warning_pragma '..'                      {% do { let { span = (maybe comb2 comb3 $1) $2 $> }
                                                           ; addError $ mkPlainErrorMsgEnvelope (comb2 $1 $2) PsErrPlainWildcardExport
                                                           ; locImpExp <- mkPlainWcImpExp $1 (epTok $2)
@@ -1086,15 +1084,13 @@ qcnames1 :: { [LocatedA ImpExpQcSpec] }     -- A reversed list
 qcname_ext_w_wildcard :: { LocatedA ImpExpQcSpec }
         :  qcname_ext               { $1 }
         |  '..'                     { sL1a $1 (ImpExpQcWildcard Nothing (epTok $1) noEpTok)  }
-        |  'type' '..'              {% mkTypeWcImpExp (comb2 $1 $>) (epTok $1) (epTok $2) }
-        |  'data' '..'              {% mkDataWcImpExp (comb2 $1 $>) (epTok $1) (epTok $2) }
+        |  'type' '..'              { mkTypeWcImpExp (comb2 $1 $>) (epTok $1) (epTok $2) }
+        |  'data' '..'              { mkDataWcImpExp (comb2 $1 $>) (epTok $1) (epTok $2) }
 
 qcname_ext :: { LocatedA ImpExpQcSpec }
         :  qcname                   { sL1a $1 (mkPlainImpExp $1) }
-        |  'type' oqtycon           {% do { imp_exp <- mkTypeImpExp (epTok $1) $2
-                                          ; return $ sLLa $1 $> imp_exp }}
-        |  'data' qvarcon           {% do { imp_exp <- mkDataImpExp (epTok $1) $2
-                                          ; return $ sLLa $1 $> imp_exp }}
+        |  'type' oqtycon           { sLLa $1 $> (mkTypeImpExp (epTok $1) $2) }
+        |  'data' qvarcon           { sLLa $1 $> (mkDataImpExp (epTok $1) $2) }
 
 qcname  :: { LocatedN RdrName }  -- Variable or type constructor
         :  qvar                 { $1 } -- Things which look like functions
@@ -1235,8 +1231,8 @@ import  :: { OrdList (LIE GhcPs) }
         | 'module' hsmodid          {% fmap (unitOL . reLoc) $ return (sLL $1 $> (IEModuleContents (Nothing, (epTok $1)) $2)) }
         | 'pattern' qcon            {% do { warnPatternNamespaceSpecifier (getLoc $1)
                                           ; return $ unitOL $ reLoc $ sLL $1 $> $ IEVar Nothing (sLLa $1 $> (IEPattern (epTok $1) $2)) Nothing } }
-        | 'type' '..'               {% fmap (unitOL . reLoc) $ mkWholeTypeWcImpExp (comb2 $1 $>) Nothing (epTok $1) (epTok $2) }
-        | 'data' '..'               {% fmap (unitOL . reLoc) $ mkWholeDataWcImpExp (comb2 $1 $>) Nothing (epTok $1) (epTok $2) }
+        | 'type' '..'               { unitOL (reLoc (mkWholeTypeWcImpExp (comb2 $1 $>) Nothing (epTok $1) (epTok $2))) }
+        | 'data' '..'               { unitOL (reLoc (mkWholeDataWcImpExp (comb2 $1 $>) Nothing (epTok $1) (epTok $2))) }
         | '..'                      {% do { addError $ mkPlainErrorMsgEnvelope (gl $1) PsErrPlainWildcardImport
                                           ; lie <- mkPlainWcImpExp Nothing (epTok $1)
                                           ; return $ unitOL (reLoc lie) } }
@@ -3922,8 +3918,7 @@ oqtycon_no_varcon :: { LocatedN RdrName }  -- Type constructor which cannot be m
 Mixing type constructors and data constructors in export lists introduces
 ambiguity in grammar: e.g. (*) may be both a type constructor and a function.
 
--XExplicitNamespaces allows to disambiguate by explicitly prefixing type
-constructors with 'type' keyword.
+The 'type' keyword disambiguates by explicitly prefixing type constructors.
 
 This ambiguity causes reduce/reduce conflicts in parser, which are always
 resolved in favour of data constructors. To get rid of conflicts we demand

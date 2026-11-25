@@ -14,7 +14,6 @@
 {-# LANGUAGE MagicHash                  #-}
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE StandaloneDeriving         #-}
-{-# LANGUAGE StandaloneKindSignatures   #-}
 {-# LANGUAGE Trustworthy                #-}
 {-# LANGUAGE TypeApplications           #-}
 {-# LANGUAGE TypeFamilies               #-}

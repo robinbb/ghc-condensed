@@ -1,4 +1,4 @@
-T18640b.hs:12:10: error: [GHC-83865]
+T18640b.hs:11:10: error: [GHC-83865]
     • Expected kind ‘forall b -> a’, but ‘F1’ has kind ‘forall k -> k’
     • In the type ‘F1’
       In the type family declaration for ‘F3’

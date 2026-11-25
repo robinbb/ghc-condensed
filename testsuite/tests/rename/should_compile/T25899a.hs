@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T25899a
     ( data D       -- exports data constructor D

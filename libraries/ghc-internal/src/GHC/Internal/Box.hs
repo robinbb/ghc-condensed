@@ -4,7 +4,6 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}

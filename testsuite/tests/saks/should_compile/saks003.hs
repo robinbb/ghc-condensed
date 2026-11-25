@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 
 module SAKS_003 where

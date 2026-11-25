@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wunused-binds #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module Foo (data P) where
 

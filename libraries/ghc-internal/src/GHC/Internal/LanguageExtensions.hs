@@ -105,7 +105,6 @@ data Extension
    | LiberalTypeSynonyms
    | ImpredicativeTypes
    | TypeOperators
-   | ExplicitNamespaces
    | PackageImports
    | RelaxedLayout
    | TraditionalRecordSyntax
@@ -128,7 +127,6 @@ data Extension
    | NumericUnderscores
    | QuantifiedConstraints
    | ImportQualifiedPost
-   | StandaloneKindSignatures
    | LexicalNegation
    | FieldSelectors
    | OverloadedRecordDot

@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module T18640b where
 

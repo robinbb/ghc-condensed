@@ -13,7 +13,6 @@
 {-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE RoleAnnotations #-}
 {-# LANGUAGE QuantifiedConstraints #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
 
 {-| This module is an internal GHC module.  It declares the constants used

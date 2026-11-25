@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, TypeFamilies, TypeData #-}
+{-# LANGUAGE TypeFamilies, TypeData #-}
 
 module T25901_exp_fail_2_helper
     ( type ..     -- exports C, D, T, K, K1

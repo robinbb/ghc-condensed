@@ -4,7 +4,6 @@
 {-# Language GADTs                    #-}
 {-# Language ImpredicativeTypes       #-}
 {-# Language QuantifiedConstraints    #-}
-{-# Language StandaloneKindSignatures #-}
 {-# Language TypeApplications         #-}
 {-# Language TypeFamilies             #-}
 

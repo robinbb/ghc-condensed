@@ -1,6 +1,5 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedDatatypes #-}
 
 unit number-unknown where

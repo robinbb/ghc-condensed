@@ -152,8 +152,8 @@ appears to bind and pass required type arguments alongside value arguments, the
 compiled program does not. There is no runtime overhead associated with required
 type arguments relative to the usual, invisible type arguments.
 
-Relation to :extension:`ExplicitNamespaces`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Relation to the ``type`` keyword
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A required type argument is syntactically indistinguishable from a value
 argument. In a function call ``f arg1 arg2 arg3``, it is impossible to tell,
@@ -225,8 +225,8 @@ clashing constructor names are introduced, they may disrupt name resolution::
 In this example the intent was to refer to ``Int`` and ``Double`` as types, but
 the names were resolved in favor of data constructors, resulting in type errors.
 
-The example can be fixed with the help of :extension:`ExplicitNamespaces`, which
-allows embedding type syntax into term syntax using the ``type`` keyword::
+The example can be fixed with the ``type`` keyword, which embeds type syntax
+into term syntax (see :ref:`explicit-namespaces`)::
 
   s1 = vshow (type Int)    42
   s2 = vshow (type Double) 42

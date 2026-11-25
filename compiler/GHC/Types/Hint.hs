@@ -164,7 +164,7 @@ data GhcHint
               putStrLn "hello"
               putStrLn "world"
 
-        Test case(s): parser/should_fail/T8501a, parser/should_fail/readFail007,
+        Test case(s): parser/should_fail/readFail007,
                       parser/should_fail/InfixAppPatErr, parser/should_fail/T984
     -}
   | SuggestMissingDo
@@ -633,10 +633,6 @@ data ImportSuggestion
   | ImportDataCon
       -- | Where to suggest importing the 'DataCon' from.
       { ies_suggest_import_from :: Maybe ModuleName
-        -- | Whether to suggest the use of the 'pattern' keyword.
-      , ies_suggest_pattern_keyword :: Bool
-        -- | Whether to suggest the use of the 'data' keyword.
-      , ies_suggest_data_keyword :: Bool
         -- | The 'OccName' of the parent of the data constructor.
       , ies_parent :: OccName }
 

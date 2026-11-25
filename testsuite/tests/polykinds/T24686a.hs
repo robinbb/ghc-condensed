@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 module T24686a where
 
 import GHC.Exts

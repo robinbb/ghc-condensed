@@ -1,4 +1,4 @@
-<interactive>:2:30: error: [GHC-51433]
+<interactive>:1:30: error: [GHC-51433]
     In the import of ‘Data.Functor.Product’:
       a data type called ‘Product’ is exported,
       but its subordinate item ‘Pair’ is not in the type namespace.

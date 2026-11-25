@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module T23739_nested where

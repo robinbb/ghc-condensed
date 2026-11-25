@@ -42,7 +42,7 @@ module GHC.Hs.Utils(
   mkHsCmdIf, mkConLikeTc,
 
   nlHsAppType, nlHsTyApp, nlHsTyApps, nlHsVar, nlHsDataCon,
-  nlHsLit, nlHsApp, nlHsApps, nlHsSyntaxApps,
+  nlHsLit, nlHsApp, nlHsApps,
   nlHsIntLit, nlHsVarApps,
   nlHsDo, nlHsOpApp, nlHsLam, nlHsPar, nlHsIf, nlHsCase, nlList,
   mkLHsTupleExpr, mkLHsVarTuple, missingTupArg,
@@ -65,7 +65,6 @@ module GHC.Hs.Utils(
   mkNPat, nlVarPat, nlLitPat, nlConVarPat, nlConVarPatName, nlConPat,
   nlConPatName, nlInfixConPat, nlNullaryConPat, nlWildConPat, nlWildPat,
   nlWildPatName, nlTuplePat, mkParPat, nlParPat,
-  mkBigLHsVarTup, mkBigLHsTup, mkBigLHsVarPatTup, mkBigLHsPatTup,
 
   -- * Types
   mkHsAppTy, mkHsAppKindTy,
@@ -74,7 +73,7 @@ module GHC.Hs.Utils(
 
   -- * Stmts
   mkTransformStmt, mkTransformByStmt, mkBodyStmt,
-  mkPsBindStmt, mkRnBindStmt, mkTcBindStmt,
+  mkPsBindStmt, mkTcBindStmt,
   mkLastStmt,
   emptyTransStmt, mkGroupUsingStmt, mkGroupByUsingStmt,
   emptyRecStmt, emptyRecStmtName, emptyRecStmtId, mkRecStmt,
@@ -126,7 +125,7 @@ import GHC.Core.DataCon
 import GHC.Core.ConLike
 import GHC.Core.Type   ( Type, isUnliftedType )
 
-import GHC.Builtin.WiredIn.Types ( unitTy, mkChunkified )
+import GHC.Builtin.WiredIn.Types ( unitTy )
 
 import GHC.Types.Id
 import GHC.Types.Name
@@ -351,8 +350,6 @@ mkBodyStmt :: LocatedA (bodyR GhcPs)
            -> StmtLR (GhcPass idL) GhcPs (LocatedA (bodyR GhcPs))
 mkPsBindStmt :: EpUniToken "<-" "←" -> LPat GhcPs -> LocatedA (bodyR GhcPs)
              -> StmtLR GhcPs GhcPs (LocatedA (bodyR GhcPs))
-mkRnBindStmt :: LPat GhcRn -> LocatedA (bodyR GhcRn)
-             -> StmtLR GhcRn GhcRn (LocatedA (bodyR GhcRn))
 mkTcBindStmt :: LPat GhcTc -> LocatedA (bodyR GhcTc)
              -> StmtLR GhcTc GhcTc (LocatedA (bodyR GhcTc))
 
@@ -433,7 +430,6 @@ mkLastStmt body = LastStmt noExtField body noSyntaxExpr
 mkBodyStmt body
   = BodyStmt noExtField body noSyntaxExpr noSyntaxExpr
 mkPsBindStmt ann pat body = BindStmt ann pat body
-mkRnBindStmt pat body = BindStmt (XBindStmtRn { xbsrn_bindOp = noSyntaxExpr, xbsrn_failOp = Nothing }) pat body
 mkTcBindStmt pat body = BindStmt (XBindStmtTc { xbstc_bindOp = noSyntaxExpr,
                                                 xbstc_boundResultType = unitTy,
                                                    -- unitTy is a dummy value
@@ -516,10 +512,6 @@ nlLitPat l = noLocA (LitPat noExtField l)
 
 nlHsApp :: IsPass id => LHsExpr (GhcPass id) -> LHsExpr (GhcPass id) -> LHsExpr (GhcPass id)
 nlHsApp f x = noLocA (HsApp noExtField f (mkLHsPar x))
-
-nlHsSyntaxApps :: SyntaxExprTc -> [LHsExpr GhcTc]
-               -> LHsExpr GhcTc
-nlHsSyntaxApps = mkHsSyntaxApps noSrcSpanA
 
 nlHsApps :: IsSrcSpanAnn p a
          => IdP (GhcPass p) -> [LHsExpr (GhcPass p)] -> LHsExpr (GhcPass p)
@@ -695,28 +687,6 @@ nlTuplePat pats box = noLocA (TuplePat noAnn pats box)
 
 missingTupArg :: EpAnn Bool -> HsTupArg GhcPs
 missingTupArg ann = Missing ann
-
-mkLHsPatTup :: [LPat GhcRn] -> LPat GhcRn
-mkLHsPatTup []     = noLocA $ TuplePat noExtField [] Boxed
-mkLHsPatTup [lpat] = lpat
-mkLHsPatTup lpats@(lpat:_) = L (getLoc lpat) $ TuplePat noExtField lpats Boxed
-
--- | The Big equivalents for the source tuple expressions
-mkBigLHsVarTup :: IsSrcSpanAnn p a
-               => [IdP (GhcPass p)] -> XExplicitTuple (GhcPass p)
-               -> LHsExpr (GhcPass p)
-mkBigLHsVarTup ids anns = mkBigLHsTup (map nlHsVar ids) anns
-
-mkBigLHsTup :: [LHsExpr (GhcPass id)] -> XExplicitTuple (GhcPass id)
-            -> LHsExpr (GhcPass id)
-mkBigLHsTup es anns = mkChunkified (\e -> mkLHsTupleExpr e anns) es
-
--- | The Big equivalents for the source tuple patterns
-mkBigLHsVarPatTup :: [IdP GhcRn] -> LPat GhcRn
-mkBigLHsVarPatTup bs = mkBigLHsPatTup (map nlVarPat bs)
-
-mkBigLHsPatTup :: [LPat GhcRn] -> LPat GhcRn
-mkBigLHsPatTup = mkChunkified mkLHsPatTup
 
 {-
 ************************************************************************

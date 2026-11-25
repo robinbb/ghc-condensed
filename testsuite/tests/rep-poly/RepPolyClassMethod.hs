@@ -1,5 +1,4 @@
 
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module RepPolyClassMethod where
 

@@ -3,7 +3,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs#-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE UnboxedSums #-}
 

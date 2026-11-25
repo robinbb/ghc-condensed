@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module Test27291
     ( C(type ..)       -- exports class C and data family D

@@ -8,3 +8,6 @@ mod90.hs:4:16: error: [GHC-35373]
         import Prelude ( Either( Left ) )
       or
         import Prelude ( Either(..) )
+      or
+        import Prelude ( data Left )
+

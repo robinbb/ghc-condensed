@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE TypeFamilies #-}
 module T12488g
   ( C (data (+++),

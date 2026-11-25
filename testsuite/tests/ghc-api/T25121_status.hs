@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 {-# LANGUAGE TypeAbstractions #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Main where

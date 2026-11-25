@@ -5,7 +5,6 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE ViewPatterns #-}
 
 -- | A facility for faking GADTs that work sufficiently similarly

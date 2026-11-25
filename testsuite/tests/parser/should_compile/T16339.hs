@@ -1,4 +1,4 @@
-{-# LANGUAGE ExplicitNamespaces, TypeOperators, RoleAnnotations #-}
+{-# LANGUAGE TypeOperators, RoleAnnotations #-}
 {-# OPTIONS -Wno-duplicate-exports #-}
 
 module T16339

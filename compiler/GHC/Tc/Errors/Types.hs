@@ -111,7 +111,6 @@ module GHC.Tc.Errors.Types (
   , BadExportSubordinate(..)
   , DodgyImportsReason (..)
   , DodgyExportsReason (..)
-  , ImportLookupExtensions (..)
   , ImportLookupReason (..)
   , UnusedImportReason (..)
   , UnusedImportName (..)
@@ -121,7 +120,6 @@ module GHC.Tc.Errors.Types (
   , NonCanonical_Monoid(..)
   , NonCanonical_Monad(..)
   , TypeSyntax(..)
-  , typeSyntaxExtension
   , SuggestLinear(..)
   , ImplicitStrictnessField(..)
 
@@ -1188,7 +1186,6 @@ data TcRnMessage where
                   dependent/should_fail/T16326_Fail4
                   dependent/should_fail/T16326_Fail5
                   dependent/should_fail/T16326_Fail6
-                  dependent/should_fail/T16326_Fail7
                   dependent/should_fail/T16326_Fail8
                   dependent/should_fail/T16326_Fail9
                   dependent/should_fail/T16326_Fail10
@@ -1746,7 +1743,6 @@ data TcRnMessage where
       x = Rec { a = 1, b = "two" } -- missing field 'c'
 
      Test cases: deSugar/should_compile/T13870
-                 deSugar/should_compile/ds041
                  patsyn/should_compile/T11283
                  rename/should_compile/T5334
                  rename/should_compile/T12229
@@ -2415,7 +2411,6 @@ data TcRnMessage where
                 polykinds/T5716
                 polykinds/T5716a
                 polykinds/T6129
-                polykinds/T7433
                 patsyn/should_fail/T11265
                 patsyn/should_fail/T9161-1
                 patsyn/should_fail/T9161-2
@@ -2428,7 +2423,6 @@ data TcRnMessage where
                 saks/should_fail/T16727a
                 saks/should_fail/T16727b
                 rename/should_fail/T12686
-                rename/should_fail/T16635a
                 rename/should_fail/T16635b
                 rename/should_fail/T16635c
   -}
@@ -2822,7 +2816,6 @@ data TcRnMessage where
          deriving/should_compile/deriving-1935
          deriving/should_compile/T9968a
          deriving/should_compile/drv003
-         deriving/should_compile/T4966
          deriving/should_compile/T14094
          perf/compiler/T15304
          warnings/minimal/WarnMinimal
@@ -2910,7 +2903,6 @@ data TcRnMessage where
       Example(s):
 
      Test cases: parser/should_fail/readFail042
-                 parser/should_fail/readFail038
                  parser/should_fail/readFail043
   -}
   TcRnUnexpectedStatementInContext
@@ -3219,18 +3211,6 @@ data TcRnMessage where
   -}
   TcRnUnusedVariableInRuleDecl :: FastString -> Name -> TcRnMessage
 
-  {-| TcRnUnexpectedStandaloneKindSig is an error thrown when a user uses standalone
-      kind signature without enabling the StandaloneKindSignatures extension.
-
-      Example:
-
-        type D :: Type
-        data D = D
-
-      Test cases: saks/should_fail/saks_fail001
-  -}
-  TcRnUnexpectedStandaloneKindSig :: TcRnMessage
-
   {-| TcRnIllegalRuleLhs is an error triggered by malformed left-hand side
       of rewrite rule
 
@@ -3431,7 +3411,7 @@ data TcRnMessage where
     in a type could not be defaulted.
 
     Test cases:
-      T17301, T17562, T17567, T17567StupidTheta, T15474, T21479
+      T17301, T17562, T17567, T15474, T21479
   -}
   TcRnUninferrableTyVar
     :: ![TyCoVar] -- ^ The variables that could not be defaulted.
@@ -4171,7 +4151,6 @@ data TcRnMessage where
           _        -> False
 
       Test cases:
-        T22326_fail_ado
         T22326_fail_caseof
   -}
   TcRnIllegalTypePattern :: TcRnMessage
@@ -4228,21 +4207,6 @@ data TcRnMessage where
       -> NE.NonEmpty TcTyVar  -- ^ The invalid type variables of the proposal
       -> TcRnMessage
 
-  {-| TcRnNamespacedWarningPragmaWithoutFlag is an error that occurs when
-      a namespace specifier is used in {-# WARNING ... #-} or {-# DEPRECATED ... #-}
-      pragmas without the -XExplicitNamespaces extension enabled
-
-      Example:
-
-        {-# LANGUAGE NoExplicitNamespaces #-}
-        f = id
-        {-# WARNING data f "some warning message" #-}
-
-      Test cases:
-        T24396c
-  -}
-  TcRnNamespacedWarningPragmaWithoutFlag :: WarnDecl GhcPs -> TcRnMessage
-
   {-| TcRnIllegalInvisibleTypePattern is an error raised when an invisible
       type pattern, i.e. a pattern of the form `@p`, is rejected.
 
@@ -4281,21 +4245,6 @@ data TcRnMessage where
     :: !(HsTyPat GhcRn)     -- the rejected type pattern
     -> !BadInvisPatReason   -- the reason for rejection
     -> TcRnMessage
-
-  {-| TcRnNamespacedFixitySigWithoutFlag is an error that occurs when
-      a namespace specifier is used in fixity signatures
-      without the -XExplicitNamespaces extension enabled
-
-      Example:
-
-        {-# LANGUAGE NoExplicitNamespaces #-}
-        f = const
-        infixl 7 data `f`
-
-      Test cases:
-        T14032c
-  -}
-  TcRnNamespacedFixitySigWithoutFlag :: FixitySig GhcPs -> TcRnMessage
 
   {-| TcRnDefaultedExceptionContext is a warning that is triggered when the
       backward-compatibility logic solving for implicit ExceptionContext
@@ -6434,14 +6383,6 @@ data DodgyExportsReason =
   DodgyExportsWildcard !ModuleName !(NamespaceSpecifier GhcPs)
   deriving (Generic)
 
--- | What extensions were enabled at import site.
-data ImportLookupExtensions =
-  ImportLookupExtensions
-    { ile_pattern_synonyms    :: !Bool
-    , ile_explicit_namespaces :: !Bool
-    }
-  deriving (Generic)
-
 -- | Different types of errors for import lookup.
 data ImportLookupReason where
   {-| An item in an import statement is not exported by the corresponding
@@ -6455,7 +6396,6 @@ data ImportLookupReason where
                   -> ModIface
                   -> ImpDeclSpec
                   -> IE GhcPs
-                  -> ImportLookupExtensions
                   -> ImportLookupReason
   {-| A name is specified with a qualifying module.
 
@@ -7093,12 +7033,6 @@ data TypeSyntax
   | FunctionArrowSyntax    -- ^ @t1 -> t2@
   | ForallTelescopeSyntax  -- ^ @forall tvs. t@
   deriving Generic
-
-typeSyntaxExtension :: TypeSyntax -> LangExt.Extension
-typeSyntaxExtension TypeKeywordSyntax     = LangExt.ExplicitNamespaces
-typeSyntaxExtension ContextArrowSyntax    = LangExt.RequiredTypeArguments
-typeSyntaxExtension FunctionArrowSyntax   = LangExt.RequiredTypeArguments
-typeSyntaxExtension ForallTelescopeSyntax = LangExt.RequiredTypeArguments
 
 -- | Whether or not to add a hint about enabling -XLinearTypes, when
 -- encountering an unrecognised modifier. We suggest enabling it when

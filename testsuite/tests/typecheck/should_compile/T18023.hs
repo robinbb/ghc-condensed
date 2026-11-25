@@ -1,6 +1,5 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 module T18023 where
 
 import Data.Kind

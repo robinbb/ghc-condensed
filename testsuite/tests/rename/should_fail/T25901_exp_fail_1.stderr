@@ -1,7 +1,7 @@
-T25901_exp_fail_1.hs:5:34: error: [GHC-61689]
+T25901_exp_fail_1.hs:4:34: error: [GHC-61689]
     Module ‘T25901_exp_fail_1_helper’ does not export ‘type C’.
 
-T25901_exp_fail_1.hs:5:42: error: [GHC-35373]
+T25901_exp_fail_1.hs:4:42: error: [GHC-35373]
     In the import of ‘T25901_exp_fail_1_helper’:
       an item called ‘D’
       is exported, but it is a data constructor of
@@ -14,12 +14,12 @@ T25901_exp_fail_1.hs:5:42: error: [GHC-35373]
       or
         import T25901_exp_fail_1_helper ( data D )
 
-T25901_exp_fail_1.hs:5:50: error: [GHC-61689]
+T25901_exp_fail_1.hs:4:50: error: [GHC-61689]
     Module ‘T25901_exp_fail_1_helper’ does not export ‘type T’.
 
-T25901_exp_fail_1.hs:5:58: error: [GHC-61689]
+T25901_exp_fail_1.hs:4:58: error: [GHC-61689]
     Module ‘T25901_exp_fail_1_helper’ does not export ‘type K’.
 
-T25901_exp_fail_1.hs:5:66: error: [GHC-61689]
+T25901_exp_fail_1.hs:4:66: error: [GHC-61689]
     Module ‘T25901_exp_fail_1_helper’ does not export ‘type K1’.
 

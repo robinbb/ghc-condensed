@@ -1,7 +1,6 @@
 {-# Language DerivingStrategies       #-}
 {-# Language TypeApplications         #-}
 {-# Language GADTs                    #-}
-{-# Language StandaloneKindSignatures #-}
 {-# Language TypeFamilies             #-}
 
 import Data.Kind

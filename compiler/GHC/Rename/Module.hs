@@ -289,14 +289,10 @@ rnSrcWarnDecls bndr_set decls'
 
    sig_ctxt = TopSigCtxt bndr_set
 
-   rn_deprec w@(Warning _ ns_spec rdr_names txt)
+   rn_deprec (Warning _ ns_spec rdr_names txt)
        -- ensures that the names are defined locally
      = do { names <- concatMapM (lookupLocalTcNames sig_ctxt SigLikeDeprecation ns_spec . unLoc)
                                 rdr_names
-          ; unlessXOptM LangExt.ExplicitNamespaces $
-            case ns_spec of
-              NoNamespaceSpecifier{} -> return ()
-              _ -> addErr (TcRnNamespacedWarningPragmaWithoutFlag w)
           ; txt' <- rnWarningTxt txt
           ; return [(nameOccName nm, txt') | (_, nm) <- names] }
   -- Use the OccName from the Name we looked up, rather than from the RdrName,
@@ -1665,9 +1661,7 @@ rnStandaloneKindSignature
   -> StandaloneKindSig GhcPs
   -> RnM (StandaloneKindSig GhcRn, FreeNames)
 rnStandaloneKindSignature tc_names (StandaloneKindSig _ v ki)
-  = do  { standalone_ki_sig_ok <- xoptM LangExt.StandaloneKindSignatures
-        ; unless standalone_ki_sig_ok $ addErr TcRnUnexpectedStandaloneKindSig
-        ; new_v <- lookupSigCtxtOccRn (TopSigCtxt tc_names) SigLikeStandaloneKindSig v
+  = do  { new_v <- lookupSigCtxtOccRn (TopSigCtxt tc_names) SigLikeStandaloneKindSig v
         ; (new_ki, fvs) <- rnHsSigType (StandaloneKindSigCtx v) KindLevel ki
         ; return (StandaloneKindSig noExtField new_v new_ki, fvs)
         }

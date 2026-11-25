@@ -1,4 +1,4 @@
-{-# LANGUAGE GHC2021, TypeFamilies, StandaloneKindSignatures #-}
+{-# LANGUAGE GHC2021, TypeFamilies #-}
 
 module T22375DataFamily where
 

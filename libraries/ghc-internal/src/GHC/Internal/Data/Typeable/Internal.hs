@@ -14,7 +14,6 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE LinearTypes #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}

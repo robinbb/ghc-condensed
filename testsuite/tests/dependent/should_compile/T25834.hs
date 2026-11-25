@@ -1,5 +1,4 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 

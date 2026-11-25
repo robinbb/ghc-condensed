@@ -1,6 +1,5 @@
 {-# LANGUAGE
     QuantifiedConstraints
-  , StandaloneKindSignatures
   , TypeOperators
   , GADTs
   , ConstraintKinds

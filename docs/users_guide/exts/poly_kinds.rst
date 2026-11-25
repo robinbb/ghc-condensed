@@ -223,12 +223,6 @@ do so.
 Standalone kind signatures and polymorphic recursion
 ----------------------------------------------------
 
-.. extension:: StandaloneKindSignatures
-    :shortdesc: Allow standalone kind signature declarations.
-
-    :since: 8.10.1
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
 Just as in type inference, kind inference for recursive types can only
 use *monomorphic* recursion. Consider this (contrived) example: ::
 

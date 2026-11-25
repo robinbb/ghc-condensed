@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE PatternSynonyms #-}
 import Data.Type.Equality ( (~) )
 import Data.Maybe ( Just )

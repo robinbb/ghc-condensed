@@ -1477,8 +1477,6 @@ instance Diagnostic TcRnMessage where
       sep [text "Rule" <+> doubleQuotes (ftext name) <> colon,
           text "Forall'd variable" <+> quotes (ppr var) <+>
                   text "does not appear on left hand side"]
-    TcRnUnexpectedStandaloneKindSig -> mkSimpleDecorated $
-      text "Illegal standalone kind signature"
     TcRnIllegalRuleLhs errReason name lhs bad_e -> mkSimpleDecorated $
       sep [text "Rule" <+> pprRuleName name <> colon,
            nest 2 (vcat [err,
@@ -1985,16 +1983,6 @@ instance Diagnostic TcRnMessage where
             | otherwise
             = text "they are not unfilled metavariables"
 
-    TcRnNamespacedWarningPragmaWithoutFlag warning@(Warning _ ns_spec _ txt) -> mkSimpleDecorated $
-      vcat [ text "Illegal use of the" <+> quotes (ppr ns_spec) <+> text "keyword:"
-           , nest 2 (ppr warning)
-           , text "in a" <+> pragma_type <+> text "pragma"
-           ]
-      where
-        pragma_type = case txt of
-          WarningTxt{} -> text "WARNING"
-          DeprecatedTxt{} -> text "DEPRECATED"
-
     TcRnIllegalInvisibleTypePattern tp reason -> mkSimpleDecorated $
       vcat [ hang (text "Illegal invisible type pattern:")
                   2 (char '@' <> ppr tp)
@@ -2002,12 +1990,6 @@ instance Diagnostic TcRnMessage where
                InvisPatWithoutFlag -> empty
                InvisPatNoForall  -> text "An invisible type pattern must be checked against a forall."
                InvisPatMisplaced -> text "An invisible type pattern must occur in an argument position."
-           ]
-
-    TcRnNamespacedFixitySigWithoutFlag sig@(FixitySig _ kw _ _) -> mkSimpleDecorated $
-      vcat [ text "Illegal use of the" <+> quotes (ppr kw) <+> text "keyword:"
-           , nest 2 (ppr sig)
-           , text "in a fixity signature"
            ]
 
     TcRnOutOfArityTyVar ts_name tv_name -> mkDecorated
@@ -2451,8 +2433,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnUnusedVariableInRuleDecl{}
       -> ErrorWithoutFlag
-    TcRnUnexpectedStandaloneKindSig{}
-      -> ErrorWithoutFlag
     TcRnIllegalRuleLhs{}
       -> ErrorWithoutFlag
     TcRnRuleLhsEqualities{}
@@ -2648,11 +2628,7 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnInvalidDefaultedTyVar{}
       -> ErrorWithoutFlag
-    TcRnNamespacedWarningPragmaWithoutFlag{}
-      -> ErrorWithoutFlag
     TcRnIllegalInvisibleTypePattern{}
-      -> ErrorWithoutFlag
-    TcRnNamespacedFixitySigWithoutFlag{}
       -> ErrorWithoutFlag
     TcRnOutOfArityTyVar{}
       -> ErrorWithoutFlag
@@ -2967,7 +2943,7 @@ instance Diagnostic TcRnMessage where
              -> let tc_nm = tyConName tc
                     dc = dataConName $ head $ tyConDataCons tc
                 in [ ImportSuggestion (occName dc)
-                   $ ImportDataCon Nothing False False (nameOccName tc_nm) ]
+                   $ ImportDataCon Nothing (nameOccName tc_nm) ]
              | UnliftedFFITypesNeeded <- why
              -> [suggestExtension LangExt.UnliftedFFITypes]
            _ -> noHints
@@ -3114,8 +3090,6 @@ instance Diagnostic TcRnMessage where
       -> [suggestExtension LangExt.StandaloneDeriving]
     TcRnUnusedVariableInRuleDecl{}
       -> noHints
-    TcRnUnexpectedStandaloneKindSig{}
-      -> [suggestExtension LangExt.StandaloneKindSignatures]
     TcRnIllegalRuleLhs{}
       -> noHints
     TcRnRuleLhsEqualities{}
@@ -3236,26 +3210,12 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnRedundantSourceImport{}
       -> noHints
-    TcRnImportLookup (ImportLookupBad k _ is ie exts) ->
+    TcRnImportLookup (ImportLookupBad k _ is ie) ->
       let mod_name = moduleName $ is_mod is
           occ = rdrNameOcc $ ieName ie
           could_change_item item_suggestion =
-            [useExtensionInOrderTo empty LangExt.ExplicitNamespaces | suggest_ext] ++
             [ ImportSuggestion occ $
               CouldChangeImportItem mod_name item_suggestion ]
-            where
-              suggest_ext
-                | ile_explicit_namespaces exts = False  -- extension already on
-                | otherwise =
-                    case item_suggestion of
-                      -- ImportItemRemove* -> False
-                      ImportItemRemoveType{}            -> False
-                      ImportItemRemoveData{}            -> False
-                      ImportItemRemovePattern{}         -> False
-                      ImportItemRemoveSubordinateType{} -> False
-                      ImportItemRemoveSubordinateData{} -> False
-                      -- ImportItemAdd* -> True
-                      ImportItemAddType{} -> True
       in case k of
         BadImportAvailVar -> could_change_item ImportItemRemoveType
         BadImportNotExported suggs -> suggs
@@ -3272,9 +3232,6 @@ instance Diagnostic TcRnMessage where
         BadImportAvailDataCon par  ->
           [ ImportSuggestion occ $
             ImportDataCon { ies_suggest_import_from = Just mod_name
-                          , ies_suggest_pattern_keyword = ile_pattern_synonyms exts
-                              && not (ile_explicit_namespaces exts) -- do not suggest 'pattern' when we can suggest 'data'
-                          , ies_suggest_data_keyword    = ile_explicit_namespaces exts
                           , ies_parent = par } ]
         BadImportNotExportedSubordinates{} -> noHints
         BadImportNonTypeSubordinates _ nontype1 ->
@@ -3359,19 +3316,15 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnInvalidDefaultedTyVar{}
       -> noHints
-    TcRnNamespacedWarningPragmaWithoutFlag{}
-      -> [suggestExtension LangExt.ExplicitNamespaces]
     TcRnIllegalInvisibleTypePattern _ reason
       -> case reason of
           InvisPatWithoutFlag -> [suggestExtension LangExt.TypeAbstractions]
           InvisPatNoForall    -> noHints
           InvisPatMisplaced   -> noHints
-    TcRnNamespacedFixitySigWithoutFlag{}
-      -> [suggestExtension LangExt.ExplicitNamespaces]
     TcRnOutOfArityTyVar{}
       -> noHints
-    TcRnUnexpectedTypeSyntaxInTerms syntax
-      -> [suggestExtension (typeSyntaxExtension syntax)]
+    TcRnUnexpectedTypeSyntaxInTerms{}
+      -> [suggestExtension LangExt.RequiredTypeArguments]
     TcRnUnrecognisedModifier _ sl
       -> case sl of
            SuggestLinear -> [suggestExtension LangExt.LinearTypes]
@@ -6249,7 +6202,7 @@ pprDisabledClassExtension cls = \case
 
 pprImportLookup :: ImportLookupReason -> SDoc
 pprImportLookup = \case
-  ImportLookupBad k iface decl_spec ie _exts ->
+  ImportLookupBad k iface decl_spec ie ->
     let
       pprImpDeclSpec :: ModIface -> ImpDeclSpec -> SDoc
       pprImpDeclSpec iface decl_spec =
@@ -7809,7 +7762,7 @@ pprHsCtxt = \case
         text "was inferred to use visible dependent quantification."
       , text "Most types with visible dependent quantification are"
       , text "polymorphically recursive and need a standalone kind"
-      , text "signature. Perhaps supply one, with StandaloneKindSignatures."
+      , text "signature. Perhaps supply one."
       ]
   TermLevelUseCtxt name ctxt ->
     pprTermLevelUseCtxt name ctxt

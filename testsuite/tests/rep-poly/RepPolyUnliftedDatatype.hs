@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnliftedDatatypes #-}
 
 module RepPolyUnliftedDatatype where

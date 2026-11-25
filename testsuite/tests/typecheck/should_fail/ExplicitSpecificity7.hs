@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneKindSignatures, TypeApplications #-}
+{-# LANGUAGE TypeApplications #-}
 
 module ExplicitSpecificity7 where
 

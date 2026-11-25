@@ -1,4 +1,4 @@
-{-# LANGUAGE EmptyDataDecls, StandaloneKindSignatures #-}
+{-# LANGUAGE EmptyDataDecls #-}
 
 module T20916 where
 

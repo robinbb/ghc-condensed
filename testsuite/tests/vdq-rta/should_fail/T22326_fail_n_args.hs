@@ -1,4 +1,4 @@
-{-# LANGUAGE RequiredTypeArguments, ExplicitNamespaces #-}
+{-# LANGUAGE RequiredTypeArguments #-}
 
 module T22326_fail_n_args where
 

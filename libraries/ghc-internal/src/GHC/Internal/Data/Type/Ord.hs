@@ -3,7 +3,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}

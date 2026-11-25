@@ -203,7 +203,6 @@ module Language.Haskell.TH where
     | LiberalTypeSynonyms
     | ImpredicativeTypes
     | TypeOperators
-    | ExplicitNamespaces
     | PackageImports
     | RelaxedLayout
     | TraditionalRecordSyntax
@@ -226,7 +225,6 @@ module Language.Haskell.TH where
     | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
-    | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors
     | OverloadedRecordDot
@@ -782,7 +780,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | LiberalTypeSynonyms
     | ImpredicativeTypes
     | TypeOperators
-    | ExplicitNamespaces
     | PackageImports
     | RelaxedLayout
     | TraditionalRecordSyntax
@@ -805,7 +802,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
-    | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors
     | OverloadedRecordDot
@@ -1495,7 +1491,6 @@ module Language.Haskell.TH.Syntax where
     | LiberalTypeSynonyms
     | ImpredicativeTypes
     | TypeOperators
-    | ExplicitNamespaces
     | PackageImports
     | RelaxedLayout
     | TraditionalRecordSyntax
@@ -1518,7 +1513,6 @@ module Language.Haskell.TH.Syntax where
     | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
-    | StandaloneKindSignatures
     | LexicalNegation
     | FieldSelectors
     | OverloadedRecordDot

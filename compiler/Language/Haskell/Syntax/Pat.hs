@@ -170,7 +170,7 @@ data Pat p
    -- ^ Pattern with a type signature, e.g. @x :: Int@
 
   | -- | Embed the syntax of types into patterns, e.g. @fn (type t) = rhs@.
-    -- Enabled by @-XExplicitNamespaces@ in conjunction with @-XRequiredTypeArguments@.
+    -- Used by @-XRequiredTypeArguments@.
     EmbTyPat        (XEmbTyPat p)
                     (HsTyPat (NoGhcTc p))
 

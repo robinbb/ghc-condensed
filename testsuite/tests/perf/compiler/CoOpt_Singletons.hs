@@ -2,7 +2,6 @@
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE NoNamedWildCards #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE TypeOperators #-}

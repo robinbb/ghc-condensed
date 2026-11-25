@@ -1433,7 +1433,6 @@ languageExtensions (Just GHC2021)
        LangExt.NumericUnderscores,
        LangExt.PostfixOperators,
        LangExt.StandaloneDeriving,
-       LangExt.StandaloneKindSignatures,
        LangExt.TupleSections,
        LangExt.TypeApplications,
        LangExt.TypeOperators,
@@ -1444,7 +1443,6 @@ languageExtensions (Just GHC2021)
 languageExtensions (Just GHC2024)
     = languageExtensions (Just GHC2021) ++
       [LangExt.DerivingStrategies,
-       LangExt.ExplicitNamespaces,
        LangExt.GADTs,
        LangExt.MonoLocalBinds,
        LangExt.LambdaCase,

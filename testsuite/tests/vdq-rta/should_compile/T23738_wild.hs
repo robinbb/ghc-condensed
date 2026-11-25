@@ -1,5 +1,4 @@
 {-# LANGUAGE RequiredTypeArguments #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE NamedWildCards #-}
 
 module T23738_wild where

@@ -12,7 +12,6 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 module SuperRecord where
 
 import Data.Proxy

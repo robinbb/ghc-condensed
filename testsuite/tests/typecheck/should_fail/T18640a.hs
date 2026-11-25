@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeAbstractions #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module T18640a where
 

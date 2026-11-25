@@ -3,7 +3,6 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedLists #-}
 {-# LANGUAGE RebindableSyntax #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE StaticPointers #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TupleSections #-}

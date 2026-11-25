@@ -1511,12 +1511,8 @@ rnSrcFixityDecl sig_ctxt = rn_decl
         -- for con-like things; hence returning a list
         -- If neither are in scope, report an error; otherwise
         -- return a fixity sig for each (slightly odd)
-    rn_decl sig@(FixitySig _ ns_spec fnames fixity)
-      = do unlessXOptM LangExt.ExplicitNamespaces $
-             case ns_spec of
-               NoNamespaceSpecifier{} -> return ()
-               _ -> addErr (TcRnNamespacedFixitySigWithoutFlag sig)
-           names <- concatMapM (lookup_one ns_spec) fnames
+    rn_decl (FixitySig _ ns_spec fnames fixity)
+      = do names <- concatMapM (lookup_one ns_spec) fnames
            return (FixitySig noExtField (rnNamespaceSpecifier ns_spec) names fixity)
 
     lookup_one :: NamespaceSpecifier GhcPs -> LocatedN RdrName -> RnM [LocatedN Name]

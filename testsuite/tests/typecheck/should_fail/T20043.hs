@@ -1,7 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE MonoLocalBinds #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 
 module T20043 where

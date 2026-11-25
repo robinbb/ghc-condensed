@@ -1,4 +1,4 @@
-{-# LANGUAGE StandaloneKindSignatures, MagicHash, UnliftedDatatypes #-}
+{-# LANGUAGE MagicHash, UnliftedDatatypes #-}
 
 module T20187b where
 

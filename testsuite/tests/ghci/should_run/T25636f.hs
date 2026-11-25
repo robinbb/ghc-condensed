@@ -1,7 +1,6 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE UnliftedDatatypes #-}
 

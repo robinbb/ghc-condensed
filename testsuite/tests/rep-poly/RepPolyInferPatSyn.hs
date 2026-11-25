@@ -2,7 +2,6 @@
 
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UnboxedTuples #-}
 

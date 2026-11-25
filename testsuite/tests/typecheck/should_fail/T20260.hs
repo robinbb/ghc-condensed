@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, StandaloneKindSignatures #-}
+{-# LANGUAGE TypeFamilies #-}
 module T20260 where
 
 import Data.Kind (Type)

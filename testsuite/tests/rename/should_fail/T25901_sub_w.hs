@@ -1,4 +1,3 @@
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T25901_sub_w (T(MkT, data ..)) where
 

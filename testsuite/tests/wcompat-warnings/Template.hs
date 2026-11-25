@@ -2,7 +2,6 @@
 -- warning group.
 
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module WCompatWarningsOnOff
   ( pattern Just, pattern Left, pattern (:|)    -- triggers -Wpattern-namespace-specifier

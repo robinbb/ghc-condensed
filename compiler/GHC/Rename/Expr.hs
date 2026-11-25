@@ -590,7 +590,6 @@ rnExpr (ArithSeq _ _ seq)
 
 rnExpr (HsEmbTy _ ty)
   = do { (ty', fvs) <- rnHsWcType HsTypeCtx ty
-       ; checkTypeSyntaxExtension TypeKeywordSyntax
        ; return (HsEmbTy noExtField ty', fvs) }
 
 rnExpr (HsQual x (L l (HsContext an ctxt)) ty)
@@ -678,7 +677,7 @@ rnExpr (HsProc x pat body)
 
 checkTypeSyntaxExtension :: TypeSyntax -> RnM ()
 checkTypeSyntaxExtension syntax =
-  unlessXOptM (typeSyntaxExtension syntax) $
+  unlessXOptM LangExt.RequiredTypeArguments $
   addErr (TcRnUnexpectedTypeSyntaxInTerms syntax)
 
 {-

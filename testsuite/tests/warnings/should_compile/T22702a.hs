@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wmissing-role-annotations #-}
 {-# LANGUAGE RoleAnnotations #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 module T22702a where
 
 import Data.Kind (Type)

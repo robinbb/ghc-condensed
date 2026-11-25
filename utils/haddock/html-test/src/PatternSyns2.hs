@@ -2,7 +2,6 @@
 
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module PatternSyns2
   ( pattern P1, pattern P2, pattern P3, pattern P4, pattern P5

@@ -4,7 +4,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 
 module T21338 where
 

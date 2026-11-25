@@ -165,7 +165,6 @@ extensionName = \case
   LangExt.LiberalTypeSynonyms -> "LiberalTypeSynonyms"
   LangExt.ImpredicativeTypes -> "ImpredicativeTypes"
   LangExt.TypeOperators -> "TypeOperators"
-  LangExt.ExplicitNamespaces -> "ExplicitNamespaces"
   LangExt.PackageImports -> "PackageImports"
   LangExt.RelaxedLayout -> "RelaxedLayout"
   LangExt.TraditionalRecordSyntax -> "TraditionalRecordSyntax"
@@ -188,7 +187,6 @@ extensionName = \case
   LangExt.NumericUnderscores -> "NumericUnderscores"
   LangExt.QuantifiedConstraints -> "QuantifiedConstraints"
   LangExt.ImportQualifiedPost -> "ImportQualifiedPost"
-  LangExt.StandaloneKindSignatures -> "StandaloneKindSignatures"
   LangExt.LexicalNegation -> "LexicalNegation"
   LangExt.FieldSelectors -> "FieldSelectors"
   LangExt.OverloadedRecordDot -> "OverloadedRecordDot"
@@ -227,14 +225,6 @@ impliedXFlags
     , (LangExt.GADTs,            On LangExt.MonoLocalBinds)
     , (LangExt.TypeFamilies,     On LangExt.MonoLocalBinds)
 
-
-
-    -- We turn this on so that we can export associated type
-    -- type synonyms in subordinates (e.g. MyClass(type AssocType))
-    , (LangExt.TypeFamilies,     On LangExt.ExplicitNamespaces)
-    , (LangExt.TypeOperators, On LangExt.ExplicitNamespaces)
-
-
     , (LangExt.JavaScriptFFI, On LangExt.InterruptibleFFI)
 
     , (LangExt.DeriveTraversable, On LangExt.DeriveFunctor)
@@ -247,9 +237,6 @@ impliedXFlags
     -- Historically only UnboxedTuples was required for unboxed sums to work.
     -- To avoid breaking code, we make UnboxedTuples imply UnboxedSums.
     , (LangExt.UnboxedTuples, On LangExt.UnboxedSums)
-
-    -- The extensions needed to declare an H98 unlifted data type
-    , (LangExt.UnliftedDatatypes, On LangExt.StandaloneKindSignatures)
 
     -- See (NVP3) in Note [Non-variable pattern bindings aren't linear] in GHC.Tc.Gen.Bind
     , (LangExt.LinearTypes, On LangExt.MonoLocalBinds)
@@ -295,7 +282,6 @@ glasgowExtsFlags = [
            , LangExt.DeriveTraversable
            , LangExt.EmptyDataDecls
            , LangExt.ExistentialQuantification
-           , LangExt.ExplicitNamespaces
            , LangExt.FlexibleContexts
            , LangExt.FlexibleInstances
            , LangExt.ForeignFunctionInterface

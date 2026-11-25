@@ -1,6 +1,5 @@
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NamedDefaults #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 
 module T25882 where

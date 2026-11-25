@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs                    #-}
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE TypeApplications         #-}
 {-# LANGUAGE TypeFamilies             #-}
 {-# LANGUAGE TypeOperators            #-}

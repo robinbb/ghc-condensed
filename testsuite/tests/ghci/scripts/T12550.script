@@ -1,5 +1,5 @@
 :set -XHaskell2010
-:set -fprint-explicit-foralls -XExplicitNamespaces -XUnicodeSyntax
+:set -fprint-explicit-foralls -XUnicodeSyntax
 import Data.Kind (type Type)
 
 

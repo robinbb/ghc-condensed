@@ -1,4 +1,3 @@
-{-# LANGUAGE StandaloneKindSignatures #-}
 {-# LANGUAGE GADTs, TypeFamilies #-}
 
 module SAKS_026 where

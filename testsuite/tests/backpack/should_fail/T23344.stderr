@@ -16,7 +16,7 @@
     Instantiating q[H=r:H]
     [1 of 1] Including p
     [1 of 2] Compiling H[sig]           ( q/H.hsig, T23344.out/q/q-EsMFZGC3QiBIz4krwt67aW/H.o )
-T23344.bkp:44:5: error: [GHC-15843]
+T23344.bkp:43:5: error: [GHC-15843]
     • Type constructor ‘T1’ has conflicting definitions in the module
       and its hsig file.
       Main module: type T1 :: Type
@@ -27,7 +27,7 @@ T23344.bkp:44:5: error: [GHC-15843]
         Invalid polymorphic type: forall a. a -> a.
     • While checking that ‘r:H’ implements signature ‘H’ in ‘q[H=r:H]’.
 
-T23344.bkp:45:5: error: [GHC-15843]
+T23344.bkp:44:5: error: [GHC-15843]
     • Type constructor ‘T2’ has conflicting definitions in the module
       and its hsig file.
       Main module: type T2 :: Type
@@ -38,7 +38,7 @@ T23344.bkp:45:5: error: [GHC-15843]
         Invalid qualified type: G S2 => S2.
     • While checking that ‘r:H’ implements signature ‘H’ in ‘q[H=r:H]’.
 
-T23344.bkp:49:5: error: [GHC-15843]
+T23344.bkp:48:5: error: [GHC-15843]
     • Type constructor ‘T3’ has conflicting definitions in the module
       and its hsig file.
       Main module: type T3 :: Type

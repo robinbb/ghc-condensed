@@ -1,5 +1,4 @@
 {-# LANGUAGE Safe #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeOperators #-}
 

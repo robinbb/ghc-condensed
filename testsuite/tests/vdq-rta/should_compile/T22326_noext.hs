@@ -1,5 +1,4 @@
 {-# LANGUAGE NoRequiredTypeArguments #-}  -- VDQ/RTA is disabled
-{-# LANGUAGE ExplicitNamespaces #-}
 
 module T22326_noext where
 

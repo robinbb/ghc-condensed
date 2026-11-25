@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE GADTs, StandaloneKindSignatures #-}
+{-# LANGUAGE GADTs #-}
 
 module T11811 where
 

@@ -8,3 +8,6 @@ T10668.hs:4:27: error: [GHC-35373]
         import Data.Type.Equality ( (:~:)( Refl ) )
       or
         import Data.Type.Equality ( (:~:)(..) )
+      or
+        import Data.Type.Equality ( data Refl )
+

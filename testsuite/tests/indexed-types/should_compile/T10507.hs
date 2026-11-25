@@ -1,5 +1,4 @@
 {-# LANGUAGE EmptyDataDecls #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}

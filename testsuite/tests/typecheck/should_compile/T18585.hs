@@ -1,5 +1,4 @@
 {-# Language FlexibleContexts #-}
-{-# Language StandaloneKindSignatures #-}
 {-# Language TypeFamilyDependencies #-}
 {-# Language UndecidableInstances #-}
 {-# Language UndecidableSuperClasses #-}

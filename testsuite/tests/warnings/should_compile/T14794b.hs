@@ -1,5 +1,4 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE ExplicitNamespaces #-}
 {-# OPTIONS_GHC -Wmissing-exported-signatures #-}
 
 module T14794b (testExported, data TestExported) where
