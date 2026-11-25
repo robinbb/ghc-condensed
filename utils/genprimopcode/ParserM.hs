@@ -1,4 +1,3 @@
-{-# LANGUAGE BinaryLiterals #-}
 
 module ParserM (
     -- Parser Monad

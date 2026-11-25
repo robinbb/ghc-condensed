@@ -3,7 +3,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE NumDecimals #-}
 
 -----------------------------------------------------------------------------
 -- |
@@ -1267,7 +1266,7 @@ modificationTimeHiResX _ = error "modificationTimeHiResX not available on this p
 #endif
 
 timeHiResToNominalDiffTime :: EpochTime -> Int32 -> POSIXTime
-timeHiResToNominalDiffTime (CTime sec) nsec = secondsToNominalDiffTime $ MkFixed $ toInteger sec * 1e12 + toInteger nsec * 1e3
+timeHiResToNominalDiffTime (CTime sec) nsec = secondsToNominalDiffTime $ MkFixed $ toInteger sec * 1_000_000_000_000 + toInteger nsec * 1000
 
 #else
 {-# WARNING linkCountX "linkCountX: not available on this platform, will throw error (CPP guard: @#if HAVE_STATX@)" #-}

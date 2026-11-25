@@ -1,9 +1,6 @@
-{-# LANGUAGE NumericUnderscores #-}
-{-# LANGUAGE BinaryLiterals #-}
-{-# LANGUAGE HexFloatLiterals #-}
 {-# LANGUAGE NegativeLiterals #-}
 
--- Test for NumericUnderscores extension.
+-- Test for underscores in numeric literals.
 -- See #14473
 -- This is a testcase for boxed literals.
 

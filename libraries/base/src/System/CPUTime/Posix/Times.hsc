@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, CApiFFI, NumDecimals #-}
+{-# LANGUAGE CPP, CApiFFI #-}
 
 #include "HsFFI.h"
 #include "HsBaseConfig.h"
@@ -30,7 +30,7 @@ getCPUTime = allocaBytes (#const sizeof(struct tms)) $ \ p_tms -> do
     _ <- times p_tms
     u_ticks  <- (#peek struct tms,tms_utime) p_tms :: IO CClock
     s_ticks  <- (#peek struct tms,tms_stime) p_tms :: IO CClock
-    return (( (cClockToInteger u_ticks + cClockToInteger s_ticks) * 1e12)
+    return (( (cClockToInteger u_ticks + cClockToInteger s_ticks) * 1_000_000_000_000)
                         `div` fromIntegral clockTicks)
 
 type CTms = ()
@@ -38,7 +38,7 @@ foreign import ccall unsafe times :: Ptr CTms -> IO CClock
 
 getCpuTimePrecision :: IO Integer
 getCpuTimePrecision =
-    return $ round ((1e12::Integer) % clockTicks)
+    return $ round ((1_000_000_000_000::Integer) % clockTicks)
 
 foreign import ccall unsafe clk_tck :: CLong
 

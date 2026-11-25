@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, CApiFFI, NumDecimals #-}
+{-# LANGUAGE CPP, CApiFFI #-}
 
 #include "HsFFI.h"
 #include "HsBaseConfig.h"
@@ -34,16 +34,16 @@ getCPUTime = allocaBytes (#const sizeof(struct rusage)) $ \ p_rusage -> do
     u_usec <- (#peek struct timeval,tv_usec) ru_utime :: IO CSUSeconds
     s_sec  <- (#peek struct timeval,tv_sec)  ru_stime :: IO CTime
     s_usec <- (#peek struct timeval,tv_usec) ru_stime :: IO CSUSeconds
-    let usec = cTimeToInteger u_sec * 1e6 + csuSecondsToInteger u_usec +
-               cTimeToInteger s_sec * 1e6 + csuSecondsToInteger s_usec
-    return (usec * 1e6)
+    let usec = cTimeToInteger u_sec * 1_000_000 + csuSecondsToInteger u_usec +
+               cTimeToInteger s_sec * 1_000_000 + csuSecondsToInteger s_usec
+    return (usec * 1_000_000)
 
 type CRUsage = ()
 foreign import capi unsafe "HsBase.h getrusage" getrusage :: CInt -> Ptr CRUsage -> IO CInt
 
 getCpuTimePrecision :: IO Integer
 getCpuTimePrecision =
-    return $ round ((1e12::Integer) % fromIntegral clk_tck)
+    return $ round ((1_000_000_000_000::Integer) % fromIntegral clk_tck)
 
 foreign import ccall unsafe clk_tck :: CLong
 

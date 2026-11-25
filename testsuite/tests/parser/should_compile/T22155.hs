@@ -1,4 +1,4 @@
-{-# language HexFloatLiterals, MagicHash, NegativeLiterals #-}
+{-# language MagicHash, NegativeLiterals #-}
 module T22155 where
 
 import GHC.Types

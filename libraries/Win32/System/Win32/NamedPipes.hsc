@@ -6,7 +6,6 @@
 {-# LANGUAGE CPP                #-}
 {-# LANGUAGE BangPatterns       #-}
 {-# LANGUAGE MultiWayIf         #-}
-{-# LANGUAGE NumericUnderscores #-}
 
 -- | For full details on the Windows named pipes API see
 -- <https://docs.microsoft.com/en-us/windows/desktop/ipc/named-pipes>

@@ -10,41 +10,44 @@
     `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
     `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
     `DisambiguateRecordFields`, `RecursiveDo`, `ApplicativeDo`,
-    `QualifiedDo`, `ExplicitNamespaces` and `StandaloneKindSignatures`
-    constructors of `Extension`.
-    GHC no longer has those extensions: there is one layout rule, every
-    type has a `Typeable` instance, a data type declaration never has a
-    context (a `DataD` or `NewtypeD` with one is refused), class methods
-    may always constrain the class type variables, a class may have any
-    number of parameters, an instance overlaps or is incoherent only by
-    its own pragma, `TypeInType` was a spelling of `PolyKinds` and
-    `KindSignatures` together with promotion, an explicit `forall` is
-    always allowed, every data type is promoted to a kind, and kind
-    signatures are always allowed, in instance declarations too, kinds
-    are always generalised, and the dependency analysis of a binding
-    group always ignores references to variables with type signatures,
-    `ParallelArrays`, whose syntax left GHC long ago, is no longer a
-    deprecated spelling of `ParallelListComp`, and a complete
-    user-supplied kind is never detected: a standalone kind signature is
-    the only way to fix the kind of a type constructor, `*` is an
-    ordinary type operator, never a spelling of `Type`, and subsumption
-    is always simple: GHC never eta-expands to match up nested foralls,
-    an instance of `Data` may always be derived, a type may have any
-    rank, a list comprehension may have parallel branches, and type
-    variables are lexically scoped: an outer `forall`, a class or instance
-    head and a pattern signature bind them over the body, an `n+k` pattern
-    is a parse error, as in Haskell 2010, and a nested `do` block must be
-    indented further than its enclosing context, as the Haskell 2010 layout
-    rule requires, and a field in record construction or pattern matching
-    is always resolved through its data constructor, a field in a record
-    update among the fields in scope alone, and there is no recursive
-    do-notation: `mdo` is an ordinary identifier and `rec` a keyword of
-    arrow notation alone, a `do` block always desugars through `>>=` and
-    `>>`, never through `<$>` and `<*>`, and its operators are the ones in
-    scope, never those of a module named before the `do`, the `type` and
-    `data` namespace keywords are always allowed in import and export
-    lists, fixity declarations, warning pragmas, expressions and patterns,
-    and a standalone kind signature may always be given.
+    `QualifiedDo`, `ExplicitNamespaces`, `StandaloneKindSignatures`,
+    `BinaryLiterals`, `HexFloatLiterals`, `NumDecimals` and
+    `NumericUnderscores` constructors of `Extension`.
+    GHC no longer has those extensions: there is one layout rule, every type
+    has a `Typeable` instance, a data type declaration never has a context
+    (a `DataD` or `NewtypeD` with one is refused), class methods may always
+    constrain the class type variables, a class may have any number of
+    parameters, an instance overlaps or is incoherent only by its own
+    pragma, `TypeInType` was a spelling of `PolyKinds` and `KindSignatures`
+    together with promotion, an explicit `forall` is always allowed, every
+    data type is promoted to a kind, and kind signatures are always allowed,
+    in instance declarations too, kinds are always generalised, and the
+    dependency analysis of a binding group always ignores references to
+    variables with type signatures, `ParallelArrays`, whose syntax left GHC
+    long ago, is no longer a deprecated spelling of `ParallelListComp`, and
+    a complete user-supplied kind is never detected: a standalone kind
+    signature is the only way to fix the kind of a type constructor, `*` is
+    an ordinary type operator, never a spelling of `Type`, and subsumption
+    is always simple: GHC never eta-expands to match up nested foralls, an
+    instance of `Data` may always be derived, a type may have any rank, a
+    list comprehension may have parallel branches, and type variables are
+    lexically scoped: an outer `forall`, a class or instance head and a
+    pattern signature bind them over the body, an `n+k` pattern is a parse
+    error, as in Haskell 2010, and a nested `do` block must be indented
+    further than its enclosing context, as the Haskell 2010 layout rule
+    requires, and a field in record construction or pattern matching is
+    always resolved through its data constructor, a field in a record update
+    among the fields in scope alone, and there is no recursive do-notation:
+    `mdo` is an ordinary identifier and `rec` a keyword of arrow notation
+    alone, a `do` block always desugars through `>>=` and `>>`, never
+    through `<$>` and `<*>`, and its operators are the ones in scope, never
+    those of a module named before the `do`, the `type` and `data` namespace
+    keywords are always allowed in import and export lists, fixity
+    declarations, warning pragmas, expressions and patterns, a standalone
+    kind signature may always be given, an integer literal may be written in
+    binary and a floating-point literal in hexadecimal, a literal in
+    scientific notation always has a `Fractional` type, and the digits of a
+    literal may be separated by underscores.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With

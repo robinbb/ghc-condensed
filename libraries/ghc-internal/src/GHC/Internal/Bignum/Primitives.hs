@@ -7,7 +7,6 @@
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE BlockArguments #-}
-{-# LANGUAGE BinaryLiterals #-}
 {-# OPTIONS_GHC -fexpose-all-unfoldings #-}
 
 module GHC.Internal.Bignum.Primitives

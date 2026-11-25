@@ -1,4 +1,3 @@
-{-# LANGUAGE NumericUnderscores #-}
 module Main where
 
 import Data.List (transpose, foldl')

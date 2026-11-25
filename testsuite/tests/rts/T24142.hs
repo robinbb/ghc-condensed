@@ -1,5 +1,4 @@
 {- This test constructs a program that used to trigger an excessive amount of STM retries. -}
-{-# LANGUAGE NumericUnderscores #-}
 {-# LANGUAGE BangPatterns #-}
 module Main where
 

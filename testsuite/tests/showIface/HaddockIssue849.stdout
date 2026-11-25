@@ -48,13 +48,10 @@ docs:
          PatternGuards
          TypeOperators
          TraditionalRecordSyntax
-         BinaryLiterals
-         HexFloatLiterals
          EmptyCase
          NamedWildCards
          TypeApplications
          EmptyDataDeriving
-         NumericUnderscores
          ImportQualifiedPost
          FieldSelectors
          ListTuplePuns

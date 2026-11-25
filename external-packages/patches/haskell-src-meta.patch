@@ -1,6 +1,6 @@
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Extensions.hs
-@@ -24,28 +24,28 @@
+@@ -24,28 +24,28 @@ import qualified Language.Haskell.TH.Syntax      as TH
  -- | Returns @Nothing@ when the extension is not supported by template-haskell.
  toExtension :: Exts.KnownExtension -> Maybe TH.Extension
  toExtension e = case e of
@@ -38,7 +38,15 @@
    Exts.BangPatterns               -> Just TH.BangPatterns
    Exts.TypeSynonymInstances       -> Just TH.TypeSynonymInstances
    Exts.TemplateHaskell            -> Just TH.TemplateHaskell
-@@ -68,14 +68,14 @@
+@@ -61,21 +61,21 @@ toExtension e = case e of
+   Exts.RestrictedTypeSynonyms     -> Nothing
+   Exts.HereDocuments              -> Nothing
+   Exts.MagicHash                  -> Just TH.MagicHash
+-  Exts.BinaryLiterals             -> Just TH.BinaryLiterals
++  Exts.BinaryLiterals             -> Nothing
+   Exts.TypeFamilies               -> Just TH.TypeFamilies
+   Exts.StandaloneDeriving         -> Just TH.StandaloneDeriving
+   Exts.UnicodeSyntax              -> Just TH.UnicodeSyntax
    Exts.UnliftedFFITypes           -> Just TH.UnliftedFFITypes
    Exts.LiberalTypeSynonyms        -> Just TH.LiberalTypeSynonyms
    Exts.TypeOperators              -> Just TH.TypeOperators
@@ -55,7 +63,7 @@
    Exts.OverloadedStrings          -> Just TH.OverloadedStrings
    Exts.GADTs                      -> Just TH.GADTs
    Exts.MonoPatBinds               ->
-@@ -84,11 +84,11 @@
+@@ -84,11 +84,11 @@ toExtension e = case e of
  #else
      Nothing
  #endif
@@ -70,7 +78,7 @@
    Exts.PackageImports             -> Just TH.PackageImports
    Exts.LambdaCase                 -> Just TH.LambdaCase
    Exts.EmptyCase                  -> Just TH.EmptyCase
-@@ -102,23 +102,23 @@
+@@ -102,23 +102,23 @@ toExtension e = case e of
    Exts.RegularPatterns            -> Nothing
    Exts.TupleSections              -> Just TH.TupleSections
    Exts.GHCForeignImportPrim       -> Just TH.GHCForeignImportPrim
@@ -101,7 +109,7 @@
    Exts.MultiWayIf                 -> Just TH.MultiWayIf
    Exts.SafeImports                -> Nothing
    Exts.Safe                       -> Nothing
-@@ -135,7 +135,7 @@
+@@ -135,7 +135,7 @@ toExtension e = case e of
    Exts.DerivingStrategies         -> Just TH.DerivingStrategies
    Exts.UnboxedSums                -> Just TH.UnboxedSums
  #if MIN_VERSION_haskell_src_exts(1,21,0)
@@ -110,7 +118,7 @@
  #endif
    Exts.Strict                     -> Just TH.Strict
    Exts.StrictData                 -> Just TH.StrictData
-@@ -187,16 +187,13 @@
+@@ -187,16 +187,13 @@ toExtension e = case e of
  fromExtension :: TH.Extension -> Maybe Exts.KnownExtension
  fromExtension e = case e of
    TH.Cpp                               -> Just Exts.CPP
@@ -127,7 +135,7 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -204,34 +201,24 @@
+@@ -204,34 +201,23 @@ fromExtension e = case e of
    TH.CApiFFI                           -> Just Exts.CApiFFI
    TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
    TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
@@ -153,7 +161,7 @@
 -#endif
    TH.OverloadedStrings                 -> Just Exts.OverloadedStrings
    TH.OverloadedLists                   -> Nothing
-   TH.NumDecimals                       -> Nothing
+-  TH.NumDecimals                       -> Nothing
 -  TH.DisambiguateRecordFields          -> Just Exts.DisambiguateRecordFields
    TH.RecordWildCards                   -> Just Exts.RecordWildCards
  #if __GLASGOW_HASKELL__ >= 904
@@ -162,7 +170,7 @@
    TH.UnliftedDatatypes -> Nothing
    TH.LinearTypes -> Nothing
    TH.LexicalNegation -> Nothing
-@@ -244,17 +231,10 @@
+@@ -244,17 +230,10 @@ fromExtension e = case e of
    TH.ViewPatterns                      -> Just Exts.ViewPatterns
    TH.GADTs                             -> Just Exts.GADTs
    TH.GADTSyntax                        -> Nothing
@@ -180,7 +188,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,35 +246,22 @@
+@@ -266,40 +245,26 @@ fromExtension e = case e of
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -216,10 +224,24 @@
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
    TH.LambdaCase                        -> Just Exts.LambdaCase
-@@ -346,14 +313,11 @@
+   TH.MultiWayIf                        -> Just Exts.MultiWayIf
+-  TH.BinaryLiterals                    -> Just Exts.BinaryLiterals
+   TH.NegativeLiterals                  -> Nothing
+   TH.DuplicateRecordFields             -> Nothing
+   TH.OverloadedLabels                  -> Just Exts.OverloadedLabels
+@@ -317,7 +282,6 @@ fromExtension e = case e of
+ 
+ -- 2.13.0 ----------------------------------------
+ #if MIN_VERSION_template_haskell(2,13,0)
+-  TH.HexFloatLiterals                  -> Nothing
+   TH.EmptyDataDeriving                 -> Nothing
  #endif
  
-   TH.NumericUnderscores                -> Nothing
+@@ -345,15 +309,11 @@ fromExtension e = case e of
+     Nothing
+ #endif
+ 
+-  TH.NumericUnderscores                -> Nothing
 -  TH.StarIsType                        -> Nothing
  #endif
  
@@ -231,7 +253,7 @@
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
      Just Exts.ImportQualifiedPost
-@@ -362,12 +326,6 @@
+@@ -362,12 +322,6 @@ fromExtension e = case e of
  #endif
  #endif
  
@@ -246,7 +268,7 @@
  #if MIN_VERSION_template_haskell(2,20,0)
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
-@@ -272,7 +272,7 @@
+@@ -272,7 +272,7 @@ instance ToExp (Exts.Exp l) where
    toExp (Exts.If _ a b c)              = TH.CondE (toExp a) (toExp b) (toExp c)
    toExp (Exts.MultiIf _ ifs)           = TH.MultiIfE (map toGuard ifs)
    toExp (Exts.Case _ e alts)           = TH.CaseE (toExp e) (map toMatch alts)

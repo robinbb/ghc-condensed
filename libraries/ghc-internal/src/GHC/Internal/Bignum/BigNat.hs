@@ -6,7 +6,6 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE BinaryLiterals #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
     -- Defines lots of functions that have BuiltinRules

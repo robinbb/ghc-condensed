@@ -70,7 +70,6 @@ EOF
 # Generate the TH splice file
 cat > "${MODNAME}".hs << EOF
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE NumericUnderscores #-}
 {-# LANGUAGE ExplicitLevelImports #-}
 
 module ${MODNAME} where

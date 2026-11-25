@@ -71,11 +71,6 @@ T16270.hs:33:6: error: [GHC-51179]
     Suggested fix:
       Perhaps you intended to use the ‘LambdaCase’ extension
 
-T16270.hs:36:5: error: [GHC-62330]
-    Illegal underscores in integer literals
-    Suggested fix:
-      Perhaps you intended to use the ‘NumericUnderscores’ extension
-
 T16270.hs:38:5: error: [GHC-43080]
     primitive string literal must contain only characters <= '\xFF'
 

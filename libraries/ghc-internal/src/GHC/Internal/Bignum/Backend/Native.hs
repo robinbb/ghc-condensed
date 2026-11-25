@@ -5,7 +5,6 @@
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE BinaryLiterals #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
 module GHC.Internal.Bignum.Backend.Native where

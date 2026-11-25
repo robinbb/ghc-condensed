@@ -3,25 +3,13 @@
 Numeric underscores
 -------------------
 
-.. extension:: NumericUnderscores
-    :shortdesc: Allow underscores in numeric literals.
-
-    :since: 8.6.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow the use of underscores in numeric literals.
-
 GHC allows for numeric literals to be given in decimal, octal, hexadecimal,
 binary, or float notation.
 
-The language extension :extension:`NumericUnderscores` adds support for expressing
-underscores in numeric literals.
-For instance, the numeric literal ``1_000_000`` will be parsed into
-``1000000`` when :extension:`NumericUnderscores` is enabled.
-That is, underscores in numeric literals are ignored when
-:extension:`NumericUnderscores` is enabled.
-See also :ghc-ticket:`14473`.
+Underscores may be written between the digits of a numeric literal to
+group them. For instance, the numeric literal ``1_000_000`` is parsed into
+``1000000``: underscores in numeric literals are ignored. See also
+:ghc-ticket:`14473`.
 
 For example:
 

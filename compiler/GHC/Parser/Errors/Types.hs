@@ -134,9 +134,6 @@ data PsMessage
    -- | A lambda requires at least one parameter
    | PsErrEmptyLambda
 
-   -- | Underscores in literals without the extension enabled
-   | PsErrNumUnderscores !NumUnderscoreReason
-
    -- | Invalid character in primitive string
    | PsErrPrimStringInvalidChar
 
@@ -557,12 +554,6 @@ incompleteDoBlock = ParseContext Nothing YesIncompleteDoBlock
 -- | Builds a 'PsErrInPatDetails' with the information provided by the 'ParseContext'.
 fromParseContext :: ParseContext -> PsErrInPatDetails
 fromParseContext = PEIP_OtherPatDetails
-
-data NumUnderscoreReason
-   = NumUnderscore_Integral
-   | NumUnderscore_Float
-   deriving (Show,Eq,Ord)
-
 
 data LexErrKind
    = LexErrKind_EOF        -- ^ End of input

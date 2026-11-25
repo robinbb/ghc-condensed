@@ -9,7 +9,6 @@ Literals
     negative_literals
     binary_literals
     hex_float_literals
-    num_decimals
     extended_literals
     numeric_underscores
     overloaded_strings

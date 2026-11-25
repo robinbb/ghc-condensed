@@ -67,7 +67,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
     .. hlist::
 
      * :extension:`BangPatterns`
-     * :extension:`BinaryLiterals`
      * :extension:`ConstraintKinds`
      * :extension:`DeriveFoldable`
      * :extension:`DeriveFunctor`
@@ -87,7 +86,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`GADTs`
      * :extension:`GADTSyntax`
      * :extension:`GeneralisedNewtypeDeriving`
-     * :extension:`HexFloatLiterals`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
      * :extension:`LambdaCase`
@@ -95,7 +93,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
-     * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`RoleAnnotations`
@@ -124,7 +121,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
     .. hlist::
 
      * :extension:`BangPatterns`
-     * :extension:`BinaryLiterals`
      * :extension:`ConstraintKinds`
      * :extension:`DeriveFoldable`
      * :extension:`DeriveFunctor`
@@ -142,13 +138,11 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ForeignFunctionInterface`
      * :extension:`GADTSyntax`
      * :extension:`GeneralisedNewtypeDeriving`
-     * :extension:`HexFloatLiterals`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
      * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
-     * :extension:`NumericUnderscores`
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`StandaloneDeriving`

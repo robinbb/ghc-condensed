@@ -1082,7 +1082,6 @@ mk/ghcconfig*_test___spaces_ghc*.exe.mk
 /tests/numeric/should_run/4381
 /tests/numeric/should_run/4383
 /tests/numeric/should_run/CarryOverflow
-/tests/numeric/should_run/NumDecimals
 /tests/numeric/should_run/T10011
 /tests/numeric/should_run/T3676
 /tests/numeric/should_run/T4381
@@ -1134,7 +1133,6 @@ mk/ghcconfig*_test___spaces_ghc*.exe.mk
 /tests/parser/should_compile/T5243
 /tests/parser/should_compile/T7476/Main.imports
 /tests/parser/should_compile/T7476/T7476
-/tests/parser/should_run/BinaryLiterals0
 /tests/parser/should_run/BinaryLiterals1
 /tests/parser/should_run/BinaryLiterals2
 /tests/parser/should_run/ParserMultiWayIf

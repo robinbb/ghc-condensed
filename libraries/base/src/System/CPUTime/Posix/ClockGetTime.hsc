@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, CApiFFI, NumDecimals #-}
+{-# LANGUAGE CPP, CApiFFI #-}
 
 #include "HsFFI.h"
 #include "HsBaseConfig.h"
@@ -41,7 +41,7 @@ withTimespec action =
         r <- action p_ts
         u_sec  <- (#peek struct timespec,tv_sec)  p_ts :: IO CTime
         u_nsec <- (#peek struct timespec,tv_nsec) p_ts :: IO CLong
-        return (r, cTimeToInteger u_sec * 1e12 + fromIntegral u_nsec * 1e3)
+        return (r, cTimeToInteger u_sec * 1_000_000_000_000 + fromIntegral u_nsec * 1000)
 
 foreign import capi unsafe "time.h clock_getres"  clock_getres  :: CUIntPtr -> Ptr Timespec -> IO CInt
 foreign import capi unsafe "time.h clock_gettime" clock_gettime :: CUIntPtr -> Ptr Timespec -> IO CInt

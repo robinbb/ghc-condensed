@@ -3,18 +3,10 @@
 Hexadecimal floating point literals
 -----------------------------------
 
-.. extension:: HexFloatLiterals
-    :shortdesc: Allow hexadecimal floating-point literal syntax.
-
-    :since: 8.4.1
-
-    :status: Included in :extension:`GHC2024`, :extension:`GHC2021`
-
-    Allow writing floating point literals using hexadecimal notation.
-
-The hexadecimal notation for floating point literals is useful when you
-need to specify floating point constants precisely, as the literal notation
-corresponds closely to the underlying bit-encoding of the number.
+Floating point literals may be written in hexadecimal notation. This
+notation is useful when you need to specify floating point constants
+precisely, as the literal notation corresponds closely to the
+underlying bit-encoding of the number.
 
 In this notation floating point numbers are written using hexadecimal digits,
 and so the digits are interpreted using base 16, rather then the usual 10.

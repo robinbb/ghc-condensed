@@ -529,8 +529,10 @@ packages:
     TypeInType, CUSKs, StarIsType, DeepSubsumption, DeriveDataTypeable,
     RankNTypes, ParallelListComp, ScopedTypeVariables, NPlusKPatterns,
     NondecreasingIndentation, DisambiguateRecordFields, ApplicativeDo,
-    QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures and the
-    deprecated aliases) to or from template-haskell, whose Extension type
+    QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures,
+    BinaryLiterals, HexFloatLiterals, NumDecimals, NumericUnderscores and
+    the deprecated aliases) to or from template-haskell, whose Extension
+    type
     lost those constructors, and
     Language.Haskell.Meta.Syntax.Translate builds a DoE without the module
     qualifier field that template-haskell dropped with QualifiedDo
@@ -4684,6 +4686,12 @@ packages:
     sdist: text-builder-linear-0.1.4
   note: no tag for 0.1.4 in https://github.com/Bodigrim/linear-builder.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: the integer literals
+    that Data.Text.Builder.Linear.Dec.Bounded, .Unbounded and the test suite
+    wrote in scientific notation are written in digits or as powers of ten,
+    since this compiler has no NumDecimals and reads such a literal as
+    fractional (patches/text-builder-linear.patch)
 - name: text-conversions
   version: 0.3.1.1
   tier: 2

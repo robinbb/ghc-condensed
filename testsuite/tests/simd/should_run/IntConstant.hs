@@ -378,7 +378,6 @@ main = do
 {- cabal:
 build-depends: base, random
 -}
-{-# LANGUAGE NumericUnderscores #-}
 import System.Random.Stateful
 import qualified Data.List as List
 import Control.Monad

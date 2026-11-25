@@ -52,13 +52,10 @@ docs:
          TypeOperators
          TraditionalRecordSyntax
          LambdaCase
-         BinaryLiterals
-         HexFloatLiterals
          EmptyCase
          NamedWildCards
          TypeApplications
          EmptyDataDeriving
-         NumericUnderscores
          ImportQualifiedPost
          FieldSelectors
          ListTuplePuns

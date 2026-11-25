@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**37 language extensions deleted.**
+**41 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -73,6 +73,18 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Uncategorized; the user's guide lists the flag as undocumented.
 - Notes: A no-op since GHC 7.10, when every type gained a `Typeable`
   instance; it survived only so that old pragmas parsed.
+
+`BinaryLiterals`
+
+- Category: Literals.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024.
+- Lines: +119 −429, net −310 (shared with HexFloatLiterals, NumDecimals and
+  NumericUnderscores).
+- Stability: Stable.
+- Notes: An integer literal may always be written in binary, as `0b1011`.
+  GHC2021 enables it; the only program it changes is one that meant `0b1`
+  as `0 b1`, which no one wrote on purpose.
 
 `ConstrainedClassMethods`
 
@@ -183,6 +195,18 @@ The entries below are alphabetical. For each extension it gives:
   import and export lists, fixity declarations, pragmas, expressions and
   patterns. GHC2024 enables it, and the keywords are unambiguous.
 
+`HexFloatLiterals`
+
+- Category: Literals.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024.
+- Lines: +119 −429, net −310 (shared with BinaryLiterals, NumDecimals and
+  NumericUnderscores).
+- Stability: Stable.
+- Notes: A floating-point literal may always be written in hexadecimal, as
+  `0x1.8p3`. GHC2021 enables it; the only program it changes is one that
+  meant `0x1.8` as the composition `0x1 . 8`.
+
 `IncoherentInstances`
 
 - Category: Classes & Instances.
@@ -253,6 +277,30 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Deprecated.
 - Notes: A no-op since GHC 7.10, when MultiParamTypeClasses came to cover
   nullary classes.
+
+`NumDecimals`
+
+- Category: Literals.
+- Hard-coded: Off.
+- Editions: none.
+- Lines: +119 −429, net −310 (shared with BinaryLiterals, HexFloatLiterals
+  and NumericUnderscores).
+- Stability: Stable.
+- Notes: A literal with a decimal point or an exponent is always fractional,
+  so `1e6 :: Int` is a type error. In no edition, and whether `1.5e1` was
+  integral depended on its value, which surprised readers.
+
+`NumericUnderscores`
+
+- Category: Literals.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024.
+- Lines: +119 −429, net −310 (shared with BinaryLiterals, HexFloatLiterals
+  and NumDecimals).
+- Stability: Stable.
+- Notes: Underscores may always separate the digits of a numeric literal,
+  as `1_000_000`. GHC2021 enables it, and GHC already lexed `1_000` as one
+  token and then rejected it, so no program changes meaning.
 
 `OverlappingInstances`
 

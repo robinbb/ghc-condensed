@@ -15,19 +15,20 @@
 module Strip
   # The extensions this compiler has removed. Their behaviour is fixed
   # (always on, or always off for CUSKs, StarIsType, DeepSubsumption,
-  # NPlusKPatterns, NondecreasingIndentation, RecursiveDo, ApplicativeDo and
-  # QualifiedDo), so dropping the name changes nothing the compiler could
-  # still do for the package.
+  # NPlusKPatterns, NondecreasingIndentation, RecursiveDo, ApplicativeDo,
+  # QualifiedDo and NumDecimals), so dropping the name changes nothing the
+  # compiler could still do for the package.
   REMOVED = %w[
     AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo
-    AutoDeriveTypeable CUSKs ConstrainedClassMethods DataKinds
-    DatatypeContexts DeepSubsumption DeriveDataTypeable
+    AutoDeriveTypeable BinaryLiterals CUSKs ConstrainedClassMethods
+    DataKinds DatatypeContexts DeepSubsumption DeriveDataTypeable
     DisambiguateRecordFields DoRec ExplicitForAll ExplicitNamespaces
-    IncoherentInstances InstanceSigs KindSignatures MultiParamTypeClasses
-    NPlusKPatterns NondecreasingIndentation NullaryTypeClasses
-    OverlappingInstances ParallelArrays ParallelListComp PatternSignatures
-    PolyKinds QualifiedDo RankNTypes RecursiveDo RelaxedPolyRec
-    ScopedTypeVariables StandaloneKindSignatures StarIsType TypeInType
+    HexFloatLiterals IncoherentInstances InstanceSigs KindSignatures
+    MultiParamTypeClasses NPlusKPatterns NondecreasingIndentation
+    NullaryTypeClasses NumDecimals NumericUnderscores OverlappingInstances
+    ParallelArrays ParallelListComp PatternSignatures PolyKinds QualifiedDo
+    RankNTypes RecursiveDo RelaxedPolyRec ScopedTypeVariables
+    StandaloneKindSignatures StarIsType TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

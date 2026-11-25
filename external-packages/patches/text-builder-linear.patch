@@ -1,0 +1,77 @@
+--- a/external-packages/vendored/text-builder-linear/src/Data/Text/Builder/Linear/Dec/Bounded.hs
++++ b/external-packages/vendored/text-builder-linear/src/Data/Text/Builder/Linear/Dec/Bounded.hs
+@@ -72,12 +72,12 @@ exactDecLen n
+   where
+     go ∷ (Integral a, FiniteBits a) ⇒ Int → a → Int
+     go acc k
+-      | finiteBitSize k >= if isSigned k then 31 else 30, k >= 1e9 = go (acc + 9) (quotBillion k)
++      | finiteBitSize k >= if isSigned k then 31 else 30, k >= 1_000_000_000 = go (acc + 9) (quotBillion k)
+       | otherwise = acc + exactIntDecLen (fromIntegral k)
+ 
+     exactIntDecLen ∷ Int → Int
+     exactIntDecLen l@(I# l#)
+-      | l >= 1e5 = 5 + I# (l# >=# 100_000_000#) + I# (l# >=# 10_000_000#) + I# (l# >=# 1_000_000#)
++      | l >= 100_000 = 5 + I# (l# >=# 100_000_000#) + I# (l# >=# 10_000_000#) + I# (l# >=# 1_000_000#)
+       | otherwise = I# (l# >=# 10_000#) + I# (l# >=# 1_000#) + I# (l# >=# 100#) + I# (l# >=# 10#)
+ {-# INLINEABLE exactDecLen #-}
+ 
+@@ -161,18 +161,18 @@ quot100 a = case (finiteBitSize a, isSigned a) of
+ 
+ quotBillion ∷ (Integral a, FiniteBits a) ⇒ a → a
+ #ifdef aarch64_HOST_ARCH
+-quotBillion a = a `quot` 1e9
++quotBillion a = a `quot` 1_000_000_000
+ #else
+ quotBillion a = case (finiteBitSize a, isSigned a) of
+   (64, True)
+     | finiteBitSize (0 :: Int) == 64
+-    → cast $$(quoteAST $ assumeNonNegArg $ astQuot (1e9 :: Int))
++    → cast $$(quoteAST $ assumeNonNegArg $ astQuot (1_000_000_000 :: Int))
+   (64, False)
+     | finiteBitSize (0 :: Word) == 64
+-    → cast $$(quoteQuot (1e9 :: Word))
+-  (32, True)  → cast $$(quoteAST $ assumeNonNegArg $ astQuot (1e9 :: Int32))
+-  (32, False) → cast $$(quoteQuot (1e9 :: Word32))
+-  _ → a `quot` 1e9
++    → cast $$(quoteQuot (1_000_000_000 :: Word))
++  (32, True)  → cast $$(quoteAST $ assumeNonNegArg $ astQuot (1_000_000_000 :: Int32))
++  (32, False) → cast $$(quoteQuot (1_000_000_000 :: Word32))
++  _ → a `quot` 1_000_000_000
+   where
+     cast :: (Integral a, Integral b) => (b → b) → a
+     cast f = fromIntegral (f (fromIntegral a))
+--- a/external-packages/vendored/text-builder-linear/src/Data/Text/Builder/Linear/Dec/Unbounded.hs
++++ b/external-packages/vendored/text-builder-linear/src/Data/Text/Builder/Linear/Dec/Unbounded.hs
+@@ -270,11 +270,11 @@ selectPower _ = case finiteBitSize @Word 0 of
+ -- NOTE: ensure to not inline the following numbers, in order to avoid allocations.
+ 
+ tenPower18 ∷ N.Natural
+-tenPower18 = 1e18
++tenPower18 = 1_000_000_000_000_000_000
+ {-# NOINLINE tenPower18 #-}
+ 
+ tenPower38 ∷ N.Natural
+-tenPower38 = 1e38
++tenPower38 = 100_000_000_000_000_000_000_000_000_000_000_000_000
+ {-# NOINLINE tenPower38 #-}
+ 
+ padWithZeros ∷ ∀ s. A.MArray s → Int → Int → ST s ()
+--- a/external-packages/vendored/text-builder-linear/test/Main.hs
++++ b/external-packages/vendored/text-builder-linear/test/Main.hs
+@@ -302,11 +302,11 @@ prop8 ∷ Property
+ prop8 =
+   conjoin
+     [ check 0
+-    , check 1e18
+-    , check 1e19
+-    , check 1e20
+-    , check 1e50
+-    , check 1e100
++    , check (10 ^ (18 ∷ Word))
++    , check (10 ^ (19 ∷ Word))
++    , check (10 ^ (20 ∷ Word))
++    , check (10 ^ (50 ∷ Word))
++    , check (10 ^ (100 ∷ Word))
+     , check (10 ^ (400 ∷ Word))
+     , check (10 ^ (600 ∷ Word))
+     , check (10 ^ (1000 ∷ Word))

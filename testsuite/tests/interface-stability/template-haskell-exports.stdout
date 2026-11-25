@@ -160,7 +160,6 @@ module Language.Haskell.TH where
     | TypeFamilyDependencies
     | OverloadedStrings
     | OverloadedLists
-    | NumDecimals
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns
@@ -208,9 +207,7 @@ module Language.Haskell.TH where
     | TraditionalRecordSyntax
     | LambdaCase
     | MultiWayIf
-    | BinaryLiterals
     | NegativeLiterals
-    | HexFloatLiterals
     | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
@@ -222,7 +219,6 @@ module Language.Haskell.TH where
     | Strict
     | StrictData
     | EmptyDataDeriving
-    | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
     | LexicalNegation
@@ -737,7 +733,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | TypeFamilyDependencies
     | OverloadedStrings
     | OverloadedLists
-    | NumDecimals
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns
@@ -785,9 +780,7 @@ module Language.Haskell.TH.LanguageExtensions where
     | TraditionalRecordSyntax
     | LambdaCase
     | MultiWayIf
-    | BinaryLiterals
     | NegativeLiterals
-    | HexFloatLiterals
     | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
@@ -799,7 +792,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | Strict
     | StrictData
     | EmptyDataDeriving
-    | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
     | LexicalNegation
@@ -1448,7 +1440,6 @@ module Language.Haskell.TH.Syntax where
     | TypeFamilyDependencies
     | OverloadedStrings
     | OverloadedLists
-    | NumDecimals
     | RecordWildCards
     | NamedFieldPuns
     | ViewPatterns
@@ -1496,9 +1487,7 @@ module Language.Haskell.TH.Syntax where
     | TraditionalRecordSyntax
     | LambdaCase
     | MultiWayIf
-    | BinaryLiterals
     | NegativeLiterals
-    | HexFloatLiterals
     | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
@@ -1510,7 +1499,6 @@ module Language.Haskell.TH.Syntax where
     | Strict
     | StrictData
     | EmptyDataDeriving
-    | NumericUnderscores
     | QuantifiedConstraints
     | ImportQualifiedPost
     | LexicalNegation

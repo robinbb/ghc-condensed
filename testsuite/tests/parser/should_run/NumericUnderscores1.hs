@@ -1,9 +1,7 @@
-{-# LANGUAGE NumericUnderscores #-}
-{-# LANGUAGE BinaryLiterals #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE NegativeLiterals #-}
 
--- Test for NumericUnderscores extension.
+-- Test for underscores in numeric literals.
 -- See #14473
 -- This is a testcase for unboxed literals.
 

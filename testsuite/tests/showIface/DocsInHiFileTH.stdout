@@ -264,14 +264,11 @@ docs:
          PatternGuards
          TypeOperators
          TraditionalRecordSyntax
-         BinaryLiterals
-         HexFloatLiterals
          EmptyCase
          PatternSynonyms
          NamedWildCards
          TypeApplications
          EmptyDataDeriving
-         NumericUnderscores
          ImportQualifiedPost
          FieldSelectors
          ListTuplePuns

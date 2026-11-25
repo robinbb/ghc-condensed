@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE NoTraditionalRecordSyntax, NoDoAndIfThenElse, NoMultiWayIf, NoLambdaCase, NoNumericUnderscores, MagicHash #-}
+{-# LANGUAGE NoTraditionalRecordSyntax, NoDoAndIfThenElse, NoMultiWayIf, NoLambdaCase, MagicHash #-}
 {-# OPTIONS -Werror=missing-space-after-bang #-}
 
 module T16270 where

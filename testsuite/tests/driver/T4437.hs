@@ -88,5 +88,9 @@ expectedCabalOnlyExtensions = ["Generics",
                                "ApplicativeDo",
                                "QualifiedDo",
                                "ExplicitNamespaces",
-                               "StandaloneKindSignatures"
+                               "StandaloneKindSignatures",
+                               "BinaryLiterals",
+                               "HexFloatLiterals",
+                               "NumDecimals",
+                               "NumericUnderscores"
                               ]

@@ -1,8 +1,7 @@
-{-# LANGUAGE NumericUnderscores #-}
 
--- Test for NumericUnderscores extension.
+-- Test for underscores in numeric literals.
 -- See #14473
--- This is a testcase for invalid case of NumericUnderscores.
+-- This is a testcase for underscores in invalid positions.
 
 main :: IO ()
 main = do

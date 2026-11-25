@@ -60,7 +60,6 @@ data Extension
    | TypeFamilyDependencies
    | OverloadedStrings
    | OverloadedLists
-   | NumDecimals
    | RecordWildCards
    | NamedFieldPuns
    | ViewPatterns
@@ -110,9 +109,7 @@ data Extension
    | TraditionalRecordSyntax
    | LambdaCase
    | MultiWayIf
-   | BinaryLiterals
    | NegativeLiterals
-   | HexFloatLiterals
    | DuplicateRecordFields
    | OverloadedLabels
    | EmptyCase
@@ -124,7 +121,6 @@ data Extension
    | Strict
    | StrictData
    | EmptyDataDeriving
-   | NumericUnderscores
    | QuantifiedConstraints
    | ImportQualifiedPost
    | LexicalNegation

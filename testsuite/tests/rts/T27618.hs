@@ -1,4 +1,3 @@
-{-# LANGUAGE NumericUnderscores #-}
 
 -- Test for a major GC segfault triggered by threadLabel# returning NULL in
 -- a GC pointer field on unlabeled threads. Run with -N4 -A32k.

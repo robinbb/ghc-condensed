@@ -81,7 +81,6 @@ import Data.Foldable
 import Data.Function       ( on )
 import Data.Functor.Identity ( Identity (..) )
 import qualified Data.List.NonEmpty as NE
-import Data.Ratio
 import Control.Monad.Trans.Writer.CPS
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.Reader
@@ -1159,17 +1158,6 @@ rnLit :: HsLit p -> RnM ()
 rnLit (HsChar _ c) = checkErr (inCharRange c) (TcRnCharLiteralOutOfRange c)
 rnLit _ = return ()
 
--- | Turn a Fractional-looking literal which happens to be an integer into an
--- Integer-looking literal.
--- We only convert numbers where the exponent is between 0 and 100 to avoid
--- converting huge numbers and incurring long compilation times. See #15646.
-generalizeOverLitVal :: OverLitVal GhcPs -> OverLitVal GhcRn
-generalizeOverLitVal (HsFractional fl@(FL {fl_text=src,fl_neg=neg,fl_exp=e}))
-    | e >= -100 && e <= 100
-    , let val = rationalFromFractionalLit fl
-    , denominator val == 1 = HsIntegral (IL {il_text=src,il_neg=neg,il_value=numerator val})
-generalizeOverLitVal lit = rnOverLitVal lit
-
 isNegativeZeroOverLit :: HsOverLit (GhcPass p) -> Bool
 isNegativeZeroOverLit lit
  = case ol_val lit of
@@ -1195,10 +1183,7 @@ can apply it explicitly. In this case it stays negative zero.  #13211
 rnOverLit :: HsOverLit GhcPs ->
              RnM ((HsOverLit GhcRn, Maybe (HsExpr GhcRn)), FreeNames)
 rnOverLit origLit
-  = do  { opt_NumDecimals <- xoptM LangExt.NumDecimals
-        ; let val
-                | opt_NumDecimals = generalizeOverLitVal $ ol_val origLit
-                | otherwise = rnOverLitVal $ ol_val origLit
+  = do  { let val = rnOverLitVal $ ol_val origLit
         ; let std_occ = hsOverLitKnownOcc val
         ; (from_thing_name, fvs1) <- lookupSyntaxName std_occ
         ; loc <- getSrcSpanM -- See Note [Source locations for implicit function calls] in GHC.Iface.Ext.Ast

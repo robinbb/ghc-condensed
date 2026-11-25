@@ -102,10 +102,11 @@ exception.
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
   `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
-  `DisambiguateRecordFields` and `ExplicitNamespaces`) to `Nothing`, and
-  drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
-  `NullaryTypeClasses`, `AutoDeriveTypeable`, `ApplicativeDo`,
-  `QualifiedDo`, `StandaloneKindSignatures` and the two
+  `DisambiguateRecordFields`, `ExplicitNamespaces` and `BinaryLiterals`) to
+  `Nothing`, and drops those constructors, `CUSKs`, `StarIsType`,
+  `DeepSubsumption`, `NullaryTypeClasses`, `AutoDeriveTypeable`,
+  `ApplicativeDo`, `QualifiedDo`, `StandaloneKindSignatures`,
+  `HexFloatLiterals`, `NumDecimals`, `NumericUnderscores` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
   compiler's template-haskell no longer has them.
   `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module
@@ -359,3 +360,10 @@ exception.
 - `yesod.patch`, `shakespeare.patch`: `Yesod.Default.Util` and
   `Text.Hamlet` build `DoE` without the module qualifier field that
   template-haskell dropped with `QualifiedDo`.
+- `text-builder-linear.patch`: the integer literals that
+  `Data.Text.Builder.Linear.Dec.Bounded` and `.Unbounded` wrote in
+  scientific notation (`1e9`, `1e18`, `1e38`) are written in digits, and
+  the test suite, which the corpus does not run, computes its powers of
+  ten with `^`; this compiler has no `NumDecimals`, so a literal with an
+  exponent is always fractional. text-builder, text-builder-core,
+  text-ansi and yamlet depend on it.

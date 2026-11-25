@@ -83,9 +83,6 @@ test('readFailTraditionalRecords2', normal, compile_fail, [''])
 test('readFailTraditionalRecords3', normal, compile_fail, [''])
 test('ParserNoLambdaCase', [], compile_fail, [''])
 test('ParserNoMultiWayIf', [], compile_fail, [''])
-test('ParserNoBinaryLiterals1', normal, compile_fail, [''])
-test('ParserNoBinaryLiterals2', normal, compile_fail, [''])
-test('ParserNoBinaryLiterals3', normal, compile_fail, [''])
 
 test('T5425', normal, compile_fail, [''])
 test('T984', normal, compile_fail, [''])
@@ -112,8 +109,6 @@ test('T14588', normal, compile_fail, [''])
 test('T14740', normal, compile_fail, [''])
 test('T15209', normal, compile_fail, [''])
 
-test('NoNumericUnderscores0', normal, compile_fail, [''])
-test('NoNumericUnderscores1', normal, compile_fail, [''])
 test('NumericUnderscoresFail0',
      grep_errmsg(r'^NumericUnderscoresFail0.hs:'), compile_fail, [''])
 test('NumericUnderscoresFail1',

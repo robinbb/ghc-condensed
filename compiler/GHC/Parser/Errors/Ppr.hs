@@ -197,11 +197,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Illegal overloaded record update"
     PsErrMultiWayIf
       -> mkSimpleDecorated $ text "Illegal multi-way if-expression"
-    PsErrNumUnderscores reason
-      -> mkSimpleDecorated $
-           text $ case reason of
-             NumUnderscore_Integral -> "Illegal underscores in integer literals"
-             NumUnderscore_Float    -> "Illegal underscores in floating literals"
     PsErrIllegalBangPattern e
       -> mkSimpleDecorated $ text "Illegal bang-pattern or strict binding" $$ ppr e
     PsErrOverloadedRecordDotInvalid
@@ -581,7 +576,6 @@ instance Diagnostic PsMessage where
     PsErrModifierSyntax{}                         -> ErrorWithoutFlag
     PsErrMultiWayIf{}                             -> ErrorWithoutFlag
     PsErrOverloadedRecordUpdateNotEnabled{}       -> ErrorWithoutFlag
-    PsErrNumUnderscores{}                         -> ErrorWithoutFlag
     PsErrIllegalBangPattern{}                     -> ErrorWithoutFlag
     PsErrOverloadedRecordDotInvalid{}             -> ErrorWithoutFlag
     PsErrIllegalPatSynExport                      -> ErrorWithoutFlag
@@ -718,7 +712,6 @@ instance Diagnostic PsMessage where
     PsErrModifierSyntax DontSuggestModifiers      -> []
     PsErrMultiWayIf{}                             -> [suggestExtension LangExt.MultiWayIf]
     PsErrOverloadedRecordUpdateNotEnabled{}       -> [suggestExtension LangExt.OverloadedRecordUpdate]
-    PsErrNumUnderscores{}                         -> [suggestExtension LangExt.NumericUnderscores]
     PsErrIllegalBangPattern{}                     -> [suggestExtension LangExt.BangPatterns]
     PsErrOverloadedRecordDotInvalid{}             -> noHints
     PsErrIllegalPatSynExport                      -> [suggestExtension LangExt.PatternSynonyms]

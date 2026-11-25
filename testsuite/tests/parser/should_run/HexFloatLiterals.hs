@@ -1,4 +1,3 @@
-{-# Language HexFloatLiterals #-}
 
 import Numeric(showHFloat)
 

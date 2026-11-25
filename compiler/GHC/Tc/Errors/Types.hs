@@ -1325,8 +1325,6 @@ data TcRnMessage where
         - indexed-types/should_fail/T9433
         - module/mod60
         - ndexed-types/should_fail/T2157
-        - parser/should_fail/ParserNoBinaryLiterals2
-        - parser/should_fail/ParserNoBinaryLiterals3
         - patsyn/should_fail/T12819
         - polykinds/T10516
         - typecheck/should_fail/T12124

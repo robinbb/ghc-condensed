@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, CApiFFI, NumDecimals #-}
+{-# LANGUAGE CPP, CApiFFI #-}
 
 #include "HsFFI.h"
 #include "HsBaseConfig.h"
@@ -51,7 +51,7 @@ getCPUTime = do
 -- While it's hard to get reliable numbers, the consensus is that Windows only provides
 -- 16 millisecond resolution in GetProcessTimes (see Python PEP 0418)
 getCpuTimePrecision :: IO Integer
-getCpuTimePrecision = return 16e9
+getCpuTimePrecision = return 16_000_000_000
 
 type FILETIME = ()
 type HANDLE = ()
