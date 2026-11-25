@@ -183,7 +183,6 @@ _tt = testOneFile changers "/home/alanz/mysrc/git.haskell.org/ghc/_build/stage1/
  -- "../../testsuite/tests/printer/Test10309.hs" Nothing
  "../../testsuite/tests/printer/Haddock1.hs" Nothing
 
- -- "../../testsuite/tests/qualifieddo/should_compile/qdocompile001.hs" Nothing
  -- "../../testsuite/tests/typecheck/should_fail/StrictBinds.hs" Nothing
  -- "../../testsuite/tests/typecheck/should_fail/T17566c.hs" Nothing
  -- "../../testsuite/tests/ghc-api/exactprint/AddLocalDecl1.hs" Nothing

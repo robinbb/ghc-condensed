@@ -23,11 +23,10 @@ module GHC.Rename.Expr (
         AnnoBody, UnexpectedStatement(..)
    ) where
 
-import GHC.Prelude hiding (head, init, last, scanl, tail)
+import GHC.Prelude hiding (head, init, last, tail)
 import GHC.Hs
 
 import GHC.Tc.Errors.Types
-import GHC.Tc.Utils.Env ( isBrackLevel )
 import GHC.Tc.Utils.Monad
 
 import GHC.Rename.Bind ( rnLocalBindsAndThen, rnLocalValBindsLHS, rnLocalValBindsRHS
@@ -66,16 +65,11 @@ import GHC.Utils.Outputable as Outputable
 
 import GHC.Data.FastString
 import GHC.Data.List.SetOps ( removeDupsOn )
-import GHC.Data.Maybe
 
 import qualified GHC.LanguageExtensions as LangExt
 
 import Control.Monad
-import qualified Data.Foldable as Partial (maximum)
-import Data.List.NonEmpty ( NonEmpty(..), head, init, last, nonEmpty, scanl, tail )
-import Data.Ord
-import Data.Array
-import GHC.Driver.Env (HscEnv)
+import Data.List.NonEmpty ( NonEmpty(..), head, init, last, tail )
 
 {- Note [Handling overloaded and rebindable constructs]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -482,11 +476,10 @@ rnExpr (HsLet _ binds expr)
       ; return (HsLet noExtField binds' expr', fvExpr) }
 
 rnExpr (HsDo _ do_or_lc (L l stmts))
- = do { ((stmts1, _), fvs1) <-
-          rnStmtsWithFreeNames (HsDoStmt do_or_lc) rnExpr stmts
+ = do { ((stmts', _), fvs) <-
+          rnStmts (HsDoStmt do_or_lc) rnExpr stmts
             (\ _ -> return ((), emptyFNs))
-      ; (pp_stmts, fvs2) <- postProcessStmtsForApplicativeDo do_or_lc stmts1
-      ; return ( HsDo noExtField do_or_lc (L l pp_stmts), fvs1 `plusFN` fvs2 ) }
+      ; return ( HsDo noExtField do_or_lc (L l stmts'), fvs ) }
 
 -- ExplicitList: see Note [Handling overloaded and rebindable constructs]
 rnExpr (ExplicitList _ exps)
@@ -1058,14 +1051,13 @@ methodNamesLStmt :: LStmtLR GhcRn GhcRn (LHsCmd GhcRn) -> CmdNeeds
 methodNamesLStmt = methodNamesStmt . unLoc
 
 methodNamesStmt :: StmtLR GhcRn GhcRn (LHsCmd GhcRn) -> CmdNeeds
-methodNamesStmt (LastStmt _ cmd _ _)                 = methodNamesLCmd cmd
+methodNamesStmt (LastStmt _ cmd _)                   = methodNamesLCmd cmd
 methodNamesStmt (BodyStmt _ cmd _ _)                 = methodNamesLCmd cmd
 methodNamesStmt (BindStmt _ _ cmd)                   = methodNamesLCmd cmd
 methodNamesStmt (RecStmt { recS_stmts = L _ stmts }) = addLoop $ methodNamesStmts stmts
 methodNamesStmt (LetStmt {})                         = emptyCN
 methodNamesStmt (ParStmt {})                         = emptyCN
 methodNamesStmt (TransStmt {})                       = emptyCN
-methodNamesStmt (XStmtLR ApplicativeStmt{})          = emptyCN
    -- ParStmt and TransStmt can't occur in commands, but it's not
    -- convenient to error here so we just do what's convenient
 
@@ -1108,17 +1100,11 @@ rnArithSeq (FromThenTo expr1 expr2 expr3)
 -}
 
 {-
-Note [Deterministic ApplicativeDo and rec desugaring]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Both ApplicativeDo and the rec statements of arrow notation need to
-create tuples not present in the source text.
-
-For ApplicativeDo we create:
-
-  (a,b,c) <- (\c b a -> (a,b,c)) <$>
-
-For a rec statement we create the tuples of its later_ids and rec_ids
-that GHC.HsToCore.Arrows feeds through the loop combinator.
+Note [Deterministic rec desugaring]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The rec statements of arrow notation need tuples not present in the
+source text: the tuples of their later_ids and rec_ids that
+GHC.HsToCore.Arrows feeds through the loop combinator.
 
 The order of the components in those tuples needs to be stable
 across recompilations, otherwise they can get optimized differently
@@ -1142,58 +1128,15 @@ rnStmts :: AnnoBody body
            -- ^ if these statements scope over something, this renames it
            -- and returns the result.
         -> RnM (([LStmt GhcRn (LocatedA (body GhcRn))], thing), FreeNames)
-rnStmts ctxt rnBody stmts thing_inside
- = do { ((stmts', thing), fvs) <- rnStmtsWithFreeNames ctxt rnBody stmts thing_inside
-      ; return ((map fst stmts', thing), fvs) }
-
--- | maybe rearrange statements according to the ApplicativeDo transformation
-postProcessStmtsForApplicativeDo
-  :: HsDoFlavour
-  -> [(ExprLStmt GhcRn, FreeNames)]
-  -> RnM ([ExprLStmt GhcRn], FreeNames)
-postProcessStmtsForApplicativeDo ctxt stmts
-  = do {
-       -- rearrange the statements using ApplicativeStmt if
-       -- -XApplicativeDo is on.  Also strip out the FreeNames attached
-       -- to each Stmt body.
-         ado_is_on <- xoptM LangExt.ApplicativeDo
-       ; let is_do_expr | DoExpr{} <- ctxt = True
-                        | otherwise = False
-       -- don't apply the transformation inside TH brackets, because
-       -- GHC.HsToCore.Quote does not handle ApplicativeDo.
-       ; in_th_bracket <- isBrackLevel <$> getThLevel
-       ; if ado_is_on && is_do_expr && not in_th_bracket
-            then do { traceRn "ppsfa" (ppr stmts)
-                    ; rearrangeForApplicativeDo ctxt stmts }
-            else noPostProcessStmts (HsDoStmt ctxt) stmts }
-
--- | strip the FreeNames annotations from statements
-noPostProcessStmts
-  :: HsStmtContextRn
-  -> [(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)]
-  -> RnM ([LStmt GhcRn (LocatedA (body GhcRn))], FreeNames)
-noPostProcessStmts _ stmts = return (map fst stmts, emptyNameSet)
-
-
-rnStmtsWithFreeNames :: AnnoBody body
-        => HsStmtContextRn
-        -> ((body GhcPs) -> RnM ((body GhcRn), FreeNames))
-        -> [LStmt GhcPs (LocatedA (body GhcPs))]
-        -> ([Name] -> RnM (thing, FreeNames))
-        -> RnM ( ([(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)], thing)
-               , FreeNames)
--- Each Stmt body is annotated with its FreeNames, so that
--- we can rearrange statements for ApplicativeDo.
---
 -- Variables bound by the Stmts, and mentioned in thing_inside,
 -- do not appear in the result FreeNames
 
-rnStmtsWithFreeNames ctxt _ [] thing_inside
+rnStmts ctxt _ [] thing_inside
   = do { checkEmptyStmts ctxt
        ; (thing, fvs) <- thing_inside []
        ; return (([], thing), fvs) }
 
-rnStmtsWithFreeNames ctxt rnBody (lstmt@(L loc _) : lstmts) thing_inside
+rnStmts ctxt rnBody (lstmt@(L loc _) : lstmts) thing_inside
   | null lstmts
   = setSrcSpanA loc $
     do { lstmt' <- checkLastStmt ctxt lstmt
@@ -1204,7 +1147,7 @@ rnStmtsWithFreeNames ctxt rnBody (lstmt@(L loc _) : lstmts) thing_inside
             <- setSrcSpanA loc                  $
                do { checkStmt ctxt lstmt
                   ; rnStmt ctxt rnBody lstmt $ \ bndrs1 ->
-                    rnStmtsWithFreeNames ctxt rnBody lstmts  $ \ bndrs2 ->
+                    rnStmts ctxt rnBody lstmts  $ \ bndrs2 ->
                     thing_inside (bndrs1 ++ bndrs2) }
         ; return (((stmts1 ++ stmts2), thing), fvs) }
 
@@ -1238,15 +1181,15 @@ rnStmt :: AnnoBody body
           -- ^ The statement
        -> ([Name] -> RnM (thing, FreeNames))
           -- ^ Rename the stuff that this statement scopes over
-       -> RnM ( ([(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)], thing)
+       -> RnM ( ([LStmt GhcRn (LocatedA (body GhcRn))], thing)
               , FreeNames)
 -- Variables bound by the Stmt, and mentioned in thing_inside,
 -- do not appear in the result FreeNames
 
-rnStmt ctxt rnBody (L loc (LastStmt _ (L lb body) noret _)) thing_inside
+rnStmt ctxt rnBody (L loc (LastStmt _ (L lb body) _)) thing_inside
   = do  { (body', fv_expr) <- rnBody body
         ; (ret_op, fvs1) <- if isMonadCompContext ctxt
-                            then lookupQualifiedDoStmtName ctxt returnMClassOpOcc
+                            then lookupStmtName ctxt returnMClassOpOcc
                             else return (noSyntaxExpr, emptyFNs)
                             -- The 'return' in a LastStmt is used only
                             -- for MonadComp; and we don't want to report
@@ -1254,43 +1197,43 @@ rnStmt ctxt rnBody (L loc (LastStmt _ (L lb body) noret _)) thing_inside
                             -- #15607
 
         ; (thing,  fvs3) <- thing_inside []
-        ; return (([(L loc (LastStmt noExtField (L lb body') noret ret_op), fv_expr)]
+        ; return (([L loc (LastStmt noExtField (L lb body') ret_op)]
                   , thing), fv_expr `plusFN` fvs1 `plusFN` fvs3) }
 
 rnStmt ctxt rnBody (L loc (BodyStmt _ (L lb body) _ _)) thing_inside
   = do  { (body', fv_expr) <- rnBody body
-        ; (then_op, fvs1)  <- lookupQualifiedDoStmtName ctxt thenMClassOpOcc
+        ; (then_op, fvs1)  <- lookupStmtName ctxt thenMClassOpOcc
 
         ; (guard_op, fvs2) <- if isComprehensionContext ctxt
-                              then lookupQualifiedDoStmtName ctxt guardMIdOcc
+                              then lookupStmtName ctxt guardMIdOcc
                               else return (noSyntaxExpr, emptyFNs)
                               -- Only list/monad comprehensions use 'guard'
                               -- Also for sub-stmts of same eg [ e | x<-xs, gd | blah ]
                               -- Here "gd" is a guard
 
         ; (thing, fvs3)    <- thing_inside []
-        ; return ( ([(L loc (BodyStmt noExtField (L lb body') then_op guard_op), fv_expr)]
+        ; return ( ([L loc (BodyStmt noExtField (L lb body') then_op guard_op)]
                   , thing), fv_expr `plusFN` fvs1 `plusFN` fvs2 `plusFN` fvs3) }
 
 rnStmt ctxt rnBody (L loc (BindStmt _ pat (L lb body))) thing_inside
   = do  { (body', fv_expr) <- rnBody body
                 -- The binders do not scope over the expression
-        ; (bind_op, fvs1) <- lookupQualifiedDoStmtName ctxt bindMClassOpOcc
+        ; (bind_op, fvs1) <- lookupStmtName ctxt bindMClassOpOcc
 
         ; rnPat (StmtCtxt ctxt) pat $ \ pat' -> do
         { (thing, fvs2) <- thing_inside (collectPatBinders CollNoDictBinders pat')
         ; (fail_op, fvs3) <- monadFailOp pat' ctxt
         ; let xbsrn = XBindStmtRn { xbsrn_bindOp = bind_op, xbsrn_failOp = fail_op }
-        ; return (( [( L loc (BindStmt xbsrn pat' (L lb body')), fv_expr )]
+        ; return (( [L loc (BindStmt xbsrn pat' (L lb body'))]
                   , thing),
                   fv_expr `plusFN` fvs1 `plusFN` fvs2 `plusFN` fvs3) }}
        -- fv_expr shouldn't really be filtered by the rnPatsAndThen
         -- but it does not matter because the names are unique
 
 rnStmt _ _ (L loc (LetStmt _ binds)) thing_inside
-  =     rnLocalBindsAndThen binds $ \binds' bind_fvs -> do
+  =     rnLocalBindsAndThen binds $ \binds' _ -> do
         { (thing, fvs) <- thing_inside (collectLocalBinders CollNoDictBinders binds')
-        ; return ( ([(L loc (LetStmt noAnn binds'), bind_fvs)], thing)
+        ; return ( ([L loc (LetStmt noAnn binds')], thing)
                  , fvs) }
 
 rnStmt ctxt rnBody (L loc (RecStmt { recS_stmts = L _ rec_stmts })) thing_inside
@@ -1305,20 +1248,18 @@ rnStmt ctxt rnBody (L loc (RecStmt { recS_stmts = L _ rec_stmts })) thing_inside
                         foldr (unionNameSet . (\(ds,_,_) -> ds))
                               emptyNameSet
                               segs
-          -- See Note [Deterministic ApplicativeDo and rec desugaring]
+          -- See Note [Deterministic rec desugaring]
         ; (thing, fvs_later) <- thing_inside bndrs
         ; let (rec_stmts', fvs) = segmentRecStmts (locA loc) empty_rec_stmt segs fvs_later
-        -- We aren't going to try to group RecStmts with
-        -- ApplicativeDo, so attaching empty FVs is fine.
-        ; return ( ((zip rec_stmts' (repeat emptyNameSet)), thing)
+        ; return ( (rec_stmts', thing)
                  , fvs) } }
 
 rnStmt ctxt _ (L loc (ParStmt _ segs _ _)) thing_inside
-  = do  { (mzip_op, fvs1)   <- lookupQualifiedDoStmtNameE ctxt mzipIdOcc
-        ; (bind_op, fvs2)   <- lookupQualifiedDoStmtName  ctxt bindMClassOpOcc
-        ; (return_op, fvs3) <- lookupQualifiedDoStmtName  ctxt returnMClassOpOcc
+  = do  { (mzip_op, fvs1)   <- lookupSyntaxExpr mzipIdOcc
+        ; (bind_op, fvs2)   <- lookupStmtName ctxt bindMClassOpOcc
+        ; (return_op, fvs3) <- lookupStmtName ctxt returnMClassOpOcc
         ; ((segs', thing), fvs4) <- rnParallelStmts (ParStmtCtxt ctxt) return_op segs thing_inside
-        ; return (([(L loc (ParStmt noExtField segs' mzip_op bind_op), fvs4)], thing)
+        ; return (([L loc (ParStmt noExtField segs' mzip_op bind_op)], thing)
                  , fvs1 `plusFN` fvs2 `plusFN` fvs3 `plusFN` fvs4) }
 
 rnStmt ctxt _ (L loc (TransStmt { trS_stmts = stmts, trS_by = by, trS_form = form
@@ -1339,11 +1280,11 @@ rnStmt ctxt _ (L loc (TransStmt { trS_stmts = stmts, trS_by = by, trS_form = for
                    ; return ((by', used_bndrs, thing), fvs) }
 
        -- Lookup `return`, `(>>=)` and `liftM` for monad comprehensions
-       ; (return_op, fvs3) <- lookupQualifiedDoStmtName ctxt returnMClassOpOcc
-       ; (bind_op,   fvs4) <- lookupQualifiedDoStmtName ctxt bindMClassOpOcc
+       ; (return_op, fvs3) <- lookupStmtName ctxt returnMClassOpOcc
+       ; (bind_op,   fvs4) <- lookupStmtName ctxt bindMClassOpOcc
        ; (fmap_op,   fvs5) <- case form of
                                 ThenForm -> return (noExpr, emptyFNs)
-                                _        -> lookupQualifiedDoStmtNameE ctxt fmapClassOpOcc
+                                _        -> lookupSyntaxExpr fmapClassOpOcc
 
        ; let all_fvs  = fvs1 `plusFN` fvs2 `plusFN` fvs3
                              `plusFN` fvs4 `plusFN` fvs5
@@ -1351,11 +1292,11 @@ rnStmt ctxt _ (L loc (TransStmt { trS_stmts = stmts, trS_by = by, trS_form = for
              -- See Note [TransStmt binder map] in GHC.Hs.Expr
 
        ; traceRn "rnStmt: implicitly rebound these used binders:" (ppr bndr_map)
-       ; return (([(L loc (TransStmt { trS_ext = noExtField
+       ; return (([L loc (TransStmt { trS_ext = noExtField
                                     , trS_stmts = stmts', trS_bndrs = bndr_map
                                     , trS_by = by', trS_using = using', trS_form = form
                                     , trS_ret = return_op, trS_bind = bind_op
-                                    , trS_fmap = fmap_op }), fvs2)], thing), all_fvs) }
+                                    , trS_fmap = fmap_op })], thing), all_fvs) }
 
 rnParallelStmts :: forall thing. HsStmtContextRn
                 -> SyntaxExpr GhcRn
@@ -1421,21 +1362,9 @@ To satisfy (c) we reset the LocalRdrEnv each time.
 *                                                                      *
 ********************************************************************* -}
 
-{- Note [QualifiedDo]
-~~~~~~~~~~~~~~~~~~~~~
-QualifiedDo is implemented using the same placeholders for operation names in
-the AST that were devised for RebindableSyntax. Whenever the renamer checks
-which names to use for do syntax, it first checks if the do block is qualified
-(e.g. M.do { stmts }), in which case it searches for qualified names. If the
-qualified names are not in scope, an error is produced. If the do block is not
-qualified, the renamer does the usual search of the names which considers
-whether RebindableSyntax is enabled or not. Dealing with QualifiedDo is driven
-by the Opt_QualifiedDo dynamic flag.
--}
-
-lookupQualifiedDoStmtName :: HasDebugCallStack => HsStmtContextRn
-                          -> KnownOcc -> RnM (SyntaxExpr GhcRn, FreeNames)
-lookupQualifiedDoStmtName ctxt n
+lookupStmtName :: HasDebugCallStack => HsStmtContextRn
+               -> KnownOcc -> RnM (SyntaxExpr GhcRn, FreeNames)
+lookupStmtName ctxt n
   -- For GRHSs (ctxt=PatGuard), list comprehensions, etc, we don't need
   -- return, >>=, >> etc. Looking them up is a waste of time; and early
   -- ghc-internal modules (e.g. GHC.Internal.Types) those functions
@@ -1443,26 +1372,9 @@ lookupQualifiedDoStmtName ctxt n
   | not (rebindableContext ctxt)
   = return (noSyntaxExpr, emptyFNs)
 
-  | otherwise
-  = do { (expr, fvs) <- lookupQualifiedDoStmtNameE ctxt n
-       ; return (SyntaxExprRn expr, fvs) }
-
-lookupQualifiedDoStmtNameE :: HasDebugCallStack => HsStmtContextRn
-                           -> KnownOcc -> RnM (HsExpr GhcRn, FreeNames)
-lookupQualifiedDoStmtNameE ctxt occ
-  = do { (nm, fvs) <- lookupQualifiedDoStmtNameN ctxt occ
-       ; return (genHsVar nm, fvs) }
-
-lookupQualifiedDoStmtNameN :: HasDebugCallStack => HsStmtContextRn
-                           -> KnownOcc -> RnM (Name, FreeNames)
-lookupQualifiedDoStmtNameN ctxt std_occ
-  -- Respect QualifiedDo; see Note [QualifiedDo]
-  | Just mod_name <- qualifiedDoModuleName_maybe ctxt
-  = do { (nm, fvs) <- lookupNameWithQualifier mod_name std_occ
-       ; return (nm, fvs) }
-
   | otherwise  -- Respect -XRebindableSyntax
-  = lookupSyntaxName std_occ
+  = do { (expr, fvs) <- lookupSyntaxExpr n
+       ; return (SyntaxExprRn expr, fvs) }
 
 -- | Is this a context where we respect RebindableSyntax?
 -- but ListComp are never rebindable
@@ -1550,8 +1462,8 @@ rn_rec_stmt_lhs :: AnnoBody body => MiniFixityEnv
 rn_rec_stmt_lhs _ (L loc (BodyStmt _ body a b))
   = return [(L loc (BodyStmt noExtField body a b), emptyFNs)]
 
-rn_rec_stmt_lhs _ (L loc (LastStmt _ body noret a))
-  = return [(L loc (LastStmt noExtField body noret a), emptyFNs)]
+rn_rec_stmt_lhs _ (L loc (LastStmt _ body a))
+  = return [(L loc (LastStmt noExtField body a), emptyFNs)]
 
 rn_rec_stmt_lhs fix_env (L loc (BindStmt _ pat body))
   = do
@@ -1606,21 +1518,21 @@ rn_rec_stmt :: AnnoBody body =>
         -- Rename a Stmt that is inside a RecStmt
         -- Assumes all binders are already in scope
         -- Turns each stmt into a singleton Stmt
-rn_rec_stmt ctxt rnBody _ (L loc (LastStmt _ (L lb body) noret _), _)
+rn_rec_stmt ctxt rnBody _ (L loc (LastStmt _ (L lb body) _), _)
   = do  { (body', fv_expr) <- rnBody body
-        ; (ret_op, fvs1)   <- lookupQualifiedDoStmtName ctxt returnMClassOpOcc
+        ; (ret_op, fvs1)   <- lookupStmtName ctxt returnMClassOpOcc
         ; return [(emptyNameSet, fv_expr `plusFN` fvs1,
-                   L loc (LastStmt noExtField (L lb body') noret ret_op))] }
+                   L loc (LastStmt noExtField (L lb body') ret_op))] }
 
 rn_rec_stmt ctxt rnBody _ (L loc (BodyStmt _ (L lb body) _ _), _)
   = do { (body', fvs) <- rnBody body
-       ; (then_op, fvs1) <- lookupQualifiedDoStmtName ctxt thenMClassOpOcc
+       ; (then_op, fvs1) <- lookupStmtName ctxt thenMClassOpOcc
        ; return [(emptyNameSet, fvs `plusFN` fvs1,
                  L loc (BodyStmt noExtField (L lb body') then_op noSyntaxExpr))] }
 
 rn_rec_stmt ctxt rnBody _ (L loc (BindStmt _ pat' (L lb body)), fv_pat)
   = do { (body', fv_expr) <- rnBody body
-       ; (bind_op, fvs1) <- lookupQualifiedDoStmtName ctxt bindMClassOpOcc
+       ; (bind_op, fvs1) <- lookupStmtName ctxt bindMClassOpOcc
 
        ; (fail_op, fvs2) <- getMonadFailOp ctxt
 
@@ -1684,7 +1596,7 @@ segmentRecStmts loc empty_rec_stmt segs fvs_later
                                            (defs `intersectNameSet` fvs_later)
                       , recS_rec_ids   = nameSetElemsStable
                                            (defs `intersectNameSet` uses) }]
-          -- See Note [Deterministic ApplicativeDo and rec desugaring]
+          -- See Note [Deterministic rec desugaring]
     , uses `plusFN` fvs_later)
   where
     (defs_s, uses_s, ss) = unzip3 segs
@@ -1701,717 +1613,6 @@ The knot-tied tuple of a rec statement must contain
   (the recS_later_ids)
 See Note [How RecStmt works] in Language.Haskell.Syntax.Expr.
 -}
-
-{-
-************************************************************************
-*                                                                      *
-ApplicativeDo
-*                                                                      *
-************************************************************************
-
-Note [ApplicativeDo]
-~~~~~~~~~~~~~~~~~~~~
-= Example =
-
-For a sequence of statements
-
- do
-     x <- A
-     y <- B x
-     z <- C
-     return (f x y z)
-
-We want to transform this to
-
-  (\(x,y) z -> f x y z) <$> (do x <- A; y <- B x; return (x,y)) <*> C
-
-It would be easy to notice that "y <- B x" and "z <- C" are
-independent and do something like this:
-
- do
-     x <- A
-     (y,z) <- (,) <$> B x <*> C
-     return (f x y z)
-
-But this isn't enough! If A and C were also independent, then this
-transformation loses the ability to do A and C in parallel.
-
-The algorithm works by first splitting the sequence of statements into
-independent "segments", and a separate "tail" (the final statement). In
-our example above, the segments would be
-
-     [ x <- A
-     , y <- B x ]
-
-     [ z <- C ]
-
-and the tail is:
-
-     return (f x y z)
-
-Then we take these segments and make an Applicative expression from them:
-
-     (\(x,y) z -> return (f x y z))
-       <$> do { x <- A; y <- B x; return (x,y) }
-       <*> C
-
-Finally, we recursively apply the transformation to each segment, to
-discover any nested parallelism.
-
-= Syntax & spec =
-
-  expr ::= ... | do {stmt_1; ..; stmt_n} expr | ...
-
-  stmt ::= pat <- expr
-         | (arg_1 | ... | arg_n)  -- applicative composition, n>=1
-         | ...                    -- other kinds of statement (e.g. let)
-
-  arg ::= pat <- expr
-        | {stmt_1; ..; stmt_n} {var_1..var_n}
-
-(note that in the actual implementation,the expr in a do statement is
-represented by a LastStmt as the final stmt, this is just a
-representational issue and may change later.)
-
-== Transformation to introduce applicative stmts ==
-
-ado {} tail = tail
-ado {pat <- expr} {return expr'} = (mkArg(pat <- expr)); return expr'
-ado {one} tail = one : tail
-ado stmts tail
-  | n == 1 = ado before (ado after tail)
-    where (before,after) = split(stmts_1)
-  | n > 1  = (mkArg(stmts_1) | ... | mkArg(stmts_n)); tail
-  where
-    {stmts_1 .. stmts_n} = segments(stmts)
-
-segments(stmts) =
-  -- divide stmts into segments with no interdependencies
-
-mkArg({pat <- expr}) = (pat <- expr)
-mkArg({stmt_1; ...; stmt_n}) =
-  {stmt_1; ...; stmt_n} {vars(stmt_1) u .. u vars(stmt_n)}
-
-split({stmt_1; ..; stmt_n) =
-  ({stmt_1; ..; stmt_i}, {stmt_i+1; ..; stmt_n})
-  -- 1 <= i <= n
-  -- i is a good place to insert a bind
-
-== Desugaring for do ==
-
-dsDo {} expr = expr
-
-dsDo {pat <- rhs; stmts} expr =
-   rhs >>= \pat -> dsDo stmts expr
-
-dsDo {(arg_1 | ... | arg_n)} (return expr) =
-  (\argpat (arg_1) .. argpat(arg_n) -> expr)
-     <$> argexpr(arg_1)
-     <*> ...
-     <*> argexpr(arg_n)
-
-dsDo {(arg_1 | ... | arg_n); stmts} expr =
-  join (\argpat (arg_1) .. argpat(arg_n) -> dsDo stmts expr)
-     <$> argexpr(arg_1)
-     <*> ...
-     <*> argexpr(arg_n)
-
-== Special cases ==
-
-If a do-expression contains only "return E" or "return $ E" plus
-zero or more let-statements, we replace the "return" with "pure".
-See Section 3.6 of the paper.
-
-= Relevant modules in the rest of the compiler =
-
-ApplicativeDo touches a few phases in the compiler:
-
-* Renamer: The journey begins here in the renamer, where do-blocks are
-  scheduled as outlined above and transformed into applicative
-  combinators.  However, the code is still represented as a do-block
-  with special forms of applicative statements. This allows us to
-  recover the original do-block when e.g. printing type errors, where
-  we don't want to show any of the applicative combinators since they
-  don't exist in the source code.
-  See ApplicativeStmt and ApplicativeArg in HsExpr.
-
-* Typechecker: ApplicativeDo passes through the typechecker much like any
-  other form of expression. The only crux is that the typechecker has to
-  be aware of the special ApplicativeDo statements in the do-notation, and
-  typecheck them appropriately.
-  Relevant module: GHC.Tc.Gen.Match
-
-* Desugarer: Any do-block which contains applicative statements is desugared
-  as outlined above, to use the Applicative combinators.
-  Relevant module: GHC.HsToCore.Expr
-
--}
-
--- | The 'Name's of @return@ and @pure@. These may not be 'returnName' and
--- 'pureName' due to @QualifiedDo@ or @RebindableSyntax@.
-data MonadNames = MonadNames { return_name, pure_name :: Name }
-
-instance Outputable MonadNames where
-  ppr (MonadNames {return_name=return_name,pure_name=pure_name}) =
-    hcat
-    [text "MonadNames { return_name = "
-    ,ppr return_name
-    ,text ", pure_name = "
-    ,ppr pure_name
-    ,text "}"
-    ]
-
--- | rearrange a list of statements using ApplicativeDoStmt.  See
--- Note [ApplicativeDo].
-rearrangeForApplicativeDo
-  :: HsDoFlavour
-  -> [(ExprLStmt GhcRn, FreeNames)]
-  -> RnM ([ExprLStmt GhcRn], FreeNames)
-
-rearrangeForApplicativeDo _ [] = return ([], emptyNameSet)
--- If the do-block contains a single @return@ statement, change it to
--- @pure@ if ApplicativeDo is turned on. See Note [ApplicativeDo].
-rearrangeForApplicativeDo ctxt [(one,_)] = do
-  (return_name, _) <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) returnMClassOpOcc
-  (pure_name, _)   <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) pureAClassOpOcc
-  let monad_names = MonadNames { return_name = return_name
-                               , pure_name   = pure_name }
-  return $ case needJoin monad_names [one] (Just pure_name) of
-    (False, one') -> (one', emptyNameSet)
-    (True, _) -> ([one], emptyNameSet)
-rearrangeForApplicativeDo ctxt stmts0 = do
-  optimal_ado <- goptM Opt_OptimalApplicativeDo
-  let stmt_tree | optimal_ado = mkStmtTreeOptimal stmts
-                | otherwise = mkStmtTreeHeuristic stmts
-  traceRn "rearrangeForADo" (ppr stmt_tree)
-  (return_name, _) <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) returnMClassOpOcc
-  (pure_name, _)   <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) pureAClassOpOcc
-  let monad_names = MonadNames { return_name = return_name
-                               , pure_name   = pure_name }
-  stmtTreeToStmts monad_names ctxt stmt_tree [last] last_fvs
-  where
-    (stmts,(last,last_fvs)) = findLast stmts0
-    findLast [] = error "findLast"
-    findLast [last] = ([],last)
-    findLast (x:xs) = (x:rest,last) where (rest,last) = findLast xs
-
--- | A tree of statements using a mixture of applicative and bind constructs.
-data StmtTree a
-  = StmtTreeOne a
-  | StmtTreeBind (StmtTree a) (StmtTree a)
-  | StmtTreeApplicative [StmtTree a]
-
-instance Outputable a => Outputable (StmtTree a) where
-  ppr (StmtTreeOne x)          = parens (text "StmtTreeOne" <+> ppr x)
-  ppr (StmtTreeBind x y)       = parens (hang (text "StmtTreeBind")
-                                            2 (sep [ppr x, ppr y]))
-  ppr (StmtTreeApplicative xs) = parens (hang (text "StmtTreeApplicative")
-                                            2 (vcat (map ppr xs)))
-
-flattenStmtTree :: StmtTree a -> [a]
-flattenStmtTree t = go t []
- where
-  go (StmtTreeOne a) as = a : as
-  go (StmtTreeBind l r) as = go l (go r as)
-  go (StmtTreeApplicative ts) as = foldr go as ts
-
-type ExprStmtTree = StmtTree (ExprLStmt GhcRn, FreeNames)
-type Cost = Int
-
--- | Turn a sequence of statements into an ExprStmtTree using a
--- heuristic algorithm.  /O(n^2)/
-mkStmtTreeHeuristic :: [(ExprLStmt GhcRn, FreeNames)] -> ExprStmtTree
-mkStmtTreeHeuristic [one] = StmtTreeOne one
-mkStmtTreeHeuristic stmts =
-  case segments stmts of
-    [one] -> split one
-    segs -> StmtTreeApplicative (map split segs)
- where
-  split [one] = StmtTreeOne one
-  split stmts =
-    StmtTreeBind (mkStmtTreeHeuristic before) (mkStmtTreeHeuristic after)
-    where (before, after) = splitSegment stmts
-
--- | Turn a sequence of statements into an ExprStmtTree optimally,
--- using dynamic programming.  /O(n^3)/
-mkStmtTreeOptimal :: [(ExprLStmt GhcRn, FreeNames)] -> ExprStmtTree
-mkStmtTreeOptimal stmts =
-  assert (not (null stmts)) $ -- the empty case is handled by the caller;
-                              -- we don't support empty StmtTrees.
-  fst (arr ! (0,n))
-  where
-    n = length stmts - 1
-    stmt_arr = listArray (0,n) stmts
-
-    -- lazy cache of optimal trees for subsequences of the input
-    arr :: Array (Int,Int) (ExprStmtTree, Cost)
-    arr = array ((0,0),(n,n))
-             [ ((lo,hi), tree lo hi)
-             | lo <- [0..n]
-             , hi <- [lo..n] ]
-
-    -- compute the optimal tree for the sequence [lo..hi]
-    tree lo hi
-      | hi == lo = (StmtTreeOne (stmt_arr ! lo), 1)
-      | otherwise =
-         case segments [ stmt_arr ! i | i <- [lo..hi] ] of
-           [] -> panic "mkStmtTree"
-           [_one] -> split lo hi
-           segs -> (StmtTreeApplicative trees, Partial.maximum costs)
-             where
-               bounds = scanl (\(_,hi) a -> (hi+1, hi + length a)) (0,lo-1) segs
-               -- We know `costs` must be non-empty, as `length segs >= 2` here.
-               (trees,costs) = unzip (map (uncurry split) (tail bounds))
-
-    -- find the best place to split the segment [lo..hi]
-    split :: Int -> Int -> (ExprStmtTree, Cost)
-    split lo hi
-      | hi == lo = (StmtTreeOne (stmt_arr ! lo), 1)
-      | otherwise = (StmtTreeBind before after, c1+c2)
-        where
-         -- As per the paper, for a sequence s1...sn, we want to find
-         -- the split with the minimum cost, where the cost is the
-         -- sum of the cost of the left and right subsequences.
-         --
-         -- As an optimisation (also in the paper) if the cost of
-         -- s1..s(n-1) is different from the cost of s2..sn, we know
-         -- that the optimal solution is the lower of the two.  Only
-         -- in the case that these two have the same cost do we need
-         -- to do the exhaustive search.
-         --
-         ((before,c1),(after,c2)) = case nonEmpty [lo .. hi-1] of
-             Nothing ->
-               ( (StmtTreeOne (stmt_arr ! lo), 1),
-                 (StmtTreeOne (stmt_arr ! hi), 1) )
-             Just ks
-               | left_cost < right_cost
-               -> ((left,left_cost), (StmtTreeOne (stmt_arr ! hi), 1))
-               | left_cost > right_cost
-               -> ((StmtTreeOne (stmt_arr ! lo), 1), (right,right_cost))
-               | otherwise -> minimumBy (comparing cost)
-                 [ (arr ! (lo,k), arr ! (k+1,hi)) | k <- ks ]
-           where
-             (left, left_cost) = arr ! (lo,hi-1)
-             (right, right_cost) = arr ! (lo+1,hi)
-             cost ((_,c1),(_,c2)) = c1 + c2
-
-
--- | Turn the ExprStmtTree back into a sequence of statements, using
--- ApplicativeStmt where necessary.
-stmtTreeToStmts
-  :: MonadNames
-  -> HsDoFlavour
-  -> ExprStmtTree
-  -> [ExprLStmt GhcRn]             -- ^ the "tail"
-  -> FreeNames                     -- ^ free variables of the tail
-  -> RnM ( [ExprLStmt GhcRn]       -- ( output statements,
-         , FreeNames )             -- , things we needed
-
--- If we have a single bind, and we can do it without a join, transform
--- to an ApplicativeStmt.  This corresponds to the rule
---   dsBlock [pat <- rhs] (return expr) = expr <$> rhs
--- In the spec, but we do it here rather than in the desugarer,
--- because we need the typechecker to typecheck the <$> form rather than
--- the bind form, which would give rise to a Monad constraint.
---
--- If we have a single let, and the last statement is @return E@ or @return $ E@,
--- change the @return@ to @pure@.
-stmtTreeToStmts monad_names ctxt (StmtTreeOne (L _ (BindStmt xbs pat rhs), _))
-                tail _tail_fvs
-  | definitelyLazyPattern pat, (False,tail') <- needJoin monad_names tail Nothing
-  -- See Note [ApplicativeDo and strict patterns]
-  = mkApplicativeStmt ctxt [ApplicativeArgOne
-                            { xarg_app_arg_one = xbsrn_failOp xbs
-                            , app_arg_pattern  = pat
-                            , arg_expr         = rhs
-                            , is_body_stmt     = False
-                            }]
-                      False tail'
-stmtTreeToStmts monad_names ctxt (StmtTreeOne (L _ (BodyStmt _ rhs _ _),_))
-                tail _tail_fvs
-  | (False,tail') <- needJoin monad_names tail Nothing
-  = mkApplicativeStmt ctxt
-      [ApplicativeArgOne
-       { xarg_app_arg_one = Nothing
-       , app_arg_pattern  = nlWildPatName
-       , arg_expr         = rhs
-       , is_body_stmt     = True
-       }] False tail'
-stmtTreeToStmts monad_names ctxt (StmtTreeOne (let_stmt@(L _ LetStmt{}),_))
-                tail _tail_fvs = do
-  (pure_name, _) <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) pureAClassOpOcc
-  return $ case needJoin monad_names tail (Just pure_name) of
-    (False, tail') -> (let_stmt : tail', emptyNameSet)
-    (True, _) -> (let_stmt : tail, emptyNameSet)
-
-stmtTreeToStmts _monad_names _ctxt (StmtTreeOne (s,_)) tail _tail_fvs =
-  return (s : tail, emptyNameSet)
-
-stmtTreeToStmts monad_names ctxt (StmtTreeBind before after) tail tail_fvs = do
-  (stmts1, fvs1) <- stmtTreeToStmts monad_names ctxt after tail tail_fvs
-  let tail1_fvs = unionNameSets (tail_fvs : map snd (flattenStmtTree after))
-  (stmts2, fvs2) <- stmtTreeToStmts monad_names ctxt before stmts1 tail1_fvs
-  return (stmts2, fvs1 `plusFN` fvs2)
-
-stmtTreeToStmts monad_names ctxt (StmtTreeApplicative trees) tail tail_fvs = do
-   hscEnv <- getTopEnv
-   rdrEnv <- getGlobalRdrEnv
-   comps <- getCompleteMatchesTcM
-   pairs <- mapM (stmtTreeArg ctxt tail_fvs) trees
-   strict <- xoptM LangExt.Strict
-   let (stmts', fvss) = unzip pairs
-   let (need_join, tail') =
-     -- See Note [ApplicativeDo and refutable patterns]
-         if any (hasRefutablePattern strict hscEnv rdrEnv comps) stmts'
-         then (True, tail)
-         else needJoin monad_names tail Nothing
-
-   (stmts, fvs) <- mkApplicativeStmt ctxt stmts' need_join tail'
-   return (stmts, unionNameSets (fvs:fvss))
- where
-   stmtTreeArg _ctxt _tail_fvs (StmtTreeOne (L _ (BindStmt xbs pat exp), _))
-     = return (ApplicativeArgOne
-               { xarg_app_arg_one = xbsrn_failOp xbs
-               , app_arg_pattern  = pat
-               , arg_expr         = exp
-               , is_body_stmt     = False
-               }, emptyFNs)
-   stmtTreeArg _ctxt _tail_fvs (StmtTreeOne (L _ (BodyStmt _ exp _ _), _)) =
-     return (ApplicativeArgOne
-             { xarg_app_arg_one = Nothing
-             , app_arg_pattern  = nlWildPatName
-             , arg_expr         = exp
-             , is_body_stmt     = True
-             }, emptyFNs)
-   stmtTreeArg ctxt tail_fvs tree = do
-     let stmts = flattenStmtTree tree
-         pvarset = mkNameSet (concatMap (collectStmtBinders CollNoDictBinders . unLoc . fst) stmts)
-                     `intersectNameSet` tail_fvs
-         pvars = nameSetElemsStable pvarset
-           -- See Note [Deterministic ApplicativeDo and rec desugaring]
-         pat = mkBigLHsVarPatTup pvars
-         tup = mkBigLHsVarTup pvars noExtField
-     (stmts',fvs2) <- stmtTreeToStmts monad_names ctxt tree [] pvarset
-     (mb_ret, fvs1) <-
-        if | Just (L _ (XStmtLR ApplicativeStmt{})) <- lastMaybe stmts' ->
-             return (unLoc tup, emptyNameSet)
-           | otherwise -> do
-             -- Need 'pureAClassOpKey' and not 'returnMClassOpKey' here, so that it requires
-             -- 'Applicative' and not 'Monad' whenever possible (until #20540 is fixed).
-             (pure_name, _) <- lookupQualifiedDoStmtNameN (HsDoStmt ctxt) pureAClassOpOcc
-             let expr = (genHsApps pure_name [tup])
-             return (expr, emptyFNs)
-     return ( ApplicativeArgMany
-              { xarg_app_arg_many = noExtField
-              , app_stmts         = stmts'
-              , final_expr        = mb_ret
-              , bv_pattern        = pat
-              , stmt_context      = ctxt
-              }
-            , fvs1 `plusFN` fvs2)
-
-
--- | Divide a sequence of statements into segments, where no segment
--- depends on any variables defined by a statement in another segment.
-segments
-  :: [(ExprLStmt GhcRn, FreeNames)]
-  -> [[(ExprLStmt GhcRn, FreeNames)]]
-segments stmts = merge $ reverse $ map reverse $ walk (reverse stmts)
-  where
-    allvars = mkNameSet (concatMap (collectStmtBinders CollNoDictBinders . unLoc . fst) stmts)
-
-    -- We would rather not have a segment that just has LetStmts in
-    -- it, so combine those with the next segment where possible.
-    -- We don't merge it with the previous segment because the merged segment
-    -- would require 'Monad' while it may otherwise only require 'Applicative'.
-    merge [] = []
-    merge (seg : segs)
-       = case rest of
-          s:ss | all_lets -> (seg ++ s) : ss
-          _otherwise -> seg : rest
-      where
-        rest = merge segs
-        all_lets = all (isLetStmt . fst) seg
-
-    -- walk splits the statement sequence into segments, traversing
-    -- the sequence from the back to the front, and keeping track of
-    -- the set of free variables of the current segment.  Whenever
-    -- this set of free variables is empty, we have a complete segment.
-    walk :: [(ExprLStmt GhcRn, FreeNames)] -> [[(ExprLStmt GhcRn, FreeNames)]]
-    walk [] = []
-    walk ((stmt,fvs) : stmts) = ((stmt,fvs) : seg) : walk rest
-      where (seg,rest) = chunter fvs' stmts
-            (_, fvs') = stmtRefs stmt fvs
-
-    chunter _ [] = ([], [])
-    chunter vars orig@((stmt,fvs) : rest)
-       | isEmptyNameSet vars, definitelyLazyPatternBind stmt
-       = ([], orig)
-       | otherwise
-           -- See Note [ApplicativeDo and strict patterns]
-       = ((stmt,fvs) : chunk, rest')
-       where (chunk,rest') = chunter vars' rest
-             (pvars, evars) = stmtRefs stmt fvs
-             vars' = (vars `minusNameSet` pvars) `unionNameSet` evars
-
-    stmtRefs stmt fvs
-      | isLetStmt stmt = (pvars, fvs' `minusNameSet` pvars)
-      | otherwise      = (pvars, fvs')
-      where fvs' = fvs `intersectNameSet` allvars
-            pvars = mkNameSet (collectStmtBinders CollNoDictBinders (unLoc stmt))
-
-    definitelyLazyPatternBind :: ExprLStmt GhcRn -> Bool
-    definitelyLazyPatternBind (L _ (BindStmt _ pat _)) = definitelyLazyPattern pat
-    definitelyLazyPatternBind _ = True
-
-{-
-Note [ApplicativeDo and strict patterns]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A strict pattern match is really a dependency.  For example,
-
-do
-  (x,y) <- A
-  z <- B
-  return C
-
-The pattern (_,_) must be matched strictly before we do B.  If we
-allowed this to be transformed into
-
-  (\(x,y) -> \z -> C) <$> A <*> B
-
-then it could be lazier than the standard desugaring using >>=.  See #13875
-for more examples.
-
-Thus, whenever we have a potentially strict pattern match, we treat it as a
-dependency between that statement and the following one.  The
-dependency prevents those two statements from being performed "in
-parallel" in an ApplicativeStmt, but doesn't otherwise affect what we
-can do with the rest of the statements in the same "do" expression.
-
-The necessary "definitely lazy" test is similar, but distinct to irrefutability.
-See Note [definitelyLazyPattern vs. isIrrefutableHsPat].
-
-Note [definitelyLazyPattern vs. isIrrefutableHsPat]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lazy patterns are irrefutable, but not all irrefutable patterns are lazy.
-Examples:
-  * (x,y) is an irrefutable pattern, but not lazy.
-  * x is both irrefutable and lazy.
-  * The or pattern (~True; False) is both irrefutable and lazy,
-    because the first pattern alt accepts without forcing the scrutinee.
-  * The or pattern (False; ~True) is irrefutable, but not lazy,
-    because the first pattern alt forces the scrutinee and may fail,
-    but the second alt is irrefutable and hence the whole pattern is.
--}
-
-definitelyLazyPattern :: forall p. IsPass p => LPat (GhcPass p) -> Bool
--- See Note [definitelyLazyPattern vs. isIrrefutableHsPat]
--- A conservative analysis that says False if in doubt, hence "definitely".
--- E.g., the ViewPat (const 5 -> 13) is really lazy, but below we say False.
-definitelyLazyPattern (L loc pat) =
-  case pat of
-    WildPat{}       -> True
-    VarPat{}        -> True
-    LazyPat{}       -> True
-    AsPat _ _ p     -> definitelyLazyPattern p
-    ParPat _ p      -> definitelyLazyPattern p
-    ViewPat _ _f p  -> definitelyLazyPattern p --- || definitelyLazyFun _f
-      -- NB: We keep it simple and assume `definitelyLazyFun _ = False`
-    SigPat _ p _    -> definitelyLazyPattern p
-    OrPat _ p       -> definitelyLazyPattern (NE.head p)
-      -- NB: foo (~True; False) = () is lazy!
-      -- See Note [definitelyLazyPattern vs. isIrrefutableHsPat]
-    BangPat{}       -> False
-    ListPat{}       -> False
-    TuplePat{}      -> False
-    SumPat{}        -> False
-    ConPat{}        -> False -- Some PatSyns are lazy; False is conservative
-    LitPat{}        -> False
-    QualLitPat{}    -> False
-    NPat{}          -> False -- Some NPats are lazy; False is conservative
-    SplicePat{}     -> False
-    ModifiedPat _ _ p -> definitelyLazyPattern p
-
-    -- The behavior of this case is unimportant, as GHC will throw an error shortly
-    -- after reaching this case for other reasons (see TcRnIllegalTypePattern).
-    EmbTyPat{}  -> True
-    InvisPat{}  -> True
-
-    XPat ext        -> case ghcPass @p of
-      GhcRn
-        | HsPatExpanded _ p <- ext
-        -> definitelyLazyPattern (L loc p)
-      GhcTc -> case ext of
-        ExpansionPat _ p -> definitelyLazyPattern (L loc p)
-        CoPat {} -> panic "definitelyLazyPattern: CoPat"
-
-{-
-Note [ApplicativeDo and refutable patterns]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Refutable patterns in do blocks are desugared to use the monadic 'fail' operation.
-This means that sometimes an applicative block needs to be wrapped in 'join' simply because
-of a refutable pattern, in order for the types to work out.
-
--}
-
-hasRefutablePattern :: Bool -- ^ is -XStrict enabled?
-                    -> HscEnv
-                    -> GlobalRdrEnv
-                    -> CompleteMatches
-                    -> ApplicativeArg GhcRn -> Bool
-hasRefutablePattern is_strict hsc_env rdr_env comps arg =
-  case arg of
-    ApplicativeArgOne { app_arg_pattern = pat, is_body_stmt = False}
-      -> not (isIrrefutableHsPat is_strict (irrefutableConLikeRn hsc_env rdr_env comps) pat)
-    _ -> False
-
-isLetStmt :: LStmt (GhcPass a) b -> Bool
-isLetStmt (L _ LetStmt{}) = True
-isLetStmt _ = False
-
--- | Find a "good" place to insert a bind in an indivisible segment.
--- This is the only place where we use heuristics.  The current
--- heuristic is to peel off the first group of independent statements
--- and put the bind after those.
-splitSegment
-  :: [(ExprLStmt GhcRn, FreeNames)]
-  -> ( [(ExprLStmt GhcRn, FreeNames)]
-     , [(ExprLStmt GhcRn, FreeNames)] )
-splitSegment [one,two] = ([one],[two])
-  -- there is no choice when there are only two statements; this just saves
-  -- some work in a common case.
-splitSegment stmts
-  | Just (lets,binds,rest) <- slurpIndependentStmts stmts
-  =  if not (null lets)
-       then (lets, binds++rest)
-       else (lets++binds, rest)
-  | otherwise
-  = case stmts of
-      (x:xs) -> ([x],xs)
-      _other -> (stmts,[])
-
-slurpIndependentStmts
-   :: [(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)]
-   -> Maybe ( [(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)] -- LetStmts
-            , [(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)] -- BindStmts
-            , [(LStmt GhcRn (LocatedA (body GhcRn)), FreeNames)] )
-slurpIndependentStmts stmts = go [] [] emptyNameSet stmts
- where
-  -- If we encounter a BindStmt that doesn't depend on a previous BindStmt
-  -- in this group, then add it to the group. We have to be careful about
-  -- strict patterns though; splitSegments expects that if we return Just
-  -- then we have actually done some splitting. Otherwise it will go into
-  -- an infinite loop (#14163).
-  go lets indep bndrs ((L loc (BindStmt xbs pat body), fvs): rest)
-    | disjointNameSet bndrs fvs, definitelyLazyPattern pat
-    = go lets ((L loc (BindStmt xbs pat body), fvs) : indep)
-         bndrs' rest
-    where bndrs' = bndrs `unionNameSet` mkNameSet (collectPatBinders CollNoDictBinders pat)
-  -- If we encounter a LetStmt that doesn't depend on a BindStmt in this
-  -- group, then move it to the beginning, so that it doesn't interfere with
-  -- grouping more BindStmts.
-  -- TODO: perhaps we shouldn't do this if there are any strict bindings,
-  -- because we might be moving evaluation earlier.
-  go lets indep bndrs ((L loc (LetStmt noExtField binds), fvs) : rest)
-    | disjointNameSet bndrs fvs
-    = go ((L loc (LetStmt noExtField binds), fvs) : lets) indep bndrs rest
-  go _ []  _ _ = Nothing
-  go _ [_] _ _ = Nothing
-  go lets indep _ stmts = Just (reverse lets, reverse indep, stmts)
-
--- | Build an ApplicativeStmt, and strip the "return" from the tail
--- if necessary.
---
--- For example, if we start with
---   do x <- E1; y <- E2; return (f x y)
--- then we get
---   do (E1[x] | E2[y]); f x y
---
--- the LastStmt in this case has the return removed, but we set the
--- flag on the LastStmt to indicate this, so that we can print out the
--- original statement correctly in error messages.  It is easier to do
--- it this way rather than try to ignore the return later in both the
--- typechecker and the desugarer (I tried it that way first!).
-mkApplicativeStmt
-  :: HsDoFlavour
-  -> [ApplicativeArg GhcRn]             -- ^ The args
-  -> Bool                               -- ^ True <=> need a join
-  -> [ExprLStmt GhcRn]        -- ^ The body statements
-  -> RnM ([ExprLStmt GhcRn], FreeNames)
-mkApplicativeStmt ctxt args need_join body_stmts
-  = do { (fmap_op, fvs1) <- lookupQualifiedDoStmtName (HsDoStmt ctxt) fmapClassOpOcc
-       ; (ap_op, fvs2)   <- lookupQualifiedDoStmtName (HsDoStmt ctxt) apAClassOpOcc
-       ; (mb_join, fvs3) <-
-           if need_join then
-             do { (join_op, fvs) <- lookupQualifiedDoStmtName (HsDoStmt ctxt) joinMIdOcc
-                ; return (Just join_op, fvs) }
-           else
-             return (Nothing, emptyNameSet)
-       -- We cannot really say where the ApplicativeStmt is located with more accuracy
-       -- than the span of the do-block, but it is better than nothing for IDE info
-       -- See Note [Source locations for implicit function calls]
-       ; loc <- getSrcSpanM
-       ; let applicative_stmt = L (noAnnSrcSpan loc) $ XStmtLR $ ApplicativeStmt noExtField
-               (zip (fmap_op : repeat ap_op) args)
-               mb_join
-       ; return ( applicative_stmt : body_stmts
-                , fvs1 `plusFN` fvs2 `plusFN` fvs3) }
-
--- | Given the statements following an ApplicativeStmt, determine whether
--- we need a @join@ or not, and remove the @return@ if necessary.
---
--- We don't need @join@ if there's a single @LastStmt@ in the form of
--- @return E@, @return $ E@, @pure E@ or @pure $ E@.
-needJoin :: MonadNames
-         -> [ExprLStmt GhcRn]
-            -- If this is @Just pure@, replace return by pure
-            -- If this is @Nothing@, strip the return/pure
-         -> Maybe Name
-         -> (Bool, [ExprLStmt GhcRn])
-needJoin _monad_names [] _mb_pure = (False, [])  -- we're in an ApplicativeArg
-needJoin monad_names  [L loc (LastStmt _ e _ t)] mb_pure
- | Just (arg, noret) <- isReturnApp monad_names e mb_pure =
-       (False, [L loc (LastStmt noExtField arg noret t)])
-needJoin _monad_names stmts _mb_pure = (True, stmts)
-
--- | @(Just e, Just False)@, if the expression is @return/pure e@,
---     and the third argument is Nothing,
---   @(Just e, Just True)@ if the expression is @return/pure $ e@,
---     and the third argument is Nothing,
---   @(Just (pure e), Nothing)@ if the expression is @return/pure e@,
---     and the third argument is @Just pure_expr@,
---   @(Just (pure $ e), Nothing)@ if the expression is @return/pure $ e@,
---     and the third argument is @Just pure_expr@,
---   otherwise @Nothing@.
-isReturnApp :: MonadNames
-            -> LHsExpr GhcRn
-            -- If this is @Just pure@, replace return by pure
-            -- If this is @Nothing@, strip the return/pure
-            -> Maybe Name
-            -> Maybe (LHsExpr GhcRn, Maybe Bool)
-isReturnApp monad_names (L _ (HsPar _ expr)) mb_pure =
-  isReturnApp monad_names expr mb_pure
-isReturnApp monad_names (L loc e) mb_pure = case e of
-  OpApp x l op r
-    | Just pure_name <- mb_pure, is_return l, is_dollar op ->
-        Just (L loc (OpApp x (to_pure l pure_name) op r), Nothing)
-    | is_return l, is_dollar op -> Just (r, Just True)
-  HsApp x f arg
-    | Just pure_name <- mb_pure, is_return f ->
-        Just (L loc (HsApp x (to_pure f pure_name) arg), Nothing)
-    | is_return f -> Just (arg, Just False)
-  _otherwise -> Nothing
- where
-  is_var f (L _ (HsPar _ e)) = is_var f e
-  is_var f (L _ (HsAppType _ e _)) = is_var f e
-  is_var f (L _ (HsVar _ (L _ (WithUserRdr _q r)))) = f r
-       -- TODO: I don't know how to get this right for rebindable syntax
-  is_var _ _ = False
-
-  is_return = is_var (\n -> n == return_name monad_names
-                         || n == pure_name monad_names)
-  to_pure (L loc _) pure_name = L loc (genHsVar pure_name)
-  is_dollar = is_var (`hasKey` dollarIdKey)
 
 {-
 ************************************************************************
@@ -2607,17 +1808,6 @@ So, in this case, we synthesize the function
 (rather than plain 'fail') for the 'fail' operation. This is done in
 'getMonadFailOp'.
 
-Similarly with QualifiedDo and OverloadedStrings, we also want to desugar
-using fromString:
-
-  foo x = M.do { Just y <- x; return y }
-
-  ===>
-
-  foo x = x M.>>= \r -> case r of
-                        Just y  -> return y
-                        Nothing -> M.fail (fromString "Pattern match error")
-
 -}
 getMonadFailOp :: HsStmtContextRn -> RnM (FailOperator GhcRn, FreeNames) -- Syntax expr fail op
 getMonadFailOp ctxt
@@ -2627,11 +1817,9 @@ getMonadFailOp ctxt
       ; return (Just fail, fvs)
       }
   where
-    isQualifiedDo = isJust (qualifiedDoModuleName_maybe ctxt)
-
     reallyGetMonadFailOp rebindableSyntax overloadedStrings
-      | (isQualifiedDo || rebindableSyntax) && overloadedStrings = do
-        (failName, failFvs) <- lookupQualifiedDoStmtNameN ctxt failMClassOpOcc
+      | rebindableSyntax && overloadedStrings = do
+        (failName, failFvs) <- lookupSyntaxName failMClassOpOcc
         (fromStringExpr, fromStringFvs) <- lookupSyntaxExpr fromStringClassOpOcc
         let arg_lit = mkVarOccFS (fsLit "arg")
         arg_name <- newSysName arg_lit
@@ -2644,7 +1832,7 @@ getMonadFailOp ctxt
         let failAfterFromStringSynExpr :: SyntaxExpr GhcRn =
               mkSyntaxExpr failAfterFromStringExpr
         return (failAfterFromStringSynExpr, failFvs `plusFN` fromStringFvs)
-      | otherwise = lookupQualifiedDoStmtName ctxt failMClassOpOcc
+      | otherwise = lookupStmtName ctxt failMClassOpOcc
 
 
 {- *********************************************************************

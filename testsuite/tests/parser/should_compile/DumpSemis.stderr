@@ -338,8 +338,7 @@
                     (ListNone)
                     []))
                   (EpaSpan { DumpSemis.hs:10:7-8 }))
-                 (DoExpr
-                  (Nothing))
+                 (DoExpr)
                  (L
                   (EpAnn
                    (EpaSpan { DumpSemis.hs:(11,3)-(12,3) })
@@ -377,8 +376,7 @@
                           ,(EpTok
                             (EpaSpan { DumpSemis.hs:11:11 }))]))
                         (EpaSpan { DumpSemis.hs:11:3-4 }))
-                       (DoExpr
-                        (Nothing))
+                       (DoExpr)
                        (L
                         (EpAnn
                          (EpaSpan { DumpSemis.hs:11:8-13 })
@@ -635,8 +633,7 @@
                     ,(EpTok
                       (EpaSpan { DumpSemis.hs:16:8 }))]))
                   (EpaSpan { DumpSemis.hs:15:7-8 }))
-                 (DoExpr
-                  (Nothing))
+                 (DoExpr)
                  (L
                   (EpAnn
                    (EpaSpan { DumpSemis.hs:(16,5)-(18,5) })
@@ -887,8 +884,7 @@
                     ,(EpTok
                       (EpaSpan { DumpSemis.hs:22:13 }))]))
                   (EpaSpan { DumpSemis.hs:22:7-8 }))
-                 (DoExpr
-                  (Nothing))
+                 (DoExpr)
                  (L
                   (EpAnn
                    (EpaSpan { DumpSemis.hs:22:12-28 })

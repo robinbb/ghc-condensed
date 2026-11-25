@@ -1,0 +1,47 @@
+--- a/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
++++ b/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
+@@ -1192,9 +1192,8 @@
+ element fa = withFrozenCallStack $ case toList fa of
+   [] ->
+     error "Hedgehog.Gen.element: used with empty Foldable"
+-  xs -> do
+-    n <- integral $ Range.constant 0 (length xs - 1)
+-    pure $ xs !! n
++  xs ->
++    (xs !!) <$> integral (Range.constant 0 (length xs - 1))
+ 
+ -- | Randomly selects one of the elements in the list.
+ --
+@@ -1206,9 +1205,8 @@
+ element_ l = withFrozenCallStack $ case l of
+   [] ->
+     error "Hedgehog.Gen.element: used with empty list"
+-  xs -> do
+-    n <- integral_ $ Range.constant 0 (length xs - 1)
+-    pure $ xs !! n
++  xs ->
++    (xs !!) <$> integral_ (Range.constant 0 (length xs - 1))
+ 
+ -- | Randomly selects one of the generators in the list.
+ --
+--- a/external-packages/haskell-hedgehog/hedgehog/test/Test/Hedgehog/Applicative.hs
++++ b/external-packages/haskell-hedgehog/hedgehog/test/Test/Hedgehog/Applicative.hs
+@@ -46,15 +46,12 @@
+ 
+ genCommands :: (MonadState Int m, MonadGen m) => m [Var :<- Command]
+ genCommands =
+-  Gen.list (Range.constant 0 3) $ do
+-    var <- genVar
+-    cmd <- genCommand
+-    pure $
+-      var :<- cmd
++  Gen.list (Range.constant 0 3) $
++    (:<-) <$> genVar <*> genCommand
+ 
+ -- | Uncomment to observe invalid Applicative behaviour
+ --
+---   /This actually also works, if you comment out the ApplicativeDo above./
++--   /This actually also works, if you write genCommands with >>= instead of <*>./
+ --
+ xprop_StateT_inside :: Property
+ xprop_StateT_inside =

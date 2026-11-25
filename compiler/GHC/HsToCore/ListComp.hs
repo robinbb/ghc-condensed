@@ -227,7 +227,7 @@ deListComp :: [ExprStmt GhcTc] -> CoreExpr -> DsM CoreExpr
 
 deListComp [] _ = panic "deListComp"
 
-deListComp (LastStmt _ body _ _ : quals) list
+deListComp (LastStmt _ body _ : quals) list
   =     -- Figure 7.4, SLPJ, p 135, rule C above
     assert (null quals) $
     do { core_body <- dsLExpr body
@@ -271,9 +271,6 @@ deListComp (ParStmt _ stmtss_w_bndrs _ _ : quals) list
                     quals list }
 
 deListComp (RecStmt {} : _) _ = panic "deListComp RecStmt"
-
-deListComp (XStmtLR ApplicativeStmt {} : _) _ =
-  panic "deListComp ApplicativeStmt"
 
 deBindComp :: LPat GhcTc
            -> CoreExpr
@@ -337,7 +334,7 @@ dfListComp :: Id -> Id            -- 'c' and 'n'
 
 dfListComp _ _ [] = panic "dfListComp"
 
-dfListComp c_id n_id (LastStmt _ body _ _ : quals)
+dfListComp c_id n_id (LastStmt _ body _ : quals)
   = assert (null quals) $
     do { core_body <- dsLExpr body
        ; return (mkApps (Var c_id) [core_body, Var n_id]) }
@@ -367,8 +364,6 @@ dfListComp c_id n_id (BindStmt _ pat list1 : quals) = do
 
 dfListComp _ _ (ParStmt {} : _) = panic "dfListComp ParStmt"
 dfListComp _ _ (RecStmt {} : _) = panic "dfListComp RecStmt"
-dfListComp _ _ (XStmtLR ApplicativeStmt {} : _) =
-  panic "dfListComp ApplicativeStmt"
 
 dfBindComp :: Id -> Id             -- 'c' and 'n'
            -> (LPat GhcTc, CoreExpr)
@@ -492,7 +487,7 @@ dsMcStmts ((L loc stmt) : lstmts) = putSrcSpanDsA loc (dsMcStmt stmt lstmts)
 ---------------
 dsMcStmt :: ExprStmt GhcTc -> [ExprLStmt GhcTc] -> DsM CoreExpr
 
-dsMcStmt (LastStmt _ body _ ret_op) stmts
+dsMcStmt (LastStmt _ body ret_op) stmts
   = assert (null stmts) $
     do { body' <- dsLExpr body
        ; dsSyntaxExpr ret_op [body'] }
@@ -599,7 +594,6 @@ dsMcStmt (ParStmt bind_ty blocks mzip_op bind_op) stmts_rest
        = do { exp <- dsInnerMonadComp stmts bndrs return_op
             ; return (exp, mkBigCoreVarTupTy bndrs) }
 
-dsMcStmt stmt@(XStmtLR ApplicativeStmt {}) _ = pprPanic "dsMcStmt: unexpected stmt" (ppr stmt)
 dsMcStmt stmt@(RecStmt {}) _ = pprPanic "dsMcStmt: unexpected stmt" (ppr stmt)
 
 matchTuple :: [Id] -> CoreExpr -> DsM CoreExpr
@@ -622,7 +616,7 @@ dsMcBindStmt :: LPat GhcTc
              -> DsM CoreExpr
 dsMcBindStmt pat rhs' bind_op fail_op res1_ty stmts
   = do  { var   <- selectSimpleMatchVarL ManyTy pat
-        ; match <- matchSinglePatVar var Nothing (StmtCtxt (HsDoStmt (DoExpr Nothing))) pat
+        ; match <- matchSinglePatVar var Nothing (StmtCtxt (HsDoStmt DoExpr)) pat
                       res1_ty (MR_Infallible $ dsMcStmts stmts)
             -- NB: dsMcStmts needs to happen inside matchSinglePatVar, and not
             -- before it, so that long-distance information is properly threaded.
@@ -643,7 +637,7 @@ dsInnerMonadComp stmts bndrs ret_op
   = dsMcStmts $
       stmts
         ++
-      [noLocA (LastStmt noExtField (mkBigLHsVarTupId bndrs) Nothing ret_op)]
+      [noLocA (LastStmt noExtField (mkBigLHsVarTupId bndrs) ret_op)]
 
 
 -- The `unzip` function for `GroupStmt` in a monad comprehensions

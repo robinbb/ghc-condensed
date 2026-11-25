@@ -934,8 +934,8 @@ the tail call property.  For example, see #3403.
 -}
 
 dsHandleMonadicFailure :: HsDoFlavour -> LPat GhcTc -> Type -> MatchResult CoreExpr -> FailOperator GhcTc -> DsM CoreExpr
-    -- In an ApplicativeDo expression, pattern-match failure just calls the
-    -- monadic 'fail' rather than throwing an exception.
+    -- In a do block, pattern-match failure just calls the monadic 'fail'
+    -- rather than throwing an exception.
 dsHandleMonadicFailure ctx pat res_ty match m_fail_op =
   case shareFailureHandler match of
     MR_Infallible body -> body
@@ -948,8 +948,8 @@ dsHandleMonadicFailure ctx pat res_ty match m_fail_op =
         -- have fallible bindings without an explicit failure op, but this is
         -- handled elsewhere. See Note [Failing pattern matches in Stmts] the
         -- breakdown of regular and special binds.
-        -- It *is* possible to land here for infallible Or patterns in
-        -- ApplicativeDo, because their desugaring to ViewPatterns leads
+        -- It *is* possible to land here for infallible Or patterns,
+        -- because their desugaring to ViewPatterns leads
         -- to a MR_Fallible match. But irrefutability is easily asserted:
         Nothing -> do
           massertPpr (isIrrefutableHsPat strict (irrefutableConLikeTc comps) pat) $
@@ -957,8 +957,7 @@ dsHandleMonadicFailure ctx pat res_ty match m_fail_op =
             text "is failable, and fail_expr was left unset"
           -- In this case we likely desugar the pattern-match in something like
           --   do (~True; False) <- m; stmts
-          -- just presume a fail_expr like in the desugaring of lambdas;
-          -- that's the non-ApplicativeDo code path
+          -- just presume a fail_expr like in the desugaring of lambdas.
           mkErrorAppDs pAT_ERROR_ID res_ty (matchDoContextErrString ctx)
         Just fail_op -> do
           mk_str <- getMkStringIds dsLookupKnownKeyId

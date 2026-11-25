@@ -18,7 +18,7 @@ quoteClassOcc = mkTcOcc "Quote"
 
 qTyConOcc, nameTyConOcc, fieldExpTyConOcc, patTyConOcc, fieldPatTyConOcc,
   expTyConOcc, decTyConOcc, typeTyConOcc, matchTyConOcc, funDepTyConOcc,
-  codeTyConOcc, injAnnTyConOcc, overlapTyConOcc, decsTyConOcc, modNameTyConOcc,
+  codeTyConOcc, injAnnTyConOcc, overlapTyConOcc, decsTyConOcc,
   quasiQuoterTyConOcc :: KnownOcc
 qTyConOcc             = mkTcOcc "Q"
 nameTyConOcc          = mkTcOcc "Name"
@@ -34,14 +34,13 @@ funDepTyConOcc        = mkTcOcc "FunDep"
 codeTyConOcc          = mkTcOcc "Code"
 injAnnTyConOcc        = mkTcOcc "InjectivityAnn"
 overlapTyConOcc       = mkTcOcc "Overlap"
-modNameTyConOcc       = mkTcOcc "ModName"
 quasiQuoterTyConOcc   = mkTcOcc "QuasiQuoter"
 
 sequenceQOcc :: KnownOcc
 sequenceQOcc = mkVarOcc "sequenceQ"
 
 newNameOcc, mkNameG_vOcc, mkNameG_fldOcc, mkNameG_dOcc, mkNameG_tcOcc,
-  mkNameLOcc, mkNameSOcc, unTypeCodeOcc, mkModNameOcc, mkNameQOcc :: KnownOcc
+  mkNameLOcc, mkNameSOcc, unTypeCodeOcc, mkNameQOcc :: KnownOcc
 newNameOcc    = mkVarOcc "newName"
 mkNameG_vOcc  = mkVarOcc "mkNameG_v"
 mkNameG_dOcc  = mkVarOcc "mkNameG_d"
@@ -50,7 +49,6 @@ mkNameG_fldOcc= mkVarOcc "mkNameG_fld"
 mkNameLOcc    = mkVarOcc "mkNameL"
 mkNameQOcc    = mkVarOcc "mkNameQ"
 mkNameSOcc    = mkVarOcc "mkNameS"
-mkModNameOcc  = mkVarOcc "mkModName"
 unTypeCodeOcc = mkVarOcc "unTypeCode"
 
 liftIdOcc, unsafeCodeCoerceOcc :: KnownOcc

@@ -177,7 +177,6 @@ import Data.Data       ( dataTypeOf, fromConstr, dataTypeConstrs )
 import Data.Kind       ( Type )
 import Data.List.NonEmpty ( NonEmpty (..) )
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 
 {- **********************************************************************
 
@@ -1165,7 +1164,7 @@ checkCmdBlockArguments :: LHsCmd GhcPs -> PV ()
   where
     checkExpr :: LHsExpr GhcPs -> PV ()
     checkExpr expr = case unLoc expr of
-      HsDo _ (DoExpr m) _      -> check (PsErrDoInFunAppExpr m)               expr
+      HsDo _ DoExpr _          -> check PsErrDoInFunAppExpr                   expr
       HsCase {}                -> check PsErrCaseInFunAppExpr                 expr
       HsLam _ lam_variant _    -> check (PsErrLambdaInFunAppExpr lam_variant) expr
       HsLet {}                 -> check PsErrLetInFunAppExpr                  expr
@@ -1764,7 +1763,7 @@ class (b ~ (Body b) GhcPs, AnnoBody b) => DisambECP b where
          -> PV (LocatedA b)
   -- | Disambiguate "do { ... }" (do notation)
   mkHsDoPV ::
-    SrcSpan -> DoAnn -> Maybe HsModuleName -> LocatedA [LStmt GhcPs (LocatedA b)] ->
+    SrcSpan -> DoAnn -> LocatedA [LStmt GhcPs (LocatedA b)] ->
     PV (LocatedA b)
   -- | Disambiguate "( ... )" (parentheses)
   mkHsParPV :: SrcSpan -> EpToken "(" -> LocatedA b -> EpToken ")" -> PV (LocatedA b)
@@ -1914,10 +1913,9 @@ instance DisambECP (HsCmd GhcPs) where
     checkDoAndIfThenElse PsErrSemiColonsInCondCmd c semi1 a semi2 b
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (mkHsCmdIf c a b anns)
-  mkHsDoPV l ann Nothing stmts = do
+  mkHsDoPV l ann stmts = do
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (HsCmdDo ann stmts)
-  mkHsDoPV l _ (Just m) _ = addFatalError $ mkPlainErrorMsgEnvelope l $ PsErrQualifiedDoInCmd m
   mkHsParPV l lpar c rpar = do
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (HsCmdPar (lpar, rpar) c)
@@ -2013,9 +2011,9 @@ instance DisambECP (HsExpr GhcPs) where
     checkDoAndIfThenElse PsErrSemiColonsInCondExpr c semi1 a semi2 b
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (mkHsIf c a b anns)
-  mkHsDoPV l ann mod stmts = do
+  mkHsDoPV l ann stmts = do
     !cs <- getCommentsFor l
-    return $ L (EpAnn (spanAsAnchor l) noAnn cs) (HsDo ann (DoExpr mod) stmts)
+    return $ L (EpAnn (spanAsAnchor l) noAnn cs) (HsDo ann DoExpr stmts)
   mkHsParPV l lpar e rpar = do
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (HsPar (lpar, rpar) e)
@@ -2111,7 +2109,7 @@ instance DisambECP (PatBuilder GhcPs) where
     !cs <- getCommentsFor (locA l)
     return $ L (addCommentsToEpAnn l cs) (PatBuilderAppType p at (mkHsTyPat t))
   mkHsIfPV l _ _ _ _ _ _ = addFatalError $ mkPlainErrorMsgEnvelope l PsErrIfThenElseInPat
-  mkHsDoPV l _ _ _       = addFatalError $ mkPlainErrorMsgEnvelope l PsErrDoNotationInPat
+  mkHsDoPV l _ _         = addFatalError $ mkPlainErrorMsgEnvelope l PsErrDoNotationInPat
   mkHsParPV l lpar p rpar   = return $ L (noAnnSrcSpan l) (PatBuilderPar lpar p rpar)
   mkHsVarPV v@(getLoc -> l) = return $ L (l2l l) (PatBuilderVar v)
   mkHsLitPV lit@(L l a) = do

@@ -400,8 +400,7 @@
                                 (ListNone)
                                 []))
                               (EpaSpan { Test20297.hs:11:19-20 }))
-                             (DoExpr
-                              (Nothing))
+                             (DoExpr)
                              (L
                               (EpAnn
                                (EpaSpan { Test20297.hs:11:22-26 })
@@ -824,8 +823,7 @@
                                 (ListNone)
                                 []))
                               (EpaSpan { Test20297.ppr.hs:9:17-18 }))
-                             (DoExpr
-                              (Nothing))
+                             (DoExpr)
                              (L
                               (EpAnn
                                (EpaSpan { Test20297.ppr.hs:9:20-24 })

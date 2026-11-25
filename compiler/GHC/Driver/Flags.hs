@@ -109,7 +109,6 @@ extensionName = \case
   LangExt.Arrows -> "Arrows"                   -- Arrow-notation syntax
   LangExt.TemplateHaskell -> "TemplateHaskell"
   LangExt.TemplateHaskellQuotes -> "TemplateHaskellQuotes"    -- subset of TH supported by stage1, no splice
-  LangExt.QualifiedDo -> "QualifiedDo"
   LangExt.QuasiQuotes -> "QuasiQuotes"
   LangExt.ImplicitParams -> "ImplicitParams"
   LangExt.ImplicitPrelude -> "ImplicitPrelude"
@@ -135,7 +134,6 @@ extensionName = \case
   LangExt.RebindableSyntax -> "RebindableSyntax"
   LangExt.ConstraintKinds -> "ConstraintKinds"
   LangExt.TypeData -> "TypeData"                 -- allow @type data@ definitions
-  LangExt.ApplicativeDo -> "ApplicativeDo"
   LangExt.Modifiers -> "Modifiers"
   LangExt.LinearTypes -> "LinearTypes"
   LangExt.RequiredTypeArguments -> "RequiredTypeArguments"    -- Visible forall (VDQ) in types of terms
@@ -683,7 +681,6 @@ data GeneralFlag
                                      -- built by the typechecker's rewriter.
                                      -- See Note [Coercion zapping] in GHC.Tc.Solver.Rewrite
    | Opt_ExternalInterpreter
-   | Opt_OptimalApplicativeDo
    | Opt_VersionMacros
    | Opt_WholeArchiveHsLibs
    -- copy all libs into a single folder prior to linking binaries

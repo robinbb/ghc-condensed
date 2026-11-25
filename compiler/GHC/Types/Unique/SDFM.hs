@@ -1,4 +1,3 @@
-{-# LANGUAGE ApplicativeDo #-}
 {-# OPTIONS_GHC -Wall #-}
 
 -- | Like a 'UniqDFM', but maintains equivalence classes of keys sharing the
@@ -108,9 +107,7 @@ traverseUSDFM f = fmap (USDFM . listToUDFM_Directly) . traverse g . udfmToList .
   where
     g :: (Unique, Shared key a) -> f (Unique, Shared key b)
     g (u, Indirect y) = pure (u,Indirect y)
-    g (u, Entry a)    = do
-        a' <- f a
-        pure (u,Entry a')
+    g (u, Entry a)    = (\a' -> (u, Entry a')) <$> f a
 
 instance (Outputable key, Outputable ele) => Outputable (Shared key ele) where
   ppr (Indirect x) = ppr x

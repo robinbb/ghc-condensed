@@ -126,7 +126,7 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -204,30 +201,21 @@
+@@ -204,34 +201,24 @@
    TH.CApiFFI                           -> Just Exts.CApiFFI
    TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
    TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
@@ -157,7 +157,11 @@
    TH.RecordWildCards                   -> Just Exts.RecordWildCards
  #if __GLASGOW_HASKELL__ >= 904
    TH.NamedFieldPuns                    -> Just Exts.RecordPuns
-@@ -244,17 +232,11 @@
+-  TH.QualifiedDo                       -> Nothing
+   TH.UnliftedDatatypes -> Nothing
+   TH.LinearTypes -> Nothing
+   TH.LexicalNegation -> Nothing
+@@ -244,17 +231,10 @@
    TH.ViewPatterns                      -> Just Exts.ViewPatterns
    TH.GADTs                             -> Just Exts.GADTs
    TH.GADTSyntax                        -> Nothing
@@ -168,14 +172,14 @@
 -  TH.PolyKinds                         -> Just Exts.PolyKinds
 -  TH.DataKinds                         -> Just Exts.DataKinds
 -  TH.InstanceSigs                      -> Just Exts.InstanceSigs
-   TH.ApplicativeDo                     -> Nothing
+-  TH.ApplicativeDo                     -> Nothing
    TH.StandaloneDeriving                -> Just Exts.StandaloneDeriving
 -  TH.DeriveDataTypeable                -> Just Exts.DeriveDataTypeable
 -  TH.AutoDeriveTypeable                -> Nothing
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,35 +248,23 @@
+@@ -266,35 +246,23 @@
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -211,7 +215,7 @@
    TH.RelaxedLayout                     -> Nothing
    TH.TraditionalRecordSyntax           -> Nothing
    TH.LambdaCase                        -> Just Exts.LambdaCase
-@@ -346,13 +316,11 @@
+@@ -346,13 +314,11 @@
  #endif
  
    TH.NumericUnderscores                -> Nothing
@@ -225,7 +229,7 @@
    TH.StandaloneKindSignatures          -> Nothing
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
-@@ -362,12 +330,6 @@
+@@ -362,12 +328,6 @@
  #endif
  #endif
  
@@ -238,3 +242,14 @@
  -- 2.20.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,20,0)
+--- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
++++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
+@@ -272,7 +272,7 @@
+   toExp (Exts.If _ a b c)              = TH.CondE (toExp a) (toExp b) (toExp c)
+   toExp (Exts.MultiIf _ ifs)           = TH.MultiIfE (map toGuard ifs)
+   toExp (Exts.Case _ e alts)           = TH.CaseE (toExp e) (map toMatch alts)
+-#if MIN_VERSION_template_haskell(2,17,0)
++#if MIN_VERSION_template_haskell(2,17,0) && !MIN_VERSION_template_haskell(2,25,0)
+   toExp (Exts.Do _ ss)                 = TH.DoE Nothing (map toStmt ss)
+ #else
+   toExp (Exts.Do _ ss)                 = TH.DoE (map toStmt ss)

@@ -8,8 +8,6 @@ Syntax
 
     unicode_syntax
     magic_hash
-    applicative_do
-    qualified_do
     parallel_list_comprehensions
     generalised_list_comprehensions
     monad_comprehensions

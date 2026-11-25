@@ -461,8 +461,6 @@ test('T15360b', normal, compile_fail, [''])
 test('T15362', normal, compile_fail,['-v0'])
 # Note: T9693 should be only_ways(['ghci']) once it's fixed.
 test('T9693', expect_broken(9693), ghci_script, ['T9693.script'])
-test('T14471', normal, compile, [''])
-test('TH_rebindableAdo', normal, compile, [''])
 test('T14627', normal, compile_fail, [''])
 test('TH_invalid_add_top_decl', normal, compile_fail, [''])
 test('TH_InvalidTopDecl', normal, compile_fail, [''])

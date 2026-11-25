@@ -95,7 +95,6 @@ import GHC.Data.FastString (fastStringToShortText)
 import Control.Monad
 import qualified Data.List.NonEmpty as NE
 
-import qualified GHC.LanguageExtensions as LangExt
 
 {-
 ************************************************************************
@@ -549,15 +548,11 @@ tcExpr (HsMultiIf _ alts) res_ty
        ; return (HsMultiIf res_ty alts') }
 
 tcExpr (HsDo _ do_or_lc stmts) res_ty
-  | DoExpr{} <- do_or_lc
-  -- ApplicativeDo are typechecked using tcDoStmts
-  = do isApplicativeDo <- xoptM LangExt.ApplicativeDo
-       if isApplicativeDo
-         then tcDoStmts do_or_lc stmts res_ty
-         -- Expand expression on the fly otherwise
-         -- See Note [Typechecking by expansion: overview]
-         else do { hse <- expandDoStmts do_or_lc stmts
-                 ; tcHsExpansion hse res_ty }
+  | DoExpr <- do_or_lc
+  -- Expand the do block on the fly
+  -- See Note [Typechecking by expansion: overview]
+  = do { hse <- expandDoStmts do_or_lc stmts
+       ; tcHsExpansion hse res_ty }
   | otherwise
   -- ListComp and MonadComp are handled by legacy tcDoStmts for now,
   -- The ultimate goal is to handle them via expandDoStmts.

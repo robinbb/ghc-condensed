@@ -861,7 +861,7 @@ dsCmdDo _ _ _ [] _ = panic "dsCmdDo"
 --
 --              ---> premap (\ (xs) -> ((xs), ())) c
 
-dsCmdDo ids local_vars res_ty [L _ (LastStmt _ body _ _)] env_ids = do
+dsCmdDo ids local_vars res_ty [L _ (LastStmt _ body _)] env_ids = do
     (core_body, env_ids') <- dsLCmd ids local_vars unitTy res_ty body env_ids
     let env_ty = mkBigCoreVarTupTy env_ids
     env_var <- newSysLocalMDs env_ty
@@ -977,10 +977,10 @@ dsCmdStmt ids local_vars out_ids (BindStmt _ pat cmd) env_ids = do
     out_tup   <- mkBigCoreVarTup BoxedElements out_ids
     body_expr <- coreCaseTuple env_id env_ids2 out_tup
 
-    fail_expr <- mkFailExpr (StmtCtxt (HsDoStmt (DoExpr Nothing))) out_ty
+    fail_expr <- mkFailExpr (StmtCtxt (HsDoStmt DoExpr)) out_ty
     pat_id    <- selectSimpleMatchVarL ManyTy pat
     match_code
-      <- matchSimply (Var pat_id) (StmtCtxt (HsDoStmt (DoExpr Nothing))) ManyTy pat body_expr fail_expr
+      <- matchSimply (Var pat_id) (StmtCtxt (HsDoStmt DoExpr)) ManyTy pat body_expr fail_expr
     pair_id   <- newSysLocalMDs after_c_ty
     let
         proj_expr = Lam pair_id (coreCasePair pair_id pat_id env_id match_code)

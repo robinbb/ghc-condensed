@@ -3298,20 +3298,12 @@ instance ExactPrint (HsExpr GhcPs) where
 exactDo :: (Monad m, Monoid w, ExactPrint (LocatedAn an a))
         => DoAnn -> HsDoFlavour -> LocatedAn an a
         -> EP w m (DoAnn, LocatedAn an a)
-exactDo (an,l) (DoExpr m)    stmts = exactDoKeyword l m "do" >>=
+exactDo (an,l) DoExpr        stmts = printStringAtAA l "do" >>=
                                    \l0 -> markMaybeDodgyStmts (an,l0) stmts
 exactDo (an,l) GhciStmtCtxt  stmts = printStringAtAA l "do" >>=
                                    \l0 -> markMaybeDodgyStmts (an,l0) stmts
 exactDo (an,l) ListComp      stmts = markMaybeDodgyStmts (an,l) stmts
 exactDo (an,l) MonadComp     stmts = markMaybeDodgyStmts (an,l) stmts
-
-exactDoKeyword :: (Monad m, Monoid w)
-  => EpaLocation -> Maybe HsModuleName -> String -> EP w m EpaLocation
--- exactDoKeyword an Nothing            kw = markLensFun an lal_rest (\l -> printStringAtAA l kw)
-exactDoKeyword l Nothing            kw = printStringAtAA l kw
-exactDoKeyword l (Just module_name) kw = printStringAtAA l n
-    where
-      n = (hsModuleNameString module_name) ++ "." ++ kw
 
 markMaybeDodgyStmts :: (Monad m, Monoid w, ExactPrint (LocatedAn an a))
   => DoAnn -> LocatedAn an a -> EP w m (DoAnn, LocatedAn an a)
@@ -3627,10 +3619,10 @@ instance (
   getAnnotationEntry _ = NoEntryVal
   setAnnotationAnchor a _ _ _s = a
 
-  exact (LastStmt a body b c) = do
+  exact (LastStmt a body c) = do
     debugM $ "LastStmt"
     body' <- markAnnotated body
-    return (LastStmt a body' b c)
+    return (LastStmt a body' c)
 
   exact (BindStmt an pat body) = do
     debugM $ "BindStmt"
@@ -4687,7 +4679,7 @@ instance ExactPrint [LocatedA (StmtLR GhcPs GhcPs (LocatedA (HsExpr GhcPs)))] wh
   exact stmts = do
     debugM $ "LocatedL [ExprLStmt"
     case snocView stmts of
-      Just (initStmts, ls@(L _ (LastStmt _ _body _ _))) -> do
+      Just (initStmts, ls@(L _ (LastStmt _ _body _))) -> do
         debugM $ "LocatedL [ExprLStmt: snocView"
         ls' <- markAnnotated ls
         initStmts' <- markAnnotated initStmts
@@ -4703,7 +4695,7 @@ instance ExactPrint [LocatedA (StmtLR GhcPs GhcPs (LocatedA (HsCmd GhcPs)))] whe
   exact stmts = do
     debugM $ "LocatedL [ExprLStmt"
     case snocView stmts of
-      Just (initStmts, ls@(L _ (LastStmt _ _body _ _))) -> do
+      Just (initStmts, ls@(L _ (LastStmt _ _body _))) -> do
         debugM $ "LocatedL [ExprLStmt: snocView"
         ls' <- markAnnotated ls
         initStmts' <- mapM markAnnotated initStmts

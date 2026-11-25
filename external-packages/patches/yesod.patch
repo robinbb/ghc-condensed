@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/yesod/Yesod/Default/Util.hs
++++ b/external-packages/vendored/yesod/Yesod/Default/Util.hs
+@@ -117,7 +117,7 @@
+             , show file
+             , ", but no templates were found."
+             ]
+-#if MIN_VERSION_template_haskell(2,17,0)
++#if MIN_VERSION_template_haskell(2,17,0) && !MIN_VERSION_template_haskell(2,25,0)
+         exps -> return $ DoE Nothing $ map NoBindS exps
+ #else
+         exps -> return $ DoE $ map NoBindS exps

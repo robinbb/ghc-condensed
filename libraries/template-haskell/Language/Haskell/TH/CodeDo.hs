@@ -1,12 +1,14 @@
--- | This module exists to work nicely with the QualifiedDo
--- extension.
+-- | This module provides the operators that let do-notation bind the
+-- result of a monadic computation into a 'Code' under @RebindableSyntax@.
 --
 -- @
--- import qualified Language.Haskell.TH.CodeDo as Code
+-- {-\# LANGUAGE RebindableSyntax \#-}
+-- import Prelude hiding ((>>=), (>>))
+-- import Language.Haskell.TH.CodeDo
 --
 -- myExample :: Monad m => Code m a -> Code m a -> Code m a
 -- myExample opt1 opt2 =
---   Code.do
+--   do
 --    x <- someSideEffect               -- This one is of type `M Bool`
 --    if x then opt1 else opt2
 -- @

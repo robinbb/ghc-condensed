@@ -198,11 +198,9 @@ pprExp i (LetE ds_ e) = parensIf (i > noPrec) $ text "let" <+> pprDecs ds_
 pprExp i (CaseE e ms)
  = parensIf (i > noPrec) $ text "case" <+> ppr e <+> text "of"
                         $$ braces (semiSep ms)
-pprExp i (DoE m ss_) = parensIf (i > noPrec) $
-    pprQualifier m <> text "do" <+> pprStms ss_
+pprExp i (DoE ss_) = parensIf (i > noPrec) $
+    text "do" <+> pprStms ss_
   where
-    pprQualifier Nothing = empty
-    pprQualifier (Just modName) = text (modString modName) <> char '.'
     pprStms []  = empty
     pprStms [s] = ppr s
     pprStms ss  = braces (semiSep ss)

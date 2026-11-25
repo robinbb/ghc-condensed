@@ -74,7 +74,6 @@ mk/ghcconfig*_test___spaces_ghc*.exe.mk
 
 /ghc-config/ghc-config
 
-/tests/ado/ado001
 /tests/annotations/should_compile/th/build_make
 /tests/annotations/should_run/Config.hs
 /tests/annotations/should_run/annrun01

@@ -1167,8 +1167,6 @@ the typechecker:
     to ol_from_fun.
   * HsQualLit, where we return an empty list, since we rename to the qualified
     function call entirely before the typechecking phase.
-  * HsDo, where we give the SrcSpan of the entire do block to each
-    ApplicativeStmt.
   * Expanded (via ExpandedThingRn) ExplicitList{}, where we give the SrcSpan of the original
     list expression to the expanded expression. The 'fromListN' is assigned
     a generated location span with location span details to be of the original list expression
@@ -1393,7 +1391,7 @@ instance ( ToHie (LocatedA (body (GhcPass p)))
          , HiePass p
          ) => ToHie (RScoped (LocatedA (Stmt (GhcPass p) (LocatedA (body (GhcPass p)))))) where
   toHie (RS scope (L span stmt)) = concatM $ node : case stmt of
-      LastStmt _ body _ _ ->
+      LastStmt _ body _ ->
         [ toHie body
         ]
       BindStmt monad pat body ->
@@ -1423,20 +1421,10 @@ instance ( ToHie (LocatedA (body (GhcPass p)))
       RecStmt {recS_stmts = L _ stmts} ->
         [ toHie $ map (RS $ combineScopes scope (mkScope (locA span))) stmts
         ]
-      XStmtLR x -> case hiePass @p of
-        HieRn -> extApplicativeStmt x
-        HieTc -> extApplicativeStmt x
     where
       node = case hiePass @p of
         HieTc -> makeNodeA stmt span
         HieRn -> makeNodeA stmt span
-      extApplicativeStmt :: ApplicativeStmt (GhcPass p) (GhcPass p) -> [ReaderT NodeOrigin (State HieState) [HieAST Type]]
-      extApplicativeStmt (ApplicativeStmt _ stmts _) =
-        [ concatMapM (toHie . RS scope . snd) stmts
-        , let applicative_or_functor = map fst stmts
-           in whenPostTcGen @p $
-                concatMapM (toHieSyntax . L span) applicative_or_functor
-        ]
 
 instance HiePass p => ToHie (RScoped (HsLocalBinds (GhcPass p))) where
   toHie (RS scope binds) = concatM $ makeNode binds (spanHsLocaLBinds binds) : case binds of
@@ -1525,16 +1513,6 @@ instance HiePass p => ToHie (RFContext (LocatedA (FieldOcc (GhcPass p)))) where
           FieldOcc _ fld ->
             [toHie $ C (RecField c rhs) (L (locA nspan) $ unLoc fld)]
 
-
-instance HiePass p => ToHie (RScoped (ApplicativeArg (GhcPass p))) where
-  toHie (RS sc (ApplicativeArgOne _ pat expr _)) = concatM
-    [ toHie $ PS Nothing sc NoScope pat
-    , toHie expr
-    ]
-  toHie (RS sc (ApplicativeArgMany _ stmts _ pat _)) = concatM
-    [ toHie $ listScopes NoScope stmts
-    , toHie $ PS Nothing sc NoScope pat
-    ]
 
 instance (ToHie arg, ToHie rec) => ToHie (HsConDetails (GhcPass p) arg rec) where
   toHie (PrefixCon _ args) = toHie args

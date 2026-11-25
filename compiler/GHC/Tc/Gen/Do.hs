@@ -65,13 +65,9 @@ expand_do_stmts _ (stmt@(L _ (ParStmt {})):_) =
   pprPanic "expand_do_stmts: ParStmt" $ ppr stmt
   -- handeled by `GHC.Tc.Gen.Match.tcLcStmt`
 
-expand_do_stmts _ (stmt@(L _ (XStmtLR ApplicativeStmt{})): _) =
-  pprPanic "expand_do_stmts: Applicative Stmt" $ ppr stmt
-  -- Handeled by tcSyntaxOp see `GHC.Tc.Gen.Match.tcStmtsAndThen`
-
 expand_do_stmts _ [] = pprPanic "expand_do_stmts: impossible happened. Empty stmts" empty
 
-expand_do_stmts flav [stmt@(L sloc (LastStmt _ body@(L body_loc _) _ ret_expr))]
+expand_do_stmts flav [stmt@(L sloc (LastStmt _ body@(L body_loc _) ret_expr))]
 -- See  Note [Expanding HsDo with XXExprGhcRn] Equation (5) below
 -- last statement of a list comprehension, needs to explicitly return it
 -- See `checkLastStmt` and `Syntax.Expr.StmtLR.LastStmt`
@@ -202,9 +198,8 @@ what the programmer has written. In practice, however, this didn't work very wel
   to fix (#14963, #15598, #21206 and others)
 
 * The typechecker expected the `>>=` operator to have a type that matches
-  `m _ -> (_ -> m _) -> m _` for some `m`. With `RebindableSyntax` or
-  `QualifiedDo` the `>>=` operator might not have the
-  standard type. It might have a type like
+  `m _ -> (_ -> m _) -> m _` for some `m`. With `RebindableSyntax` the `>>=`
+  operator might not have the standard type. It might have a type like
 
       (>>=) :: Wombat m => m a1 a2 b -> (b -> m a2 a3 c) -> m a1 a3 c
 

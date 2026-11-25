@@ -724,8 +724,7 @@ are the most common patterns, rewritten as regular expressions for clarity:
  QCONSYM        { L _ (ITqconsym  _) }
 
 
- -- QualifiedDo
- DO             { L _ (ITdo  _) }
+ DO             { L _ ITdo }
 
  IPDUPVARID     { L _ (ITdupipvarid   _) }              -- GHC extension
  LABELVARID     { L _ (ITlabelvarid _ _) }
@@ -3125,14 +3124,10 @@ aexp    :: { ECP }
                                                $4 >>= \ $4 ->
                                                mkHsCasePV (comb3 $1 $3 $4) $2 $4
                                                     (EpAnnHsCase (epTok $1) (epTok $3)) }
-        -- QualifiedDo.
-        | DO  stmtlist               {% do
-                                      hintQualifiedDo $1
-                                      return $ ECP $
+        | DO  stmtlist               { ECP $
                                         $2 >>= \ $2 ->
                                         mkHsDoPV (comb2 $1 $2)
                                                  (Right $ stmtlistAnns $2, glR $1)
-                                                 (fmap HsModuleName $ getDO $1)
                                                  (stmtlistStmts $2) }
         | 'proc' aexp '->' exp
                        {% (checkPattern <=< runPV) (unECP $2) >>= \ p ->
@@ -4250,7 +4245,6 @@ getVARID          (L _ (ITvarid    x)) = x
 getCONID          (L _ (ITconid    x)) = x
 getVARSYM         (L _ (ITvarsym   x)) = x
 getCONSYM         (L _ (ITconsym   x)) = x
-getDO             (L _ (ITdo      x)) = x
 getQVARID         (L _ (ITqvarid   x)) = x
 getQCONID         (L _ (ITqconid   x)) = x
 getQVARSYM        (L _ (ITqvarsym  x)) = x
@@ -4511,22 +4505,6 @@ hintMultiWayIf :: SrcSpan -> P ()
 hintMultiWayIf span = do
   mwiEnabled <- getBit MultiWayIfBit
   unless mwiEnabled $ addError $ mkPlainErrorMsgEnvelope span PsErrMultiWayIf
-
--- Hint about qualified-do
-hintQualifiedDo :: Located Token -> P ()
-hintQualifiedDo tok = do
-    qualifiedDo <- getBit QualifiedDoBit
-    unless qualifiedDo $
-      maybe
-        (return ())
-        (\qdoDoc ->
-          addError $ mkPlainErrorMsgEnvelope (getLoc tok) $
-            (PsErrIllegalQualifiedDo qdoDoc))
-        maybeQDoDoc
-  where
-    maybeQDoDoc = case unLoc tok of
-      ITdo (Just m) -> Just $ ppr m <> text ".do"
-      t -> Nothing
 
 -- Hint about MultilineStrings
 --

@@ -108,7 +108,7 @@ module Language.Haskell.TH where
     | MultiIfE [(Guard, Exp)]
     | LetE [Dec] Exp
     | CaseE Exp [Match]
-    | DoE (GHC.Internal.Maybe.Maybe GHC.Internal.TH.Syntax.ModName) [Stmt]
+    | DoE [Stmt]
     | CompE [Stmt]
     | ArithSeqE Range
     | ListE [Exp]
@@ -147,7 +147,6 @@ module Language.Haskell.TH where
     | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
-    | QualifiedDo
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
@@ -173,7 +172,6 @@ module Language.Haskell.TH where
     | RebindableSyntax
     | ConstraintKinds
     | TypeData
-    | ApplicativeDo
     | LinearTypes
     | Modifiers
     | RequiredTypeArguments
@@ -728,7 +726,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
-    | QualifiedDo
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
@@ -754,7 +751,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | RebindableSyntax
     | ConstraintKinds
     | TypeData
-    | ApplicativeDo
     | LinearTypes
     | Modifiers
     | RequiredTypeArguments
@@ -1406,7 +1402,7 @@ module Language.Haskell.TH.Syntax where
     | MultiIfE [(Guard, Exp)]
     | LetE [Dec] Exp
     | CaseE Exp [Match]
-    | DoE (GHC.Internal.Maybe.Maybe ModName) [Stmt]
+    | DoE [Stmt]
     | CompE [Stmt]
     | ArithSeqE Range
     | ListE [Exp]
@@ -1443,7 +1439,6 @@ module Language.Haskell.TH.Syntax where
     | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
-    | QualifiedDo
     | QuasiQuotes
     | ImplicitParams
     | ImplicitPrelude
@@ -1469,7 +1464,6 @@ module Language.Haskell.TH.Syntax where
     | RebindableSyntax
     | ConstraintKinds
     | TypeData
-    | ApplicativeDo
     | LinearTypes
     | Modifiers
     | RequiredTypeArguments

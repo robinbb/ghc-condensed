@@ -95,7 +95,6 @@ import Data.Function
 import Control.Monad.Trans.Reader
 import Control.Monad.Trans.Class
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 
 data MetaWrappers = MetaWrappers {
       -- Applies its argument to a type argument `m` and dictionary `Quote m`
@@ -1644,10 +1643,9 @@ repE (HsLet _ bs e)       = do { (ss,ds) <- repBinds bs
 
 -- FIXME: I haven't got the types here right yet
 repE e@(HsDo _ ctxt (L _ sts))
- | Just maybeModuleName <- case ctxt of
-     { DoExpr m -> Just m; GhciStmtCtxt -> Just Nothing; _ -> Nothing }
+ | is_do ctxt
  = do { (ss,zs) <- repLSts sts;
-        e'      <- repDoE maybeModuleName (nonEmptyCoreList zs);
+        e'      <- repDoE (nonEmptyCoreList zs);
         wrapGenSyms ss e' }
 
  | ListComp <- ctxt
@@ -1657,6 +1655,10 @@ repE e@(HsDo _ ctxt (L _ sts))
 
   | otherwise
   = notHandled (ThMonadComprehensionSyntax e)
+  where
+    is_do DoExpr       = True
+    is_do GhciStmtCtxt = True
+    is_do _            = False
 
 repE (ExplicitList _ es) = do { xs <- repLEs es; repListExp xs }
 repE (ExplicitTuple _ es boxity) =
@@ -1892,7 +1894,7 @@ repUpdFields = repListM fieldExpTyConOcc rep_fld
 --
 -- do { x'1 <- gensym "x"
 --    ; x'2 <- gensym "x"
---    ; doE Nothing
+--    ; doE
 --          [ BindSt (pvar x'1) [| f 1 |]
 --          , BindSt (pvar x'2) [| f x |]
 --          , NoBindSt [| g x |]
@@ -1944,7 +1946,7 @@ repSts (ParStmt _ stmt_blocks _ _ : ss) =
        do { (ss1, zs) <- repSts (map unLoc stmts)
           ; zs1 <- coreListM stmtTyConOcc zs
           ; return (ss1, zs1) }
-repSts [LastStmt _ e _ _]
+repSts [LastStmt _ e _]
   = do { e2 <- repLE e
        ; z <- repNoBindSt e2
        ; return ([], [z]) }
@@ -2590,21 +2592,8 @@ repLetE (MkC ds) (MkC e) = krep2 letEOcc [ds, e]
 repCaseE :: Core (M TH.Exp) -> Core [(M TH.Match)] -> MetaM (Core (M TH.Exp))
 repCaseE (MkC e) (MkC ms) = krep2 caseEOcc [e, ms]
 
-repDoE :: Maybe HsModuleName -> Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
-repDoE = repDoBlock doEOcc
-
-repDoBlock :: KnownOcc -> Maybe HsModuleName -> Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
-repDoBlock doName maybeModName (MkC ss) = do
-    MkC coreModName <- coreModNameM
-    krep2 doName [coreModName, ss]
-  where
-    coreModNameM :: MetaM (Core (Maybe TH.ModName))
-    coreModNameM = case maybeModName of
-      Just m -> do
-        MkC s <- lift $ coreStringLit (moduleNameFS (hsModuleName m))
-        mName <- rep2_nw mkModNameOcc [s]
-        coreJust modNameTyConOcc mName
-      _ -> coreNothing modNameTyConOcc
+repDoE :: Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
+repDoE (MkC ss) = krep2 doEOcc [ss]
 
 repComp :: Core [(M TH.Stmt)] -> MetaM (Core (M TH.Exp))
 repComp (MkC ss) = krep2 compEOcc [ss]

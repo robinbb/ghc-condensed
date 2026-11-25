@@ -1,4 +1,3 @@
-{-# LANGUAGE ApplicativeDo       #-}
 {-# LANGUAGE ViewPatterns        #-}
 {-# LANGUAGE MultiWayIf          #-}
 {-# LANGUAGE TypeFamilies        #-}

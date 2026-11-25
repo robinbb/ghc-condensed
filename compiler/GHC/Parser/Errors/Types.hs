@@ -15,7 +15,6 @@ import Data.List.NonEmpty (NonEmpty)
 import GHC.Types.SrcLoc (PsLoc)
 
 import GHC.Generics ( Generic )
-import Language.Haskell.Syntax.Module.Name (HsModuleName)
 
 -- The type aliases below are useful to make some type signatures a bit more
 -- descriptive, like 'handleWarningsThrowErrors' in 'GHC.Driver.Main'.
@@ -282,9 +281,6 @@ data PsMessage
    -- | Pragma not allowed in this position
    | PsErrUnallowedPragma !(HsPragE GhcPs)
 
-   -- | Qualified do block in command
-   | PsErrQualifiedDoInCmd !HsModuleName
-
    -- | Invalid infix hole, expected an infix operator
    | PsErrInvalidInfixHole
 
@@ -323,7 +319,7 @@ data PsMessage
    | PsErrDoCmdInFunAppCmd !(LHsCmd GhcPs)
 
    -- | Unexpected do block in function application
-   | PsErrDoInFunAppExpr !(Maybe HsModuleName) !(LHsExpr GhcPs)
+   | PsErrDoInFunAppExpr !(LHsExpr GhcPs)
 
 
    -- | Unexpected case expression in function application
@@ -418,9 +414,6 @@ data PsMessage
 
    -- | Multi-way if-expression found but MultiWayIf not enabled
    | PsErrMultiWayIf
-
-   -- | Found qualified-do without QualifiedDo enabled
-   | PsErrIllegalQualifiedDo !SDoc
 
    -- | Found multiline string without MultilineStrings enabled
    | PsErrIllegalMultilineStrings

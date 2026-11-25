@@ -24,7 +24,7 @@ import GHC.Utils.Outputable
 import GHC.Utils.Misc
 import GHC.Data.FastString
 import GHC.Data.Maybe (catMaybes)
-import GHC.Hs.Expr (prependQualified, HsExpr(..), HsLamVariant(..), lamCaseKeyword)
+import GHC.Hs.Expr (HsExpr(..), HsLamVariant(..), lamCaseKeyword)
 import GHC.Hs.Type (pprLHsContext, pprHsForAll, pprHsModifiedFunArr, pprLHsModifiers)
 import GHC.Builtin (allNameStringList)
 import qualified GHC.LanguageExtensions as LangExt
@@ -211,16 +211,8 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Illegal export form"
     PsErrOverloadedRecordUpdateNoQualifiedFields
       -> mkSimpleDecorated $ text "Fields cannot be qualified when OverloadedRecordUpdate is enabled"
-    PsErrIllegalQualifiedDo qdoDoc
-      -> mkSimpleDecorated $
-           text "Illegal qualified" <+> quotes qdoDoc <+> text "block"
     PsErrIllegalMultilineStrings
       -> mkSimpleDecorated $ text "Illegal multiline string literal"
-    PsErrQualifiedDoInCmd m
-      -> mkSimpleDecorated $
-           hang (text "Parse error in command:") 2 $
-             text "Found a qualified" <+> ppr m <> text ".do block in a command, but"
-             $$ text "qualified 'do' is not supported in commands."
     PsErrRecordSyntaxInPatSynDecl pat
       -> mkSimpleDecorated $
            text "Record syntax not supported for pattern synonym declarations:"
@@ -383,8 +375,8 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "let command") a
     PsErrDoCmdInFunAppCmd a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "do command") a
-    PsErrDoInFunAppExpr m a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (prependQualified m (text "do block")) a
+    PsErrDoInFunAppExpr a
+      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "do block") a
     PsErrCaseInFunAppExpr a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "case expression") a
     PsErrLambdaInFunAppExpr lam_variant a
@@ -601,9 +593,7 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> ErrorWithoutFlag
     PsErrIllegalPatSynExport                      -> ErrorWithoutFlag
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> ErrorWithoutFlag
-    PsErrIllegalQualifiedDo{}                     -> ErrorWithoutFlag
     PsErrIllegalMultilineStrings{}                -> ErrorWithoutFlag
-    PsErrQualifiedDoInCmd{}                       -> ErrorWithoutFlag
     PsErrRecordSyntaxInPatSynDecl{}               -> ErrorWithoutFlag
     PsErrEmptyWhereInPatSynDecl{}                 -> ErrorWithoutFlag
     PsErrInvalidWhereBindInPatSynDecl{}           -> ErrorWithoutFlag
@@ -741,9 +731,7 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> noHints
     PsErrIllegalPatSynExport                      -> [suggestExtension LangExt.PatternSynonyms]
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> noHints
-    PsErrIllegalQualifiedDo{}                     -> [suggestExtension LangExt.QualifiedDo]
     PsErrIllegalMultilineStrings{}                -> [suggestExtension LangExt.MultilineStrings]
-    PsErrQualifiedDoInCmd{}                       -> noHints
     PsErrRecordSyntaxInPatSynDecl{}               -> noHints
     PsErrEmptyWhereInPatSynDecl{}                 -> noHints
     PsErrInvalidWhereBindInPatSynDecl{}           -> noHints

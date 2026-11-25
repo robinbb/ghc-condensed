@@ -121,7 +121,6 @@ test('T14628', [extra_hc_opts('-XGHC2021')], ghci_script, ['T14628.script'])
 test('T14690', normal, ghci_script, ['T14690.script'])
 test('T16700', normal, ghci_script, ['T16700.script'])
 
-test('break029', extra_files(['break029.hs']), ghci_script, ['break029.script'])
 test('T2215', normal, ghci_script, ['T2215.script'])
 test('T17989', normal, ghci_script, ['T17989.script'])
 test('T18045', [extra_hc_opts('-XGHC2021')], ghci_script, ['T18045.script'])

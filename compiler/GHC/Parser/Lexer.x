@@ -217,10 +217,6 @@ $docsym    = [\| \^ \* \$]
 @qvarsym = @qual @varsym
 @qconsym = @qual @consym
 
--- QualifiedDo needs to parse "M.do" not as a variable, so as to keep the
--- layout rules.
-@qdo    = @qual "do"
-
 @floating_point = @numspc @decimal \. @decimal @exponent? | @numspc @decimal @exponent
 @hex_floating_point = @numspc @hexadecimal \. @hexadecimal @bin_exponent? | @numspc @hexadecimal @bin_exponent
 
@@ -507,7 +503,6 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 }
 
 <0,option_prags> {
-  @qdo                                      { qdo_token ITdo }
   @qvarid                       { idtoken qvarid }
   @qconid                       { idtoken qconid }
   @varid                        { varid }
@@ -785,7 +780,7 @@ data Token
   | ITdata
   | ITdefault
   | ITderiving
-  | ITdo (Maybe HText)
+  | ITdo
   | ITelse
   | IThiding
   | ITforeign
@@ -1045,7 +1040,7 @@ reservedWordsFM = listToUFM $
          ( "data",           ITdata,          0 ),
          ( "default",        ITdefault,       0 ),
          ( "deriving",       ITderiving,      0 ),
-         ( "do",             ITdo Nothing,    0 ),
+         ( "do",             ITdo,            0 ),
          ( "else",           ITelse,          0 ),
          ( "hiding",         IThiding,        0 ),
          ( "if",             ITif,            0 ),
@@ -1170,13 +1165,6 @@ layout_token t span _buf _len _buf2 = pushLexState layout >> return (L span t)
 
 idtoken :: (StringBuffer -> Int -> Token) -> Action
 idtoken f span buf len _buf2 = return (L span $! (f buf len))
-
-qdo_token :: (Maybe HText -> Token) -> Action
-qdo_token con span buf len _buf2 = do
-    maybe_layout token
-    return (L span $! token)
-  where
-    !token = con $! Just $! fastStringToShortText $! fst $! splitQualName buf len False
 
 skip_one_varid :: (FastString -> Token) -> Action
 skip_one_varid f span buf len _buf2
@@ -2016,7 +2004,7 @@ do_bol span _str _len _buf2 = do
 -- add an opening curly brace.
 maybe_layout :: Token -> P ()
 maybe_layout t = f t
-    where f (ITdo _)    = pushLexState layout
+    where f ITdo        = pushLexState layout
           f ITof        = pushLexState layout
           f ITlcase     = pushLexState layout
           f ITlcases    = pushLexState layout
@@ -2670,7 +2658,6 @@ data ExtBits
   | PatternSynonymsBit -- pattern synonyms
   | HaddockBit-- Lex and parse Haddock comments
   | MagicHashBit -- "#" in both functions and operators
-  | QualifiedDoBit -- .do
   | UnicodeSyntaxBit -- the forall symbol, arrow symbols, etc
   | UnboxedParensBit -- (# and #)
   | MonadComprehensionsBit
@@ -2749,7 +2736,6 @@ mkParserOpts extensionFlags diag_opts
       .|. OverloadedLabelsBit         `xoptBit` LangExt.OverloadedLabels
       .|. BangPatBit                  `xoptBit` LangExt.BangPatterns
       .|. MagicHashBit                `xoptBit` LangExt.MagicHash
-      .|. QualifiedDoBit              `xoptBit` LangExt.QualifiedDo
       .|. UnicodeSyntaxBit            `xoptBit` LangExt.UnicodeSyntax
       .|. UnboxedParensBit            `orXoptsBit` [LangExt.UnboxedTuples, LangExt.UnboxedSums]
       .|. TransformComprehensionsBit  `xoptBit` LangExt.TransformListComp
@@ -2846,9 +2832,9 @@ class Monad m => MonadP m where
   -- | Add a non-fatal error. Use this when the parser can produce a result
   --   despite the error.
   --
-  --   For example, when GHC encounters a qualified @do@ block but
-  --   @-XQualifiedDo@ is disabled, the parser constructs the block as if
-  --   @-XQualifiedDo@ was enabled, adding a non-fatal error to the
+  --   For example, when GHC encounters a multi-way if-expression but
+  --   @-XMultiWayIf@ is disabled, the parser constructs the expression as if
+  --   @-XMultiWayIf@ was enabled, adding a non-fatal error to the
   --   accumulator.
   --
   --   Control flow wise, non-fatal errors act like warnings: they are added

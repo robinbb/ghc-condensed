@@ -17,7 +17,7 @@ genDoBlock = do
   funNm <- newName "fun"
   argNm <- newName "arg"
   let doBlock =
-        DoE Nothing
+        DoE
         [ BindS
             ( ConP 'Value [ ] [ VarP argNm ] )
             ( AppE ( ConE 'Identity ) ( AppE ( ConE 'Value ) ( ConE '() ) ) )

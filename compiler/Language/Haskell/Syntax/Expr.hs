@@ -18,7 +18,6 @@ import Language.Haskell.Syntax.Pat
 import Language.Haskell.Syntax.Lit
 import Language.Haskell.Syntax.Extension
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 import Language.Haskell.Syntax.Type
 import Language.Haskell.Syntax.Binds
 
@@ -991,10 +990,6 @@ data StmtLR idL idR body -- body should always be (LHs**** idR)
               -- Not used for GhciStmtCtxt, PatGuard, which scope over other stuff
           (XLastStmt idL idR body)
           body
-          (Maybe Bool)  -- Whether return was stripped
-            -- Just True <=> return with a dollar was stripped by ApplicativeDo
-            -- Just False <=> return without a dollar was stripped by ApplicativeDo
-            -- Nothing <=> Nothing was stripped
           (SyntaxExpr idR)   -- The return operator
             -- The return operator is used only for MonadComp
             -- For ListComp we use the baked-in 'return'
@@ -1234,34 +1229,6 @@ Parallel statements require the 'Control.Monad.Zip.mzip' function:
 
 In any other context than 'MonadComp', the fields for most of these
 'SyntaxExpr's stay bottom.
-
-
-Note [Applicative BodyStmt]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(#12143) For the purposes of ApplicativeDo, we treat any BodyStmt
-as if it was a BindStmt with a wildcard pattern.  For example,
-
-  do
-    x <- A
-    B
-    return x
-
-is transformed as if it were
-
-  do
-    x <- A
-    _ <- B
-    return x
-
-so it transforms to
-
-  (\(x,_) -> x) <$> A <*> B
-
-But we have to remember when we treat a BodyStmt like a BindStmt,
-because in error messages we want to emit the original syntax the user
-wrote, not our internal representation.  So ApplicativeArgOne has a
-Bool flag that is True when the original statement was a BodyStmt, so
-that we can pretty-print it correctly.
 -}
 
 
@@ -1432,16 +1399,11 @@ data HsArrowMatchContext
   | ArrowLamAlt HsLamVariant       -- ^ A \, \case or \cases alternative inside arrow notation
 
 data HsDoFlavour
-  = DoExpr (Maybe HsModuleName)      -- ^[ModuleName.]do { ... }
+  = DoExpr                           -- ^do { ... }
   | GhciStmtCtxt                     -- ^A command-line Stmt in GHCi pat <- rhs
   | ListComp
   | MonadComp
   deriving (Eq, Data)
-
-qualifiedDoModuleName_maybe :: HsStmtContext fn -> Maybe HsModuleName
-qualifiedDoModuleName_maybe ctxt = case ctxt of
-  HsDoStmt (DoExpr m) -> m
-  _ -> Nothing
 
 isPatSynCtxt :: HsMatchContext fn -> Bool
 isPatSynCtxt ctxt =
@@ -1459,7 +1421,7 @@ isComprehensionContext (HsDoStmt flavour) = isDoComprehensionContext flavour
 
 isDoComprehensionContext :: HsDoFlavour -> Bool
 isDoComprehensionContext GhciStmtCtxt = False
-isDoComprehensionContext (DoExpr _) = False
+isDoComprehensionContext DoExpr = False
 isDoComprehensionContext ListComp = True
 isDoComprehensionContext MonadComp = True
 
@@ -1488,4 +1450,4 @@ isMonadDoCompContext :: HsDoFlavour -> Bool
 isMonadDoCompContext MonadComp    = True
 isMonadDoCompContext ListComp     = False
 isMonadDoCompContext GhciStmtCtxt = False
-isMonadDoCompContext (DoExpr _)   = False
+isMonadDoCompContext DoExpr       = False

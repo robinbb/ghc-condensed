@@ -437,7 +437,7 @@ dsExpr (HsLet _ binds body) = do
 --
 dsExpr (HsDo res_ty ListComp          (L _ stmts)) = dsListComp stmts res_ty
 dsExpr (HsDo _      MonadComp         (L _ stmts)) = dsMonadComp stmts
-dsExpr (HsDo res_ty ctx@DoExpr{}      (L _ stmts)) = dsDo ctx stmts res_ty
+dsExpr (HsDo _      DoExpr            (L _ stmts)) = pprPanic "dsExpr: do block not expanded" (ppr stmts)
 dsExpr (HsDo res_ty ctx@GhciStmtCtxt  (L _ stmts)) = dsDo ctx stmts res_ty
 
 dsExpr (HsIf _ guard_expr then_expr else_expr)
@@ -1133,19 +1133,15 @@ Haskell 98 report:
 -}
 
 dsDo :: HsDoFlavour -> [ExprLStmt GhcTc] -> Type -> DsM CoreExpr
--- This code path seems inactive for regular Do,
---     which is expanded in GHC.Tc.Gen.Do.
--- It is used only for ApplicativeDo (even the BindStmt case), which is *very*
---     annoying because it is a lot of duplicated code that is seldomly tested.
--- But we are on course to expane Applicative in GHC.Tc.Gen.Do, at which
--- point all this will go away
+-- Ordinary do blocks are expanded in GHC.Tc.Gen.Do, so this code path
+-- serves only the statements of a GHCi command (GhciStmtCtxt).
 dsDo ctx stmts res_ty
   = goL stmts
   where
     goL [] = panic "dsDo"
     goL ((L loc stmt):lstmts) = putSrcSpanDsA loc (go loc stmt lstmts)
 
-    go _ (LastStmt _ body _ _) stmts
+    go _ (LastStmt _ body _) stmts
       = assert (null stmts ) dsLExpr body
         -- The 'return' op isn't used for 'do' expressions
 
@@ -1162,9 +1158,6 @@ dsDo ctx stmts res_ty
            ; dsLocalBinds binds rest }
 
     go _ (BindStmt xbs pat rhs) stmts
-      -- SG: As far as I can tell, this code path is only triggered when ApplicativeDo fails, e.g.
-      --   do blah <- action1; action2 (blah * 2)
-      -- It is reached when compiling GHC.Parser.PostProcess.Haddock.addHaddockToModule
       = do  { var   <- selectSimpleMatchVarL (xbstc_boundResultMult xbs) pat
             ; rhs'  <- dsLExpr rhs
             ; match <- matchSinglePatVar var Nothing (StmtCtxt (HsDoStmt ctx)) pat
@@ -1174,37 +1167,6 @@ dsDo ctx stmts res_ty
             -- See Note [Long-distance information in do notation].
             ; match_code <- dsHandleMonadicFailure ctx pat res_ty match (xbstc_failOp xbs)
             ; dsSyntaxExpr (xbstc_bindOp xbs) [rhs', Lam var match_code] }
-
-    go _ (XStmtLR (ApplicativeStmt body_ty args mb_join)) stmts
-      = do {
-             let
-               (pats, rhss) = unzip (map (do_arg . snd) args)
-
-               do_arg (ApplicativeArgOne fail_op pat expr _) =
-                 ((pat, fail_op), dsLExpr expr)
-               do_arg (ApplicativeArgMany _ stmts ret pat _) =
-                 ((pat, Nothing), dsDo ctx (stmts ++ [noLocA $ mkLastStmt (noLocA ret)]) res_ty)
-
-           ; rhss' <- sequence rhss
-
-           ; body' <- dsLExpr $ noLocA $ HsDo body_ty ctx (noLocA stmts)
-
-           ; let match_args (pat, fail_op) (vs,body)
-                   = putSrcSpanDs (getLocA pat) $
-                     do { var   <- selectSimpleMatchVarL ManyTy pat
-                        ; match <- matchSinglePatVar var Nothing (StmtCtxt (HsDoStmt ctx)) pat
-                                   body_ty (cantFailMatchResult body)
-                        ; match_code <- dsHandleMonadicFailure ctx pat body_ty match fail_op
-                        ; return (var:vs, match_code)
-                        }
-
-           ; (vars, body) <- foldrM match_args ([],body') pats
-           ; let fun' = mkLams vars body
-           ; let mk_ap_call l (op,r) = dsSyntaxExpr op [l,r]
-           ; expr <- foldlM mk_ap_call fun' (zip (map fst args) rhss')
-           ; case mb_join of
-               Nothing -> return expr
-               Just join_op -> dsSyntaxExpr join_op [expr] }
 
     go _ (ParStmt   {}) _ = panic "dsDo ParStmt"
     go _ (TransStmt {}) _ = panic "dsDo TransStmt"

@@ -809,10 +809,9 @@ addTickLStmts' isGuard lstmts res
 
 addTickStmt :: (Maybe (Bool -> BoxLabel)) -> Stmt GhcTc (LHsExpr GhcTc)
             -> TM (Stmt GhcTc (LHsExpr GhcTc))
-addTickStmt _isGuard (LastStmt x e noret ret) =
-        liftM3 (LastStmt x)
+addTickStmt _isGuard (LastStmt x e ret) =
+        liftM2 (LastStmt x)
                 (addTickLHsExpr e)
-                (pure noret)
                 (addTickSyntaxExpr hpcSrcSpan ret)
 addTickStmt _isGuard (BindStmt xbs pat e) =
       bindLocals pat $
@@ -856,34 +855,9 @@ addTickStmt isGuard stmt@(TransStmt { trS_stmts = stmts
 addTickStmt _isGuard stmt@(RecStmt {})
   = pprPanic "addTickStmt: rec statement in a do block" (ppr stmt)
 
-addTickStmt isGuard (XStmtLR (ApplicativeStmt body_ty args mb_join)) = do
-    args' <- mapM (addTickApplicativeArg isGuard) args
-    return (XStmtLR (ApplicativeStmt body_ty args' mb_join))
-
 addTick :: Maybe (Bool -> BoxLabel) -> LHsExpr GhcTc -> TM (LHsExpr GhcTc)
 addTick isGuard e | Just fn <- isGuard = addBinTickLHsExpr fn e
                   | otherwise          = addTickLHsExprRHS e
-
-addTickApplicativeArg
-  :: Maybe (Bool -> BoxLabel) -> (SyntaxExpr GhcTc, ApplicativeArg GhcTc)
-  -> TM (SyntaxExpr GhcTc, ApplicativeArg GhcTc)
-addTickApplicativeArg isGuard (op, arg) =
-  liftM2 (,) (addTickSyntaxExpr hpcSrcSpan op) (addTickArg arg)
- where
-  addTickArg (ApplicativeArgOne m_fail pat expr isBody) =
-    bindLocals pat $
-      ApplicativeArgOne
-        <$> mapM (addTickSyntaxExpr hpcSrcSpan) m_fail
-        <*> addTickLPat pat
-        <*> addTickLHsExpr expr
-        <*> pure isBody
-  addTickArg (ApplicativeArgMany x stmts ret pat ctxt) =
-    bindLocals pat $
-      ApplicativeArgMany x
-        <$> addTickLStmts isGuard stmts
-        <*> (unLoc <$> addTickLHsExpr (L (noAnnSrcSpan hpcSrcSpan) ret))
-        <*> addTickLPat pat
-        <*> pure ctxt
 
 addTickStmtAndBinders :: Maybe (Bool -> BoxLabel) -> ParStmtBlock GhcTc GhcTc
                       -> TM (ParStmtBlock GhcTc GhcTc)
@@ -1046,10 +1020,9 @@ addTickCmdStmt (BindStmt x pat c) =
         liftM2 (BindStmt x)
                 (addTickLPat pat)
                 (addTickLHsCmd c)
-addTickCmdStmt (LastStmt x c noret ret) =
-        liftM3 (LastStmt x)
+addTickCmdStmt (LastStmt x c ret) =
+        liftM2 (LastStmt x)
                 (addTickLHsCmd c)
-                (pure noret)
                 (addTickSyntaxExpr hpcSrcSpan ret)
 addTickCmdStmt (BodyStmt x c bind' guard') =
         liftM3 (BodyStmt x)
@@ -1062,8 +1035,6 @@ addTickCmdStmt (LetStmt x binds) =
 addTickCmdStmt stmt@(RecStmt {})
   = do { stmts' <- addTickLCmdStmts (unLoc $ recS_stmts stmt)
        ; return (stmt { recS_stmts = noLocA stmts' }) }
-addTickCmdStmt (XStmtLR (ApplicativeStmt{})) =
-  panic "ToDo: addTickCmdStmt ApplicativeLastStmt"
 
 -- Others should never happen in a command context.
 addTickCmdStmt stmt  = pprPanic "addTickHsCmd" (ppr stmt)
@@ -1518,9 +1489,5 @@ instance CollectFldBinders (Stmt GhcTc e) where
   collectFldBinds (ParStmt _ xs _ _) = collectFldBinds [s | ParStmtBlock _ ss _ _ <- toList xs, s <- ss]
   collectFldBinds TransStmt{ trS_stmts } = collectFldBinds trS_stmts
   collectFldBinds RecStmt{ recS_stmts } = collectFldBinds recS_stmts
-  collectFldBinds (XStmtLR (ApplicativeStmt _ args _)) = collectFldBinds (map snd args)
   collectFldBinds LastStmt{} = emptyVarEnv
   collectFldBinds BodyStmt{} = emptyVarEnv
-instance CollectFldBinders (ApplicativeArg GhcTc) where
-  collectFldBinds ApplicativeArgOne{ app_arg_pattern } = collectFldBinds app_arg_pattern
-  collectFldBinds ApplicativeArgMany{ bv_pattern } = collectFldBinds bv_pattern

@@ -898,7 +898,7 @@ replaceDeclsPatBind x _ = error $ "replaceDeclsPatBind called for:" ++ showGhc x
 
 instance HasDecls (LocatedA (Stmt GhcPs (LocatedA (HsExpr GhcPs)))) where
   hsDecls (L _ (LetStmt _ lb))      = hsDeclsLocalBinds lb
-  hsDecls (L _ (LastStmt _ e _ _))  = hsDecls e
+  hsDecls (L _ (LastStmt _ e _))    = hsDecls e
   hsDecls (L _ (BindStmt _ _pat e)) = hsDecls e
   hsDecls (L _ (BodyStmt _ e _ _))  = hsDecls e
   hsDecls _                         = []
@@ -907,10 +907,10 @@ instance HasDecls (LocatedA (Stmt GhcPs (LocatedA (HsExpr GhcPs)))) where
     = let
         lb'' = replaceDeclsValbinds WithWhere lb newDecls
       in (L l (LetStmt x lb''))
-  replaceDecls (L l (LastStmt x e d se)) newDecls
+  replaceDecls (L l (LastStmt x e se)) newDecls
     = let
         e' = replaceDecls e newDecls
-      in (L l (LastStmt x e' d se))
+      in (L l (LastStmt x e' se))
   replaceDecls (L l (BindStmt x pat e)) newDecls
     = let
         e' = replaceDecls e newDecls

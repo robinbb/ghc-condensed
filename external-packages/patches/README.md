@@ -93,7 +93,8 @@ exception.
   switches to `"ram"` for crypton 1.1 and later, so under crypton 2
   that branch needs both packages. `magic` is pinned at 1.1, the newest
   release inside git-annex's own `magic <= 1.1` bound, which needs no
-  source change.
+  source change. `Command.Import.optParser` builds its options with `<$>`
+  and `<*>` rather than do-notation; this compiler has no `ApplicativeDo`.
 - `haskell-src-meta.patch`: `Language.Haskell.Meta.Extensions` maps the
   haskell-src-exts constructors of the extensions this compiler removed
   (`ConstrainedClassMethods`, `DataKinds`, `DatatypeContexts`,
@@ -102,11 +103,13 @@ exception.
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
   `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation` and
   `DisambiguateRecordFields`) to `Nothing`, and drops those constructors,
-  `CUSKs`, `StarIsType`, `DeepSubsumption`,
-  `NullaryTypeClasses`, `AutoDeriveTypeable` and the two
+  `CUSKs`, `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
+  `AutoDeriveTypeable`, `ApplicativeDo`, `QualifiedDo` and the two
   `AlternativeLayoutRule` constructors from the reverse mapping, since this
-  compiler's template-haskell no longer has them. Blocks hsx2hs, jmacro,
-  interpolatedstring-perl6 and persistent-qq.
+  compiler's template-haskell no longer has them.
+  `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module
+  qualifier that template-haskell dropped with `QualifiedDo`. Blocks hsx2hs,
+  jmacro, interpolatedstring-perl6 and persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those
@@ -158,10 +161,11 @@ exception.
   `T917GadtOne` and `T917GadtTwo` standalone kind signatures: the two
   kind-indexed GADTs relied on a complete user-supplied kind for their
   polymorphic recursion, and this compiler no longer detects one.
-  `Language.Haskell.TH.Lens` drops the `_MDoE` and `_RecS` prisms;
-  template-haskell lost those constructors with this compiler, which has
-  no recursive do-notation. The same hunk applies to PureScript's private
-  copy of lens 5.3.6.
+  `Language.Haskell.TH.Lens` drops the `_MDoE` and `_RecS` prisms and gives
+  `_DoE` the one-field `DoE`; template-haskell lost those constructors and
+  the module qualifier of `DoE` with this compiler, which has neither
+  recursive nor qualified do-notation. The same hunks apply to PureScript's
+  private copy of lens 5.3.6.
 - `nothunks.patch`: the ten `deriving via` declarations whose via type is
   a bare type variable (`a`) or an application of one (`f a`) write its
   kind, `Type`. The via type is kind-checked before the instance head
@@ -342,3 +346,15 @@ exception.
   do-notation.
 - `lucid.patch`: the MonadFix test of `test/Main.hs` ties its knot with
   `mfix` rather than `mdo`; this compiler has no recursive do-notation.
+- `hedgehog.patch`: `Hedgehog.Internal.Gen.element` and `element_` and the
+  `genCommands` generator of the `Applicative` test write `<$>` and `<*>`
+  for what `ApplicativeDo` desugared from do-notation, so they consume
+  their seeds and shrink exactly as before; this compiler has no
+  `ApplicativeDo`.
+- `servant-client-core.patch`:
+  `Servant.Client.Core.MultiVerb.ResponseUnrender.fromSomeClientResponse`
+  maps over its `Alternative` with `<$>` rather than do-notation, since
+  this compiler has no `ApplicativeDo`.
+- `yesod.patch`, `shakespeare.patch`: `Yesod.Default.Util` and
+  `Text.Hamlet` build `DoE` without the module qualifier field that
+  template-haskell dropped with `QualifiedDo`.

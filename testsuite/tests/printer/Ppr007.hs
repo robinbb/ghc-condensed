@@ -1,4 +1,3 @@
-{-# LANGUAGE ApplicativeDo #-}
 module Ppr007 where
 
 g :: IO ()

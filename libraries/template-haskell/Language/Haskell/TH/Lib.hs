@@ -174,7 +174,6 @@ import GHC.Boot.TH.Lib hiding
   , derivClause
   , standaloneDerivWithStrategyD
 
-  , doE
   , tupE
   , unboxedTupE
 
@@ -382,12 +381,6 @@ tupE es = do { es1 <- sequenceA es; return (TupE $ map Just es1)}
 
 unboxedTupE :: Quote m => [m Exp] -> m Exp
 unboxedTupE es = do { es1 <- sequenceA es; return (UnboxedTupE $ map Just es1)}
-
--------------------------------------------------------------------------------
--- * Do expressions
-
-doE :: Quote m => [m Stmt] -> m Exp
-doE = Internal.doE Nothing
 
 -------------------------------------------------------------------------------
 -- * Patterns

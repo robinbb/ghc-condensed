@@ -99,3 +99,14 @@
  _FromR :: Prism' Range Exp
  _FromR
    = prism' reviewer remitter
+--- a/external-packages/lens/src/Language/Haskell/TH/Lens.hs
++++ b/external-packages/lens/src/Language/Haskell/TH/Lens.hs
+@@ -1972,7 +1972,7 @@
+ -- _DoE :: 'Prism'' 'Exp' ('Maybe' 'ModName', ['Stmt']) -- template-haskell-2.17+
+ -- _DoE :: 'Prism'' 'Exp' ['Stmt']                  -- Earlier versions
+ -- @
+-# if MIN_VERSION_template_haskell(2,17,0)
++# if MIN_VERSION_template_haskell(2,17,0) && !MIN_VERSION_template_haskell(2,25,0)
+ _DoE :: Prism' Exp (Maybe ModName, [Stmt])
+ _DoE
+   = prism' reviewer remitter

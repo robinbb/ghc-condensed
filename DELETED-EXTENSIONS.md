@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**33 language extensions deleted.**
+**35 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -52,6 +52,17 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Deprecated.
 - Notes: As for AlternativeLayoutRule: the transitional variant of the same
   unfinished experiment.
+
+`ApplicativeDo`
+
+- Category: Syntax.
+- Hard-coded: Off.
+- Editions: none.
+- Lines: +403 −4774, net −4371 (shared with QualifiedDo).
+- Stability: Uncategorized; the user's guide gives no stability status.
+- Notes: A `do` block always desugars through `>>=` and `>>`, never `<$>`
+  and `<*>`, so do-notation needs `Monad`; independent statements are
+  written applicatively by hand. Four corpus packages used it.
 
 `AutoDeriveTypeable`
 
@@ -299,6 +310,17 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Deprecated.
 - Notes: A deprecated alias of RankNTypes.
 
+`QualifiedDo`
+
+- Category: Syntax.
+- Hard-coded: Off.
+- Editions: none.
+- Lines: +403 −4774, net −4371 (shared with ApplicativeDo).
+- Stability: Stable.
+- Notes: `M.do` is a parse error; a `do` block uses the `>>=`, `>>` and
+  `fail` in scope, which `RebindableSyntax` can redirect. Template Haskell's
+  `DoE` loses its module qualifier. No corpus package used it.
+
 `RankNTypes`
 
 - Category: Types.
@@ -325,9 +347,9 @@ The entries below are alphabetical. For each extension it gives:
 - Editions: none.
 - Lines: +295 −2130, net −1835.
 - Stability: Stable.
-- Notes: There is no recursive do-notation: `mdo` is an ordinary
-  identifier and `rec` a keyword of arrow notation alone; knots are tied
-  with `mfix`. Hard-coding it on stole two keywords from every module.
+- Notes: There is no recursive do-notation: `mdo` is an ordinary identifier
+  and `rec` a keyword of arrow notation alone; knots are tied with `mfix`.
+  Hard-coding it on stole two keywords from every module.
 
 `RelaxedPolyRec`
 

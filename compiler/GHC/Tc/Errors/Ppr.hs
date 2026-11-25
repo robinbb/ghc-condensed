@@ -7816,7 +7816,7 @@ pprHsCtxt = \case
 
   StmtErrCtxt ctxt stmt
     -- For [ e | .. ], do not mutter about "stmts"
-    | (L _ (LastStmt _ e _ _)) <- stmt
+    | (L _ (LastStmt _ e _)) <- stmt
     , isComprehensionContext ctxt
     -> hang (text "In the expression:") 2 (ppr e)
     | otherwise

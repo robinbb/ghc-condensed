@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE BlockArguments #-}
@@ -631,8 +630,6 @@ load' mhmi_cache how_much diag_wrapper mHscMessage mod_graph = do
     hsc_env <- getSession
 
     let dflags = hsc_dflags hsc_env
-    let logger = hsc_logger hsc_env
-    let interp = hscInterp hsc_env
     let sec = initSourceErrorContext dflags
 
     -- The "bad" boot modules are the ones for which we have
@@ -705,6 +702,12 @@ load' mhmi_cache how_much diag_wrapper mHscMessage mod_graph = do
       let ue' = (hsc_unit_env hsc_env){ ue_home_unit_graph = hug' }
       setSession $ discardIC hsc_env{hsc_unit_env = ue' }
       hsc_env <- getSession
+      -- From here on refer only to this session: a closure holding the
+      -- session bound above would keep the old home package table alive
+      -- through the whole upsweep.
+      let interp = hscInterp hsc_env
+          logger = hsc_logger hsc_env
+          dflags = hsc_dflags hsc_env
 
       -- Unload everything
       liftIO $ unload interp hsc_env
@@ -1087,7 +1090,7 @@ interpretBuildPlan hug mhmi_cache old_hpt plan = do
                      hmi <- executeCompileNode mod_idx n_mods old_hmi hug rehydrate_mods ms
                      -- Write the HMI to an external cache (if one exists)
                      -- See Note [Caching HomeModInfo]
-                     liftIO $ forM mhmi_cache $ \hmi_cache -> addHmiToCache hmi_cache hmi
+                     liftIO $ forM_ mhmi_cache $ \hmi_cache -> addHmiToCache hmi_cache hmi
                      -- Make sure the result is written to the HPT var
                      liftIO $ HUG.addHomeModInfoToHug hmi hug
                      return (Just hmi)
@@ -1165,7 +1168,7 @@ interpretBuildPlan hug mhmi_cache old_hpt plan = do
                 setModulePipeline (boot_key (gwib_mod m)) (mkBuildResult (Loop origin) (fanout i))
 
       let deps_i = zip deps [0..]
-      mapM update_module_pipeline deps_i
+      mapM_ update_module_pipeline deps_i
 
       return $ MakeAction loop_action res_var
 

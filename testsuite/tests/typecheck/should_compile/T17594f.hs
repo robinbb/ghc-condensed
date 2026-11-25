@@ -1,12 +1,13 @@
 {-# LANGUAGE TypeFamilies,
              BlockArguments,
-             QualifiedDo,
+             RebindableSyntax,
              RequiredTypeArguments,
              ImpredicativeTypes,
              TypeAbstractions #-}
 
 module Main where
 
+import Prelude hiding ((>>=))
 import Data.Kind
 
 -- This test case collects ALL recent features
@@ -15,7 +16,7 @@ main :: IO ()
 main = demo False
 
 demo :: Bool -> IO ()
-demo b = Main.do -- this do-notation doesn't work without recent patch that expands HsDo at renamer
+demo b = do -- this do-notation doesn't work without recent patch that expands HsDo at renamer
   x <- doubleOrInt b -- doesn't check without impredicative types
   let v = x + 1
   print v

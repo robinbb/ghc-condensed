@@ -11,3 +11,34 @@
  
    -- Fully optimize for production.
    if flag(Production)
+--- a/external-packages/vendored/git-annex/Command/Import.hs
++++ b/external-packages/vendored/git-annex/Command/Import.hs
+@@ -74,19 +74,20 @@
+ 		}
+ 
+ optParser :: CmdParamsDesc -> Parser ImportOptions
+-optParser desc = do
+-	ps <- cmdParams desc
+-	mfromremote <- optional $ mkParseRemoteOption <$> parseFromOption
+-	content <- invertableSwitch "content" True
++optParser desc = mk
++	<$> cmdParams desc
++	<*> optional (mkParseRemoteOption <$> parseFromOption)
++	<*> invertableSwitch "content" True
+ 		( help "do not get contents of imported files"
+ 		)
+-	dupmode <- fromMaybe Default <$> optional duplicateModeParser
+-	ic <- Command.Add.checkGitIgnoreSwitch
+-	message <- many (strOption
++	<*> (fromMaybe Default <$> optional duplicateModeParser)
++	<*> Command.Add.checkGitIgnoreSwitch
++	<*> many (strOption
+ 		( long "message" <> short 'm' <> metavar "MSG"
+ 		<> help "commit message"
+ 		))
+-	pure $ case mfromremote of
++	where
++	mk ps mfromremote content dupmode ic message = case mfromremote of
+ 		Nothing -> LocalImportOptions ps dupmode ic
+ 		Just r -> case ps of
+ 			[bs] -> 

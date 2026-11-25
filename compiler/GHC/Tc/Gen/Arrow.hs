@@ -497,10 +497,10 @@ arity_map = mkOccEnv
 --      (b) no rebindable syntax
 
 tcArrDoStmt :: CmdEnv -> TcCmdStmtChecker
-tcArrDoStmt env _ (LastStmt x rhs noret _) res_ty thing_inside
+tcArrDoStmt env _ (LastStmt x rhs _) res_ty thing_inside
   = do  { rhs' <- tcCmd env rhs (unitTy, res_ty)
         ; thing <- thing_inside (panic "tcArrDoStmt")
-        ; return (LastStmt x rhs' noret noSyntaxExpr, thing) }
+        ; return (LastStmt x rhs' noSyntaxExpr, thing) }
 
 tcArrDoStmt env _ (BodyStmt _ rhs _ _) res_ty thing_inside
   = do  { (rhs', elt_ty) <- tc_arr_rhs env rhs

@@ -47,7 +47,6 @@ data Extension
    | Arrows                   -- Arrow-notation syntax
    | TemplateHaskell
    | TemplateHaskellQuotes    -- subset of TH supported by stage1, no splice
-   | QualifiedDo
    | QuasiQuotes
    | ImplicitParams
    | ImplicitPrelude
@@ -73,7 +72,6 @@ data Extension
    | RebindableSyntax
    | ConstraintKinds
    | TypeData                 -- allow @type data@ definitions
-   | ApplicativeDo
    | LinearTypes
    | Modifiers
    | RequiredTypeArguments    -- Visible forall (VDQ) in types of terms

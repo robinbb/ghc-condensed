@@ -1,0 +1,19 @@
+--- a/external-packages/servant/servant-client-core/src/Servant/Client/Core/MultiVerb/ResponseUnrender.hs
++++ b/external-packages/servant/servant-client-core/src/Servant/Client/Core/MultiVerb/ResponseUnrender.hs
+@@ -25,13 +25,9 @@
+   :: forall a m. (Alternative m, Typeable a)
+   => SomeClientResponse
+   -> m (ResponseF a)
+-fromSomeClientResponse (SomeClientResponse Response {..}) = do
+-  body <- maybe empty pure $ cast @_ @a responseBody
+-  pure $
+-    Response
+-      { responseBody = body,
+-        ..
+-      }
++fromSomeClientResponse (SomeClientResponse Response {..}) =
++  (\body -> Response { responseBody = body, .. })
++    <$> maybe empty pure (cast @_ @a responseBody)
+ 
+ class ResponseUnrender cs a where
+   type ResponseBody a :: Type

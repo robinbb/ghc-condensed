@@ -41,8 +41,6 @@ test('T11216A', normal, compile, [''])
 test('T12080', normal, compile, [''])
 test('T14670', expect_broken(14670), compile, [''])
 test('T19167', normal, compile, [''])
-test('T19918', normal, compile_and_run, [''])
 test('T20126', normal, compile_fail, [''])
 # Tests for expanding do before typechecking
-test('T23147', normal, compile, [''])
 test('pattern-fails', normal, compile_and_run, [''])
