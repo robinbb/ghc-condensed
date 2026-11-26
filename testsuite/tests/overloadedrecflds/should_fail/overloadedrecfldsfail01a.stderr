@@ -1,5 +1,5 @@
 
-overloadedrecfldsfail01a.hs:13:10: error: [GHC-99339]
+overloadedrecfldsfail01a.hs:12:10: error: [GHC-99339]
     • Ambiguous record update with field ‘x’
       This field appears in all of the datatypes ‘R’, ‘S’ and ‘T’
     • In the expression: r {x = 3}

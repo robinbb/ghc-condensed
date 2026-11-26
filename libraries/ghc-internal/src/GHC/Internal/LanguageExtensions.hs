@@ -110,7 +110,6 @@ data Extension
    | LambdaCase
    | MultiWayIf
    | NegativeLiterals
-   | DuplicateRecordFields
    | OverloadedLabels
    | EmptyCase
    | PatternSynonyms

@@ -84,7 +84,7 @@ module GHC.Types.Name.Reader (
         forceGlobalRdrEnv, hydrateGlobalRdrEnv,
         isLocalGRE, isImportedGRE, isRecFldGRE,
         fieldGREInfo,
-        isDuplicateRecFldGRE, isNoFieldSelectorGRE, isFieldSelectorGRE,
+        isNoFieldSelectorGRE, isFieldSelectorGRE,
         unQualOK, qualSpecOK, unQualSpecOK,
         pprNameProvenance,
         mkGRE, mkExactGRE, mkLocalGRE, mkLocalVanillaGRE, mkLocalTyConGRE,
@@ -1556,11 +1556,6 @@ isImportedGRE (GRE { gre_imp = imps }) = not $ isEmptyBag imps
 isRecFldGRE :: GlobalRdrEltX info -> Bool
 isRecFldGRE (GRE { gre_name = nm }) = isFieldName nm
 
-isDuplicateRecFldGRE :: GlobalRdrElt -> Bool
--- ^ Is this a record field defined with DuplicateRecordFields?
-isDuplicateRecFldGRE =
-    maybe False ((DuplicateRecordFields ==) . flHasDuplicateRecordFields) . greFieldLabel_maybe
-
 isNoFieldSelectorGRE :: GlobalRdrElt -> Bool
 -- ^ Is this a record field defined with NoFieldSelectors?
 -- (See Note [NoFieldSelectors] in GHC.Rename.Env)
@@ -1935,7 +1930,6 @@ namespace_is_shadowed :: Unique -> ShadowedGREs -> IsShadowed
 namespace_is_shadowed old_ns (ShadowedGREs shadowed_nonflds shadowed_flds)
   | isFldNSUnique old_ns
   = case shadowed_flds of
-      ShadowAllFieldGREs -> IsShadowed
       ShadowFieldSelectorsAnd shadowed
         | old_ns `elemUniqSet_Directly` shadowed
         -> IsShadowed
@@ -1969,11 +1963,10 @@ greShadowedNameSpaces gre = ShadowedGREs shadowed_nonflds shadowed_flds
       -- A new variable shadows record fields with field selectors.
       = ShadowFieldSelectorsAnd emptyUniqSet
       | isFieldNameSpace ns
-      -- A new record field shadows record fields unless it is a duplicate record field.
-      = if isDuplicateRecFldGRE gre
-        then ShadowFieldNameSpaces (unitUniqSet ns)
-        -- NB: we must still shadow fields with the same constructor name.
-        else ShadowAllFieldGREs
+      -- A new record field shadows only the record fields in its own
+      -- namespace, i.e. those with the same constructor name: datatypes may
+      -- share field names.
+      = ShadowFieldNameSpaces (unitUniqSet ns)
       | otherwise
       = ShadowFieldNameSpaces emptyUniqSet
 
@@ -1988,11 +1981,9 @@ data ShadowedGREs
 
 -- | A description of which record field 'GlobalRdrElt's are shadowed.
 data ShadowedFieldGREs
-  -- | All field 'GlobalRdrElt's are shadowed.
-  = ShadowAllFieldGREs
   -- | Record field GREs defining field selectors, as well as those
   -- with the explicitly specified field 'NameSpace's, are shadowed.
-  | ShadowFieldSelectorsAnd { shadowedFieldNameSpaces :: !(UniqSet NameSpace) }
+  = ShadowFieldSelectorsAnd { shadowedFieldNameSpaces :: !(UniqSet NameSpace) }
   -- | These specific field 'NameSpace's are shadowed.
   | ShadowFieldNameSpaces { shadowedFieldNameSpaces :: !(UniqSet NameSpace) }
 
@@ -2000,8 +1991,6 @@ instance Monoid ShadowedFieldGREs where
   mempty = ShadowFieldNameSpaces { shadowedFieldNameSpaces = emptyUniqSet }
 
 instance Semigroup ShadowedFieldGREs where
-  ShadowAllFieldGREs <> _ = ShadowAllFieldGREs
-  _ <> ShadowAllFieldGREs = ShadowAllFieldGREs
   ShadowFieldSelectorsAnd ns1 <> ShadowFieldSelectorsAnd ns2 =
     ShadowFieldSelectorsAnd (ns1 S.<> ns2)
   ShadowFieldSelectorsAnd ns1 <> ShadowFieldNameSpaces ns2 =

@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 
 module QualifiedRecordUpdate_aux where
 

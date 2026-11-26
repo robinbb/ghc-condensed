@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 
 import T17469A
 

@@ -102,7 +102,7 @@ Record pattern synonym fields cannot be represented using AvailTC like fields of
 normal record types, because they do not always have a parent type constructor.
 So we represent them using the Avail constructor.
 
-Thus under -XDuplicateRecordFields -XPatternSynoynms, the declaration
+Thus under -XPatternSynonyms, the declaration
 
   pattern MkFoo{f} = Bar f
 

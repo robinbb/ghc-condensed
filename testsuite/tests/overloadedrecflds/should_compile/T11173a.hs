@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module T11173a where
 
 data A = A { foo :: Int -> Int, bar :: Int -> Int }

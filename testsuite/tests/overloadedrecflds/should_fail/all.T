@@ -11,8 +11,6 @@ test('overloadedrecfldsfail06', [extra_files(['OverloadedRecFldsFail06_A.hs'])],
 test('overloadedrecfldsfail07', normal, compile_fail, [''])
 test('overloadedrecfldsfail08', normal, compile_fail, [''])
 test('overloadedrecfldsfail09', normal, compile_fail, [''])
-test('overloadedrecfldsfail10', [extra_files(['OverloadedRecFldsFail10_A.hs', 'OverloadedRecFldsFail10_B.hs', 'OverloadedRecFldsFail10_C.hs'])], multimod_compile_fail,
-     ['overloadedrecfldsfail10', ''])
 test('overloadedrecfldsfail11', [extra_files(['OverloadedRecFldsFail11_A.hs'])], multimod_compile_fail,
      ['overloadedrecfldsfail11', ''])
 test('overloadedrecfldsfail12', [extra_files(['OverloadedRecFldsFail12_A.hs'])], multimod_compile_fail,
@@ -50,7 +48,6 @@ test('NFSSuppressed', normal, compile_fail, [''])
 test('NFSMixed', normal, multimod_compile_fail, ['NFSMixed','-v0'])
 test('DRF9156', normal, compile_fail, [''])
 test('NFS9156', normal, compile_fail, [''])
-test('NFSDuplicate', normal, compile_fail, [''])
 test('NFSExport', normal, compile_fail, [''])
 test('DRFUnused', normal, compile_fail, [''])
 test('T19287', normal, compile_fail, [''])

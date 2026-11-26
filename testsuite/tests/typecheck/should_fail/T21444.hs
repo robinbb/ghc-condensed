@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 
 module T21444 where
 

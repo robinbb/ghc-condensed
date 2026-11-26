@@ -796,7 +796,12 @@ However, there are additional clashes due to record fields:
   - a new record field shadows:
 
     - previously defined variables, if it defines a field selector,
-    - previously defined record fields, unless it is a duplicate record field.
+    - previously defined record fields of the same namespace, that is with
+      the same constructor name (as when GHCi redefines a datatype).
+
+  Fields of different datatypes never clash, since datatypes may share
+  field names: see Note [Record field namespacing] in
+  GHC.Types.Name.Occurrence.
 
 This logic is implemented in the function 'GHC.Types.Name.Reader.greClashesWith'.
 
@@ -831,11 +836,10 @@ getLocalNonValBinders fixity_env
                 hs_fords  = foreign_decls })
   = do  { -- Process all type/class decls *except* family instances
         ; let inst_decls = tycl_decls >>= group_instds
-        ; dup_fields_ok <- xopt_DuplicateRecordFields <$> getDynFlags
         ; has_sel <- xopt_FieldSelectors <$> getDynFlags
         ; tc_gres
             <- concatMapM
-                 (new_tc dup_fields_ok has_sel)
+                 (new_tc has_sel)
                  (tyClGroupTyClDecls tycl_decls)
         ; traceRn "getLocalNonValBinders 1" (ppr tc_gres)
         ; envs <- extendGlobalRdrEnvRn tc_gres fixity_env
@@ -845,7 +849,7 @@ getLocalNonValBinders fixity_env
 
           -- Process all family instances
           -- to bring new data constructors into scope
-        ; nti_gress <- mapM (new_assoc dup_fields_ok has_sel) inst_decls
+        ; nti_gress <- mapM (new_assoc has_sel) inst_decls
 
           -- Finish off with value binders:
           --    foreign decls and pattern synonyms for an ordinary module
@@ -878,16 +882,16 @@ getLocalNonValBinders fixity_env
     new_simple rdr_name = do { nm <- newTopSrcBinder rdr_name
                              ; return (mkLocalVanillaGRE NoParent nm) }
 
-    new_tc :: DuplicateRecordFields -> FieldSelectors -> LTyClDecl GhcPs
+    new_tc :: FieldSelectors -> LTyClDecl GhcPs
            -> RnM [GlobalRdrElt]
-    new_tc dup_fields_ok has_sel tc_decl -- NOT for type/data instances
+    new_tc has_sel tc_decl -- NOT for type/data instances
         = do { let TyDeclBinders (main_bndr, tc_flav) at_bndrs sig_bndrs
                      (LConsWithFields cons_with_flds flds) = hsLTyClDeclBinders tc_decl
              ; tycon_name          <- newTopSrcBinder $ la2la main_bndr
              ; at_names            <- mapM (newTopSrcBinder . la2la . fst) at_bndrs
              ; sig_names           <- mapM (newTopSrcBinder . la2la) sig_bndrs
              ; con_names_with_flds <- mapM (\(con,flds) -> (,flds) <$> newTopSrcBinder (la2la con)) cons_with_flds
-             ; flds' <- mapM (newRecordFieldLabel dup_fields_ok has_sel $ map fst con_names_with_flds) flds
+             ; flds' <- mapM (newRecordFieldLabel has_sel $ map fst con_names_with_flds) flds
              ; mapM_ (add_dup_fld_errs flds') con_names_with_flds
              ; let tc_gre = mkLocalTyConGRE (fmap (const tycon_name) tc_flav) tycon_name
                    fld_env = mk_fld_env con_names_with_flds flds'
@@ -920,14 +924,14 @@ getLocalNonValBinders fixity_env
               Right []         -> ConIsNullary
               Right (fld:flds) -> ConHasRecordFields $ fld NE.:| flds ]
 
-    new_assoc :: DuplicateRecordFields -> FieldSelectors -> LInstDecl GhcPs
+    new_assoc :: FieldSelectors -> LInstDecl GhcPs
               -> RnM [GlobalRdrElt]
-    new_assoc _ _ (L _ (TyFamInstD {})) = return []
+    new_assoc _ (L _ (TyFamInstD {})) = return []
       -- type instances don't bind new names
 
-    new_assoc dup_fields_ok has_sel (L _ (DataFamInstD _ d))
-      = new_di dup_fields_ok has_sel Nothing d
-    new_assoc dup_fields_ok has_sel
+    new_assoc has_sel (L _ (DataFamInstD _ d))
+      = new_di has_sel Nothing d
+    new_assoc has_sel
       (L _ (ClsInstD _ (ClsInstDecl { cid_poly_ty = inst_ty
                                     , cid_decls = decls })))
       = do -- First, attempt to grab the name of the class from the instance.
@@ -953,22 +957,22 @@ getLocalNonValBinders fixity_env
                -> pure []
              Just cls_gre
                -> let cls_nm = greName cls_gre
-                  in concatMapM (new_di dup_fields_ok has_sel (Just cls_nm) . unLoc) (data_fam_insts decls)
+                  in concatMapM (new_di has_sel (Just cls_nm) . unLoc) (data_fam_insts decls)
 
     data_fam_insts decls = concatMap get decls
       where
         get (L l (InstD _ (DataFamInstD { dfid_inst = d}))) = [L l d]
         get _ = []
 
-    new_di :: DuplicateRecordFields -> FieldSelectors
+    new_di :: FieldSelectors
            -> Maybe Name -- class name
            -> DataFamInstDecl GhcPs
            -> RnM [GlobalRdrElt]
-    new_di dup_fields_ok has_sel mb_cls dfid@(DataFamInstDecl { dfid_eqn = ti_decl })
+    new_di has_sel mb_cls dfid@(DataFamInstDecl { dfid_eqn = ti_decl })
         = do { main_name <- unLoc <$> lookupFamInstName mb_cls (feqn_tycon ti_decl)
              ; let LConsWithFields cons_with_flds flds = hsDataFamInstBinders dfid
              ; sub_names <- mapM (\(con,flds) -> (,flds) <$> newTopSrcBinder (la2la con)) cons_with_flds
-             ; flds' <- mapM (newRecordFieldLabel dup_fields_ok has_sel $ map fst sub_names) flds
+             ; flds' <- mapM (newRecordFieldLabel has_sel $ map fst sub_names) flds
              ; mapM_ (add_dup_fld_errs flds') sub_names
              ; let fld_env  = mk_fld_env sub_names flds'
                    con_gres = map (mkLocalConLikeGRE (ParentIs main_name)) fld_env
@@ -996,12 +1000,11 @@ getLocalNonValBinders fixity_env
       | otherwise
       = return ()
 
-newRecordFieldLabel :: DuplicateRecordFields -> FieldSelectors -> [Name] -> LFieldOcc GhcPs -> RnM FieldLabel
-newRecordFieldLabel _ _ [] _ = error "newRecordFieldLabel: datatype has no constructors!"
-newRecordFieldLabel dup_fields_ok has_sel (dc:_) (L loc (FieldOcc _ (L _ fld)))
+newRecordFieldLabel :: FieldSelectors -> [Name] -> LFieldOcc GhcPs -> RnM FieldLabel
+newRecordFieldLabel _ [] _ = error "newRecordFieldLabel: datatype has no constructors!"
+newRecordFieldLabel has_sel (dc:_) (L loc (FieldOcc _ (L _ fld)))
   = do { selName <- newTopSrcBinder $ L (l2l loc) $ field
-       ; return $ FieldLabel { flHasDuplicateRecordFields = dup_fields_ok
-                             , flHasFieldSelector = has_sel
+       ; return $ FieldLabel { flHasFieldSelector = has_sel
                              , flSelector = selName } }
   where
     fld_occ = rdrNameOcc fld
@@ -1135,12 +1138,11 @@ We combine these by dropping the one with no siblings, leaving us with:
 
 That is, we simply discard the non-bundled Avail.
 
-Note [Importing DuplicateRecordFields]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In filterImports, another complicating factor is DuplicateRecordFields.
-Suppose we have:
+Note [Importing duplicate record fields]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In filterImports, another complicating factor is that datatypes may share
+field names. Suppose we have:
 
-  {-# LANGUAGE DuplicateRecordFields #-}
   module M (S(foo), T(foo)) where
     data S = MkS { foo :: Int }
     data T = MkT { foo :: Int }
@@ -1339,15 +1341,16 @@ filterImports hsc_env iface decl_spec (Just (want_hiding, import_items))
         -- to what is actually imported by this item.
         -- Returns Nothing on error.
         --
-        -- Returns a list because, with DuplicateRecordFields, a naked
-        -- import/export of a record field can correspond to multiple
-        -- different GlobalRdrElts. See Note [Importing DuplicateRecordFields].
+        -- Returns a list because a naked import/export of a record field
+        -- can correspond to multiple different GlobalRdrElts, when several
+        -- datatypes share the field name.
+        -- See Note [Importing duplicate record fields].
     lookup_ie :: IE GhcPs
               -> IELookupM ([(IE GhcRn, [GlobalRdrElt])], [IELookupWarning])
     lookup_ie ie = handle_bad_import $
       case ie of
         IEVar _ (L l n) _ -> do
-            -- See Note [Importing DuplicateRecordFields]
+            -- See Note [Importing duplicate record fields]
             xs <- lookup_names ie (ieWrappedName n)
             let gres = map imp_item $ NE.toList xs
                 export_depr_warns
@@ -1423,7 +1426,7 @@ filterImports hsc_env iface decl_spec (Just (want_hiding, import_items))
            let name = greName gre
 
            -- Look up the children in the sub-names of the parent
-           -- See Note [Importing DuplicateRecordFields]
+           -- See Note [Importing duplicate record fields]
            let (children_errs, childnames) = lookupChildren subnames rdr_ns
 
            bad_import_warns <-
@@ -1692,7 +1695,6 @@ parentOfImplicitlyImportedGRE gre =
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Consider the module
 
-    {-# LANGUAGE DuplicateRecordFields #-}
     module M (F(foo, MkFInt, MkFBool)) where
       data family F a
       data instance F Int = MkFInt { foo :: Int }
@@ -2147,12 +2149,10 @@ collectUnusedWildcards = unused_wildcards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Suppose we have (#24035):
 
-  {-# LANGUAGE DuplicateRecordFields #-}
   module M1 (R1(..), R2(..)) where
     data R1 = MkR1 { fld :: Int }
     data R2 = MkR2 { fld :: Int }
 
-  {-# LANGUAGE DuplicateRecordFields #-}
   module M2 where
     import M1 (R1(MkR1), R2, fld)
     f :: R1 -> Int
@@ -2356,17 +2356,14 @@ getMinimalImports ie_decls
           -> do { let infos = map (expectJust . lookupGRE_Name rdr_env) cs
                       (ns_gres,fs_gres) = classifyGREs infos
                       ns = map greName (ns_gres ++ fs_gres)
-                      fs = map fieldGREInfo fs_gres
                 ; return $
-                  if all_non_overloaded fs
+                  if null fs_gres
                   then map (\nm -> IEVar Nothing (to_ie_post_rn_var $ noLocA nm) Nothing) ns
                   else [IEThingWith (Nothing, noAnn) (to_ie_post_rn $ noLocA n) NoIEWildcard
                          (map (to_ie_post_rn . noLocA) (filter (/= n) ns)) Nothing] }
         where
 
           all_used avail_cs = all (`elem` cs) avail_cs
-
-          all_non_overloaded = all (not . flIsOverloaded . recFieldLabel)
 
     combine :: [LImportDecl GhcRn] -> [LImportDecl GhcRn]
     combine = map merge . NE.groupAllWith getKey
@@ -2487,7 +2484,6 @@ Note [Overloaded field import]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 On the other hand, if we have
 
-    {-# LANGUAGE DuplicateRecordFields #-}
     module A where
       data T = MkT { foo :: Int }
 
@@ -2495,14 +2491,13 @@ On the other hand, if we have
       import A
       f = ...foo...
 
-then the minimal import for module B must be
+then the minimal import for module B is
     import A ( T(foo) )
-because when DuplicateRecordFields is enabled, field selectors are
-not in scope without their enclosing datatype.
+naming the field through its datatype, since another datatype exported
+by A may have a field of the same name.
 
 On the third hand, if we have
 
-    {-# LANGUAGE DuplicateRecordFields #-}
     module A where
       pattern MkT { foo } = Just foo
 

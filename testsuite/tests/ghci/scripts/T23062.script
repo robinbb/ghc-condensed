@@ -1,4 +1,4 @@
-:seti -XDuplicateRecordFields -XDerivingStrategies
+:seti -XDerivingStrategies
 data A = MkA { foo :: Int, bar :: Int } deriving stock Show
 data B = MkB { foo :: Int }
 f r = r { foo = 3, bar = 4 }

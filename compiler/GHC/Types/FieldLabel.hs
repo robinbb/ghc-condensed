@@ -8,38 +8,28 @@
 Note [FieldLabel]
 ~~~~~~~~~~~~~~~~~
 This module defines the representation of FieldLabels as stored in
-TyCons.  As well as a selector name, these have some extra structure
-to support the DuplicateRecordFields and NoFieldSelectors extensions.
+TyCons.  As well as a selector name, these record whether the
+NoFieldSelectors extension was on in the defining module.
 
-In the normal case (with NoDuplicateRecordFields and FieldSelectors),
-a datatype like
+In the normal case (with FieldSelectors), a datatype like
 
     data T = MkT { foo :: Int }
 
 has
 
-    FieldLabel { flHasDuplicateRecordFields = NoDuplicateRecordFields
-               , flHasFieldSelector         = FieldSelectors
-               , flSelector                 = foo }.
+    FieldLabel { flHasFieldSelector = FieldSelectors
+               , flSelector         = foo }.
 
-If DuplicateRecordFields is enabled, however, the same declaration instead gives
-
-    FieldLabel { flHasDuplicateRecordFields = DuplicateRecordFields
-               , flHasFieldSelector         = FieldSelectors
-               , flSelector                 = foo }.
-
-We need to keep track of whether FieldSelectors or DuplicateRecordFields were
-enabled when a record field was defined, as they affect name resolution and
-shadowing of record fields, as explained in Note [NoFieldSelectors] in GHC.Types.Name.Reader
+We need to keep track of whether FieldSelectors was enabled when a record
+field was defined, as it affects name resolution and shadowing of record
+fields, as explained in Note [NoFieldSelectors] in GHC.Types.Name.Reader
 and Note [Reporting duplicate local declarations] in GHC.Rename.Names.
 -}
 
 module GHC.Types.FieldLabel
    ( FieldLabelEnv
    , FieldLabel(..), flLabel
-   , DuplicateRecordFields(..)
    , FieldSelectors(..)
-   , flIsOverloaded
    )
 where
 
@@ -64,8 +54,6 @@ type FieldLabelEnv = M.Map HText FieldLabel
 
 -- | Fields in an algebraic record type; see Note [FieldLabel].
 data FieldLabel = FieldLabel {
-      flHasDuplicateRecordFields :: DuplicateRecordFields,
-      -- ^ Was @DuplicateRecordFields@ on in the defining module for this datatype?
       flHasFieldSelector :: FieldSelectors,
       -- ^ Was @FieldSelectors@ enabled in the defining module for this datatype?
       -- See Note [NoFieldSelectors] in GHC.Rename.Env
@@ -84,27 +72,7 @@ instance HasOccName FieldLabel where
 
 instance Outputable FieldLabel where
     ppr fl = ppr (flLabel fl) <> whenPprDebug (braces (ppr (flSelector fl))
-                                                <> ppr (flHasDuplicateRecordFields fl)
                                                 <> ppr (flHasFieldSelector fl))
-
--- | Flag to indicate whether the DuplicateRecordFields extension is enabled.
-data DuplicateRecordFields
-    = DuplicateRecordFields   -- ^ Fields may be duplicated in a single module
-    | NoDuplicateRecordFields -- ^ Fields must be unique within a module (the default)
-  deriving (Show, Eq, Data)
-
-instance Binary DuplicateRecordFields where
-    put_ bh f = put_ bh (f == DuplicateRecordFields)
-    get bh = bool NoDuplicateRecordFields DuplicateRecordFields <$> get bh
-
-instance Outputable DuplicateRecordFields where
-    ppr DuplicateRecordFields   = text "+dup"
-    ppr NoDuplicateRecordFields = text "-dup"
-
-instance NFData DuplicateRecordFields where
-  rnf DuplicateRecordFields   = ()
-  rnf NoDuplicateRecordFields = ()
-
 
 -- | Flag to indicate whether the FieldSelectors extension is enabled.
 data FieldSelectors
@@ -129,17 +97,10 @@ instance NFData FieldSelectors where
 -- instance is not in scope.  And the instance cannot be added to Name.hs-boot
 -- because "GHC.Utils.Binary" itself depends on "GHC.Types.Name".
 instance Binary Name => Binary FieldLabel where
-    put_ bh (FieldLabel aa ab ac) = do
+    put_ bh (FieldLabel aa ab) = do
         put_ bh aa
         put_ bh ab
-        put_ bh ac
     get bh = do
         aa <- get bh
         ab <- get bh
-        ac <- get bh
-        return (FieldLabel aa ab ac)
-
-flIsOverloaded :: FieldLabel -> Bool
-flIsOverloaded fl =
- flHasDuplicateRecordFields fl == DuplicateRecordFields
- || flHasFieldSelector fl == NoFieldSelectors
+        return (FieldLabel aa ab)

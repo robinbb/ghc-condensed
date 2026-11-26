@@ -1,5 +1,4 @@
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# OPTIONS_GHC -dcore-lint #-}
 
 module T21720 where

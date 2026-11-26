@@ -595,8 +595,7 @@ warnUnusedGRE gre@(GRE { gre_lcl = lcl, gre_imp = is })
         span = importSpecLoc spec
 
 -- | Should we report the fact that this 'Name' is unused? The
--- 'OccName' may differ from 'nameOccName' due to
--- DuplicateRecordFields.
+-- 'OccName' may differ from 'nameOccName' for a record field.
 reportable :: Name -> OccName -> Bool
 reportable child child_occ
   | isWiredInName child
@@ -613,19 +612,16 @@ In general, we do not report ambiguous occurrences at use sites where all the
 clashing names are defined locally, because the error will have been reported at
 the definition site, and we want to avoid an error cascade.
 
-However, when DuplicateRecordFields is enabled, it is possible to define the
-same field name multiple times, so we *do* need to report an error at the use
-site when there is ambiguity between multiple fields. Moreover, when
-NoFieldSelectors is enabled, it is possible to define a field with the same name
-as a non-field, so again we need to report ambiguity at the use site.
+However, it is possible to define the same field name multiple times, in
+different datatypes, so we *do* need to report an error at the use site when
+there is ambiguity between multiple fields. Moreover, when NoFieldSelectors is
+enabled, it is possible to define a field with the same name as a non-field, so
+again we need to report ambiguity at the use site.
 
 We can skip reporting an ambiguity error whenever defining the GREs must have
 yielded a duplicate declarations error.  More precisely, we can skip if:
 
  * there are at least two non-fields amongst the GREs; or
-
- * there are at least two fields amongst the GREs, and DuplicateRecordFields is
-   *disabled*; or
 
  * there is at least one non-field, at least one field, and NoFieldSelectors is
    *disabled*.
@@ -650,7 +646,6 @@ addNameClashErrRn rdr_name gres
     -- error at use sites, because it will have been reported already? See
     -- Note [Skipping ambiguity errors at use sites of local declarations]
     can_skip = num_non_flds >= 2
-            || (num_flds >= 2 && not (isDuplicateRecFldGRE (head flds)))
             || (num_non_flds >= 1 && num_flds >= 1
                                   && not (isNoFieldSelectorGRE (head flds)))
     (flds, non_flds) = NE.partition isRecFldGRE gres

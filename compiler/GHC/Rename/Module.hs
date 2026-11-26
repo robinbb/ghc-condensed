@@ -134,9 +134,8 @@ rnSrcDecls group@(HsGroup { hs_valds   = val_decls,
    --      Need to do this before (D2) because rnTopBindsLHS
    --      looks up those pattern synonyms (#9889)
 
-   dup_fields_ok <- xopt_DuplicateRecordFields <$> getDynFlags ;
    has_sel <- xopt_FieldSelectors <$> getDynFlags ;
-   extendPatSynEnv dup_fields_ok has_sel val_decls local_fix_env $ \pat_syn_bndrs -> do {
+   extendPatSynEnv has_sel val_decls local_fix_env $ \pat_syn_bndrs -> do {
 
    -- (D2) Rename the left-hand sides of the value bindings.
    --     This depends on everything from (B) being in scope.
@@ -2670,9 +2669,9 @@ rnRecHsConDeclRecFields con doc (L l fields)
 
 -- | Brings pattern synonym names and also pattern synonym selectors
 -- from record pattern synonyms into scope.
-extendPatSynEnv :: DuplicateRecordFields -> FieldSelectors -> HsValBinds GhcPs -> MiniFixityEnv
+extendPatSynEnv :: FieldSelectors -> HsValBinds GhcPs -> MiniFixityEnv
                 -> ([Name] -> TcRnIf TcGblEnv TcLclEnv a) -> TcM a
-extendPatSynEnv dup_fields_ok has_sel val_decls local_fix_env thing = do {
+extendPatSynEnv has_sel val_decls local_fix_env thing = do {
      names_with_fls <- new_ps val_decls
    ; let pat_syn_bndrs = concat [ conLikeName_Name name : map flSelector flds
                                 | (name, con_info) <- names_with_fls
@@ -2700,7 +2699,7 @@ extendPatSynEnv dup_fields_ok has_sel val_decls local_fix_env thing = do {
       = do
           bnd_name <- newTopSrcBinder (L (l2l bind_loc) n)
           let field_occs = map ((\ f -> L (noAnnSrcSpan $ getLocA (foLabel f)) f) . recordPatSynField) as
-          flds <- mapM (newRecordFieldLabel dup_fields_ok has_sel [bnd_name]) field_occs
+          flds <- mapM (newRecordFieldLabel has_sel [bnd_name]) field_occs
           let con_info = mkConInfo ConIsPatSyn (conDetailsVisArity (RecCon noAnn as)) flds
           return ((PatSynName bnd_name, con_info) : names)
       | L bind_loc (PatSynBind _ (PSB { psb_id = L _ n, psb_args = as })) <- bind

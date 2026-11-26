@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedRecordDot #-}
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE NoFieldSelectors #-}
 
 module Main where
@@ -24,11 +23,11 @@ y = x.a ++ show x.b ++ x.c.z
 --  1             2    3  45
 
 p1,p2,p3,p4 :: (Int,Int)
-p1 = (22,6)
-p2 = (22,20)
-p3 = (22,25)
-p4 = (22,28)
-p5 = (22,29)
+p1 = (21,6)
+p2 = (21,20)
+p3 = (21,25)
+p4 = (21,28)
+p5 = (21,29)
 
 selectPoint' :: HieFile -> (Int,Int) -> HieAST Int
 selectPoint' hf loc =

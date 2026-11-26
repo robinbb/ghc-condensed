@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# OPTIONS_GHC -Werror -Wunused-top-binds #-}
 module Main (main, T(MkT)) where
 

@@ -2283,17 +2283,13 @@ of ``-W(no-)*``.
 
     :since: 9.2
 
-    When :extension:`DuplicateRecordFields` is enabled, the option
-    :ghc-flag:`-Wambiguous-fields` warns about occurrences of fields in
-    selectors or updates that depend on the deprecated mechanism for
+    The option :ghc-flag:`-Wambiguous-fields` warns about occurrences of
+    fields in selectors or updates that depend on the deprecated mechanism for
     type-directed disambiguation.  This mechanism will be removed in a future
     GHC release, at which point these occurrences will be rejected as ambiguous.
     See the proposal `DuplicateRecordFields without ambiguous field access
     <https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0366-no-ambiguous-field-access.rst>`_
-    and the documentation on :extension:`DuplicateRecordFields` for further details.
-
-    This warning has no effect when :extension:`DuplicateRecordFields` is
-    disabled.
+    and :ref:`duplicate-record-fields` for further details.
 
 .. ghc-flag:: -Wforall-identifier
     :shortdesc: *(deprecated)* Does nothing

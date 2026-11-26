@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# OPTIONS_GHC -Werror #-}
 
 import OverloadedRecFldsFail12_A

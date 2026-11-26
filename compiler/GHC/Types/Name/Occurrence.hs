@@ -215,8 +215,8 @@ GHC chooses a representation based on the strictness etc.
 
 Note [Record field namespacing]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Record fields have a separate namespace from variables, to support
-DuplicateRecordFields, e.g. in
+Record fields have a separate namespace from variables, so that datatypes
+may share field names, e.g. in
 
   data X = MkX { fld :: Int }
   data Y = MkY { fld :: Bool }
@@ -423,7 +423,7 @@ occNameMangledFS :: OccName -> FastString
 occNameMangledFS (OccName ns fs) =
   case ns of
     -- Fields need to include the constructor, to ensure that we don't define
-    -- duplicate symbols when using DuplicateRecordFields.
+    -- duplicate symbols when datatypes share a field name.
     FldName con -> concatFS [fsLit "$fld:", con, ":", fs]
     -- Otherwise, we can ignore the namespace, as there is no risk of name
     -- clashes.
@@ -436,8 +436,8 @@ When generating a symbol for a Name, we usually discard the NameSpace entirely
 e.g. a variable and a data constructor can't clash because data constructors
 start with a capital letter or a colon, while variables never do.
 
-However, record field names, in the presence of DuplicateRecordFields, need this
-disambiguation. So, for a record field like
+However, record field names need this disambiguation, since datatypes may
+share a field name. So, for a record field like
 
   data A = MkA { foo :: Int }
 

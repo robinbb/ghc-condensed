@@ -1384,13 +1384,13 @@ After the renamer, a FieldOcc GhcTc has
 - foLabel field: An Id for the field selector, whose OccName may have been mangled
   to give it a globally unique identity.
 
-For example, when DuplicateRecordFields is enabled
+For example,
 
     data T = MkT { x :: Int }
 
 gives
 
-    FieldOcc "x" $sel:x:MkT.
+    FieldOcc "x" $fld:MkT:x.
 -}
 
 {-

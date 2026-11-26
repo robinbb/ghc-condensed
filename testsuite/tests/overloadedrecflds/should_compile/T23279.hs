@@ -1,5 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields
-           , OverloadedLabels, OverloadedRecordDot #-}
+{-# LANGUAGE OverloadedLabels, OverloadedRecordDot #-}
 
 module T23279 where
 

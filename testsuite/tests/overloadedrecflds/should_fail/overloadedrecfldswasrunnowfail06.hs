@@ -1,7 +1,6 @@
 -- Test that ambiguous selectors can be disambiguated by providing
 -- type signatures in various places
 
-{-# LANGUAGE DuplicateRecordFields #-}
 
 data S = MkS { x :: Int }
 data T = MkT { x :: Bool }

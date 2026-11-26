@@ -1,6 +1,5 @@
 -- Test ambiguous updates are rejected with appropriate error messages
 
-{-# LANGUAGE DuplicateRecordFields #-}
 
 module OverloadedRecFieldsFail1a where
 

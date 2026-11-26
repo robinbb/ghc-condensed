@@ -1,5 +1,4 @@
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE DuplicateRecordFields #-}
 module T17176 (Foo(Bar,bar,Baz)) where
 
 data Foo =

@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module DRFHoleFits where
 import qualified DRFHoleFits_A as A
 

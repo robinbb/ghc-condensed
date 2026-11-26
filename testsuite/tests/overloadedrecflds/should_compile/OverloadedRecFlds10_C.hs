@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module OverloadedRecFlds10_C (F(..)) where
 
 import OverloadedRecFlds10_A

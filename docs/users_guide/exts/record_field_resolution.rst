@@ -26,12 +26,9 @@ In these four cases, here are the rules for field name resolution:
    field name is in scope as ``M.x``.
    In both cases, non-field names are ignored.
 
-Those rules are amended by the following extensions:
-
-* :extension:`DuplicateRecordFields`: This extension allows record updates if exactly
-  one type has all the fields being updated, even if they are individually ambiguous according to the rules for field name resolution above.
-  
-  For example::
+A record update is also accepted if exactly one type has all the fields being
+updated, even if they are individually ambiguous according to the rules for
+field name resolution above. For example::
 
     data S = MkS1 { x :: Int, y :: Bool }
            | MkS2 { x :: Int }
@@ -43,6 +40,8 @@ Those rules are amended by the following extensions:
 
 The only data type that has both ``x`` and ``y`` as fields is ``S``, so the field names ``x`` and ``y``
 refer unambiguously to data type ``S``.
+
+Those rules are amended by the following extension:
 
 * :extension:`NoFieldSelectors`: This extension being enabled means that field selector names in scope will be ignored in an expression context.
 

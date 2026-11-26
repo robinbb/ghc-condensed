@@ -1,5 +1,5 @@
 
-overloadedrecfldsfail01c.hs:13:10: error: [GHC-33238]
+overloadedrecfldsfail01c.hs:12:10: error: [GHC-33238]
     • No data constructor of type constructor ‘U’
       has all of the fields:
         ‘w’, ‘x’, ‘y’

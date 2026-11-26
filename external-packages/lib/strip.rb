@@ -22,7 +22,8 @@ module Strip
     AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo
     AutoDeriveTypeable BinaryLiterals CUSKs ConstrainedClassMethods
     DataKinds DatatypeContexts DeepSubsumption DeriveDataTypeable
-    DisambiguateRecordFields DoRec ExplicitForAll ExplicitNamespaces
+    DisambiguateRecordFields DoRec DuplicateRecordFields ExplicitForAll
+    ExplicitNamespaces
     HexFloatLiterals IncoherentInstances InstanceSigs KindSignatures
     MultiParamTypeClasses MultilineStrings NPlusKPatterns
     NondecreasingIndentation NullaryTypeClasses NumDecimals

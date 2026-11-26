@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# OPTIONS_GHC -Werror=duplicate-exports #-}
 
 -- This should warn about the duplicate export of foo, but not the

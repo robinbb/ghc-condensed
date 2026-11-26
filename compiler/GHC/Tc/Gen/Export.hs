@@ -34,7 +34,6 @@ import GHC.Data.Maybe
 import GHC.Data.FastString (fsLit)
 import GHC.Driver.Env
 import GHC.Driver.DynFlags
-import qualified GHC.LanguageExtensions as LangExt
 
 import GHC.Types.Unique.Map
 import GHC.Types.SrcLoc as SrcLoc
@@ -49,7 +48,6 @@ import GHC.Types.Id.Info
 import GHC.Types.Name.Reader
 import GHC.Types.Hint
 
-import Control.Arrow ( first )
 import Control.Monad ( when )
 import qualified Data.List.NonEmpty as NE
 import Data.Traversable   ( for )
@@ -1049,31 +1047,18 @@ checkPatSynParent parent NoParent nm
 check_occs :: ExportOccMap -> IE GhcPs -> [GlobalRdrElt] -> RnM ExportOccMap
 check_occs occs ie gres
   -- 'gres' are the entities specified by 'ie'
-  = do { drf <- xoptM LangExt.DuplicateRecordFields
-       ; foldlM (check drf) occs gres }
+  = foldlM check occs gres
   where
 
     -- Check for distinct children exported with the same OccName (an error) or
     -- for duplicate exports of the same child (a warning).
     --
     -- See Note [Exporting duplicate declarations].
-    check :: Bool -> ExportOccMap -> GlobalRdrElt -> RnM ExportOccMap
-    check drf_enabled occs gre
+    check :: ExportOccMap -> GlobalRdrElt -> RnM ExportOccMap
+    check occs gre
       = case try_insert occs gre of
           Right occs'
-            -- If DuplicateRecordFields is not enabled, also make sure
-            -- that we are not exporting two fields with the same occNameFS
-            -- under different namespaces.
-            --
-            -- See Note [Exporting duplicate record fields].
-            | drf_enabled || not (isFieldOcc child_occ)
             -> return occs'
-            | otherwise
-            -> do { let flds = filter (\(_,ie') -> not $ dupFieldExport_ok ie ie')
-                             $ lookupFieldsOccEnv occs (occNameFS child_occ)
-                  ; case flds of { [] -> return occs'; clash1:clashes ->
-               do { addDuplicateFieldExportErr (gre,ie) (clash1 NE.:| clashes)
-                  ; return occs } } }
 
           Left (child', ie')
             | child == child' -- Duplicate export of a single Name: a warning.
@@ -1086,7 +1071,6 @@ check_occs occs ie gres
                    ; return occs }
       where
         child = greName gre
-        child_occ = occName child
 
     -- Try to insert a child into the map, returning Left if there is something
     -- already exported with the same OccName.
@@ -1142,37 +1126,20 @@ exportClashErr global_env child1 child2 ie1 ie2
         GT -> (gre2, ie2, gre1, ie1)
         EQ -> panic "exportClashErr: clashing exports have identical location"
 
-addDuplicateFieldExportErr :: (GlobalRdrElt, IE GhcPs)
-                           -> NE.NonEmpty (Name, IE GhcPs)
-                           -> RnM ()
-addDuplicateFieldExportErr gre others
-  = do { rdr_env <- getGlobalRdrEnv
-       ; let lkup = expectJust . lookupGRE_Name rdr_env
-             other_gres = fmap (first lkup) others
-       ; addErr (TcRnDuplicateFieldExport gre other_gres) }
-
--- | Is it OK to export two clashing duplicate record fields coming from the
--- given export items, with @-XDuplicateRecordFields@ disabled?
---
--- See Note [Exporting duplicate record fields].
-dupFieldExport_ok :: IE GhcPs -> IE GhcPs -> Bool
-dupFieldExport_ok ie1 ie2
-  | IEModuleContents {} <- ie1
-  , ie2 == ie1
-  = True
-  | otherwise
-  = False
-
 {- Note [Exporting duplicate declarations]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We want to check that two different export items don't have both attempt to export
-the same thing. What do we mean precisely? There are three main situations to consider:
+the same thing. What do we mean precisely? There are two main situations to consider:
 
   1. We export two distinct Names with identical OccNames. This is an error.
   2. We export the same Name in two different export items. This is usually
      a warning, but see below.
-  3. We export a duplicate record field, and DuplicateRecordFields is not enabled.
-     See Note [Exporting duplicate record fields].
+
+Record fields belonging to different datatypes have different OccNames even
+when they share a label, as explained in Note [Record field namespacing] in
+GHC.Types.Name.Occurrence, so a module may export both; the user imports the
+one they mean through its datatype, as `import M (S(foo))`. See
+Note [Importing duplicate record fields] in GHC.Rename.Names.
 
 Concerning (2), we sometimes want to allow a duplicate export of a given Name,
 as #4478 points out. The logic, as implemented in dupExport_ok, is that we
@@ -1209,53 +1176,4 @@ Examples:
     module Bar ( T(..), module Foo ) where
       import Foo
       data instance T Int = TInt
-
-Note [Exporting duplicate record fields]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Record fields belonging to different datatypes belong to different namespaces,
-as explained in Note [Record field namespacing] in GHC.Types.Name.Occurrence.
-However, when the DuplicateRecordFields extension is NOT enabled, we want to
-prevent users from exporting record fields that share the same underlying occNameFS.
-
-To enforce this, in check_occs, when inserting a new record field into the ExportOccMap
-and DuplicateRecordFields is not enabled, we also look up any clashing record fields,
-and report an error.
-
-Note however that the clash check has an extra wrinkle, similar to dupExport_ok,
-as we want to allow the following:
-
-  {-# LANGUAGE DuplicateRecordFields #-}
-  module M1 where
-    data D1 = MkD1 { foo :: Int }
-    data D2 = MkD2 { foo :: Bool }
-
-  ---------------------------------------------
-
-   module M2 ( module M1 ) where
-     import M1
-
-That is, we should be allowed to re-export the whole module M1, without reporting
-any nameclashes, even though M1 exports duplicate record fields and we have not
-enabled -XDuplicateRecordFields in M2. This logic is implemented in
-dupFieldExport_ok. See test case NoDRFModuleExport.
-
-Note that this logic only applies to whole-module imports, as we don't want
-to allow the following:
-
-  module N0 where
-    data family D a
-  module N1 where
-    import N0
-    data instance D Int = MkDInt { foo :: Int }
-  module N2 where
-    import N0
-    data instance D Bool = MkDBool { foo :: Int }
-
-  module N (D(..)) where
-    import N1
-    import N2
-
-Here, the single export item D(..) of N exports both record fields,
-`$fld:MkDInt:foo` and `$fld:MkDBool:foo`, so we have to reject the program.
-See test overloadedrecfldsfail10.
 -}

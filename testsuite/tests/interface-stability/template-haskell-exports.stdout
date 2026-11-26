@@ -208,7 +208,6 @@ module Language.Haskell.TH where
     | LambdaCase
     | MultiWayIf
     | NegativeLiterals
-    | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
     | PatternSynonyms
@@ -779,7 +778,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | LambdaCase
     | MultiWayIf
     | NegativeLiterals
-    | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
     | PatternSynonyms
@@ -1484,7 +1482,6 @@ module Language.Haskell.TH.Syntax where
     | LambdaCase
     | MultiWayIf
     | NegativeLiterals
-    | DuplicateRecordFields
     | OverloadedLabels
     | EmptyCase
     | PatternSynonyms

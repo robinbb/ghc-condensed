@@ -1677,7 +1677,6 @@ data TcRnMessage where
                  module/mod150
                  module/mod155
                  overloadedrecflds/should_fail/T14953
-                 overloadedrecflds/should_fail/overloadedrecfldsfail10
                  rename/should_fail/rnfail029
                  rename/should_fail/rnfail040
                  typecheck/should_fail/T16453E2
@@ -1692,31 +1691,10 @@ data TcRnMessage where
     -> IE GhcPs     -- ^ Export decl of second export
     -> TcRnMessage
 
-  {-| TcRnDuplicateFieldExport is an error that occurs when a module exports
-      multiple record fields with the same name, without enabling
-      DuplicateRecordFields.
-
-      Example:
-
-      module M1 where
-        data D1 = MkD1 { foo :: Int }
-      module M2 where
-        data D2 = MkD2 { foo :: Int }
-      module M ( D1(..), D2(..) ) where
-        import module M1
-        import module M2
-
-     Test case: overloadedrecflds/should_fail/overloadedrecfldsfail10
-  -}
-  TcRnDuplicateFieldExport
-    :: (GlobalRdrElt, IE GhcPs)
-    -> NE.NonEmpty (GlobalRdrElt, IE GhcPs)
-    -> TcRnMessage
-
   {-| TcRnAmbiguousRecordUpdate is a warning, controlled by -Wambiguous-fields,
       which occurs when a user relies on the type-directed disambiguation
-      mechanism to disambiguate a record update. This will not be supported by
-      -XDuplicateRecordFields in future releases.
+      mechanism to disambiguate a record update. This will not be supported in
+      future releases.
 
       Example(s):
 
@@ -3830,7 +3808,7 @@ data TcRnMessage where
     multiple declarations.
 
     Test cases:
-      FieldSelectors, overloadedrecfldsfail03, T17965, NFSDuplicate, T9975a,
+      FieldSelectors, overloadedrecfldsfail03, T17965, T9975a,
       TDMultiple01, mod19, mod38, mod21, mod66, mod20, TDPunning, mod18, mod22,
       TDMultiple02, T4127a, ghci048, T8932, rnfail015, rnfail010, rnfail011,
       rnfail013, rnfail002, rnfail003, rn_dup, rnfail009, T7164, rnfail043,

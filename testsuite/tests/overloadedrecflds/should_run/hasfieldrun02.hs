@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, OverloadedLabels,
+{-# LANGUAGE OverloadedLabels,
              ExistentialQuantification,
              FlexibleInstances,
              TypeApplications #-}

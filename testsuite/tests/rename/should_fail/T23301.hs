@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T23301 where
 

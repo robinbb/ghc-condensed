@@ -12,8 +12,8 @@
     `DisambiguateRecordFields`, `RecursiveDo`, `ApplicativeDo`,
     `QualifiedDo`, `ExplicitNamespaces`, `StandaloneKindSignatures`,
     `BinaryLiterals`, `HexFloatLiterals`, `NumDecimals`,
-    `NumericUnderscores`, `MultilineStrings` and `QualifiedStrings`
-    constructors of `Extension`.
+    `NumericUnderscores`, `MultilineStrings`, `QualifiedStrings` and
+    `DuplicateRecordFields` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every type
     has a `Typeable` instance, a data type declaration never has a context
     (a `DataD` or `NewtypeD` with one is refused), class methods may always
@@ -49,8 +49,9 @@
     binary and a floating-point literal in hexadecimal, a literal in
     scientific notation always has a `Fractional` type, the digits of a
     literal may be separated by underscores, a string literal may span lines
-    between `"""` delimiters, and a string literal cannot be qualified by a
-    module name.
+    between `"""` delimiters, a string literal cannot be qualified by a
+    module name, and several datatypes of one module may share a field
+    name.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With

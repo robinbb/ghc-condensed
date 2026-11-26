@@ -1,22 +1,48 @@
 True
 type S :: Type
 data S = MkS {foo :: Int}
-  	-- Defined at <interactive>:3:16
+  	-- Defined at <interactive>:1:16
 
 type T :: Type -> Type
 data T a = MkT {foo :: Bool, ...}
-  	-- Defined at <interactive>:4:18
+  	-- Defined at <interactive>:2:18
 True
 <interactive>:1:1: error: [GHC-87543]
     Ambiguous occurrence ‘foo’.
     It could refer to
        either the field ‘foo’ of record ‘S’,
-              defined at <interactive>:3:16,
+              defined at <interactive>:1:16,
            or the field ‘foo’ of record ‘T’,
-              defined at <interactive>:4:18.
+              defined at <interactive>:2:18.
+
+type S :: Type
+data S = MkS {foo :: Int}
+  	-- Defined at <interactive>:1:16
+
+type T :: Type -> Type
+data T a = MkT {foo :: Bool, ...}
+  	-- Defined at <interactive>:2:18
 
 type U :: Type
 data U = MkU {foo :: Int}
-  	-- Defined at <interactive>:12:16
-foo :: U -> Int
-42
+  	-- Defined at <interactive>:9:16
+<interactive>:1:1: error: [GHC-87543]
+    Ambiguous occurrence ‘foo’.
+    It could refer to
+       either the field ‘foo’ of record ‘S’,
+              defined at <interactive>:1:16,
+           or the field ‘foo’ of record ‘T’,
+              defined at <interactive>:2:18,
+           or the field ‘foo’ of record ‘U’,
+              defined at <interactive>:9:16.
+
+<interactive>:13:1: error: [GHC-87543]
+    Ambiguous occurrence ‘foo’.
+    It could refer to
+       either the field ‘foo’ of record ‘S’,
+              defined at <interactive>:1:16,
+           or the field ‘foo’ of record ‘T’,
+              defined at <interactive>:2:18,
+           or the field ‘foo’ of record ‘U’,
+              defined at <interactive>:9:16.
+

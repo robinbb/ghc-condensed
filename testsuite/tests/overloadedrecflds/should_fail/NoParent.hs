@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module NoParent (A(x)) where
 
 data A = A

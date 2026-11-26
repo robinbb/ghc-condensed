@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE DuplicateRecordFields #-}
 module DuplicateRecordFields (RawReplay(..)) where
 
 import Prelude hiding (Int)

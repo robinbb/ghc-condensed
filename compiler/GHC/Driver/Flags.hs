@@ -170,7 +170,6 @@ extensionName = \case
   LangExt.LambdaCase -> "LambdaCase"
   LangExt.MultiWayIf -> "MultiWayIf"
   LangExt.NegativeLiterals -> "NegativeLiterals"
-  LangExt.DuplicateRecordFields -> "DuplicateRecordFields"
   LangExt.OverloadedLabels -> "OverloadedLabels"
   LangExt.EmptyCase -> "EmptyCase"
   LangExt.PatternSynonyms -> "PatternSynonyms"

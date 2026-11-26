@@ -5,7 +5,6 @@
 -- this test is constructed with simple text (without markup) only.
 --
 
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeFamilies #-}
 module Test where

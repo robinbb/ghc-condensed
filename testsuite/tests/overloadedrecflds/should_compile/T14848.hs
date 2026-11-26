@@ -1,5 +1,4 @@
 {-# language TemplateHaskell #-}
-{-# language DuplicateRecordFields #-}
 
 module T14848 where
 import Language.Haskell.TH

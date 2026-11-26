@@ -17,7 +17,6 @@ Example:
 .. code-block:: haskell
 
   {-# LANGUAGE OverloadedRecordDot #-}
-  {-# LANGUAGE DuplicateRecordFields #-}
 
   data Person = Person { name :: String }
   data Company = Company { name :: String, owner :: Person }

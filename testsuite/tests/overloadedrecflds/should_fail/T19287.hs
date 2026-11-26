@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module Main where
 
 data R a b = R { x :: a , x :: b }

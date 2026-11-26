@@ -1011,12 +1011,10 @@ toRecordFieldPart (HsRecFieldUpd {}) = RecordFieldUpdate
 
 {- Note [Disambiguating record updates]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When the -XDuplicateRecordFields extension is used, to rename and typecheck
-a non-overloaded record update, we might need to disambiguate the field labels.
+To rename and typecheck a non-overloaded record update, we might need to
+disambiguate the field labels, since datatypes may share field names.
 
 Consider the following definitions:
-
-   {-# LANGUAGE DuplicateRecordFields #-}
 
     data R = MkR1 { fld1 :: Int, fld2 :: Char }
            | MKR2 { fld1 :: Int, fld2 :: Char, fld3 :: Bool }

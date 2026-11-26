@@ -290,7 +290,7 @@ instance NFData Name where
 
 -- Needs NFData Name, so the instance is here to avoid cyclic imports.
 instance NFData FieldLabel where
-  rnf (FieldLabel a b c) = rnf a `seq` rnf b `seq` rnf c
+  rnf (FieldLabel a b) = rnf a `seq` rnf b
 
 instance NFData NameSort where
   rnf (External m) = rnf m

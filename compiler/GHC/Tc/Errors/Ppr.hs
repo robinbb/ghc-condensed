@@ -732,27 +732,11 @@ instance Diagnostic TcRnMessage where
           nest 3 $
             hang (quotes (ppr ie) <+> text "exports" <+> quotes (ppr $ greName gre))
                2 (pprNameProvenance gre)
-    TcRnDuplicateFieldExport (gre, ie1) gres_ies ->
-      mkSimpleDecorated $
-           vcat ( hsep [ text "Duplicate record field"
-                       , quotes (ppr $ greOccName gre)
-                       , text "in export list" <> colon ]
-                : map ppr_export ((gre,ie1) : NE.toList gres_ies)
-                )
-      where
-        ppr_export (gre,ie) =
-          nest 3 $
-            hang (sep [ quotes (ppr ie) <+> text "exports the field" <+> quotes (ppr $ greName gre)
-                       , text "belonging to the constructor" <> plural fld_cons <+> pprQuotedList fld_cons ])
-               2 (pprNameProvenance gre)
-          where
-            fld_cons :: [ConLikeName]
-            fld_cons = nonDetEltsUniqSet $ recFieldCons $ fieldGREInfo gre
     TcRnAmbiguousRecordUpdate _rupd tc
       -> mkSimpleDecorated $
           vcat [ text "Ambiguous record update with parent" <+> what <> dot
                , hsep [ text "This type-directed disambiguation mechanism"
-                      , text "will not be supported by -XDuplicateRecordFields in future releases of GHC." ]
+                      , text "will not be supported in future releases of GHC." ]
                , text "Consider disambiguating using module qualification instead."
                ]
         where
@@ -2199,8 +2183,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnConflictingExports{}
       -> ErrorWithoutFlag
-    TcRnDuplicateFieldExport {}
-      -> ErrorWithoutFlag
     TcRnAmbiguousRecordUpdate{}
       -> WarningWithFlag Opt_WarnAmbiguousFields
     TcRnMissingFields{}
@@ -2860,8 +2842,6 @@ instance Diagnostic TcRnMessage where
           BadExportSubordinateNonData{}  -> [SuggestChangeExportItem ExportItemRemoveSubordinateData]
     TcRnConflictingExports{}
       -> noHints
-    TcRnDuplicateFieldExport {}
-      -> [suggestExtension LangExt.DuplicateRecordFields]
     TcRnAmbiguousRecordUpdate{}
       -> noHints
     TcRnMissingFields{}
@@ -3242,8 +3222,8 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnUnusedImport{}
       -> noHints
-    TcRnDuplicateDecls _ fs
-      -> [suggestExtension LangExt.DuplicateRecordFields | all isFieldName fs]
+    TcRnDuplicateDecls{}
+      -> noHints
     TcRnPackageImportsDisabled
       -> [suggestExtension LangExt.PackageImports]
     TcRnIllegalDataCon{}

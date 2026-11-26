@@ -1,5 +1,5 @@
--- This module does not enable -XDuplicateRecordFields, but it should
--- still be able to refer to non-overloaded fields like `y`
+-- This module should be able to refer to a field like `y` that
+-- only one of the imported datatypes has
 
 import OverloadedRecFldsRun02_A
 

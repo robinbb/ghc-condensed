@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields    #-}
 {-# LANGUAGE TypeFamilies             #-}
 
 module GHC.Tc.Utils.Backpack (

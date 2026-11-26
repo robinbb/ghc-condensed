@@ -18,7 +18,6 @@ module GHC.Driver.DynFlags (
         wopt_any_custom,
         xopt, xopt_set, xopt_unset,
         xopt_set_unlessExplSpec,
-        xopt_DuplicateRecordFields,
         xopt_FieldSelectors,
         lang_set,
         DynamicTooState(..), dynamicTooState, setDynamicNow,
@@ -1195,11 +1194,6 @@ xopt_set_unlessExplSpec ext setUnset dflags =
         stripOnOff (Off x) = x
     in
         if ext `elem` referedExts then dflags else setUnset dflags ext
-
-xopt_DuplicateRecordFields :: DynFlags -> FieldLabel.DuplicateRecordFields
-xopt_DuplicateRecordFields dfs
-  | xopt LangExt.DuplicateRecordFields dfs = FieldLabel.DuplicateRecordFields
-  | otherwise                              = FieldLabel.NoDuplicateRecordFields
 
 xopt_FieldSelectors :: DynFlags -> FieldLabel.FieldSelectors
 xopt_FieldSelectors dfs

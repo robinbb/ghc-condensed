@@ -34,7 +34,6 @@ module GHC.Driver.Session (
         wopt_any_custom,
         xopt, xopt_set, xopt_unset,
         xopt_set_unlessExplSpec,
-        xopt_DuplicateRecordFields,
         xopt_FieldSelectors,
         lang_set,
         DynamicTooState(..), dynamicTooState, setDynamicNow,

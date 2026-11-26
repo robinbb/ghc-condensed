@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module T11167_ambig where
 
 data SomeException

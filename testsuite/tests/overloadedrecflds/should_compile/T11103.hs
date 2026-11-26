@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module T11103 where
 

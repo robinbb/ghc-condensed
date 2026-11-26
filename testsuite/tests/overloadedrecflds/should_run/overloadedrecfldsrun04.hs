@@ -1,6 +1,6 @@
--- Test that DuplicateRecordFields works with TemplateHaskell
+-- Test that duplicate record fields work with TemplateHaskell
 
-{-# LANGUAGE DuplicateRecordFields, TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 import Language.Haskell.TH
 import Language.Haskell.TH.Syntax

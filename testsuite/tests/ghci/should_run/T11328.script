@@ -1,4 +1,3 @@
-:seti -XDuplicateRecordFields
 data T = MkT { foo :: Int }
 :complete repl "foo"
 :complete repl "$"

@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, NoFieldSelectors #-}
+{-# LANGUAGE NoFieldSelectors #-}
 
 module T23279_aux where
 

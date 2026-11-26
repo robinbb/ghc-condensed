@@ -1,4 +1,4 @@
-{-# LANGUAGE DuplicateRecordFields, PatternSynonyms #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 module T21898 where
 

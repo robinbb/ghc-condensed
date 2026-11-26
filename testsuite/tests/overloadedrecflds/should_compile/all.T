@@ -36,10 +36,6 @@ test('overloadedrecflds10'
     , [extra_files(['OverloadedRecFlds10_A.hs', 'OverloadedRecFlds10_B.hs', 'OverloadedRecFlds10_C.hs'])]
     , multimod_compile
     , ['overloadedrecflds10', '-v0'])
-test('NoDRFModuleExport'
-    , [extra_files(['NoDRFModuleExport_aux.hs'])]
-    , multimod_compile
-    , ['NoDRFModuleExport', '-v0'])
 test('BootFldReexport'
     , [extra_files([ 'BootFldReexport_N.hs', 'BootFldReexport_N.hs-boot'
                    , 'BootFldReexport_O.hs', 'BootFldReexport_O.hs-boot'

@@ -1,4 +1,4 @@
-{-# LANGUAGE QuasiQuotes, TemplateHaskell, DuplicateRecordFields #-}
+{-# LANGUAGE QuasiQuotes, TemplateHaskell #-}
 
 module T19664 where
 

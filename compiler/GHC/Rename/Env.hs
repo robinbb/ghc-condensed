@@ -732,22 +732,18 @@ lookupSubBndrOcc_helper must_have_parent all_ns warn_if_deprec parent_gre rdr_na
         -- there are three situations where this happens.
         -- 1. There were none to begin with.
         -- 2. None of the matching ones were the parent but
-        --  a. They were from an overloaded record field so we can report
+        --  a. They were all record fields so we can report
         --     a better error
         --  b. The original lookup was actually ambiguous.
-        --     For example, the case where overloading is off and two
-        --     record fields are in scope from different record
-        --     constructors, neither of which is the parent.
         noMatchingParentErr :: [GlobalRdrElt] -> RnM ChildLookupResult
         noMatchingParentErr original_gres = do
           traceRn "npe" (ppr original_gres)
-          dup_fields_ok <- xoptM LangExt.DuplicateRecordFields
           case original_gres of
             []  -> return NameNotFound
             [g] -> return $ IncorrectParent parent_gre g
                               [p | ParentIs p <- [greParent g]]
             gss@(g:gss'@(_:_)) ->
-              if all isRecFldGRE gss && dup_fields_ok
+              if all isRecFldGRE gss
               then return $
                     IncorrectParent parent_gre g
                       [p | x <- gss, ParentIs p <- [greParent x]]
@@ -1785,8 +1781,8 @@ constructor namespace before looking in the data constructor namespace to
 deal with promoted data constructors.
 
 There is however, as always, one exception to this scheme. If we find
-an ambiguous occurrence of a record selector and DuplicateRecordFields
-is enabled then we defer the selection until the typechecker.
+an ambiguous occurrence of a record selector then we defer the selection
+until the typechecker.
 
 -}
 
@@ -1927,10 +1923,10 @@ We DON'T do this Safe Haskell as we need to check imports. We can
 and should instead check the qualified import but at the moment
 this requires some refactoring so leave as a TODO
 
-Note [DuplicateRecordFields and -fimplicit-import-qualified]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When DuplicateRecordFields is used, a single module can export the same OccName
-multiple times, for example:
+Note [Duplicate record fields and -fimplicit-import-qualified]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A single module can export the same OccName multiple times, when several of
+its datatypes share a field name, for example:
 
   module M where
     data S = MkS { foo :: Int }
@@ -1956,7 +1952,7 @@ lookupOneQualifiedNameGHCi fos rdr_name = do
 
 -- | Look up *all* the names to which the 'RdrName' may refer in GHCi (using
 -- @-fimplicit-import-qualified@).  This will normally be zero or one, but may
--- be more in the presence of @DuplicateRecordFields@.
+-- be more when several datatypes share a field name.
 lookupQualifiedNameGHCi :: HasDebugCallStack => FieldsOrSelectors -> RdrName -> RnM [GlobalRdrElt]
 lookupQualifiedNameGHCi fos rdr_name
   = -- We want to behave as we would for a source file import here,
@@ -2010,7 +2006,7 @@ lookupQualifiedNameGHCi fos rdr_name
       -- Fake a GRE so we can report a sensible name clash error if
       -- -fimplicit-import-qualified is used with a module that exports the same
       -- field name multiple times (see
-      -- Note [DuplicateRecordFields and -fimplicit-import-qualified]).
+      -- Note [Duplicate record fields and -fimplicit-import-qualified]).
       GRE { gre_name = nm
           , gre_par = NoParent
           , gre_lcl = False

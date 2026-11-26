@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module T17420A where
 
 data Dog = Dog { name::String }

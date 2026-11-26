@@ -46,8 +46,7 @@ to the non-field.  For exmaple, the following is permitted: ::
     bar = ()  -- does not conflict with `bar` field
     baz = bar -- unambiguously refers to `bar` the unit value, not the field
 
-If you have multiple datatypes with the same field name, you need to enable
-:extension:`DuplicateRecordFields` to allow them to be declared simultaneously.
+Multiple datatypes may share a field name (see :ref:`duplicate-record-fields`).
 It is never permitted for a single module to define multiple top-level bindings
 with the same name.
 

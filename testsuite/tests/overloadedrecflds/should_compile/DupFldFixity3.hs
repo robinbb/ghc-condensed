@@ -1,5 +1,4 @@
 
-{-# LANGUAGE DuplicateRecordFields #-}
 
 module DupFldFixity3 where
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 
 -- Test that we deal gracefully with non-fields in updates
 

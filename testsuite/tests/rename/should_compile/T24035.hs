@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module T24035 where
 import T24035_aux (R1 (MkR1, ra), rb)
 

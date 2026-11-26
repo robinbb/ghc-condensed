@@ -1,4 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 module T11173 where
 import T11173a (A(..))
 

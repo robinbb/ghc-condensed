@@ -1,6 +1,5 @@
 -- Test selectors cannot be used ambiguously
 
-{-# LANGUAGE DuplicateRecordFields #-}
 
 data R = MkR { x :: Int, y :: Bool }
 data S = MkS { x :: Int }

@@ -352,9 +352,8 @@ data HsFieldBind lhs rhs = HsFieldBind {
 
 -- A HsRecField (used for record construction and pattern matching)
 -- contains an unambiguous occurrence of a field (i.e. a FieldOcc).
--- We can't just store the Name, because thanks to
--- DuplicateRecordFields this may not correspond to the label the user
--- wrote.
+-- We can't just store the Name, because the selector Name of a field
+-- need not correspond to the label the user wrote.
 --
 -- A HsRecUpdField (used for record update) contains a potentially
 -- ambiguous occurrence of a field (an AmbiguousFieldOcc).  The

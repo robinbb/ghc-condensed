@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**43 language extensions deleted.**
+**44 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -169,6 +169,17 @@ The entries below are alphabetical. For each extension it gives:
   output).
 - Stability: Deprecated.
 - Notes: A deprecated alias of RecursiveDo.
+
+`DuplicateRecordFields`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: none.
+- Lines: +404 −829, net −425.
+- Stability: Uncategorized; the user's guide gives no stability status.
+- Notes: Datatypes in one module may share field names and a module may
+  export the shared fields together; a bare selector of a shared name is
+  ambiguous. Record-heavy code already relies on it.
 
 `ExplicitForAll`
 

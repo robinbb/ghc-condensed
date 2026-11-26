@@ -211,11 +211,10 @@ size (assuming one    | HsVar        | HsRecSel             | HsRecSel          
 e.size (assuming      | HsGetField   | getField @"size" e   | getField @"size" e  |
  OverloadedRecordDot) |              |                      |                     |
 
-NB 1: DuplicateRecordFields makes no difference to the first row of
-this table, except that if 'size' is a field of more than one data
-type, then a naked use of the record selector 'size' may well be
-ambiguous. You have to use a qualified name. And there is no way to do
-this if both data types are declared in the same module.
+NB 1: If 'size' is a field of more than one data type, then a naked
+use of the record selector 'size' in the first row of this table may
+well be ambiguous. You have to use a qualified name. And there is no
+way to do this if both data types are declared in the same module.
 
 NB 2: The notation getField @"size" e is short for
 HsApp (HsAppType (HsVar "getField") (HsWC (HsTyLit (HsString "size")) [])) e.
