@@ -177,6 +177,14 @@ regenerate the parser and lexer for the same check.
   lines; verify with `git apply --check` (`-p` by directory depth) on a
   fresh copy. Same-version copies under `projects/purescript/vendored/` need
   the same hunks, or a `purescript-<pkg>.patch` when the version differs.
+- Patches are diffs against the stripped tree, since `add.rb --fetch` strips
+  before it applies them. After every removal run
+  `ruby external-packages/audit-patches.rb`: it rebuilds each patched
+  package's pristine source, strips it, applies the patch and compares with
+  the working copy. A patch whose context the strip now touches, or which
+  adds a pragma the compiler now rejects, is stale, and `add.rb --fetch`
+  would skip it silently; regenerate it from the stripped pristine (kept
+  with `--keep DIR`) and the working copy.
 - `haskell-src-meta` maps template-haskell's `Extension` constructors in
   both directions and `persistent` lists required extensions by constructor:
   both patches grow with every removal. Find such code uses with a grep for
@@ -233,7 +241,8 @@ The inventory of sites, from the removals done so far:
   stage 1 ghci with `-XName` added to the testsuite's flags.
 - Corpus: the `REMOVED` list (or `RENAMED`) in
   `external-packages/lib/strip.rb`, the working copies stripped, the
-  `haskell-src-meta` patch, and `manifest.yaml` for any new patch.
+  `haskell-src-meta` patch, `manifest.yaml` for any new patch, and
+  `audit-patches.rb` run over the result.
 - A hard-coded-off removal also takes the syntax out: tokens, AST
   constructors, Template Haskell constructors, and the in-tree users
   (ghc-internal and base are Haskell2010 and may rely on the extension

@@ -1,6 +1,16 @@
+--- a/external-packages/vendored/barbies/src/Barbies/Internal/ConstraintsT.hs
++++ b/external-packages/vendored/barbies/src/Barbies/Internal/ConstraintsT.hs
+@@ -75,6 +75,7 @@ import Data.Generics.GenericN
+ -- derive instance 'Generic' (T f a)
+ -- instance 'ConstraintsT' T
+ -- @
++type ConstraintsT :: ((kl -> Type) -> (kr -> Type)) -> Constraint
+ class FunctorT t => ConstraintsT (t :: (kl -> Type) -> (kr -> Type)) where
+   -- | @'AllT' c t@ should contain a constraint @c a@ for each
+   --   @a@ occurring under an @f@ in @t f@.
 --- a/external-packages/vendored/barbies/src/Barbies/Internal/Containers.hs
 +++ b/external-packages/vendored/barbies/src/Barbies/Internal/Containers.hs
-@@ -11,6 +11,7 @@
+@@ -11,6 +11,7 @@ import Data.Functor.Barbie
  import Data.Bifunctor (first)
  import Data.Bitraversable (bitraverse)
  import Data.Functor.Const
@@ -8,7 +18,7 @@
  import GHC.Generics (Generic)
  
  
-@@ -18,7 +19,7 @@
+@@ -18,7 +19,7 @@ import GHC.Generics (Generic)
  
  -- | Wrapper for barbies that act as containers of @a@
  --   by wearing @('Const' a)@.
@@ -19,15 +29,7 @@
  
 --- a/external-packages/vendored/barbies/src/Data/Generics/GenericN.hs
 +++ b/external-packages/vendored/barbies/src/Data/Generics/GenericN.hs
-@@ -1,6 +1,7 @@
- {-# LANGUAGE FlexibleContexts     #-}
- {-# LANGUAGE FlexibleInstances    #-}
- {-# LANGUAGE ScopedTypeVariables  #-}
-+{-# LANGUAGE StandaloneKindSignatures #-}
- {-# LANGUAGE TypeFamilies         #-}
- {-# LANGUAGE TypeOperators        #-}
- {-# LANGUAGE UndecidableInstances #-}
-@@ -36,10 +37,12 @@
+@@ -35,10 +35,12 @@ import Data.Coerce
  
  data family Param (n :: Nat) (a :: k) :: k
  
@@ -40,19 +42,3 @@
  type family FilterIndex (n :: Nat) (t :: k) :: k where
    FilterIndex n (t (Param n a)) = FilterIndex n t (Param n a)
    FilterIndex n (t (Param _ a)) = FilterIndex n t a
---- a/external-packages/vendored/barbies/src/Barbies/Internal/ConstraintsT.hs
-+++ b/external-packages/vendored/barbies/src/Barbies/Internal/ConstraintsT.hs
-@@ -1,4 +1,5 @@
- {-# LANGUAGE AllowAmbiguousTypes  #-}
-+{-# LANGUAGE StandaloneKindSignatures #-}
- {-# LANGUAGE TypeFamilies         #-}
- {-# LANGUAGE UndecidableInstances #-}
- {-# OPTIONS_GHC -Wno-orphans #-}
-@@ -75,6 +76,7 @@
- -- derive instance 'Generic' (T f a)
- -- instance 'ConstraintsT' T
- -- @
-+type ConstraintsT :: ((kl -> Type) -> (kr -> Type)) -> Constraint
- class FunctorT t => ConstraintsT (t :: (kl -> Type) -> (kr -> Type)) where
-   -- | @'AllT' c t@ should contain a constraint @c a@ for each
-   --   @a@ occurring under an @f@ in @t f@.

@@ -19,7 +19,12 @@ package means the same thing. A module-wide instance default
 (OverlappingInstances, IncoherentInstances) is dropped too, but there the
 package may need per-instance pragmas; those are found by building it
 and reading the overlap errors, and recorded as a patch like any other
-exception.
+exception. The strip runs before the patches, so a patch is a diff against
+the stripped tree: its context never shows a stripped name, and a removal
+whose strip touches a patch's context or whose name a patch adds must
+refresh that patch, or `add.rb --fetch` skips it with a one-line message.
+`audit-patches.rb`, beside `check.rb`, simulates that fetch for every patch;
+run it after each removal.
 
 - `alex.patch`: drops the datatype context of `Data.Ranged.RangedSet.RSet`
   (`newtype DiscreteOrdered v => RSet v`), which this compiler rejects. A

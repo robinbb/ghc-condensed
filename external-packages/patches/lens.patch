@@ -1,6 +1,6 @@
 --- a/external-packages/lens/src/Control/Lens/Internal/Exception.hs
 +++ b/external-packages/lens/src/Control/Lens/Internal/Exception.hs
-@@ -135,7 +135,7 @@
+@@ -134,7 +134,7 @@ instance Typeable m => Handleable SomeException m (Catch.Handler m) where
  handlerIO :: forall a r. Typeable a => Getting (First a) SomeException a -> (a -> IO r) -> Exception.Handler r
  handlerIO l f = reifyTypeable (preview l) $ \ (_ :: Proxy s) -> Exception.Handler (\(Handling a :: Handling a s IO) -> f a)
  
@@ -9,32 +9,9 @@
  handlerCatchIO l f = reifyTypeable (preview l) $ \ (_ :: Proxy s) -> Catch.Handler (\(Handling a :: Handling a s m) -> f a)
  
  ------------------------------------------------------------------------------
---- a/external-packages/lens/tests/T917.hs
-+++ b/external-packages/lens/tests/T917.hs
-@@ -2,6 +2,7 @@
- {-# LANGUAGE FlexibleInstances #-}
- {-# LANGUAGE FunctionalDependencies #-}
- {-# LANGUAGE GADTs #-}
-+{-# LANGUAGE StandaloneKindSignatures #-}
- {-# LANGUAGE TemplateHaskell #-}
- {-# LANGUAGE TypeFamilies #-}
- {-# LANGUAGE TypeOperators #-}
-@@ -30,10 +31,12 @@
- data instance T917DataFam (a :: Type) = MkT917DataFam { _unT917DataFam :: Proxy a }
- $(makeLenses 'MkT917DataFam)
- 
-+type T917GadtOne :: k -> Type
- data T917GadtOne (a :: k) where
-   MkT917GadtOne :: T917GadtOne (a :: Type)
- $(makePrisms ''T917GadtOne)
- 
-+type T917GadtTwo :: k -> Type
- data T917GadtTwo (a :: k) where
-   MkT917GadtTwo :: T917GadtTwo (a :: Type)
- $(makePrisms ''T917GadtTwo)
 --- a/external-packages/lens/src/Language/Haskell/TH/Lens.hs
 +++ b/external-packages/lens/src/Language/Haskell/TH/Lens.hs
-@@ -266,7 +266,6 @@
+@@ -266,7 +266,6 @@ module Language.Haskell.TH.Lens
    , _LabelE
  #endif
  #if MIN_VERSION_template_haskell(2,15,0)
@@ -42,7 +19,7 @@
    , _ImplicitParamVarE
  #endif
  #if MIN_VERSION_template_haskell(2,18,0)
-@@ -299,9 +298,6 @@
+@@ -299,9 +298,6 @@ module Language.Haskell.TH.Lens
    , _LetS
    , _NoBindS
    , _ParS
@@ -52,7 +29,16 @@
    -- ** Range Prisms
    , _FromR
    , _FromThenR
-@@ -2069,29 +2065,6 @@
+@@ -1976,7 +1972,7 @@ _CaseE
+ -- _DoE :: 'Prism'' 'Exp' ('Maybe' 'ModName', ['Stmt']) -- template-haskell-2.17+
+ -- _DoE :: 'Prism'' 'Exp' ['Stmt']                  -- Earlier versions
+ -- @
+-# if MIN_VERSION_template_haskell(2,17,0)
++# if MIN_VERSION_template_haskell(2,17,0) && !MIN_VERSION_template_haskell(2,25,0)
+ _DoE :: Prism' Exp (Maybe ModName, [Stmt])
+ _DoE
+   = prism' reviewer remitter
+@@ -2069,29 +2065,6 @@ _LabelE
  #endif
  
  #if MIN_VERSION_template_haskell(2,15,0)
@@ -82,7 +68,7 @@
  _ImplicitParamVarE :: Prism' Exp String
  _ImplicitParamVarE
    = prism' reviewer remitter
-@@ -2247,16 +2220,6 @@
+@@ -2247,16 +2220,6 @@ _ParS
        remitter (ParS x) = Just x
        remitter _ = Nothing
  
@@ -99,14 +85,18 @@
  _FromR :: Prism' Range Exp
  _FromR
    = prism' reviewer remitter
---- a/external-packages/lens/src/Language/Haskell/TH/Lens.hs
-+++ b/external-packages/lens/src/Language/Haskell/TH/Lens.hs
-@@ -1972,7 +1972,7 @@
- -- _DoE :: 'Prism'' 'Exp' ('Maybe' 'ModName', ['Stmt']) -- template-haskell-2.17+
- -- _DoE :: 'Prism'' 'Exp' ['Stmt']                  -- Earlier versions
- -- @
--# if MIN_VERSION_template_haskell(2,17,0)
-+# if MIN_VERSION_template_haskell(2,17,0) && !MIN_VERSION_template_haskell(2,25,0)
- _DoE :: Prism' Exp (Maybe ModName, [Stmt])
- _DoE
-   = prism' reviewer remitter
+--- a/external-packages/lens/tests/T917.hs
++++ b/external-packages/lens/tests/T917.hs
+@@ -30,10 +30,12 @@ data family   T917DataFam (a :: k)
+ data instance T917DataFam (a :: Type) = MkT917DataFam { _unT917DataFam :: Proxy a }
+ $(makeLenses 'MkT917DataFam)
+ 
++type T917GadtOne :: k -> Type
+ data T917GadtOne (a :: k) where
+   MkT917GadtOne :: T917GadtOne (a :: Type)
+ $(makePrisms ''T917GadtOne)
+ 
++type T917GadtTwo :: k -> Type
+ data T917GadtTwo (a :: k) where
+   MkT917GadtTwo :: T917GadtTwo (a :: Type)
+ $(makePrisms ''T917GadtTwo)

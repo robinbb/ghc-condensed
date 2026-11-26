@@ -157,6 +157,9 @@ haddock-library 1.11.0 for pandoc while the tree ships 1.12.0).
   its `cabal.project.freeze`, both committed; its clones and its
   `vendored/` copies are not.
 - `patches/`: the deliberate exceptions, as diffs (see its README).
+- `audit-patches.rb`: checks every patch against a freshly fetched and
+  stripped copy of its package, as `add.rb --fetch` would apply it. Run
+  it after every removal.
 
 ## What is committed
 
