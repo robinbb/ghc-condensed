@@ -29,8 +29,7 @@ import GHC.Hs
 import GHC.Tc.Errors.Types
 import GHC.Tc.Utils.Monad
 
-import GHC.Rename.Bind ( rnLocalBindsAndThen, rnLocalValBindsLHS, rnLocalValBindsRHS
-                       , rnMatchGroup, rnGRHS, makeMiniFixityEnv)
+import GHC.Rename.Bind ( rnLocalBindsAndThen, rnMatchGroup, rnGRHS )
 import GHC.Rename.Env
 import GHC.Rename.Fixity
 import GHC.Rename.Utils
@@ -651,20 +650,6 @@ rnExpr e@(HsStatic _ expr)
 {-
 ************************************************************************
 *                                                                      *
-        Arrow notation
-*                                                                      *
-********************************************************************* -}
-
-rnExpr (HsProc x pat body)
-  = newArrowScope $
-    rnPat (ArrowMatchCtxt ProcExpr) pat $ \ pat' -> do
-      { (body',fvBody) <- rnCmdTop body
-      ; return (HsProc x pat' body', fvBody) }
-
-
-{-
-************************************************************************
-*                                                                      *
         Type syntax
 *                                                                      *
 ********************************************************************* -}
@@ -875,188 +860,6 @@ rnFieldLabelStrings (FieldLabelStrings fls) = FieldLabelStrings (fmap (fmap rnDo
 {-
 ************************************************************************
 *                                                                      *
-        Arrow commands
-*                                                                      *
-************************************************************************
--}
-
-rnCmdArgs :: [LHsCmdTop GhcPs] -> RnM ([LHsCmdTop GhcRn], FreeNames)
-rnCmdArgs [] = return ([], emptyFNs)
-rnCmdArgs (arg:args)
-  = do { (arg',fvArg) <- rnCmdTop arg
-       ; (args',fvArgs) <- rnCmdArgs args
-       ; return (arg':args', fvArg `plusFN` fvArgs) }
-
-rnCmdTop :: LHsCmdTop GhcPs -> RnM (LHsCmdTop GhcRn, FreeNames)
-rnCmdTop = wrapLocFstMA rnCmdTop'
- where
-  rnCmdTop' :: HsCmdTop GhcPs -> RnM (HsCmdTop GhcRn, FreeNames)
-  rnCmdTop' (HsCmdTop _ cmd)
-   = do { (cmd', fvCmd) <- rnLCmd cmd
-        ; let needs = methodNamesCmd (unLoc cmd')
-              cmd_occs = [arrAIdOcc, composeAIdOcc, firstAIdOcc] ++
-                         (if cn_app    needs then [appAIdOcc] else []) ++
-                         (if cn_choice needs then [choiceAIdOcc] else []) ++
-                         (if cn_loop   needs then [loopAIdOcc] else [])
-        ; (cmd_names, cmd_fvs) <- mapAndUnzipM lookupSyntaxName cmd_occs
-        ; return (HsCmdTop (CST (cmd_occs `zip` map genHsVar cmd_names)) cmd',
-                  fvCmd `plusFN` plusFNs cmd_fvs) }
-
-rnLCmd :: LHsCmd GhcPs -> RnM (LHsCmd GhcRn, FreeNames)
-rnLCmd = wrapLocFstMA rnCmd
-
-rnCmd :: HsCmd GhcPs -> RnM (HsCmd GhcRn, FreeNames)
-
-rnCmd (HsCmdArrApp _ arrow arg ho rtl)
-  = do { (arrow',fvArrow) <- select_arrow_scope (rnLExpr arrow)
-       ; (arg',fvArg) <- rnLExpr arg
-       ; return (HsCmdArrApp noExtField arrow' arg' ho rtl,
-                 fvArrow `plusFN` fvArg) }
-  where
-    select_arrow_scope tc = case ho of
-        HsHigherOrderApp -> tc
-        HsFirstOrderApp  -> escapeArrowScope tc
-        -- See Note [Escaping the arrow scope] in GHC.Tc.Types
-        -- Before renaming 'arrow', use the environment of the enclosing
-        -- proc for the (-<) case.
-        -- Local bindings, inside the enclosing proc, are not in scope
-        -- inside 'arrow'.  In the higher-order case (-<<), they are.
-
-rnCmd (HsCmdArrForm _ op f cmds)
-  = do { (op',fvOp) <- escapeArrowScope (rnLExpr op)
-       ; (cmds',fvCmds) <- rnCmdArgs cmds
-       ; return ( HsCmdArrForm Nothing op' f cmds'
-                , fvOp `plusFN` fvCmds) }
-
-rnCmd (HsCmdApp x fun arg)
-  = do { (fun',fvFun) <- rnLCmd  fun
-       ; (arg',fvArg) <- rnLExpr arg
-       ; return (HsCmdApp x fun' arg', fvFun `plusFN` fvArg) }
-
-rnCmd (HsCmdLam x lam_variant matches)
-  = do { let ctxt = ArrowMatchCtxt $ ArrowLamAlt lam_variant
-       ; (new_matches, ms_fvs) <- rnMatchGroup ctxt rnLCmd matches
-       ; return (HsCmdLam x lam_variant new_matches, ms_fvs) }
-
-rnCmd (HsCmdPar _ e)
-  = do  { (e', fvs_e) <- rnLCmd e
-        ; return (HsCmdPar noExtField e', fvs_e) }
-
-rnCmd (HsCmdCase _ expr matches)
-  = do { (new_expr, e_fvs) <- rnLExpr expr
-       ; (new_matches, ms_fvs) <- rnMatchGroup (ArrowMatchCtxt ArrowCaseAlt) rnLCmd matches
-       ; return (HsCmdCase noExtField new_expr new_matches
-                , e_fvs `plusFN` ms_fvs) }
-
-rnCmd (HsCmdIf _ _ p b1 b2)
-  = do { (p', fvP) <- rnLExpr p
-       ; (b1', fvB1) <- rnLCmd b1
-       ; (b2', fvB2) <- rnLCmd b2
-
-       ; mb_ite <- lookupIfThenElse
-       ; let (ite, fvITE) = case mb_ite of
-                Just ite_name -> (mkRnSyntaxExpr ite_name, unitFN ite_name)
-                Nothing       -> (NoSyntaxExprRn,          emptyFNs)
-
-       ; return (HsCmdIf noExtField ite p' b1' b2', plusFNs [fvITE, fvP, fvB1, fvB2])}
-
-rnCmd (HsCmdLet _ binds cmd)
-  = rnLocalBindsAndThen binds $ \ binds' _ -> do
-      { (cmd',fvExpr) <- rnLCmd cmd
-      ; return (HsCmdLet noExtField binds' cmd', fvExpr) }
-
-rnCmd (HsCmdDo _ (L l stmts))
-  = do  { ((stmts', _), fvs) <-
-            rnStmts ArrowExpr rnCmd stmts (\ _ -> return ((), emptyFNs))
-        ; return ( HsCmdDo noExtField (L l stmts'), fvs ) }
-
----------------------------------------------------
-data CmdNeeds = CN { cn_app, cn_choice, cn_loop :: !Bool }
-   -- Which of (app, choice, loop) does this Cmd use?
-
-addApp, addChoice, addLoop :: CmdNeeds -> CmdNeeds
-addApp    cn = cn { cn_app    = True }
-addChoice cn = cn { cn_choice = True }
-addLoop   cn = cn { cn_loop   = True }
-
-emptyCN :: CmdNeeds
-emptyCN = CN False False False
-
-unionCN :: CmdNeeds -> CmdNeeds -> CmdNeeds
-unionCN (CN a1 b1 c1) (CN a2 b2 c2)
-  = CN (a1 || a2) (b1 || b2) (c1 || c2)
-
-mapUnionCN :: (a -> CmdNeeds) -> [a] -> CmdNeeds
-mapUnionCN do_one xs = foldr (unionCN . do_one) emptyCN xs
-
-methodNamesLCmd :: LHsCmd GhcRn -> CmdNeeds
-methodNamesLCmd = methodNamesCmd . unLoc
-
-methodNamesCmd :: HsCmd GhcRn -> CmdNeeds
-methodNamesCmd (HsCmdArrApp _ _arrow _arg HsFirstOrderApp _rtl)
-  = emptyCN
-methodNamesCmd (HsCmdArrApp _ _arrow _arg HsHigherOrderApp _rtl)
-  = addApp emptyCN
-methodNamesCmd (HsCmdArrForm {}) = emptyCN
-
-methodNamesCmd (HsCmdPar _ c) = methodNamesLCmd c
-
-methodNamesCmd (HsCmdIf _ _ _ c1 c2)
-  = addChoice $ methodNamesLCmd c1 `unionCN` methodNamesLCmd c2
-
-methodNamesCmd (HsCmdLet _ _ c)          = methodNamesLCmd c
-methodNamesCmd (HsCmdDo _ (L _ stmts))   = methodNamesStmts stmts
-methodNamesCmd (HsCmdApp _ c _)          = methodNamesLCmd c
-
-methodNamesCmd (HsCmdCase _ _ matches)        = addChoice $ methodNamesMatch matches
-methodNamesCmd (HsCmdLam _ LamSingle matches) = methodNamesMatch matches
-methodNamesCmd (HsCmdLam _ _         matches) = addChoice $ methodNamesMatch matches
-
---methodNamesCmd _ = emptyFNs
-   -- Other forms can't occur in commands, but it's not convenient
-   -- to error here so we just do what's convenient.
-   -- The type checker will complain later
-
----------------------------------------------------
-methodNamesMatch :: MatchGroup GhcRn (LHsCmd GhcRn) -> CmdNeeds
-methodNamesMatch (MG { mg_alts = L _ ms })
-  = mapUnionCN do_one ms
- where
-    do_one (L _ (Match { m_grhss = grhss })) = methodNamesGRHSs grhss
-
--------------------------------------------------
--- gaw 2004
-methodNamesGRHSs :: GRHSs GhcRn (LHsCmd GhcRn) -> CmdNeeds
-methodNamesGRHSs (GRHSs _ grhss _)
-  = foldl' (flip unionCN) emptyCN (NE.map methodNamesGRHS grhss)
-
--------------------------------------------------
-
-methodNamesGRHS :: LocatedAn NoEpAnns (GRHS GhcRn (LHsCmd GhcRn)) -> CmdNeeds
-methodNamesGRHS (L _ (GRHS _ _ rhs)) = methodNamesLCmd rhs
-
----------------------------------------------------
-methodNamesStmts :: [LStmtLR GhcRn GhcRn (LHsCmd GhcRn)] -> CmdNeeds
-methodNamesStmts stmts = mapUnionCN methodNamesLStmt stmts
-
----------------------------------------------------
-methodNamesLStmt :: LStmtLR GhcRn GhcRn (LHsCmd GhcRn) -> CmdNeeds
-methodNamesLStmt = methodNamesStmt . unLoc
-
-methodNamesStmt :: StmtLR GhcRn GhcRn (LHsCmd GhcRn) -> CmdNeeds
-methodNamesStmt (LastStmt _ cmd _)                   = methodNamesLCmd cmd
-methodNamesStmt (BodyStmt _ cmd _ _)                 = methodNamesLCmd cmd
-methodNamesStmt (BindStmt _ _ cmd)                   = methodNamesLCmd cmd
-methodNamesStmt (RecStmt { recS_stmts = L _ stmts }) = addLoop $ methodNamesStmts stmts
-methodNamesStmt (LetStmt {})                         = emptyCN
-methodNamesStmt (ParStmt {})                         = emptyCN
-methodNamesStmt (TransStmt {})                       = emptyCN
-   -- ParStmt and TransStmt can't occur in commands, but it's not
-   -- convenient to error here so we just do what's convenient
-
-{-
-************************************************************************
-*                                                                      *
         Arithmetic sequences
 *                                                                      *
 ************************************************************************
@@ -1090,20 +893,6 @@ rnArithSeq (FromThenTo expr1 expr2 expr3)
 \subsubsection{@Stmt@s: in @do@ expressions}
 *                                                                      *
 ************************************************************************
--}
-
-{-
-Note [Deterministic rec desugaring]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The rec statements of arrow notation need tuples not present in the
-source text: the tuples of their later_ids and rec_ids that
-GHC.HsToCore.Arrows feeds through the loop combinator.
-
-The order of the components in those tuples needs to be stable
-across recompilations, otherwise they can get optimized differently
-and we end up with incompatible binaries.
-To get a stable order we use nameSetElemsStable.
-See Note [Deterministic UniqFM] to learn more about nondeterminism.
 -}
 
 type AnnoBody body
@@ -1229,24 +1018,6 @@ rnStmt _ _ (L loc (LetStmt _ binds)) thing_inside
         ; return ( ([L loc (LetStmt noAnn binds')], thing)
                  , fvs) }
 
-rnStmt ctxt rnBody (L loc (RecStmt { recS_stmts = L _ rec_stmts })) thing_inside
-  = do  { let empty_rec_stmt = (emptyRecStmtName :: StmtLR GhcRn GhcRn (LocatedA (body GhcRn)))
-
-        -- Bring all the binders of the rec block into scope
-        -- (Remember that this also removes the binders from the
-        -- finally-returned free-vars.)
-        -- And rename each individual stmt, making a segment per stmt.
-        ; rnRecStmtsAndThen ctxt rnBody rec_stmts   $ \ segs -> do
-        { let bndrs = nameSetElemsStable $
-                        foldr (unionNameSet . (\(ds,_,_) -> ds))
-                              emptyNameSet
-                              segs
-          -- See Note [Deterministic rec desugaring]
-        ; (thing, fvs_later) <- thing_inside bndrs
-        ; let (rec_stmts', fvs) = segmentRecStmts (locA loc) empty_rec_stmt segs fvs_later
-        ; return ( (rec_stmts', thing)
-                 , fvs) } }
-
 rnStmt ctxt _ (L loc (ParStmt _ segs _ _)) thing_inside
   = do  { (mzip_op, fvs1)   <- lookupSyntaxExpr mzipIdOcc
         ; (bind_op, fvs2)   <- lookupStmtName ctxt bindMClassOpOcc
@@ -1371,11 +1142,9 @@ lookupStmtName ctxt n
 
 -- | Is this a context where we respect RebindableSyntax?
 -- but ListComp are never rebindable
--- Neither is ArrowExpr, which has its own desugarer in GHC.HsToCore.Arrows
 rebindableContext :: HsStmtContextRn -> Bool
 rebindableContext ctxt = case ctxt of
   HsDoStmt flavour -> rebindableDoStmtContext flavour
-  ArrowExpr        -> False
   PatGuard {}      -> False
   ParStmtCtxt   c  -> rebindableContext c     -- Look inside to
   TransStmtCtxt c  -> rebindableContext c     -- the parent context
@@ -1386,226 +1155,6 @@ rebindableDoStmtContext flavour = case flavour of
   DoExpr {}    -> True
   MonadComp    -> True
   GhciStmtCtxt -> True   -- I suppose?
-
-{-
-************************************************************************
-*                                                                      *
-\subsubsection{rec statements}
-*                                                                      *
-************************************************************************
--}
-
-type Segment stmts = (Defs,
-                      Uses,     -- May include defs
-                      stmts)    -- Either Stmt or [Stmt]
-
-
--- wrapper that does both the left- and right-hand sides
-rnRecStmtsAndThen :: AnnoBody body
-                  => HsStmtContextRn
-                  -> (body GhcPs -> RnM (body GhcRn, FreeNames))
-                  -> [LStmt GhcPs (LocatedA (body GhcPs))]
-                         -- assumes that the FreeNames returned includes
-                         -- the FreeNames of the Segments
-                  -> ([Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-                      -> RnM (a, FreeNames))
-                  -> RnM (a, FreeNames)
-rnRecStmtsAndThen ctxt rnBody s cont
-  = do  { -- (A) Make the mini fixity env for all of the stmts
-          fix_env <- makeMiniFixityEnv (collectRecStmtsFixities s)
-
-          -- (B) Do the LHSes
-        ; new_lhs_and_fv <- rn_rec_stmts_lhs fix_env s
-
-          --    ...bring them and their fixities into scope
-        ; let bound_names = collectLStmtsBinders CollNoDictBinders (map fst new_lhs_and_fv)
-              -- Fake uses of variables introduced implicitly (warning suppression, see #4404)
-              rec_uses = lStmtsImplicits (map fst new_lhs_and_fv)
-              implicit_uses = mkNameSet $ concatMap (concatMap implFlBndr_binders . snd) $ rec_uses
-        ; bindLocalNamesFV bound_names $
-          addLocalFixities fix_env bound_names $ do
-
-          -- (C) do the right-hand-sides and thing-inside
-        { segs <- rn_rec_stmts ctxt rnBody bound_names new_lhs_and_fv
-        ; (res, fvs) <- cont segs
-        ; mapM_ (\(loc, ns) -> checkUnusedRecordWildcard loc fvs (Just ns))
-                rec_uses
-        ; warnUnusedLocalBinds bound_names (fvs `unionNameSet` implicit_uses)
-        ; return (res, fvs) }}
-
--- get all the fixity decls in any Let stmt
-collectRecStmtsFixities :: [LStmtLR GhcPs GhcPs body] -> [LFixitySig GhcPs]
-collectRecStmtsFixities l =
-    foldr (\ s -> \acc -> case s of
-            (L _ (LetStmt _ (HsValBinds _ (ValBinds _ bs)))) ->
-              foldr (\ sig -> \ acc -> case sig of
-                                         (L loc (FixSig _ s)) -> (L loc s) : acc
-                                         _ -> acc) acc (val_sigs bs)
-            _ -> acc) [] l
-
--- left-hand sides
-
-rn_rec_stmt_lhs :: AnnoBody body => MiniFixityEnv
-                -> LStmt GhcPs (LocatedA (body GhcPs))
-                   -- rename LHS, and return its FVs
-                   -- Warning: we will only need the FreeNames below in the case of a BindStmt,
-                   -- so we don't bother to compute it accurately in the other cases
-                -> RnM [(LStmtLR GhcRn GhcPs (LocatedA (body GhcPs)), FreeNames)]
-
-rn_rec_stmt_lhs _ (L loc (BodyStmt _ body a b))
-  = return [(L loc (BodyStmt noExtField body a b), emptyFNs)]
-
-rn_rec_stmt_lhs _ (L loc (LastStmt _ body a))
-  = return [(L loc (LastStmt noExtField body a), emptyFNs)]
-
-rn_rec_stmt_lhs fix_env (L loc (BindStmt _ pat body))
-  = do
-      -- should the ctxt be MDo instead?
-      (pat', fv_pat) <- rnBindPat (localRecNameMaker fix_env) pat
-      return [(L loc (BindStmt noAnn pat' body), fv_pat)]
-
-rn_rec_stmt_lhs _ (L _ (LetStmt _ binds@(HsIPBinds {})))
-  = failWith (badIpBinds (Left binds))
-
-
-rn_rec_stmt_lhs fix_env (L loc (LetStmt _ (HsValBinds x binds)))
-    = do (_bound_names, (bs',sigs')) <- rnLocalValBindsLHS fix_env binds
-         return [(L loc (LetStmt noAnn (HsValBinds x (makeRnValBinds noExtField bs' sigs'))),
-                 -- Warning: this is bogus; see function invariant
-                 emptyFNs
-                 )]
-
-rn_rec_stmt_lhs fix_env (L _ (RecStmt { recS_stmts = L _ stmts }))  -- Flatten Rec inside Rec
-    = rn_rec_stmts_lhs fix_env stmts
-
-rn_rec_stmt_lhs _ stmt@(L _ (ParStmt {}))       -- Syntactically illegal in a rec block
-  = pprPanic "rn_rec_stmt" (ppr stmt)
-
-rn_rec_stmt_lhs _ stmt@(L _ (TransStmt {}))     -- Syntactically illegal in a rec block
-  = pprPanic "rn_rec_stmt" (ppr stmt)
-
-rn_rec_stmt_lhs _ (L _ (LetStmt _ (EmptyLocalBinds _)))
-  = panic "rn_rec_stmt LetStmt EmptyLocalBinds"
-
-rn_rec_stmts_lhs :: AnnoBody body => MiniFixityEnv
-                 -> [LStmt GhcPs (LocatedA (body GhcPs))]
-                 -> RnM [(LStmtLR GhcRn GhcPs (LocatedA (body GhcPs)), FreeNames)]
-rn_rec_stmts_lhs fix_env stmts
-  = do { ls <- concatMapM (rn_rec_stmt_lhs fix_env) stmts
-       ; let boundNames = collectLStmtsBinders CollNoDictBinders (map fst ls)
-            -- First do error checking: we need to check for dups here because we
-            -- don't bind all of the variables from the Stmt at once
-            -- with bindLocatedLocals.
-       ; checkDupNames boundNames
-       ; return ls }
-
-
--- right-hand-sides
-
-rn_rec_stmt :: AnnoBody body =>
-               HsStmtContextRn
-            -> (body GhcPs -> RnM (body GhcRn, FreeNames))
-            -> [Name]
-            -> (LStmtLR GhcRn GhcPs (LocatedA (body GhcPs)), FreeNames)
-            -> RnM [Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-        -- Rename a Stmt that is inside a RecStmt
-        -- Assumes all binders are already in scope
-        -- Turns each stmt into a singleton Stmt
-rn_rec_stmt ctxt rnBody _ (L loc (LastStmt _ (L lb body) _), _)
-  = do  { (body', fv_expr) <- rnBody body
-        ; (ret_op, fvs1)   <- lookupStmtName ctxt returnMClassOpOcc
-        ; return [(emptyNameSet, fv_expr `plusFN` fvs1,
-                   L loc (LastStmt noExtField (L lb body') ret_op))] }
-
-rn_rec_stmt ctxt rnBody _ (L loc (BodyStmt _ (L lb body) _ _), _)
-  = do { (body', fvs) <- rnBody body
-       ; (then_op, fvs1) <- lookupStmtName ctxt thenMClassOpOcc
-       ; return [(emptyNameSet, fvs `plusFN` fvs1,
-                 L loc (BodyStmt noExtField (L lb body') then_op noSyntaxExpr))] }
-
-rn_rec_stmt ctxt rnBody _ (L loc (BindStmt _ pat' (L lb body)), fv_pat)
-  = do { (body', fv_expr) <- rnBody body
-       ; (bind_op, fvs1) <- lookupStmtName ctxt bindMClassOpOcc
-
-       ; (fail_op, fvs2) <- getMonadFailOp ctxt
-
-       ; let bndrs = mkNameSet (collectPatBinders CollNoDictBinders pat')
-             fvs   = fv_expr `plusFN` fv_pat `plusFN` fvs1 `plusFN` fvs2
-       ; let xbsrn = XBindStmtRn { xbsrn_bindOp = bind_op, xbsrn_failOp = fail_op }
-       ; return [(bndrs, fvs,
-                  L loc (BindStmt xbsrn pat' (L lb body')))] }
-
-rn_rec_stmt _ _ _ (L _ (LetStmt _ binds@(HsIPBinds {})), _)
-  = failWith (badIpBinds (Right binds))
-
-rn_rec_stmt _ _ all_bndrs (L loc (LetStmt _ (HsValBinds x binds')), _)
-  = do { (binds', du_binds) <- rnLocalValBindsRHS (mkNameSet all_bndrs) binds'
-           -- fixities and unused are handled above in rnRecStmtsAndThen
-       ; let fvs = allUses du_binds
-       ; return [(duDefs du_binds, fvs,
-                 L loc (LetStmt noAnn (HsValBinds x binds')))] }
-
--- no RecStmt case because they get flattened above when doing the LHSes
-rn_rec_stmt _ _ _ stmt@(L _ (RecStmt {}), _)
-  = pprPanic "rn_rec_stmt: RecStmt" (ppr stmt)
-
-rn_rec_stmt _ _ _ stmt@(L _ (ParStmt {}), _)       -- Syntactically illegal in a rec block
-  = pprPanic "rn_rec_stmt: ParStmt" (ppr stmt)
-
-rn_rec_stmt _ _ _ stmt@(L _ (TransStmt {}), _)     -- Syntactically illegal in a rec block
-  = pprPanic "rn_rec_stmt: TransStmt" (ppr stmt)
-
-rn_rec_stmt _ _ _ (L _ (LetStmt _ (EmptyLocalBinds _)), _)
-  = panic "rn_rec_stmt: LetStmt EmptyLocalBinds"
-
-rn_rec_stmts :: AnnoBody body
-             => HsStmtContextRn
-             -> (body GhcPs -> RnM (body GhcRn, FreeNames))
-             -> [Name]
-             -> [(LStmtLR GhcRn GhcPs (LocatedA (body GhcPs)), FreeNames)]
-             -> RnM [Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-rn_rec_stmts ctxt rnBody bndrs stmts
-  = do { segs_s <- mapM (rn_rec_stmt ctxt rnBody bndrs) stmts
-       ; return (concat segs_s) }
-
----------------------------------------------
--- Turn the renamed statements of a rec block into one RecStmt, recording
--- which of its binders are used inside the block (recS_rec_ids) and which
--- after it (recS_later_ids). See Note [What is "used later" in a rec stmt].
-segmentRecStmts :: SrcSpan
-                -> Stmt GhcRn (LocatedA (body GhcRn))
-                -> [Segment (LStmt GhcRn (LocatedA (body GhcRn)))]
-                -> FreeNames   -- ^ The free variables used in later statements
-                -> ([LStmt GhcRn (LocatedA (body GhcRn))], FreeNames)
-
-segmentRecStmts loc empty_rec_stmt segs fvs_later
-  | null segs
-  = ([], fvs_later)
-
-  | otherwise
-  = ([ L (noAnnSrcSpan loc) $
-       empty_rec_stmt { recS_stmts = noLocA ss
-                      , recS_later_ids = nameSetElemsStable
-                                           (defs `intersectNameSet` fvs_later)
-                      , recS_rec_ids   = nameSetElemsStable
-                                           (defs `intersectNameSet` uses) }]
-          -- See Note [Deterministic rec desugaring]
-    , uses `plusFN` fvs_later)
-  where
-    (defs_s, uses_s, ss) = unzip3 segs
-    defs = plusFNs defs_s
-    uses = plusFNs uses_s
-
-{-
-Note [What is "used later" in a rec stmt]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The knot-tied tuple of a rec statement must contain
-* All the variables that are used before they are bound in the `rec` block
-  (the recS_rec_ids)
-* All the variables that are used after the entire `rec` block
-  (the recS_later_ids)
-See Note [How RecStmt works] in Language.Haskell.Syntax.Expr.
--}
 
 {-
 ************************************************************************
@@ -1625,7 +1174,6 @@ checkEmptyStmts ctxt
       ParStmtCtxt {}   -> Just EmptyStmtsGroupInParallelComp
       TransStmtCtxt {} -> Just EmptyStmtsGroupInTransformListComp
       HsDoStmt flav    -> Just $ EmptyStmtsGroupInDoNotation flav
-      ArrowExpr        -> Just EmptyStmtsGroupInArrowNotation
 
 ----------------------
 checkLastStmt :: AnnoBody body
@@ -1637,7 +1185,6 @@ checkLastStmt ctxt lstmt@(L loc stmt)
       HsDoStmt ListComp  -> check_comp
       HsDoStmt MonadComp -> check_comp
       HsDoStmt DoExpr{}  -> check_do
-      ArrowExpr -> check_do
       _         -> check_other
   where
     check_do    -- Expect BodyStmt, and change it to LastStmt
@@ -1686,7 +1233,6 @@ okStmt dflags ctxt stmt
       PatGuard {}        -> okPatGuardStmt stmt
       ParStmtCtxt ctxt   -> okParStmt  dflags ctxt stmt
       HsDoStmt flavour   -> okDoFlavourStmt dflags flavour ctxt stmt
-      ArrowExpr          -> okDoStmt   dflags ctxt stmt
       TransStmtCtxt ctxt -> okStmt dflags ctxt stmt
 
 okDoFlavourStmt
@@ -1714,11 +1260,8 @@ okParStmt dflags ctxt stmt
       _                        -> okStmt dflags ctxt stmt
 
 ----------------
-okDoStmt _ ctxt stmt
+okDoStmt _ _ stmt
   = case stmt of
-       RecStmt {}
-         | ArrowExpr <- ctxt -> IsValid    -- Arrows allows 'rec'
-         | otherwise         -> emptyInvalid
        BindStmt {} -> IsValid
        LetStmt {}  -> IsValid
        BodyStmt {} -> IsValid
@@ -1734,7 +1277,6 @@ okCompStmt dflags _ stmt
        TransStmt {}
          | LangExt.TransformListComp `xopt` dflags -> IsValid
          | otherwise -> NotValid (Just LangExt.TransformListComp)
-       RecStmt {}  -> emptyInvalid
        LastStmt {} -> emptyInvalid  -- Should not happen (dealt with by checkLastStmt)
 
 ---------
@@ -1749,9 +1291,6 @@ checkTupleSection args
 ---------
 sectionErr :: HsExpr GhcPs -> TcRnMessage
 sectionErr = TcRnSectionWithoutParentheses
-
-badIpBinds :: Either (HsLocalBindsLR GhcPs GhcPs) (HsLocalBindsLR GhcRn GhcPs) -> TcRnMessage
-badIpBinds = TcRnIllegalImplicitParameterBindings
 
 ---------
 

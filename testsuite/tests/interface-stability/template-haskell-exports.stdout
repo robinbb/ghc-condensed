@@ -144,7 +144,6 @@ module Language.Haskell.TH where
     | CApiFFI
     | GHCForeignImportPrim
     | JavaScriptFFI
-    | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
     | QuasiQuotes
@@ -714,7 +713,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | CApiFFI
     | GHCForeignImportPrim
     | JavaScriptFFI
-    | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
     | QuasiQuotes
@@ -1418,7 +1416,6 @@ module Language.Haskell.TH.Syntax where
     | CApiFFI
     | GHCForeignImportPrim
     | JavaScriptFFI
-    | Arrows
     | TemplateHaskell
     | TemplateHaskellQuotes
     | QuasiQuotes

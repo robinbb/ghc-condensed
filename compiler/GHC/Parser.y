@@ -632,8 +632,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
  'capi'         { L _ ITcapiconv }
  'prim'         { L _ ITprimcallconv }
  'javascript'   { L _ ITjavascriptcallconv }
- 'proc'         { L _ ITproc }          -- for arrow notation extension
- 'rec'          { L _ ITrec }           -- for arrow notation extension
  'group'    { L _ ITgroup }     -- for list transform extension
  'by'       { L _ ITby }        -- for list transform extension
  'using'    { L _ ITusing }     -- for list transform extension
@@ -687,10 +685,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
  PREFIX_TILDE   { L _ ITtilde }
  PREFIX_BANG    { L _ ITbang }
  PREFIX_MINUS   { L _ ITprefixminus }
- '-<'           { L _ (ITlarrowtail _) }            -- for arrow notation
- '>-'           { L _ (ITrarrowtail _) }            -- for arrow notation
- '-<<'          { L _ (ITLarrowtail _) }            -- for arrow notation
- '>>-'          { L _ (ITRarrowtail _) }            -- for arrow notation
  '.'            { L _ ITdot }
  PREFIX_PROJ    { L _ (ITproj True) }               -- RecordDotSyntax
  TIGHT_INFIX_PROJ { L _ (ITproj False) }            -- RecordDotSyntax
@@ -707,8 +701,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
  ')'            { L _ ITcparen }
  '(#'           { L _ IToubxparen }
  '#)'           { L _ ITcubxparen }
- '(|'           { L _ (IToparenbar _) }
- '|)'           { L _ (ITcparenbar _) }
  ';'            { L _ ITsemi }
  ','            { L _ ITcomma }
  '`'            { L _ ITbackquote }
@@ -2873,30 +2865,6 @@ exp_gen(IEXP) :: { ECP }
                                    rejectPragmaPV $1 >>
                                    mkHsTySigPV (noAnnSrcSpan $ comb2 $1 $>) $1 $3
                                           (epUniTok $2) }
-        | IEXP '-<' exp_gen(IEXP)
-                                {% runPV (unECP $1) >>= \ $1 ->
-                                   runPV (unECP $3) >>= \ $3 ->
-                                   fmap ecpFromCmd $
-                                   amsA' (sLL $1 $> $ HsCmdArrApp (isUnicodeSyntax $2, glR $2) $1 $3
-                                                        HsFirstOrderApp True) }
-        | IEXP '>-' exp_gen(IEXP)
-                                {% runPV (unECP $1) >>= \ $1 ->
-                                   runPV (unECP $3) >>= \ $3 ->
-                                   fmap ecpFromCmd $
-                                   amsA' (sLL $1 $> $ HsCmdArrApp (isUnicodeSyntax $2, glR $2) $3 $1
-                                                      HsFirstOrderApp False) }
-        | IEXP '-<<' exp_gen(IEXP)
-                                {% runPV (unECP $1) >>= \ $1 ->
-                                   runPV (unECP $3) >>= \ $3 ->
-                                   fmap ecpFromCmd $
-                                   amsA' (sLL $1 $> $ HsCmdArrApp (isUnicodeSyntax $2, glR $2) $1 $3
-                                                      HsHigherOrderApp True) }
-        | IEXP '>>-' exp_gen(IEXP)
-                                {% runPV (unECP $1) >>= \ $1 ->
-                                   runPV (unECP $3) >>= \ $3 ->
-                                   fmap ecpFromCmd $
-                                   amsA' (sLL $1 $> $ HsCmdArrApp (isUnicodeSyntax $2, glR $2) $3 $1
-                                                      HsHigherOrderApp False) }
         -- See Note [%shift: exp -> infixexp]
         | IEXP %shift              { $1 }
         | exp_prag(exp_gen(IEXP))  { $1 } -- See Note [Pragmas and operator fixity]
@@ -3124,11 +3092,6 @@ aexp    :: { ECP }
                                         mkHsDoPV (comb2 $1 $2)
                                                  (Right $ stmtlistAnns $2, glR $1)
                                                  (stmtlistStmts $2) }
-        | 'proc' aexp '->' exp
-                       {% (checkPattern <=< runPV) (unECP $2) >>= \ p ->
-                           runPV (unECP $4) >>= \ $4@cmd ->
-                           fmap ecpFromExp $
-                           amsA' (sLL $1 $> $HsProc (epTok $1, epUniTok $3) p (sLLa $1 $> $ HsCmdTop noExtField cmd)) }
 
         | aexp1                 { $1 }
 
@@ -3229,12 +3192,6 @@ aexp2   :: { ECP }
                                   amsA' (sLL $1 $> $ HsUntypedBracket noExtField (DecBrL (epTok $1,epUniTok $3, fst $2) (snd $2))) }
         | quasiquote          { ECP $ mkHsSplicePV $1 }
 
-        -- arrow notation extension
-        | '(|' aexp cmdargs '|)'  {% runPV (unECP $2) >>= \ $2 ->
-                                      fmap ecpFromCmd $
-                                      amsA' (sLL $1 $> $ HsCmdArrForm (epUniTok $1, epUniTok $4) $2 Prefix
-                                                           (reverse $3)) }
-
 projection :: { Located (NonEmpty (LocatedAn NoEpAnns (DotFieldOcc GhcPs))) }
 projection
         -- See Note [Whitespace-sensitive operator parsing] in GHC.Parsing.Lexer
@@ -3256,15 +3213,6 @@ splice_typed :: { Located (HsTypedSplice GhcPs) }
         : PREFIX_DOLLAR_DOLLAR aexp2
                                 {% runPV (unECP $2) >>= \ $2 ->
                                    return (sLL $1 $> $ (HsTypedSpliceExpr (epTok $1) $2)) }
-
-cmdargs :: { [LHsCmdTop GhcPs] }
-        : cmdargs acmd                  { $2 : $1 }
-        | {- empty -}                   { [] }
-
-acmd    :: { LHsCmdTop GhcPs }
-        : aexp                  {% runPV (unECP $1) >>= \ (cmd :: LHsCmd GhcPs) ->
-                                   runPV (checkCmdBlockArguments cmd) >>= \ _ ->
-                                   return (sL1a cmd $ HsCmdTop noExtField cmd) }
 
 cvtopbody :: { ((EpToken "{", EpToken "}"),[LHsDecl GhcPs]) }
         :  '{'            cvtopdecls0 '}'      { ((epTok $1 ,epTok $3),$2) }
@@ -3655,9 +3603,6 @@ e_stmt :: { LStmt GhcPs (LHsExpr GhcPs) }
 
 stmt  :: { forall b. DisambECP b => PV (LStmt GhcPs (LocatedA b)) }
         : qual                          { $1 }
-        | 'rec' stmtlist                {  $2 >>= \ $2 ->
-                                           amsA' (sLL $1 $> $ mkRecStmt (stmtlistAnns $2, epTok $1)
-                                                                        (stmtlistStmts $2)) }
 
 qual  :: { forall b. DisambECP b => PV (LStmt GhcPs (LocatedA b)) }
     : bindpat '<-' exp                   { unECP $3 >>= \ $3 ->
@@ -4305,12 +4250,6 @@ isUnicode (L _ (ITdarrow         iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITdcolon         iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITlarrow         iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITrarrow         iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITlarrowtail     iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITrarrowtail     iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITLarrowtail     iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITRarrowtail     iu)) = iu == UnicodeSyntax
-isUnicode (L _ (IToparenbar      iu)) = iu == UnicodeSyntax
-isUnicode (L _ (ITcparenbar      iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITopenExpQuote _ iu)) = iu == UnicodeSyntax
 isUnicode (L _ (ITcloseQuote     iu)) = iu == UnicodeSyntax
 isUnicode (L _ ITlolly)               = True
@@ -4702,11 +4641,6 @@ addTrailingCommaN (L anns a) span = do
                 then anns
                 else addTrailingCommaToN anns (srcSpan2e span)
   return (L anns' a)
-
--- -------------------------------------
-
-isUnicodeSyntax :: Located Token -> IsUnicodeSyntax
-isUnicodeSyntax lt = if isUnicode lt then UnicodeSyntax else NormalSyntax
 
 -- We need a location for the where binds, when computing the SrcSpan
 -- for the AST element using them.  Where there is a span, we return

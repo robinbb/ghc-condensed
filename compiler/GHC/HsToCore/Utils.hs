@@ -767,10 +767,7 @@ tuple" (see Note [Big tuples] in GHC.Core.Make.BigTuple). Specifically, this hap
 
   - @then@/@group@/@using@ statements (GHC.HsToCore.ListComp.{dsTransStmt,dsMcStmt})
     which pass the bound variables through the @using@ function and 'unzip' the
-    grouped result;
-
-  - arrows, in "GHC.HsToCore.Arrows", which thread the command environment
-    through arrow combinators by using a big tuple.
+    grouped result.
 
 Some of these binders may have an unboxed type (e.g. Int#); we must thus box
 them before putting them into the big tuple. We do this using the magic Id @box@:

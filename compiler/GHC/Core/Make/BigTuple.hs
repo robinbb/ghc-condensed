@@ -49,8 +49,8 @@ ones (`mkCoreTup` and friends) in two ways.
    matching on /nested/ small tuples that are directly expressible by
    GHC, as per 'mkChunkified'.
 
-2. When desugaring arrows we gather up a tuple of free variables, which
-   may include dictionaries (of kind Constraint) and unboxed values.
+2. Some desugarings gather up a tuple of free variables, which may
+   include dictionaries (of kind Constraint) and unboxed values.
 
    These can't live in a tuple. With the 'BoxedElements' layout, `mkBigCoreTup`
    encodes such tuples by boxing up every element: see Note [Boxing constructors]
@@ -125,8 +125,8 @@ mkBigCoreTup exprs
 {- Note [Laziness in big-tuple machinery]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 'mkBigCoreTup' and 'mkBigTupleCase' must both be lazy in the list of
-components/binders they deal with, as some of their consumers (such as the
-desugaring of arrows in 'GHC.HsToCore.Arrows') rely on this for knot-tying.
+components/binders they deal with, as some of their consumers rely on this
+for knot-tying.
 
 To ensure these functions are lazy, we return a lazy computation by getting the
 UniqSupply first and then returning a pure thunk, instead of using the ambient

@@ -1,5 +1,5 @@
 :set -fprint-unicode-syntax
-:set -XArrows -XImplicitParams -XMultiWayIf -XPatternSynonyms -XTemplateHaskell -XTypeFamilyDependencies
+:set -XImplicitParams -XMultiWayIf -XPatternSynonyms -XTemplateHaskell -XTypeFamilyDependencies
 
 ---------------------------------------
 -- Double-colon checks
@@ -12,8 +12,6 @@ foo :: (?imp :: Int) => Int
 foo = ?imp
 :}
 :t foo
-
-proc x -> (_ -< _) :: _
 
 ---------------------------------------
 -- Rightwards arrow checks
@@ -33,8 +31,6 @@ if | [] -> 0
 if | True -> 0
    | True -> 1
 :}
-
-proc _ -> \_ -> undefined -< 0
 
 ---------------------------------------
 -- Leftwards arrow checks

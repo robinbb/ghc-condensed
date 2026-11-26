@@ -1375,9 +1375,6 @@ type AnnoBody body
 -- NB: \cases {} is not allowed, since it's not clear how many patterns this
 -- should match on.
 --
--- The same applies in arrow notation commands: With -XEmptyCases, it is
--- allowed in case- and \case-commands, but not \cases.
---
 -- Since the lambda expressions and empty function definitions are already
 -- disallowed elsewhere, here, we only need to make sure we don't accept empty
 -- \cases expressions or commands. In that case, or if we encounter an empty
@@ -1419,7 +1416,6 @@ checkEmptyCase ctxt
     disallowed_ctxt =
       case ctxt of
         LamAlt LamCases -> True
-        ArrowMatchCtxt (ArrowLamAlt LamCases) -> True
         _ -> False
 
 rnMatch :: AnnoBody body

@@ -11,7 +11,6 @@
 -dstg-stats
 -dsuppress-stg-exts
 -fallow-undecidable-instances
--farrows
 -fbang-patterns
 -fbuilding-cabal-package
 -fconstraint-solver-iterations

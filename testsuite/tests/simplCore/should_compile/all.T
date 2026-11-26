@@ -339,7 +339,6 @@ test('T17930', [ grep_errmsg(r'^\$sfoo') ], compile, ['-O -ddump-spec -dsuppress
 test('spec004', [ grep_errmsg(r'\$sfoo') ], compile, ['-O -ddump-spec -dsuppress-uniques'])
 # NB: T17810: -fspecialise-aggressively
 test('T17810', normal, multimod_compile, ['T17810', '-fspecialise-aggressively -dcore-lint -O -v0'])
-test('T18013', normal, multimod_compile, ['T18013', '-v0 -O -dno-typeable-binds'])
 test('T18098', normal, compile, ['-dcore-lint -O2'])
 test('T18120', normal, compile, ['-dcore-lint -O'])
 

@@ -388,9 +388,6 @@ instance Diagnostic TcRnMessage where
       -> mkSimpleDecorated $
            hang (text "Bad call to tagToEnum# at type" <+> ppr ty)
               2 (text "Result type cannot be headed by a `type data` type")
-    TcRnArrowIfThenElsePredDependsOnResultTy
-      -> mkSimpleDecorated $
-           text "Predicate type of `ifThenElse' depends on result type"
     TcRnIllegalHsBootOrSigDecl boot_or_sig decls
       -> mkSimpleDecorated $
            text "Illegal" <+> what <+> text "in" <+> whr <> dot
@@ -846,9 +843,6 @@ instance Diagnostic TcRnMessage where
       -> mkSimpleDecorated $
            hang (text "An existential or GADT data constructor cannot be used")
               2 (text "inside a lazy (~) pattern")
-    TcRnArrowProcGADTPattern
-      -> mkSimpleDecorated $
-           text "Proc patterns cannot use existential or GADT data constructors"
     TcRnTypeEqualityOutOfScope
       -> mkDecorated
            [ text "The" <+> quotes (text "~") <+> text "operator is out of scope." $$
@@ -1316,8 +1310,6 @@ instance Diagnostic TcRnMessage where
         text "Empty statement group preceding 'group' or 'then'"
       EmptyStmtsGroupInDoNotation ctxt ->
         text "Empty" <+> pprHsDoFlavour ctxt
-      EmptyStmtsGroupInArrowNotation ->
-        text "Empty 'do' block in an arrow command"
     TcRnLastStmtNotExpr ctxt (UnexpectedStatement stmt) ->
       mkSimpleDecorated $ hang last_error 2 (ppr stmt)
       where
@@ -1329,12 +1321,6 @@ instance Diagnostic TcRnMessage where
                        , text "in" <+> pprAStmtContext ctxt ]
     TcRnIllegalTupleSection -> mkSimpleDecorated $
       text "Illegal tuple section"
-    TcRnIllegalImplicitParameterBindings eBinds -> mkSimpleDecorated $
-        either msg msg eBinds
-      where
-        msg binds = hang
-          (text "Implicit-parameter bindings illegal in a rec block")
-          2 (ppr binds)
     TcRnSectionWithoutParentheses expr -> mkSimpleDecorated $
       hang (text "A section must be enclosed in parentheses")
          2 (text "thus:" <+> (parens (ppr expr)))
@@ -1424,10 +1410,6 @@ instance Diagnostic TcRnMessage where
             CaseAlt                                -> text "case expression"
             LamAlt LamCase                         -> text "\\case expression"
             LamAlt LamCases                        -> text "\\cases expression"
-            ArrowMatchCtxt (ArrowLamAlt LamSingle) -> text "kappa abstraction"
-            ArrowMatchCtxt (ArrowLamAlt LamCase)   -> text "\\case command"
-            ArrowMatchCtxt (ArrowLamAlt LamCases)  -> text "\\cases command"
-            ArrowMatchCtxt ArrowCaseAlt            -> text "case command"
             ctxt                                   -> text "(unexpected)" <+> pprMatchContextNoun ctxt
     TcRnNonStdGuards (NonStandardGuards guards) -> mkSimpleDecorated $
       text "accepting non-standard pattern guards" $$
@@ -2087,8 +2069,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnTagToEnumResTyTypeData{}
       -> ErrorWithoutFlag
-    TcRnArrowIfThenElsePredDependsOnResultTy
-      -> ErrorWithoutFlag
     TcRnIllegalHsBootOrSigDecl {}
       -> ErrorWithoutFlag
     TcRnBootMismatch {}
@@ -2237,8 +2217,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnLazyGADTPattern
       -> ErrorWithoutFlag
-    TcRnArrowProcGADTPattern
-      -> ErrorWithoutFlag
     TcRnTypeEqualityOutOfScope
       -> WarningWithFlag Opt_WarnTypeEqualityOutOfScope
     TcRnTypeEqualityRequiresOperators
@@ -2380,8 +2358,6 @@ instance Diagnostic TcRnMessage where
     TcRnUnexpectedStatementInContext{}
       -> ErrorWithoutFlag
     TcRnSectionWithoutParentheses{}
-      -> ErrorWithoutFlag
-    TcRnIllegalImplicitParameterBindings{}
       -> ErrorWithoutFlag
     TcRnIllegalTupleSection{}
       -> ErrorWithoutFlag
@@ -2714,8 +2690,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnTagToEnumResTyTypeData{}
       -> noHints
-    TcRnArrowIfThenElsePredDependsOnResultTy
-      -> noHints
     TcRnIllegalHsBootOrSigDecl {}
       -> noHints
     TcRnBootMismatch boot_or_sig err
@@ -2875,8 +2849,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnLazyGADTPattern
       -> noHints
-    TcRnArrowProcGADTPattern
-      -> noHints
     TcRnTypeEqualityOutOfScope
       -> noHints
     TcRnTypeEqualityRequiresOperators
@@ -3032,8 +3004,6 @@ instance Diagnostic TcRnMessage where
       | Nothing <- mExt -> noHints
       | Just ext <- mExt -> [suggestExtension ext]
     TcRnSectionWithoutParentheses{}
-      -> noHints
-    TcRnIllegalImplicitParameterBindings{}
       -> noHints
     TcRnIllegalTupleSection{}
       -> [suggestExtension LangExt.TupleSections]
@@ -7714,8 +7684,6 @@ pprHsCtxt = \case
     text "In the expansion of type synonym" <+> quotes (ppr tc)
   RoleAnnotErrCtxt name ->
     nest 2 $ text "while checking a role annotation for" <+> quotes (ppr name)
-  CmdCtxt cmd ->
-    text "In the command:" <+> ppr cmd
   InstDeclErrCtxt either_ty_ty ->
     hang (text "In the instance declaration for")
        2 (quotes $ ppr_ty)

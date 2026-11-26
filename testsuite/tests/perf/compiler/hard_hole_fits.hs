@@ -41,6 +41,5 @@ testMe (HsTypedBracket xb hb) = _
 testMe (HsUntypedBracket xb hb) = _
 testMe (HsTypedSplice xs hs) = _
 testMe (HsUntypedSplice xs hs) = _
-testMe (HsProc xp pat gl) = _
 testMe (HsStatic xs gl) = _
 testMe (XExpr xe) = _

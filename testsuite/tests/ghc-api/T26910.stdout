@@ -1,6 +1,5 @@
 (<body of e_reccon>) :: MyRec
 (<body of e_negapp>) :: T Word
-(<body of e_proc>) :: Int -> Int
 (<body of e_arith_ol>) :: MyList Int
 (<body of e_var>) :: Either Int Bool
 (<body of e_lit>) :: Char

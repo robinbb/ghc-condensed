@@ -1,7 +1,6 @@
-{-# LANGUAGE RecordWildCards, NamedFieldPuns, Arrows #-}
+{-# LANGUAGE RecordWildCards, NamedFieldPuns #-}
 
 import Control.Monad.Identity
-import Control.Arrow (runKleisli, arr, returnA)
 import Data.Maybe
 import Data.List
 import Data.Bifunctor
@@ -27,15 +26,8 @@ fI f = runIdentity $ do
   let Foo{..} = f
   return fooI
 fJ f = [ fooJ | let Foo{..} = f ] !! 0
-fK = runIdentity . runKleisli (proc f -> do
-       Foo{..} <- arr id -< f
-       returnA -< fooK)
-fL = runIdentity . runKleisli (proc f -> do
-       let Foo{..} = f;
-       returnA -< fooL)
 fM f | Foo{..} <- f = fooM
 fN f = fooN f
-fO = runIdentity . runKleisli (proc Foo{..} -> returnA -< fooO)
 fP Foo{fooP = Just x} = x
 fP _ = 0
 fQ Foo{fooQ = Just 42} = 1
@@ -46,7 +38,7 @@ recSel _ = Nothing
 main = do
   let foo = Foo 42 23 0 1 2 3 4 5 6 7 0xaffe 9 10 11 12 (Just 13) (Just 42)
   mapM_ (print . ($ foo))
-        [fAB, fC, fD False, fE . Bar, fF, fG, fH, fI, fJ, fK, fL, fM, fN, fO, fP, fQ]
+        [fAB, fC, fD False, fE . Bar, fF, fG, fH, fI, fJ, fM, fN, fP, fQ]
   (Mix _ _ _ _ mixs) <- readMix [".hpc"] (Left "Main")
   let sels = mapMaybe recSel . zip [0..] $ map snd mixs
   (Tix [TixModule "Main" _ _ tix]) <- examineTix

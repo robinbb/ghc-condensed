@@ -812,13 +812,8 @@ class ( HiePass (NoGhcTcPass p)
       , ModifyState (IdGhcP p)
       , Data (GRHS  (GhcPass p) (LocatedA (HsExpr (GhcPass p))))
       , Data (Match (GhcPass p) (LocatedA (HsExpr (GhcPass p))))
-      , Data (Match (GhcPass p) (LocatedA (HsCmd  (GhcPass p))))
       , Data (Stmt  (GhcPass p) (LocatedA (HsExpr (GhcPass p))))
-      , Data (Stmt  (GhcPass p) (LocatedA (HsCmd  (GhcPass p))))
       , Data (HsExpr (GhcPass p))
-      , Data (HsCmd  (GhcPass p))
-      , Data (HsCmdTop (GhcPass p))
-      , Data (GRHS (GhcPass p) (LocatedA (HsCmd (GhcPass p))))
       , Data (HsUntypedSplice (GhcPass p))
       , Data (HsTypedSplice (GhcPass p))
       , Data (HsLocalBinds (GhcPass p))
@@ -1294,10 +1289,6 @@ instance HiePass p => ToHie (LocatedA (HsExpr (GhcPass p))) where
       HsPragE _ _ expr ->
         [ toHie expr
         ]
-      HsProc _ pat cmdtop ->
-        [ toHie $ PS Nothing (mkScope cmdtop) NoScope pat
-        , toHie cmdtop
-        ]
       HsStatic _ expr ->
         [ toHie expr
         ]
@@ -1410,9 +1401,6 @@ instance ( ToHie (LocatedA (body (GhcPass p)))
         , toHie using
         , toHie by
         ]
-      RecStmt {recS_stmts = L _ stmts} ->
-        [ toHie $ map (RS $ combineScopes scope (mkScope (locA span))) stmts
-        ]
     where
       node = case hiePass @p of
         HieTc -> makeNodeA stmt span
@@ -1514,51 +1502,6 @@ instance (ToHie arg, ToHie rec) => ToHie (HsConDetails (GhcPass p) arg rec) wher
 instance ToHie (HsConDeclGADTDetails GhcRn) where
   toHie (PrefixConGADT _ args) = toHie args
   toHie (RecConGADT _ rec) = toHie rec
-
-instance HiePass p => ToHie (LocatedAn NoEpAnns (HsCmdTop (GhcPass p))) where
-  toHie (L span top) = concatM $ makeNodeA top span : case top of
-    HsCmdTop _ cmd ->
-      [ toHie cmd
-      ]
-
-instance HiePass p => ToHie (LocatedA (HsCmd (GhcPass p))) where
-  toHie (L span cmd) = concatM $ makeNodeA cmd span : case cmd of
-      HsCmdArrApp _ a b _ _ ->
-        [ toHie a
-        , toHie b
-        ]
-      HsCmdArrForm _ a _ cmdtops ->
-        [ toHie a
-        , toHie cmdtops
-        ]
-      HsCmdApp _ a b ->
-        [ toHie a
-        , toHie b
-        ]
-      HsCmdPar _ a ->
-        [ toHie a
-        ]
-      HsCmdCase _ expr alts ->
-        [ toHie expr
-        , toHie alts
-        ]
-      HsCmdLam _ _ alts ->
-        [ toHie alts
-        ]
-      HsCmdIf _ _ a b c ->
-        [ toHie a
-        , toHie b
-        , toHie c
-        ]
-      HsCmdLet _ binds cmd' ->
-        [ toHie $ RS (mkScope cmd') binds
-        , toHie cmd'
-        ]
-      HsCmdDo _ (L ispan stmts) ->
-        [ locOnly (locA ispan)
-        , toHie $ listScopes NoScope stmts
-        ]
-      XCmd _ -> []
 
 instance ToHie (TyClGroup GhcRn) where
   toHie TyClGroup{ group_tyclds = classes

@@ -525,7 +525,6 @@ type family XTypedBracket   x
 type family XUntypedBracket x
 type family XTypedSplice    x
 type family XUntypedSplice  x
-type family XProc           x
 type family XStatic         x
 type family XTick           x
 type family XBinTick        x
@@ -578,11 +577,6 @@ type family XVarBr  x
 type family XXQuote x
 
 -- -------------------------------------
--- HsCmdTop type families
-type family XCmdTop  x
-type family XXCmdTop x
-
--- -------------------------------------
 -- MatchGroup type families
 type family XMG           x b
 type family XXMatchGroup  x b
@@ -610,23 +604,7 @@ type family XBodyStmt        x x' b
 type family XLetStmt         x x' b
 type family XParStmt         x x' b
 type family XTransStmt       x x' b
-type family XRecStmt         x x' b
 type family XXStmtLR         x x' b
-
--- -------------------------------------
--- HsCmd type families
-type family XCmdArrApp   x
-type family XCmdArrForm  x
-type family XCmdApp      x
-type family XCmdLam      x
-type family XCmdPar      x
-type family XCmdCase     x
-type family XCmdLamCase  x
-type family XCmdIf       x
-type family XCmdLet      x
-type family XCmdDo       x
-type family XCmdWrap     x
-type family XXCmd        x
 
 -- -------------------------------------
 -- ParStmtBlock type families

@@ -27,9 +27,7 @@ test('T7671', normal, compile, [''])
 test('T10907', normal, compile, [''])
 test('T7650', normal, compile, [''])
 
-test('brackets', normal, compile, [''])
 test('T18225A', req_th, compile, [''])
-test('T18225B', normal, compile_fail, [''])
 
 test('T18158', normal, compile, [''])
 test('T18158b', normal, compile_fail, [''])

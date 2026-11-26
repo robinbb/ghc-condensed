@@ -452,27 +452,6 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 }
 
 <0> {
-  "(|"
-    / { ifExtension ArrowsBit `alexAndPred`
-        notFollowedBySymbol }
-    { special (IToparenbar NormalSyntax) }
-  "|)"
-    / { ifExtension ArrowsBit }
-    { special (ITcparenbar NormalSyntax) }
-
-  $unigraphic -- ⦇
-    / { ifCurrentChar '⦇' `alexAndPred`
-        ifExtension UnicodeSyntaxBit `alexAndPred`
-        ifExtension ArrowsBit }
-    { special (IToparenbar UnicodeSyntax) }
-  $unigraphic -- ⦈
-    / { ifCurrentChar '⦈' `alexAndPred`
-        ifExtension UnicodeSyntaxBit `alexAndPred`
-        ifExtension ArrowsBit }
-    { special (ITcparenbar UnicodeSyntax) }
-}
-
-<0> {
   \? @varid / { ifExtension IpBit } { skip_one_varid_text ITdupipvarid }
 }
 
@@ -938,16 +917,6 @@ data Token
   | ITsplice
   | ITquote
 
-  -- Arrow notation extension
-  | ITproc
-  | ITrec
-  | IToparenbar  IsUnicodeSyntax -- ^ @(|@
-  | ITcparenbar  IsUnicodeSyntax -- ^ @|)@
-  | ITlarrowtail IsUnicodeSyntax -- ^ @-<@
-  | ITrarrowtail IsUnicodeSyntax -- ^ @>-@
-  | ITLarrowtail IsUnicodeSyntax -- ^ @-<<@
-  | ITRarrowtail IsUnicodeSyntax -- ^ @>>-@
-
   | ITunknown String             -- ^ Used when the lexer can't make sense of it
   | ITeof                        -- ^ end of file token
 
@@ -1074,8 +1043,6 @@ reservedWordsFM = listToUFM $
          ( "dependency",     ITdependency,       0 ),
          ( "signature",      ITsignature,     0 ),
 
-         ( "rec",            ITrec,           xbit ArrowsBit),
-         ( "proc",           ITproc,          xbit ArrowsBit),
          ( "splice",         ITsplice,        xbit LevelImportsBit),
          ( "quote",          ITquote,         xbit LevelImportsBit)
      ]
@@ -1112,11 +1079,6 @@ reservedSymsFM = listToUFM $
        ,("=>",  ITdarrow NormalSyntax,      NormalSyntax,  0 )
        ,("-",   ITminus,                    NormalSyntax,  xbit NoLexicalNegationBit)
 
-       ,("-<",  ITlarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
-       ,(">-",  ITrarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
-       ,("-<<", ITLarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
-       ,(">>-", ITRarrowtail NormalSyntax,  NormalSyntax,  xbit ArrowsBit)
-
        ,("∷",   ITdcolon UnicodeSyntax,     UnicodeSyntax, 0 )
        ,("⇒",   ITdarrow UnicodeSyntax,     UnicodeSyntax, 0 )
        ,("∀",   ITforall UnicodeSyntax,     UnicodeSyntax, 0 )
@@ -1124,11 +1086,6 @@ reservedSymsFM = listToUFM $
        ,("←",   ITlarrow UnicodeSyntax,     UnicodeSyntax, 0 )
 
        ,("⊸",   ITlolly, UnicodeSyntax, 0)
-
-       ,("⤙",   ITlarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
-       ,("⤚",   ITrarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
-       ,("⤛",   ITLarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
-       ,("⤜",   ITRarrowtail UnicodeSyntax, UnicodeSyntax, xbit ArrowsBit)
 
         -- ToDo: ideally, → and ∷ should be "specials", so that they cannot
         -- form part of a large operator.  This would let us have a better
@@ -1984,7 +1941,6 @@ maybe_layout t = f t
           f ITlcases    = pushLexState layout
           f ITlet       = pushLexState layout
           f ITwhere     = pushLexState layout
-          f ITrec       = pushLexState layout
           f ITif        = pushLexState layout_if
           f _           = return ()
 
@@ -2590,7 +2546,6 @@ data ExtBits
   = FfiBit
   | InterruptibleFfiBit
   | CApiFfiBit
-  | ArrowsBit
   | ThBit
   | ThQuotesBit
   | IpBit
@@ -2664,7 +2619,6 @@ mkParserOpts extensionFlags diag_opts
           FfiBit                      `xoptBit` LangExt.ForeignFunctionInterface
       .|. InterruptibleFfiBit         `xoptBit` LangExt.InterruptibleFFI
       .|. CApiFfiBit                  `xoptBit` LangExt.CApiFFI
-      .|. ArrowsBit                   `xoptBit` LangExt.Arrows
       .|. ThBit                       `xoptBit` LangExt.TemplateHaskell
       .|. ThQuotesBit                 `xoptBit` LangExt.TemplateHaskellQuotes
       .|. QqBit                       `xoptBit` LangExt.QuasiQuotes

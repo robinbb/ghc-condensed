@@ -931,16 +931,6 @@ data TcRnMessage where
   -}
   TcRnTagToEnumResTyTypeData :: Type -> TcRnMessage
 
-  {-| TcRnArrowIfThenElsePredDependsOnResultTy is an error that occurs when the
-      predicate type of an ifThenElse expression in arrow notation depends on
-      the type of the result.
-
-      Example(s): None
-
-     Test cases: None
-  -}
-  TcRnArrowIfThenElsePredDependsOnResultTy :: TcRnMessage
-
   {-| TcRnIllegalHsBootOrSigDecl is an error that occurs when an hs-boot file
       contains declarations that are not allowed, such as bindings.
 
@@ -1921,13 +1911,6 @@ data TcRnMessage where
   -}
   TcRnLazyGADTPattern :: TcRnMessage
 
-  {-| TcRnArrowProcGADTPattern is an error that occurs when a user writes a
-      GADT pattern inside arrow proc notation.
-
-      Test case: arrows/should_fail/arrowfail004.
-  -}
-  TcRnArrowProcGADTPattern :: TcRnMessage
-
   {-| TcRnCapturedTermName is a warning (controlled by -Wterm-variable-capture) that occurs
     when an implicitly quantified type variable's name is already used for a term.
     Example:
@@ -2874,7 +2857,7 @@ data TcRnMessage where
     -> TcRnMessage
 
   {-| TcRnUnexpectedStatementInContext is an error when a statement appears
-      in an unexpected context (e.g. an arrow statement appears in a list comprehension).
+      in an unexpected context (e.g. a transform statement appears in a do block).
 
       Example(s):
 
@@ -2896,18 +2879,6 @@ data TcRnMessage where
      Test cases: rename/should_fail/rnfail056
   -}
   TcRnIllegalTupleSection :: TcRnMessage
-
-  {-| TcRnIllegalImplicitParameterBindings is an error triggered by binding
-      an implicit parameter in a rec block of arrow notation.
-
-      Example(s):
-      proc x -> do { rec { let { ?y = 5 } }; returnA -< x }
-
-     Test cases: arrows/should_fail/ArrowRecIPBinds
-  -}
-  TcRnIllegalImplicitParameterBindings
-    :: Either (HsLocalBindsLR GhcPs GhcPs) (HsLocalBindsLR GhcRn GhcPs)
-    -> TcRnMessage
 
   {-| TcRnSectionWithoutParentheses is an error triggered by attempting to
       use an operator section without parentheses.
@@ -6106,11 +6077,6 @@ data EmptyStatementGroupErrReason
   --
   --   Example:
   --   do
-  | EmptyStmtsGroupInArrowNotation
-  -- ^ Empty statement group in arrow notation
-  --
-  --   Example:
-  --   proc () -> do
 
   deriving (Generic)
 

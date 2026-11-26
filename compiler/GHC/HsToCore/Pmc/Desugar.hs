@@ -414,7 +414,6 @@ desugarGuard guard = case guard of
   LastStmt        {} -> panic "desugarGuard LastStmt"
   ParStmt         {} -> panic "desugarGuard ParStmt"
   TransStmt       {} -> panic "desugarGuard TransStmt"
-  RecStmt         {} -> panic "desugarGuard RecStmt"
 
 sequenceGrdDagMapM :: Applicative f => (a -> f GrdDag) -> [a] -> f GrdDag
 sequenceGrdDagMapM f as = sequenceGrdDags <$> traverse f as

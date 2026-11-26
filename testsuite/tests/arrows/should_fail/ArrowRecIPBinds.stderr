@@ -1,3 +1,0 @@
-
-ArrowRecIPBinds.hs:8:3: error: [GHC-50730]
-    Implicit-parameter bindings illegal in a rec block ?y = x

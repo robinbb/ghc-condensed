@@ -39,7 +39,6 @@ import GHC.Tc.Gen.Head
 import GHC.Tc.Gen.Do
 import GHC.Tc.Gen.Bind        ( tcLocalBinds )
 import GHC.Tc.Gen.HsType
-import GHC.Tc.Gen.Arrow
 import GHC.Tc.Gen.Match( tcBody, tcLambdaMatches, tcCaseMatches
                        , tcGRHSNE, tcDoStmts )
 import GHC.Tc.Instance.Family ( tcGetFamInstEnvs )
@@ -556,10 +555,6 @@ tcExpr (HsDo _ do_or_lc stmts) res_ty
   -- The ultimate goal is to handle them via expandDoStmts.
   -- GHCiStmts are handled completely separate
   = tcDoStmts do_or_lc stmts res_ty
-
-tcExpr (HsProc x pat cmd) res_ty
-  = do  { (pat', cmd', coi) <- tcProc pat cmd res_ty
-        ; return $ mkHsWrapCo coi (HsProc x pat' cmd') }
 
 -- Typechecks the static form and wraps it with a call to 'fromStaticPtr'.
 -- See Note [Grand plan for static forms] in GHC.Iface.Tidy.StaticPtrTable for an overview.

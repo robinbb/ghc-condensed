@@ -26,7 +26,6 @@ import GHC.HsToCore.Binds
 import GHC.HsToCore.GuardedRHSs
 import GHC.HsToCore.ListComp
 import GHC.HsToCore.Utils
-import GHC.HsToCore.Arrows
 import GHC.HsToCore.Monad
 import GHC.HsToCore.Pmc
 import GHC.HsToCore.Types( LdiNablas(..) )
@@ -569,9 +568,6 @@ dsExpr (HsTypedBracket   bracket_tc _) = dsBracket bracket_tc
 dsExpr (HsUntypedBracket bracket_tc _) = dsBracket bracket_tc
 dsExpr (HsTypedSplice   _   s) = pprPanic "dsExpr:typed splice" (pprTypedSplice Nothing s)
 dsExpr (HsUntypedSplice ext _) = dataConCantHappen ext
-
--- Arrow notation extension
-dsExpr (HsProc _ pat cmd) = dsProcExpr pat cmd
 
 -- HsSyn constructs that just shouldn't be here, because
 -- the renamer or typechecker removed them.  See GHC.Rename.Expr.
@@ -1167,7 +1163,6 @@ dsDo ctx stmts res_ty
 
     go _ (ParStmt   {}) _ = panic "dsDo ParStmt"
     go _ (TransStmt {}) _ = panic "dsDo TransStmt"
-    go _ (RecStmt   {}) _ = panic "dsDo RecStmt"
 
 {- Note [Long-distance information in do notation]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

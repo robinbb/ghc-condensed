@@ -83,7 +83,6 @@ main = do
 
     check "e_reccon"    -- RecordCon
     check "e_negapp"    -- NegApp
-    check "e_proc"      -- HsProc
     check "e_arith_ol"  -- ArithSeq
 
     check "e_var"       -- ConLikeTc

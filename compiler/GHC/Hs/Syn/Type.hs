@@ -148,11 +148,6 @@ hsExprType e@(HsTypedSplice{}) =
   pprPanic "hsExprType: Unexpected HsTypedSplice"
     (ppr e)
 hsExprType (HsUntypedSplice ext _) = dataConCantHappen ext
-hsExprType (HsProc _ pat (L _ (HsCmdTop cmd_top_tc _))) =
-  let CmdTopTc { ctt_arr_ty = arr_ty, ctt_res_ty = res_ty } = cmd_top_tc
-  in
-    -- (proc (pat :: a) -> (cmd :: b)) :: arr a b
-    mkAppTys arr_ty [hsLPatType pat, res_ty]
 hsExprType (HsStatic (ty,_) _s) = ty
 hsExprType (HsPragE _ _ e) = lhsExprType e
 hsExprType (HsEmbTy x _) = dataConCantHappen x

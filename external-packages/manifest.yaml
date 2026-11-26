@@ -531,7 +531,7 @@ packages:
     NondecreasingIndentation, DisambiguateRecordFields, ApplicativeDo,
     QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures,
     BinaryLiterals, HexFloatLiterals, NumDecimals, NumericUnderscores,
-    MultilineStrings and the deprecated aliases) to or from
+    MultilineStrings, Arrows and the deprecated aliases) to or from
     template-haskell, whose Extension type
     lost those constructors, and
     Language.Haskell.Meta.Syntax.Translate builds a DoE without the module
@@ -1015,6 +1015,11 @@ packages:
   note: >-
     no tag for 0.19.0.0 in https://github.com/pcapriotti/optparse-applicative.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the proc blocks of
+    tests/Examples/Cabal.hs are written with the arrow combinators of the
+    package's own Options.Applicative.Arrows, since this compiler has no
+    arrow notation (patches/optparse-applicative.patch)
 - name: parallel
   version: 3.3.0.0
   tier: 1
@@ -5710,10 +5715,13 @@ packages:
     accepts any happy, so one copy serves both
   constraints: any.happy ==2.0.2
   patched: >-
-    deliberate exception to the no-modification rule, for two private copies
+    deliberate exception to the no-modification rule, for three private copies
     whose versions differ from the corpus: aeson-2.2.5.1 takes the kinds of
-    aeson.patch and cryptonite-0.30 the IV kind of crypton.patch
-    (patches/purescript-aeson.patch, patches/purescript-cryptonite.patch)
+    aeson.patch, cryptonite-0.30 the IV kind of crypton.patch and
+    optparse-applicative-0.18.1.0 the combinator-form example of
+    optparse-applicative.patch (patches/purescript-aeson.patch,
+    patches/purescript-cryptonite.patch,
+    patches/purescript-optparse-applicative.patch)
 - name: SafeSemaphore
   version: 0.10.1
   tier: 3

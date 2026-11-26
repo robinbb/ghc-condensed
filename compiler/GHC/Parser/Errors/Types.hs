@@ -254,12 +254,6 @@ data PsMessage
    -- | Arrow expression-syntax in pattern
    | PsErrArrowExprInPat !(HsExpr GhcPs)
 
-   -- | Arrow command-syntax in pattern
-   | PsErrArrowCmdInPat !(HsCmd GhcPs)
-
-   -- | Arrow command-syntax in expression
-   | PsErrArrowCmdInExpr !(HsCmd GhcPs)
-
    -- | Or-pattern in expression
    | PsErrOrPatInExpr !(LPat GhcPs)
 
@@ -286,31 +280,8 @@ data PsMessage
        !Bool           -- ^ "else" semi-colon?
        !(HsExpr GhcPs) -- ^ "else" expr
 
-   -- | Unexpected semi-colons in conditional command
-   | PsErrSemiColonsInCondCmd
-       !(HsExpr GhcPs) -- ^ conditional expr
-       !Bool           -- ^ "then" semi-colon?
-       !(HsCmd GhcPs)  -- ^ "then" expr
-       !Bool           -- ^ "else" semi-colon?
-       !(HsCmd GhcPs)  -- ^ "else" expr
-
    -- | @-operator in a pattern position
    | PsErrAtInPatPos
-
-   -- | Unexpected case command in function application
-   | PsErrCaseCmdInFunAppCmd !(LHsCmd GhcPs)
-
-   -- | Unexpected lambda or \case(s) command in function application
-   | PsErrLambdaCmdInFunAppCmd !HsLamVariant !(LHsCmd GhcPs)
-
-   -- | Unexpected if command in function application
-   | PsErrIfCmdInFunAppCmd !(LHsCmd GhcPs)
-
-   -- | Unexpected let command in function application
-   | PsErrLetCmdInFunAppCmd !(LHsCmd GhcPs)
-
-   -- | Unexpected do command in function application
-   | PsErrDoCmdInFunAppCmd !(LHsCmd GhcPs)
 
    -- | Unexpected do block in function application
    | PsErrDoInFunAppExpr !(LHsExpr GhcPs)
@@ -327,9 +298,6 @@ data PsMessage
 
    -- | Unexpected if expression in function application
    | PsErrIfInFunAppExpr !(LHsExpr GhcPs)
-
-   -- | Unexpected proc expression in function application
-   | PsErrProcInFunAppExpr !(LHsExpr GhcPs)
 
    -- | Malformed head of type or class declaration
    | PsErrMalformedTyOrClDecl !(LHsType GhcPs)
@@ -416,11 +384,6 @@ data PsMessage
    --
    -- TODO: distinguish errors without using SDoc
    | PsErrIllegalTraditionalRecordSyntax !SDoc
-
-   -- | Parse error in command
-   --
-   -- TODO: distinguish errors without using SDoc
-   | PsErrParseErrorInCmd !SDoc
 
    -- | Parse error in pattern
    | PsErrInPat !(PatBuilder GhcPs) !PsErrInPatDetails

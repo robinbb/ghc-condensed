@@ -3,7 +3,6 @@ module GHC.Tc.Types.LclEnv (
   , TcLclCtxt(..)
   , modifyLclCtxt
 
-  , getLclEnvArrowCtxt
   , getLclEnvThBndrs
   , getLclEnvTypeEnv
   , getLclEnvBinderStack
@@ -28,7 +27,6 @@ module GHC.Tc.Types.LclEnv (
   , addLclEnvErrCtxt
 
   , ErrCtxtStack
-  , ArrowCtxt(..)
   , ThBindEnv
   , TcTypeEnv
 ) where
@@ -119,8 +117,6 @@ data TcLclCtxt
             -- We can't put this info in the TypeEnv because it's needed
             -- (and extended) in the renamer, for untyped splices
 
-        tcl_arrow_ctxt :: ArrowCtxt,       -- Arrow-notation context
-
         tcl_env  :: TcTypeEnv    -- The local type environment:
                     -- Ids and TyVars defined in this module
                     -- They move to the TcGbl env during zonkTopDecls
@@ -134,9 +130,6 @@ setLclEnvThLevel l = modifyLclCtxt (\env -> env { tcl_th_ctxt = l })
 
 getLclEnvThBndrs :: TcLclEnv -> ThBindEnv
 getLclEnvThBndrs = tcl_th_bndrs . tcl_lcl_ctxt
-
-getLclEnvArrowCtxt :: TcLclEnv -> ArrowCtxt
-getLclEnvArrowCtxt = tcl_arrow_ctxt . tcl_lcl_ctxt
 
 getLclEnvTypeEnv :: TcLclEnv -> TcTypeEnv
 getLclEnvTypeEnv = tcl_env . tcl_lcl_ctxt
@@ -215,43 +208,3 @@ type ThBindEnv = NameEnv (TopLevelFlag, ThLevelIndex)
    -- bound at top level!  See Note [Template Haskell levels] in GHC.Tc.Gen.Splice
 
 
----------------------------
--- Arrow-notation context
----------------------------
-
-{- Note [Escaping the arrow scope]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In arrow notation, a variable bound by a proc (or enclosed let/kappa)
-is not in scope to the left of an arrow tail (-<) or the head of (|..|).
-For example
-
-        proc x -> (e1 -< e2)
-
-Here, x is not in scope in e1, but it is in scope in e2.  This can get
-a bit complicated:
-
-        let x = 3 in
-        proc y -> (proc z -> e1) -< e2
-
-Here, x and z are in scope in e1, but y is not.
-
-We implement this by
-recording the environment when passing a proc (using newArrowScope),
-and returning to that (using escapeArrowScope) on the left of -< and the
-head of (|..|).
-
-All this can be dealt with by the *renamer*. But the type checker needs
-to be involved too.  Example (arrowfail001)
-  class Foo a where foo :: a -> ()
-  data Bar = forall a. Foo a => Bar a
-  get :: Bar -> ()
-  get = proc x -> case x of Bar a -> foo -< a
-Here the call of 'foo' gives rise to a (Foo a) constraint that should not
-be captured by the pattern match on 'Bar'.  Rather it should join the
-constraints from further out.  So we must capture the constraint bag
-from further out in the ArrowCtxt that we push inwards.
--}
-
-data ArrowCtxt   -- Note [Escaping the arrow scope]
-  = NoArrowCtxt
-  | ArrowCtxt LocalRdrEnv (TcRef WantedConstraints)

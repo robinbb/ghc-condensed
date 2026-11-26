@@ -1059,12 +1059,6 @@ zonkExpr (HsPragE x prag expr)
   = do new_expr <- zonkLExpr expr
        return (HsPragE x prag new_expr)
 
--- arrow notation extensions
-zonkExpr (HsProc x pat body)
-  = runZonkBndrT (zonkPat pat) $ \ new_pat ->
-    do  { new_body <- zonkCmdTop body
-        ; return (HsProc x new_pat new_body) }
-
 -- StaticPointers extension
 zonkExpr (HsStatic (ty, fs) expr)
   = do new_ty <- zonkTcTypeToTypeX ty
@@ -1132,92 +1126,6 @@ zonkSyntaxExpr (SyntaxExprTc { syn_expr      = expr
                              , syn_arg_wraps = arg_wraps'
                              , syn_res_wrap  = res_wrap' } }
 zonkSyntaxExpr NoSyntaxExprTc = return NoSyntaxExprTc
-
--------------------------------------------------------------------------
-
-zonkLCmd  :: LHsCmd GhcTc -> ZonkTcM (LHsCmd GhcTc)
-zonkCmd   :: HsCmd GhcTc  -> ZonkTcM (HsCmd GhcTc)
-
-zonkLCmd  cmd  = wrapLocZonkMA zonkCmd cmd
-
-zonkCmd (XCmd (HsWrap w cmd))
-  = runZonkBndrT (zonkCoFn w) $ \ w' ->
-    do { cmd' <- zonkCmd cmd
-       ; return (XCmd (HsWrap w' cmd')) }
-zonkCmd (HsCmdArrApp ty e1 e2 ho rl)
-  = do new_e1 <- zonkLExpr e1
-       new_e2 <- zonkLExpr e2
-       new_ty <- zonkTcTypeToTypeX ty
-       return (HsCmdArrApp new_ty new_e1 new_e2 ho rl)
-
-zonkCmd (HsCmdArrForm x op fixity args)
-  = do new_op <- zonkLExpr op
-       new_args <- mapM zonkCmdTop args
-       return (HsCmdArrForm x new_op fixity new_args)
-
-zonkCmd (HsCmdApp x c e)
-  = do new_c <- zonkLCmd c
-       new_e <- zonkLExpr e
-       return (HsCmdApp x new_c new_e)
-
-zonkCmd (HsCmdPar x c)
-  = do new_c <- zonkLCmd c
-       return (HsCmdPar x new_c)
-
-zonkCmd (HsCmdCase x expr ms)
-  = do new_expr <- zonkLExpr expr
-       new_ms <- zonkMatchGroup zonkLCmd ms
-       return (HsCmdCase x new_expr new_ms)
-
-zonkCmd (HsCmdLam x lam_variant ms)
-  = do new_ms <- zonkMatchGroup zonkLCmd ms
-       return (HsCmdLam x lam_variant new_ms)
-
-zonkCmd (HsCmdIf x eCond ePred cThen cElse)
-  = runZonkBndrT (zonkSyntaxExpr eCond) $ \ new_eCond ->
-    do { new_ePred <- zonkLExpr ePred
-       ; new_cThen <- zonkLCmd cThen
-       ; new_cElse <- zonkLCmd cElse
-       ; return (HsCmdIf x new_eCond new_ePred new_cThen new_cElse) }
-
-zonkCmd (HsCmdLet x binds cmd)
-  = runZonkBndrT (zonkLocalBinds binds) $ \ new_binds ->
-    do new_cmd <- zonkLCmd cmd
-       return (HsCmdLet x new_binds new_cmd)
-
-zonkCmd (HsCmdDo ty (L l stmts))
-  = do new_stmts <- don'tBind $ zonkStmts zonkLCmd stmts
-       new_ty <- zonkTcTypeToTypeX ty
-       return (HsCmdDo new_ty (L l new_stmts))
-
-
-
-zonkCmdTop :: LHsCmdTop GhcTc -> ZonkTcM (LHsCmdTop GhcTc)
-zonkCmdTop cmd = wrapLocZonkMA (zonk_cmd_top) cmd
-
-zonk_cmd_top :: HsCmdTop GhcTc -> ZonkTcM (HsCmdTop GhcTc)
-zonk_cmd_top (HsCmdTop (CmdTopTc { ctt_stack  = stack_tys
-                                 , ctt_arr_ty = arr_ty
-                                 , ctt_res_ty = res_ty
-                                 , ctt_table  = CST ids }) cmd)
-  = do new_cmd <- zonkLCmd cmd
-       new_stack_tys <- zonkTcTypeToTypeX stack_tys
-       new_arr_ty <- zonkTcTypeToTypeX arr_ty
-       new_res_ty <- zonkTcTypeToTypeX res_ty
-       new_ids <- mapSndM zonkExpr ids
-
-       massert (definitelyLiftedType new_stack_tys)
-         -- desugarer assumes that this is not representation-polymorphic...
-         -- but indeed it should always be lifted due to the typing
-         -- rules for arrows
-
-       let new_cmd_top =
-             CmdTopTc { ctt_stack  = new_stack_tys
-                      , ctt_arr_ty = new_arr_ty
-                      , ctt_res_ty = new_res_ty
-                      , ctt_table  = CST new_ids }
-
-       return (HsCmdTop new_cmd_top new_cmd)
 
 -------------------------------------------------------------------------
 zonkCoFn :: HsWrapper -> ZonkBndrTcM HsWrapper
@@ -1325,33 +1233,6 @@ zonkStmt _ (ParStmt bind_ty stmts_w_bndrs mzip_op bind_op)
          runZonkBndrT (zonkSyntaxExpr return_op)  $ \ new_return ->
          do { new_bndrs <- zonkIdOccs bndrs
             ; return (ParStmtBlock x new_stmts new_bndrs new_return) }
-
-zonkStmt zBody (RecStmt { recS_stmts = L _ segStmts, recS_later_ids = lvs
-                        , recS_rec_ids = rvs
-                        , recS_ext =
-                                   RecStmtTc { recS_later_rets = later_rets
-                                             , recS_rec_rets = rec_rets } })
-  = do { new_rvs     <- noBinders $ zonkIdBndrs rvs
-       ; new_lvs     <- noBinders $ zonkIdBndrs lvs
-
-    -- Zonk the ret-expressions in an environment that
-    -- has the polymorphic bindings
-       ; rec_stmt <- noBinders $ don'tBind $
-          do { extendIdZonkEnvRec new_rvs
-             ; new_segStmts   <- zonkStmts zBody segStmts
-             ; new_later_rets <- noBinders $ mapM zonkExpr later_rets
-             ; new_rec_rets   <- noBinders $ mapM zonkExpr rec_rets
-             ; return $
-               RecStmt { recS_stmts = noLocA new_segStmts
-                       , recS_later_ids = new_lvs
-                       , recS_rec_ids = new_rvs
-                       , recS_ext = RecStmtTc
-                           { recS_later_rets = new_later_rets
-                           , recS_rec_rets = new_rec_rets } } }
-
-    -- Only the lvs are needed
-       ; extendIdZonkEnvRec new_lvs
-       ; return rec_stmt }
 
 zonkStmt zBody (BodyStmt ty body then_op guard_op)
   = do { new_then_op  <- zonkSyntaxExpr then_op

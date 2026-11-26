@@ -386,67 +386,37 @@ deriving instance Data (HsTupArg GhcPs)
 deriving instance Data (HsTupArg GhcRn)
 deriving instance Data (HsTupArg GhcTc)
 
--- deriving instance (DataIdLR p p) => Data (HsCmd p)
-deriving instance Data (HsCmd GhcPs)
-deriving instance Data (HsCmd GhcRn)
-deriving instance Data (HsCmd GhcTc)
-
--- deriving instance (DataIdLR p p) => Data (HsCmdTop p)
-deriving instance Data (HsCmdTop GhcPs)
-deriving instance Data (HsCmdTop GhcRn)
-deriving instance Data (HsCmdTop GhcTc)
-
 -- deriving instance (DataIdLR p p,Data body) => Data (MatchGroup p body)
 deriving instance Data (MatchGroup GhcPs (LocatedA (HsExpr GhcPs)))
 deriving instance Data (MatchGroup GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (MatchGroup GhcTc (LocatedA (HsExpr GhcTc)))
-deriving instance Data (MatchGroup GhcPs (LocatedA (HsCmd GhcPs)))
-deriving instance Data (MatchGroup GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (MatchGroup GhcTc (LocatedA (HsCmd GhcTc)))
 
 -- deriving instance (DataIdLR p p,Data body) => Data (Match      p body)
 deriving instance Data (Match      GhcPs (LocatedA (HsExpr GhcPs)))
 deriving instance Data (Match      GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (Match      GhcTc (LocatedA (HsExpr GhcTc)))
-deriving instance Data (Match      GhcPs (LocatedA (HsCmd GhcPs)))
-deriving instance Data (Match      GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (Match      GhcTc (LocatedA (HsCmd GhcTc)))
 
 -- deriving instance (DataIdLR p p,Data body) => Data (GRHSs      p body)
 deriving instance Data (GRHSs     GhcPs (LocatedA (HsExpr GhcPs)))
 deriving instance Data (GRHSs     GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (GRHSs     GhcTc (LocatedA (HsExpr GhcTc)))
-deriving instance Data (GRHSs     GhcPs (LocatedA (HsCmd GhcPs)))
-deriving instance Data (GRHSs     GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (GRHSs     GhcTc (LocatedA (HsCmd GhcTc)))
 
 -- deriving instance (DataIdLR p p,Data body) => Data (GRHS       p body)
 deriving instance Data (GRHS     GhcPs (LocatedA (HsExpr GhcPs)))
 deriving instance Data (GRHS     GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (GRHS     GhcTc (LocatedA (HsExpr GhcTc)))
-deriving instance Data (GRHS     GhcPs (LocatedA (HsCmd GhcPs)))
-deriving instance Data (GRHS     GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (GRHS     GhcTc (LocatedA (HsCmd GhcTc)))
 
 -- deriving instance (DataIdLR p p,Data body) => Data (StmtLR   p p body)
 deriving instance Data (StmtLR   GhcPs GhcPs (LocatedA (HsExpr GhcPs)))
 deriving instance Data (StmtLR   GhcPs GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (StmtLR   GhcRn GhcRn (LocatedA (HsExpr GhcRn)))
 deriving instance Data (StmtLR   GhcTc GhcTc (LocatedA (HsExpr GhcTc)))
-deriving instance Data (StmtLR   GhcPs GhcPs (LocatedA (HsCmd GhcPs)))
-deriving instance Data (StmtLR   GhcPs GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (StmtLR   GhcRn GhcRn (LocatedA (HsCmd GhcRn)))
-deriving instance Data (StmtLR   GhcTc GhcTc (LocatedA (HsCmd GhcTc)))
-
-deriving instance Data RecStmtTc
 
 -- deriving instance (DataIdLR p p) => Data (ParStmtBlock p p)
 deriving instance Data (ParStmtBlock GhcPs GhcPs)
 deriving instance Data (ParStmtBlock GhcPs GhcRn)
 deriving instance Data (ParStmtBlock GhcRn GhcRn)
 deriving instance Data (ParStmtBlock GhcTc GhcTc)
-
-deriving instance Data HsArrowMatchContext
 
 deriving instance Data fn => Data (HsStmtContext fn)
 deriving instance Data fn => Data (HsMatchContext fn)
@@ -479,7 +449,6 @@ deriving instance Data (ArithSeqInfo GhcPs)
 deriving instance Data (ArithSeqInfo GhcRn)
 deriving instance Data (ArithSeqInfo GhcTc)
 
-deriving instance Data CmdTopTc
 deriving instance Data PendingRnSplice
 deriving instance Data PendingTcSplice
 deriving instance Data SyntaxExprRn

@@ -85,7 +85,6 @@ exhaustiveWarningFlag (LamAlt LamSingle) = Just Opt_WarnIncompleteUniPatterns
 exhaustiveWarningFlag (LamAlt _case)     = Just Opt_WarnIncompletePatterns
 exhaustiveWarningFlag PatBindRhs         = Just Opt_WarnIncompleteUniPatterns
 exhaustiveWarningFlag PatBindGuards      = Just Opt_WarnIncompletePatterns
-exhaustiveWarningFlag (ArrowMatchCtxt c) = arrowMatchContextExhaustiveWarningFlag c
 exhaustiveWarningFlag RecUpd             = Just Opt_WarnIncompletePatternsRecUpd
 exhaustiveWarningFlag LazyPatCtx         = Just Opt_WarnIncompleteUniPatterns
 exhaustiveWarningFlag ThPatSplice        = Nothing
@@ -94,13 +93,6 @@ exhaustiveWarningFlag ThPatQuote         = Nothing
 -- Don't warn about incomplete patterns in list comprehensions, pattern guards
 -- etc. They are often *supposed* to be incomplete
 exhaustiveWarningFlag StmtCtxt{}         = Nothing
-
-arrowMatchContextExhaustiveWarningFlag :: HsArrowMatchContext -> Maybe WarningFlag
-arrowMatchContextExhaustiveWarningFlag = \ case
-  ProcExpr              -> Just Opt_WarnIncompleteUniPatterns
-  ArrowCaseAlt          -> Just Opt_WarnIncompletePatterns
-  ArrowLamAlt LamSingle -> Just Opt_WarnIncompleteUniPatterns
-  ArrowLamAlt _         -> Just Opt_WarnIncompletePatterns
 
 -- | Check whether any part of pattern match checking is enabled for this
 -- 'HsMatchContext' (does not matter whether it is the redundancy check or the

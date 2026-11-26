@@ -64,7 +64,6 @@ import qualified GHC.Boot.TH.Monad as TH (Q)
 import Data.Data hiding (Fixity(..))
 import qualified Data.Data as Data (Fixity(..))
 import qualified Data.Kind
-import Data.Maybe (isJust)
 import Data.Foldable ( toList )
 import Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.List.NonEmpty as NE
@@ -361,7 +360,6 @@ type instance XArithSeq      GhcPs = AnnArithSeq
 type instance XArithSeq      GhcRn = NoExtField
 type instance XArithSeq      GhcTc = PostTcExpr
 
-type instance XProc          (GhcPass _) = (EpToken "proc", TokRarrow)
 
 type instance XStatic        GhcPs = EpToken "static"
 type instance XStatic        GhcRn = FreeNames
@@ -991,9 +989,6 @@ ppr_expr (HsUntypedBracket b q)
   where
     ppr_nested_splice (PendingRnSplice splice_name expr) = pprUntypedSplice False (Just splice_name) expr
 
-ppr_expr (HsProc _ pat (L _ (HsCmdTop _ cmd)))
-  = hsep [text "proc", ppr pat, arrow, ppr cmd]
-
 ppr_expr (HsStatic _ e)
   = hsep [text "static", ppr e]
 
@@ -1156,7 +1151,6 @@ hsExprNeedsParens prec = go
     go (HsUntypedSplice{})            = False
     go (HsTypedBracket{})             = False
     go (HsUntypedBracket{})           = False
-    go (HsProc{})                     = prec > topPrec
     go (HsStatic{})                   = prec >= appPrec
     go (RecordCon{})                  = False
     go (HsProjection{})               = True
@@ -1417,232 +1411,6 @@ OverloadedRecordUpd is enabled and RebindableSyntax is enabled the
 names 'getField' and 'setField' are whatever in-scope names they are.
 -}
 
-
-{-
-************************************************************************
-*                                                                      *
-\subsection{Commands (in arrow abstractions)}
-*                                                                      *
-************************************************************************
--}
-
-type instance XCmdArrApp  GhcPs = (IsUnicodeSyntax, EpaLocation)
-type instance XCmdArrApp  GhcRn = NoExtField
-type instance XCmdArrApp  GhcTc = Type
-
-type instance XCmdArrForm GhcPs = (EpUniToken "(|" "⦇", EpUniToken "|)"  "⦈")
--- | fixity (filled in by the renamer), for forms that were converted from
--- OpApp's by the renamer
-type instance XCmdArrForm GhcRn = Maybe Fixity
-type instance XCmdArrForm GhcTc = Maybe Fixity
-
-type instance XCmdApp     (GhcPass _) = NoExtField
-type instance XCmdLam     (GhcPass _) = NoExtField
-
-type instance XCmdPar     GhcPs = (EpToken "(", EpToken ")")
-type instance XCmdPar     GhcRn = NoExtField
-type instance XCmdPar     GhcTc = NoExtField
-
-type instance XCmdCase    GhcPs = EpAnnHsCase
-type instance XCmdCase    GhcRn = NoExtField
-type instance XCmdCase    GhcTc = NoExtField
-
-type instance XCmdLamCase (GhcPass _) = EpAnnLam
-
-type instance XCmdIf      GhcPs = AnnsIf
-type instance XCmdIf      GhcRn = NoExtField
-type instance XCmdIf      GhcTc = NoExtField
-
-type instance XCmdLet     GhcPs = (EpToken "let", EpToken "in")
-type instance XCmdLet     GhcRn = NoExtField
-type instance XCmdLet     GhcTc = NoExtField
-
-type instance XCmdDo      GhcPs = DoAnn
-type instance XCmdDo      GhcRn = NoExtField
-type instance XCmdDo      GhcTc = Type
-
-type instance XCmdWrap    (GhcPass _) = NoExtField
-
-type instance XXCmd       GhcPs = DataConCantHappen
-type instance XXCmd       GhcRn = DataConCantHappen
-type instance XXCmd       GhcTc = HsWrap HsCmd
-
-    -- If   cmd :: arg1 --> res
-    --      wrap :: arg1 "->" arg2
-    -- Then (XCmd (HsWrap wrap cmd)) :: arg2 --> res
-
--- | Command Syntax Table (for Arrow syntax)
-newtype CmdSyntaxTable p = CST [(KnownOcc, HsExpr p)]
--- See Note [CmdSyntaxTable]
-
-instance Typeable p => Data (CmdSyntaxTable p) where
-    -- Don't traverse a CmdSyntaxTable
-    toConstr _   = abstractConstr "CmdSyntaxTable"
-    gunfold _ _  = error "gunfold:CmdSyntaxTable"
-    dataTypeOf _ = mkNoRepType "CmdSyntaxTable"
-
-{-
-Note [CmdSyntaxTable]
-~~~~~~~~~~~~~~~~~~~~~
-Used only for arrow-syntax stuff (HsCmdTop), the CmdSyntaxTable keeps
-track of the methods needed for a Cmd.
-
-* Before the renamer, this list is an empty list
-
-* After the renamer, it takes the form @[(std_name, HsVar actual_name)]@
-  For example, for the 'arr' method
-   * normal case:            (GHC.Control.Arrow.arr, HsVar GHC.Control.Arrow.arr)
-   * with rebindable syntax: (GHC.Control.Arrow.arr, arr_22)
-             where @arr_22@ is whatever 'arr' is in scope
-
-* After the type checker, it takes the form [(std_name, <expression>)]
-  where <expression> is the evidence for the method.  This evidence is
-  instantiated with the class, but is still polymorphic in everything
-  else.  For example, in the case of 'arr', the evidence has type
-         forall b c. (b->c) -> a b c
-  where 'a' is the ambient type of the arrow.  This polymorphism is
-  important because the desugarer uses the same evidence at multiple
-  different types.
-
-This is Less Cool than what we normally do for rebindable syntax, which is to
-make fully-instantiated piece of evidence at every use site.  The Cmd way
-is Less Cool because
-  * The renamer has to predict which methods are needed.
-    See the tedious GHC.Rename.Expr.methodNamesCmd.
-
-  * The desugarer has to know the polymorphic type of the instantiated
-    method. This is checked by Inst.tcCmdSyntaxTable, but is less flexible
-    than the rest of rebindable syntax, where the type is less
-    pre-ordained.  (And this flexibility is useful; for example we can
-    typecheck do-notation with (>>=) :: m1 a -> (a -> m2 b) -> m2 b.)
--}
-
-data CmdTopTc
-  = CmdTopTc
-    -- | Nested tuple of inputs on the command's stack
-  { ctt_stack  :: Type
-    -- | Arrow type
-  , ctt_arr_ty :: Type
-    -- | Return type of the command
-  , ctt_res_ty :: Type
-    -- | Command syntax table; see Note [CmdSyntaxTable]
-  , ctt_table  :: CmdSyntaxTable GhcTc
-  }
-
-type instance XCmdTop  GhcPs = NoExtField
-type instance XCmdTop  GhcRn = CmdSyntaxTable GhcRn -- See Note [CmdSyntaxTable]
-type instance XCmdTop  GhcTc = CmdTopTc
-
-
-type instance XXCmdTop (GhcPass _) = DataConCantHappen
-
-instance (OutputableBndrId p) => Outputable (HsCmd (GhcPass p)) where
-    ppr cmd = pprCmd cmd
-
------------------------
--- pprCmd and pprLCmd call pprDeeper;
--- the underscore versions do not
-pprLCmd :: (OutputableBndrId p) => LHsCmd (GhcPass p) -> SDoc
-pprLCmd (L _ c) = pprCmd c
-
-pprCmd :: (OutputableBndrId p) => HsCmd (GhcPass p) -> SDoc
-pprCmd c | isQuietHsCmd c =            ppr_cmd c
-         | otherwise      = pprDeeper (ppr_cmd c)
-
-isQuietHsCmd :: HsCmd id -> Bool
--- Parentheses do display something, but it gives little info and
--- if we go deeper when we go inside them then we get ugly things
--- like (...)
-isQuietHsCmd (HsCmdPar {}) = True
--- applications don't display anything themselves
-isQuietHsCmd (HsCmdApp {}) = True
-isQuietHsCmd _ = False
-
------------------------
-ppr_lcmd :: (OutputableBndrId p) => LHsCmd (GhcPass p) -> SDoc
-ppr_lcmd c = ppr_cmd (unLoc c)
-
-ppr_cmd :: forall p. (OutputableBndrId p
-                     ) => HsCmd (GhcPass p) -> SDoc
-ppr_cmd (HsCmdPar _ c) = parens (ppr_lcmd c)
-
-ppr_cmd (HsCmdApp _ c e)
-  = let (fun, args) = collect_args c [e] in
-    hang (ppr_lcmd fun) 2 (sep (map ppr args))
-  where
-    collect_args (L _ (HsCmdApp _ fun arg)) args = collect_args fun (arg:args)
-    collect_args fun args = (fun, args)
-
-ppr_cmd (HsCmdLam _ LamSingle matches)
-  = pprMatches matches
-ppr_cmd (HsCmdLam _ lam_variant matches)
-  = sep [ lamCaseKeyword lam_variant, nest 2 (pprMatches matches) ]
-
-ppr_cmd (HsCmdCase _ expr matches)
-  = sep [ sep [text "case", nest 4 (ppr expr), text "of"],
-          nest 2 (pprMatches matches) ]
-
-ppr_cmd (HsCmdIf _ _ e ct ce)
-  = sep [hsep [text "if", nest 2 (ppr e), text "then"],
-         nest 4 (ppr ct),
-         text "else",
-         nest 4 (ppr ce)]
-
--- special case: let ... in let ...
-ppr_cmd (HsCmdLet _ binds cmd@(L _ (HsCmdLet {})))
-  = sep [hang (text "let") 2 (hsep [pprBinds binds, text "in"]),
-         ppr_lcmd cmd]
-
-ppr_cmd (HsCmdLet _ binds cmd)
-  = sep [hang (text "let") 2 (pprBinds binds),
-         hang (text "in")  2 (ppr cmd)]
-
-ppr_cmd (HsCmdDo _ (L _ stmts))  = pprArrowExpr stmts
-
-ppr_cmd (HsCmdArrApp _ arrow arg HsFirstOrderApp True)
-  = hsep [ppr_lexpr arrow, larrowt, ppr_lexpr arg]
-ppr_cmd (HsCmdArrApp _ arrow arg HsFirstOrderApp False)
-  = hsep [ppr_lexpr arg, arrowt, ppr_lexpr arrow]
-ppr_cmd (HsCmdArrApp _ arrow arg HsHigherOrderApp True)
-  = hsep [ppr_lexpr arrow, larrowtt, ppr_lexpr arg]
-ppr_cmd (HsCmdArrApp _ arrow arg HsHigherOrderApp False)
-  = hsep [ppr_lexpr arg, arrowtt, ppr_lexpr arrow]
-
-ppr_cmd (HsCmdArrForm rn_fix (L _ op) ps_fix args)
-  | HsVar _ (L _ v) <- op
-  = ppr_cmd_infix v
-  | GhcTc <- ghcPass @p
-  , XExpr (ConLikeTc c) <- op
-  = ppr_cmd_infix (conLikeName c)
-  | otherwise
-  = fall_through
-  where
-    fall_through = hang (text "(|" <+> ppr_expr op)
-                      4 (sep (map (pprCmdArg.unLoc) args) <+> text "|)")
-
-    ppr_cmd_infix :: OutputableBndr v => v -> SDoc
-    ppr_cmd_infix v
-      | [arg1, arg2] <- args
-      , case ghcPass @p of
-          GhcPs -> ps_fix == Infix
-          GhcRn -> isJust rn_fix || ps_fix == Infix
-          GhcTc -> isJust rn_fix || ps_fix == Infix
-      = hang (pprCmdArg (unLoc arg1))
-           4 (sep [ pprInfixOcc v, pprCmdArg (unLoc arg2)])
-      | otherwise
-      = fall_through
-
-ppr_cmd (XCmd x) = case ghcPass @p of
-  GhcTc -> case x of
-    HsWrap w cmd -> pprHsWrapper w (\_ -> parens (ppr_cmd cmd))
-
-pprCmdArg :: (OutputableBndrId p) => HsCmdTop (GhcPass p) -> SDoc
-pprCmdArg (HsCmdTop _ cmd)
-  = ppr_lcmd cmd
-
-instance (OutputableBndrId p) => Outputable (HsCmdTop (GhcPass p)) where
-    ppr = pprCmdArg
-
 {-
 ************************************************************************
 *                                                                      *
@@ -1777,11 +1545,7 @@ pprMatch (Match { m_pats = L _ pats, m_ctxt = ctxt, m_grhss = grhss })
                      _ -> pprPanic "pprMatch" (ppr ctxt $$ ppr pats)
 
             LamAlt LamSingle                       -> (char '\\', pats)
-            ArrowMatchCtxt (ArrowLamAlt LamSingle) -> (char '\\', pats)
             LamAlt LamCases                        -> lam_cases_result
-            ArrowMatchCtxt (ArrowLamAlt LamCases)  -> lam_cases_result
-
-            ArrowMatchCtxt ProcExpr -> (text "proc", pats)
 
             _ -> case pats of
                    []    -> (empty, [])
@@ -1813,7 +1577,6 @@ matchSeparator FunRhs{}         = text "="
 matchSeparator CaseAlt          = arrow
 matchSeparator LamAlt{}         = arrow
 matchSeparator IfAlt            = arrow
-matchSeparator ArrowMatchCtxt{} = arrow
 matchSeparator PatBindRhs       = text "="
 matchSeparator PatBindGuards    = text "="
 matchSeparator StmtCtxt{}       = text "<-"
@@ -1833,21 +1596,6 @@ instance Outputable GrhsAnn where
 *                                                                      *
 ************************************************************************
 -}
-
--- Extra fields available post typechecking for RecStmt.
-data RecStmtTc =
-  RecStmtTc
-     { recS_later_rets :: [PostTcExpr]
-     , recS_rec_rets :: [PostTcExpr] -- These expressions correspond 1-to-1
-                                  -- with recS_later_ids and recS_rec_ids,
-                                  -- and are the expressions that should be
-                                  -- returned by the recursion.
-                                  -- They may not quite be the Ids themselves,
-                                  -- because the Id may be *polymorphic*, but
-                                  -- the returned thing has to be *monomorphic*,
-                                  -- so they may be type applications
-      }
-
 
 type instance XLastStmt        (GhcPass _) (GhcPass _) b = NoExtField
 
@@ -1880,10 +1628,6 @@ type instance XParStmt         (GhcPass _) GhcTc b = Type
 type instance XTransStmt       (GhcPass _) GhcPs b = AnnTransStmt
 type instance XTransStmt       (GhcPass _) GhcRn b = NoExtField
 type instance XTransStmt       (GhcPass _) GhcTc b = Type
-
-type instance XRecStmt         (GhcPass _) GhcPs b = (AnnList, EpToken "rec")
-type instance XRecStmt         (GhcPass _) GhcRn b = NoExtField
-type instance XRecStmt         (GhcPass _) GhcTc b = RecStmtTc
 
 type instance XXStmtLR         (GhcPass _) (GhcPass _) b = DataConCantHappen
 
@@ -1929,13 +1673,6 @@ pprStmt (TransStmt { trS_stmts = stmts, trS_by = by
                    , trS_using = using, trS_form = form })
   = sep $ punctuate comma (map ppr stmts ++ [pprTransStmt by using form])
 
-pprStmt (RecStmt { recS_stmts = segment, recS_rec_ids = rec_ids
-                 , recS_later_ids = later_ids })
-  = text "rec" <+>
-    vcat [ ppr_do_stmts (unLoc segment)
-         , whenPprDebug (vcat [ text "rec_ids=" <> ppr rec_ids
-                            , text "later_ids=" <> ppr later_ids])]
-
 pprBindStmt :: (Outputable pat, Outputable expr) => pat -> expr -> SDoc
 pprBindStmt pat expr = hsep [ppr pat, larrow, ppr expr]
 
@@ -1965,12 +1702,6 @@ pprDo DoExpr        stmts = text "do"  <+> ppr_do_stmts stmts
 pprDo GhciStmtCtxt  stmts = text "do"  <+> ppr_do_stmts stmts
 pprDo ListComp      stmts = brackets    $ pprComp stmts
 pprDo MonadComp     stmts = brackets    $ pprComp stmts
-
-pprArrowExpr :: (OutputableBndrId p, Outputable body,
-                 Anno (StmtLR (GhcPass p) (GhcPass p) body) ~ SrcSpanAnnA
-         )
-      => [LStmt (GhcPass p) body] -> SDoc
-pprArrowExpr stmts = text "do"  <+> ppr_do_stmts stmts
 
 ppr_do_stmts :: (OutputableBndrId idL, OutputableBndrId idR,
                  Anno (StmtLR (GhcPass idL) (GhcPass idR) body) ~ SrcSpanAnnA,
@@ -2266,7 +1997,6 @@ instance Outputable fn => Outputable (HsMatchContext fn) where
   ppr CaseAlt                 = text "CaseAlt"
   ppr (LamAlt lam_variant)    = text "LamAlt" <+> ppr lam_variant
   ppr IfAlt                   = text "IfAlt"
-  ppr (ArrowMatchCtxt c)      = text "ArrowMatchCtxt" <+> ppr c
   ppr PatBindRhs              = text "PatBindRhs"
   ppr PatBindGuards           = text "PatBindGuards"
   ppr RecUpd                  = text "RecUpd"
@@ -2291,15 +2021,6 @@ pprExternalSrcLoc :: (StringLiteral (GhcPass p), (Int, Int), (Int, Int)) -> SDoc
 pprExternalSrcLoc (sLit, (n1,n2), (n3,n4))
   = ppr (stringLitSourceText sLit, (n1,n2), (n3,n4))
 
-instance Outputable HsArrowMatchContext where
-  ppr ProcExpr                  = text "ProcExpr"
-  ppr ArrowCaseAlt              = text "ArrowCaseAlt"
-  ppr (ArrowLamAlt lam_variant) = parens $ text "ArrowLamCaseAlt" <+> ppr lam_variant
-
-pprHsArrType :: HsArrAppType -> SDoc
-pprHsArrType HsHigherOrderApp = text "higher order arrow application"
-pprHsArrType HsFirstOrderApp  = text "first order arrow application"
-
 -----------------
 
 instance Outputable fn => Outputable (HsStmtContext fn) where
@@ -2314,22 +2035,14 @@ matchContextErrString IfAlt                         = text "multi-way if"
 matchContextErrString PatBindRhs                    = text "pattern binding"
 matchContextErrString PatBindGuards                 = text "pattern binding guards"
 matchContextErrString RecUpd                        = text "record update"
-matchContextErrString (ArrowMatchCtxt c)            = matchArrowContextErrString c
 matchContextErrString ThPatSplice                   = panic "matchContextErrString"  -- Not used at runtime
 matchContextErrString ThPatQuote                    = panic "matchContextErrString"  -- Not used at runtime
 matchContextErrString PatSynCtx                     = text "pattern synonym"
 matchContextErrString (StmtCtxt (ParStmtCtxt c))    = matchContextErrString (StmtCtxt c)
 matchContextErrString (StmtCtxt (TransStmtCtxt c))  = matchContextErrString (StmtCtxt c)
 matchContextErrString (StmtCtxt (PatGuard _))       = text "pattern guard"
-matchContextErrString (StmtCtxt (ArrowExpr))        = text "'do' block"
 matchContextErrString (StmtCtxt (HsDoStmt flavour)) = matchDoContextErrString flavour
 matchContextErrString LazyPatCtx                    = text "irrefutable pattern"
-
-matchArrowContextErrString :: HsArrowMatchContext -> SDoc
-matchArrowContextErrString ProcExpr                  = text "proc"
-matchArrowContextErrString ArrowCaseAlt              = text "case"
-matchArrowContextErrString (ArrowLamAlt LamSingle)   = text "kappa"
-matchArrowContextErrString (ArrowLamAlt lam_variant) = lamCaseKeyword lam_variant
 
 matchDoContextErrString :: HsDoFlavour -> SDoc
 matchDoContextErrString GhciStmtCtxt = text "interactive GHCi command"
@@ -2371,8 +2084,6 @@ pprMatchContext ctxt
   | otherwise    = text "a"  <+> pprMatchContextNoun ctxt
   where
     want_an (FunRhs {})                              = True  -- Use "an" in front
-    want_an (ArrowMatchCtxt ProcExpr)                = True
-    want_an (ArrowMatchCtxt (ArrowLamAlt LamSingle)) = True
     want_an LazyPatCtx                               = True
     want_an _                                        = False
 
@@ -2388,7 +2099,6 @@ pprMatchContextNoun ThPatSplice             = text "Template Haskell pattern spl
 pprMatchContextNoun ThPatQuote              = text "Template Haskell pattern quotation"
 pprMatchContextNoun PatBindRhs              = text "pattern binding"
 pprMatchContextNoun PatBindGuards           = text "pattern binding guards"
-pprMatchContextNoun (ArrowMatchCtxt c)      = pprArrowMatchContextNoun c
 pprMatchContextNoun (StmtCtxt ctxt)         = text "pattern binding in"
                                               $$ pprAStmtContext ctxt
 pprMatchContextNoun PatSynCtx               = text "pattern synonym declaration"
@@ -2397,24 +2107,9 @@ pprMatchContextNoun LazyPatCtx              = text "irrefutable pattern"
 pprMatchContextNouns :: Outputable fn => HsMatchContext fn -> SDoc
 pprMatchContextNouns (FunRhs {mc_fun=fun})   = text "equations for" <+> quotes (ppr fun)
 pprMatchContextNouns PatBindGuards           = text "pattern binding guards"
-pprMatchContextNouns (ArrowMatchCtxt c)      = pprArrowMatchContextNouns c
 pprMatchContextNouns (StmtCtxt ctxt)         = text "pattern bindings in"
                                                $$ pprAStmtContext ctxt
 pprMatchContextNouns ctxt                    = pprMatchContextNoun ctxt <> char 's'
-
-pprArrowMatchContextNoun :: HsArrowMatchContext -> SDoc
-pprArrowMatchContextNoun ProcExpr                     = text "arrow proc pattern"
-pprArrowMatchContextNoun ArrowCaseAlt                 = text "case alternative within arrow notation"
-pprArrowMatchContextNoun (ArrowLamAlt LamSingle)   = text "arrow kappa abstraction"
-pprArrowMatchContextNoun (ArrowLamAlt lam_variant) = lamCaseKeyword lam_variant
-                                                     <+> text "alternative within arrow notation"
-
-pprArrowMatchContextNouns :: HsArrowMatchContext -> SDoc
-pprArrowMatchContextNouns ArrowCaseAlt              = text "case alternatives within arrow notation"
-pprArrowMatchContextNouns (ArrowLamAlt LamSingle)   = text "arrow kappa abstractions"
-pprArrowMatchContextNouns (ArrowLamAlt lam_variant) = lamCaseKeyword lam_variant
-                                                      <+> text "alternatives within arrow notation"
-pprArrowMatchContextNouns ctxt                      = pprArrowMatchContextNoun ctxt <> char 's'
 
 -----------------
 pprAStmtContext, pprStmtContext :: Outputable fn => HsStmtContext fn -> SDoc
@@ -2424,7 +2119,6 @@ pprAStmtContext ctxt = text "a" <+> pprStmtContext ctxt
 -----------------
 pprStmtContext (HsDoStmt flavour) = pprHsDoFlavour flavour
 pprStmtContext (PatGuard ctxt) = text "pattern guard for" $$ pprMatchContext ctxt
-pprStmtContext ArrowExpr       = text "'do' block in an arrow command"
 
 -- Drop the inner contexts when reporting errors, else we get
 --     Unexpected transform statement
@@ -2444,7 +2138,6 @@ pprStmtCat (LastStmt {})        = text "return expression"
 pprStmtCat (BodyStmt {})        = text "body"
 pprStmtCat (BindStmt {})        = text "binding"
 pprStmtCat (LetStmt {})         = text "let"
-pprStmtCat (RecStmt {})         = text "rec"
 pprStmtCat (ParStmt {})         = text "parallel"
 
 pprAHsDoFlavour, pprHsDoFlavour :: HsDoFlavour -> SDoc
@@ -2502,18 +2195,10 @@ instance UnXRec p => Outputable (DotFieldOcc p) where
 type instance Anno (HsExpr (GhcPass p)) = SrcSpanAnnA
 type instance Anno [LocatedA (HsExpr (GhcPass p))] = SrcSpanAnnA
 type instance Anno [LocatedA (StmtLR (GhcPass pl) (GhcPass pr) (LocatedA (HsExpr (GhcPass pr))))] = SrcSpanAnnA
-type instance Anno [LocatedA (StmtLR (GhcPass pl) (GhcPass pr) (LocatedA (HsCmd (GhcPass pr))))] = SrcSpanAnnA
-
-type instance Anno (HsCmd (GhcPass p)) = SrcSpanAnnA
-
-type instance Anno (HsCmdTop (GhcPass p)) = EpAnnCO
 type instance Anno [LocatedA (Match (GhcPass p) (LocatedA (HsExpr (GhcPass p))))] = SrcSpanAnnA
-type instance Anno [LocatedA (Match (GhcPass p) (LocatedA (HsCmd  (GhcPass p))))] = SrcSpanAnnA
 type instance Anno (Match (GhcPass p) (LocatedA (HsExpr (GhcPass p)))) = SrcSpanAnnA
-type instance Anno (Match (GhcPass p) (LocatedA (HsCmd  (GhcPass p)))) = SrcSpanAnnA
 type instance Anno [LocatedA (Pat (GhcPass p))] = SrcSpanAnnA
 type instance Anno (GRHS (GhcPass p) (LocatedA (HsExpr (GhcPass p)))) = EpAnnCO
-type instance Anno (GRHS (GhcPass p) (LocatedA (HsCmd  (GhcPass p)))) = EpAnnCO
 type instance Anno (StmtLR (GhcPass pl) (GhcPass pr) (LocatedA (body (GhcPass pr)))) = SrcSpanAnnA
 
 type instance Anno (HsUntypedSplice (GhcPass p)) = SrcSpanAnnA

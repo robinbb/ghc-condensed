@@ -16,10 +16,10 @@ module Strip
   # The extensions this compiler has removed. Their behaviour is fixed
   # (always on, or always off for CUSKs, StarIsType, DeepSubsumption,
   # NPlusKPatterns, NondecreasingIndentation, RecursiveDo, ApplicativeDo,
-  # QualifiedDo, NumDecimals and QualifiedStrings), so dropping the name
-  # changes nothing the compiler could still do for the package.
+  # QualifiedDo, NumDecimals, QualifiedStrings and Arrows), so dropping the
+  # name changes nothing the compiler could still do for the package.
   REMOVED = %w[
-    AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo
+    AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo Arrows
     AutoDeriveTypeable BinaryLiterals CUSKs ConstrainedClassMethods
     DataKinds DatatypeContexts DeepSubsumption DeriveDataTypeable
     DisambiguateRecordFields DoRec DuplicateRecordFields ExplicitForAll

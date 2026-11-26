@@ -44,7 +44,6 @@ data Extension
    | CApiFFI
    | GHCForeignImportPrim
    | JavaScriptFFI
-   | Arrows                   -- Arrow-notation syntax
    | TemplateHaskell
    | TemplateHaskellQuotes    -- subset of TH supported by stage1, no splice
    | QuasiQuotes

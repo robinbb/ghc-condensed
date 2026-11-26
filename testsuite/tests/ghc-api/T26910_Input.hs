@@ -1,4 +1,3 @@
-{-# LANGUAGE Arrows #-}
 {-# LANGUAGE MagicHash #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedLists #-}
@@ -18,7 +17,7 @@ import Prelude
   hiding ( negate, fromInteger )
 import qualified Prelude
 import Control.Arrow
-  ( (>>>), arr, first, returnA )
+  ( (>>>), arr, first )
 import Data.Kind
   ( Type )
 import Data.Tuple
@@ -70,10 +69,6 @@ type family T a where
 -- Weird RebindableSyntax negation that involves casts
 negate :: T Word -> T Word
 negate = Prelude.negate
-
--- HsProc
-e_proc :: Int -> Int
-e_proc = proc x -> returnA -< x
 
 -- ArithSeq (with OverloadedLists)
 e_arith_ol :: MyList Int

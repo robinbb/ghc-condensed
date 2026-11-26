@@ -231,7 +231,7 @@ instance Monad m => Arrow (Kleisli m) where
     first (Kleisli f) = Kleisli (\ ~(b,d) -> f b >>= \c -> return (c,d))
     second (Kleisli f) = Kleisli (\ ~(d,b) -> f b >>= \c -> return (d,c))
 
--- | The identity arrow, which plays the role of 'return' in arrow notation.
+-- | The identity arrow, the arrow counterpart of 'return'.
 --
 -- >   b
 -- > >───>
@@ -270,8 +270,7 @@ class ArrowZero a => ArrowPlus a where
 instance MonadPlus m => ArrowPlus (Kleisli m) where
     Kleisli f <+> Kleisli g = Kleisli (\x -> f x `mplus` g x)
 
--- | Choice, for arrows that support it.  This class underlies the
--- @if@ and @case@ constructs in arrow notation.
+-- | Choice, for arrows that support it.
 --
 -- Instances should satisfy the following laws:
 --

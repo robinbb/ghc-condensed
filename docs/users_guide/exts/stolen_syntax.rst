@@ -38,12 +38,6 @@ The following syntax is stolen:
 
     Stolen by: :extension:`ForeignFunctionInterface`
 
-``rec``, ``proc``, ``-<``, ``>-``, ``-<<``, ``>>-``, ``(|``, ``|)``
-    .. index::
-       single: proc
-
-    Stolen by: :extension:`Arrows`
-
 ``?⟨varid⟩``
     .. index::
        single: implicit parameters

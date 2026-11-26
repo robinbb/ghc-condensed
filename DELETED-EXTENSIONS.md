@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**44 language extensions deleted.**
+**45 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -63,6 +63,18 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: A `do` block always desugars through `>>=` and `>>`, never `<$>`
   and `<*>`, so do-notation needs `Monad`; independent statements are
   written applicatively by hand. Four corpus packages used it.
+
+`Arrows`
+
+- Category: Syntax.
+- Hard-coded: Off.
+- Editions: none.
+- Lines: +135 −8075, net −7940.
+- Stability: Uncategorized; the user's guide gives no stability status.
+- Notes: There is no arrow notation: `proc`, `rec`, `-<`, `>-`, `-<<`,
+  `>>-`, `(|` and `|)` are not syntax, and the command tree with its
+  typechecker and desugarer is gone; arrow programs use the combinators.
+  One corpus package used it in built code.
 
 `AutoDeriveTypeable`
 

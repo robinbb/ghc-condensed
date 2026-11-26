@@ -728,10 +728,10 @@ Call @match@ with all of this information!
 --                  case e of p1 -> e1 -- matchGroupVisArity 1
 --                            p2 -> e2
 --
--- 3. Just es   Used for HsCmdLamCase; zero or more scrutinees
---              The MatchGroup has matchGroupArity of (length es). Example:
---                  \cases p1 q1 -> returnA -< ... -- matchGroupVisArity 2
---                         p2 q2 -> ...
+-- 3. Just es   Zero or more scrutinees; the MatchGroup has matchGroupArity
+--              of (length es). No caller passes several scrutinees any more
+--              (arrow notation's \cases commands did), but the machinery
+--              is general.
 
 matchWrapper
   :: HsMatchContextRn                  -- ^ For shadowing warning messages

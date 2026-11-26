@@ -12,8 +12,8 @@
     `DisambiguateRecordFields`, `RecursiveDo`, `ApplicativeDo`,
     `QualifiedDo`, `ExplicitNamespaces`, `StandaloneKindSignatures`,
     `BinaryLiterals`, `HexFloatLiterals`, `NumDecimals`,
-    `NumericUnderscores`, `MultilineStrings`, `QualifiedStrings` and
-    `DuplicateRecordFields` constructors of `Extension`.
+    `NumericUnderscores`, `MultilineStrings`, `QualifiedStrings`,
+    `DuplicateRecordFields` and `Arrows` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every type
     has a `Typeable` instance, a data type declaration never has a context
     (a `DataD` or `NewtypeD` with one is refused), class methods may always
@@ -50,13 +50,14 @@
     scientific notation always has a `Fractional` type, the digits of a
     literal may be separated by underscores, a string literal may span lines
     between `"""` delimiters, a string literal cannot be qualified by a
-    module name, and several datatypes of one module may share a field
-    name.
+    module name, several datatypes of one module may share a field name,
+    and there is no arrow notation: `proc`, `rec`, `-<`, `>-`, `-<<`,
+    `>>-`, `(|` and `|)` are not syntax.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With
-    no recursive do-notation there is no `mdo` block, and a `rec` block
-    occurs only in arrow notation, which Template Haskell cannot represent.
+    no recursive do-notation there is no `mdo` block, and with no arrow
+    notation there is no `rec` block.
 
   * `pprint` prints `StarT` as `Type` rather than `*`, since GHC no
     longer reads `*` as a kind.

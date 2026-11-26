@@ -1,0 +1,125 @@
+--- a/external-packages/projects/purescript/vendored/optparse-applicative-0.18.1.0/tests/Examples/Cabal.hs
++++ b/external-packages/projects/purescript/vendored/optparse-applicative-0.18.1.0/tests/Examples/Cabal.hs
+@@ -41,22 +41,23 @@ data BuildOpts = BuildOpts
+ 
+ 
+ parser :: Parser Args
+-parser = runA $ proc () -> do
+-  opts <- asA commonOpts -< ()
+-  cmds <- (asA . hsubparser)
+-            ( command "install"
+-              (info installParser
+-                    (progDesc "Installs a list of packages"))
+-           <> command "update"
+-              (info updateParser
+-                    (progDesc "Updates list of known packages"))
+-           <> command "configure"
+-              (info configureParser
+-                    (progDesc "Prepare to build the package"))
+-           <> command "build"
+-              (info buildParser
+-                    (progDesc "Make this package ready for installation")) ) -< ()
+-  A (simpleVersioner "0.0.0") >>> A helper -< Args opts cmds
++parser = runA $
++      asA commonOpts
++  &&& (asA . hsubparser)
++        ( command "install"
++          (info installParser
++                (progDesc "Installs a list of packages"))
++       <> command "update"
++          (info updateParser
++                (progDesc "Updates list of known packages"))
++       <> command "configure"
++          (info configureParser
++                (progDesc "Prepare to build the package"))
++       <> command "build"
++          (info buildParser
++                (progDesc "Make this package ready for installation")) )
++  >>> arr (uncurry Args)
++  >>> A (simpleVersioner "0.0.0") >>> A helper
+ 
+ commonOpts :: Parser CommonOpts
+ commonOpts = CommonOpts
+@@ -68,51 +69,51 @@ commonOpts = CommonOpts
+      <> value 0 )
+ 
+ installParser :: Parser Command
+-installParser = runA $ proc () -> do
+-  config <- asA configureOpts -< ()
+-  inst <- asA installOpts -< ()
+-  returnA -< Install config inst
++installParser = runA $
++      asA configureOpts
++  &&& asA installOpts
++  >>> arr (uncurry Install)
+ 
+ installOpts :: Parser InstallOpts
+-installOpts = runA $ proc () -> do
+-  reinst <- asA (switch (long "reinstall")) -< ()
+-  force <- asA (switch (long "force-reinstall")) -< ()
+-  returnA -< InstallOpts
++installOpts = runA $
++      asA (switch (long "reinstall"))
++  &&& asA (switch (long "force-reinstall"))
++  >>> arr (\(reinst, force) -> InstallOpts
+              { instReinstall = reinst
+-             , instForce = force }
++             , instForce = force })
+ 
+ updateParser :: Parser Command
+ updateParser = pure Update
+ 
+ configureParser :: Parser Command
+-configureParser = runA $ proc () -> do
+-  config <- asA configureOpts -< ()
+-  returnA -< Configure config
++configureParser = runA $
++      asA configureOpts
++  >>> arr Configure
+ 
+ configureOpts :: Parser ConfigureOpts
+-configureOpts = runA $ proc () -> do
+-  tests <- (asA . switch)
+-             ( long "enable-tests"
+-            <> help "Enable compilation of test suites" ) -< ()
+-  flags <- (asA . many . strOption)
+-             ( short 'f'
+-            <> long "flags"
+-            <> metavar "FLAGS"
+-            <> help "Enable the given flag" ) -< ()
+-  returnA -< ConfigureOpts tests flags
++configureOpts = runA $
++      (asA . switch)
++        ( long "enable-tests"
++       <> help "Enable compilation of test suites" )
++  &&& (asA . many . strOption)
++        ( short 'f'
++       <> long "flags"
++       <> metavar "FLAGS"
++       <> help "Enable the given flag" )
++  >>> arr (uncurry ConfigureOpts)
+ 
+ buildParser :: Parser Command
+-buildParser = runA $ proc () -> do
+-  opts <- asA buildOpts -< ()
+-  returnA -< Build opts
++buildParser = runA $
++      asA buildOpts
++  >>> arr Build
+ 
+ buildOpts :: Parser BuildOpts
+-buildOpts = runA $ proc () -> do
+-  bdir <- (asA . strOption)
+-            ( long "builddir"
+-           <> metavar "DIR"
+-           <> value "dist" ) -< ()
+-  returnA -< BuildOpts bdir
++buildOpts = runA $
++      (asA . strOption)
++        ( long "builddir"
++       <> metavar "DIR"
++       <> value "dist" )
++  >>> arr BuildOpts
+ 
+ pinfo :: ParserInfo Args
+ pinfo = info parser

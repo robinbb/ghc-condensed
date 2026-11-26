@@ -149,7 +149,6 @@ matchGuards (BindStmt _ pat bind_rhs : stmts) ctx rhs rhs_ty = do
 matchGuards (LastStmt  {} : _) _ _ _ = panic "matchGuards LastStmt"
 matchGuards (ParStmt   {} : _) _ _ _ = panic "matchGuards ParStmt"
 matchGuards (TransStmt {} : _) _ _ _ = panic "matchGuards TransStmt"
-matchGuards (RecStmt   {} : _) _ _ _ = panic "matchGuards RecStmt"
 
 {-
 Should {\em fail} if @e@ returns @D@

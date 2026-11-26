@@ -1,5 +1,5 @@
 foo ∷ (?imp∷Int) ⇒ Int
 type Foo ∷ Type → Type
 type family Foo a = b | b → a
-  	-- Defined at <interactive>:23:1
+  	-- Defined at <interactive>:21:1
 0

@@ -38,8 +38,7 @@ module GHC.Hs.Utils(
   mkHsDictLet, mkHsLams,
   mkHsOpApp, mkHsDo, mkHsDoAnns, mkHsComp, mkHsCompAnns,
   mkHsWrapPat, mkLHsWrapPat, mkHsWrapPatCo,
-  mkLHsPar, mkHsCmdWrap, mkLHsCmdWrap,
-  mkHsCmdIf, mkConLikeTc,
+  mkLHsPar, mkConLikeTc,
 
   nlHsAppType, nlHsTyApp, nlHsTyApps, nlHsVar, nlHsDataCon,
   nlHsLit, nlHsApp, nlHsApps,
@@ -76,8 +75,6 @@ module GHC.Hs.Utils(
   mkPsBindStmt, mkTcBindStmt,
   mkLastStmt,
   emptyTransStmt, mkGroupUsingStmt, mkGroupByUsingStmt,
-  emptyRecStmt, emptyRecStmtName, emptyRecStmtId, mkRecStmt,
-  emptyRecStmtTc,
   mkLetStmt,
 
   -- * Collecting binders
@@ -353,29 +350,6 @@ mkPsBindStmt :: EpUniToken "<-" "←" -> LPat GhcPs -> LocatedA (bodyR GhcPs)
 mkTcBindStmt :: LPat GhcTc -> LocatedA (bodyR GhcTc)
              -> StmtLR GhcTc GhcTc (LocatedA (bodyR GhcTc))
 
-emptyRecStmt     :: (Anno [GenLocated
-                             (Anno (StmtLR (GhcPass idL) GhcPs bodyR))
-                             (StmtLR (GhcPass idL) GhcPs bodyR)]
-                        ~ SrcSpanAnnA)
-                 => StmtLR (GhcPass idL) GhcPs bodyR
-emptyRecStmtName :: (Anno [GenLocated
-                             (Anno (StmtLR GhcRn GhcRn bodyR))
-                             (StmtLR GhcRn GhcRn bodyR)]
-                        ~ SrcSpanAnnA)
-                 => StmtLR GhcRn GhcRn bodyR
-emptyRecStmtId   :: Stmt GhcTc (LocatedA (HsCmd GhcTc))
-
-mkRecStmt :: forall (idL :: Pass) bodyR.
-                    (Anno [GenLocated
-                             (Anno (StmtLR (GhcPass idL) GhcPs bodyR))
-                             (StmtLR (GhcPass idL) GhcPs bodyR)]
-                        ~ SrcSpanAnnA)
-                 => (AnnList, EpToken "rec")
-                 -> LocatedA [LStmtLR (GhcPass idL) GhcPs bodyR]
-                 -> StmtLR (GhcPass idL) GhcPs bodyR
-mkRecStmt anns stmts  = (emptyRecStmt' anns :: StmtLR (GhcPass idL) GhcPs bodyR)
-                             { recS_stmts = stmts }
-
 
 mkHsIntegral     i = OverLit noExtField (HsIntegral   i)
 mkHsFractional   f = OverLit noExtField (HsFractional f)
@@ -396,11 +370,6 @@ mkHsCompAnns ctxt stmts expr@(L l e) anns = mkHsDoAnns ctxt (L loc (stmts ++ [la
 mkHsIf :: LHsExpr GhcPs -> LHsExpr GhcPs -> LHsExpr GhcPs -> AnnsIf
        -> HsExpr GhcPs
 mkHsIf c a b anns = HsIf anns c a b
-
--- restricted to GhcPs because other phases might need a SyntaxExpr
-mkHsCmdIf :: LHsExpr GhcPs -> LHsCmd GhcPs -> LHsCmd GhcPs -> AnnsIf
-       -> HsCmd GhcPs
-mkHsCmdIf c a b anns = HsCmdIf anns noSyntaxExpr c a b
 
 mkNPat lit neg anns  = NPat anns lit neg noSyntaxExpr
 
@@ -436,26 +405,6 @@ mkTcBindStmt pat body = BindStmt (XBindStmtTc { xbstc_bindOp = noSyntaxExpr,
                                                    -- can't panic here: it's forced during zonking
                                                 xbstc_boundResultMult = ManyTy,
                                                 xbstc_failOp = Nothing }) pat body
-
-emptyRecStmt' :: forall idL idR body .
-  (WrapXRec (GhcPass idR) [LStmtLR (GhcPass idL) (GhcPass idR) body], IsPass idR)
-              => XRecStmt (GhcPass idL) (GhcPass idR) body
-              -> StmtLR (GhcPass idL) (GhcPass idR) body
-emptyRecStmt' tyVal =
-   RecStmt
-     { recS_stmts = wrapXRec @(GhcPass idR) []
-     , recS_later_ids = []
-     , recS_rec_ids = []
-     , recS_ext = tyVal }
-
-emptyRecStmtTc :: RecStmtTc
-emptyRecStmtTc = RecStmtTc { recS_later_rets = []
-                           , recS_rec_rets = [] }
-
-emptyRecStmt     = emptyRecStmt' noAnn
-emptyRecStmtName = emptyRecStmt' noExtField
-emptyRecStmtId   = emptyRecStmt' emptyRecStmtTc
-                                        -- a panic might trigger during zonking
 
 mkLetStmt :: EpToken "let" -> HsLocalBinds GhcPs -> StmtLR GhcPs GhcPs (LocatedA b)
 mkLetStmt anns binds = LetStmt anns binds
@@ -775,13 +724,6 @@ mkHsWrapCoR co e = mkHsWrap (mkWpCastR co) e
 
 mkLHsWrapCo :: TcCoercionN -> LHsExpr GhcTc -> LHsExpr GhcTc
 mkLHsWrapCo co (L loc e) = L loc (mkHsWrapCo co e)
-
-mkHsCmdWrap :: HsWrapper -> HsCmd GhcTc -> HsCmd GhcTc
-mkHsCmdWrap w cmd | isIdHsWrapper w = cmd
-                  | otherwise       = XCmd (HsWrap w cmd)
-
-mkLHsCmdWrap :: HsWrapper -> LHsCmd GhcTc -> LHsCmd GhcTc
-mkLHsCmdWrap w (L loc c) = L loc (mkHsCmdWrap w c)
 
 mkHsWrapPat :: HsWrapper -> Pat GhcTc -> Type -> Pat GhcTc
 mkHsWrapPat co_fn p ty | isIdHsWrapper co_fn = p
@@ -1184,7 +1126,6 @@ collectStmtBinders flag = \case
     LastStmt {}      -> []
     ParStmt _ xs _ _ -> collectLStmtsBinders flag [s | ParStmtBlock _ ss _ _ <- toList xs, s <- ss]
     TransStmt { trS_stmts = stmts } -> collectLStmtsBinders flag stmts
-    RecStmt { recS_stmts = L _ ss } -> collectLStmtsBinders flag ss
 
 ----------------- Patterns --------------------------
 
@@ -1783,7 +1724,6 @@ lStmtsImplicits = hs_lstmts
     hs_stmt (LastStmt {})         = []
     hs_stmt (ParStmt _ xs _ _)    = hs_lstmts [s | ParStmtBlock _ ss _ _ <- toList xs , s <- ss]
     hs_stmt (TransStmt { trS_stmts = stmts }) = hs_lstmts stmts
-    hs_stmt (RecStmt { recS_stmts = L _ ss }) = hs_lstmts ss
 
     hs_local_binds (HsValBinds _ val_binds) = hsValBindsImplicits val_binds
     hs_local_binds (HsIPBinds {})           = []

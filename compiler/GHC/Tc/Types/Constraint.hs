@@ -2126,7 +2126,6 @@ checkSkolInfoAnon sk1 sk2 = go sk1 sk2
     go (UnifyForAllSkol t1) (UnifyForAllSkol t2) = t1 `tcEqType` t2
     go ReifySkol            ReifySkol            = True
     go RuntimeUnkSkol       RuntimeUnkSkol       = True
-    go ArrowReboundIfSkol   ArrowReboundIfSkol   = True
     go (UnkSkol _)          (UnkSkol _)          = True
 
     -------- Three slightly strange special cases --------

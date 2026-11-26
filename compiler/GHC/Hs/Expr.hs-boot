@@ -10,7 +10,6 @@ import Language.Haskell.Syntax.Pat ( LPat )
 import {-# SOURCE #-} GHC.Hs.Pat () -- for Outputable
 import Language.Haskell.Syntax.Expr
   ( HsExpr, LHsExpr
-  , HsCmd
   , MatchGroup
   , GRHSs
   , HsUntypedSplice
@@ -27,7 +26,6 @@ import Data.Maybe ( Maybe )
 type SplicePointName = Name
 
 instance (OutputableBndrId p) => Outputable (HsExpr (GhcPass p))
-instance (OutputableBndrId p) => Outputable (HsCmd (GhcPass p))
 
 pprLExpr :: (OutputableBndrId p) => LHsExpr (GhcPass p) -> SDoc
 

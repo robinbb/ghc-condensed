@@ -2733,8 +2733,6 @@ fLangFlagsDeps = [
     (deprecatedForExtension "ForeignFunctionInterface"),
   depFlagSpec' "ffi"                            LangExt.ForeignFunctionInterface
     (deprecatedForExtension "ForeignFunctionInterface"),
-  depFlagSpec' "arrows"                         LangExt.Arrows
-    (deprecatedForExtension "Arrows"),
   depFlagSpec' "implicit-prelude"               LangExt.ImplicitPrelude
     (deprecatedForExtension "ImplicitPrelude"),
   depFlagSpec' "bang-patterns"                  LangExt.BangPatterns

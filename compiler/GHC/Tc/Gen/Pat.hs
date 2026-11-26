@@ -1121,7 +1121,7 @@ tcDataConPat (L con_span con_name) data_con pat_ty_scaled
         -- Check that this isn't a GADT pattern match
         -- in situations in which that isn't allowed.
         ; let all_arg_tys = eqSpecPreds eq_spec ++ theta ++ (map scaledThing arg_tys)
-        ; checkGADT (RealDataCon data_con) ex_tvs all_arg_tys penv
+        ; checkGADT ex_tvs all_arg_tys penv
 
         ; tenv1 <- instTyVarsWith PatOrigin univ_tvs ctxt_res_tys
                   -- NB: Do not use zipTvSubst!  See #14154
@@ -1161,7 +1161,7 @@ tcDataConPat (L con_span con_name) data_con pat_ty_scaled
 
         ; if null ex_tvs && null eq_spec && null theta
           then do { -- The common case; no class bindings etc
-                    -- (see Note [Arrows and patterns])
+                    -- (see Note [Vanilla pattern fast path])
                     (val_arg_pats', res) <-
                                         tcConTyArgs tenv penv univ_ty_args $
                                         tcConValArgs con_like arg_tys_scaled
@@ -1219,7 +1219,7 @@ tcPatSynPat (L con_span con_name) pat_syn pat_ty penv arg_pats thing_inside
         -- Check that we aren't matching on a GADT-like pattern synonym
         -- in situations in which that isn't allowed.
         ; let all_arg_tys = ty : prov_theta ++ (map scaledThing arg_tys)
-        ; checkGADT (PatSynCon pat_syn) ex_tvs all_arg_tys penv
+        ; checkGADT ex_tvs all_arg_tys penv
 
         ; let match_ctxt = case pe_ctxt penv of
                             LamPat mc -> mc
@@ -1882,33 +1882,13 @@ withFixedRuntimeRepPat frr_ctxt ty thing_inside
        ; return (mkLHsWrapPat (mkWpCastR co) pat' ty, res) }
 
 {-
-Note [Arrows and patterns]
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-(Oct 07) Arrow notation has the odd property that it involves
-"holes in the scope". For example:
-  expr :: Arrow a => a () Int
-  expr = proc (y,z) -> do
-          x <- term -< y
-          expr' -< x
-
-Here the 'proc (y,z)' binding scopes over the arrow tails but not the
-arrow body (e.g 'term').  As things stand (bogusly) all the
-constraints from the proc body are gathered together, so constraints
-from 'term' will be seen by the tcPat for (y,z).  But we must *not*
-bind constraints from 'term' here, because the desugarer will not make
-these bindings scope over 'term'.
-
-The Right Thing is not to confuse these constraints together. But for
-now the Easy Thing is to ensure that we do not have existential or
-GADT constraints in a 'proc', which we do by disallowing any
-non-vanilla pattern match (i.e. one that introduces existential
-variables or provided constraints), in tcDataConPat and tcPatSynPat.
-
-We also short-cut the constraint simplification for such vanilla patterns,
-so that we bind no constraints. Hence the 'fast path' in tcDataConPat;
-which applies more generally (not just within 'proc'), as it's a good
-plan in general to bypass the constraint simplification step entirely
-when it's not needed.
+Note [Vanilla pattern fast path]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We short-cut the constraint simplification for vanilla patterns (ones
+that introduce no existential variables or provided constraints), so
+that we bind no constraints. Hence the 'fast path' in tcDataConPat: it
+is a good plan in general to bypass the constraint simplification step
+entirely when it is not needed.
 
 Note [Pattern coercions]
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2001,20 +1981,14 @@ maybeWrapPatCtxt span pat tcm thing_inside
 -----------------------------------------------
 
 -- | Check that a pattern isn't a GADT, or doesn't have existential variables,
--- in a situation in which that is not permitted (inside a lazy pattern, or
--- in arrow notation).
-checkGADT :: ConLike
-          -> [TyVar] -- ^ existentials
+-- in a situation in which that is not permitted (inside a lazy pattern).
+checkGADT :: [TyVar] -- ^ existentials
           -> [Type]  -- ^ argument types
           -> PatEnv
           -> TcM ()
-checkGADT conlike ex_tvs arg_tys = \case
+checkGADT ex_tvs arg_tys = \case
   PE { pe_ctxt = LetPat {} }
     -> return ()
-  PE { pe_ctxt = LamPat (ArrowMatchCtxt {}) }
-    | not $ isVanillaConLike conlike
-    -- See Note [Arrows and patterns]
-    -> failWithTc TcRnArrowProcGADTPattern
   PE { pe_lazy = True }
     | has_existentials
     -- See Note [Existential check]

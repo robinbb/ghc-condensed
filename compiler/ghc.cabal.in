@@ -576,7 +576,6 @@ Library
         GHC.Hs.Pat
         GHC.Hs.Stats
         GHC.HsToCore
-        GHC.HsToCore.Arrows
         GHC.HsToCore.Binds
         GHC.HsToCore.Breakpoints
         GHC.HsToCore.Breakpoints.Types
@@ -843,7 +842,6 @@ Library
         GHC.Tc.Errors.Types.PromotionErr
         GHC.Tc.Gen.Annotation
         GHC.Tc.Gen.App
-        GHC.Tc.Gen.Arrow
         GHC.Tc.Gen.Bind
         GHC.Tc.Gen.Default
         GHC.Tc.Gen.Do

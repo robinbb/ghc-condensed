@@ -21,6 +21,5 @@ Syntax
     local_fixity_decls
     block_arguments
     typed_holes
-    arrows
     lexical_negation
     modifiers

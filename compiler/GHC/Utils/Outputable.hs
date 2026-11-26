@@ -35,7 +35,7 @@ module GHC.Utils.Outputable (
         parens, cparen, brackets, braces, quotes, quote, quoteIfPunsEnabled,
         doubleQuotes, angleBrackets,
         semi, comma, colon, dcolon, space, equals, dot, vbar,
-        arrow, lollipop, larrow, darrow, arrowt, larrowt, arrowtt, larrowtt,
+        arrow, lollipop, larrow, darrow,
         lambda,
         lparen, rparen, lbrack, rbrack, lbrace, rbrace, underscore,
         blankLine, forAllLit, bullet, ellipsis,
@@ -777,8 +777,7 @@ quotes d = sdocOption sdocCanUseUnicode $ \case
          _ | Just '\'' <- lastMaybe str -> pp_d
            | otherwise        -> Pretty.quotes pp_d
 
-blankLine, dcolon, arrow, lollipop, larrow, darrow, arrowt, larrowt, arrowtt,
-  larrowtt, lambda, ellipsis :: SDoc
+blankLine, dcolon, arrow, lollipop, larrow, darrow, lambda, ellipsis :: SDoc
 
 blankLine  = docToSDoc Pretty.emptyText
 dcolon     = unicodeSyntax (char '∷') (text "::")
@@ -786,10 +785,6 @@ arrow      = unicodeSyntax (char '→') (text "->")
 lollipop   = unicodeSyntax (char '⊸') (text "%1 ->")
 larrow     = unicodeSyntax (char '←') (text "<-")
 darrow     = unicodeSyntax (char '⇒') (text "=>")
-arrowt     = unicodeSyntax (char '⤚') (text ">-")
-larrowt    = unicodeSyntax (char '⤙') (text "-<")
-arrowtt    = unicodeSyntax (char '⤜') (text ">>-")
-larrowtt   = unicodeSyntax (char '⤛') (text "-<<")
 lambda     = unicodeSyntax (char 'λ') (char '\\')
 ellipsis   = docToSDoc Pretty.ellipsis
 

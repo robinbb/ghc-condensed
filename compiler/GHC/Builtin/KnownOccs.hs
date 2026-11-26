@@ -135,14 +135,6 @@ fromLabelClassOpOcc  = mkVarOcc "fromLabel"
 setFieldClassOpOcc   = mkVarOcc "setField"
 fromStringClassOpOcc = mkVarOcc "fromString"
 
-appAIdOcc, arrAIdOcc, firstAIdOcc, composeAIdOcc, choiceAIdOcc, loopAIdOcc :: KnownOcc
-appAIdOcc            = mkVarOcc "app"
-arrAIdOcc            = mkVarOcc "arr"
-composeAIdOcc        = mkVarOcc ">>>"
-firstAIdOcc          = mkVarOcc "first"
-choiceAIdOcc         = mkVarOcc "|||"
-loopAIdOcc           = mkVarOcc "loop"
-
 composeIdOcc, mapIdOcc, foldrListIdOcc :: KnownOcc
 composeIdOcc         = mkVarOcc "."
 mapIdOcc             = mkVarOcc "map"

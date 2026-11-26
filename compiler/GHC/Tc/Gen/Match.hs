@@ -21,7 +21,6 @@ module GHC.Tc.Gen.Match
    , tcGRHSsPat
    , TcStmtChecker
    , TcExprStmtChecker
-   , TcCmdStmtChecker
    , tcStmts
    , tcStmtsAndThen
    , tcDoStmts
@@ -409,7 +408,6 @@ tcBody body res_ty
 -}
 
 type TcExprStmtChecker = TcStmtChecker HsExpr ExpRhoType
-type TcCmdStmtChecker  = TcStmtChecker HsCmd  TcRhoType
 
 type TcStmtChecker body rho_type
   =  forall thing. HsStmtContextRn

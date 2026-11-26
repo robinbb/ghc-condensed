@@ -33,9 +33,6 @@ module GHC.Tc.Types.Origin (
   -- ** FixedRuntimeRep origin for rep-poly 'Id's
   RepPolyId(..), Polarity(..), Position(..), mkArgPos,
 
-  -- ** Arrow command FixedRuntimeRep origin
-  FRRArrowContext(..), pprFRRArrowContext,
-
   -- ** ExpectedFunTy FixedRuntimeRepOrigin
   ExpectedFunTyCtxt(..), pprExpectedFunTyCtxt, pprExpectedFunTyHerald,
 
@@ -179,8 +176,6 @@ data SkolemInfoAnon
 
   | RuntimeUnkSkol      -- Runtime skolem from the GHCi debugger      #14628
 
-  | ArrowReboundIfSkol  -- Bound by the expected type of the rebound arrow ifThenElse command.
-
   | UnkSkol CallStack
 
   | DefaultSkol         -- Used (only) during defaulting
@@ -246,7 +241,6 @@ pprSkolInfo (DataConSkol name)    = text "the type signature for" <+> quotes (pp
 pprSkolInfo ReifySkol             = text "the type being reified"
 
 pprSkolInfo RuntimeUnkSkol     = text "Unknown type from GHCi runtime"
-pprSkolInfo ArrowReboundIfSkol = text "the expected type of a rebound if-then-else command"
 pprSkolInfo StaticFormSkol     = text "a static expression"
 pprSkolInfo DefaultSkol        = text "a constraint being defaulted"
 
@@ -471,8 +465,6 @@ data CtOrigin
   | MCompOrigin         -- Arising from a monad comprehension
   | MCompPatOrigin (LPat GhcRn) -- Arising from a failable pattern in a
                                 -- monad comprehension
-  | ProcOrigin          -- Arising from a proc expression
-  | ArrowCmdOrigin      -- Arising from an arrow command
   | AnnOrigin           -- An annotation
 
   | FunDepOrigin        -- A functional dependency.
@@ -622,7 +614,6 @@ exprCtOrigin (HsTypedBracket {}) = Shouldn'tHappenOrigin "TH typed bracket"
 exprCtOrigin (HsUntypedBracket {}) = Shouldn'tHappenOrigin "TH untyped bracket"
 exprCtOrigin (HsTypedSplice {})    = Shouldn'tHappenOrigin "TH typed splice"
 exprCtOrigin (HsUntypedSplice {})  = Shouldn'tHappenOrigin "TH untyped splice"
-exprCtOrigin (HsProc {})         = Shouldn'tHappenOrigin "proc"
 exprCtOrigin (HsStatic {})       = Shouldn'tHappenOrigin "static expression"
 exprCtOrigin (HsEmbTy {})        = Shouldn'tHappenOrigin "type expression"
 exprCtOrigin (HsHole _)          = Shouldn'tHappenOrigin "hole expression"
@@ -814,8 +805,6 @@ ppr_br (DerivOrigin standalone)
 ppr_br DefaultOrigin         = text "a 'default' declaration"
 ppr_br DoStmtOrigin          = text "a do statement"
 ppr_br MCompOrigin           = text "a statement in a monad comprehension"
-ppr_br ProcOrigin            = text "a proc expression"
-ppr_br ArrowCmdOrigin        = text "an arrow command"
 ppr_br AnnOrigin             = text "an annotation"
 ppr_br (ExprHoleOrigin Nothing)    = text "an expression hole"
 ppr_br (ExprHoleOrigin (Just occ)) = text "a use of" <+> quotes (ppr occ)
@@ -925,8 +914,6 @@ foldMapCtOrigin f = go
         DoPatOrigin {} -> f orig
         MCompOrigin {} -> f orig
         MCompPatOrigin {} -> f orig
-        ProcOrigin {} -> f orig
-        ArrowCmdOrigin {} -> f orig
         AnnOrigin {} -> f orig
         FunDepOrigin {} -> f orig
         ExprHoleOrigin {} -> f orig
@@ -1184,11 +1171,6 @@ data FixedRuntimeRepContext
   -- Test cases: none.
   | FRRBindStmtGuard
 
-  -- | A representation-polymorphism check arising from arrow notation.
-  --
-  -- See 'FRRArrowContext' for more details.
-  | FRRArrow !FRRArrowContext
-
   -- | A representation-polymorphism check arising from a call
   -- to 'matchExpectedFunTys' or 'matchActualFunTy'.
   --
@@ -1279,8 +1261,6 @@ pprFixedRuntimeRepContext (FRRBindStmt stmtOrig)
          , text "arising from the" <+> ppr stmtOrig <> comma ]
 pprFixedRuntimeRepContext FRRBindStmtGuard
   = sep [ text "The body of the bind statement" ]
-pprFixedRuntimeRepContext (FRRArrow arrowContext)
-  = pprFRRArrowContext arrowContext
 pprFixedRuntimeRepContext (FRRExpectedFunTy funTyOrig i)
   = pprExpectedFunTyCtxt funTyOrig i
 pprFixedRuntimeRepContext (FRRSubsumption is_exp pos mb_fun)
@@ -1443,69 +1423,6 @@ pprRepPolyId id nm = id_desc <+> quotes (ppr nm)
       RepPolyTuple    {} -> text "the unboxed tuple constructor"
       RepPolyFunction {} -> empty
 
-{- *********************************************************************
-*                                                                      *
-                       FixedRuntimeRep: arrows
-*                                                                      *
-********************************************************************* -}
-
--- | While typechecking arrow notation, in which context
--- did a representation polymorphism check arise?
---
--- See 'FixedRuntimeRepContext' for more general origins of
--- representation polymorphism checks.
-data FRRArrowContext
-
-  -- | The result of an arrow command does not have a fixed runtime representation.
-  --
-  -- Test case: RepPolyArrowCmd.
-  = ArrowCmdResTy !(HsCmd GhcRn)
-
-  -- | The argument to an arrow in an arrow command application does not have
-  -- a fixed runtime representation.
-  --
-  -- Test cases: none.
-  | ArrowCmdApp !(HsCmd GhcRn) !(HsExpr GhcRn)
-
-  -- | A function in an arrow application does not have
-  -- a fixed runtime representation.
-  --
-  -- Test cases: none.
-  | ArrowCmdArrApp !(HsExpr GhcRn) !(HsExpr GhcRn) !HsArrAppType
-
-  -- | The scrutinee type in an arrow command case statement does not have a
-  -- fixed runtime representation.
-  --
-  -- Test cases: none.
-  | ArrowCmdCase
-
-  -- | The overall type of an arrow proc expression does not have
-  -- a fixed runtime representation.
-  --
-  -- Test case: RepPolyArrowFun.
-  | ArrowFun !(HsExpr GhcRn)
-
-pprFRRArrowContext :: FRRArrowContext -> SDoc
-pprFRRArrowContext (ArrowCmdResTy cmd)
-  = vcat [ hang (text "The arrow command") 2 (quotes (ppr cmd)) ]
-pprFRRArrowContext (ArrowCmdApp fun arg)
-  = vcat [ text "The argument in the arrow command application of"
-         , nest 2 (quotes (ppr fun))
-         , text "to"
-         , nest 2 (quotes (ppr arg)) ]
-pprFRRArrowContext (ArrowCmdArrApp fun arg ho_app)
-  = vcat [ text "The function in the" <+> pprHsArrType ho_app <+> text "of"
-         , nest 2 (quotes (ppr fun))
-         , text "to"
-         , nest 2 (quotes (ppr arg)) ]
-pprFRRArrowContext ArrowCmdCase
-  = text "The scrutinee of the arrow case command"
-pprFRRArrowContext (ArrowFun fun)
-  = vcat [ text "The return type of the arrow function"
-         , nest 2 (quotes (ppr fun)) ]
-
-instance Outputable FRRArrowContext where
-  ppr = pprFRRArrowContext
 
 
 {- *********************************************************************

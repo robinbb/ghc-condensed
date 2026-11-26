@@ -106,7 +106,6 @@ extensionName = \case
   LangExt.CApiFFI -> "CApiFFI"
   LangExt.GHCForeignImportPrim -> "GHCForeignImportPrim"
   LangExt.JavaScriptFFI -> "JavaScriptFFI"
-  LangExt.Arrows -> "Arrows"                   -- Arrow-notation syntax
   LangExt.TemplateHaskell -> "TemplateHaskell"
   LangExt.TemplateHaskellQuotes -> "TemplateHaskellQuotes"    -- subset of TH supported by stage1, no splice
   LangExt.QuasiQuotes -> "QuasiQuotes"

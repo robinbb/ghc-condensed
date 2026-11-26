@@ -674,8 +674,7 @@ addTyCs origin ev_vars thing_inside
 --     case e of x { matches }
 -- When checking matches we record that (x ~ e) where x is the initial
 -- uncovered. All matches will have to satisfy this equality.
--- This is also used for the Arrows \cases command, where these equalities have
--- to be added for multiple scrutinees rather than just one.
+-- The function takes a list so that several scrutinees can be handled at once.
 addCoreScrutTmCs :: [CoreExpr] -> [Id] -> DsM a -> DsM a
 addCoreScrutTmCs []         _      k = k
 addCoreScrutTmCs (scr:scrs) (x:xs) k

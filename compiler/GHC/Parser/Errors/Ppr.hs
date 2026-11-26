@@ -337,30 +337,11 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Illegal" <+> lamCaseKeyword lam_variant <> text "-syntax in pattern"
     PsErrArrowExprInPat e
       -> mkSimpleDecorated $ text "Expression syntax in pattern:" <+> ppr e
-    PsErrArrowCmdInPat c
-      -> mkSimpleDecorated $ text "Command syntax in pattern:" <+> ppr c
-    PsErrArrowCmdInExpr c
-      -> mkSimpleDecorated $
-           vcat
-           [ text "Arrow command found where an expression was expected:"
-           , nest 2 (ppr c)
-           ]
     PsErrOrPatInExpr p
       -> mkSimpleDecorated $
            sep [ text "Or pattern in expression context:"
                , nest 4 (ppr p)
                ]
-    PsErrCaseCmdInFunAppCmd a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "case command") a
-    PsErrLambdaCmdInFunAppCmd lam_variant a
-      -> mkSimpleDecorated $
-           pp_unexpected_fun_app (lamCaseKeyword lam_variant <+> text "command") a
-    PsErrIfCmdInFunAppCmd a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "if command") a
-    PsErrLetCmdInFunAppCmd a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "let command") a
-    PsErrDoCmdInFunAppCmd a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "do command") a
     PsErrDoInFunAppExpr a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "do block") a
     PsErrCaseInFunAppExpr a
@@ -371,8 +352,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "let expression") a
     PsErrIfInFunAppExpr a
       -> mkSimpleDecorated $ pp_unexpected_fun_app (text "if expression") a
-    PsErrProcInFunAppExpr a
-      -> mkSimpleDecorated $ pp_unexpected_fun_app (text "proc expression") a
     PsErrMalformedTyOrClDecl ty
       -> mkSimpleDecorated $
            text "Malformed head of type or class declaration:" <+> ppr ty
@@ -391,16 +370,6 @@ instance Diagnostic PsMessage where
     PsErrPrecedenceOutOfRange i
       -> mkSimpleDecorated $ text "Precedence out of range: " <> int i
     PsErrSemiColonsInCondExpr c st t se e
-      -> mkSimpleDecorated $
-           text "Unexpected semi-colons in conditional:"
-           $$ nest 4 expr
-         where
-            pprOptSemi True  = semi
-            pprOptSemi False = empty
-            expr = text "if"   <+> ppr c <> pprOptSemi st <+>
-                   text "then" <+> ppr t <> pprOptSemi se <+>
-                   text "else" <+> ppr e
-    PsErrSemiColonsInCondCmd c st t se e
       -> mkSimpleDecorated $
            text "Unexpected semi-colons in conditional:"
            $$ nest 4 expr
@@ -429,8 +398,6 @@ instance Diagnostic PsMessage where
     PsErrIllegalTraditionalRecordSyntax s
       -> mkSimpleDecorated $
            text "Illegal record syntax:" <+> s
-    PsErrParseErrorInCmd s
-      -> mkSimpleDecorated $ hang (text "Parse error in command:") 2 s
     PsErrInPat s details
       -> let msg  = parse_error_in_pat
              body = case details of
@@ -616,20 +583,12 @@ instance Diagnostic PsMessage where
     PsErrLetInPat                                 -> ErrorWithoutFlag
     PsErrLambdaInPat{}                            -> ErrorWithoutFlag
     PsErrArrowExprInPat{}                         -> ErrorWithoutFlag
-    PsErrArrowCmdInPat{}                          -> ErrorWithoutFlag
-    PsErrArrowCmdInExpr{}                         -> ErrorWithoutFlag
     PsErrOrPatInExpr{}                            -> ErrorWithoutFlag
-    PsErrCaseCmdInFunAppCmd{}                     -> ErrorWithoutFlag
-    PsErrLambdaCmdInFunAppCmd{}                   -> ErrorWithoutFlag
-    PsErrIfCmdInFunAppCmd{}                       -> ErrorWithoutFlag
-    PsErrLetCmdInFunAppCmd{}                      -> ErrorWithoutFlag
-    PsErrDoCmdInFunAppCmd{}                       -> ErrorWithoutFlag
     PsErrDoInFunAppExpr{}                         -> ErrorWithoutFlag
     PsErrLambdaInFunAppExpr{}                     -> ErrorWithoutFlag
     PsErrCaseInFunAppExpr{}                       -> ErrorWithoutFlag
     PsErrLetInFunAppExpr{}                        -> ErrorWithoutFlag
     PsErrIfInFunAppExpr{}                         -> ErrorWithoutFlag
-    PsErrProcInFunAppExpr{}                       -> ErrorWithoutFlag
     PsErrMalformedTyOrClDecl{}                    -> ErrorWithoutFlag
     PsErrIllegalWhereInDataDecl                   -> ErrorWithoutFlag
     PsErrIllegalDataTypeContext{}                 -> ErrorWithoutFlag
@@ -637,14 +596,12 @@ instance Diagnostic PsMessage where
     PsErrSuffixAT                                 -> ErrorWithoutFlag
     PsErrPrecedenceOutOfRange{}                   -> ErrorWithoutFlag
     PsErrSemiColonsInCondExpr{}                   -> ErrorWithoutFlag
-    PsErrSemiColonsInCondCmd{}                    -> ErrorWithoutFlag
     PsErrAtInPatPos                               -> ErrorWithoutFlag
     PsErrParseErrorOnInput{}                      -> ErrorWithoutFlag
     PsErrMalformedDecl{}                          -> ErrorWithoutFlag
     PsErrNotADataCon{}                            -> ErrorWithoutFlag
     PsErrInferredTypeVarNotAllowed                -> ErrorWithoutFlag
     PsErrIllegalTraditionalRecordSyntax{}         -> ErrorWithoutFlag
-    PsErrParseErrorInCmd{}                        -> ErrorWithoutFlag
     PsErrInPat{}                                  -> ErrorWithoutFlag
     PsErrIllegalRoleName{}                        -> ErrorWithoutFlag
     PsErrInvalidTypeSignature{}                   -> ErrorWithoutFlag
@@ -751,20 +708,12 @@ instance Diagnostic PsMessage where
     PsErrLetInPat                                 -> noHints
     PsErrLambdaInPat{}                            -> noHints
     PsErrArrowExprInPat{}                         -> noHints
-    PsErrArrowCmdInPat{}                          -> noHints
-    PsErrArrowCmdInExpr{}                         -> noHints
     PsErrOrPatInExpr{}                            -> noHints
-    PsErrLambdaCmdInFunAppCmd{}                   -> suggestParensAndBlockArgs
-    PsErrCaseCmdInFunAppCmd{}                     -> suggestParensAndBlockArgs
-    PsErrIfCmdInFunAppCmd{}                       -> suggestParensAndBlockArgs
-    PsErrLetCmdInFunAppCmd{}                      -> suggestParensAndBlockArgs
-    PsErrDoCmdInFunAppCmd{}                       -> suggestParensAndBlockArgs
     PsErrDoInFunAppExpr{}                         -> suggestParensAndBlockArgs
     PsErrLambdaInFunAppExpr{}                     -> suggestParensAndBlockArgs
     PsErrCaseInFunAppExpr{}                       -> suggestParensAndBlockArgs
     PsErrLetInFunAppExpr{}                        -> suggestParensAndBlockArgs
     PsErrIfInFunAppExpr{}                         -> suggestParensAndBlockArgs
-    PsErrProcInFunAppExpr{}                       -> suggestParensAndBlockArgs
     PsErrMalformedTyOrClDecl{}                    -> noHints
     PsErrIllegalWhereInDataDecl                   -> [useExtensionInOrderTo "to enable syntax: data T where" LangExt.GADTSyntax]
     PsErrIllegalDataTypeContext{}                 -> noHints
@@ -772,14 +721,12 @@ instance Diagnostic PsMessage where
     PsErrSuffixAT                                 -> noHints
     PsErrPrecedenceOutOfRange{}                   -> noHints
     PsErrSemiColonsInCondExpr{}                   -> [suggestExtension LangExt.DoAndIfThenElse]
-    PsErrSemiColonsInCondCmd{}                    -> [suggestExtension LangExt.DoAndIfThenElse]
     PsErrAtInPatPos                               -> noHints
     PsErrParseErrorOnInput{}                      -> noHints
     PsErrMalformedDecl{}                          -> noHints
     PsErrNotADataCon{}                            -> noHints
     PsErrInferredTypeVarNotAllowed                -> noHints
     PsErrIllegalTraditionalRecordSyntax{}         -> [suggestExtension LangExt.TraditionalRecordSyntax]
-    PsErrParseErrorInCmd{}                        -> noHints
     PsErrInPat _ details                          -> case details of
       PEIP_OtherPatDetails ctx -> catMaybes [sug_missingdo ctx]
       _                        -> []

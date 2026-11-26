@@ -340,14 +340,6 @@ classify tok =
     ITtyQuote -> TkSpecial
     ITquasiQuote{} -> TkUnknown
     ITqQuasiQuote{} -> TkUnknown
-    ITproc -> TkKeyword
-    ITrec -> TkKeyword
-    IToparenbar{} -> TkGlyph
-    ITcparenbar{} -> TkGlyph
-    ITlarrowtail{} -> TkGlyph
-    ITrarrowtail{} -> TkGlyph
-    ITLarrowtail{} -> TkGlyph
-    ITRarrowtail{} -> TkGlyph
     ITcomment_line_prag -> TkUnknown
     ITunknown{} -> TkUnknown
     ITeof -> TkUnknown

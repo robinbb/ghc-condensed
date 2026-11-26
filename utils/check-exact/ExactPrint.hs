@@ -2563,15 +2563,6 @@ instance ExactPrint (RecordPatSynField GhcPs) where
       f' <- markAnnotated f
       return (RecordPatSynField f' v)
 
--- ---------------------------------------------------------------------
-
-instance ExactPrint (Match GhcPs (LocatedA (HsCmd GhcPs))) where
-  getAnnotationEntry _ = NoEntryVal
-  setAnnotationAnchor a _ _ _ = a
-
-  exact (Match an mctxt pats grhss) =
-    exactMatch (Match an mctxt pats grhss)
-
 -- -------------------------------------
 
 instance ExactPrint (Match GhcPs (LocatedA (HsExpr GhcPs))) where
@@ -2649,18 +2640,6 @@ instance ExactPrint (GRHSs GhcPs (LocatedA (HsExpr GhcPs))) where
     -- The comments will be added back as they are printed
     return (GRHSs emptyComments grhss' binds')
 
-
-instance ExactPrint (GRHSs GhcPs (LocatedA (HsCmd GhcPs))) where
-  getAnnotationEntry (GRHSs _ _ _) = NoEntryVal
-  setAnnotationAnchor a _ _ _ = a
-
-  exact (GRHSs cs grhss binds) = do
-    addCommentsA $ priorComments cs
-    addCommentsA $ getFollowingComments cs
-    grhss' <- markAnnotated grhss
-    binds' <- markAnnotated binds
-    -- The comments will be added back as they are printed
-    return (GRHSs emptyComments grhss' binds')
 
 -- ---------------------------------------------------------------------
 
@@ -2967,20 +2946,6 @@ instance ExactPrint (GRHS GhcPs (LocatedA (HsExpr GhcPs))) where
     expr' <- markAnnotated expr
     return (GRHS an1 guards' expr')
 
-instance ExactPrint (GRHS GhcPs (LocatedA (HsCmd GhcPs))) where
-  getAnnotationEntry (GRHS ann _ _) = fromAnn ann
-  setAnnotationAnchor (GRHS an a b) anc ts cs = GRHS (setAnchorEpa an anc ts cs) a b
-
-  exact (GRHS an guards expr) = do
-    an0 <- markLensFun' an lga_vbar (\mt -> mapM markEpToken mt)
-    guards' <- mapM markAnnotated guards
-    -- Mark the matchSeparator for these GRHSs
-    an1 <- markLensFun' an0 lga_sep (\s -> case s of
-                                       Left  tok -> Left  <$> markEpToken tok
-                                       Right tok -> Right <$> markEpUniToken tok)
-    expr' <- markAnnotated expr
-    return (GRHS an1 guards' expr')
-
 -- ---------------------------------------------------------------------
 
 exactHole :: (Monad m, Monoid w) => HoleKind -> EP w m HoleKind
@@ -3247,14 +3212,6 @@ instance ExactPrint (HsExpr GhcPs) where
     s' <- markAnnotated s
     return (HsUntypedSplice x s')
 
-  exact (HsProc (pr,r) p c) = do
-    debugM $ "HsProc start"
-    pr' <- markEpToken pr
-    p' <- markAnnotated p
-    r' <- markEpUniToken r
-    c' <- markAnnotated c
-    return (HsProc (pr',r') p' c')
-
   exact (HsStatic an e) = do
     an0 <- markEpToken an
     e' <- markAnnotated e
@@ -3494,116 +3451,6 @@ instance ExactPrint (HsTupArg GhcPs) where
 
 -- ---------------------------------------------------------------------
 
-instance ExactPrint (HsCmdTop GhcPs) where
-  getAnnotationEntry = const NoEntryVal
-  setAnnotationAnchor a _ _ _ = a
-  exact (HsCmdTop a cmd) = HsCmdTop a <$> markAnnotated cmd
-
--- ---------------------------------------------------------------------
-
-instance ExactPrint (HsCmd GhcPs) where
-  getAnnotationEntry _ = NoEntryVal
-  setAnnotationAnchor a _ _ _ = a
-
-  exact (HsCmdArrApp (isU, l) arr arg HsFirstOrderApp True) = do
-    arr' <- markAnnotated arr
-    l' <- case isU of
-      UnicodeSyntax -> printStringAtAA l  "⤙"
-      NormalSyntax -> printStringAtAA l  "-<"
-    arg' <- markAnnotated arg
-    return (HsCmdArrApp (isU, l') arr' arg' HsFirstOrderApp True)
-  exact (HsCmdArrApp (isU, l) arr arg HsFirstOrderApp False) = do
-    arg' <- markAnnotated arg
-    l' <- case isU of
-      UnicodeSyntax -> printStringAtAA l  "⤚"
-      NormalSyntax -> printStringAtAA l  ">-"
-    arr' <- markAnnotated arr
-    return (HsCmdArrApp (isU, l') arr' arg' HsFirstOrderApp False)
-  exact (HsCmdArrApp (isU, l) arr arg HsHigherOrderApp True) = do
-    arr' <- markAnnotated arr
-    l' <- case isU of
-      UnicodeSyntax -> printStringAtAA l  "⤛"
-      NormalSyntax -> printStringAtAA l  "-<<"
-    arg' <- markAnnotated arg
-    return (HsCmdArrApp (isU, l') arr' arg' HsHigherOrderApp True)
-  exact (HsCmdArrApp (isU, l) arr arg HsHigherOrderApp False) = do
-    arg' <- markAnnotated arg
-    l' <- case isU of
-      UnicodeSyntax -> printStringAtAA l  "⤜"
-      NormalSyntax -> printStringAtAA l  ">>-"
-    arr' <- markAnnotated arr
-    return (HsCmdArrApp (isU, l') arr' arg' HsHigherOrderApp False)
-
-  exact (HsCmdArrForm (o,c) e fixity cs) = do
-    o' <- markEpUniToken o
-    (e',cs') <- case (fixity, cs) of
-      (Infix, (arg1:argrest)) -> do
-        arg1' <- markAnnotated arg1
-        e' <- markAnnotated e
-        argrest' <- mapM markAnnotated argrest
-        return (e', arg1':argrest')
-      (Prefix, _) -> do
-        e' <- markAnnotated e
-        cs' <- mapM markAnnotated cs
-        return (e', cs')
-      (Infix, []) -> error "Not possible"
-    c' <- markEpUniToken c
-    return (HsCmdArrForm (o',c') e' fixity cs')
-
-  exact (HsCmdApp an e1 e2) = do
-    e1' <- markAnnotated e1
-    e2' <- markAnnotated e2
-    return (HsCmdApp an e1' e2')
-
-  exact (HsCmdLam an lam_variant matches) = do
-    an0 <- markLensFun an lepl_lambda markEpToken
-    an1 <- case lam_variant of
-             LamSingle -> return an0
-             LamCase -> markLensFun an0 lepl_case (\ml -> mapM (\l -> printStringAtAA l "case") ml)
-             LamCases -> markLensFun an0 lepl_case (\ml -> mapM (\l -> printStringAtAA l "cases") ml)
-    matches' <- markAnnotated matches
-    return (HsCmdLam an1 lam_variant matches')
-
-  exact (HsCmdPar (lpar, rpar) e) = do
-    lpar' <- markEpToken lpar
-    e' <- markAnnotated e
-    rpar' <- markEpToken rpar
-    return (HsCmdPar (lpar', rpar') e')
-
-  exact (HsCmdCase an e alts) = do
-    an0 <- markLensFun an lhsCaseAnnCase markEpToken
-    e' <- markAnnotated e
-    an1 <- markLensFun an0 lhsCaseAnnOf markEpToken
-    alts' <- markAnnotated alts
-    return (HsCmdCase an1 e' alts')
-
-  exact (HsCmdIf an a e1 e2 e3) = do
-    an0 <- markLensFun an laiIf markEpToken
-    e1' <- markAnnotated e1
-    an1 <- markLensFun an0 laiThenSemi (\mt -> mapM markEpToken mt)
-    an2 <- markLensFun an1 laiThen markEpToken
-    e2' <- markAnnotated e2
-    an3 <- markLensFun an2 laiElseSemi (\mt -> mapM markEpToken mt)
-    an4 <- markLensFun an3 laiElse markEpToken
-    e3' <- markAnnotated e3
-    return (HsCmdIf an4 a e1' e2' e3')
-
-  exact (HsCmdLet (tkLet, tkIn) binds e) = do
-    setLayoutBoth $ do -- Make sure the 'in' gets indented too
-      tkLet' <- markEpToken tkLet
-      binds' <- setLayoutBoth $ markAnnotated binds
-      tkIn' <- markEpToken tkIn
-      e' <- markAnnotated e
-      return (HsCmdLet (tkLet', tkIn') binds' e')
-
-  exact (HsCmdDo (an0,loc) es) = do
-    debugM $ "HsCmdDo"
-    loc' <- printStringAtAA loc "do"
-    (an1,es') <- markAnnListD an0 $ do markAnnotated es
-    return (HsCmdDo (an1,loc') es')
-
--- ---------------------------------------------------------------------
-
 instance (
   ExactPrint (LocatedA (body GhcPs)),
                  Anno (StmtLR GhcPs GhcPs (LocatedA (body GhcPs))) ~ SrcSpanAnnA,
@@ -3646,12 +3493,6 @@ instance (
     stmts' <- mapM markAnnotated stmts
     (an', by', using') <- exactTransStmt an by using form
     return (TransStmt an' form stmts' b using' by' c d e)
-
-  exact (RecStmt (an,r) stmts a b) = do
-    debugM $ "RecStmt"
-    r' <- markEpToken r
-    (an1, stmts') <- markAnnList' an (markAnnotated stmts)
-    return (RecStmt (an1,r') stmts' a b)
 
 -- ---------------------------------------------------------------------
 
@@ -4677,22 +4518,6 @@ instance ExactPrint [LocatedA (StmtLR GhcPs GhcPs (LocatedA (HsExpr GhcPs)))] wh
         debugM $ "LocatedL [ExprLStmt: snocView"
         ls' <- markAnnotated ls
         initStmts' <- markAnnotated initStmts
-        return (initStmts' ++ [ls'])
-      _ -> do
-        stmts' <- mapM markAnnotated stmts
-        return stmts'
-
--- TODO: harmonise with prior, on payload
-instance ExactPrint [LocatedA (StmtLR GhcPs GhcPs (LocatedA (HsCmd GhcPs)))] where
-  getAnnotationEntry _ = NoEntryVal
-  setAnnotationAnchor a _ _ _ = a
-  exact stmts = do
-    debugM $ "LocatedL [ExprLStmt"
-    case snocView stmts of
-      Just (initStmts, ls@(L _ (LastStmt _ _body _))) -> do
-        debugM $ "LocatedL [ExprLStmt: snocView"
-        ls' <- markAnnotated ls
-        initStmts' <- mapM markAnnotated initStmts
         return (initStmts' ++ [ls'])
       _ -> do
         stmts' <- mapM markAnnotated stmts

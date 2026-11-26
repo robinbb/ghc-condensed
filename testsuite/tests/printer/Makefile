@@ -13,16 +13,6 @@ ppr001:
 	$(CHECK_PPR)   $(LIBDIR) Ppr001.hs
 	$(CHECK_EXACT) $(LIBDIR) Ppr001.hs
 
-.PHONY: ppr002
-ppr002:
-	$(CHECK_PPR)   $(LIBDIR) Ppr002.hs
-	$(CHECK_EXACT) $(LIBDIR) Ppr002.hs
-
-.PHONY: ppr002a
-ppr002a:
-	$(CHECK_PPR)   $(LIBDIR) Ppr002a.hs
-	$(CHECK_EXACT) $(LIBDIR) Ppr002a.hs
-
 .PHONY: ppr003
 ppr003:
 	$(CHECK_PPR)   $(LIBDIR) Ppr003.hs
@@ -133,11 +123,6 @@ ppr024:
 	$(CHECK_PPR)   $(LIBDIR) Ppr024.hs
 	$(CHECK_EXACT) $(LIBDIR) Ppr024.hs
 
-.PHONY: ppr025
-ppr025:
-	$(CHECK_PPR)   $(LIBDIR) Ppr025.hs
-	$(CHECK_EXACT) $(LIBDIR) Ppr025.hs
-
 .PHONY: ppr026
 ppr026:
 	$(CHECK_PPR)   $(LIBDIR) Ppr026.hs
@@ -147,11 +132,6 @@ ppr026:
 ppr027:
 	$(CHECK_PPR)   $(LIBDIR) Ppr027.hs
 	$(CHECK_EXACT) $(LIBDIR) Ppr027.hs
-
-.PHONY: ppr028
-ppr028:
-	$(CHECK_PPR)   $(LIBDIR) Ppr028.hs
-	$(CHECK_EXACT) $(LIBDIR) Ppr028.hs
 
 .PHONY: ppr029
 ppr029:
@@ -418,11 +398,6 @@ Test10598:
 	$(CHECK_PPR)   $(LIBDIR) Test10598.hs
 	$(CHECK_EXACT) $(LIBDIR) Test10598.hs
 
-.PHONY: Test11018
-Test11018:
-	$(CHECK_PPR)   $(LIBDIR) Test11018.hs
-	$(CHECK_EXACT) $(LIBDIR) Test11018.hs
-
 .PHONY: Test11321
 Test11321:
 	$(CHECK_PPR)   $(LIBDIR) Test11321.hs
@@ -564,11 +539,6 @@ Test19798:
 	$(CHECK_PPR)   $(LIBDIR) Test19798.hs
 	$(CHECK_EXACT) $(LIBDIR) Test19798.hs
 
-.PHONY: Test19813
-Test19813:
-	# $(CHECK_PPR)   $(LIBDIR) Test19813.hs
-	$(CHECK_EXACT) $(LIBDIR) Test19813.hs
-
 .PHONY: Test19814
 Test19814:
 	$(CHECK_PPR)   $(LIBDIR) Test19814.hs
@@ -649,20 +619,10 @@ PprOverloadedLabels:
 	$(CHECK_PPR)   $(LIBDIR) PprOverloadedLabels.hs
 	$(CHECK_EXACT) $(LIBDIR) PprOverloadedLabels.hs
 
-.PHONY: PprArrows
-PprArrows:
-	$(CHECK_PPR)   $(LIBDIR) PprArrows.hs
-	$(CHECK_EXACT) $(LIBDIR) PprArrows.hs
-
 .PHONY: PprOverloadedRecords
 PprOverloadedRecords:
 	$(CHECK_PPR)   $(LIBDIR) PprOverloadedRecords.hs
 	$(CHECK_EXACT) $(LIBDIR) PprOverloadedRecords.hs
-
-.PHONY: PprArrowLambdaCase
-PprArrowLambdaCase:
-	$(CHECK_PPR)   $(LIBDIR) PprArrowLambdaCase.hs
-	$(CHECK_EXACT) $(LIBDIR) PprArrowLambdaCase.hs
 
 .PHONY: PprTypeBrackets
 PprTypeBrackets:

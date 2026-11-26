@@ -107,8 +107,8 @@ run it after each removal.
   `OverlappingInstances`, `ParallelArrays`, `PolyKinds`, `RelaxedPolyRec`,
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
   `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
-  `DisambiguateRecordFields`, `ExplicitNamespaces` and `BinaryLiterals`) to
-  `Nothing`, and drops those constructors, `CUSKs`, `StarIsType`,
+  `DisambiguateRecordFields`, `ExplicitNamespaces`, `BinaryLiterals` and
+  `Arrows`) to `Nothing`, and drops those constructors, `CUSKs`, `StarIsType`,
   `DeepSubsumption`, `NullaryTypeClasses`, `AutoDeriveTypeable`,
   `ApplicativeDo`, `QualifiedDo`, `StandaloneKindSignatures`,
   `HexFloatLiterals`, `NumDecimals`, `NumericUnderscores`,
@@ -372,3 +372,15 @@ run it after each removal.
   ten with `^`; this compiler has no `NumDecimals`, so a literal with an
   exponent is always fractional. text-builder, text-builder-core,
   text-ansi and yamlet depend on it.
+- `optparse-applicative.patch`: test suite only. `tests/Examples/Cabal.hs`
+  writes its seven `proc` blocks with the `&&&`, `>>>` and `arr`
+  combinators of the package's own `Options.Applicative.Arrows` interface,
+  which the example exists to exercise; this compiler has no arrow
+  notation. Each block ran its parsers in order and returned a constructor
+  applied to their results, and the arrow's composition runs effects in
+  sequence, so the same parsers paired with `&&&` and fed to `arr` are the
+  same parser: compiled with the stage 1 compiler, the two versions render
+  the same help text and parse results, byte for byte, over 108 argument
+  lists under four preference sets. `purescript-optparse-applicative.patch`
+  is the same hunk for PureScript's private copy of optparse-applicative
+  0.18.1.0.

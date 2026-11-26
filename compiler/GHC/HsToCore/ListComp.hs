@@ -270,8 +270,6 @@ deListComp (ParStmt _ stmtss_w_bndrs _ _ : quals) list
        ; deBindComp pat (Let (Rec [(zip_fn, zip_rhs)]) (mkApps (Var zip_fn) (toList exps)))
                     quals list }
 
-deListComp (RecStmt {} : _) _ = panic "deListComp RecStmt"
-
 deBindComp :: LPat GhcTc
            -> CoreExpr
            -> [ExprStmt GhcTc]
@@ -363,7 +361,6 @@ dfListComp c_id n_id (BindStmt _ pat list1 : quals) = do
     dfBindComp c_id n_id (pat, core_list1) quals
 
 dfListComp _ _ (ParStmt {} : _) = panic "dfListComp ParStmt"
-dfListComp _ _ (RecStmt {} : _) = panic "dfListComp RecStmt"
 
 dfBindComp :: Id -> Id             -- 'c' and 'n'
            -> (LPat GhcTc, CoreExpr)
@@ -593,8 +590,6 @@ dsMcStmt (ParStmt bind_ty blocks mzip_op bind_op) stmts_rest
     ds_inner (ParStmtBlock _ stmts bndrs return_op)
        = do { exp <- dsInnerMonadComp stmts bndrs return_op
             ; return (exp, mkBigCoreVarTupTy bndrs) }
-
-dsMcStmt stmt@(RecStmt {}) _ = pprPanic "dsMcStmt: unexpected stmt" (ppr stmt)
 
 matchTuple :: [Id] -> CoreExpr -> DsM CoreExpr
 -- (matchTuple [a,b,c] body)

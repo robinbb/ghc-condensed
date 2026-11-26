@@ -55,7 +55,7 @@ fbind
 These rules compute values of @LHsRecField GhcPs (Located b)@. They
 apply in the context of record construction, record updates, record
 patterns and record expressions. That is, @b@ ranges over @HsExpr
-GhcPs@, @HsPat GhcPs@ and @HsCmd GhcPs@.
+GhcPs@ and @HsPat GhcPs@.
 
 When @OverloadedRecordDot@ and @OverloadedRecordUpdate@ are both
 enabled, two additional @fbind@ rules are admitted:
@@ -477,15 +477,6 @@ data HsExpr p
   | HsTypedSplice    (XTypedSplice p)   (HsTypedSplice p) -- `$$z` or `$$(f 4)`
   | HsUntypedSplice  (XUntypedSplice p) (HsUntypedSplice p)
 
-  -----------------------------------------------------------
-  -- Arrow notation extension
-
-  -- | @proc@ notation for Arrows
-  | HsProc      (XProc p)
-                (LPat p)               -- arrow abstraction, proc
-                (LHsCmdTop p)          -- body of the abstraction
-                                       -- always has an empty stack
-
   ---------------------------------------
   -- static pointers extension
   | HsStatic (XStatic p) -- Free variables of the body, and type after typechecking
@@ -723,97 +714,6 @@ can see the structure of the parse tree.
 {-
 ************************************************************************
 *                                                                      *
-\subsection{Commands (in arrow abstractions)}
-*                                                                      *
-************************************************************************
-
-We re-use HsExpr to represent these.
--}
-
--- | Located Haskell Command (for arrow syntax)
-type LHsCmd id = XRec id (HsCmd id)
-
--- | Haskell Command (e.g. a "statement" in an Arrow proc block)
-data HsCmd id
-  = HsCmdArrApp          -- Arrow tail, or arrow application (f -< arg)
-        (XCmdArrApp id)  -- type of the arrow expressions f,
-                         -- of the form a t t', where arg :: t
-        (LHsExpr id)     -- arrow expression, f
-        (LHsExpr id)     -- input expression, arg
-        HsArrAppType     -- higher-order (-<<) or first-order (-<)
-        Bool             -- True => right-to-left (f -< arg)
-                         -- False => left-to-right (arg >- f)
-
-  | HsCmdArrForm         -- Command formation,  (| e cmd1 .. cmdn |)
-        (XCmdArrForm id)
-        (LHsExpr id)     -- The operator.
-                         -- After type-checking, a type abstraction to be
-                         -- applied to the type of the local environment tuple
-        LexicalFixity    -- Whether the operator appeared prefix or infix when
-                         -- parsed.
-        [LHsCmdTop id]   -- argument commands
-
-  | HsCmdApp    (XCmdApp id)
-                (LHsCmd id)
-                (LHsExpr id)
-
-  -- | Lambda-case
-  --
-  | HsCmdLam (XCmdLamCase id) HsLamVariant
-             (MatchGroup id (LHsCmd id)) -- bodies are HsCmd's
-
-  | HsCmdPar    (XCmdPar id)
-                (LHsCmd id)                     -- parenthesised command
-
-  | HsCmdCase   (XCmdCase id)
-                (LHsExpr id)
-                (MatchGroup id (LHsCmd id))     -- bodies are HsCmd's
-
-  | HsCmdIf     (XCmdIf id)
-                (SyntaxExpr id)         -- cond function
-                (LHsExpr id)            -- predicate
-                (LHsCmd id)             -- then part
-                (LHsCmd id)             -- else part
-
-  | HsCmdLet    (XCmdLet id)
-                (HsLocalBinds id)      -- let(rec)
-                (LHsCmd  id)
-
-  | HsCmdDo     (XCmdDo id)                     -- Type of the whole expression
-                (XRec id [CmdLStmt id])
-
-  | XCmd        !(XXCmd id)     -- Extension point; see Note [Trees That Grow]
-                                -- in Language.Haskell.Syntax.Extension
-
-
--- | Haskell arrow application type.
-data HsArrAppType
-  -- | First order arrow application '-<'
-  = HsHigherOrderApp
-  -- | Higher order arrow application '-<<'
-  | HsFirstOrderApp
-    deriving Data
-
-{- | Top-level command, introducing a new arrow.
-This may occur inside a proc (where the stack is empty) or as an
-argument of a command-forming operator.
--}
-
--- | Located Haskell Top-level Command
-type LHsCmdTop p = XRec p (HsCmdTop p)
-
--- | Haskell Top-level Command
-data HsCmdTop p
-  = HsCmdTop (XCmdTop p)
-             (LHsCmd p)
-  | XCmdTop !(XXCmdTop p)        -- Extension point; see Note [Trees That Grow]
-                                 -- in Language.Haskell.Syntax.Extension
-
------------------------
-
-{-
-************************************************************************
-*                                                                      *
 \subsection{Record binds}
 *                                                                      *
 ************************************************************************
@@ -955,12 +855,6 @@ type LStmtLR idL idR body = XRec idL (StmtLR idL idR body)
 -- | @do@ block Statement
 type Stmt id body = StmtLR id id body
 
--- | Command Located Statement
-type CmdLStmt   id = LStmt id (LHsCmd  id)
-
--- | Command Statement
-type CmdStmt    id = Stmt  id (LHsCmd  id)
-
 -- | Expression Located Statement
 type ExprLStmt  id = LStmt id (LHsExpr id)
 
@@ -1003,7 +897,7 @@ data StmtLR idL idR body -- body should always be (LHs**** idR)
              body
 
   | BodyStmt (XBodyStmt idL idR body) -- Post typecheck, element type
-                                      -- of the RHS (used for arrows)
+                                      -- of the RHS
              body              -- See Note [BodyStmt]
              (SyntaxExpr idR)  -- The (>>) operator
              (SyntaxExpr idR)  -- The `guard` operator; used only in MonadComp
@@ -1043,25 +937,6 @@ data StmtLR idL idR body -- body should always be (LHs**** idR)
                                       -- too polymorphic for tcSyntaxOp
     }                                 -- See Note [Monad Comprehensions]
 
-  -- Recursive statement (see Note [How RecStmt works] below)
-  | RecStmt
-     { recS_ext :: XRecStmt idL idR body
-     , recS_stmts :: XRec idR [LStmtLR idL idR body]
-     -- Assume XRec is the same for idL and idR, pick one arbitrarily
-
-        -- The next two fields are only valid after renaming
-     , recS_later_ids :: [IdP idR]
-                         -- The ids are a subset of the variables bound by the
-                         -- stmts that are used in stmts that follow the RecStmt
-
-     , recS_rec_ids :: [IdP idR]
-                         -- Ditto, but these variables are the "recursive" ones,
-                         -- that are used before they are bound in the stmts of
-                         -- the RecStmt.
-        -- An Id can be in both groups
-        -- Both sets of Ids are (now) treated monomorphically
-        -- See Note [How RecStmt works] for why they are separate
-      }
   | XStmtLR !(XXStmtLR idL idR body)
 
 data TransForm   -- The 'f' below is the 'using' function, 'e' is the by function
@@ -1156,42 +1031,6 @@ depends on the context.  Consider the following contexts:
           Translation: guard E >> ...
 
 Array comprehensions are handled like list comprehensions.
-
-Note [How RecStmt works]
-~~~~~~~~~~~~~~~~~~~~~~~~
-A RecStmt appears only in the do block of an arrow command (the rec
-keyword of arrow notation). Example:
-   HsCmdDo [ BindStmt x ex
-
-           , RecStmt { recS_rec_ids   = [a, c]
-                     , recS_stmts     = [ BindStmt b (returnA -< (a,c))
-                                        , LetStmt a = ...b...
-                                        , BindStmt c ec ]
-                     , recS_later_ids = [a, b]
-
-           , returnA -< (a b) ]
-
-Here, the RecStmt binds a,b,c; but
-  - Only a,b are used in the stmts *following* the RecStmt,
-  - Only a,c are used in the stmts *inside* the RecStmt
-        *before* their bindings
-
-Why do we need *both* rec_ids and later_ids?  Because they are the two
-halves of the type of the arrow feedback operator:
-
-        loop :: ArrowLoop a => a (b,d) (c,d) -> a b c
-
-'c' is the later_ids and 'd' is the rec_ids.
-
-Note [Typing a RecStmt]
-~~~~~~~~~~~~~~~~~~~~~~~
-A (RecStmt stmts) binds the later_ids v1..vn for the statements that
-follow it and the rec_ids r1..rm for the statements inside it; all of
-them are in scope, at monomorphic types, over stmts.  GHC.Tc.Gen.Arrow
-typechecks the statements that way (tcArrDoStmt), recording in
-recS_rec_rets and recS_later_rets the expressions that return the
-knot-tied values, and GHC.HsToCore.Arrows (dsCmdStmt) ties the knot
-with the arrow's loop combinator.
 
 Note [Monad Comprehensions]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1332,8 +1171,6 @@ data HsMatchContext fn
   | CaseAlt                     -- ^Patterns and guards in a case alternative
   | LamAlt HsLamVariant         -- ^Patterns and guards in @\@, @\case@ and @\cases@
   | IfAlt                       -- ^Guards of a multi-way if alternative
-  | ArrowMatchCtxt              -- ^A pattern match inside arrow notation
-      HsArrowMatchContext
   | PatBindRhs                  -- ^A pattern binding  eg [y] <- e = e
   | PatBindGuards               -- ^Guards of pattern bindings, e.g.,
                                 --    (Just b) | Just _ <- x = e
@@ -1387,13 +1224,6 @@ data HsStmtContext fn
   | PatGuard (HsMatchContext fn)      -- ^ Pattern guard for specified thing
   | ParStmtCtxt (HsStmtContext fn)    -- ^ A branch of a parallel stmt
   | TransStmtCtxt (HsStmtContext fn)  -- ^ A branch of a transform stmt
-  | ArrowExpr                         -- ^ Do-notation in an arrow-command context
-
--- | Haskell arrow match context.
-data HsArrowMatchContext
-  = ProcExpr                       -- ^ A proc expression
-  | ArrowCaseAlt                   -- ^ A case alternative inside arrow notation
-  | ArrowLamAlt HsLamVariant       -- ^ A \, \case or \cases alternative inside arrow notation
 
 data HsDoFlavour
   = DoExpr                           -- ^do { ... }
@@ -1412,7 +1242,6 @@ isComprehensionContext :: HsStmtContext fn -> Bool
 -- Uses comprehension syntax [ e | quals ]
 isComprehensionContext (ParStmtCtxt c)   = isComprehensionContext c
 isComprehensionContext (TransStmtCtxt c) = isComprehensionContext c
-isComprehensionContext ArrowExpr = False
 isComprehensionContext (PatGuard _) = False
 isComprehensionContext (HsDoStmt flavour) = isDoComprehensionContext flavour
 
@@ -1428,7 +1257,6 @@ isMonadStmtContext (ParStmtCtxt ctxt)   = isMonadStmtContext ctxt
 isMonadStmtContext (TransStmtCtxt ctxt) = isMonadStmtContext ctxt
 isMonadStmtContext (HsDoStmt flavour) = isMonadDoStmtContext flavour
 isMonadStmtContext (PatGuard _) = False
-isMonadStmtContext ArrowExpr = False
 
 isMonadDoStmtContext :: HsDoFlavour -> Bool
 isMonadDoStmtContext ListComp     = False
@@ -1441,7 +1269,6 @@ isMonadCompContext (HsDoStmt flavour)   = isMonadDoCompContext flavour
 isMonadCompContext (ParStmtCtxt _)   = False
 isMonadCompContext (TransStmtCtxt _) = False
 isMonadCompContext (PatGuard _)      = False
-isMonadCompContext ArrowExpr         = False
 
 isMonadDoCompContext :: HsDoFlavour -> Bool
 isMonadDoCompContext MonadComp    = True

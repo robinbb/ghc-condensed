@@ -1,8 +1,6 @@
 req_ppr_deps = req_hadrian_deps(['test:check-ppr','test:check-exact'])
 
 test('Ppr001', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr001'])
-test('Ppr002', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr002'])
-test('Ppr002a', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr002a'])
 test('Ppr003', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr003'])
 test('Ppr004', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr004'])
 test('Ppr005', [ignore_stderr,req_ppr_deps], makefile_test, ['ppr005'])
@@ -29,10 +27,8 @@ test('Ppr021', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr021'])
 test('Ppr022', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr022'])
 test('Ppr023', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr023'])
 test('Ppr024', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr024'])
-test('Ppr025', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr025'])
 test('Ppr026', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr026'])
 test('Ppr027', [ignore_stderr, req_th,req_ppr_deps], makefile_test, ['ppr027'])
-test('Ppr028', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr028'])
 test('Ppr029', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr029'])
 test('Ppr030', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr030'])
 test('Ppr031', [ignore_stderr, req_ppr_deps], makefile_test, ['ppr031'])
@@ -93,7 +89,6 @@ test('Test10399', [ignore_stderr, req_ppr_deps], makefile_test, ['Test10399'])
 test('Test10598', [ignore_stderr, req_ppr_deps], makefile_test, ['Test10598'])
 
 # PPR of unicode -> does not roundtrip. See #18846
-test('Test11018', [ignore_stderr,expect_fail,req_ppr_deps], makefile_test, ['Test11018'])
 test('Test17519', [ignore_stderr,expect_fail,req_ppr_deps], makefile_test, ['Test17519'])
 
 test('Test11321', [ignore_stderr, req_ppr_deps], makefile_test, ['Test11321'])
@@ -133,7 +128,6 @@ test('Test19798', [ignore_stderr, req_ppr_deps], makefile_test, ['Test19798'])
 
 # The exact printing manages the extra semicolons, normal ppr not, so
 # disabled in the Makefile for this test.
-test('Test19813', [ignore_stderr, req_ppr_deps], makefile_test, ['Test19813'])
 
 test('Test19814', [ignore_stderr, req_ppr_deps], makefile_test, ['Test19814'])
 test('Test19821', [ignore_stderr, req_ppr_deps], makefile_test, ['Test19821'])
@@ -155,9 +149,7 @@ test('PprParenFunBind', [ignore_stderr, req_ppr_deps], makefile_test, ['PprParen
 test('PprRecordSemi', [ignore_stderr, req_ppr_deps], makefile_test, ['PprRecordSemi'])
 test('PprCompleteSig', [ignore_stderr, req_ppr_deps], makefile_test, ['PprCompleteSig'])
 test('PprOverloadedLabels', [ignore_stderr, req_ppr_deps], makefile_test, ['PprOverloadedLabels'])
-test('PprArrows', [ignore_stderr, req_ppr_deps], makefile_test, ['PprArrows'])
 test('PprOverloadedRecords', [ignore_stderr, req_ppr_deps], makefile_test, ['PprOverloadedRecords'])
-test('PprArrowLambdaCase', [ignore_stderr, req_ppr_deps], makefile_test, ['PprArrowLambdaCase'])
 test('PprTypeBrackets', [ignore_stderr, req_ppr_deps], makefile_test, ['PprTypeBrackets'])
 test('PprDynamic', [ignore_stderr, req_ppr_deps], makefile_test, ['PprDynamic'])
 test('PprEmptyMostly', [ignore_stderr, req_ppr_deps], makefile_test, ['PprEmptyMostly'])

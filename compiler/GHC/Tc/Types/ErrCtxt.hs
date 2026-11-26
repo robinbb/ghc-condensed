@@ -260,8 +260,7 @@ data HsCtxt
   -- | In a pattern matching context, e.g. a equation for a function binding,
   -- or a case alternative, ...
   | MatchCtxt !HsMatchContextRn
-  -- | In a match in a pattern matching context,
-  -- either for an expression or for an arrow command.
+  -- | In a match in a pattern matching context.
   | forall body. (Outputable body)
   => MatchInCtxt !(Match GhcRn body)
   -- | In a function application.
@@ -287,8 +286,6 @@ data HsCtxt
   | TySynErrCtxt !TyCon
   -- | In a role annotation.
   | RoleAnnotErrCtxt !Name
-  -- | In an arrow command.
-  | CmdCtxt !(HsCmd GhcRn)
   -- | In an instance declaration.
   | InstDeclErrCtxt !(Either (LHsType GhcRn) PredType)
   -- | In a default declaration.

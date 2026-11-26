@@ -37,9 +37,6 @@ module GHC.Tc.Utils.Monad(
   withTcMPlugins, shutdownTcMPluginsIO,
   rewriterTcMPlugins, holeFitTcMPlugins, defaultingTcMPlugins, solverTcMPlugins,
 
-  -- * Arrow scopes
-  newArrowScope, escapeArrowScope,
-
   -- * Unique supply
   newUnique, newUniqueSupply, newName, newNameAt, cloneLocalName,
   newSysName, newSysLocalId, newSysLocalIds,
@@ -478,7 +475,6 @@ initTcWithGbl hsc_env gbl_env loc do_this
                 tcl_rdr        = emptyLocalRdrEnv,
                 tcl_th_ctxt    = topLevel,
                 tcl_th_bndrs   = emptyNameEnv,
-                tcl_arrow_ctxt = NoArrowCtxt,
                 tcl_env        = emptyNameEnv,
                 tcl_bndrs      = [],
                 tcl_tclvl      = topTcLevel
@@ -964,29 +960,6 @@ defaultingTcMPlugins =
 holeFitTcMPlugins :: HasDebugCallStack => TcMPluginsState -> [HoleFitPlugin]
 holeFitTcMPlugins =
   tcmp_hole_fits . tcMPluginsRunActions . runningTcMPlugins
-
-{-
-************************************************************************
-*                                                                      *
-                Arrow scopes
-*                                                                      *
-************************************************************************
--}
-
-newArrowScope :: TcM a -> TcM a
-newArrowScope
-  = updLclEnv $ \env ->
-      modifyLclCtxt (\ctx -> ctx { tcl_arrow_ctxt = ArrowCtxt (getLclEnvRdrEnv env) (tcl_lie env) } ) env
-
--- Return to the stored environment (from the enclosing proc)
-escapeArrowScope :: TcM a -> TcM a
-escapeArrowScope
-  = updLclEnv $ \ env ->
-    case getLclEnvArrowCtxt env of
-      NoArrowCtxt       -> env
-      ArrowCtxt rdr_env lie -> env { tcl_lcl_ctxt = (tcl_lcl_ctxt env) { tcl_arrow_ctxt = NoArrowCtxt
-                                                                       , tcl_rdr = rdr_env }
-                                   , tcl_lie = lie }
 
 {-
 ************************************************************************
