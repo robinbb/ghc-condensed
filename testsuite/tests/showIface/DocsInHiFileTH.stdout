@@ -263,7 +263,6 @@ docs:
          TupleSections
          PatternGuards
          TypeOperators
-         TraditionalRecordSyntax
          EmptyCase
          PatternSynonyms
          NamedWildCards

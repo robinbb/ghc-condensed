@@ -28,16 +28,6 @@ T16270.hs:14:8: error: [GHC-06074]
 T16270.hs:16:6: error: [GHC-87429]
     Illegal datatype context: Num a =>
 
-T16270.hs:18:22: error: [GHC-65719]
-    Illegal record syntax: {fst :: a, snd :: b}
-    Suggested fix:
-      Perhaps you intended to use the ‘TraditionalRecordSyntax’ extension
-
-T16270.hs:19:5: error: [GHC-65719]
-    Illegal record syntax: p {fst = 1, snd = True}
-    Suggested fix:
-      Perhaps you intended to use the ‘TraditionalRecordSyntax’ extension
-
 T16270.hs:22:8: error: [GHC-75254]
     Unexpected semi-colons in conditional:
         if True; then (); else ()

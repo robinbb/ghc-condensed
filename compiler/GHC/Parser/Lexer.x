@@ -2557,7 +2557,6 @@ data ExtBits
   | RawTokenStreamBit -- producing a token stream with all comments included
   | RelaxedLayoutBit
   | SafeHaskellBit
-  | TraditionalRecordSyntaxBit
   | NegativeLiteralsBit
   | StaticPointersBit
   | BlockArgumentsBit
@@ -2624,7 +2623,6 @@ mkParserOpts extensionFlags diag_opts
       .|. TransformComprehensionsBit  `xoptBit` LangExt.TransformListComp
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout
-      .|. TraditionalRecordSyntaxBit  `xoptBit` LangExt.TraditionalRecordSyntax
       .|. NegativeLiteralsBit         `xoptBit` LangExt.NegativeLiterals
       .|. PatternSynonymsBit          `xoptBit` LangExt.PatternSynonyms
       .|. StaticPointersBit           `xoptBit` LangExt.StaticPointers

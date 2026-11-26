@@ -30,7 +30,7 @@ module Strip
     NumericUnderscores OverlappingInstances ParallelArrays ParallelListComp
     PatternSignatures PolyKinds QualifiedDo QualifiedStrings RankNTypes
     RecursiveDo RelaxedPolyRec ScopedTypeVariables StandaloneKindSignatures
-    StarIsType TypeInType
+    StarIsType TraditionalRecordSyntax TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

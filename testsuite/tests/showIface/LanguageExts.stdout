@@ -16,7 +16,6 @@ docs:
          MonomorphismRestriction
          ImplicitPrelude
          PatternGuards
-         TraditionalRecordSyntax
          FieldSelectors
          ListTuplePuns
          ImplicitStagePersistence

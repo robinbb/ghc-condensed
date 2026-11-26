@@ -105,7 +105,6 @@ data Extension
    | TypeOperators
    | PackageImports
    | RelaxedLayout
-   | TraditionalRecordSyntax
    | MultiWayIf
    | NegativeLiterals
    | OverloadedLabels

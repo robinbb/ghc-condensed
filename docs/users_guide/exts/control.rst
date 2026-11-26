@@ -96,7 +96,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PostfixOperators`
      * :extension:`RoleAnnotations`
      * :extension:`StandaloneDeriving`
-     * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
      * :extension:`TypeOperators`
@@ -145,7 +144,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`PatternGuards`
      * :extension:`PostfixOperators`
      * :extension:`StandaloneDeriving`
-     * :extension:`TraditionalRecordSyntax`
      * :extension:`TupleSections`
      * :extension:`TypeApplications`
      * :extension:`TypeOperators`
@@ -172,7 +170,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`MonomorphismRestriction`
      * :extension:`PatternGuards`
-     * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`
 
 
@@ -191,7 +188,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`FieldSelectors`
      * :extension:`ImplicitPrelude`
      * :extension:`MonomorphismRestriction`
-     * :extension:`TraditionalRecordSyntax`
      * :extension:`ImplicitStagePersistence`
 
 

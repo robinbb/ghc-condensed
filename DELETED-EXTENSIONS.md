@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**46 language extensions deleted.**
+**47 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -515,6 +515,17 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: `*` is an ordinary type operator, never `Type`. It clashed with the
   operator and needed a lexer special case; proposal 143 planned to turn it
   off.
+
+`TraditionalRecordSyntax`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: Haskell98, Haskell2010, GHC2021, GHC2024.
+- Lines: +14 −116, net −102.
+- Stability: Stable.
+- Notes: Record syntax (`C {f = x}` in declarations, construction, update
+  and patterns) is always accepted. Stable and in every edition; none of
+  the 542 corpus packages turned it off.
 
 `TypeInType`
 

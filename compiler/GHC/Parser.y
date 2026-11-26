@@ -2364,8 +2364,7 @@ atype :: { LHsType GhcPs }
         | PREFIX_TILDE atype             {% amsA' (sLL $1 $> (mkBangTy (glR $1) SrcLazy $2)) }
         | PREFIX_BANG  atype             {% amsA' (sLL $1 $> (mkBangTy (glR $1) SrcStrict $2)) }
 
-        | '{' fielddecls '}'             {% do { decls <- amsA' (sLL $1 $> $ XHsType $ HsRecTy (epTok $1, epTok $3) $2)
-                                               ; checkRecordSyntax decls }}
+        | '{' fielddecls '}'             {% amsA' (sLL $1 $> $ XHsType $ HsRecTy (epTok $1, epTok $3) $2) }
                                                         -- Constructor sigs only
 
         -- List and tuple syntax whose interpretation depends on the extension ListTuplePuns.

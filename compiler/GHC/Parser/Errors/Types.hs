@@ -377,11 +377,6 @@ data PsMessage
    -- | Cmm parser error
    | PsErrCmmParser !CmmParserError
 
-   -- | Illegal traditional record syntax
-   --
-   -- TODO: distinguish errors without using SDoc
-   | PsErrIllegalTraditionalRecordSyntax !SDoc
-
    -- | Parse error in pattern
    | PsErrInPat !(PatBuilder GhcPs) !PsErrInPatDetails
 

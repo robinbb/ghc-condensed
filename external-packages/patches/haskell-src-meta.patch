@@ -197,7 +197,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,42 +244,26 @@ fromExtension e = case e of
+@@ -266,42 +244,25 @@ fromExtension e = case e of
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -231,7 +231,7 @@
 -  TH.DatatypeContexts                  -> Just Exts.DatatypeContexts
 -  TH.NondecreasingIndentation          -> Just Exts.NondecreasingIndentation
    TH.RelaxedLayout                     -> Nothing
-   TH.TraditionalRecordSyntax           -> Nothing
+-  TH.TraditionalRecordSyntax           -> Nothing
 -  TH.LambdaCase                        -> Just Exts.LambdaCase
    TH.MultiWayIf                        -> Just Exts.MultiWayIf
 -  TH.BinaryLiterals                    -> Just Exts.BinaryLiterals
@@ -240,7 +240,7 @@
    TH.OverloadedLabels                  -> Just Exts.OverloadedLabels
    TH.EmptyCase                         -> Just Exts.EmptyCase
    TH.PatternSynonyms                   -> Just Exts.PatternSynonyms
-@@ -317,7 +279,6 @@ fromExtension e = case e of
+@@ -317,7 +278,6 @@ fromExtension e = case e of
  
  -- 2.13.0 ----------------------------------------
  #if MIN_VERSION_template_haskell(2,13,0)
@@ -248,7 +248,7 @@
    TH.EmptyDataDeriving                 -> Nothing
  #endif
  
-@@ -345,15 +306,11 @@ fromExtension e = case e of
+@@ -345,15 +305,11 @@ fromExtension e = case e of
      Nothing
  #endif
  
@@ -264,7 +264,7 @@
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
      Just Exts.ImportQualifiedPost
-@@ -362,12 +319,6 @@ fromExtension e = case e of
+@@ -362,12 +318,6 @@ fromExtension e = case e of
  #endif
  #endif
  
@@ -277,7 +277,7 @@
  -- 2.20.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,20,0)
-@@ -391,7 +342,6 @@ fromExtension e = case e of
+@@ -391,7 +341,6 @@ fromExtension e = case e of
  -- 2.23.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,23,0)

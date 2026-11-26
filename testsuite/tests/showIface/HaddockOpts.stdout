@@ -38,7 +38,6 @@ docs:
          TupleSections
          PatternGuards
          TypeOperators
-         TraditionalRecordSyntax
          EmptyCase
          NamedWildCards
          TypeApplications

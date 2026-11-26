@@ -203,7 +203,6 @@ module Language.Haskell.TH where
     | TypeOperators
     | PackageImports
     | RelaxedLayout
-    | TraditionalRecordSyntax
     | MultiWayIf
     | NegativeLiterals
     | OverloadedLabels
@@ -771,7 +770,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | TypeOperators
     | PackageImports
     | RelaxedLayout
-    | TraditionalRecordSyntax
     | MultiWayIf
     | NegativeLiterals
     | OverloadedLabels
@@ -1473,7 +1471,6 @@ module Language.Haskell.TH.Syntax where
     | TypeOperators
     | PackageImports
     | RelaxedLayout
-    | TraditionalRecordSyntax
     | MultiWayIf
     | NegativeLiterals
     | OverloadedLabels

@@ -391,9 +391,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Not a data constructor:" <+> quotes (ppr name)
     PsErrInferredTypeVarNotAllowed
       -> mkSimpleDecorated $ text "Inferred type variables are not allowed here"
-    PsErrIllegalTraditionalRecordSyntax s
-      -> mkSimpleDecorated $
-           text "Illegal record syntax:" <+> s
     PsErrInPat s details
       -> let msg  = parse_error_in_pat
              body = case details of
@@ -596,7 +593,6 @@ instance Diagnostic PsMessage where
     PsErrMalformedDecl{}                          -> ErrorWithoutFlag
     PsErrNotADataCon{}                            -> ErrorWithoutFlag
     PsErrInferredTypeVarNotAllowed                -> ErrorWithoutFlag
-    PsErrIllegalTraditionalRecordSyntax{}         -> ErrorWithoutFlag
     PsErrInPat{}                                  -> ErrorWithoutFlag
     PsErrIllegalRoleName{}                        -> ErrorWithoutFlag
     PsErrInvalidTypeSignature{}                   -> ErrorWithoutFlag
@@ -720,7 +716,6 @@ instance Diagnostic PsMessage where
     PsErrMalformedDecl{}                          -> noHints
     PsErrNotADataCon{}                            -> noHints
     PsErrInferredTypeVarNotAllowed                -> noHints
-    PsErrIllegalTraditionalRecordSyntax{}         -> [suggestExtension LangExt.TraditionalRecordSyntax]
     PsErrInPat _ details                          -> case details of
       PEIP_OtherPatDetails ctx -> catMaybes [sug_missingdo ctx]
       _                        -> []

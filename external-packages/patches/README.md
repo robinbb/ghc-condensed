@@ -112,9 +112,9 @@ run it after each removal.
   `CUSKs`, `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
   `AutoDeriveTypeable`, `ApplicativeDo`, `QualifiedDo`,
   `StandaloneKindSignatures`, `HexFloatLiterals`, `NumDecimals`,
-  `NumericUnderscores`, `MultilineStrings` and the two
-  `AlternativeLayoutRule` constructors from the reverse mapping, since this
-  compiler's template-haskell no longer has them.
+  `NumericUnderscores`, `MultilineStrings`, `TraditionalRecordSyntax` and
+  the two `AlternativeLayoutRule` constructors from the reverse mapping,
+  since this compiler's template-haskell no longer has them.
   `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module
   qualifier that template-haskell dropped with `QualifiedDo`. Blocks hsx2hs,
   jmacro, interpolatedstring-perl6 and persistent-qq.

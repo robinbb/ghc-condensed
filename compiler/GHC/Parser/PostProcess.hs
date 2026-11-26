@@ -65,7 +65,6 @@ module GHC.Parser.PostProcess (
         ruleBndrsOrDef,
         checkRuleTyVarBndrNames,
         mkSpecSig,
-        checkRecordSyntax,
         checkEmptyGADTs,
         addFatalError, hintBangPat,
         mkBangTy,
@@ -1098,13 +1097,6 @@ mkSpecSig inl_prag activation_anns m_rule_binds expr m_sigtypes_ascr
           sigs_loc =
             getHasLoc colon_ann `combineSrcSpans` getHasLoc (last sigtype_list)
 
-checkRecordSyntax :: (MonadP m, Outputable a) => LocatedA a -> m (LocatedA a)
-checkRecordSyntax lr@(L loc r)
-    = do allowed <- getBit TraditionalRecordSyntaxBit
-         unless allowed $ addError $ mkPlainErrorMsgEnvelope (locA loc) $
-                                       (PsErrIllegalTraditionalRecordSyntax (ppr r))
-         return lr
-
 -- | Check if the gadt_constrlist is empty. Only raise parse error for
 -- `data T where` to avoid affecting existing error message, see #8258.
 checkEmptyGADTs :: Located ((EpToken "where", EpToken "{", EpToken "}"), [LConDecl GhcPs])
@@ -1922,7 +1914,7 @@ instance DisambECP (HsExpr GhcPs) where
   mkHsRecordPV opts l lrec a (fbinds, ddLoc) anns = do
     !cs <- getCommentsFor l
     r <- mkRecConstrOrUpdate opts a lrec (fbinds, ddLoc) anns
-    checkRecordSyntax (L (EpAnn (spanAsAnchor l) noAnn cs) r)
+    return $ L (EpAnn (spanAsAnchor l) noAnn cs) r
   mkHsNegAppPV l a anns = do
     !cs <- getCommentsFor l
     return $ L (EpAnn (spanAsAnchor l) noAnn cs) (NegApp anns a noSyntaxExpr)
@@ -2016,7 +2008,7 @@ instance DisambECP (PatBuilder GhcPs) where
      else do
        !cs <- getCommentsFor l
        r <- mkPatRec a (mk_rec_fields anns fs ddLoc)
-       checkRecordSyntax (L (EpAnn (spanAsAnchor l) noAnn cs) r)
+       return $ L (EpAnn (spanAsAnchor l) noAnn cs) r
   mkHsNegAppPV l (L lp p) anns = do
     lit <- case p of
       PatBuilderOverLit pos_lit -> return (L (l2l lp) pos_lit)
