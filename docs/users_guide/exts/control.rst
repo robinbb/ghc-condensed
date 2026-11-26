@@ -88,7 +88,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`GeneralisedNewtypeDeriving`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
-     * :extension:`LambdaCase`
      * :extension:`MonoLocalBinds`
      * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`

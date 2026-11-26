@@ -1,6 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE DeriveFunctor #-}

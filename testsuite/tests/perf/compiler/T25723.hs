@@ -1,7 +1,6 @@
 {-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE DeriveFunctor       #-}
 {-# LANGUAGE GADTs               #-}
-{-# LANGUAGE LambdaCase          #-}
 {-# LANGUAGE TypeOperators       #-}
 
 {-# OPTIONS_GHC -flate-specialise -O2 #-}

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
-{-# LANGUAGE GADTs, EmptyCase, LambdaCase #-}
+{-# LANGUAGE GADTs, EmptyCase #-}
 
 -- Check some GADTs
 module EmptyCase004 where

@@ -1,7 +1,6 @@
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE InterruptibleFFI #-}
 {-# LANGUAGE CPP, NoImplicitPrelude, CApiFFI #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}
 {-# OPTIONS_HADDOCK not-home #-}

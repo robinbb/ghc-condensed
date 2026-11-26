@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-} -- XOverlapMode, XXOverlapMode
 {-# OPTIONS_GHC -fno-warn-orphans #-} -- XOverlapMode, XXOverlapMode

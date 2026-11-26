@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TypeApplications #-}
 
 import GHC.Internal.Control.Exception

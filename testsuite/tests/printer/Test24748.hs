@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 module Test24748 where
 
 instance SDecide Nat where

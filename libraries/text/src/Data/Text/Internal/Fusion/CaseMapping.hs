@@ -5,7 +5,7 @@
 -- SpecialCasing-17.0.0.txt
 -- Date: 2025-07-31, 22:11:55 GMT
 
-{-# LANGUAGE LambdaCase, MagicHash, PartialTypeSignatures #-}
+{-# LANGUAGE MagicHash, PartialTypeSignatures #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
 module Data.Text.Internal.Fusion.CaseMapping where
 import GHC.Int

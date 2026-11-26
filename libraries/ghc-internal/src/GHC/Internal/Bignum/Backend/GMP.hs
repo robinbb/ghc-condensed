@@ -7,7 +7,6 @@
 {-# LANGUAGE UnliftedFFITypes #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE BlockArguments #-}
-{-# LANGUAGE LambdaCase #-}
 
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 

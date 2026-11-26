@@ -25,7 +25,7 @@ module Strip
     DisambiguateRecordFields DoRec DuplicateRecordFields ExplicitForAll
     ExplicitNamespaces
     HexFloatLiterals IncoherentInstances InstanceSigs KindSignatures
-    MultiParamTypeClasses MultilineStrings NPlusKPatterns
+    LambdaCase MultiParamTypeClasses MultilineStrings NPlusKPatterns
     NondecreasingIndentation NullaryTypeClasses NumDecimals
     NumericUnderscores OverlappingInstances ParallelArrays ParallelListComp
     PatternSignatures PolyKinds QualifiedDo QualifiedStrings RankNTypes

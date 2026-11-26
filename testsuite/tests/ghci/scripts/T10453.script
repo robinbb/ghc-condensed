@@ -1,5 +1,4 @@
 :set +m
-:set -XLambdaCase
 
 foo1 x = case x of
            1 -> "one"

@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
 import Data.String
 import T14908_Deps
 import Data.List (nub, sort)

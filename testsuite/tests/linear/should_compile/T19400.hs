@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, LambdaCase, LinearTypes #-}
+{-# LANGUAGE ExistentialQuantification, LinearTypes #-}
 
 module T19400 where
 

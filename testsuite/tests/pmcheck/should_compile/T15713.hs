@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module T15713 where
 

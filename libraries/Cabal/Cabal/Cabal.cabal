@@ -399,7 +399,6 @@ library
     FlexibleInstances
     GeneralizedNewtypeDeriving
     ImplicitParams
-    LambdaCase
     OverloadedStrings
     PatternSynonyms
     RecordWildCards

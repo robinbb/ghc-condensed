@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 module GHC.Toolchain.Utils
     ( expectJust

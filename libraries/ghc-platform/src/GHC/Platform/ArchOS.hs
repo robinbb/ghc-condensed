@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 -- | Platform architecture and OS
 module GHC.Platform.ArchOS

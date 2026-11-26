@@ -51,7 +51,6 @@ docs:
          PatternGuards
          TypeOperators
          TraditionalRecordSyntax
-         LambdaCase
          EmptyCase
          NamedWildCards
          TypeApplications

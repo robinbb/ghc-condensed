@@ -5,7 +5,6 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
 module GHC.Internal.Bignum.WordArray where

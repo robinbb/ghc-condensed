@@ -47,17 +47,17 @@ packageArgs = do
         -- This compiler has no MultiParamTypeClasses, DataKinds,
         -- KindSignatures, InstanceSigs, PolyKinds, DeriveDataTypeable,
         -- RankNTypes, ParallelListComp, ScopedTypeVariables,
-        -- StandaloneKindSignatures, BinaryLiterals, NumericUnderscores or
-        -- DuplicateRecordFields extension:
+        -- StandaloneKindSignatures, BinaryLiterals, NumericUnderscores,
+        -- DuplicateRecordFields or LambdaCase extension:
         -- classes may have any number of parameters, data types are always
         -- promoted, kinds may always be given, instance methods may carry
         -- signatures, kinds are always generalised, Data may always be
         -- derived, types may have any rank, comprehensions may have parallel
         -- branches, type variables are lexically scoped, a standalone kind
         -- signature may always be given, an integer literal may be written
-        -- in binary, digits may be separated by underscores and datatypes
-        -- may share field names, so no source in
-        -- the tree names them. The bootstrap compiler still wants them all
+        -- in binary, digits may be separated by underscores, datatypes
+        -- may share field names and \case and \cases are always syntax, so
+        -- no source in the tree names them. The bootstrap compiler still wants them all
         -- for the stage 0
         -- packages whose language edition lacks them (mtl, parsec, array,
         -- Cabal-syntax, the compiler itself and others), when it compiles
@@ -77,6 +77,7 @@ packageArgs = do
         , stage0Ghc ? arg "-XBinaryLiterals"
         , stage0Ghc ? arg "-XNumericUnderscores"
         , stage0Ghc ? arg "-XDuplicateRecordFields"
+        , stage0Ghc ? arg "-XLambdaCase"
 
         --------------------------------- base ---------------------------------
         , package base ? mconcat

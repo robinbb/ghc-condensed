@@ -18,7 +18,7 @@ expressions, that have no alternatives, thus: ::
 
 or ::
 
-    \case { }       -- -XLambdaCase is also required
+    \case { }
 
 Note that it is not allowed for ``\cases``, since it would be unclear how many
 patterns are being matched.

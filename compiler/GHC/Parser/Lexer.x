@@ -988,7 +988,7 @@ reservedWordsFM = listToUFM $
         [( "_",              ITunderscore,    0 ),
          ( "as",             ITas,            0 ),
          ( "case",           ITcase,          0 ),
-         ( "cases",          ITlcases,        xbit LambdaCaseBit ),
+         ( "cases",          ITlcases,        0 ),
          ( "class",          ITclass,         0 ),
          ( "data",           ITdata,          0 ),
          ( "default",        ITdefault,       0 ),
@@ -1645,22 +1645,16 @@ varid span buf len _buf2 =
   case lookupUFM reservedWordsFM fs of
     Just (ITcase, _) -> do
       lastTk <- getLastTk
-      keyword <- case lastTk of
-        Strict.Just (L _ ITlam) -> do
-          lambdaCase <- getBit LambdaCaseBit
-          unless lambdaCase $ do
-            pState <- getPState
-            addError $ mkPlainErrorMsgEnvelope (mkSrcSpanPs (last_loc pState)) PsErrLambdaCase
-          return ITlcase
-        _ -> return ITcase
+      let keyword = case lastTk of
+            Strict.Just (L _ ITlam) -> ITlcase
+            _ -> ITcase
       maybe_layout keyword
       return $ L span keyword
     Just (ITlcases, _) -> do
       lastTk <- getLastTk
-      lambdaCase <- getBit LambdaCaseBit
-      token <- case lastTk of
-        Strict.Just (L _ ITlam) | lambdaCase -> return ITlcases
-        _ -> return $ ITvarid fs
+      let token = case lastTk of
+            Strict.Just (L _ ITlam) -> ITlcases
+            _ -> ITvarid fs
       maybe_layout token
       return $ L span token
     Just (keyword, 0) -> do
@@ -2564,7 +2558,6 @@ data ExtBits
   | RelaxedLayoutBit
   | SafeHaskellBit
   | TraditionalRecordSyntaxBit
-  | LambdaCaseBit
   | NegativeLiteralsBit
   | StaticPointersBit
   | BlockArgumentsBit
@@ -2632,7 +2625,6 @@ mkParserOpts extensionFlags diag_opts
       .|. MonadComprehensionsBit      `xoptBit` LangExt.MonadComprehensions
       .|. RelaxedLayoutBit            `xoptBit` LangExt.RelaxedLayout
       .|. TraditionalRecordSyntaxBit  `xoptBit` LangExt.TraditionalRecordSyntax
-      .|. LambdaCaseBit               `xoptBit` LangExt.LambdaCase
       .|. NegativeLiteralsBit         `xoptBit` LangExt.NegativeLiterals
       .|. PatternSynonymsBit          `xoptBit` LangExt.PatternSynonyms
       .|. StaticPointersBit           `xoptBit` LangExt.StaticPointers

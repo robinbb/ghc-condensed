@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE BlockArguments #-}
 
 -------------------------------------------------------------------------------
 -- |

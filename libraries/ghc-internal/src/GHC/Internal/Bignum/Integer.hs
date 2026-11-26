@@ -5,7 +5,6 @@
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE NegativeLiterals #-}
 {-# LANGUAGE BlockArguments #-}
-{-# LANGUAGE LambdaCase #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}
     -- Defines lots of functions that have BuiltinRules

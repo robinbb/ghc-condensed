@@ -4,7 +4,6 @@
            , RecordWildCards
            , BangPatterns
            , MagicHash
-           , LambdaCase
   #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
 {-# OPTIONS_HADDOCK not-home #-}

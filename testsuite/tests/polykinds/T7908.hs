@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, LambdaCase #-}
+{-# LANGUAGE GADTs #-}
 
 module T7908 where
 

@@ -1,6 +1,6 @@
 -- The simplifier changes the shapes of closures that we expect.
 {-# OPTIONS_GHC -O0 #-}
-{-# LANGUAGE MagicHash, UnboxedTuples, LambdaCase #-}
+{-# LANGUAGE MagicHash, UnboxedTuples #-}
 
 import GHC.Exts.Heap
 import GHC.IORef

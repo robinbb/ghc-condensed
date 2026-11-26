@@ -166,7 +166,6 @@ extensionName = \case
   LangExt.PackageImports -> "PackageImports"
   LangExt.RelaxedLayout -> "RelaxedLayout"
   LangExt.TraditionalRecordSyntax -> "TraditionalRecordSyntax"
-  LangExt.LambdaCase -> "LambdaCase"
   LangExt.MultiWayIf -> "MultiWayIf"
   LangExt.NegativeLiterals -> "NegativeLiterals"
   LangExt.OverloadedLabels -> "OverloadedLabels"

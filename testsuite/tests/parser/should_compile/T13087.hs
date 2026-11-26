@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase            #-}
 
 isOne :: Int -> Bool
 isOne = \case 1 -> True

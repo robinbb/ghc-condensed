@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeAbstractions #-}
 

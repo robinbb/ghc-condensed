@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase            #-}
 -- duplicate of T13087.hs
 
 isOne :: Int -> Bool

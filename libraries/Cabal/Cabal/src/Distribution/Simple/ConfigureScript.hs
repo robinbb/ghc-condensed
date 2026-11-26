@@ -1,6 +1,5 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE LambdaCase #-}
 -----------------------------------------------------------------------------
 {-# OPTIONS_GHC -Wno-deprecations #-}
 

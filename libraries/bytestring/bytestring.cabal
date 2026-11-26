@@ -93,7 +93,6 @@ common language
     DeriveLift
     FlexibleContexts
     FlexibleInstances
-    LambdaCase
     MagicHash
     MultiWayIf
     NamedFieldPuns

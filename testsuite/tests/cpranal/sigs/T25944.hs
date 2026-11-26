@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, LambdaCase #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 -- | This file starts with a small reproducer for #25944 that is easy to debug
 -- and then continues with a much larger MWE that is faithful to the original

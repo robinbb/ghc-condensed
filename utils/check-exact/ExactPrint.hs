@@ -3,7 +3,6 @@
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE LambdaCase           #-}
 {-# LANGUAGE MultiWayIf           #-}
 {-# LANGUAGE NamedFieldPuns       #-}
 {-# LANGUAGE RecordWildCards      #-}

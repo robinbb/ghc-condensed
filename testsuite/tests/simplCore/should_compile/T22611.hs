@@ -4,7 +4,7 @@
 -- This only started to work with 9.6, this test checks that we don't
 -- regress on this.
 
-{-# language LambdaCase, Strict, DeriveFunctor, DerivingStrategies #-}
+{-# language Strict, DeriveFunctor, DerivingStrategies #-}
 
 module T22611 where
 

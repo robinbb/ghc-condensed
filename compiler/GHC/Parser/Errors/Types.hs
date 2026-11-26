@@ -128,9 +128,6 @@ data PsMessage
    -}
    | PsWarnViewPatternSignatures !(LPat GhcPs) !(LPat GhcPs)
 
-   -- | LambdaCase syntax used without the extension enabled
-   | PsErrLambdaCase
-
    -- | A lambda requires at least one parameter
    | PsErrEmptyLambda
 

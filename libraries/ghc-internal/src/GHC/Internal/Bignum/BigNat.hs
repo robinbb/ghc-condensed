@@ -4,7 +4,6 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 
 {-# OPTIONS_GHC -fdefines-known-key-names #-}

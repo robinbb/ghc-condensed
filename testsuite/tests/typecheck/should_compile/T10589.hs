@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T10589 where
 

@@ -1,5 +1,4 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE LambdaCase #-}
 
 module GHCi.Coverage (
   hpcAddModule,

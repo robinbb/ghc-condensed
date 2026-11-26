@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 #if __GLASGOW_HASKELL__ < 802
 {-# OPTIONS_GHC -Wno-redundant-constraints #-}
 #endif

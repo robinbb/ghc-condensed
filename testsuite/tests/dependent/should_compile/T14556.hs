@@ -1,5 +1,5 @@
 {-# Language UndecidableInstances, TypeOperators,
-             TypeFamilies, GADTs, LambdaCase #-}
+             TypeFamilies, GADTs #-}
 
 module T14556 where
 

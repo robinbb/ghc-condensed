@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 module T10498a where
 
 -- ghc-7.10 would show the unhelpful error message:

@@ -1,5 +1,4 @@
 {-# OPTIONS -cpp #-}
-{-# LANGUAGE LambdaCase #-}
 module Main where
 
 import Control.Monad

@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 module NoBlockArgumentsFail3 where
 
 import Control.Monad

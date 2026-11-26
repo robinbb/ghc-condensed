@@ -1,6 +1,5 @@
 {-# LANGUAGE EmptyDataDecls #-}
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE LambdaCase #-}
 
 -- | Stub backend for wasm and targets without POSIX/Win32 sockets/semaphores.
 module System.Semaphore.Internal.Unsupported

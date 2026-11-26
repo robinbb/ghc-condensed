@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase, BangPatterns #-}
+{-# LANGUAGE BangPatterns #-}
 
 import Control.Monad.Fix
 import Data.IORef

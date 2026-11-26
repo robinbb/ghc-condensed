@@ -1,5 +1,4 @@
 {-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TypeApplications #-}
 
 module Main where

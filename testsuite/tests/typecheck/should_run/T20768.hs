@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE MagicHash #-}

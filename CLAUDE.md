@@ -61,7 +61,12 @@ Read first:
   the build utilities. The bootstrap compiler still has every extension, and
   gets the removed ones back through `stage0Ghc ? arg "-X..."` in
   `hadrian/src/Settings/Packages.hs` wherever a stage 0 module needs one.
-  Changing that file rebuilds all of stage 0 (about 19 minutes).
+  Changing that file rebuilds all of stage 0 (about 19 minutes). Hadrian
+  itself is built by cabal from `hadrian/cabal.project`, which also compiles
+  `libraries/ghc-platform` and `utils/ghc-toolchain` with the bootstrap
+  compiler: a removed extension those sources use needs a `package` stanza
+  with `ghc-options: -X...` there as well, or `hadrian/build` fails before
+  any stage is built.
 - Extension strips apply only to what Hadrian compiles: the compiler, the
   libraries including `Cabal-syntax` and `Cabal` (Cabal validates
   `other-extensions` against the compiler), the testsuite. Never
@@ -131,10 +136,11 @@ Copy the edited compiler modules into a scratch directory as a home unit and
 typecheck them against the built compiler's `ghc` package:
 
 ```
-ghc --make -fno-code -package ghc -XGHC2024 -XNoImplicitPrelude -Wall \
-    -Wno-name-shadowing -Wno-missing-fields -i<dir> -I compiler \
-    -I rts/include -I _build-lateccs/stage1/compiler/build \
-    -I _build-lateccs/stage1/rts/build/include <dir>/*.hs
+_build-lateccs/stage1/bin/ghc --make -fno-code -package ghc -XGHC2024 \
+    -XNoImplicitPrelude -Wall -Wno-name-shadowing -Wno-missing-fields \
+    -i<dir> -Icompiler -Irts/include \
+    -I_build-lateccs/stage1/compiler/build \
+    -I_build-lateccs/stage1/rts/build/include <dir>/*.hs
 ```
 
 Rewrite `{-# SOURCE #-}` imports as plain imports unless the boot file is in

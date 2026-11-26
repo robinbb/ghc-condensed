@@ -106,7 +106,6 @@ data Extension
    | PackageImports
    | RelaxedLayout
    | TraditionalRecordSyntax
-   | LambdaCase
    | MultiWayIf
    | NegativeLiterals
    | OverloadedLabels

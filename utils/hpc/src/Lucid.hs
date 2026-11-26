@@ -1,7 +1,6 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE LambdaCase #-}
 
 -- | At the moment `lucid2` is not a GHC boot package,
 -- so this module provides a poor man substitute

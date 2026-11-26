@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings, CPP #-}
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UnboxedTuples #-}
 
 -- |

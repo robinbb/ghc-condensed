@@ -1,5 +1,4 @@
 {-# LANGUAGE MagicHash, ExtendedLiterals #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UnboxedSums, UnboxedTuples #-}
 
 -- needed on 32bit

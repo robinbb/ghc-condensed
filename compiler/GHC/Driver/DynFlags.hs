@@ -1436,7 +1436,6 @@ languageExtensions (Just GHC2024)
       [LangExt.DerivingStrategies,
        LangExt.GADTs,
        LangExt.MonoLocalBinds,
-       LangExt.LambdaCase,
        LangExt.RoleAnnotations]
 
 ways :: DynFlags -> Ways

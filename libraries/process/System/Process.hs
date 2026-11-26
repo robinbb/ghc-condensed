@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP, ForeignFunctionInterface #-}
-{-# LANGUAGE LambdaCase #-}
 #if __GLASGOW_HASKELL__ >= 709
 {-# LANGUAGE Safe #-}
 #else

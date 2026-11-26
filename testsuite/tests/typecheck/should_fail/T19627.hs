@@ -7,7 +7,6 @@
 {-# language FlexibleInstances #-}
 {-# language FunctionalDependencies #-}
 {-# language GADTs #-}
-{-# language LambdaCase #-}
 {-# language LinearTypes #-}
 {-# language QuantifiedConstraints #-}
 {-# language RoleAnnotations #-}

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
-{-# LANGUAGE TypeFamilies, EmptyCase, LambdaCase #-}
+{-# LANGUAGE TypeFamilies, EmptyCase #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 -- Check some DataFamilies, warning appearance and other stuff

@@ -1,6 +1,5 @@
 -- #20893
 
-{-# LANGUAGE LambdaCase #-}
 
 module Main where
 

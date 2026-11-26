@@ -1,4 +1,4 @@
-{-# LANGUAGE EmptyCase, TemplateHaskell, LambdaCase #-}
+{-# LANGUAGE EmptyCase, TemplateHaskell #-}
 
 module T7681 where
 

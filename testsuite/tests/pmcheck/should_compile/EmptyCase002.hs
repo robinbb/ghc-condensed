@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns  #-}
-{-# LANGUAGE EmptyCase, LambdaCase          #-}
+{-# LANGUAGE EmptyCase          #-}
 {-# LANGUAGE GADTs, TypeFamilies            #-}
 
 -- Check some newtypes, in combination with GADTs and TypeFamilies

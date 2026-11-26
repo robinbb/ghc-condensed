@@ -2,7 +2,6 @@
 
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveTraversable #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TupleSections #-}

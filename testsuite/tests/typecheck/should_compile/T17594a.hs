@@ -1,4 +1,4 @@
-{-# LANGUAGE ImpredicativeTypes, TemplateHaskell, LambdaCase, TypeAbstractions, BlockArguments #-}
+{-# LANGUAGE ImpredicativeTypes, TemplateHaskell, TypeAbstractions, BlockArguments #-}
 module T17594a where
 
 import qualified Language.Haskell.TH as TH

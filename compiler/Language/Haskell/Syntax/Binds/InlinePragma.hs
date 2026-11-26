@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UndecidableInstances #-} -- NFData InlinePragma
 
 module Language.Haskell.Syntax.Binds.InlinePragma

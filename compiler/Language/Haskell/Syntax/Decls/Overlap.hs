@@ -1,5 +1,4 @@
 {-# LANGUAGE GeneralisedNewtypeDeriving #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UndecidableInstances #-} -- Eq XOverlapMode, NFData OverlapMode
 
 {- |

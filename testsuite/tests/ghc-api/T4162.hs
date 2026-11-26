@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE LambdaCase #-}
 
 -- | Test for #4162: 'runGhc' must not install signal handlers on behalf of its
 -- caller.

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns  #-}
-{-# LANGUAGE EmptyCase, LambdaCase          #-}
+{-# LANGUAGE EmptyCase          #-}
 
 -- Check some predefined types
 module EmptyCase001 where

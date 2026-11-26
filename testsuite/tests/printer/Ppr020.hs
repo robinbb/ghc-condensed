@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 -- Lambda
 bar = g >>= \foo -> 10

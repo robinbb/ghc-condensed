@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase         #-}
 {-# LANGUAGE StaticPointers     #-}
 
 -- | A test to use symbols produced by the static form.

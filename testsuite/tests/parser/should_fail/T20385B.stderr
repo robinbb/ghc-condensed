@@ -5,5 +5,5 @@ T20385B.hs:5:1: warning: [GHC-28007] [-Wmisplaced-pragmas (in -Wdefault)]
       The module header is the section at the top of the file, before the ‘module’ keyword
 
 T20385B.hs:10:9: error: [GHC-88464]
-    Variable not in scope: lambdaCase :: a -> a
+    Variable not in scope: multiWayIf :: a -> a
 

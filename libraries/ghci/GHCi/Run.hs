@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, RecordWildCards, MagicHash, CPP,
-    UnboxedTuples, LambdaCase, UnliftedFFITypes #-}
+    UnboxedTuples, UnliftedFFITypes #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing #-}
 
 -- |

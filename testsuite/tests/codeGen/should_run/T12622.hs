@@ -1,7 +1,6 @@
 -- Test that static pointers still work when the users try
 -- to unpack StaticPtr fields.
 {-# LANGUAGE StaticPointers #-}
-{-# LANGUAGE LambdaCase #-}
 
 import GHC.StaticPtr
 import T12622_A

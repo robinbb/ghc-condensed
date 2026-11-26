@@ -1,5 +1,4 @@
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE LambdaCase #-}
 
 module RepPolyMatch where
 

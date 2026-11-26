@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase, BangPatterns, MagicHash, TupleSections #-}
+{-# LANGUAGE BangPatterns, MagicHash, TupleSections #-}
 {-# OPTIONS_GHC -w #-}  -- Suppress warnings for unimplemented methods
 
 ------------- WARNING ---------------------

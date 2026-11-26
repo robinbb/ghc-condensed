@@ -2,7 +2,6 @@
 {-# LANGUAGE BangPatterns, MagicHash, CPP, TypeFamilies #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE TemplateHaskellQuotes #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ViewPatterns #-}
 

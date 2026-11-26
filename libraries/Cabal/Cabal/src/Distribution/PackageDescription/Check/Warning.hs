@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 -- |
 -- Module      :  Distribution.PackageDescription.Check.Warning

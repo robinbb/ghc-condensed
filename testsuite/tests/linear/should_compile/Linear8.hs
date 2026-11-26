@@ -1,6 +1,5 @@
 {-# LANGUAGE LinearTypes #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# LANGUAGE LambdaCase #-}
 module Linear8 where
 
 correctLCase :: Int ⊸ Bool -> Int

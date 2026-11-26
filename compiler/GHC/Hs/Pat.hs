@@ -989,7 +989,7 @@ The naïve desugaring of or-patterns would explode every or-pattern, thus
   f _  _  = rhs2
 which leads to an exponential number of copies of `rhs1`.
 Our current strategy, implemented in GHC.HsToCore.Match.tidy1, is to
-desugar to LambdaCase and ViewPatterns,
+desugar to \case and ViewPatterns,
   f ((\case LT -> True; GT -> True; _ -> False) -> True)
     ((\case EQ -> True; GT -> True; _ -> False) -> True)
     = rhs1

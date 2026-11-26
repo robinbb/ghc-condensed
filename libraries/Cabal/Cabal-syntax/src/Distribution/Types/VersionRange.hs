@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE ViewPatterns #-}
 
 module Distribution.Types.VersionRange

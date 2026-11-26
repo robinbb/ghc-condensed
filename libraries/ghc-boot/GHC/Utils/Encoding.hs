@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE BangPatterns, MagicHash, UnboxedTuples, MultiWayIf #-}
 {-# OPTIONS_GHC -O2 -fno-warn-name-shadowing #-}
 -- We always optimise this, otherwise performance of a non-optimised

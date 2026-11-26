@@ -1,5 +1,4 @@
 {-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE PatternSynonyms #-}
 
 module T25115 where

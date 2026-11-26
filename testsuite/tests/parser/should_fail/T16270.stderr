@@ -66,11 +66,6 @@ T16270.hs:30:9: error: [GHC-28985]
     Suggested fix:
       Perhaps you intended to use the ‘MultiWayIf’ extension
 
-T16270.hs:33:6: error: [GHC-51179]
-    Illegal \case
-    Suggested fix:
-      Perhaps you intended to use the ‘LambdaCase’ extension
-
 T16270.hs:38:5: error: [GHC-43080]
     primitive string literal must contain only characters <= '\xFF'
 

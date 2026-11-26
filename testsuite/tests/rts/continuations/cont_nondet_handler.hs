@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 -- This implements a (very) simple API along the lines of those used by
 -- algebraic effect systems, and it uses a distinct prompt tag to identify each

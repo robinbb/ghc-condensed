@@ -1,7 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE JavaScriptFFI #-}
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE CPP #-}
 
 {-

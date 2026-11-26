@@ -2,6 +2,16 @@ packages: ./
           ../utils/ghc-toolchain/
           ../libraries/ghc-platform/
 
+-- The bootstrap compiler builds ghc-platform and ghc-toolchain for Hadrian
+-- under Haskell2010. Their sources use \case without naming LambdaCase,
+-- which this compiler has removed and hard-coded on (see the stage0Ghc
+-- flags in src/Settings/Packages.hs for the same packages at stage 0).
+package ghc-platform
+  ghc-options: -XLambdaCase
+
+package ghc-toolchain
+  ghc-options: -XLambdaCase
+
 -- This essentially freezes the build plan for hadrian
 -- It would be wise to keep this up to date with the state set in .gitlab/ci.sh.
 -- Also remember to bump CACHE_REV in .gitlab-ci.yml, otherwise stale

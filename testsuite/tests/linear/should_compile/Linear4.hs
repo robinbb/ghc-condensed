@@ -1,6 +1,6 @@
 {-# LANGUAGE LinearTypes #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# LANGUAGE LambdaCase, GADTs #-}
+{-# LANGUAGE GADTs #-}
 module Linear4 where
 
 correctCase :: Bool ⊸ a ⊸ a

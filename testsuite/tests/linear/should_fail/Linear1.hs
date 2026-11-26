@@ -1,6 +1,6 @@
 {-# LANGUAGE LinearTypes #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# LANGUAGE LambdaCase, GADTs #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE RebindableSyntax #-}
 module Linear1 where
 

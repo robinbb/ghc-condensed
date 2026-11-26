@@ -1,9 +1,9 @@
 
 import Prelude
 
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiWayIf #-}
 
 main = pure ()
 
 foo :: forall a. a -> a
-foo x = lambdaCase x
+foo x = multiWayIf x

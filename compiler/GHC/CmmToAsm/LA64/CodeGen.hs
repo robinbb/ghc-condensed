@@ -1,5 +1,4 @@
 {-# language GADTs #-}
-{-# language LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE MultiWayIf #-}
 module GHC.CmmToAsm.LA64.CodeGen (

@@ -1,5 +1,4 @@
 {-# LANGUAGE MagicHash #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NegativeLiterals #-}
 
 module Main (main) where

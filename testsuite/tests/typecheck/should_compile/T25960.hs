@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 module T25960 where
 

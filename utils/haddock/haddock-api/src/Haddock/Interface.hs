@@ -2,7 +2,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE BangPatterns      #-}
 {-# LANGUAGE TupleSections     #-}
-{-# LANGUAGE LambdaCase        #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Haddock.Interface

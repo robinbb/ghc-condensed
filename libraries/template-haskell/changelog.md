@@ -13,7 +13,8 @@
     `QualifiedDo`, `ExplicitNamespaces`, `StandaloneKindSignatures`,
     `BinaryLiterals`, `HexFloatLiterals`, `NumDecimals`,
     `NumericUnderscores`, `MultilineStrings`, `QualifiedStrings`,
-    `DuplicateRecordFields` and `Arrows` constructors of `Extension`.
+    `DuplicateRecordFields`, `Arrows` and `LambdaCase` constructors of
+    `Extension`.
     GHC no longer has those extensions: there is one layout rule, every type
     has a `Typeable` instance, a data type declaration never has a context
     (a `DataD` or `NewtypeD` with one is refused), class methods may always
@@ -51,8 +52,9 @@
     literal may be separated by underscores, a string literal may span lines
     between `"""` delimiters, a string literal cannot be qualified by a
     module name, several datatypes of one module may share a field name,
-    and there is no arrow notation: `proc`, `rec`, `-<`, `>-`, `-<<`,
-    `>>-`, `(|` and `|)` are not syntax.
+    there is no arrow notation: `proc`, `rec`, `-<`, `>-`, `-<<`, `>>-`,
+    `(|` and `|)` are not syntax, and `\case` and `\cases` expressions are
+    always accepted.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With

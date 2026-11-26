@@ -1,4 +1,4 @@
-{-# language GADTs, LambdaCase #-}
+{-# language GADTs #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module GHC.CmmToAsm.AArch64.CodeGen (

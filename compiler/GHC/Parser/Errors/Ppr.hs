@@ -24,7 +24,7 @@ import GHC.Utils.Outputable
 import GHC.Utils.Misc
 import GHC.Data.FastString
 import GHC.Data.Maybe (catMaybes)
-import GHC.Hs.Expr (HsExpr(..), HsLamVariant(..), lamCaseKeyword)
+import GHC.Hs.Expr (HsExpr(..), lamCaseKeyword)
 import GHC.Hs.Type (pprLHsContext, pprHsForAll, pprHsModifiedFunArr, pprLHsModifiers)
 import GHC.Builtin (allNameStringList)
 import qualified GHC.LanguageExtensions as LangExt
@@ -183,10 +183,6 @@ instance Diagnostic PsMessage where
             msg    = [ text "Parser error on `''`"
                      , text "Character literals may not be empty"
                      ]
-    PsErrLambdaCase
-      -- we can't get this error for \cases, since without -XLambdaCase, that's
-      -- just a regular lambda expression
-      -> mkSimpleDecorated $ text "Illegal" <+> lamCaseKeyword LamCase
     PsErrEmptyLambda
       -> mkSimpleDecorated $ text "A lambda requires at least one parameter"
     PsErrLinearFunction
@@ -535,7 +531,6 @@ instance Diagnostic PsMessage where
     PsErrInvalidInfixHole                         -> ErrorWithoutFlag
     PsErrSpaceInSCC                               -> ErrorWithoutFlag
     PsErrEmptyDoubleQuotes{}                      -> ErrorWithoutFlag
-    PsErrLambdaCase{}                             -> ErrorWithoutFlag
     PsErrEmptyLambda{}                            -> ErrorWithoutFlag
     PsErrLinearFunction{}                         -> ErrorWithoutFlag
     PsErrModifierSyntax{}                         -> ErrorWithoutFlag
@@ -659,7 +654,6 @@ instance Diagnostic PsMessage where
     PsErrSpaceInSCC                               -> noHints
     PsErrEmptyDoubleQuotes th_on | th_on          -> [SuggestThQuotationSyntax]
                                  | otherwise      -> noHints
-    PsErrLambdaCase{}                             -> [suggestExtension LangExt.LambdaCase]
     PsErrEmptyLambda{}                            -> noHints
     PsErrLinearFunction{}                         -> [suggestExtension LangExt.LinearTypes]
     PsErrModifierSyntax SuggestModifiers          -> [suggestExtension LangExt.Modifiers]

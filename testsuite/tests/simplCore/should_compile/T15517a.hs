@@ -1,7 +1,6 @@
 {-# LANGUAGE FlexibleInstances       #-}
 {-# LANGUAGE FunctionalDependencies  #-}
 {-# LANGUAGE GADTs                   #-}
-{-# LANGUAGE LambdaCase              #-}
 {-# LANGUAGE PatternSynonyms         #-}
 {-# LANGUAGE TypeFamilies            #-}
 {-# LANGUAGE TypeOperators           #-}

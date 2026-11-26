@@ -531,9 +531,8 @@ packages:
     NondecreasingIndentation, DisambiguateRecordFields, ApplicativeDo,
     QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures,
     BinaryLiterals, HexFloatLiterals, NumDecimals, NumericUnderscores,
-    MultilineStrings, Arrows and the deprecated aliases) to or from
-    template-haskell, whose Extension type
-    lost those constructors, and
+    MultilineStrings, Arrows, LambdaCase and the deprecated aliases) to or
+    from template-haskell, whose Extension type lost those constructors, and
     Language.Haskell.Meta.Syntax.Translate builds a DoE without the module
     qualifier field that template-haskell dropped with QualifiedDo
 - name: heaps

@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**45 language extensions deleted.**
+**46 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -259,6 +259,17 @@ The entries below are alphabetical. For each extension it gives:
 - Stability: Stable.
 - Notes: Kind signatures may always be given. As ordinary as type
   annotations; GHC2021 enables them.
+
+`LambdaCase`
+
+- Category: Syntax.
+- Hard-coded: On.
+- Editions: GHC2024.
+- Lines: +107 −267, net −160.
+- Stability: Stable.
+- Notes: `\case` and `\cases` expressions are always accepted; `cases` is a
+  keyword only after a backslash. Stable and in GHC2024; 113 of the 542
+  corpus packages enabled it.
 
 `MultilineStrings`
 

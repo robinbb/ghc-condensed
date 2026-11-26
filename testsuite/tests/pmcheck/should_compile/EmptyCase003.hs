@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns      #-}
-{-# LANGUAGE EmptyCase, LambdaCase              #-}
+{-# LANGUAGE EmptyCase              #-}
 {-# LANGUAGE TypeFamilies, UndecidableInstances #-}
 
 -- Check some type families and type synonyms

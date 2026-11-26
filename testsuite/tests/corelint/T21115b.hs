@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase, MagicHash, TemplateHaskell #-}
+{-# LANGUAGE MagicHash, TemplateHaskell #-}
 
 module T21115b where
 

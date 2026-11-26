@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 
 module Distribution.Simple.GHC.Build.Link where
 

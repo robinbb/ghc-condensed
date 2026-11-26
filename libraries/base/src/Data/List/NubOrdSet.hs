@@ -3,7 +3,6 @@
 
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Data.List.NubOrdSet (
   NubOrdSet,

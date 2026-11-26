@@ -7,7 +7,6 @@
 {-# LANGUAGE UnboxedTuples #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE LambdaCase #-}
 
 --
 --  (c) The University of Glasgow 2002-2006

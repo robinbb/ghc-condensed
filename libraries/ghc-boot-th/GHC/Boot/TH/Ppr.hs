@@ -1,5 +1,4 @@
 {-# LANGUAGE Trustworthy #-}
-{-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}
 -- | contains a prettyprinter for the
 -- Template Haskell datatypes

@@ -1,13 +1,13 @@
 
-RnEmptyCaseFail.hs:5:5: error: [GHC-48010]
+RnEmptyCaseFail.hs:4:5: error: [GHC-48010]
     Empty list of alternatives in case expression
     Suggested fix:
       Perhaps you intended to use the ‘EmptyCase’ extension
 
-RnEmptyCaseFail.hs:7:5: error: [GHC-48010]
+RnEmptyCaseFail.hs:6:5: error: [GHC-48010]
     Empty list of alternatives in \case expression
     Suggested fix:
       Perhaps you intended to use the ‘EmptyCase’ extension
 
-RnEmptyCaseFail.hs:9:5: error: [GHC-48010]
+RnEmptyCaseFail.hs:8:5: error: [GHC-48010]
     Empty list of alternatives is not allowed in \cases expression

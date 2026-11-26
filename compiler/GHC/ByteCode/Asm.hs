@@ -4,7 +4,6 @@
 {-# LANGUAGE UnboxedTuples   #-}
 {-# LANGUAGE PatternSynonyms   #-}
 {-# OPTIONS_GHC -optc-DNON_POSIX_SOURCE #-}
-{-# LANGUAGE LambdaCase #-}
 --
 --
 --  (c) The University of Glasgow 2002-2006
