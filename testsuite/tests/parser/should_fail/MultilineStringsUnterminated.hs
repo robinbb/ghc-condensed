@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 
 x :: String
 x =

@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 
 module Test25132 where
 

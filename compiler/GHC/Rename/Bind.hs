@@ -578,7 +578,6 @@ isOkNoBindPattern (L _ pat) =
           VarPat {} -> False
           WildPat {} -> False
           LitPat {} -> False
-          QualLitPat {} -> False
           NPat {} -> False
           -- Recursive cases
           BangPat _ lp -> lpatternContainsSplice lp

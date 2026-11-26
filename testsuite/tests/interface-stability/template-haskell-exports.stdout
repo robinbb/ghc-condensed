@@ -228,10 +228,8 @@ module Language.Haskell.TH where
     | TypeAbstractions
     | ExtendedLiterals
     | ListTuplePuns
-    | MultilineStrings
     | ExplicitLevelImports
     | ImplicitStagePersistence
-    | QualifiedStrings
     | LazyFieldAnnotations
   type FamilyResultSig :: GHC.Internal.Types.Type
   data FamilyResultSig = NoSig | KindSig Kind | TyVarSig (TyVarBndr ())
@@ -801,10 +799,8 @@ module Language.Haskell.TH.LanguageExtensions where
     | TypeAbstractions
     | ExtendedLiterals
     | ListTuplePuns
-    | MultilineStrings
     | ExplicitLevelImports
     | ImplicitStagePersistence
-    | QualifiedStrings
     | LazyFieldAnnotations
 
 module Language.Haskell.TH.Lib where
@@ -1508,10 +1504,8 @@ module Language.Haskell.TH.Syntax where
     | TypeAbstractions
     | ExtendedLiterals
     | ListTuplePuns
-    | MultilineStrings
     | ExplicitLevelImports
     | ImplicitStagePersistence
-    | QualifiedStrings
     | LazyFieldAnnotations
   type FamilyResultSig :: GHC.Internal.Types.Type
   data FamilyResultSig = NoSig | KindSig Kind | TyVarSig (TyVarBndr ())

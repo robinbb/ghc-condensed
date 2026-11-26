@@ -233,7 +233,6 @@ type instance XIPVar         GhcRn = NoExtField
 type instance XIPVar         GhcTc = DataConCantHappen
 type instance XOverLitE      (GhcPass _) = NoExtField
 type instance XLitE          (GhcPass _) = NoExtField
-type instance XQualLitE      (GhcPass _) = NoExtField
 type instance XLam           (GhcPass _) = EpAnnLam
 type instance XApp           (GhcPass _) = NoExtField
 
@@ -806,7 +805,6 @@ ppr_expr (HsVar _ (L _ v))   = pprPrefixOcc v
 ppr_expr (HsIPVar _ v)       = ppr v
 ppr_expr (HsLit _ lit)       = ppr lit
 ppr_expr (HsOverLit _ lit)   = ppr lit
-ppr_expr (HsQualLit _ lit)   = ppr lit
 
 ppr_expr (HsHole x) = case (ghcPass @p, x) of
   (GhcPs, HoleVar (L _ v)) -> pprPrefixOcc v
@@ -1127,7 +1125,6 @@ hsExprNeedsParens prec = go
     go (HsOverLabel{})                = False
     go (HsLit _ l)                    = hsLitNeedsParens prec l
     go (HsOverLit _ ol)               = hsOverLitNeedsParens prec ol
-    go (HsQualLit{})                  = False
     go (HsPar{})                      = False
     go (HsApp{})                      = prec >= appPrec
     go (HsAppType {})                 = prec >= appPrec

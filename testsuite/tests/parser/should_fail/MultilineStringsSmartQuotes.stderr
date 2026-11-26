@@ -1,2 +1,2 @@
-MultilineStringsSmartQuotes.hs:9:3: [GHC-31623]
+MultilineStringsSmartQuotes.hs:8:3: [GHC-31623]
     Unicode character '”' ('\8221') looks like '"' (Quotation Mark), but it is not

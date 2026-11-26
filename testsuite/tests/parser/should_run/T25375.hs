@@ -1,4 +1,4 @@
-{-# LANGUAGE MultilineStrings #-}
+
 
 str1 = unlines
   [ "aaa"

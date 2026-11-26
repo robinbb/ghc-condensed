@@ -106,12 +106,12 @@ exception.
   `Nothing`, and drops those constructors, `CUSKs`, `StarIsType`,
   `DeepSubsumption`, `NullaryTypeClasses`, `AutoDeriveTypeable`,
   `ApplicativeDo`, `QualifiedDo`, `StandaloneKindSignatures`,
-  `HexFloatLiterals`, `NumDecimals`, `NumericUnderscores` and the two
-  `AlternativeLayoutRule` constructors from the reverse mapping, since this
-  compiler's template-haskell no longer has them.
-  `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module
-  qualifier that template-haskell dropped with `QualifiedDo`. Blocks hsx2hs,
-  jmacro, interpolatedstring-perl6 and persistent-qq.
+  `HexFloatLiterals`, `NumDecimals`, `NumericUnderscores`,
+  `MultilineStrings` and the two `AlternativeLayoutRule` constructors from
+  the reverse mapping, since this compiler's template-haskell no longer has
+  them. `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the
+  module qualifier that template-haskell dropped with `QualifiedDo`. Blocks
+  hsx2hs, jmacro, interpolatedstring-perl6 and persistent-qq.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those

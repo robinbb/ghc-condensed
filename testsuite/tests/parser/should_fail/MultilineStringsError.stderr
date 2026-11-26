@@ -1,4 +1,4 @@
-MultilineStringsError.hs:6:3: [GHC-83865]
+MultilineStringsError.hs:5:3: [GHC-83865]
      Couldn't match type ‘[Char]’ with ‘Int’
       Expected: Int
         Actual: String

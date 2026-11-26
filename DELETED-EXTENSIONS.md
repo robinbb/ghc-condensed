@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**41 language extensions deleted.**
+**43 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -237,6 +237,18 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: Kind signatures may always be given. As ordinary as type
   annotations; GHC2021 enables them.
 
+`MultilineStrings`
+
+- Category: Literals.
+- Hard-coded: On.
+- Editions: none.
+- Lines: +23 −732, net −709 (shared with QualifiedStrings).
+- Stability: Uncategorized; newer than proposal 669, and the user's guide
+  gives no status.
+- Notes: A string literal may always span lines between `"""` delimiters,
+  with the common indentation stripped. Before, `"""` lexed as `""` applied
+  to another string, never meaningful code, so no program changes meaning.
+
 `MultiParamTypeClasses`
 
 - Category: Classes & Instances.
@@ -380,6 +392,18 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: `M.do` is a parse error; a `do` block uses the `>>=`, `>>` and
   `fail` in scope, which `RebindableSyntax` can redirect. Template Haskell's
   `DoE` loses its module qualifier. No corpus package used it.
+
+`QualifiedStrings`
+
+- Category: Literals.
+- Hard-coded: Off.
+- Editions: none.
+- Lines: +23 −732, net −709 (shared with MultilineStrings).
+- Stability: Uncategorized; newer than proposal 669, and the user's guide
+  gives no status.
+- Notes: `M."text"` is no longer a literal; it parses as the constructor `M`
+  composed with `"text"` by `.`, as before GHC 10. The sugar for
+  `M.fromString "text"` cost a literal form through the whole front end.
 
 `RankNTypes`
 

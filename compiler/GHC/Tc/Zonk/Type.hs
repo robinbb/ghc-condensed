@@ -949,8 +949,6 @@ zonkExpr (HsOverLit x lit)
   = do  { lit' <- zonkOverLit lit
         ; return (HsOverLit x lit') }
 
-zonkExpr (HsQualLit _ lit) = case lit of
-
 zonkExpr (HsLam x lam_variant matches)
   = do new_matches <- zonkMatchGroup zonkLExpr matches
        return (HsLam x lam_variant new_matches)
@@ -1573,7 +1571,6 @@ zonk_pat (XPat ext) = case ext of
        } }
 
 zonk_pat pat@(SplicePat {}) = pprPanic "zonk_pat" (ppr pat)
-zonk_pat pat@(QualLitPat {}) = pprPanic "zonk_pat" (ppr pat)
 
 ---------------------------
 zonkConStuff :: HsConPatDetails GhcTc

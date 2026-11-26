@@ -45,7 +45,6 @@ module GHC.Rename.Env (
         lookupSyntax, lookupSyntaxExpr,
         lookupSyntaxName,
         lookupIfThenElse,
-        lookupNameWithQualifier,
 
         -- Constructing usage information
         DeprecationWarnings(..),
@@ -57,7 +56,6 @@ module GHC.Rename.Env (
 
 import GHC.Prelude
 
-import Language.Haskell.Syntax.Module.Name
 
 import GHC.Iface.Load
 import GHC.Iface.Env
@@ -2408,11 +2406,6 @@ lookupSyntax :: KnownOcc                          -- The standard name
 lookupSyntax std_occ
   = do { (expr, fvs) <- lookupSyntaxExpr std_occ
        ; return (SyntaxExprRn expr, fvs) }
-
-lookupNameWithQualifier :: HsModuleName -> KnownOcc -> RnM (Name, FreeNames)
-lookupNameWithQualifier modName std_occ
-  = do { qname <- lookupOccRnNone (mkRdrQual (hsModuleName modName) std_occ)
-       ; return (qname, unitFN qname) }
 
 
 {- *********************************************************************

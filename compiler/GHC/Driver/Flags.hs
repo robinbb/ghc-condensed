@@ -190,10 +190,8 @@ extensionName = \case
   LangExt.TypeAbstractions -> "TypeAbstractions"
   LangExt.ExtendedLiterals -> "ExtendedLiterals"
   LangExt.ListTuplePuns -> "ListTuplePuns"
-  LangExt.MultilineStrings -> "MultilineStrings"
   LangExt.ExplicitLevelImports -> "ExplicitLevelImports"
   LangExt.ImplicitStagePersistence -> "ImplicitStagePersistence"
-  LangExt.QualifiedStrings -> "QualifiedStrings"
   LangExt.LazyFieldAnnotations -> "LazyFieldAnnotations"
 
 -- | Is this extension known by any other names? For example

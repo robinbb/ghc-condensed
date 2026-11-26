@@ -1,10 +1,9 @@
-{-# LANGUAGE MultilineStrings #-}
 {-# OPTIONS_GHC -Wno-tabs #-}
 
 import Text.Printf (printf)
 
 {-
-Test the MultilineStrings proposal
+Test multiline string literals, GHC proposal 569
 https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0569-multiline-strings.rst
 -}
 

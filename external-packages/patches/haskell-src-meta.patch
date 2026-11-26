@@ -266,6 +266,14 @@
  -- 2.20.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,20,0)
+@@ -391,7 +345,6 @@ fromExtension e = case e of
+ -- 2.23.0 ---------------------------------------
+ 
+ #if MIN_VERSION_template_haskell(2,23,0)
+-  TH.MultilineStrings                  -> Nothing
+   TH.NamedDefaults                     -> Nothing
+   TH.OrPatterns                        -> Nothing
+ #endif
 --- a/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
 +++ b/external-packages/haskell-src-meta/haskell-src-meta/src/Language/Haskell/Meta/Syntax/Translate.hs
 @@ -272,7 +272,7 @@ instance ToExp (Exts.Exp l) where

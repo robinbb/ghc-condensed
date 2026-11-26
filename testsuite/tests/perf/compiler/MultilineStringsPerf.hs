@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 
 module MultilineStringsPerf (
   longStringLiteral,

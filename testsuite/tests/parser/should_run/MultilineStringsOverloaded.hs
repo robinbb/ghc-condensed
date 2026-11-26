@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 import Data.String (IsString (..))

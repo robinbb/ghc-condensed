@@ -1116,7 +1116,6 @@ tcPatToExpr ps_name args pat = go pat
                                                                    (noLocA expr)
                                          }
     go1 (LitPat _ lit)              = return $ HsLit noExtField lit
-    go1 pat@QualLitPat{}            = pprPanic "tcPatToExpr: QualLitPat" (ppr pat)
     go1 (NPat _ (L _ n) mb_neg _)
         | Just (SyntaxExprRn neg) <- mb_neg
                                     = return $ unLoc $ foldl' nlHsApp (noLocA neg)

@@ -870,8 +870,6 @@ Another example is #26331.
       ; return ( mkHsWrapPat wrap (LitPat x (convertLit simple_lit)) pat_ty
                , res) }
 
-    pat@QualLitPat{} -> pprPanic "tc_pat: QualLitPat" (ppr pat)
-
 ------------------------
 -- Overloaded patterns: n
 

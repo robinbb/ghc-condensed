@@ -41,9 +41,6 @@ module GHC.Hs.Lit (
   , OverLitRn(..)
   , OverLitTc(..)
 
-  -- ** Haskell Qualified Literal
-  , HsQualLit(..)
-  , QualLitVal(..)
 
   -- * Literal Values
   -- ** Fractional
@@ -110,7 +107,6 @@ import Language.Haskell.Syntax.Expr ( HsExpr )
 import Language.Haskell.Syntax.Extension
 import Language.Haskell.Syntax.Lit
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 
 import Data.Function (on)
 import Data.Ratio ((%))
@@ -434,41 +430,6 @@ rnOverLitVal = convertOverLitVal
 -- Change the GHC pass from the 'Renamed' pass to the 'Typechecked' pass.
 tcOverLitVal :: OverLitVal GhcRn -> OverLitVal GhcTc
 tcOverLitVal = convertOverLitVal
-
--- -----------------------------------------------------------------------------
--- HsQualLit
-
-type instance XQualLit GhcPs = NoExtField
-type instance XQualLit GhcRn = LIdP GhcRn
-type instance XQualLit GhcTc = DataConCantHappen
-
-type instance XXQualLit (GhcPass _) = DataConCantHappen
-
-instance Eq (HsQualLit (GhcPass p)) where
-  QualLit _ m1 v1 == QualLit _ m2 v2 = (m1, v1) == (m2, v2)
-
-instance Ord (HsQualLit (GhcPass p)) where
-  -- QualLit
-  QualLit _ m1 v1 `compare` QualLit _ m2 v2 = (m1, v1) `compare` (m2, v2)
-
-instance OutputableBndrId p => Outputable (HsQualLit (GhcPass p)) where
-  ppr QualLit{ql_mod = HsModuleName ql_mod, ..} =
-    text (unpackHText ql_mod) <> char '.' <> ppr ql_val
-
--- -----------------------------------------------------------------------------
--- QualLitVal
-
-type instance XQualLitString (GhcPass _) = SourceText
-type instance XXQualLitVal   (GhcPass _) = DataConCantHappen
-
-instance Eq (QualLitVal (GhcPass p)) where
-  HsQualString _ s1 == HsQualString _ s2 = s1 == s2
-
-instance Ord (QualLitVal (GhcPass p)) where
-  HsQualString _ s1 `compare` HsQualString _ s2 = s1 `compare` s2
-
-instance Outputable (QualLitVal (GhcPass p)) where
-  ppr (HsQualString st s) = pprHsStringLit st s
 
 -- -----------------------------------------------------------------------------
 -- FractionalLit

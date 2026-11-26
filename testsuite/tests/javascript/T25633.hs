@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 module Main where
 
 import GHC.Prim

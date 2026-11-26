@@ -1593,7 +1593,6 @@ repE (HsOverLabel _ s) = repOverLabel (mkFastStringShortText s)
         -- HsOverlit can definitely occur
 repE (HsOverLit _ l) = do { a <- repOverloadedLiteral l; repLit a }
 repE (HsLit _ l)     = do { a <- repLiteral l;           repLit a }
-repE (HsQualLit _ l) = repQualLit l
 repE (HsLam _ LamSingle (MG { mg_alts = L _ [m] })) = repLambda m
 repE e@(HsLam _ LamSingle (MG { mg_alts = L _ _ })) = pprPanic "repE: HsLam with multiple alternatives" (ppr e)
 repE (HsLam _ LamCase (MG { mg_alts = L _ ms }))
@@ -3137,22 +3136,6 @@ repOverLiteralVal lit = do
         HsIsString   {} -> stringLOcc
 
   krep2_nw lit_name [lit_expr]
-
-repQualLit :: HsQualLit GhcRn -> MetaM (Core (M TH.Exp))
-repQualLit QualLit{ql_mod = modName, ql_val = lit} = do
-  modNameStr <- lift $ coreStringLit (moduleNameFS (hsModuleName modName))
-  funNameStr <- lift $ coreStringLit (occNameFS funOcc)
-  funExp <- repVar =<< repNameQ modNameStr funNameStr
-  litCore <- lift . dsLit =<< mkHsLit
-  litExp <- repLit =<< krep2_nw litFunName [litCore]
-  repApps funExp [litExp]
-  where
-    funOcc =
-      case lit of
-        HsQualString{} -> fromStringClassOpOcc
-    (litFunName, mkHsLit) =
-      case lit of
-        HsQualString _ s -> (stringLOcc, mk_string s)
 
 repRdrName :: RdrName -> MetaM (Core TH.Name)
 repRdrName rdr_name = do

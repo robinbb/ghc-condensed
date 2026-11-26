@@ -730,7 +730,6 @@ are the most common patterns, rewritten as regular expressions for clarity:
  LABELVARID     { L _ (ITlabelvarid _ _) }
 
  CHAR           { L _ (ITchar   _ _) }
- QUALSTRING     { L _ (ITstring _ StringMeta{strMetaQualified = Just _} _) }
  STRING         { L _ (ITstring _ _ _) }
  INTEGER        { L _ (ITinteger _) }
  RATIONAL       { L _ (ITrational _) }
@@ -3161,15 +3160,6 @@ aexp2   :: { ECP }
                                            (ams1 $1 (HsIPVar NoExtField $! unLoc $1)) }
         | overloaded_label              {% fmap ecpFromExp
                                            (ams1 $1 (HsOverLabel (fst $! unLoc $1) (snd $! unLoc $1))) }
-        | QUALSTRING                    {% do
-                                            hintMultilineStrings $1
-                                            pure $ ECP $ mkHsQualLitPV $ sL1a $1 $
-                                              QualLit
-                                                { ql_ext = noExtField
-                                                , ql_mod = getQualStringMod $1
-                                                , ql_val = HsQualString (getSTRINGs $1) (getSTRING $1)
-                                                }
-                                        }
         | literal                       { ECP $ mkHsLitPV $! $1 }
 -- This will enable overloaded strings permanently.  Normally the renamer turns HsString
 -- into HsOverLit when -XOverloadedStrings is on.
@@ -4307,8 +4297,6 @@ getOVERLAPS_PRAGs     (L _ (IToverlaps_prag     src)) = src
 getINCOHERENT_PRAGs   (L _ (ITincoherent_prag   src)) = src
 getCTYPEs             (L _ (ITctype             src)) = src
 
-getQualStringMod (L _ (ITstring _ StringMeta{strMetaQualified = Just modName} _)) = modName
-
 getStringLiteral l = StringLiteral (getSTRINGs l) (getSTRING l)
 
 isUnicode :: Located Token -> Bool
@@ -4500,19 +4488,6 @@ hintMultiWayIf :: SrcSpan -> P ()
 hintMultiWayIf span = do
   mwiEnabled <- getBit MultiWayIfBit
   unless mwiEnabled $ addError $ mkPlainErrorMsgEnvelope span PsErrMultiWayIf
-
--- Hint about MultilineStrings
---
--- Currently, this only triggers for QualifiedStrings, since a multiline
--- string lexes as three string literals without -XMultilineStrings.
-hintMultilineStrings :: Located Token -> P ()
-hintMultilineStrings tok = do
-    multilineStrings <- getBit MultilineStringsBit
-    case unLoc tok of
-        ITstring _ StringMeta{strMetaMultiline = True} _ | not multilineStrings ->
-            addError $ mkPlainErrorMsgEnvelope (getLoc tok) $
-              PsErrIllegalMultilineStrings
-        _ -> return ()
 
 -- When two single quotes don't followed by tyvar or gtycon, we report the
 -- error as empty character literal, or TH quote that missing proper type

@@ -14,7 +14,7 @@ import GHC.HsToCore.Pmc.Types
 import GHC.HsToCore.Pmc.Utils
 import GHC.Core (CoreExpr, Expr(Var,App))
 import GHC.Core.Utils (stripTicksTopE)
-import GHC.Data.FastString (unpackFS, lengthFS, mkFastStringShortText)
+import GHC.Data.FastString (unpackFS, lengthFS)
 import GHC.Driver.DynFlags
 import GHC.Hs
 import GHC.Tc.Utils.TcMType (shortCutLit)
@@ -192,13 +192,6 @@ desugarPat x pat = case pat of
           , is_to_list (unLoc lrhs)
           -> desugarLPat x pat
 
-        QualLitPat _ QualLit{ql_val}
-          | ViewPat ty _ _ <- expansion
-          -> case ql_val of
-            -- Desugar qualified string literals the same as RebindableSyntax
-            -- See Note [Implementation of QualifiedStrings]
-            HsQualString _ s -> mkPmLitGrds x $ PmLit ty (PmLitOverString (mkFastStringShortText s))
-
         _ -> desugarPat x expansion
 
     -- See Note [Desugar CoPats]
@@ -276,9 +269,6 @@ desugarPat x pat = case pat of
     core_expr <- dsLit lit
     let lit = expectJust (coreExprAsPmLit core_expr)
     mkPmLitGrds x lit
-
-  -- Uninhabited in the GhcTc phase
-  QualLitPat _ lit -> case lit of
 
   TuplePat _tys pats boxity -> do
     (vars, grdss) <- mapAndUnzipM desugarLPatV pats

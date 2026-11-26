@@ -129,7 +129,6 @@ import GHC.Hs.Lit
 import Language.Haskell.Syntax.Doc
 import Language.Haskell.Syntax.Extension (noExtField)
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 
 import GHC.Parser.CharClass
 
@@ -594,15 +593,11 @@ $unigraphic / { isSmartQuote } { smart_quote_error }
 }
 
 <0> {
-  \"\"\" / { ifExtension MultilineStringsBit }         { tok_string_multi }
+  \"\"\"                                                { tok_string_multi }
   \" @stringchar* \"                                   { tok_string }
   \" @stringchar* \" \# / { ifExtension MagicHashBit } { tok_string }
   \' @char        \'                                   { tok_char }
   \' @char        \' \# / { ifExtension MagicHashBit } { tok_char }
-
-  -- QualifiedStrings
-  @qual \"\"\"             / { ifExtension QualifiedStringsBit } { tok_qstrings tok_string_multi }
-  @qual \" @stringchar* \" / { ifExtension QualifiedStringsBit } { tok_qstrings tok_string }
 
   -- Check for smart quotes and throw better errors than a plain lexical error (#21843)
   \'              \\ $unigraphic / { isSmartQuote } { smart_quote_error }
@@ -2208,38 +2203,6 @@ tok_quoted_label span buf len _buf2 = do
     -- skip leading '#'
     src = SourceText . mkFastString . drop 1 $ lexemeToString buf len
 
--- See Note [Implementation of QualifiedStrings]
-tok_qstrings :: Action -> Action
-tok_qstrings lex_str span0 buf0 len0 endBuf0 = do
-  let modName = HsModuleName $ lexemeToText buf0 modNameLen
-  (span1, src, meta, s) <- unITstring <$> lex_str strSpan strBuf strLen endBuf0
-  let span2 = mkPsSpan (psSpanStart span0) (psSpanEnd span1)
-  pure $ L span2 $ ITstring src meta{strMetaQualified = Just modName} s
-  where
-    -- The buffer/span starting at the string literal
-    (strBuf, strSpanStart) =
-      let go buf loc =
-            case nextChar buf of
-              _ | atEnd buf -> panic "tok_qstrings unexpectedly hit EOF"
-              ('"', _) -> (buf, loc)
-              (c, buf') -> go buf' (advancePsLoc loc c)
-       in go buf0 (psSpanStart span0)
-
-    -- The length of the module name + string literal, separately
-    -- Make sure to handle the trailing dot at the end of the module name
-    modNameLen = byteDiff buf0 strBuf - 1
-    strLen = len0 - modNameLen - 1
-
-    -- The span starting at the string literal
-    --
-    -- Naive RealSrcSpan manipulation is okay here because the module qualifier
-    -- is guaranteed to be on a single line
-    strSpan = mkPsSpan strSpanStart (psSpanEnd span0)
-
-    unITstring = \case
-      L span1 (ITstring src meta s) -> (span1, src, meta, s)
-      tok -> panic $ "tok_qstrings got unexpected token: " ++ show tok
-
 tok_char :: Action
 tok_char span buf len _buf2 = do
   c <- lex_chars ("'", "'") span buf (if endsInHash then len - 1 else len) >>= \case
@@ -2664,9 +2627,7 @@ data ExtBits
   | ListTuplePunsBit
   | ViewPatternsBit
   | RequiredTypeArgumentsBit
-  | MultilineStringsBit
   | LevelImportsBit
-  | QualifiedStringsBit
 
   -- Flags that are updated once parsing starts
   | InNestedCommentBit -- See Note [Nested comment line pragmas]
@@ -2736,9 +2697,7 @@ mkParserOpts extensionFlags diag_opts
       .|. ListTuplePunsBit            `xoptBit` LangExt.ListTuplePuns
       .|. ViewPatternsBit             `xoptBit` LangExt.ViewPatterns
       .|. RequiredTypeArgumentsBit    `xoptBit` LangExt.RequiredTypeArguments
-      .|. MultilineStringsBit         `xoptBit` LangExt.MultilineStrings
       .|. LevelImportsBit             `xoptBit` LangExt.ExplicitLevelImports
-      .|. QualifiedStringsBit         `xoptBit` LangExt.QualifiedStrings
     optBits =
           HaddockBit        `setBitIf` isHaddock
       .|. RawTokenStreamBit `setBitIf` rawTokStream

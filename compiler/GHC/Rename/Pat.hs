@@ -50,11 +50,9 @@ import GHC.Rename.Env
 import GHC.Rename.Fixity
 import GHC.Rename.Utils
 import GHC.Rename.HsType
-import GHC.Rename.Lit
 
 import GHC.Builtin       ( isUnboundName, mkUnboundName )
 import GHC.Builtin.KnownOccs
-import GHC.Builtin.WiredIn.Types (trueDataConName)
 
 import GHC.Types.Hint
 import GHC.Types.Name
@@ -565,20 +563,6 @@ rnPatAndThen mk (LitPat x lit)
   | otherwise = normal_lit
   where
     normal_lit = do { liftCps (rnLit lit); return (LitPat x (convertLit lit)) }
-
-rnPatAndThen _ (QualLitPat x lit) = do
-  eqExpr <- liftCpsFV $ lookupSyntaxExpr eqClassOpOcc
-  (lit', desugaredExpr) <- liftCpsFV $ rnQualLit lit
-  let origPat = QualLitPat x lit'
-  let inverse = desugaredExpr -- The inverse of '((expr ==) -> True)' is simply 'expr'.
-  let desugaredPat = ViewPat (Just inverse) (genLHsApp eqExpr $ noLocA desugaredExpr) truePat
-  return $ mkExpandedPat origPat desugaredPat
- where
-  truePat = noLocA $
-    ConPat
-      noExtField
-      (noLocA $ noUserRdr trueDataConName)
-      (PrefixCon noExtField [])
 
 rnPatAndThen _ (NPat x (L l lit) mb_neg _eq)
   = do { (lit', mb_neg') <- liftCpsFV $ rnOverLit lit

@@ -145,7 +145,6 @@ type instance XSplicePat GhcRn = HsUntypedSpliceResult (Pat GhcRn) -- See Note [
 type instance XSplicePat GhcTc = DataConCantHappen
 
 type instance XLitPat     (GhcPass _) = NoExtField
-type instance XQualLitPat (GhcPass _) = NoExtField
 
 type instance XNPat GhcPs = EpToken "-"
 type instance XNPat GhcRn = EpToken "-"
@@ -417,7 +416,6 @@ pprPat (AsPat _ name pat)       = hcat [pprPrefixOcc (unLoc name), char '@',
 pprPat (ViewPat _ expr pat)     = hcat [pprLExpr expr, text " -> ", ppr pat]
 pprPat (ParPat _ pat)           = parens (ppr pat)
 pprPat (LitPat _ s)             = ppr s
-pprPat (QualLitPat _ lit)       = ppr lit
 pprPat (NPat _ l Nothing  _)    = ppr l
 pprPat (NPat _ l (Just _) _)    = char '-' <> ppr l
 pprPat (SplicePat ext splice)   =
@@ -668,7 +666,6 @@ isIrrefutableHsPat is_strict irref_conLike pat = go (unLoc pat)
                            =  irref_conLike con
                            && all goL (hsConPatArgs details)
     go (LitPat {})         = False
-    go (QualLitPat {})     = False
     go (NPat {})           = False
     go (ModifiedPat _ _ pat) = goL pat
 
@@ -744,7 +741,6 @@ isBoringHsPat = goL
               -> False
       OrPat _ pats  -> all goL pats
       LitPat {}     -> True
-      QualLitPat {} -> True
       NPat {}       -> True
       SplicePat {}  -> False
       EmbTyPat {}   -> True
@@ -1082,7 +1078,6 @@ patNeedsParens p = go @p
     go (SumPat {})       = False
     go (ListPat {})      = False
     go (LitPat _ l)      = hsLitNeedsParens p l
-    go (QualLitPat _ _)  = False
     go (NPat _ lol _ _)  = hsOverLitNeedsParens p (unLoc lol)
     go (ModifiedPat {})  = p > sigPrec
 

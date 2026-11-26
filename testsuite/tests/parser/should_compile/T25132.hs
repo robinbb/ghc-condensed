@@ -1,4 +1,3 @@
-{-# LANGUAGE MultilineStrings #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 module T25132 where

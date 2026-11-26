@@ -581,7 +581,6 @@ addTickHsExpr e@(HsIPVar {})            = return e
 addTickHsExpr e@(HsOverLit {})          = return e
 addTickHsExpr e@(HsOverLabel{})         = return e
 addTickHsExpr e@(HsLit {})              = return e
-addTickHsExpr e@(HsQualLit {})          = return e
 addTickHsExpr e@(HsEmbTy {})            = return e
 addTickHsExpr e@(HsHole {})             = return e
 addTickHsExpr e@(HsQual {})             = return e
@@ -1460,7 +1459,6 @@ instance CollectFldBinders (Pat GhcTc) where
     go _ WildPat{} = emptyVarEnv
     go _ OrPat{} = emptyVarEnv
     go _ LitPat{} = emptyVarEnv
-    go _ QualLitPat{} = emptyVarEnv
     go _ NPat{} = emptyVarEnv
     go _ SplicePat{} = emptyVarEnv
     go _ EmbTyPat{} = emptyVarEnv

@@ -330,8 +330,6 @@ data HsExpr p
               (HsOverLit p)  -- ^ Overloaded literals
   | HsLit     (XLitE p)
               (HsLit p)      -- ^ Simple (non-overloaded) literals
-  | HsQualLit (XQualLitE p)
-              (HsQualLit p)  -- ^ Qualified literals
 
   -- | Lambda, Lambda-case, and Lambda-cases
   | HsLam     (XLam p)

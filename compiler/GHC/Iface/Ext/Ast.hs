@@ -1055,7 +1055,6 @@ instance (Data (HsModifier (GhcPass p)), HiePass p) => ToHie (PScoped (LocatedA 
         [ toHie $ L (l2l loc :: SrcSpanAnnA) lit
         , toHieSyntax (L ospan eq)
         ]
-      QualLitPat _ _ -> []
       SigPat _ pat sig ->
         [ toHie $ PS rsp scope pscope pat
         , case hiePass @p of
@@ -1165,8 +1164,6 @@ the typechecker:
 
   * HsOverLit, where we assign the SrcSpan of the overloaded literal
     to ol_from_fun.
-  * HsQualLit, where we return an empty list, since we rename to the qualified
-    function call entirely before the typechecking phase.
   * Expanded (via ExpandedThingRn) ExplicitList{}, where we give the SrcSpan of the original
     list expression to the expanded expression. The 'fromListN' is assigned
     a generated location span with location span details to be of the original list expression
@@ -1195,10 +1192,6 @@ instance HiePass p => ToHie (LocatedA (HsOverLit (GhcPass p))) where
         ]
       -- See Note [Source locations for implicit function calls]
 
-instance HiePass p => ToHie (LocatedA (HsQualLit (GhcPass p))) where
-  -- See Note [Source locations for implicit function calls]
-  toHie (L _ QualLit{}) = pure []
-
 instance HiePass p => ToHie (LocatedA (HsExpr (GhcPass p))) where
   toHie e@(L mspan oexpr) = concatM $ getTypeNode e : case oexpr of
       HsVar _ (L _ var) ->
@@ -1211,7 +1204,6 @@ instance HiePass p => ToHie (LocatedA (HsExpr (GhcPass p))) where
         [ toHie (L mspan o)
         ]
       HsLit _ _ -> []
-      HsQualLit _ _ -> []
       HsLam _ _ mg ->
         [ toHie mg
         ]

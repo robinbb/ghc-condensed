@@ -3285,12 +3285,6 @@ instance ExactPrint (HsExpr GhcPs) where
     body' <- markAnnotated body
     return (HsQual x ctxt' body')
 
-  exact (HsQualLit _ (QualLit _ modu (HsQualString src txt))) = do
-    modu' <- markAnnotated modu
-    printStringAdvanceA "."
-    printSourceTextAA src (show txt)
-    return (HsQualLit noExtField (QualLit noExtField modu' (HsQualString src txt)))
-
   exact x = error $ "exact HsExpr for:" ++ showAst x
 
 -- ---------------------------------------------------------------------
@@ -4906,7 +4900,6 @@ instance ExactPrint (Pat GhcPs) where
     splice' <- markAnnotated splice
     return (SplicePat x splice')
   exact p@(LitPat _ lit) = printStringAdvance (hsLit2String lit) >> return p
-  exact p@(QualLitPat _ lit) = printStringAdvance (hsQualLit2String lit) >> return p
   exact (NPat an ol mn z) = do
     an0 <- if (isJust mn)
       then markEpToken an
@@ -4993,12 +4986,6 @@ hsLit2String lit =
     HsDoublePrim _ fl@(FL{fl_text = src }) -> toSourceTextWithSuffix src fl "##"
     HsNatural    _ il@(IL{il_text = src }) -> toSourceTextWithSuffix src (il_value il) ""
     HsInt        _ il@(IL{il_text = src }) -> toSourceTextWithSuffix src (il_value il) ""
-
-hsQualLit2String :: HsQualLit GhcPs -> String
-hsQualLit2String QualLit{..} = hsModuleNameString ql_mod ++ "." ++ fromVal ql_val
-  where
-    fromVal = \case
-      HsQualString src fs -> toSourceTextWithSuffix src fs ""
 
 toSourceTextWithSuffix :: (Show a) => SourceText -> a -> String -> String
 toSourceTextWithSuffix (NoSourceText)    alt suffix = show alt ++ suffix

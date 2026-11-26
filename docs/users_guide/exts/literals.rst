@@ -14,4 +14,3 @@ Literals
     overloaded_strings
     overloaded_labels
     multiline_strings
-    qualified_strings

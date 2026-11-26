@@ -409,9 +409,6 @@ data PsMessage
    -- | Multi-way if-expression found but MultiWayIf not enabled
    | PsErrMultiWayIf
 
-   -- | Found multiline string without MultilineStrings enabled
-   | PsErrIllegalMultilineStrings
-
    -- | Cmm parser error
    | PsErrCmmParser !CmmParserError
 

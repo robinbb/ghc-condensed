@@ -206,8 +206,6 @@ instance Diagnostic PsMessage where
       -> mkSimpleDecorated $ text "Illegal export form"
     PsErrOverloadedRecordUpdateNoQualifiedFields
       -> mkSimpleDecorated $ text "Fields cannot be qualified when OverloadedRecordUpdate is enabled"
-    PsErrIllegalMultilineStrings
-      -> mkSimpleDecorated $ text "Illegal multiline string literal"
     PsErrRecordSyntaxInPatSynDecl pat
       -> mkSimpleDecorated $
            text "Record syntax not supported for pattern synonym declarations:"
@@ -580,7 +578,6 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> ErrorWithoutFlag
     PsErrIllegalPatSynExport                      -> ErrorWithoutFlag
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> ErrorWithoutFlag
-    PsErrIllegalMultilineStrings{}                -> ErrorWithoutFlag
     PsErrRecordSyntaxInPatSynDecl{}               -> ErrorWithoutFlag
     PsErrEmptyWhereInPatSynDecl{}                 -> ErrorWithoutFlag
     PsErrInvalidWhereBindInPatSynDecl{}           -> ErrorWithoutFlag
@@ -716,7 +713,6 @@ instance Diagnostic PsMessage where
     PsErrOverloadedRecordDotInvalid{}             -> noHints
     PsErrIllegalPatSynExport                      -> [suggestExtension LangExt.PatternSynonyms]
     PsErrOverloadedRecordUpdateNoQualifiedFields  -> noHints
-    PsErrIllegalMultilineStrings{}                -> [suggestExtension LangExt.MultilineStrings]
     PsErrRecordSyntaxInPatSynDecl{}               -> noHints
     PsErrEmptyWhereInPatSynDecl{}                 -> noHints
     PsErrInvalidWhereBindInPatSynDecl{}           -> noHints

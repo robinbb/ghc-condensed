@@ -18,9 +18,6 @@ module Language.Haskell.Syntax.Lit (
   -- *** Data-types
   , HsOverLit(..)
   , OverLitVal(..)
-  -- ** Haskell Qualified Literal
-  , HsQualLit(..)
-  , QualLitVal(..)
 
   -- * Literal Values
   -- ** Fractional
@@ -40,7 +37,6 @@ module Language.Haskell.Syntax.Lit (
   ) where
 
 import Language.Haskell.Syntax.Text
-import Language.Haskell.Syntax.Module.Name
 import Language.Haskell.Syntax.Extension
 
 import Data.Bool
@@ -117,20 +113,6 @@ data OverLitVal x
   = HsIntegral   !(IntegralLit   x) -- ^ Integer-looking literals
   | HsFractional !(FractionalLit x) -- ^    Frac-looking literals
   | HsIsString   !(StringLiteral x) -- ^  String-looking literals
--- | Haskell Qualified Literal
-data HsQualLit p
-  = QualLit
-      { ql_ext :: !(XQualLit p)
-      , ql_mod :: !HsModuleName
-      , ql_val :: !(QualLitVal p)
-      }
-  | XQualLit !(XXQualLit p)
-
-data QualLitVal p
-  = HsQualString !(XQualLitString p) !HText
-    -- ^ See Note [Implementation of QualifiedStrings]
-  | XQualLitVal !(XXQualLitVal p)
-
 ------------------------------------------------
 -- Literals
 ------------------------------------------------

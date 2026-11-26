@@ -130,10 +130,8 @@ data Extension
    | TypeAbstractions
    | ExtendedLiterals
    | ListTuplePuns
-   | MultilineStrings
    | ExplicitLevelImports
    | ImplicitStagePersistence
-   | QualifiedStrings
    | LazyFieldAnnotations
    deriving (Eq, Enum, Show, Generic, Bounded)
 -- 'Ord' and 'Bounded' are provided for GHC API users (see discussions

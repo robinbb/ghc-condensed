@@ -3,14 +3,7 @@
 Multiline string literals
 -------------------------
 
-.. extension:: MultilineStrings
-    :shortdesc: Enable multiline string literals.
-
-    :since: 9.12.1
-
-    Enable multiline string literals.
-
-With this extension, GHC now recognizes multiline string literals with ``"""`` delimiters. Indentation is automatically stripped, and gets desugared to normal string literals, so it works as expected for ``OverloadedStrings`` and any other functionality. The indentation that is stripped can be informally defined as "The longest prefix of whitespace shared by all lines in the string, excluding the first line and any whitespace-only lines".
+GHC recognizes multiline string literals with ``"""`` delimiters. Indentation is automatically stripped, and gets desugared to normal string literals, so it works as expected for ``OverloadedStrings`` and any other functionality. The indentation that is stripped can be informally defined as "The longest prefix of whitespace shared by all lines in the string, excluding the first line and any whitespace-only lines".
 
 Normal string literals are lexed, then string gaps are collapsed, then escape characters are resolved. Multiline string literals add the following post-processing steps between collapsing string gaps and resolving escape characters:
 

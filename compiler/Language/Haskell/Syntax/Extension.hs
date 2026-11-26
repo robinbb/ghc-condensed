@@ -496,7 +496,6 @@ type family XOverLabel      x
 type family XIPVar          x
 type family XOverLitE       x
 type family XLitE           x
-type family XQualLitE       x
 type family XLam            x
 type family XLamCase        x
 type family XApp            x
@@ -665,16 +664,6 @@ type family XXLit x
 type family XOverLit  x
 type family XXOverLit x
 
--- -------------------------------------
--- HsQualLit type families
-type family XQualLit  x
-type family XXQualLit x
-
--- -------------------------------------
--- QualLitVal type families
-type family XQualLitString  x
-type family XXQualLitVal x
-
 -- Type families for the HsDocString extension points
 type family XMultiLineDocString x
 type family XNestedDocString x
@@ -698,7 +687,6 @@ type family XConPat      x
 type family XViewPat     x
 type family XSplicePat   x
 type family XLitPat      x
-type family XQualLitPat  x
 type family XNPat        x
 type family XSigPat      x
 type family XEmbTyPat    x
