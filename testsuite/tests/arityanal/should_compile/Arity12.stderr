@@ -1,0 +1,21 @@
+
+==================== Tidy Core ====================
+Result size of Tidy Core = {terms: 17, types: 12, coercions: 0, joins: 0/0}
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F12.f2 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F12.f2 = GHC.Internal.Bignum.Integer.IS 4#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F12.f1 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F12.f1 = GHC.Internal.Bignum.Integer.IS 5#
+
+-- RHS size: {terms: 10, types: 6, coercions: 0, joins: 0/0}
+f12 :: forall {t}. Num t => t
+[GblId, Arity=1, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [270] 100 0}]
+f12 = \ (@t) ($dNum :: Num t) -> + @t $dNum (fromInteger @t $dNum F12.f2) (fromInteger @t $dNum F12.f1)
+
+
+

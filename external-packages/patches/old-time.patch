@@ -1,0 +1,10 @@
+--- a/external-packages/vendored/old-time/System/Time.hsc
++++ b/external-packages/vendored/old-time/System/Time.hsc
+@@ -289,6 +289,7 @@
+           new_mon  = fromEnum (ctMonth cal) + r_mon
+           month' = fst tmp
+           yr_diff = snd tmp
++          tmp :: (Month, Int)
+           tmp
+             | new_mon < 0  = (toEnum (12 + new_mon), (-1))
+             | new_mon > 11 = (toEnum (new_mon `mod` 12), 1)

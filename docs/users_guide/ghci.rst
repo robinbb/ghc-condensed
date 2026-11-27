@@ -3314,7 +3314,7 @@ option, you can set the reverse option:
 
 .. code-block:: none
 
-    ghci> :set -Wno-incomplete-patterns -XNoMonomorphismRestriction
+    ghci> :set -Wno-incomplete-patterns -XMultiWayIf
 
 :ref:`flag-reference` lists the reverse for each option where
 applicable.
@@ -3368,7 +3368,6 @@ clean GHCi session we might see something like this:
     base language is: GHC2021
     with the following modifiers:
       -XExtendedDefaultRules
-      -XNoMonomorphismRestriction
     GHCi-specific dynamic flag settings:
     other dynamic, non-language, flag settings:
       -fexternal-dynamic-refs
@@ -3384,8 +3383,6 @@ interactive options are modified as follows:
 -  The option ``-XExtendedDefaultRules`` is enabled, in order to apply
    special defaulting rules to expressions typed at the prompt (see
    :ref:`extended-default-rules`).
-
--  The Monomorphism Restriction is disabled (see :ref:`monomorphism`).
 
 .. _ghci-dot-files:
 

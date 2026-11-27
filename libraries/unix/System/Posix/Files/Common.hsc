@@ -534,10 +534,10 @@ instance Storable CTimeSpec where
         return $ CTimeSpec sec nsec
 
 toCTimeSpec :: POSIXTime -> CTimeSpec
-toCTimeSpec t = CTimeSpec (CTime sec) (truncate $ 10^(9::Int) * frac)
-  where
-    (sec, frac) = if (frac' < 0) then (sec' - 1, frac' + 1) else (sec', frac')
-    (sec', frac') = properFraction $ toRational t
+toCTimeSpec t = case properFraction (toRational t) of
+    (sec', frac') ->
+      let (sec, frac) = if (frac' < 0) then (sec' - 1, frac' + 1) else (sec', frac')
+      in CTimeSpec (CTime sec) (truncate $ 10^(9::Int) * frac)
 #endif
 
 #ifdef HAVE_UTIMENSAT
@@ -564,10 +564,10 @@ instance Storable CTimeVal where
         return $ CTimeVal sec usec
 
 toCTimeVal :: POSIXTime -> CTimeVal
-toCTimeVal t = CTimeVal sec (truncate $ 10^(6::Int) * frac)
-  where
-    (sec, frac) = if (frac' < 0) then (sec' - 1, frac' + 1) else (sec', frac')
-    (sec', frac') = properFraction $ toRational t
+toCTimeVal t = case properFraction (toRational t) of
+    (sec', frac') ->
+      let (sec, frac) = if (frac' < 0) then (sec' - 1, frac' + 1) else (sec', frac')
+      in CTimeVal sec (truncate $ 10^(6::Int) * frac)
 
 foreign import capi unsafe "sys/time.h utimes"
     c_utimes :: CString -> Ptr CTimeVal -> IO CInt

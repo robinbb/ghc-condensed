@@ -182,6 +182,7 @@ iconvRecode iconv_t
                 new_inleft  <- peek p_inleft
                 new_outleft <- peek p_outleft
                 let
+                    new_inleft', new_outleft' :: Int
                     new_inleft'  = fromIntegral new_inleft `shiftR` iscale
                     new_outleft' = fromIntegral new_outleft `shiftR` oscale
                     new_input

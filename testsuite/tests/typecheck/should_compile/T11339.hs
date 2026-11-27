@@ -13,7 +13,6 @@ failing left right afb s = case pins t of
   _  -> t afb
   where
     t :: Applicative f => (a -> f b) -> f t
-    -- Does not work because the MR applies to this binding group
     Bazaar { getBazaar = t } = left sell s
 
     sell :: a -> Bazaar a b b

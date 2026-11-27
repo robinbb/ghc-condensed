@@ -759,8 +759,9 @@ metavariables, because of view patterns. Example (from ticket #26465):
   f = ...
 
   g = f
-    -- Due to the monomorphism restriction, we infer
-    -- g :: alpha -> Maybe alpha, with [W] Eq alpha
+    -- Suppose g's binding is not generalised over alpha (through type
+    -- variable promotion, Note [Deciding quantification] in GHC.Tc.Solver),
+    -- so that we infer g :: alpha -> Maybe alpha, with [W] Eq alpha
 
   pattern P x <- (g -> Just x)
     -- Infer: P :: alpha -> alpha

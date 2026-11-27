@@ -1,6 +1,21 @@
+--- a/external-packages/megaparsec/Text/Megaparsec/Debug.hs
++++ b/external-packages/megaparsec/Text/Megaparsec/Debug.hs
+@@ -217,8 +217,11 @@ instance
+   (VisualStream s, ShowErrorComponent e) =>
+   MonadParsecDbg e s (ParsecT e s m)
+   where
++  dbg :: forall a. Show a => String -> ParsecT e s m a -> ParsecT e s m a
+   dbg lbl p = ParsecT $ \s cok cerr eok eerr ->
+-    let l = dbgLog lbl
++    let l :: DbgItem s e a -> String
++        l = dbgLog lbl
++        unfold :: s -> [Token s]
+         unfold = streamTake 40
+         cok' x s' hs =
+           flip trace (cok x s' hs) $
 --- a/external-packages/megaparsec/Text/Megaparsec/Error.hs-boot
 +++ b/external-packages/megaparsec/Text/Megaparsec/Error.hs-boot
-@@ -6,6 +6,8 @@
+@@ -6,6 +6,8 @@ module Text.Megaparsec.Error
    )
  where
  
@@ -12,7 +27,7 @@
 +data ParseError (s :: Type) (e :: Type)
 --- a/external-packages/megaparsec/Text/Megaparsec/Internal.hs-boot
 +++ b/external-packages/megaparsec/Text/Megaparsec/Internal.hs-boot
-@@ -5,6 +5,8 @@
+@@ -5,6 +5,8 @@ module Text.Megaparsec.Internal
    )
  where
  

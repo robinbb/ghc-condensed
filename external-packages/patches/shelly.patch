@@ -1,0 +1,10 @@
+--- a/external-packages/Shelly.hs/src/Shelly.hs
++++ b/external-packages/Shelly.hs/src/Shelly.hs
+@@ -999,6 +999,7 @@
+         trc = sTrace st
+         ranCommands = return . mappend "Ran commands: \n" . T.unpack $ trc
+ 
++    shelly_dir :: FilePath
+     shelly_dir = ".shelly"
+     shellyFile = chdir_p shelly_dir $ do
+       fs <- ls "."

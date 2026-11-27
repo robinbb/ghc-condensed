@@ -20,5 +20,6 @@ f MkBox2 MkBox Refl = ?x
 
 main :: IO ()
 main = do { let mb  = let ?x = "right"  in MkBox
-          ; let mb2 = let ?x = "wrong" in MkBox2
+          ; let mb2 :: Box2 Int
+                mb2 = let ?x = "wrong" in MkBox2
           ; print (f mb2 mb Refl) }

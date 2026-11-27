@@ -98,6 +98,7 @@ spliceURL' maybe_mod maybe_name maybe_loc = run
       Nothing -> ""
       Just m -> moduleNameString m
 
+    name, kind :: String
     (name, kind) =
       case maybe_name of
         Nothing -> ("", "")

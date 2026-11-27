@@ -1,0 +1,14 @@
+--- a/external-packages/path-pieces/Web/PathPieces.hs
++++ b/external-packages/path-pieces/Web/PathPieces.hs
+@@ -40,9 +40,10 @@
+     fromPathPiece = Just . L.fromChunks . return
+     toPathPiece = S.concat . L.toChunks
+ 
+-parseIntegral :: (Integral a, Bounded a, Ord a) => S.Text -> Maybe a
++parseIntegral :: forall a. (Integral a, Bounded a, Ord a) => S.Text -> Maybe a
+ parseIntegral s = n
+     where
++    n :: Maybe a
+     n = case Data.Text.Read.signed Data.Text.Read.decimal s of
+         Right (i, "") | i <= top && i >= bot -> Just (fromInteger i)
+         _ -> Nothing

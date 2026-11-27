@@ -1,6 +1,6 @@
 --- a/external-packages/cassava/src/Data/Csv/Conversion.hs
 +++ b/external-packages/cassava/src/Data/Csv/Conversion.hs
-@@ -58,6 +58,7 @@
+@@ -56,6 +56,7 @@ module Data.Csv.Conversion
      , header
      ) where
  
@@ -8,7 +8,7 @@
  import Control.Applicative (Alternative, (<|>), empty, Const(..))
  import Control.Monad (MonadPlus, mplus, mzero)
  import qualified Control.Monad.Fail as Fail
-@@ -1163,7 +1164,7 @@
+@@ -1161,7 +1162,7 @@ type Success a f r = a -> f r
  -- lets you compose several field conversions together in such a way
  -- that if any of them fail, the whole record conversion fails.
  newtype Parser a = Parser {
@@ -17,7 +17,31 @@
                    Failure f r
                 -> Success a f r
                 -> f r
-@@ -1297,7 +1298,7 @@
+@@ -1272,8 +1273,10 @@ instance (GFromRecordSum a r, GFromRecordSum b r) => GFromRecordSum (a :+: b) r
+             (fmap (R1 <$>) <$> gparseRecordSum opts)
+ 
+ instance GFromRecordProd f r => GFromRecordSum (M1 i n f) r where
++    gparseRecordSum :: forall p. Options -> IM.IntMap (r -> Parser (M1 i n f p))
+     gparseRecordSum opts = IM.singleton n (fmap (M1 <$>) f)
+       where
++        f :: r -> Parser (f p)
+         (n, f) = gparseRecordProd opts 0
+ 
+ class GFromRecordProd f r where
+@@ -1283,9 +1286,12 @@ instance GFromRecordProd U1 r where
+     gparseRecordProd _ n = (n, const (pure U1))
+ 
+ instance (GFromRecordProd a r, GFromRecordProd b r) => GFromRecordProd (a :*: b) r where
++    gparseRecordProd :: forall p. Options -> Int -> (Int, r -> Parser ((a :*: b) p))
+     gparseRecordProd opts n0 = (n2, f)
+       where
+         f r = (:*:) <$> fa r <*> fb r
++        fa :: r -> Parser (a p)
++        fb :: r -> Parser (b p)
+         (n1, fa) = gparseRecordProd opts n0
+         (n2, fb) = gparseRecordProd opts n1
+ 
+@@ -1295,7 +1301,7 @@ instance GFromRecordProd f Record => GFromRecordProd (M1 i n f) Record where
  instance FromField a => GFromRecordProd (K1 i a) Record where
      gparseRecordProd _ n = (n + 1, \v -> K1 <$> parseField (V.unsafeIndex v n))
  

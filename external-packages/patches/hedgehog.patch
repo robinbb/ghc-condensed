@@ -1,6 +1,6 @@
 --- a/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
 +++ b/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Gen.hs
-@@ -1192,9 +1192,8 @@
+@@ -1191,9 +1191,8 @@ element :: (HasCallStack, Foldable f, MonadGen m) => f a -> m a
  element fa = withFrozenCallStack $ case toList fa of
    [] ->
      error "Hedgehog.Gen.element: used with empty Foldable"
@@ -12,7 +12,7 @@
  
  -- | Randomly selects one of the elements in the list.
  --
-@@ -1206,9 +1205,8 @@
+@@ -1205,9 +1204,8 @@ element_ :: (HasCallStack, MonadGen m) => [a] -> m a
  element_ l = withFrozenCallStack $ case l of
    [] ->
      error "Hedgehog.Gen.element: used with empty list"
@@ -24,9 +24,27 @@
  
  -- | Randomly selects one of the generators in the list.
  --
+--- a/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Tripping.hs
++++ b/external-packages/haskell-hedgehog/hedgehog/src/Hedgehog/Internal/Tripping.hs
+@@ -22,6 +22,7 @@ import           Hedgehog.Internal.Source (HasCallStack, withFrozenCallStack)
+ -- trippingShowRead a = tripping a show readEither
+ -- @
+ tripping ::
++     forall m f a b.
+      (MonadTest m, Applicative f, Show b, Show (f a), Eq (f a), HasCallStack)
+   => a
+   -> (a -> b)
+@@ -29,6 +30,7 @@ tripping ::
+   -> m ()
+ tripping x encode decode =
+   let
++    mx :: f a
+     mx =
+       pure x
+ 
 --- a/external-packages/haskell-hedgehog/hedgehog/test/Test/Hedgehog/Applicative.hs
 +++ b/external-packages/haskell-hedgehog/hedgehog/test/Test/Hedgehog/Applicative.hs
-@@ -46,15 +46,12 @@
+@@ -46,15 +46,12 @@ genCommand =
  
  genCommands :: (MonadState Int m, MonadGen m) => m [Var :<- Command]
  genCommands =

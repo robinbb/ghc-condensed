@@ -36,6 +36,7 @@ import Data.Time.Clock.System
 posixSecondsToUTCTime :: POSIXTime -> UTCTime
 posixSecondsToUTCTime i =
     let
+        d :: Integer
         (d, t) = divMod' i posixDayLength
     in
         UTCTime (addDays d systemEpochDay) (realToFrac t)

@@ -89,7 +89,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
      * :extension:`MonoLocalBinds`
-     * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
      * :extension:`PatternGuards`
@@ -138,7 +137,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`GeneralisedNewtypeDeriving`
      * :extension:`ImplicitPrelude`
      * :extension:`ImportQualifiedPost`
-     * :extension:`MonomorphismRestriction`
      * :extension:`NamedFieldPuns`
      * :extension:`NamedWildCards`
      * :extension:`PatternGuards`
@@ -168,7 +166,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`FieldSelectors`
      * :extension:`ForeignFunctionInterface`
      * :extension:`ImplicitPrelude`
-     * :extension:`MonomorphismRestriction`
      * :extension:`PatternGuards`
      * :extension:`ImplicitStagePersistence`
 
@@ -187,7 +184,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
 
      * :extension:`FieldSelectors`
      * :extension:`ImplicitPrelude`
-     * :extension:`MonomorphismRestriction`
      * :extension:`ImplicitStagePersistence`
 
 

@@ -1,4 +1,4 @@
-test('AnnotatedConstraint', normal, compile_fail, [''])
+test('AnnotatedConstraint', normal, compile, [''])
 test('AnnotatedConstraintNotForgotten', normal, compile_fail, [''])
 test('Defaulting1MROff', expect_broken(23232), compile, [''])
 test('ExtraConstraintsWildcardInExpressionSignature', normal, compile, [''])

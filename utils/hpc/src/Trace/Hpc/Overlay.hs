@@ -138,7 +138,8 @@ processModule modName modContents (Mix _ _ hash _ entries) locals globals = do
           Just v -> v
           Nothing -> error $ "can not find ix # " ++ show n
 
-  let tixs' =
+  let tixs' :: [Integer]
+      tixs' =
         [ case Map.lookup n isDomList of
             Just vs -> if any isTicked (n : vs) then 1 else 0
             Nothing -> error $ "can not find ix in dom list # " ++ show n

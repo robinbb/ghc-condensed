@@ -1,6 +1,27 @@
+--- a/external-packages/th-abstraction/src/Language/Haskell/TH/Datatype.hs
++++ b/external-packages/th-abstraction/src/Language/Haskell/TH/Datatype.hs
+@@ -1088,6 +1088,7 @@ normalizeGadtC typename params instTys resKind tyvars context names innerType
+      conSubst <- T.sequence $ Map.fromList [ (n, newName (nameBase n))
+                                            | n <- conBoundNames ]
+      let conSubst'     = fmap VarT conSubst
++         renamedTyvars :: [TyVarBndrUnit]
+          renamedTyvars =
+            map (elimTV (\n   -> plainTV  (conSubst Map.! n))
+                        (\n k -> kindedTV (conSubst Map.! n)
+--- a/external-packages/th-abstraction/test/Main.hs
++++ b/external-packages/th-abstraction/test/Main.hs
+@@ -882,7 +882,7 @@ t61Test =
+ 
+ t66Test :: IO ()
+ t66Test =
+-  $(do [dec] <- [d| data Foo a b :: (* -> *) -> * -> * where
++  $(do [dec] <- [d| data Foo a b :: (Type -> Type) -> Type -> Type where
+                       MkFoo :: a -> b -> f x -> Foo a b f x |]
+        info <- normalizeDec dec
+        let [a,b,f,x] = map mkName ["a","b","f","x"]
 --- a/external-packages/th-abstraction/test/Types.hs
 +++ b/external-packages/th-abstraction/test/Types.hs
-@@ -45,31 +45,31 @@
+@@ -44,31 +44,31 @@ import GHC.Exts (Any, TYPE)
  type Gadt1Int = Gadt1 Int
  
  infixr 6 :**:
@@ -38,7 +59,7 @@
  
  data StrictDemo = StrictDemo Int !Int {-# UNPACK #-} !Int
  
-@@ -80,20 +80,20 @@
+@@ -79,20 +79,20 @@ data MyPair a b = a :^: b
  -- Data families
  data family T43Fam
  
@@ -64,7 +85,7 @@
  data instance GadtFam c d where
    MkGadtFam1 :: x   -> y                     -> GadtFam y x
    (:&&:)     :: e   -> f                     -> GadtFam [e] f     -- This is declard infix
-@@ -107,12 +107,12 @@
+@@ -106,12 +106,12 @@ data family FamLocalDec1 a
  data family FamLocalDec2 a b c
  
  data family   T46 a b c
@@ -79,14 +100,3 @@
  data instance T95 [a] = MkT95 a
  
  type Konst (a :: Constraint) (b :: Constraint) = a
---- a/external-packages/th-abstraction/test/Main.hs
-+++ b/external-packages/th-abstraction/test/Main.hs
-@@ -882,7 +882,7 @@
- 
- t66Test :: IO ()
- t66Test =
--  $(do [dec] <- [d| data Foo a b :: (* -> *) -> * -> * where
-+  $(do [dec] <- [d| data Foo a b :: (Type -> Type) -> Type -> Type where
-                       MkFoo :: a -> b -> f x -> Foo a b f x |]
-        info <- normalizeDec dec
-        let [a,b,f,x] = map mkName ["a","b","f","x"]

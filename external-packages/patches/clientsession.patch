@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/clientsession/src/Web/ClientSession.hs
++++ b/external-packages/vendored/clientsession/src/Web/ClientSession.hs
+@@ -345,7 +345,7 @@
+ chaChaRNG = do
+   (bs, count) <-
+       I.atomicModifyIORef chaChaRef $ \(CCSt drg count) ->
+-          let (bs', drg') = randomBytesGenerate 16 drg
++          let (bs', drg') = randomBytesGenerate 16 drg :: (S.ByteString, ChaChaDRG)
+           in (CCSt drg' (succ count), (bs', count))
+   when (count == threshold) $ void $ forkIO chaChaReseed
+   return $! unsafeMkIV bs

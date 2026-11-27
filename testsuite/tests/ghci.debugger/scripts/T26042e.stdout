@@ -2,7 +2,7 @@ Breakpoint 0 activated at T26042e.hs:11:3-14
 Stopped in T7.a, T26042e.hs:11:3-14
 _result :: (Int, Int) = _
 x :: [Char] = "abc"
-y :: [a1] -> Int = _
+y :: Foldable t => t a1 -> Int = _
 10    let !x = ['a', 'b', 'c']
 11    let !z = y x
       ^^^^^^^^^^^^

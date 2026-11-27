@@ -1,33 +1,71 @@
-T19843h.hs:14:7: error: [GHC-39999]
-    • No instance for ‘GHC.Internal.Records.HasField "mup" r4 a4’
-        arising from selecting the field ‘mup’
-    • In the expression: undefined.mup
-      In an equation for ‘foo’: foo = undefined.mup
+T19843h.hs:14:1: error: [GHC-39999]
+    • Could not deduce ‘GHC.Internal.Records.HasField "mup" r0 a’
+      from the context: GHC.Internal.Records.HasField "mup" r a
+        bound by the inferred type for ‘foo’:
+                   forall {r} {a}. GHC.Internal.Records.HasField "mup" r a => a
+        at T19843h.hs:14:1-19
+      The type variable ‘r0’ is ambiguous
+    • In the ambiguity check for the inferred type for ‘foo’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
+        foo :: forall {r} {a}. GHC.Internal.Records.HasField "mup" r a => a
     Suggested fix: Perhaps use record field of A ‘mop’ (line 11)
 
-T19843h.hs:16:7: error: [GHC-39999]
-    • No instance for ‘GHC.Internal.Records.HasField "traverse" r3 a3’
-        arising from selecting the field ‘traverse’
-    • In the expression: undefined.traverse
-      In an equation for ‘bar’: bar = undefined.traverse
+T19843h.hs:16:1: error: [GHC-39999]
+    • Could not deduce ‘GHC.Internal.Records.HasField "traverse" r0 a’
+      from the context: GHC.Internal.Records.HasField "traverse" r a
+        bound by the inferred type for ‘bar’:
+                   forall {r} {a}. GHC.Internal.Records.HasField "traverse" r a => a
+        at T19843h.hs:16:1-24
+      The type variable ‘r0’ is ambiguous
+    • In the ambiguity check for the inferred type for ‘bar’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
+        bar :: forall {r} {a}.
+               GHC.Internal.Records.HasField "traverse" r a =>
+               a
 
-T19843h.hs:18:7: error: [GHC-39999]
-    • No instance for ‘GHC.Internal.Records.HasField "getSum" r2 a2’
-        arising from selecting the field ‘getSum’
-    • In the expression: undefined.getSum
-      In an equation for ‘baz’: baz = undefined.getSum
+T19843h.hs:18:1: error: [GHC-39999]
+    • Could not deduce ‘GHC.Internal.Records.HasField "getSum" r0 a’
+      from the context: GHC.Internal.Records.HasField "getSum" r a
+        bound by the inferred type for ‘baz’:
+                   forall {r} {a}. GHC.Internal.Records.HasField "getSum" r a => a
+        at T19843h.hs:18:1-22
+      The type variable ‘r0’ is ambiguous
+    • In the ambiguity check for the inferred type for ‘baz’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
+        baz :: forall {r} {a}.
+               GHC.Internal.Records.HasField "getSum" r a =>
+               a
 
-T19843h.hs:20:8: error: [GHC-39999]
-    • No instance for ‘GHC.Internal.Records.HasField "getAlt" r1 a1’
-        arising from selecting the field ‘getAlt’
-    • In the expression: undefined.getAlt
-      In an equation for ‘quux’: quux = undefined.getAlt
+T19843h.hs:20:1: error: [GHC-39999]
+    • Could not deduce ‘GHC.Internal.Records.HasField "getAlt" r0 a’
+      from the context: GHC.Internal.Records.HasField "getAlt" r a
+        bound by the inferred type for ‘quux’:
+                   forall {r} {a}. GHC.Internal.Records.HasField "getAlt" r a => a
+        at T19843h.hs:20:1-23
+      The type variable ‘r0’ is ambiguous
+    • In the ambiguity check for the inferred type for ‘quux’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
+        quux :: forall {r} {a}.
+                GHC.Internal.Records.HasField "getAlt" r a =>
+                a
 
-T19843h.hs:24:8: error: [GHC-39999]
-    • No instance for ‘GHC.Internal.Records.HasField "getAll" r0 a0’
-        arising from selecting the field ‘getAll’
-    • In the expression: undefined.getAll
-      In an equation for ‘quur’: quur = undefined.getAll
+T19843h.hs:24:1: error: [GHC-39999]
+    • Could not deduce ‘GHC.Internal.Records.HasField "getAll" r0 a’
+      from the context: GHC.Internal.Records.HasField "getAll" r a
+        bound by the inferred type for ‘quur’:
+                   forall {r} {a}. GHC.Internal.Records.HasField "getAll" r a => a
+        at T19843h.hs:24:1-23
+      The type variable ‘r0’ is ambiguous
+    • In the ambiguity check for the inferred type for ‘quur’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
+        quur :: forall {r} {a}.
+                GHC.Internal.Records.HasField "getAll" r a =>
+                a
     Suggested fixes:
       • Add ‘getAll’ to the import list in the import of ‘Data.Monoid’
         (at T19843h.hs:8:1-46).

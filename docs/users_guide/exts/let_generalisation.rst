@@ -36,7 +36,7 @@ With MonoLocalBinds, a binding group will be *generalised* if and only if
 *   Any of its binders has a partial type signature (see Partial Type Signatures). Adding a partial type signature ``f :: _``, (or, more generally, ``f :: _ => _``) provides a per-binding way to ask GHC to perform let-generalisation, even though MonoLocalBinds is on.
 
 
-Even if the binding is generalised, it may not be generalised over all its free type variables, either because it mentions locally-bound variables, or because of the Monomorphism Restriction (Haskell Report, Section 4.5.5)
+Even if the binding is generalised, it may not be generalised over all its free type variables, for example because it mentions locally-bound variables.
 
 *Closed variables*.  The key idea is that: *if a variable is closed, then its type definitely has no free type variables*.  A variable ``f`` is called *closed* if and only if
 
@@ -64,13 +64,7 @@ Example 2 ::
 
 The binding for ``g`` has a free variable ``x`` that is lambda-bound, and hence not closed.  So ``g``\'s binding is not generalised.
 
-*Top-level bindings*.  The Monomorphism Restriction can cause even
-top-level bindings not to be generalised, and hence even the top-level
-type environment can have free type variables.  However, top-level bindings
-are nevertheless always generalised. To see why, consider ::
-
-   module M( f ) where
-     x = 5
-     f v = (v,x)
-
-The binding ``x=5`` falls under the Monomorphism Restriction, so that binding is not generalised, and hence ``f``'s binding is not closed.  If, as a result, we did not generalise ``f``, we would end up exporting ``f :: Any -> (Any, Integer)``, defaulting ``x``'s type to `Integer` and ``v``'s type to ``Any``.  This is counter-intuitive and undesirable, so we always generalise top-level bindings.
+*Top-level bindings*.  Top-level bindings are always generalised. Since
+there is no monomorphism restriction, a top-level binding is generalised
+over all its free type variables, so the top-level type environment has
+no free type variables and every top-level variable is closed.

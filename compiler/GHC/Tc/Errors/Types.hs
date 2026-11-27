@@ -1064,19 +1064,6 @@ data TcRnMessage where
   -}
   TcRnPolymorphicBinderMissingSig :: Name -> Type -> TcRnMessage
 
-  {-| TcRnOverloadedSig is an error that occurs when a binding group conflicts
-      with the monomorphism restriction.
-
-      Example(s):
-      data T a = T a
-      mono = ... where
-        x :: Applicative f => f a
-        T x = ...
-
-     Test cases: typecheck/should_compile/T11339
-  -}
-  TcRnOverloadedSig :: TcIdSig -> TcRnMessage
-
   {-| TcRnTupleConstraintInst is an error that occurs whenever an instance
       for a tuple constraint is specified.
 
@@ -1337,29 +1324,6 @@ data TcRnMessage where
       See t'IllegalInstanceReason'.
   -}
   TcRnIllegalInstance :: IllegalInstanceReason -> TcRnMessage
-
-  {-| TcRnMonomorphicBindings is a warning (controlled by -Wmonomorphism-restriction)
-      that arises when the monomorphism restriction applies to the given bindings.
-
-      Examples(s):
-        {-# OPTIONS_GHC -Wmonomorphism-restriction #-}
-
-        bar = 10
-
-        foo :: Int
-        foo = bar
-
-        main :: IO ()
-        main = print foo
-
-      The example above emits the warning (for 'bar'), because without monomorphism
-      restriction the inferred type for 'bar' is 'bar :: Num p => p'. This warning tells us
-      that /if/ we were to enable '-XMonomorphismRestriction' we would make 'bar'
-      less polymorphic, as its type would become 'bar :: Int', so GHC warns us about that.
-
-      Test cases: typecheck/should_compile/T13785
-  -}
-  TcRnMonomorphicBindings :: [Name] -> TcRnMessage
 
   {-| TcRnOrphanInstance is a warning (controlled by -Worphans) that arises when
       a typeclass instance or family instance is an \"orphan\", i.e. if it

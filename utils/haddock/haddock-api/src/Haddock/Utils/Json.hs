@@ -172,6 +172,7 @@ doubleToInt64 x
       Just (fromIntegral x')
   | otherwise = Nothing
   where
+    x' :: Integer
     x' = round x
 
 -- | Minimally escape a 'Text' in accordance with RFC 7159, "7. Strings".
@@ -364,9 +365,10 @@ parseNatural integer =
     then fail $ "parsing Natural failed, unexpected negative number " <> show integer
     else pure $ fromIntegral integer
 
-parseIntegralFromDouble :: Integral a => Double -> Parser a
+parseIntegralFromDouble :: forall a. Integral a => Double -> Parser a
 parseIntegralFromDouble d =
   let r = toRational d
+      x :: a
       x = truncate r
    in if toRational x == r
         then pure x

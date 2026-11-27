@@ -1,0 +1,35 @@
+--- a/external-packages/vendored/happstack-server/src/Happstack/Server/Internal/Cookie.hs
++++ b/external-packages/vendored/happstack-server/src/Happstack/Server/Internal/Cookie.hs
+@@ -153,7 +153,7 @@
+ parseCookies str = either (Left . show) Right $ parse cookiesParser str str
+ 
+ -- | not a supported api.  A parser for RFC 2109 cookies
+-cookiesParser :: GenParser Char st [Cookie]
++cookiesParser :: forall st. GenParser Char st [Cookie]
+ cookiesParser = cookies
+     where -- Parsers based on RFC 2109
+           cookies = do
+@@ -177,6 +177,7 @@
+             void $ string s
+             cookieEq
+             value
++          cookieSep, cookieEq, ws :: GenParser Char st ()
+           cookieSep = ws >> oneOf ",;" >> ws
+           cookieEq = ws >> char '=' >> ws
+           ws = spaces
+@@ -191,6 +192,7 @@
+             return r
+ 
+           -- Custom parsers, incompatible with RFC 2068, but more forgiving ;)
++          incomp_token, name_parser :: GenParser Char st String
+           incomp_token  = many1 $ oneOf ((chars \\ ctl) \\ " \t\";")
+           name_parser   = many1 $ oneOf ((chars \\ ctl) \\ "= ;,")
+ 
+@@ -200,6 +202,7 @@
+           octet         = map chr [0..255]
+           text          = octet \\ ctl
+           qdtext        = text \\ "\""
++          quotedPair :: GenParser Char st Char
+           quotedPair    = char '\\' >> anyChar
+ 
+ -- | Get all cookies from the HTTP request. The cookies are ordered per RFC from

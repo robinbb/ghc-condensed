@@ -1,0 +1,10 @@
+--- a/external-packages/cassava-megaparsec/Data/Csv/Parser/Megaparsec/Internals.hs
++++ b/external-packages/cassava-megaparsec/Data/Csv/Parser/Megaparsec/Internals.hs
+@@ -159,6 +159,7 @@
+ escapedField =
+   B.pack <$!> between (char 34) (char 34) (many $ normalChar <|> escapedDq)
+   where
++    normalChar, escapedDq :: Parser Word8
+     normalChar = anySingleBut 34 <?> "unescaped character"
+     escapedDq  = label "escaped double-quote" (34 <$ string "\"\"")
+ {-# INLINE escapedField #-}

@@ -198,6 +198,7 @@ hash_block block =
 
         hash_list f = foldl' (\z x -> f x + z) (0::Word32)
 
+        cvt :: Int -> Word32
         cvt = fromInteger . toInteger
 
         -- Since we are hashing, we can safely downcast Word64 to Word32 here.

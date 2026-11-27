@@ -545,7 +545,8 @@ integerToString n0 cs0
     jprinth (n:ns) cs =
         case n `integerQuotRem#` BASE of
         (# q', r' #) ->
-            let q = fromInteger q'
+            let q, r :: Int
+                q = fromInteger q'
                 r = fromInteger r'
             in if q > 0 then jhead q $ jblock r $ jprintb ns cs
                         else jhead r $ jprintb ns cs

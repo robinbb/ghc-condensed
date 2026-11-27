@@ -142,6 +142,7 @@ parser = condOr
 
     parens = P.between (oper "(") (oper ")")
 
+    tokenPrim :: (SectionArg Position -> Maybe a) -> Parser a
     tokenPrim = P.tokenPrim prettySectionArg updatePosition
     -- TODO: check where the errors are reported
     updatePosition x _ _ = x

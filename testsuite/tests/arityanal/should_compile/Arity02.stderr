@@ -1,48 +1,49 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 51, types: 27, coercions: 0, joins: 0/0}
-
--- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F2.f1 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F2.f1 = GHC.Num.Integer.IS 0#
-
--- RHS size: {terms: 7, types: 6, coercions: 0, joins: 0/0}
-f2f :: forall {t1} {t2}. (t1 -> Integer -> t2) -> t1 -> t2
-[GblId, Arity=2, Str=<1C(1,C(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=2,unsat_ok=True,boring_ok=True)}]
-f2f = \ (@t) (@t1) (h :: t -> Integer -> t1) (x :: t) -> h x F2.f1
-
--- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-lvl :: Integer
-[GblId, Unf=OtherCon []]
-lvl = GHC.Num.Integer.IS 1#
-
-Rec {
--- RHS size: {terms: 29, types: 7, coercions: 0, joins: 0/0}
-F2.f2_g [Occ=LoopBreaker] :: Integer -> Integer -> Integer
-[GblId, Arity=2, Str=<1L><SL>, Unf=OtherCon []]
-F2.f2_g
-  = \ (x :: Integer) (y :: Integer) ->
-      case x of x1 {
-        GHC.Num.Integer.IS x2 ->
-          case GHC.Prim.># x2 0# of {
-            __DEFAULT -> y;
-            1# -> F2.f2_g (GHC.Num.Integer.integerSub x1 lvl) (GHC.Num.Integer.integerAdd x1 y)
-          };
-        GHC.Num.Integer.IP x2 -> F2.f2_g (GHC.Num.Integer.integerSub x1 lvl) (GHC.Num.Integer.integerAdd x1 y);
-        GHC.Num.Integer.IN x2 -> y
-      }
-end Rec }
+Result size of Tidy Core = {terms: 58, types: 48, coercions: 0, joins: 1/3}
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F2.f3 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F2.f3 = GHC.Num.Integer.IS 5#
+F2.f3 = GHC.Internal.Bignum.Integer.IS 0#
 
--- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
-f2 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False, WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 30 0}]
-f2 = F2.f2_g F2.f3 F2.f1
+-- RHS size: {terms: 11, types: 10, coercions: 0, joins: 0/0}
+f2f :: forall {t1} {t2} {t3}. Num t1 => (t2 -> t1 -> t3) -> t2 -> t3
+[GblId, Arity=3, Str=<MP(A,A,A,A,A,A,1C(1,L))><1C(1,C(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [90 60 0] 60 0}]
+f2f = \ (@t) (@t1) (@t2) ($dNum :: Num t) (h :: t1 -> t -> t2) (x :: t1) -> h x (fromInteger @t $dNum F2.f3)
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F2.f4 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F2.f4 = GHC.Internal.Bignum.Integer.IS 1#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F2.f1 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F2.f1 = GHC.Internal.Bignum.Integer.IS 5#
+
+-- RHS size: {terms: 36, types: 19, coercions: 0, joins: 1/3}
+f2 :: forall {t}. (Num t, Ord t) => t
+[GblId, Arity=2, Str=<LP(LC(S,C(1,L)),LC(S,C(1,L)),A,A,A,A,L)><SP(A,A,A,A,SC(S,C(1,L)),A,A,A)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [450 90] 250 0}]
+f2
+  = \ (@t) ($dNum :: Num t) ($dOrd :: Ord t) ->
+      let {
+        lvl :: t
+        [LclId]
+        lvl = fromInteger @t $dNum F2.f4 } in
+      let {
+        lvl1 :: t
+        [LclId]
+        lvl1 = fromInteger @t $dNum F2.f3 } in
+      joinrec {
+        g [Occ=LoopBreaker, Dmd=SC(S,C(1,L))] :: t -> t -> t
+        [LclId[JoinId(2)(Nothing)], Arity=2, Str=<L><L>, Unf=OtherCon []]
+        g (x :: t) (y :: t)
+          = case > @t $dOrd x lvl1 of {
+              False -> y;
+              True -> jump g (- @t $dNum x lvl) (+ @t $dNum x y)
+            }; } in
+      jump g (fromInteger @t $dNum F2.f1) lvl1
 
 
 

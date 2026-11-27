@@ -543,7 +543,7 @@ fdWrite :: FD -> Ptr Word8 -> Word64 -> Int -> IO ()
 fdWrite fd ptr _offset bytes = do
   res <- writeRawBufferPtr "GHC.Internal.IO.FD.fdWrite" fd ptr 0
           (fromIntegral $ clampWriteSize bytes)
-  let res' = fromIntegral res
+  let res' = fromIntegral res :: Int
   if res' < bytes
      then fdWrite fd (ptr `plusPtr` res') (_offset + fromIntegral res') (bytes - res')
      else return ()

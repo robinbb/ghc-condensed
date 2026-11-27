@@ -25,10 +25,14 @@ instance HasP Int# where
   getP i# = if isTrue# ( i# >=# 0# ) then (# | (# #) #) else (# (# #) | #)
   mk _ = 1#
 
+g1 :: Int -> (# (# #) | (# #) #)
 g1 = getP
+g2 :: Int# -> (# (# #) | (# #) #)
 g2 = getP
 
+m1 :: (# #) -> Int
 m1 = mk
+m2 :: (# #) -> Int#
 m2 = mk
 
 -- NB: deliberately use no arguments to make this test harder (so that we run

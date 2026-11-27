@@ -1,0 +1,104 @@
+--- a/external-packages/syb/src/Data/Generics/Text.hs
++++ b/external-packages/syb/src/Data/Generics/Text.hs
+@@ -83,7 +83,7 @@
+  where
+ 
+   -- Helper for recursive read
+-  gread' :: Data a' => ReadP a'
++  gread' :: forall a'. Data a' => ReadP a'
+   gread' = allButString `extR` stringCase
+ 
+    where
+@@ -99,6 +99,7 @@
+       getArg = undefined
+ 
+     -- The generic default for gread
++    allButString :: ReadP a'
+     allButString =
+       do
+                 -- Drop "  (  "
+--- a/external-packages/syb/tests/Bits.hs
++++ b/external-packages/syb/tests/Bits.hs
+@@ -172,11 +172,12 @@
+ 
+ 
+ -- | Generically map bit streams to terms
+-readBin :: Data t => ReadB t
++readBin :: forall t. Data t => ReadB t
+ readBin = result
+  where
+ 
+   -- The worker, which we also use as type argument
++  result :: ReadB t
+   result = if isAlgType myDataType
+ 
+              then do bin <- readB (lengthNat (max - 1))
+--- a/external-packages/syb/tests/GenUpTo.hs
++++ b/external-packages/syb/tests/GenUpTo.hs
+@@ -50,11 +50,12 @@
+ 
+ 
+ -- Generate all terms of a given depth
+-genUpTo :: Data a => Int -> [a]
++genUpTo :: forall a. Data a => Int -> [a]
+ genUpTo 0 = []
+ genUpTo d = result
+    where
+      -- Getting hold of the result (type)
++     result :: [a]
+      result = concat (map recurse cons)
+ 
+      -- Retrieve constructors of the requested type
+--- a/external-packages/syb/tests/Perm.hs
++++ b/external-packages/syb/tests/Perm.hs
+@@ -88,6 +88,7 @@
+ buildT = result
+ 
+  where
++  result :: ReadT a
+   result = do str <- readT
+               con <- string2constr str
+               ske <- return $ fromConstr con
+--- a/external-packages/syb/tests/Polymatch.hs
++++ b/external-packages/syb/tests/Polymatch.hs
+@@ -57,9 +57,10 @@
+ 
+ 
+ -- For the record: it's possible.
+-shallow_rebuild :: (Data a, Data b) => a -> Maybe b
++shallow_rebuild :: forall a b. (Data a, Data b) => a -> Maybe b
+ shallow_rebuild a = b
+  where
++  b :: Maybe b
+   b      = fromConstrL (kids a) constr
+   constr = indexConstr (dataTypeOf b) (constrIndex (toConstr a))
+ 
+--- a/external-packages/syb/tests/Tree.hs
++++ b/external-packages/syb/tests/Tree.hs
+@@ -29,7 +29,7 @@
+ 
+ 
+ -- De-trealise Tree to Data
+-tree2data :: Data a => Tree String -> Maybe a
++tree2data :: forall a. Data a => Tree String -> Maybe a
+ tree2data = gdefault `extR` atString
+   where
+     atString (Node x []) = Just x
+@@ -37,6 +37,7 @@
+       where
+ 
+         -- a helper for type capture
++        res :: Maybe a
+         res  = maybe Nothing (kids . fromConstr) con
+ 
+         -- the type to constructed
+--- a/external-packages/syb/tests/XML.hs
++++ b/external-packages/syb/tests/XML.hs
+@@ -72,6 +72,7 @@
+  where
+ 
+   -- Case-discriminating worker
++  result :: ReadX a
+   result =         element
+            `ext1R` list
+            `extR`  string

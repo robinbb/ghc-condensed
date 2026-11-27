@@ -1,4 +1,4 @@
-{-# LANGUAGE MonoLocalBinds, NoMonomorphismRestriction #-}
+{-# LANGUAGE MonoLocalBinds #-}
 module T7268 where
 
 data X = X { a :: forall a . a -> Bool }

@@ -725,23 +725,20 @@ tcPolyInfer top_lvl rec_tc prag_fn tc_sig_fn bind_list
              <- pushLevelAndCaptureConstraints  $
                 tcMonoBinds rec_tc tc_sig_fn LetLclBndr bind_list
 
-       ; apply_mr <- checkMonomorphismRestriction mono_infos bind_list
-
        -- AbsBinds which are PatBinds can't be linear.
        -- See (NVP2) in Note [Non-variable pattern bindings aren't linear]
        ; manyIfPats binds'
 
-       ; traceTc "tcPolyInfer" (ppr apply_mr $$ ppr (map mbi_sig mono_infos))
+       ; traceTc "tcPolyInfer" (ppr (map mbi_sig mono_infos))
 
        ; let name_taus  = [ (mbi_poly_name info, idType (mbi_mono_id info))
                           | info <- mono_infos ]
              sigs       = [ sig | MBI { mbi_sig = Just sig } <- mono_infos ]
-             infer_mode = if apply_mr then ApplyMR else NoRestrictions
 
        ; traceTc "simplifyInfer call" (ppr tclvl $$ ppr name_taus $$ ppr wanted)
        ; ((qtvs, givens, ev_binds, insoluble), residual)
             <- captureConstraints $
-               simplifyInfer top_lvl tclvl infer_mode sigs name_taus wanted
+               simplifyInfer top_lvl tclvl NoRestrictions sigs name_taus wanted
 
        ; let inferred_theta = map evVarPred givens
        ; scaled_exports <- checkNoErrs $
@@ -774,104 +771,6 @@ tcPolyInfer top_lvl rec_tc prag_fn tc_sig_fn bind_list
       = tcSubMult (NonLinearPatternOrigin GeneralisedPatternReason nlWildPatName) ManyTy mult
     manyIfPat _ = return ()
     manyIfPats binds' = traverse_ manyIfPat binds'
-
-checkMonomorphismRestriction :: [MonoBindInfo] -> [LHsBind GhcRn] -> TcM Bool
--- True <=> apply the MR
--- See Note [When the MR applies]
-checkMonomorphismRestriction mbis lbinds
-  = do { mr_on <- xoptM LangExt.MonomorphismRestriction
-       ; let mr_applies = mr_on && any (restricted . unLoc) lbinds
-       ; when mr_applies $ mapM_ checkOverloadedSig mbis
-       ; return mr_applies }
-  where
-    no_mr_bndrs :: NameSet
-    no_mr_bndrs = mkNameSet (mapMaybe no_mr_name mbis)
-
-    no_mr_name :: MonoBindInfo -> Maybe Name
-    -- Just n for binders that have a signature that says "no MR needed for me"
-    no_mr_name (MBI { mbi_sig = Just sig })
-       | TISI { sig_inst_sig = info, sig_inst_theta = theta, sig_inst_wcx = wcx } <- sig
-       = case info of
-           TcCompleteSig (CSig { sig_bndr = bndr }) -> Just (idName bndr)
-           TcPartialSig (PSig { psig_name = nm })
-             | null theta, isNothing wcx   -> Nothing  -- f :: _ -> _
-             | otherwise                   -> Just nm  -- f :: Num a => a -> _
-             -- For the latter case, we don't want the MR:
-             -- the user has explicitly specified a type-class context
-    no_mr_name _ = Nothing
-
-    -- The Haskell 98 monomorphism restriction
-    restricted :: HsBindLR GhcRn GhcRn -> Bool
-    restricted (PatBind {})                              = True
-    restricted (FunBind { fun_id = v, fun_matches = m }) = restricted_match m
-                                                           && mr_needed_for (unLoc v)
-    restricted (VarBind { var_ext = x })                 = dataConCantHappen x
-    restricted b@(PatSynBind {}) = pprPanic "isRestrictedGroup/unrestricted" (ppr b)
-
-    restricted_match mg = matchGroupVisArity mg == 0
-        -- No args => like a pattern binding
-        -- Some args => a function binding
-
-    mr_needed_for nm = not (nm `elemNameSet` no_mr_bndrs)
-
-checkOverloadedSig :: MonoBindInfo -> TcM ()
--- Example:
---   f :: Eq a => a -> a
---   K f = e
--- The MR applies, but the signature is overloaded, and it's
--- best to complain about this directly
--- c.f #11339
-checkOverloadedSig (MBI { mbi_sig = Just sig })
-  | TISI { sig_inst_sig = orig_sig, sig_inst_theta = theta, sig_inst_wcx = wcx } <- sig
-  , not (null theta && isNothing wcx)
-  = setSrcSpan (tcIdSigLoc orig_sig) $
-    failWith $ TcRnOverloadedSig orig_sig
-checkOverloadedSig _ = return ()
-
-{- Note [When the MR applies]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The Monomorphism Restriction (MR) applies as specifies in the Haskell Report:
-
-* If -XMonomorphismRestriction is on, and
-* Any binding is restricted
-
-A binding is restricted if:
-* It is a pattern binding e.g. (x,y) = e
-* Or it is a FunBind with no arguments e.g. f = rhs
-     and the binder `f` lacks a No-MR signature
-
-A binder f has a No-MR signature if
-
-* It has a complete type signature
-    e.g. f :: Num a => a -> a
-
-* Or it has a /partial/ type signature with a /context/
-    e.g.  f :: (_) => a -> _
-          g :: Num a => a -> _
-          h :: (Num a, _) => a -> _
-   All of f,g,h have a No-MR signature.  They say that the function is overloaded
-   so it's silly to try to apply the MR. This means that #19106 works out
-   fine.  Ditto #11016, which looked like
-      f4 :: (?loc :: Int) => _
-      f4 = ?loc
-
-   This partial-signature stuff is a bit ad-hoc but seems to match our
-   use-cases.  See also Note [Constraints in partial type signatures]
-   in GHC.Tc.Solver.
-
-Example: the MR does apply to
-   k :: _ -> _
-   k = rhs
-because k's binding has no arguments, and `k` does not have
-a No-MR signature.
-
-All of this checking takes place after synonym expansion.  For example:
-   type Wombat a = forall b. Eq [b] => ...b...a...
-   f5 :: Wombat _
-This (and does) behave just like
-   f5 :: forall b. Eq [b] => ...b..._...
-
--}
 
 --------------
 mkExport :: TcPragEnv

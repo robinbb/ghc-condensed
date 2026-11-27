@@ -1,31 +1,12 @@
-DoExpansion3.hs:12:20: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
-    • No instance for ‘Num String’ arising from the literal ‘1’
-    • In the expression: 1
-      In an equation for ‘x’: x = 1
-      In a stmt of a 'do' block: let x = 1
-
-DoExpansion3.hs:13:20: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
-    • Ambiguous type variable ‘a0’ arising from the literal ‘2’
-      prevents the constraint ‘(Num a0)’ from being solved.
-      Relevant bindings include y :: a0 (bound at DoExpansion3.hs:13:16)
-      Probable fix: use a type annotation to specify what ‘a0’ should be.
-      Potentially matching instances:
-        instance Num Integer -- Defined in ‘GHC.Internal.Num’
-        instance Num Double -- Defined in ‘GHC.Internal.Float’
-        ...plus three others
-        ...plus one instance involving out-of-scope types
-        (use -fprint-potential-instances to see them all)
-    • In the expression: 2
-      In an equation for ‘y’: y = 2
-      In a stmt of a 'do' block: let y = 2
-
-DoExpansion3.hs:15:20: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
-    • Couldn't match type ‘[Char]’ with ‘Int’
-      Expected: Int
-        Actual: String
-    • In the first argument of ‘(+)’, namely ‘x’
-      In the first argument of ‘return’, namely ‘(x + 1)’
-      In a stmt of a 'do' block: return (x + 1)
+DoExpansion3.hs:14:21: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
+    • No instance for ‘Num String’ arising from a use of ‘x’
+    • In the first argument of ‘putStrLn’, namely ‘x’
+      In a stmt of a 'do' block: putStrLn x
+      In the expression:
+        do let x = 1
+           let y = 2
+           putStrLn x
+           return (x + 1)
 
 DoExpansion3.hs:18:20: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
     • Couldn't match expected type: t0 -> t
@@ -64,12 +45,6 @@ DoExpansion3.hs:27:12: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefaul
         do Just x <- getChar
            return x
 
-DoExpansion3.hs:32:11: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
-    • No instance for ‘Num String’ arising from the literal ‘1’
-    • In the expression: 1
-      In an equation for ‘a’: a = 1
-      In a stmt of a 'do' block: let a = 1
-
 DoExpansion3.hs:33:3: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault)]
     • Couldn't match type ‘()’ with ‘Int’
       Expected: IO Int
@@ -85,12 +60,9 @@ DoExpansion3.hs:33:3: warning: [GHC-83865] [-Wdeferred-type-errors (in -Wdefault
                  let a = 1
                  putStrLn $ a + ""
 
-DoExpansion3.hs:33:16: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
-    • No instance for ‘Num String’ arising from a use of ‘+’
-    • In the second argument of ‘($)’, namely ‘a + ""’
+DoExpansion3.hs:33:14: warning: [GHC-39999] [-Wdeferred-type-errors (in -Wdefault)]
+    • No instance for ‘Num String’ arising from a use of ‘a’
+    • In the first argument of ‘(+)’, namely ‘a’
+      In the second argument of ‘($)’, namely ‘a + ""’
       In a stmt of a 'do' block: putStrLn $ a + ""
-      In the expression:
-        do let z :: Int = 3
-           let a = 1
-           putStrLn $ a + ""
 

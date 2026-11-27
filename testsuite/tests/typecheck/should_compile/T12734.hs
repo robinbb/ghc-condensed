@@ -4,7 +4,6 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE UndecidableInstances      #-}
 {-# LANGUAGE GADTs                     #-}
 {-# LANGUAGE TypeApplications          #-}

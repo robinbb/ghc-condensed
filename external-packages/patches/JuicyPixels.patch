@@ -1,25 +1,6 @@
---- a/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
-+++ b/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
-@@ -109,6 +109,7 @@
- import Data.Monoid( Monoid, mempty )
- import Control.Applicative( Applicative, pure, (<*>), (<$>) )
- #endif
-+import Data.Kind (Type)
- #if !MIN_VERSION_base(4,11,0)
- import Data.Monoid( (<>) )
- #endif
-@@ -702,7 +703,7 @@
-     -- | Type of the pixel component, "classical" images
-     -- would have Word8 type as their PixelBaseComponent,
-     -- HDR image would have Float for instance
--    type PixelBaseComponent a :: *
-+    type PixelBaseComponent a :: Type
- 
-     -- | Call the function for every component of the pixels.
-     -- For example for RGB pixels mixWith is declared like this:
 --- a/external-packages/vendored/JuicyPixels/src/Codec/Picture/Tiff.hs
 +++ b/external-packages/vendored/JuicyPixels/src/Codec/Picture/Tiff.hs
-@@ -38,6 +38,7 @@
+@@ -38,6 +38,7 @@ module Codec.Picture.Tiff( decodeTiff
  import Control.Applicative( (<$>), (<*>), pure )
  import Data.Monoid( mempty )
  #endif
@@ -27,7 +8,7 @@
  
  import Control.Arrow( first )
  import Control.Monad( when, foldM_, unless, forM_ )
-@@ -209,7 +210,7 @@
+@@ -209,7 +210,7 @@ uncompressAt CompressionLZW =  \str outVec _stride writeIndex (offset, size) ->
  uncompressAt _ = error "Unhandled compression"
  
  class Unpackable a where
@@ -36,3 +17,40 @@
  
      outAlloc :: a -> Int -> ST s (M.STVector s (StorageType a))
  
+--- a/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
++++ b/external-packages/vendored/JuicyPixels/src/Codec/Picture/Types.hs
+@@ -109,6 +109,7 @@ module Codec.Picture.Types( -- * Types
+ import Data.Monoid( Monoid, mempty )
+ import Control.Applicative( Applicative, pure, (<*>), (<$>) )
+ #endif
++import Data.Kind (Type)
+ #if !MIN_VERSION_base(4,11,0)
+ import Data.Monoid( (<>) )
+ #endif
+@@ -702,7 +703,7 @@ class ( Storable (PixelBaseComponent a)
+     -- | Type of the pixel component, "classical" images
+     -- would have Word8 type as their PixelBaseComponent,
+     -- HDR image would have Float for instance
+-    type PixelBaseComponent a :: *
++    type PixelBaseComponent a :: Type
+ 
+     -- | Call the function for every component of the pixels.
+     -- For example for RGB pixels mixWith is declared like this:
+@@ -2260,14 +2261,15 @@ instance ColorSpaceConvertible PixelYCbCrK8 PixelCMYK8 where
+ --
+ -- /Note/ - 32bit precision is not supported. Make sure to adjust implementation if ever
+ -- used with Word32.
+-integralRGBToCMYK :: (Bounded a, Integral a)
++integralRGBToCMYK :: forall a b. (Bounded a, Integral a)
+                   => (a -> a -> a -> a -> b)    -- ^ Pixel building function
+                   -> (a, a, a)                  -- ^ RGB sample
+                   -> b                          -- ^ Resulting sample
+ integralRGBToCMYK build (r, g, b)
+   | kMax == 0 = build 0 0 0 maxVal -- prevent division by zero
+   | otherwise = build (fromIntegral c) (fromIntegral m) (fromIntegral y) k
+-    where maxVal = maxBound
++    where maxVal :: a
++          maxVal = maxBound
+           max32 = fromIntegral maxVal :: Word32
+           kMax32 = fromIntegral kMax :: Word32
+           kMax = max r (max g b)

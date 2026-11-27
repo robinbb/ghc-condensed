@@ -123,3 +123,15 @@
  
  pinfo :: ParserInfo Args
  pinfo = info parser
+--- a/external-packages/vendored/optparse-applicative/tests/test.hs
++++ b/external-packages/vendored/optparse-applicative/tests/test.hs
+@@ -661,7 +661,8 @@ prop_intersperse_1 = once $
+ 
+ prop_intersperse_2 :: Property
+ prop_intersperse_2 = once $
+-  let p = subparser
++  let p :: Parser [String]
++      p = subparser
+           (  command "run"
+              ( info (many (argument str (metavar "OPTIONS")))
+                     noIntersperse )

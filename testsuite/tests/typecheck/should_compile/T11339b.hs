@@ -1,4 +1,3 @@
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module T11339b where
 
@@ -13,7 +12,7 @@ failing left right afb s = case pins t of
   _  -> t afb
   where
     t :: Applicative f => (a -> f b) -> f t
-    -- Works because of NoMonomorphismRestriction
+    -- Works: the pattern binding is generalised
     Bazaar { getBazaar = t } = left sell s
 
     sell :: a -> Bazaar a b b

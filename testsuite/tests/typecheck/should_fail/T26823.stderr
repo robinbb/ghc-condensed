@@ -1,8 +1,8 @@
 T26823.hs:11:14: error: [GHC-25897]
-    • Couldn't match expected type ‘Integer -> Integer -> t’
-                  with actual type ‘t’
-      ‘t’ is a rigid type variable bound by
-        the inferred type of rem :: Integer -> Integer -> t
+    • Couldn't match expected type ‘t3 -> t4 -> t5’
+                  with actual type ‘t5’
+      ‘t5’ is a rigid type variable bound by
+        the inferred type of rem :: t3 -> t4 -> t5
         at T26823.hs:11:5-29
     • In the expression: off `rem` vecAli
       In an equation for ‘rem’: !rem = off `rem` vecAli
@@ -13,13 +13,5 @@ T26823.hs:11:14: error: [GHC-25897]
             !rem = off `rem` vecAli
             !start = if rem == 0 then off else off + (vecAli - rem)
     • Relevant bindings include
-        rem :: Integer -> Integer -> t (bound at T26823.hs:11:6)
-
-T26823.hs:12:57: error: [GHC-83865]
-    • Couldn't match expected type ‘Integer’
-                  with actual type ‘Integer -> Integer -> t0’
-    • Probable cause: ‘rem’ is applied to too few arguments
-      In the second argument of ‘(-)’, namely ‘rem’
-      In the second argument of ‘(+)’, namely ‘(vecAli - rem)’
-      In the expression: off + (vecAli - rem)
+        rem :: t3 -> t4 -> t5 (bound at T26823.hs:11:6)
 

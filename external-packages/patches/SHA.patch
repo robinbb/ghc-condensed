@@ -1,0 +1,12 @@
+--- a/external-packages/vendored/SHA/src/Data/Digest/Pure/SHA.hs
++++ b/external-packages/vendored/SHA/src/Data/Digest/Pure/SHA.hs
+@@ -239,7 +239,8 @@
+ 
+ generic_pad_chunks :: Word64 -> Word64 -> Int -> Int -> [SBS.ByteString]
+ generic_pad_chunks a b lSize len =
+-  let lenBits = fromIntegral $ len * 8
++  let lenBits :: Word64
++      lenBits = fromIntegral $ len * 8
+       k = calc_k a b lenBits
+       -- INVARIANT: k is necessarily > 0, and (k + 1) is a multiple of 8.
+       kBytes = (k + 1) `div` 8

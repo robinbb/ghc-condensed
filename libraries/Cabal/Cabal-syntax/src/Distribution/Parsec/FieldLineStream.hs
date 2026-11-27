@@ -66,6 +66,7 @@ unconsChar c0 bs0 f next
               else (replacementChar, f bs1)
         | otherwise -> (replacementChar, f bs1)
         where
+          d :: Int
           d = (fromIntegral (c0 .&. 0x1F) `shiftL` 6) .|. fromIntegral (c1 .&. 0x3F)
 
     moreBytes :: Int -> Int -> ByteString -> Int -> (Char, a)

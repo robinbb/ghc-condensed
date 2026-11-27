@@ -1,0 +1,32 @@
+--- a/external-packages/hledger/hledger/Hledger/Cli/Commands/Rewrite.hs
++++ b/external-packages/hledger/hledger/Hledger/Cli/Commands/Rewrite.hs
+@@ -109,7 +109,7 @@
+     go (Just (fp, offs)) ((SourcePos _ lineno _, diffs):cs) = chunkHeader <> chnk <> go (Just (fp, offs + adds - dels)) cs
+         where
+             chunkHeader = T.pack $ printf "@@ -%d,%d +%d,%d @@\n" (unPos lineno) dels (unPos lineno+offs) adds
+-            (dels, adds) = foldl' countDiff (0, 0) diffs
++            (dels, adds) = foldl' countDiff (0, 0) diffs :: (Int, Int)
+             chnk = foldMap renderLine diffs
+     fileHeader fp = "--- " <> T.pack fp <> "\n+++ " <> T.pack fp <> "\n"
+ 
+--- a/external-packages/hledger/hledger/Hledger/Cli/Commands/Setup.hs
++++ b/external-packages/hledger/hledger/Hledger/Cli/Commands/Setup.hs
+@@ -172,7 +172,7 @@
+   let
+     (failaction, failmsg) =
+       -- (exitFailure , "Please install this hledger in PATH then run setup again.")
+-      (return ()   , " Some of this info may not apply to that hledger version. Continuing anyway..")
++      (return () :: IO (), " Some of this info may not apply to that hledger version. Continuing anyway.." :: String)
+   case pathexes of
+     [] -> p N failmsg >> failaction
+     exe:_ -> do
+--- a/external-packages/hledger/hledger/Hledger/Cli/CompoundBalanceCommand.hs
++++ b/external-packages/hledger/hledger/Hledger/Cli/CompoundBalanceCommand.hs
+@@ -362,6 +362,7 @@
+       (if not (summary_only_ ropts) then colspans else []) ++
+       (guard (multiBalanceHasTotalsColumn ropts) >> [Spr.headerCell "Total"]) ++
+       (guard (average_   ropts) >> [Spr.headerCell "Average"])
++    headerrow :: [Spr.Cell Spr.NumLines T.Text]
+     headerrow = leadingHeaders ++ dataHeaders
+ 
+     blankrow =

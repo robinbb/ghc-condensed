@@ -68,11 +68,11 @@ getTimeZoneCTime ctime =
 toCTime :: Int64 -> IO CTime
 toCTime t =
     let
-        tt = fromIntegral t
-        t' = fromIntegral tt
+        ct = CTime (fromIntegral t)
+        t' = case ct of CTime tt -> fromIntegral tt
     in
         if t' == t
-            then return $ CTime tt
+            then return ct
             else fail "Data.Time.LocalTime.Internal.TimeZone.toCTime: Overflow"
 
 -- | Get the configured time-zone for a given time (varying as per summertime adjustments).

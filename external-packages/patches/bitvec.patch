@@ -1,0 +1,18 @@
+--- a/external-packages/bitvec/src/Data/Bit/Immutable.hs
++++ b/external-packages/bitvec/src/Data/Bit/Immutable.hs
+@@ -733,6 +733,7 @@
+       then go (n + 1) (l - c)
+       else Right (mulWordSize (n - off) + unsafeNthTrueInWord l w)
+    where
++    w :: Word
+     w = indexByteArray arr n
+     c = popCount w
+ nthInWords (Bit False) !k !off !len !arr = go off k
+@@ -743,6 +744,7 @@
+       then go (n + 1) (l - c)
+       else Right (mulWordSize (n - off) + unsafeNthTrueInWord l w)
+    where
++    w :: Word
+     w = complement (indexByteArray arr n)
+     c = popCount w
+ 

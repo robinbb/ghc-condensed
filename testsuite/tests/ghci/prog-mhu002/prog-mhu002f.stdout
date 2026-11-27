@@ -1,15 +1,15 @@
 === :browse A
-A.baz :: Integer
-A.foobar :: Integer
+A.baz :: Num a => a
+A.foobar :: Num a => a
 type A.A :: Type
 data A.A = A.A
 === :browse B
-B.foo :: Integer
+B.foo :: Num a => a
 type B.Test :: Type -> Constraint
 class B.Test a where
   B.test :: a -> String
   {-# MINIMAL test #-}
 === :browse C
-C.bar :: Integer
+C.bar :: Num a => a
 === :main
 Hello, World

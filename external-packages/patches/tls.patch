@@ -1,6 +1,6 @@
 --- a/external-packages/hs-tls/tls/Network/TLS/Crypto.hs
 +++ b/external-packages/hs-tls/tls/Network/TLS/Crypto.hs
-@@ -66,6 +66,7 @@
+@@ -65,6 +65,7 @@ import Data.ByteArray (ByteArray, ByteArrayAccess, ScrubbedBytes, convert)
  import qualified Data.ByteArray as BA
  import qualified Data.ByteString as B
  import Data.Proxy
@@ -8,7 +8,7 @@
  import Data.X509 (
      PrivKey (..),
      PrivKeyEC (..),
-@@ -496,7 +497,7 @@
+@@ -495,7 +496,7 @@ kxSupportedPrivKeyEC privkey =
  -- available, otherwise fallback to the classic ECC implementation.
  withPubKeyEC
      :: PubKeyEC
@@ -17,7 +17,7 @@
            . ECDSA.EllipticCurveECDSA curve
           => Proxy curve
           -> ECDSA.PublicKey curve
-@@ -526,7 +527,7 @@
+@@ -525,7 +526,7 @@ withPubKeyEC pubkey withProxy withClassic whenUnknown =
  -- kxSupportedEcPrivKey.
  withPrivKeyEC
      :: PrivKeyEC
@@ -26,3 +26,14 @@
            . ECDSA.EllipticCurveECDSA curve
           => Proxy curve
           -> ECDSA.PrivateKey curve
+--- a/external-packages/hs-tls/tls/Network/TLS/Record/State.hs
++++ b/external-packages/hs-tls/tls/Network/TLS/Record/State.hs
+@@ -159,6 +159,8 @@ computeDigest _ver tstate hdr content = (digest, incrRecordState tstate)
+     hashA = cipherHash cipher
+     encodedSeq = encodeWord64 $ msSequence $ stMacState tstate
+ 
++    macF :: BA.ScrubbedBytes -> ByteString -> BA.ScrubbedBytes
++    msg :: ByteString
+     (macF, msg) = (hmac hashA, B.concat [encodedSeq, encodeHeader hdr, content])
+ 
+ makeDigest :: Header -> ByteString -> RecordM ByteString

@@ -5,7 +5,6 @@
            , FlexibleContexts
            , FlexibleInstances
            , GADTs
-           , NoMonomorphismRestriction
            , StandaloneDeriving
            , TypeOperators
   #-}

@@ -26,13 +26,16 @@ packages:
     tag: v2.3.2.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: the continuation kinds of
-    Data.Aeson.Types.Internal.Parser and the phantom tag of
-    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised, the
-    former made the newtype constructor existential and the latter left the
-    test suite's generated encoders ambiguous; the two mdo parsers of the
-    MonadFix unit test tie their knots with mfix, since this compiler has no
-    recursive do-notation (patches/aeson.patch)
+    deliberate exception to the no-modification rule: the continuation kinds
+    of Data.Aeson.Types.Internal.Parser and the phantom tag of
+    Data.Aeson.Encoding.Internal.Encoding' are pinned to Type; generalised,
+    the former made the newtype constructor existential and the latter left
+    the test suite's generated encoders ambiguous; the two mdo parsers of
+    the MonadFix unit test tie their knots with mfix, since this compiler
+    has no recursive do-notation. Later hunk: the test suite's roundTripOmit
+    gives its where-bound omittedField the type Maybe a, since it
+    generalised into ambiguity without the monomorphism restriction, which
+    this compiler no longer has (patches/aeson.patch)
 - name: ansi-terminal
   version: 1.1.5
   tier: 1
@@ -87,6 +90,12 @@ packages:
     property t_iter iterates at a non-character boundary; text 2.1.4 classifies
     continuation bytes as 2-byte leaders and reads past the array, so the two
     buffers decode different garbage. Passes with text 2.1.2 on GHC 9.12.2
+  patched: >-
+    deliberate exception to the no-modification rule: the new-generation
+    counter of Data.Attoparsec.ByteString.Buffer is written 1 :: Int: a
+    let-bound literal is generalised and its poke ambiguous without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/attoparsec.patch)
 - name: base-compat
   version: 0.15.0
   tier: 1
@@ -248,6 +257,13 @@ packages:
     sdist: colour-2.3.7
   note: no source repository listed
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Colour.Internal.quantize gives its where-bound minBound and
+    maxBound the result type and Data.Colour.SRGB.toSRGBBounded its
+    where-bound scale the component type: they generalised into ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/colour.patch)
 - name: comonad
   version: 5.0.10
   tier: 1
@@ -401,8 +417,12 @@ packages:
     tag: 1.14.7
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
+    deliberate exception to the no-modification rule: in the test suite,
+    kind annotations written with * are spelt Type, since this compiler no
+    longer reads * as a kind. Later hunk, in the library:
+    Generics.Deriving.Enum.toEnumDefault gives its let-bound enumeration the
+    type [Rep a ()], since it generalised into ambiguity without the
+    monomorphism restriction, which this compiler no longer has
     (patches/generic-deriving.patch)
 - name: generically
   version: 0.1.1
@@ -434,6 +454,13 @@ packages:
     sdist: happstack-server-7.9.5
   note: no tag for 7.9.5 in https://github.com/Happstack/happstack-server.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Happstack.Server.Internal.Cookie.cookiesParser gives its six where-bound
+    sub-parsers GenParser signatures, since they generalised into Stream
+    constraints that need FlexibleContexts without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/happstack-server.patch)
 - name: happstack-static-routing
   version: 0.7.0.1
   tier: 1
@@ -531,11 +558,11 @@ packages:
     NondecreasingIndentation, DisambiguateRecordFields, ApplicativeDo,
     QualifiedDo, ExplicitNamespaces, StandaloneKindSignatures,
     BinaryLiterals, HexFloatLiterals, NumDecimals, NumericUnderscores,
-    MultilineStrings, Arrows, LambdaCase, TraditionalRecordSyntax and the
-    deprecated aliases) to or from template-haskell, whose Extension type
-    lost those constructors, and Language.Haskell.Meta.Syntax.Translate
-    builds a DoE without the module qualifier field that template-haskell
-    dropped with QualifiedDo
+    MultilineStrings, Arrows, LambdaCase, TraditionalRecordSyntax,
+    MonomorphismRestriction and the deprecated aliases) to or from
+    template-haskell, whose Extension type lost those constructors, and
+    Language.Haskell.Meta.Syntax.Translate builds a DoE without the module
+    qualifier field that template-haskell dropped with QualifiedDo
 - name: heaps
   version: 0.4.1
   tier: 1
@@ -676,6 +703,12 @@ packages:
     git: https://github.com/hspec/hspec.git
     tag: 2.11.18
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Test.Hspec.Core.FailureReport reads the saved report at Maybe
+    FailureReport, since the let-bound readMaybe generalised into ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/hspec-core.patch)
 - name: hspec-discover
   version: 2.11.18
   tier: 1
@@ -832,12 +865,16 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: handlerCatchIO in
     Control.Lens.Internal.Exception declares its monad parameter at kind
-    Type -> Type, since Control.Monad.Catch.Handler is now kind-polymorphic and no
-    longer fixes it; the templates test suite gives T917GadtOne and T917GadtTwo
-    standalone kind signatures, their complete user-supplied kinds no longer
-    being detected; Language.Haskell.TH.Lens drops the _MDoE and _RecS prisms
-    and gives _DoE the one-field DoE, since template-haskell lost those
-    constructors and DoE's module qualifier with this compiler
+    Type -> Type, since Control.Monad.Catch.Handler is now kind-polymorphic
+    and no longer fixes it; the templates test suite gives T917GadtOne and
+    T917GadtTwo standalone kind signatures, their complete user-supplied
+    kinds no longer being detected; Language.Haskell.TH.Lens drops the _MDoE
+    and _RecS prisms and gives _DoE the one-field DoE, since
+    template-haskell lost those constructors and DoE's module qualifier with
+    this compiler. Later hunk: the test suite's hunit module enables
+    FlexibleContexts, since its 23 where-bound state actions now infer
+    MonadState Polygon m types, since they are generalised without the
+    monomorphism restriction, which this compiler no longer has
     (patches/lens.patch)
 - name: lifted-async
   version: 0.11.0
@@ -904,9 +941,13 @@ packages:
     git: https://github.com/mrkkrp/megaparsec.git
     tag: 9.8.3
   patched: >-
-    deliberate exception to the no-modification rule: the abstract ParseError and
-    Reply in the hs-boot files of Text.Megaparsec.Error and .Internal get the
-    kinds of their definitions, since an abstract declaration is now generalised
+    deliberate exception to the no-modification rule: the abstract
+    ParseError and Reply in the hs-boot files of Text.Megaparsec.Error and
+    .Internal get the kinds of their definitions, since an abstract
+    declaration is now generalised. Later hunk: Text.Megaparsec.Debug's dbg
+    gives its let-bound logger and stream slicer the instance's stream type,
+    since they generalised into Token s ambiguity without the monomorphism
+    restriction, which this compiler no longer has
     (patches/megaparsec.patch)
   tests: false
 - name: monad-control
@@ -994,6 +1035,12 @@ packages:
     sdist: old-time-1.1.1.0
   note: 'not a git repository: https://github.com/haskell/old-time.git'
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    System.Time.addToClockTime gives its where-bound month and year
+    adjustment the type (Month, Int): the pattern-bound pair generalised
+    into ambiguity without the monomorphism restriction, which this compiler
+    no longer has (patches/old-time.patch)
 - name: OneTuple
   version: 0.4.3
   tier: 1
@@ -1019,7 +1066,10 @@ packages:
     deliberate exception to the no-modification rule: the proc blocks of
     tests/Examples/Cabal.hs are written with the arrow combinators of the
     package's own Options.Applicative.Arrows, since this compiler has no
-    arrow notation (patches/optparse-applicative.patch)
+    arrow notation. Later hunk: the test suite's subparser test gives its
+    let-bound parser the type Parser [String], since it generalised over
+    IsString into ambiguity without the monomorphism restriction, which this
+    compiler no longer has (patches/optparse-applicative.patch)
 - name: parallel
   version: 3.3.0.0
   tier: 1
@@ -1172,8 +1222,11 @@ packages:
     tag: v2.1.9
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
+    deliberate exception to the no-modification rule: kind annotations
+    written with * are spelt Type, since this compiler no longer reads * as
+    a kind. Later hunk: the StableBox instance's where-bound proxy s names
+    its type, since it generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has
     (patches/reflection.patch)
 - name: regex-base
   version: 0.94.0.3
@@ -1196,12 +1249,16 @@ packages:
     tag: v1.3.2.7
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: three do blocks that began
-    at the indentation of their enclosing block are indented further, as the
-    Haskell 2010 layout rule requires; the package enabled
-    NondecreasingIndentation, which this compiler no longer has; the five mdo
-    blocks of Text.Regex.TDFA.CorePattern and .TNFA tie their knots with mfix,
-    since this compiler has no recursive do-notation (patches/regex-tdfa.patch)
+    deliberate exception to the no-modification rule: three do blocks that
+    began at the indentation of their enclosing block are indented further,
+    as the Haskell 2010 layout rule requires; the package enabled
+    NondecreasingIndentation, which this compiler no longer has; the five
+    mdo blocks of Text.Regex.TDFA.CorePattern and .TNFA tie their knots with
+    mfix, since this compiler has no recursive do-notation. Later hunks:
+    Text.Regex.TDFA.ReadRegex reads its bound counts at Int, since the
+    let-bound reads generalised into Read ambiguity without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/regex-tdfa.patch)
 - name: safe
   version: 0.3.21
   tier: 1
@@ -1212,6 +1269,11 @@ packages:
     git: https://github.com/ndmitchell/safe.git
     tag: v0.3.21
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Safe.toEnumMay gives
+    its let-bound r the result type: the bounds compared against it
+    generalised into ambiguity without the monomorphism restriction, which
+    this compiler no longer has (patches/safe.patch)
 - name: scientific
   version: 0.3.10.0
   tier: 1
@@ -1284,6 +1346,14 @@ packages:
   - directory test
   - util test
   - verbosity test
+  patched: >-
+    deliberate exception to the no-modification rule: General.Binary gives
+    unsafeBinarySplit's where-bound value its result type and the (String,
+    [String]) instance's getEx list the type [String], and
+    Development.Shake.Command's let- and where-bound cmdString and cmdResult
+    pairs name their instance types: both generalised into ambiguity or a
+    FlexibleContexts constraint without the monomorphism restriction, which
+    this compiler no longer has (patches/shake.patch)
 - name: shakespeare
   version: 2.2.0
   tier: 1
@@ -1295,9 +1365,13 @@ packages:
   note: no tag for 2.2.0 in https://github.com/yesodweb/shakespeare.git
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: Text.Hamlet builds a DoE
-    without the module qualifier field that template-haskell dropped with
-    QualifiedDo (patches/shakespeare.patch)
+    deliberate exception to the no-modification rule: Text.Hamlet builds a
+    DoE without the module qualifier field that template-haskell dropped
+    with QualifiedDo. Later hunks: Text.Shakespeare.Base.parseDeref gives
+    its six where-bound sub-parsers UserParser signatures, since they
+    generalised into Stream constraints that need FlexibleContexts without
+    the monomorphism restriction, which this compiler no longer has
+    (patches/shakespeare.patch)
 - name: ShellCheck
   version: 0.11.0
   tier: 1
@@ -1309,10 +1383,19 @@ packages:
     tag: v0.11.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: eight do blocks that began
-    at the indentation of their enclosing block are indented further, as the
-    Haskell 2010 layout rule requires; the package is Haskell 98, whose
-    NondecreasingIndentation this compiler no longer has (patches/ShellCheck.patch)
+    deliberate exception to the no-modification rule: eight do blocks that
+    began at the indentation of their enclosing block are indented further,
+    as the Haskell 2010 layout rule requires; the package is Haskell 98,
+    whose NondecreasingIndentation this compiler no longer has. Later hunks:
+    ShellCheck.Formatter.TTY's line bounds are Int and
+    ShellCheck.CFG.findPostDominators' arrays are Array Node [Node], since
+    the bindings generalised into ambiguity or an IArray constraint without
+    the monomorphism restriction, which this compiler no longer has. Later
+    hunk: the executable's printErr is a String -> ExceptT Status IO (),
+    since the point-free binding generalised and every function using it
+    inferred a FlexibleContexts constraint without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/ShellCheck.patch)
 - name: shelly
   version: 1.12.1.1
   tier: 1
@@ -1323,6 +1406,11 @@ packages:
     git: https://github.com/gregwebs/Shelly.hs.git
     tag: v1.12.1.1
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Shelly's where-bound
+    shelly_dir is a FilePath: an overloaded string literal generalised into
+    ambiguity without the monomorphism restriction, which this compiler no
+    longer has (patches/shelly.patch)
 - name: simple-reflect
   version: 0.3.3
   tier: 1
@@ -1383,6 +1471,13 @@ packages:
     git: https://github.com/dreixel/syb.git
     tag: syb-0.7.4
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Generics.Text.gread gives its where-bound allButString parser the
+    result type, and the unit tests' where-bound workers (Bits, GenUpTo,
+    Perm, Polymatch, Tree, XML) theirs: it generalised and the dataTypeOf of
+    its argument went ambiguous without the monomorphism restriction, which
+    this compiler no longer has (patches/syb.patch)
 - name: system-filepath
   version: 0.4.14.1
   tier: 1
@@ -1514,8 +1609,12 @@ packages:
     tag: v0.7.2.0
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: in the test suite, kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
+    deliberate exception to the no-modification rule: in the test suite,
+    kind annotations written with * are spelt Type, since this compiler no
+    longer reads * as a kind. Later hunk, in the library:
+    Language.Haskell.TH.Datatype's let-bound renamedTyvars is a
+    [TyVarBndrUnit], since it generalised over the binder flag without the
+    monomorphism restriction, which this compiler no longer has
     (patches/th-abstraction.patch)
 - name: th-compat
   version: 0.1.7
@@ -1701,9 +1800,13 @@ packages:
     git: https://github.com/haskell/vector.git
     tag: vector-0.13.2.0
   patched: >-
-    deliberate exception to the no-modification rule: the phantom state parameter
-    of Data.Vector.Storable.Mutable.MVector is pinned to kind Type, which the
-    MVector class instance requires (patches/vector.patch)
+    deliberate exception to the no-modification rule: the phantom state
+    parameter of Data.Vector.Storable.Mutable.MVector is pinned to kind
+    Type, which the MVector class instance requires. Later hunk: the
+    benchmark library's HybCC enumerates indices at Int, since a
+    pattern-bound pair generalised into Unbox ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/vector.patch)
   tests: false
   reason: >-
     test suite vector-doctest, vector-inspection needs doctest, tasty-inspection-testing
@@ -1747,6 +1850,11 @@ packages:
     git: https://github.com/haskell/zlib.git
     tag: 0.7.1.1
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the test suite's
+    large-chunk length is an Int64, since the where-bound length defaulted
+    into ambiguity without the monomorphism restriction, which this compiler
+    no longer has (patches/zlib.patch)
 - name: acid-state
   version: 0.17.0
   tier: 2
@@ -2000,6 +2108,11 @@ packages:
     git: https://github.com/Bodigrim/bitvec.git
     tag: 1.1.6.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Data.Bit.Immutable
+    gives the where-bound words of its counting loops the type Word, since
+    they generalised into Bits ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/bitvec.patch)
 - name: boomerang
   version: 1.4.9.4
   tier: 2
@@ -2020,6 +2133,12 @@ packages:
     git: https://github.com/jtdaugherty/brick.git
     tag: '3.0'
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Brick.Widgets.List
+    enables FlexibleContexts, since its where-bound parsers and actions now
+    infer constraints with non-type-variable arguments without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/brick.patch)
 - name: bsb-http-chunked
   version: 0.0.0.4
   tier: 2
@@ -2085,6 +2204,12 @@ packages:
     git: https://github.com/ulidtko/cabal-doctest.git
     tag: v1.0.13
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Distribution.Extra.Doctest enables FlexibleContexts, since its
+    where-bound parsers and actions now infer constraints with
+    non-type-variable arguments without the monomorphism restriction, which
+    this compiler no longer has (patches/cabal-doctest.patch)
 - name: cassava
   version: 0.5.4.1
   tier: 2
@@ -2096,8 +2221,12 @@ packages:
     tag: v0.5.4.1
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
+    deliberate exception to the no-modification rule: kind annotations
+    written with * are spelt Type, since this compiler no longer reads * as
+    a kind. Later hunk: the generic record parsers' instances give their
+    pattern-bound sub-parsers types under instance signatures that scope p,
+    since the pattern-bound pairs generalised into ambiguity without the
+    monomorphism restriction, which this compiler no longer has
     (patches/cassava.patch)
 - name: cassava-megaparsec
   version: 2.1.1
@@ -2109,6 +2238,13 @@ packages:
     git: https://github.com/stackbuilders/cassava-megaparsec.git
     tag: 2.1.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Csv.Parser.Megaparsec.Internals gives normalChar and escapedDq the
+    type Parser Word8, since they generalised into Num (Token s) and
+    IsString (Tokens s) constraints that need FlexibleContexts without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/cassava-megaparsec.patch)
 - name: cborg
   version: 0.2.10.0
   tier: 2
@@ -2143,6 +2279,12 @@ packages:
     git: https://github.com/cheecheeo/haskell-cgi.git
     tag: 3001.5.2.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Network.CGI.Accept
+    enables FlexibleContexts, since its where-bound parsers and actions now
+    infer constraints with non-type-variable arguments without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/cgi.patch)
 - name: charset
   version: 0.3.12
   tier: 2
@@ -2183,6 +2325,12 @@ packages:
     sdist: clientsession-0.9.3.0
   note: no tag for 0.9.3.0 in https://github.com/yesodweb/clientsession.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Web.ClientSession.chaChaRNG annotates its generated bytes as
+    (S.ByteString, ChaChaDRG), since the pattern-bound pair generalised into
+    ByteArray ambiguity without the monomorphism restriction, which this
+    compiler no longer has (patches/clientsession.patch)
 - name: cmdargs
   version: 0.10.22
   tier: 2
@@ -2193,6 +2341,12 @@ packages:
     sdist: cmdargs-0.10.22
   note: no tag for 0.10.22 in https://github.com/ndmitchell/cmdargs.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Generics.Any.recompose pins its rebuilt value to the input's type
+    with asTypeOf, since the pattern-bound pair generalised into Data
+    ambiguity without the monomorphism restriction, which this compiler no
+    longer has (patches/cmdargs.patch)
 - name: commonmark
   version: 0.3.1
   tier: 2
@@ -2207,7 +2361,10 @@ packages:
     deliberate exception to the no-modification rule: Commonmark.Html fixes
     the phantom parameter of Html at kind Type, so that IsBlock (Html a)
     (Html a) stays the more specific instance under PolyKinds, always on in
-    this compiler; commonmark-extensions' tests depend on it
+    this compiler; commonmark-extensions' tests depend on it. Later hunk:
+    Commonmark.Inlines.unChunks gives its attribute function the type a ->
+    a, since the pattern-bound pair generalised into HasAttributes ambiguity
+    without the monomorphism restriction, which this compiler no longer has
 - name: commonmark-extensions
   version: 0.2.7.3
   tier: 2
@@ -2218,6 +2375,12 @@ packages:
     git: https://github.com/jgm/commonmark-hs.git
     tag: 0.3.0.2
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Commonmark.Extensions.Footnote defaults its footnote data at (Int,
+    Text), since the pattern-bound pair generalised into Typeable ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/commonmark-extensions.patch)
 - name: commonmark-pandoc
   version: 0.3.0.2
   tier: 2
@@ -2252,6 +2415,12 @@ packages:
     sdist: conduit-1.3.6.1
   note: no tag for 1.3.6.1 in https://github.com/snoyberg/conduit.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the test suite enables
+    FlexibleContexts in Spec and gives the mtl-instance conduits of main
+    their monads, since its let-bound results now infer Num (Element b) and
+    Vector v Int constraints without the monomorphism restriction, which
+    this compiler no longer has (patches/conduit.patch)
 - name: conduit-extra
   version: 1.3.8
   tier: 2
@@ -2332,6 +2501,13 @@ packages:
     sdist: crypto-api-0.13.3
   note: no tag for 0.13.3 in https://github.com/TomMD/crypto-api.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Crypto.Classes gives
+    its where-bound digests, initialisation vectors and key lengths their
+    types, Crypto.Modes its CMAC subkeys and Crypto.HMAC its digest res ::
+    d, since they generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/crypto-api.patch)
 - name: crypto-pubkey-types
   version: 0.4.3
   tier: 2
@@ -2342,6 +2518,12 @@ packages:
     git: https://github.com/vincenthz/hs-crypto-pubkey-types.git
     tag: crypto-pubkey-types-v0.4.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Crypto.Types.PubKey.RSA.toPositive gives its where-bound byte list the
+    type [Word8], since it generalised into Bits ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/crypto-pubkey-types.patch)
 - name: cryptohash-md5
   version: 0.11.101.0
   tier: 2
@@ -2369,7 +2551,16 @@ packages:
     unresolvable ByteArrayAccess (IV c) constraint (patches/crypton.patch);
     tests/PubKey/MLKEMSpec.hs and MLDSASpec.hs fix the p quantified in
     withSet at kind Type, which PolyKinds, always on in this compiler, would
-    otherwise generalise
+    otherwise generalise. Later hunk: where- and let-bound byte arrays and
+    digests get their types (polyKey, ti and bytes, the CCM tag, the ChaCha
+    output, the HMAC DRG digests), since they generalised into ByteArray or
+    HashAlgorithm ambiguity without the monomorphism restriction, which this
+    compiler no longer has. Later hunk: withRandomBytes gives its
+    pattern-bound bytes the type ba deriveKeys its derived key the type
+    ScrubbedBytes, and the Salsa and ChaCha test suites annotate their
+    generated chunks as (ByteString, State), since the pair generalised into
+    ByteArray ambiguity without the monomorphism restriction, which this
+    compiler no longer has
 - name: crypton-asn1-encoding
   version: 0.10.0
   tier: 2
@@ -2442,8 +2633,12 @@ packages:
     no tag for 1.10.1 in https://github.com/kazu-yamamoto/crypton-certificate.git
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: drops the datatype contexts
-    of Data.X509.Signed.Signed and SignedExact, which this compiler no longer accepts
+    deliberate exception to the no-modification rule: drops the datatype
+    contexts of Data.X509.Signed.Signed and SignedExact, which this compiler
+    no longer accepts. Later hunk: Data.X509.PublicKey.toPositive gives its
+    where-bound byte list the type [Word8], since it generalised into Bits
+    ambiguity without the monomorphism restriction, which this compiler no
+    longer has
 - name: crypton-x509-store
   version: 1.10.0
   tier: 2
@@ -2491,7 +2686,15 @@ packages:
     deliberate exception to the no-modification rule:
     Crypto.Cipher.Types.Block fixes the phantom parameter of IV at kind
     Type, which PolyKinds, always on in this compiler, would otherwise
-    generalise in the inferred types of doEnc and doDec
+    generalise in the inferred types of doEnc and doDec. Later hunk: where-
+    and let-bound byte arrays get their types (polyKey, ti, bytes, the
+    ChaCha output) and the CBC and CFB blocks are pinned with asTypeOf input
+    as crypton does, since they generalised into ByteArray ambiguity without
+    the monomorphism restriction, which this compiler no longer has. Later
+    hunk: withRandomBytes gives its pattern-bound bytes the type ba and
+    deriveKeys its derived key the type ScrubbedBytes, since the pair
+    generalised into ByteArray ambiguity without the monomorphism
+    restriction, which this compiler no longer has
 - name: cryptostore
   version: 0.6.0.0
   tier: 2
@@ -2586,6 +2789,12 @@ packages:
     sdist: Decimal-0.5.2
   note: no source repository listed
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Decimal.decimalConvert gives its let-bound conversions the types b
+    and Integer, since they generalised into Integral ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/Decimal.patch)
 - name: digest
   version: 0.0.2.1
   tier: 2
@@ -2626,6 +2835,11 @@ packages:
     git: https://github.com/jgm/doclayout.git
     tag: '0.6'
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.DocLayout.setPrefix gives its let-bound prefix the type a, since it
+    generalised into HasChars ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/doclayout.patch)
 - name: docopt
   version: 0.7.0.8
   tier: 2
@@ -2646,6 +2860,12 @@ packages:
     git: https://github.com/jgm/doctemplates.git
     tag: 0.11.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.DocTemplates.Parser enables FlexibleContexts, since its where-bound
+    parsers and actions now infer constraints with non-type-variable
+    arguments without the monomorphism restriction, which this compiler no
+    longer has (patches/doctemplates.patch)
 - name: easy-file
   version: 0.2.6
   tier: 2
@@ -2707,8 +2927,12 @@ packages:
   note: no tag for 0.10.3 in https://github.com/dmwit/encoding.git
   tests: true
   patched: >-
-    hides Data.Sequence.toList, which containers 0.8 (shipped with GHC 10.1) newly
-    exports and which clashed with the Data.Foldable import (patches/encoding.patch)
+    hides Data.Sequence.toList, which containers 0.8 (shipped with GHC 10.1)
+    newly exports and which clashed with the Data.Foldable import. Later
+    hunk: Data.Encoding.BootString enables FlexibleContexts and the UTF-8
+    decoders give their code points the type Int, since the bindings
+    generalised without the monomorphism restriction, which this compiler no
+    longer has (patches/encoding.patch)
 - name: entropy
   version: 0.4.1.11
   tier: 2
@@ -2888,6 +3112,12 @@ packages:
     sdist: haddock-library-1.11.0
   note: vendored on request
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Documentation.Haddock.Parser enables FlexibleContexts and gives nlList
+    the type Parser [Text], since its where-bound parsers generalised
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/haddock-library.patch)
 - name: hakyll
   version: 4.17.0.0
   tier: 2
@@ -2898,6 +3128,12 @@ packages:
     git: https://github.com/jaspervdj/hakyll.git
     tag: v4.17.0.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Hakyll.Core.Rules and
+    Hakyll.Core.Util.Parser enable FlexibleContexts, since their where-bound
+    state action and parser now infer MonadState and Stream constraints with
+    non-type-variable arguments without the monomorphism restriction, which
+    this compiler no longer has (patches/hakyll.patch)
 - name: half
   version: 0.3.3
   tier: 2
@@ -2908,6 +3144,11 @@ packages:
     git: https://github.com/ekmett/half.git
     tag: v0.3.3
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Numeric.Half.Internal
+    gives its decoding constants the type Integer and the sign bit the type
+    Int, since they generalised into Bits ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/half.patch)
 - name: happstack
   version: 7.0.2
   tier: 2
@@ -2978,6 +3219,12 @@ packages:
     sdist: hashtables-1.4.2
   note: no tag for 1.4.2 in https://github.com/gregorycollins/hashtables.git
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.HashTable.ST.Linear.split gives its rehashing function the type (k,
+    v) -> ST s Int, since it generalised into Hashable ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/hashtables.patch)
 - name: haskell-src
   version: 1.0.4.2
   tier: 2
@@ -2999,11 +3246,14 @@ packages:
     tag: '1.7'
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: Hedgehog.Internal.Gen's
-    element and element_ and the genCommands generator of the Applicative
-    test write <$> and <*> for what ApplicativeDo desugared from do-notation,
-    keeping the seeds and shrinks they produced; this compiler has no
-    ApplicativeDo (patches/hedgehog.patch)
+    deliberate exception to the no-modification rule:
+    Hedgehog.Internal.Gen's element and element_ and the genCommands
+    generator of the Applicative test write <$> and <*> for what
+    ApplicativeDo desugared from do-notation, keeping the seeds and shrinks
+    they produced; this compiler has no ApplicativeDo. Later hunk:
+    Hedgehog.Internal.Tripping.tripping gives its let-bound mx the type f a,
+    since it generalised into Show ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/hedgehog.patch)
 - name: heist
   version: 1.1.1.2
   tier: 2
@@ -3034,6 +3284,14 @@ packages:
     git: https://github.com/simonmichael/hledger.git
     tag: 1.52.4
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the setup command's
+    failure action and message, the rewrite command's diff counts and the
+    compound balance report's header row get their types (IO () and String,
+    (Int, Int), [Spr.Cell Spr.NumLines T.Text]), since the pattern-bound
+    pairs and the shared row generalised into ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/hledger.patch)
 - name: hledger-flow
   version: 0.18.0
   tier: 2
@@ -3044,6 +3302,13 @@ packages:
     git: https://github.com/apauley/hledger-flow.git
     tag: v0.18.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the unit tests give
+    their overloaded list literals the types [T.Text], [String] and Map.Map
+    String [String], since under OverloadedLists they generalised into
+    IsString constraints that need FlexibleContexts and into ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/hledger-flow.patch)
 - name: hledger-iadd
   version: 1.3.23
   tier: 2
@@ -3054,6 +3319,12 @@ packages:
     git: https://github.com/hpdeifel/hledger-iadd.git
     tag: v1.3.23
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: ConfigParser.option
+    gives its pattern-bound parser the type OParser a, since the
+    class-method pair generalised into OptionArgument ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/hledger-iadd.patch)
 - name: hledger-interest
   version: 1.6.7
   tier: 2
@@ -3075,6 +3346,13 @@ packages:
     tag: 1.52.4
   tests: false
   reason: test suite doctest needs doctest
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Hledger.Data.JournalChecks gives maxlag the type Integer and
+    Hledger.Read.JournalReader its let-bound reader the type Reader m, since
+    the top-level constant generalised into PrintfArg ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/hledger-lib.patch)
 - name: hledger-stockquotes
   version: 0.1.3.2
   tier: 2
@@ -3109,6 +3387,12 @@ packages:
     git: https://github.com/simonmichael/hledger.git
     tag: 1.52.4
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: the register handler
+    gives balancelabel the type String, since the overloaded string literal
+    generalised into ToMarkup ambiguity without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/hledger-web.patch)
 - name: hostname
   version: '1.0'
   tier: 2
@@ -3469,6 +3753,13 @@ packages:
     sdist: jira-wiki-markup-1.5.1
   note: no tag for 1.5.1 in https://github.com/tarleb/jira-wiki-markup.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Text.Jira.Parser.Core,
+    .Shared and .Inline enable FlexibleContexts, and Inline gives blockEnd
+    the type JiraParser String, since their where-bound parsers now infer
+    Stream constraints with non-type-variable arguments without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/jira-wiki-markup.patch)
 - name: jmacro
   version: 0.6.18
   tier: 2
@@ -3479,6 +3770,12 @@ packages:
     sdist: jmacro-0.6.18
   note: no tag for 0.6.18 in https://github.com/Happstack/jmacro.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Language.Javascript.JMacro.QQ enables FlexibleContexts, since its
+    where-bound parsers and actions now infer constraints with
+    non-type-variable arguments without the monomorphism restriction, which
+    this compiler no longer has (patches/jmacro.patch)
 - name: json
   version: '0.11'
   tier: 2
@@ -3500,8 +3797,11 @@ packages:
   note: no tag for 3.3.9 in https://github.com/Twinside/Juicy.Pixels.git
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: kind annotations written with * are spelt Type, since this compiler
-    no longer reads * as a kind
+    deliberate exception to the no-modification rule: kind annotations
+    written with * are spelt Type, since this compiler no longer reads * as
+    a kind. Later hunk: Codec.Picture.Types.integralRGBToCMYK gives maxVal
+    the type a, since it generalised into Bounded ambiguity without the
+    monomorphism restriction, which this compiler no longer has
     (patches/JuicyPixels.patch)
 - name: jwt
   version: 0.12.0
@@ -3591,7 +3891,10 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: the MonadFix test ties
     its knot with mfix rather than mdo, since this compiler has no recursive
-    do-notation (patches/lucid.patch)
+    do-notation. Later hunk: the test suite gives its example documents the
+    type Html (), since they generalised into ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/lucid.patch)
 - name: managed
   version: 1.0.11
   tier: 2
@@ -3936,6 +4239,17 @@ packages:
   reason: >-
     2 of 4488 tests fail: citeproc punctuation placement (period inside versus
     outside quotes) differs with the newer citeproc that allow-newer admits
+  patched: >-
+    deliberate exception to the no-modification rule: twenty reader and
+    writer modules and two test modules enable FlexibleContexts and
+    where-bound values get their types (the Docx style maps and relation
+    ids, DocBook's skip and admonition title, Pod's close, Creole's rowEnd
+    and cellEnd, Org's endOfCitation and include bounds, Shared's
+    borderParts, ConTeXt's section and chapter, AsciiDoc's spanFactor,
+    ANSI's render and title block), since the where-bound parsers inferred
+    Stream constraints with non-type-variable arguments and the
+    pattern-bound pairs generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/pandoc.patch)
 - name: pandoc-cli
   version: '3.13'
   tier: 2
@@ -4033,6 +4347,12 @@ packages:
     git: https://github.com/yesodweb/path-pieces.git
     tag: path-pieces/0.2.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Web.PathPieces.parseIntegral gives its where-bound result the type Maybe
+    a, since the recursive where group generalised into ambiguity without
+    the monomorphism restriction, which this compiler no longer has
+    (patches/path-pieces.patch)
 - name: pem
   version: 0.2.4
   tier: 2
@@ -4054,13 +4374,18 @@ packages:
   note: no tag for 2.18.1.0 in https://github.com/yesodweb/persistent.git
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: Database.Persist.TH.Internal
-    no longer lists MultiParamTypeClasses or DataKinds among the extensions it
-    requires, since template-haskell lost those constructors with this compiler;
+    deliberate exception to the no-modification rule:
+    Database.Persist.TH.Internal no longer lists MultiParamTypeClasses or
+    DataKinds among the extensions it requires, since template-haskell lost
+    those constructors with this compiler;
     Database.Persist.Class.PersistStore.PersistCore and
     Database.Persist.Compatible.Types.Compatible declare their backend
     parameter at kind Type, which Compatible's standalone-derived instances
-    require (patches/persistent.patch)
+    require. Later hunk: the RawSql pair instance gives its let-bound x and
+    colCountFst the types (a, b) and Int, and PersistFieldSql (Fixed a) its
+    n the type Fixed a, since they generalised into ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/persistent.patch)
 - name: persistent-template
   version: 2.12.0.0
   tier: 2
@@ -4303,6 +4628,11 @@ packages:
   reason: >-
     sdl-space needs a working SDL video renderer, which the nix shell does not
     provide
+  patched: >-
+    deliberate exception to the no-modification rule: SDL.Event enables
+    FlexibleContexts, since its where-bound parsers and actions now infer
+    constraints with non-type-variable arguments without the monomorphism
+    restriction, which this compiler no longer has (patches/sdl2.patch)
 - name: semigroups
   version: 0.20.1
   tier: 2
@@ -4381,6 +4711,12 @@ packages:
     sdist: SHA-1.6.4.4
   note: no tag for 1.6.4.4 in https://github.com/GaloisInc/SHA.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Digest.Pure.SHA.generic_pad_chunks gives its bit length the type
+    Word64, since it generalised into Bits ambiguity without the
+    monomorphism restriction, which this compiler no longer has
+    (patches/SHA.patch)
 - name: show-combinators
   version: 0.2.0.0
   tier: 2
@@ -4561,6 +4897,13 @@ packages:
     git: https://github.com/fpco/streaming-commons.git
     tag: v0.2.3.1
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Data.Streaming.Process.streamingProcess gives its pattern-bound stream
+    getters the types Maybe Handle -> IO stdin and so on, since the
+    class-method pairs generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has
+    (patches/streaming-commons.patch)
 - name: string-interpolate
   version: 1.0.0.0
   tier: 2
@@ -4631,6 +4974,12 @@ packages:
     git: https://github.com/ndmitchell/tagsoup.git
     tag: v0.14.8
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.HTML.TagSoup.Implementation.output gives charsStr and charsEntsStr
+    signatures returning str, since they generalised into IsString ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/tagsoup.patch)
 - name: tasty-hedgehog
   version: 1.4.0.2
   tier: 2
@@ -4651,6 +5000,12 @@ packages:
     git: https://github.com/jgm/texmath.git
     tag: 0.13.3.4
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.TeXMath.Readers.TeX enables FlexibleContexts, since its where-bound
+    parsers and actions now infer constraints with non-type-variable
+    arguments without the monomorphism restriction, which this compiler no
+    longer has (patches/texmath.patch)
 - name: text-ansi
   version: 0.3.0.1
   tier: 2
@@ -4779,10 +5134,14 @@ packages:
     tag: tls-2.5.1
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: the rank-2 arguments of
-    Network.TLS.Crypto.withPubKeyEC and withPrivKeyEC quantify their curve at
-    kind Type; generalised, the callers' concrete curves no longer fit
-    (patches/tls.patch)
+    deliberate exception to the no-modification rule: the rank-2 arguments
+    of Network.TLS.Crypto.withPubKeyEC and withPrivKeyEC quantify their
+    curve at kind Type; generalised, the callers' concrete curves no longer
+    fit. Later hunk: Network.TLS.Record.State.computeDigest gives its
+    pattern-bound MAC function and input the types ScrubbedBytes ->
+    ByteString -> ScrubbedBytes and ByteString, since the pair generalised
+    into ByteArray ambiguity without the monomorphism restriction, which
+    this compiler no longer has (patches/tls.patch)
 - name: toml-parser
   version: 2.0.2.0
   tier: 2
@@ -4823,6 +5182,13 @@ packages:
     git: https://github.com/jgm/typst-hs.git
     tag: 0.12.1
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Typst.Parse enables
+    FlexibleContexts and Typst.Methods annotates its regex match as (Text,
+    Text, Text, [Text]), since the where-bound parsers and the pattern-bound
+    match generalised into constraints with non-type-variable arguments
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/typst.patch)
 - name: typst-symbols
   version: '0.3'
   tier: 2
@@ -5118,9 +5484,13 @@ packages:
   note: no tag for 1.0.3 in https://github.com/liamoc/wizards.git
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: marks the one instance of
-    System.Console.Wizard.Internal that overlapped OVERLAPPING, since the cabal file
-    enabled OverlappingInstances, which this compiler no longer has
+    deliberate exception to the no-modification rule: marks the one instance
+    of System.Console.Wizard.Internal that overlapped OVERLAPPING, since the
+    cabal file enabled OverlappingInstances, which this compiler no longer
+    has. Later hunk: System.Console.Wizard.Pure.runPure annotates its
+    initial state as PureState, since the pattern-bound result generalised
+    into a Run constraint that needs FlexibleContexts without the
+    monomorphism restriction, which this compiler no longer has
 - name: wl-pprint-annotated
   version: 0.1.0.2
   tier: 2
@@ -5174,7 +5544,10 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule: Data.X509.Signed drops
     the datatype contexts of Signed and SignedExact, since DatatypeContexts
-    is removed
+    is removed. Later hunk: Data.X509.PublicKey.toPositive gives its
+    where-bound byte list the type [Word8], since it generalised into Bits
+    ambiguity without the monomorphism restriction, which this compiler no
+    longer has
 - name: x509-store
   version: 1.6.9
   tier: 2
@@ -5245,6 +5618,12 @@ packages:
     git: https://github.com/snapframework/xmlhtml.git
     tag: 0.2.5.4
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule: Text.XmlHtml.XML.Parse
+    and .HTML.Parse enable FlexibleContexts, since its where-bound parsers
+    and actions now infer constraints with non-type-variable arguments
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/xmlhtml.patch)
 - name: xss-sanitize
   version: 0.3.7.2
   tier: 2
@@ -5433,6 +5812,14 @@ packages:
     git: https://github.com/haskell/criterion.git
     tag: criterion-measurement-0.2.5.0
   tests: true
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Criterion.IO.readJSONReports annotates its decoded reports as Either
+    String ReportFileContents and Criterion.Report enables FlexibleContexts,
+    since the let-bound decode generalised into FromJSON ambiguity and the
+    where-bound tail trimmer inferred a Vector constraint with a
+    non-type-variable argument without the monomorphism restriction, which
+    this compiler no longer has (patches/criterion.patch)
 - name: crypto-token
   version: 0.2.1
   tier: 3
@@ -5463,6 +5850,12 @@ packages:
     sdist: crypton-conduit-0.3.1
   note: no tag for 0.3.1 in https://github.com/psibi/crypton-conduit.git
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Crypto.PubKey.ECIES.Conduit.getNonceKey gives its pattern-bound nonce
+    the type ByteString, since the pair generalised into ByteArray ambiguity
+    without the monomorphism restriction, which this compiler no longer has
+    (patches/crypton-conduit.patch)
 - name: DAV
   version: 1.3.4
   tier: 3
@@ -5484,9 +5877,13 @@ packages:
     tag: v1.4.3
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: marks the four instances of
-    DBus.Client and DBus.Internal.Types that overlapped OVERLAPPING, since those
-    modules enabled IncoherentInstances, which this compiler no longer has
+    deliberate exception to the no-modification rule: marks the four
+    instances of DBus.Client and DBus.Internal.Types that overlapped
+    OVERLAPPING, since those modules enabled IncoherentInstances, which this
+    compiler no longer has. Later hunk: DBus.Internal.Address and .Types
+    enable FlexibleContexts, since their where-bound parsec parsers now
+    infer Stream constraints with non-type-variable arguments without the
+    monomorphism restriction, which this compiler no longer has
 - name: dense-linear-algebra
   version: 0.1.0.0
   tier: 3
@@ -5563,12 +5960,29 @@ packages:
   tests: false
   flags: "-memory"
   patched: >-
-    adds memory to the build-depends of the ram branch (Memory flag off): Utility.IPAddress,
-    Utility.AuthToken and Utility.Hash.Types import from "memory" unconditionally
-    while Utility.Hash.Crypton switches to "ram" for crypton >= 1.1; magic is
-    pinned at 1.1 to honour its magic <= 1.1 bound; Command.Import.optParser
-    builds its options with <$> and <*> rather than do-notation, since this
-    compiler has no ApplicativeDo (patches/git-annex.patch)
+    adds memory to the build-depends of the ram branch (Memory flag off):
+    Utility.IPAddress, Utility.AuthToken and Utility.Hash.Types import from
+    "memory" unconditionally while Utility.Hash.Crypton switches to "ram"
+    for crypton >= 1.1; magic is pinned at 1.1 to honour its magic <= 1.1
+    bound; Command.Import.optParser builds its options with <$> and <*>
+    rather than do-notation, since this compiler has no ApplicativeDo. Later
+    hunk: Utility.ShellEscape, Git.Config.Url and Git.Construct give their
+    where-bound string constants the type String, Utility.Path.Tests its
+    path p the type Maybe FilePath, Utility.Url its content length the type
+    Maybe Integer, Git.AutoCorrect and Types.GitConfig their point-free
+    config readers the result type String, Messages the prompter's run and
+    cleanup the types m a -> m a and IO (), Remote.WebDAV.DavLocation its
+    export path the type String, Annex.Ssh its parsed port the type Maybe
+    Integer, Logs.MetaData its parsed log the type S.Set (LogEntry MetaData)
+    and Logs.Transfer its logged byte count the type Integer, Annex.Sim its
+    coin flips and random words their types, the webapp its sidebar,
+    repository-list and dashboard idents and remote-setup continuation
+    theirs (its deletion and preferences forms enable FlexibleContexts), and
+    the test suite its sixteen where- and let-bound file names the type
+    FilePath, since the overloaded literals and the let-bound and point-free
+    values generalised into ambiguity or into an Authored constraint with a
+    non-type-variable argument without the monomorphism restriction, which
+    this compiler no longer has (patches/git-annex.patch)
 - name: git-lfs
   version: 1.2.5
   tier: 3
@@ -5654,6 +6068,12 @@ packages:
     git: https://github.com/haskellari/microstache.git
     tag: v1.0.3.1
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule:
+    Text.Microstache.Parser enables FlexibleContexts, since its where-bound
+    parsers and actions now infer constraints with non-type-variable
+    arguments without the monomorphism restriction, which this compiler no
+    longer has (patches/microstache.patch)
 - name: mountpoints
   version: 1.0.2
   tier: 3
@@ -5787,6 +6207,14 @@ packages:
     git: https://github.com/haskell/statistics.git
     tag: 0.16.5.0
   tests: false
+  patched: >-
+    deliberate exception to the no-modification rule: Statistics.Regression
+    enables FlexibleContexts and Statistics.Sample.KernelDensity gives its
+    where-bound histogram and transform the type v Double, since the
+    let-bound estimates inferred a Vector constraint with a
+    non-type-variable argument and the where-bound vectors generalised into
+    ambiguity without the monomorphism restriction, which this compiler no
+    longer has (patches/statistics.patch)
 - name: tasty-rerun
   version: 1.1.20
   tier: 3

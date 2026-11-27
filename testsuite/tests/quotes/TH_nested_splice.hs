@@ -1,5 +1,4 @@
 {-# LANGUAGE TemplateHaskellQuotes #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 module TH_nested_splice where
 
 a = [| 5 |]

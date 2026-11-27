@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeAbstractions          #-}
 {-# LANGUAGE TypeFamilyDependencies    #-}
 {-# LANGUAGE UndecidableInstances      #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module T6018 where
 

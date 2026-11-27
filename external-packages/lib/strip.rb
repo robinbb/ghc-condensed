@@ -19,18 +19,18 @@ module Strip
   # QualifiedDo, NumDecimals, QualifiedStrings and Arrows), so dropping the
   # name changes nothing the compiler could still do for the package.
   REMOVED = %w[
-    AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo Arrows
-    AutoDeriveTypeable BinaryLiterals CUSKs ConstrainedClassMethods
+    AlternativeLayoutRule AlternativeLayoutRuleTransitional ApplicativeDo
+    Arrows AutoDeriveTypeable BinaryLiterals ConstrainedClassMethods CUSKs
     DataKinds DatatypeContexts DeepSubsumption DeriveDataTypeable
     DisambiguateRecordFields DoRec DuplicateRecordFields ExplicitForAll
-    ExplicitNamespaces
-    HexFloatLiterals IncoherentInstances InstanceSigs KindSignatures
-    LambdaCase MultiParamTypeClasses MultilineStrings NPlusKPatterns
-    NondecreasingIndentation NullaryTypeClasses NumDecimals
-    NumericUnderscores OverlappingInstances ParallelArrays ParallelListComp
-    PatternSignatures PolyKinds QualifiedDo QualifiedStrings RankNTypes
-    RecursiveDo RelaxedPolyRec ScopedTypeVariables StandaloneKindSignatures
-    StarIsType TraditionalRecordSyntax TypeInType
+    ExplicitNamespaces HexFloatLiterals IncoherentInstances InstanceSigs
+    KindSignatures LambdaCase MonomorphismRestriction MultilineStrings
+    MultiParamTypeClasses NondecreasingIndentation NPlusKPatterns
+    NullaryTypeClasses NumDecimals NumericUnderscores OverlappingInstances
+    ParallelArrays ParallelListComp PatternSignatures PolyKinds QualifiedDo
+    QualifiedStrings RankNTypes RecursiveDo RelaxedPolyRec
+    ScopedTypeVariables StandaloneKindSignatures StarIsType
+    TraditionalRecordSyntax TypeInType
   ].freeze
 
   # Deprecated aliases this compiler has removed, with the name it still

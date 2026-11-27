@@ -772,6 +772,7 @@ dropFrontOfPara sp = do
   return (currentParagraph ++ followingParagraphs)
   where
     nextPar = (++) <$> nlList <*> dropFrontOfPara sp
+    nlList :: Parser [Text]
     nlList = "\n" *> return ["\n"]
 
 nonSpace :: Text -> Parser Text

@@ -1,6 +1,6 @@
 --- a/external-packages/aeson/src/Data/Aeson/Encoding/Internal.hs
 +++ b/external-packages/aeson/src/Data/Aeson/Encoding/Internal.hs
-@@ -64,6 +64,7 @@
+@@ -63,6 +63,7 @@ import Data.Aeson.Internal.Prelude hiding (empty)
  
  import Data.Aeson.Types.Internal (Value, Key)
  import Data.ByteString.Builder (Builder, char7, toLazyByteString)
@@ -8,7 +8,7 @@
  import Data.ByteString.Short (ShortByteString)
  import qualified Data.Aeson.Key as Key
  import Data.Time (Day, LocalTime, TimeOfDay, ZonedTime)
-@@ -79,7 +80,7 @@
+@@ -78,7 +79,7 @@ import qualified Data.Text.Short as ST
  --
  -- @tag@ represents which kind of JSON the Encoding is encoding to,
  -- we reuse 'Text' and 'Value' as tags here.
@@ -19,7 +19,7 @@
      }
 --- a/external-packages/aeson/src/Data/Aeson/Types/Internal.hs
 +++ b/external-packages/aeson/src/Data/Aeson/Types/Internal.hs
-@@ -84,6 +84,7 @@
+@@ -82,6 +82,7 @@ module Data.Aeson.Types.Internal
  import Data.Aeson.Internal.Prelude
  
  import Control.DeepSeq (NFData(..))
@@ -27,7 +27,7 @@
  import Control.Exception (Exception (..))
  import Control.Monad (MonadPlus(..), ap)
  import Data.Char (isLower, isUpper, toLower, isAlpha, isAlphaNum)
-@@ -276,7 +277,7 @@
+@@ -274,7 +275,7 @@ type Success a f r = a -> f r
  --  "parser".  Instead you might like to think of 'Parser' as a "parse result",
  -- i.e. a parser to which the input has already been applied.
  newtype Parser a = Parser {
@@ -36,9 +36,28 @@
                     JSONPath       -- Note: the path is accumulated in reverse: <?> cons new elements, however `fail` (and other functions) will reverse the path before calling the failure continuation.
                  -> Failure f r
                  -> Success a f r
+--- a/external-packages/aeson/tests/PropUtils.hs
++++ b/external-packages/aeson/tests/PropUtils.hs
+@@ -95,7 +95,7 @@ roundTripNoEnc eq i =
+       (ISuccess v)      -> v `eq` i
+       (IError path err) -> failure "fromJSON" (formatError path err) i
+ 
+-roundTripOmit :: (FromJSON a, ToJSON a, Show a) =>
++roundTripOmit :: forall a. (FromJSON a, ToJSON a, Show a) =>
+              (Maybe a -> Maybe a -> Property) -> a -> Property
+ roundTripOmit eq i
+     | omitField i = omf `eq` Just i
+@@ -104,6 +104,7 @@ roundTripOmit eq i
+         Just True -> property True
+         Just False -> counterexample (show omf) False
+   where
++    omf :: Maybe a
+     omf = omittedField
+ 
+ roundTripEq :: (Eq a, FromJSON a, ToJSON a, Show a) => a -> Property
 --- a/external-packages/aeson/tests/UnitTests/MonadFix.hs
 +++ b/external-packages/aeson/tests/UnitTests/MonadFix.hs
-@@ -4,6 +4,8 @@
+@@ -4,6 +4,8 @@ module UnitTests.MonadFix (monadFixTests) where
  import Test.Tasty (TestTree, testGroup)
  import Test.Tasty.HUnit (testCase, Assertion, (@?=))
  
@@ -47,7 +66,7 @@
  import qualified Data.Map as Map -- Lazy
  
  import Data.Aeson
-@@ -56,43 +58,46 @@
+@@ -56,43 +58,46 @@ monadFixDecoding4 p =
  
  -- Parser with explicit references
  monadFixParserA :: Value -> Data.Aeson.Types.Parser [Char]
@@ -103,6 +122,8 @@
 -        p' v = do
 -            (c, cs) <- liftParseJSON Nothing p'' (listParser p'') v
 -            return (c : cs)
+-
+-    refs <- traverse p' (KM.toMap obj)
 +monadFixParserB = withObject "Rec" $ \obj -> do
 +    refs <- mfix $ \refs' -> do
 +        let p'' :: Value -> Data.Aeson.Types.Parser String
@@ -120,8 +141,7 @@
 +            p' v = do
 +                (c, cs) <- liftParseJSON Nothing p'' (listParser p'') v
 +                return (c : cs)
- 
--    refs <- traverse p' (KM.toMap obj)
++
 +        traverse p' (KM.toMap obj)
      case Map.lookup "foo" refs of
          Nothing   -> fail "No foo node"

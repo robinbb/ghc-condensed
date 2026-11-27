@@ -1,5 +1,3 @@
-{-# LANGUAGE NoMonomorphismRestriction #-}
-
 module CrossCodegen where
 
 {-

@@ -1,0 +1,18 @@
+--- a/external-packages/zlib/zlib/test/Test.hs
++++ b/external-packages/zlib/zlib/test/Test.hs
+@@ -17,6 +17,7 @@
+ import Control.Monad.ST.Lazy (ST)
+ import Control.Exception
+ import Data.Bits (finiteBitSize, shiftL)
++import Data.Int (Int64)
+ import qualified Data.ByteString.Char8 as BS.Char8
+ import qualified Data.ByteString.Lazy as BL
+ import qualified Data.ByteString      as BS
+@@ -290,6 +291,7 @@
+   where
+     test = GZip.decompress (GZip.compress (BL.replicate len 0)) == BL.replicate len 0
+ 
++    len :: Int64
+     len = case finiteBitSize (0 :: Int) of
+       64 -> (1 `shiftL` 32) + 1
+       _ -> 0 -- ignore it

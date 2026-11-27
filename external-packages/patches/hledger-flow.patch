@@ -1,0 +1,24 @@
+--- a/external-packages/hledger-flow/test/Common/Unit.hs
++++ b/external-packages/hledger-flow/test/Common/Unit.hs
+@@ -26,7 +26,7 @@
+ testShowCmdArgs =
+   TestCase
+     ( do
+-        let opts = ["--number", "/tmp/file with spaces"]
++        let opts = ["--number", "/tmp/file with spaces"] :: [T.Text]
+         let expected = "--number '/tmp/file with spaces'"
+         let actual = showCmdArgs opts
+         assertEqual "Convert command-line arguments to text" expected actual
+@@ -113,10 +113,10 @@
+ testGroupValuesBy =
+   TestCase
+     ( do
+-        let values = ["b2", "a1", "b1", "a2"]
++        let values = ["b2", "a1", "b1", "a2"] :: [String]
+         let grouped = groupValuesBy (take 1) values
+         let normalize = Map.map List.sort
+-        let expected = Map.fromList [("a", ["a1", "a2"]), ("b", ["b1", "b2"])]
++        let expected = Map.fromList [("a", ["a1", "a2"]), ("b", ["b1", "b2"])] :: Map.Map String [String]
+         assertEqual "Group values by key" (normalize expected) (normalize grouped)
+     )
+ 

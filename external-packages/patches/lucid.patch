@@ -1,6 +1,6 @@
 --- a/external-packages/vendored/lucid/test/Main.hs
 +++ b/external-packages/vendored/lucid/test/Main.hs
-@@ -11,6 +11,7 @@
+@@ -11,6 +11,7 @@ import Lucid.Base
  import Lucid.Bootstrap
  
  import Control.Monad
@@ -8,7 +8,15 @@
  import Control.Applicative
  import Control.Monad.State.Strict
  
-@@ -242,20 +243,21 @@
+@@ -233,6 +234,7 @@ testCommuteHtmlT =
+       put (x + 1)
+       li_ $ toHtml $ show x
+ 
++    expected :: Html ()
+     expected = ul_ $ do
+       li_ "1"
+       li_ "2"
+@@ -242,22 +244,25 @@ testCommuteHtmlT =
  
  testMonadFix :: Spec
  testMonadFix =
@@ -27,6 +35,7 @@
 -           sectionTitle = toSectionTitle sectionNum
 -       h1_ [id_ sectionId] $ toHtml sectionTitle
 -       return (sectionTitle, sectionId)
++   example :: Html ()
 +   example = do
 +     _ <- mfix $ \sections -> do
 +       forM_ sections $ \(sectionName, sectionId) ->
@@ -38,4 +47,7 @@
 +         return (sectionTitle, sectionId)
       return ()
  
++   expected :: Html ()
     expected = do
+      forM_ [1 .. 2] $ \sectionNum ->
+        a_ [href_ $ toSectionId sectionNum] $ toHtml $ toSectionTitle sectionNum

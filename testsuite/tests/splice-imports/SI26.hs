@@ -2,7 +2,6 @@
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE ExplicitLevelImports #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module SI26 where
 

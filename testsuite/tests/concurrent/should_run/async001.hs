@@ -8,7 +8,8 @@ import System.IO.Unsafe
 -- 'onException'.
 
 main = do
-  let x = unsafePerformIO $
+  let x :: Int
+      x = unsafePerformIO $
              (do threadDelay 3000000; return 42)
              `onException` return ()
 

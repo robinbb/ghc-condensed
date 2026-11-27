@@ -26,7 +26,6 @@ module GHC.Tc.Solver(
 import GHC.Prelude
 
 import GHC.Tc.Errors
-import GHC.Tc.Errors.Types
 import GHC.Tc.Types.Evidence
 import GHC.Tc.Solver.Solve   ( solveSimpleGivens, solveSimpleWanteds
                              , solveWanteds, simplifyWantedsTcM )
@@ -60,7 +59,6 @@ import GHC.Types.Basic
 import GHC.Types.Error
 
 import GHC.Driver.DynFlags( DynFlags, xopt )
-import GHC.Driver.Flags( WarningFlag(..) )
 import GHC.Utils.Panic
 import GHC.Utils.Outputable
 import GHC.Utils.Misc( filterOut )
@@ -896,7 +894,7 @@ Another example:
 >   d :: a
 > instance C a => D a where
 >   d = undefined
-> h _ = d   -- argument is to avoid the monomorphism restriction
+> h _ = d
 
 The inferred type for h is
 
@@ -916,8 +914,11 @@ and so we won't do so.
 -}
 
 -- | How should we choose which constraints to quantify over?
-data InferMode = ApplyMR          -- ^ Apply the monomorphism restriction,
-                                  -- never quantifying over any constraints
+data InferMode = NoQuantConstraints  -- ^ Never quantify over any constraint:
+                                     -- an expression with a partial signature
+                                     -- that has no context, see
+                                     -- Note [Partial expression signatures]
+                                     -- in GHC.Tc.Gen.Head
                | EagerDefaulting  -- ^ See Note [TcRnExprMode] in "GHC.Tc.Module",
                                   -- the :type +d case; this mode refuses
                                   -- to quantify over any defaultable constraint
@@ -925,7 +926,7 @@ data InferMode = ApplyMR          -- ^ Apply the monomorphism restriction,
                                   -- satisfies pickQuantifiablePreds
 
 instance Outputable InferMode where
-  ppr ApplyMR         = text "ApplyMR"
+  ppr NoQuantConstraints = text "NoQuantConstraints"
   ppr EagerDefaulting = text "EagerDefaulting"
   ppr NoRestrictions  = text "NoRestrictions"
 
@@ -1192,7 +1193,7 @@ But see also #20076, which would be solved if they were Givens.
 
 Note [Deciding quantification]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If the monomorphism restriction does not apply, then we quantify as follows:
+We quantify as follows:
 
 * Step 1: decidePromotedTyVars.
   Take the global tyvars, and "grow" them using functional dependencies
@@ -1202,8 +1203,8 @@ If the monomorphism restriction does not apply, then we quantify as follows:
           the environment too; this logic extends to general fundeps, not
           just equalities
 
-  We also account for the monomorphism restriction; if it applies,
-  add the free vars of all the constraints.
+  We also account for the inference mode (see InferMode): the free vars
+  of any constraint it refuses to quantify are added.
 
   Result is mono_tvs; we will promote all of these to the outer levek,
   and certainly not quantify over them.
@@ -1403,8 +1404,6 @@ Then we distinguish three cases:
 
 Some rationale and observations
 
-* See Note [When the MR applies] in GHC.Tc.Gen.Bind.
-
 * We always want to quantify over psig_theta (if present).  The user specified
   it!  And pickQuantifiableCandidates might have dropped some
   e.g. CallStack constraints.  c.f #14658
@@ -1491,9 +1490,9 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
              can_quant_tvs = tyCoVarsOfTypes can_quant
 
              -- Step 2 of Note [decideAndPromoteTyVars]
-             -- Apply the monomorphism restriction
-             (post_mr_quant, mr_no_quant) = applyMR dflags infer_mode can_quant
-             mr_no_quant_tvs              = tyCoVarsOfTypes mr_no_quant
+             -- Apply the inference mode's restriction
+             (post_mode_quant, mode_no_quant) = restrictByMode dflags infer_mode can_quant
+             mode_no_quant_tvs                = tyCoVarsOfTypes mode_no_quant
 
              -- The co_var_tvs are tvs mentioned in the types of covars or
              -- coercion holes. We can't quantify over these covars, so we
@@ -1502,7 +1501,7 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
              --       quantify over k either!  Hence closeOverKinds
              -- Recall that coVarsOfTypes also returns coercion holes
              co_vars    = coVarsOfTypes (mkTyVarTys psig_qtvs ++ psig_theta
-                                         ++ tau_tys ++ post_mr_quant)
+                                         ++ tau_tys ++ post_mode_quant)
              co_var_tvs = closeOverKinds co_vars
 
              -- outer_tvs are mentioned in `wanted`, and belong to some outer level.
@@ -1514,18 +1513,18 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
              -- Identify mono_tvs: the type variables that we must not quantify over
              -- At top level we are much less keen to create mono tyvars, to avoid
              -- spooky action at a distance.
-             mono_tvs_without_mr
+             mono_tvs_env
                | is_top_level = outer_tvs    -- See (DP2)
                | otherwise    = outer_tvs                    -- (a)
                                 `unionVarSet` no_quant_tvs   -- (b)
                                 `unionVarSet` co_var_tvs     -- (c)
 
              -- Step 3 of Note [decideAndPromoteTyVars], (d)
-             mono_tvs_with_mr
+             mono_tvs
                = -- Even at top level, we don't quantify over type variables
-                 -- mentioned in constraints that the MR tells us not to quantify
-                 -- See Note [decideAndPromoteTyVars] (DP2)
-                 mono_tvs_without_mr `unionVarSet` mr_no_quant_tvs
+                 -- mentioned in constraints that the inference mode tells us
+                 -- not to quantify. See Note [decideAndPromoteTyVars] (DP2)
+                 mono_tvs_env `unionVarSet` mode_no_quant_tvs
 
              --------------------------------------------------------------------
              -- Step 4 of Note [decideAndPromoteTyVars]
@@ -1534,35 +1533,25 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
                                         `delVarSetList` psig_qtvs
                  -- Why delVarSetList psig_qtvs?
                  -- If the user has explicitly asked for quantification, then that
-                 -- request "wins" over the MR.
+                 -- request "wins" over the inference mode.
                  --
                  -- What if a psig variable is also free in the environment
                  -- (i.e. says "no" to isQuantifiableTv)? That's OK: explanation
                  -- in Step 2 of Note [Deciding quantification].
 
-             mono_tvs_with_mr_det    = add_determined mono_tvs_with_mr    post_mr_quant
-             mono_tvs_without_mr_det = add_determined mono_tvs_without_mr can_quant
+             mono_tvs_det = add_determined mono_tvs post_mode_quant
 
              --------------------------------------------------------------------
              -- Step 5 of Note [decideAndPromoteTyVars]
              -- Do not quantify over any constraint mentioning a "newly-mono" tyvar.
-             newly_mono_tvs = mono_tvs_with_mr_det `minusVarSet` mono_tvs_with_mr
+             newly_mono_tvs = mono_tvs_det `minusVarSet` mono_tvs
              final_quant
-               | is_top_level = filterOut (predMentions newly_mono_tvs) post_mr_quant
-               | otherwise    = post_mr_quant
-
-       --------------------------------------------------------------------
-       -- Check if the Monomorphism Restriction has bitten
-       ; warn_mr <- woptM Opt_WarnMonomorphism
-       ; when (warn_mr && case infer_mode of { ApplyMR -> True; _ -> False}) $
-         diagnosticTc (not (mono_tvs_with_mr_det `subVarSet` mono_tvs_without_mr_det)) $
-              TcRnMonomorphicBindings (map fst name_taus)
-             -- If there is a variable in mono_tvs, but not in mono_tvs_wo_mr
-             -- then the MR has "bitten" and reduced polymorphism.
+               | is_top_level = filterOut (predMentions newly_mono_tvs) post_mode_quant
+               | otherwise    = post_mode_quant
 
        --------------------------------------------------------------------
        -- Step 6: Promote the mono_tvs: see Note [Promote monomorphic tyvars]
-       ; _ <- promoteTyVarSet mono_tvs_with_mr_det
+       ; _ <- promoteTyVarSet mono_tvs_det
 
        ; traceTc "decideAndPromoteTyVars" $ vcat
            [ text "rhs_tclvl =" <+> ppr rhs_tclvl
@@ -1571,15 +1560,14 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
            , text "psigs =" <+> ppr psigs
            , text "psig_qtvs =" <+> ppr psig_qtvs
            , text "outer_tvs =" <+> ppr outer_tvs
-           , text "mono_tvs_with_mr =" <+> ppr mono_tvs_with_mr
-           , text "mono_tvs_without_mr =" <+> ppr mono_tvs_without_mr
-           , text "mono_tvs_with_mr_det =" <+> ppr mono_tvs_with_mr_det
-           , text "mono_tvs_without_mr_det =" <+> ppr mono_tvs_without_mr_det
+           , text "mono_tvs_env =" <+> ppr mono_tvs_env
+           , text "mono_tvs =" <+> ppr mono_tvs
+           , text "mono_tvs_det =" <+> ppr mono_tvs_det
            , text "newly_mono_tvs =" <+> ppr newly_mono_tvs
            , text "can_quant =" <+> ppr can_quant
-           , text "post_mr_quant =" <+> ppr post_mr_quant
+           , text "post_mode_quant =" <+> ppr post_mode_quant
            , text "no_quant_tvs =" <+> ppr no_quant_tvs
-           , text "mr_no_quant =" <+> ppr mr_no_quant
+           , text "mode_no_quant =" <+> ppr mode_no_quant
            , text "final_quant =" <+> ppr final_quant
            , text "co_vars =" <+> ppr co_vars ]
 
@@ -1588,14 +1576,14 @@ decideAndPromoteTyVars top_lvl rhs_tclvl infer_mode name_taus psigs wanted
           -- we can't quantify over these, and we must make sure they are in scope
 
 -------------------
-applyMR :: DynFlags -> InferMode -> [PredType]
-        -> ( [PredType]   -- Quantify over these
-           , [PredType] ) -- But not over these
+restrictByMode :: DynFlags -> InferMode -> [PredType]
+               -> ( [PredType]   -- Quantify over these
+                  , [PredType] ) -- But not over these
 -- Split the candidates into ones we definitely
 -- won't quantify, and ones that we might
-applyMR _      NoRestrictions  cand = (cand, [])
-applyMR _      ApplyMR         cand = ([], cand)
-applyMR dflags EagerDefaulting cand = partition not_int_ct cand
+restrictByMode _      NoRestrictions     cand = (cand, [])
+restrictByMode _      NoQuantConstraints cand = ([], cand)
+restrictByMode dflags EagerDefaulting    cand = partition not_int_ct cand
   where
     ovl_strings = xopt LangExt.OverloadedStrings dflags
 
@@ -1645,16 +1633,18 @@ The plan
   Both this and the "given-equality" thing are described in
   Note [Quantifying over equality constraints] in GHC.Tc.Types.Constraint.
 
-* Step 2. Further trim can_quant using the Monomorphism Restriction, yielding the
-  further `mr_no_quant` predicates that we won't quantify over; plus `post_mr_quant`,
-  which we can in principle quantify.
+* Step 2. Further trim can_quant using the inference mode (see InferMode: an
+  expression with a partial signature that has no context quantifies over no
+  constraint, and GHCi's :type +d over no defaultable one), yielding the
+  further `mode_no_quant` predicates that we won't quantify over; plus
+  `post_mode_quant`, which we can in principle quantify.
 
 * Step 3. Identify the type variables we definitely won't quantify, because they are:
   a) From an outer level <=N anyway
   b) Mentioned in a constraint we /can't/ quantify.  See Wrinkle (DP1).
   c) Mentioned in the kind of a CoVar; we can't quantify over a CoVar,
      so we must not quantify over a type variable free in its kind
-  d) Mentioned in a constraint that the MR says we should not quantify.
+  d) Mentioned in a constraint that the inference mode says we should not quantify.
 
   There is a special case for top-level bindings: see Wrinkle (DP2).
 
@@ -1674,10 +1664,10 @@ The plan
 
   See also Note [growThetaTyVars vs closeWrtFunDeps]
 
-* Step 5. Further restrict the quantifiable constraints `post_mr_quant` to ones
+* Step 5. Further restrict the quantifiable constraints `post_mode_quant` to ones
   that do not mention a "newly mono" tyvar. The "newly-mono" tyvars are the ones
-  not free in the envt, nor forced to be promoted by the MR; but are determined
-  (via fundeps) by them. Example:
+  not free in the envt, nor forced to be promoted by the inference mode; but are
+  determined (via fundeps) by them. Example:
            class C a b | a -> b
            [W] C Int beta[1],  tau = beta[1]->Int
   We promote beta[1] to beta[0] since it is determined by fundep, but we do not
@@ -1690,8 +1680,6 @@ The plan
 * Step 6: actually promote the type variables we don't want to quantify.
   We must do this: see Note [Promote monomorphic tyvars].
 
-We also add a warning that signals when the MR "bites".
-
 Wrinkles
 
 (DP1) In step 3, why (b)?  Consider the example given in Step 1.  we can't
@@ -1700,8 +1688,8 @@ Wrinkles
 
 (DP2) In Step 3, for top-level bindings, we do (a,d), but /not/ (b,c). Reason:
   see Note [The top-level Any principle].  At top level we are very reluctant to
-  promote type variables.  But for bindings affected by the MR we have no choice
-  but to promote.
+  promote type variables.  But for type variables in constraints that the
+  inference mode refuses to quantify we have no choice but to promote.
 
   An example is in #26004.
       f w e = case e of
@@ -2130,7 +2118,7 @@ sure to quantify over them.  This leads to several wrinkles:
     f x = if (undefined :: a) == undefined then x else 0
   Here we get an (Eq a) constraint, but it's not mentioned in the
   psig_theta nor the type of 'f'.  But we still want to quantify
-  over 'a' even if the monomorphism restriction is on.
+  over 'a'.
 
 * Wrinkle 4 (#14479)
     foo :: Num a => a -> a

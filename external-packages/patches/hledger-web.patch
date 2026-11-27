@@ -1,0 +1,10 @@
+--- a/external-packages/hledger/hledger-web/Hledger/Web/Handler/RegisterR.hs
++++ b/external-packages/hledger/hledger-web/Hledger/Web/Handler/RegisterR.hs
+@@ -48,6 +48,7 @@
+       items =
+         styleAmounts (journalCommodityStylesWith HardRounding j) $
+         accountTransactionsReport rspec{_rsQuery=q} j acctQuery
++      balancelabel :: String
+       balancelabel
+         | isJust (inAccount qopts), balanceaccum_ (_rsReportOpts rspec) == Historical = "Historical Total"
+         | isJust (inAccount qopts) = "Period Total"

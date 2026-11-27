@@ -1,9 +1,9 @@
 Collecting type info for 1 module(s) ... 
 :all-types
-e/E.hs:(3,1)-(3,3): GHC.Internal.Bignum.Integer.Integer
-e/E.hs:(3,7)-(3,7): GHC.Internal.Bignum.Integer.Integer
-e/E.hs:(5,1)-(5,3): GHC.Internal.Bignum.Integer.Integer
-e/E.hs:(5,7)-(5,8): GHC.Internal.Bignum.Integer.Integer
+e/E.hs:(3,1)-(3,3): a
+e/E.hs:(3,7)-(3,7): a
+e/E.hs:(5,1)-(5,3): a
+e/E.hs:(5,7)-(5,8): a
 e/E.hs:(7,1)-(7,4): GHC.Internal.Types.IO ()
 e/E.hs:(7,8)-(9,11): GHC.Internal.Types.IO ()
 e/E.hs:(8,3)-(8,11): GHC.Internal.Types.IO ()
@@ -32,7 +32,7 @@ e/E.hs:(25,3)-(25,37): GHC.Internal.Types.IO ()
 e/E.hs:(25,3)-(25,10): GHC.Internal.Base.String -> GHC.Internal.Types.IO ()
 e/E.hs:(25,12)-(25,37): GHC.Internal.Base.String
 :type-at
- :: Integer
+ :: a
  :: Int -> String
 :loc-at
 e/E.hs:(5,1)-(5,3)

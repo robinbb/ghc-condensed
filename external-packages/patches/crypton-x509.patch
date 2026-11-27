@@ -1,6 +1,16 @@
+--- a/external-packages/vendored/crypton-x509/Data/X509/PublicKey.hs
++++ b/external-packages/vendored/crypton-x509/Data/X509/PublicKey.hs
+@@ -345,6 +345,7 @@ toPositive int
+     bytesOfInt :: Integer -> [Word8]
+     bytesOfInt n = if testBit (head nints) 7 then nints else 0xff : nints
+       where
++        nints :: [Word8]
+         nints = reverse $ plusOne $ reverse $ map complement $ bytesOfUInt (abs n)
+         plusOne [] = [1]
+         plusOne (x : xs) = if x == 0xff then 0 : plusOne xs else (x + 1) : xs
 --- a/external-packages/vendored/crypton-x509/Data/X509/Signed.hs
 +++ b/external-packages/vendored/crypton-x509/Data/X509/Signed.hs
-@@ -57,7 +57,7 @@
+@@ -57,7 +57,7 @@ import Data.X509.Internal (safeDecode)
  --
  -- When dealing with external certificate, use the SignedExact structure
  -- not this one.
@@ -9,7 +19,7 @@
      { signedObject :: a
      -- ^ Object to sign
      , signedAlg :: SignatureALG
-@@ -69,7 +69,7 @@
+@@ -69,7 +69,7 @@ data (Show a, Eq a, ASN1Object a) => Signed a = Signed
  
  -- | Represent the signed object plus the raw data that we need to
  -- keep around for non compliant case to be able to verify signature.

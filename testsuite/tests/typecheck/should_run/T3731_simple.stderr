@@ -1,16 +1,13 @@
-
-T3731_simple.hs:19:13: error: [GHC-39999]
-    • Could not deduce ‘Default a’
-        arising from a superclass required to satisfy ‘Data a’,
-        arising from a use of ‘dataTypeOf’
+T3731_simple.hs:17:23: error: [GHC-39999]
+    • Could not deduce ‘Default a’ arising from a use of ‘res’
       from the context: Data a
         bound by the type signature for:
                    defaultDefaultValue :: forall a. Data a => a
         at T3731_simple.hs:16:1-34
-    • In the expression: dataTypeOf res
-      In an equation for ‘res’: res = dataTypeOf res
+    • In the expression: res
       In an equation for ‘defaultDefaultValue’:
           defaultDefaultValue
             = res
             where
                 res = dataTypeOf res
+

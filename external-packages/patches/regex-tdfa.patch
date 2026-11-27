@@ -1,90 +1,6 @@
---- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
-+++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
-@@ -327,9 +327,9 @@
- newQNFA s qt = do
-   (thisI,oldQs) <- get
-   let futureI = succ thisI in seq futureI $ debug (">newQNFA< "++s++" : "++show thisI) $ do
--  let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
--  put $! (futureI, oldQs . ((thisI,qnfa):))
--  return qnfa
-+    let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
-+    put $! (futureI, oldQs . ((thisI,qnfa):))
-+    return qnfa
- 
- -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- ==
- -- E related functions
---- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
-+++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
-@@ -448,10 +448,10 @@
-   if start <= startE
-     then writeSTRef earliest start >> writeSTRef list [mqa]
-     else do
--  old <- readSTRef list
--  let !rest = dropWhile (\ m -> start <= mqa_start m) old
--      !new = mqa : rest
--  writeSTRef list new
-+    old <- readSTRef list
-+    let !rest = dropWhile (\ m -> start <= mqa_start m) old
-+        !new = mqa : rest
-+    writeSTRef list new
- 
- getMQ :: Position -> MQ s -> ST s [WScratch s]
- getMQ pos (MQ {mq_earliest=earliest,mq_list=list}) = do
-@@ -658,15 +658,15 @@
-         flagVal <- pos !! flagtag
-         if (-1) == flagVal then act this_index gs
-           else do
--        startPos <- pos !! start
--        stopPos <- pos !! stop
--        (startParent,lengthParent) <- ma !! parent
--        let ok = (0 <= startParent &&
--                  0 <= lengthParent &&
--                  startParent <= startPos &&
--                  stopPos <= startPos + lengthParent)
--        if not ok then act this_index gs
--          else set ma this_index (startPos,stopPos-startPos)
-+          startPos <- pos !! start
-+          stopPos <- pos !! stop
-+          (startParent,lengthParent) <- ma !! parent
-+          let ok = (0 <= startParent &&
-+                    0 <= lengthParent &&
-+                    startParent <= startPos &&
-+                    stopPos <= startPos + lengthParent)
-+          if not ok then act this_index gs
-+            else set ma this_index (startPos,stopPos-startPos)
-   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
-   unsafeFreeze ma
- 
---- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
-+++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
-@@ -552,15 +552,15 @@
-         flagVal <- pos !! flagtag
-         if (-1) == flagVal then act this_index gs
-           else do
--        startPos <- pos !! start
--        stopPos <- pos !! stop
--        (startParent,lengthParent) <- ma !! parent
--        let ok = (0 <= startParent &&
--                  0 <= lengthParent &&
--                  startParent <= startPos &&
--                  stopPos <= startPos + lengthParent)
--        if not ok then act this_index gs
--          else set ma this_index (startPos,stopPos-startPos)
-+          startPos <- pos !! start
-+          stopPos <- pos !! stop
-+          (startParent,lengthParent) <- ma !! parent
-+          let ok = (0 <= startParent &&
-+                    0 <= lengthParent &&
-+                    startParent <= startPos &&
-+                    stopPos <= startPos + lengthParent)
-+          if not ok then act this_index gs
-+            else set ma this_index (startPos,stopPos-startPos)
-   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
-   unsafeFreeze ma
- 
 --- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/CorePattern.hs
 +++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/CorePattern.hs
-@@ -35,6 +35,7 @@
+@@ -35,6 +35,7 @@ module Text.Regex.TDFA.CorePattern(Q(..),P(..),WhichTest(..),Wanted(..)
                                    ,patternToQ,cleanNullView,cannotAccept,mustAccept) where
  
  import Control.Monad (liftM2, forM, replicateM)
@@ -92,7 +8,7 @@
  import Control.Monad.RWS (RWS, runRWS, ask, local, listens, tell, get, put)
  
  import Data.Array.IArray(Array,(!),accumArray,listArray)
-@@ -252,7 +253,7 @@
+@@ -252,7 +253,7 @@ cannotAccept q = maybe False (0==) $ snd . takes $ q
  -- created top down and passed to children.  Thus information flows up
  -- from the dfs of the children and simultaneously down in the form of
  -- pre and post HandleTag data.  This bidirectional flow is handled
@@ -101,7 +17,7 @@
  --
  -- Invariant: A tag should exist in Q in exactly one place (and will
  -- be in a preTag,postTag, or getOrbit field).  This is partly because
-@@ -389,27 +390,27 @@
+@@ -389,27 +390,27 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
            front'end | rightAssoc compOpt = liftM2 (,)
                      | otherwise = flip (liftM2 (flip (,)))
            combineSeq :: HHQ -> HHQ -> HHQ
@@ -135,7 +51,7 @@
                                     )
    go :: Pattern -> HHQ
    go pIn m1 m2 =
-@@ -434,7 +435,7 @@
+@@ -434,7 +435,7 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
           PEmpty -> nil
           POr [] -> nil
           POr [branch] -> go branch m1 m2
@@ -144,7 +60,7 @@
             -- 2009 : The PNonEmpty p as POr [PEmpty,p] takes no branch tracking tag.
             --        I claim this is because only accepting branches need tags,
             --        and the last accepting branch does not need a tag.
-@@ -443,10 +444,10 @@
+@@ -443,10 +444,10 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
             --    Does the above require changes in POr handling in TNFA?  Yes.
             --    Have to always use nullQ instead of "recapitulating" it.
             --    Could also create a constant-writing tag instead of many index tags.
@@ -158,7 +74,7 @@
             a <- if noTag m1 && needTags then uniq "POr start" else return m1 -- whole POr
             b <- if noTag m2 && needTags then uniq "POr stop" else return m2 -- whole POr
             let aAdvice = toAdvice a -- all branches share 'aAdvice'
-@@ -482,11 +483,11 @@
+@@ -482,11 +483,11 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
             return ans
           PConcat [] -> nil -- fatal to pass [] to combineConcat
           PConcat ps -> combineConcat ps m1 m2
@@ -173,7 +89,7 @@
                 -- if needsOrbit then must check start/stop before the Orbit tag
                 -- if accepts then must check start/stop of whole pattern
                 needsTags  = needsOrbit || accepts       -- important that needsOrbit implies needsTags
-@@ -500,7 +501,7 @@
+@@ -500,7 +501,7 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
                          | otherwise = skipView
                   where childViews = tagWrapNullView a b . orbitWrapNullView mOrbit resetOrbitTags $ nullQ q
                         skipView = makeEmptyNullView a b
@@ -182,7 +98,7 @@
                        , takes = (0,if accepts then Nothing else (Just 0))
                        , preReset = [], postSet = []
                        , preTag = apply a, postTag = apply b
-@@ -510,7 +511,7 @@
+@@ -510,7 +511,7 @@ patternToQ compOpt (pOrig,(maxGroupIndex,_)) = (tnfa,aTags,aGroups) where
                        , unQ =Star { getOrbit = mOrbit
                                    , resetOrbits = resetOrbitTags
                                    , firstNull = mayFirstBeNull
@@ -191,9 +107,98 @@
           PCarat dopa -> test (Test_BOL,dopa)
           PDollar dopa -> test (Test_EOL,dopa)
           PChar {} -> one
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine.hs
+@@ -448,10 +448,10 @@ putMQ ws (MQ {mq_earliest=earliest,mq_list=list}) = do
+   if start <= startE
+     then writeSTRef earliest start >> writeSTRef list [mqa]
+     else do
+-  old <- readSTRef list
+-  let !rest = dropWhile (\ m -> start <= mqa_start m) old
+-      !new = mqa : rest
+-  writeSTRef list new
++    old <- readSTRef list
++    let !rest = dropWhile (\ m -> start <= mqa_start m) old
++        !new = mqa : rest
++    writeSTRef list new
+ 
+ getMQ :: Position -> MQ s -> ST s [WScratch s]
+ getMQ pos (MQ {mq_earliest=earliest,mq_list=list}) = do
+@@ -658,15 +658,15 @@ tagsToGroupsST aGroups (WScratch {w_pos=pos})= do
+         flagVal <- pos !! flagtag
+         if (-1) == flagVal then act this_index gs
+           else do
+-        startPos <- pos !! start
+-        stopPos <- pos !! stop
+-        (startParent,lengthParent) <- ma !! parent
+-        let ok = (0 <= startParent &&
+-                  0 <= lengthParent &&
+-                  startParent <= startPos &&
+-                  stopPos <= startPos + lengthParent)
+-        if not ok then act this_index gs
+-          else set ma this_index (startPos,stopPos-startPos)
++          startPos <- pos !! start
++          stopPos <- pos !! stop
++          (startParent,lengthParent) <- ma !! parent
++          let ok = (0 <= startParent &&
++                    0 <= lengthParent &&
++                    startParent <= startPos &&
++                    stopPos <= startPos + lengthParent)
++          if not ok then act this_index gs
++            else set ma this_index (startPos,stopPos-startPos)
+   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
+   unsafeFreeze ma
+ 
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/NewDFA/Engine_FA.hs
+@@ -552,15 +552,15 @@ tagsToGroupsST aGroups (WScratch {w_pos=pos})= do
+         flagVal <- pos !! flagtag
+         if (-1) == flagVal then act this_index gs
+           else do
+-        startPos <- pos !! start
+-        stopPos <- pos !! stop
+-        (startParent,lengthParent) <- ma !! parent
+-        let ok = (0 <= startParent &&
+-                  0 <= lengthParent &&
+-                  startParent <= startPos &&
+-                  stopPos <= startPos + lengthParent)
+-        if not ok then act this_index gs
+-          else set ma this_index (startPos,stopPos-startPos)
++          startPos <- pos !! start
++          stopPos <- pos !! stop
++          (startParent,lengthParent) <- ma !! parent
++          let ok = (0 <= startParent &&
++                    0 <= lengthParent &&
++                    startParent <= startPos &&
++                    stopPos <= startPos + lengthParent)
++          if not ok then act this_index gs
++            else set ma this_index (startPos,stopPos-startPos)
+   forM_ (range (1,b_max)) $ (\i -> act i (aGroups!i))
+   unsafeFreeze ma
+ 
+--- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/ReadRegex.hs
++++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/ReadRegex.hs
+@@ -79,7 +79,7 @@ p_bound atom = try $ between (char '{') (char '}') (p_bound_spec atom)
+ 
+ p_bound_spec :: Pattern -> P Pattern
+ p_bound_spec atom = do lowS <- many1 digit
+-                       let lowI = read lowS
++                       let lowI = read lowS :: Int
+                        highMI <- option (Just lowI) $ try $ do
+                                    _ <- char ','
+   -- parsec note: if 'many digits' fails below then the 'try' ensures
+@@ -87,7 +87,7 @@ p_bound_spec atom = do lowS <- many1 digit
+   -- for any non '}' garbage after the 'many digits'.
+                                    highS <- many digit
+                                    if null highS then return Nothing -- no upper bound
+-                                     else do let highI = read highS
++                                     else do let highI = read highS :: Int
+                                              guard (lowI <= highI)
+                                              return (Just (read highS))
+                        return (PBound lowI highMI atom)
 --- a/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
 +++ b/external-packages/regex-tdfa/lib/Text/Regex/TDFA/TNFA.hs
-@@ -37,6 +37,7 @@
+@@ -37,6 +37,7 @@ module Text.Regex.TDFA.TNFA
  {- By Chris Kuklewicz, 2007. BSD License, see the LICENSE file. -}
  
  import Control.Monad(when)
@@ -201,7 +206,20 @@
  import Control.Monad.State(State,runState,execState,get,put,modify)
  import Data.Array.IArray(Array,array)
  import Data.Char(toLower,toUpper,isAlpha,ord)
-@@ -493,8 +494,8 @@
+@@ -327,9 +328,9 @@ newQNFA :: String -> QT -> S QNFA
+ newQNFA s qt = do
+   (thisI,oldQs) <- get
+   let futureI = succ thisI in seq futureI $ debug (">newQNFA< "++s++" : "++show thisI) $ do
+-  let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
+-  put $! (futureI, oldQs . ((thisI,qnfa):))
+-  return qnfa
++    let qnfa = mkQNFA thisI qt -- (strictQT qt) -- making strictQNFA kills test (1,11) ZZZ
++    put $! (futureI, oldQs . ((thisI,qnfa):))
++    return qnfa
+ 
+ -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- == -- ==
+ -- E related functions
+@@ -493,8 +494,8 @@ qToNFA compOpt qTop = (q_id startingQNFA
                                _ -> (fromQT . preferNullViews (nullQ q) . getQT $ e,False)  -- is NOT same as skipping
                         else (fromQT . resetOrbitsQT resetTheseOrbits . enterOrbitQT mOrbit -- resetOrbitsQT and enterOrbitQT commute
                               . preferNullViews (nullQ q) . getQT . leaveOrbit mOrbit $ e,False)  -- perform resets when accepting 0 characters
@@ -212,7 +230,7 @@
          (this,ans) <- case mqt of
                          Nothing -> err ("Weird pattern in getTransTagless/Star: " ++ show (qTop,qIn))
                          Just qt -> do
-@@ -505,9 +506,9 @@
+@@ -505,9 +506,9 @@ qToNFA compOpt qTop = (q_id startingQNFA
                                    then return . fromQNFA =<< newQNFA "getTransTagless/Star" thisQT
                                    else return . fromQT $ thisQT
                            return (thisE,ansE)
@@ -225,7 +243,7 @@
  
        {- NonEmpty is like actNullable (Or [Empty,q]) without the extra tag to prefer the first Empty branch -}
        NonEmpty q -> ecart ("\n> getTransTagless/NonEmpty"++show qIn)  $ do
-@@ -659,8 +660,8 @@
+@@ -659,8 +660,8 @@ qToNFA compOpt qTop = (q_id startingQNFA
                         else let nQ = fromQT . resetOrbitsQT resetTheseOrbits . enterOrbitQT mOrbit
                                       . preferNullViews (nullQ q) . getQT . leaveOrbit mOrbit
                              in ((nQ eLoop,fmap nQ mAccepting,Nothing),False)
@@ -236,7 +254,7 @@
            (thisAC@(this,_,_),ansAC) <-
              case mChildAccepting of
                Nothing -> err $ "Weird pattern in getTransTagless/Star: " ++ show (qTop,qIn)
-@@ -682,8 +683,8 @@
+@@ -682,8 +683,8 @@ qToNFA compOpt qTop = (q_id startingQNFA
                          Nothing -> Just . fromQT $ childQT
                      ansAll = (fromQT skipQT, skipAccepting, Nothing)
                  return (thisAll,ansAll)

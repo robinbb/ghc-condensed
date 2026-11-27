@@ -13,7 +13,6 @@ docs:
        language:
          Just Haskell98
        language extensions:
-         MonomorphismRestriction
          ImplicitPrelude
          PatternGuards
          FieldSelectors

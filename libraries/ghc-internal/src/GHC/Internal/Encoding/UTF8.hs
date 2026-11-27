@@ -246,7 +246,8 @@ utf8CountCharsByteArray# ba = go 0# 0#
 utf8EncodeChar :: (Int# -> Word8# -> State# s -> State# s)
                -> Char -> ST s Int
 utf8EncodeChar write# c =
-  let x = fromIntegral (ord c) in
+  let x :: Word
+      x = fromIntegral (ord c) in
   case () of
     _ | x > 0 && x <= 0x007f -> do
           write 0 x

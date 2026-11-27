@@ -1,43 +1,6 @@
---- a/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
-+++ b/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
-@@ -969,7 +969,6 @@
-         , [GeneralizedNewtypeDeriving]
-         , [StandaloneDeriving]
-         , [UndecidableInstances]
--        , [DataKinds]
-         , [FlexibleInstances]
-         ]
-     persistFieldDecs <- fmap mconcat $ mapM (persistFieldFromEntity mps) ents
-@@ -3571,7 +3570,6 @@
-             , GeneralizedNewtypeDeriving
-             , StandaloneDeriving
-             , UndecidableInstances
--            , MultiParamTypeClasses
-             ]
- 
- mkSymbolToFieldInstances
---- a/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
-+++ b/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
-@@ -14,6 +14,7 @@
- 
- import Control.Monad.Trans.Reader (withReaderT)
- import Data.Aeson
-+import Data.Kind (Type)
- import Database.Persist.Class
- import Database.Persist.Sql.Class
- 
-@@ -52,7 +53,7 @@
- -- @
- --
- -- @since 2.12
--newtype Compatible b s = Compatible {unCompatible :: s}
-+newtype Compatible (b :: Type) s = Compatible {unCompatible :: s}
- 
- instance
-     (BackendCompatible b s, HasPersistBackend b)
 --- a/external-packages/vendored/persistent/Database/Persist/Class/PersistStore.hs
 +++ b/external-packages/vendored/persistent/Database/Persist/Class/PersistStore.hs
-@@ -23,6 +23,7 @@
+@@ -23,6 +23,7 @@ module Database.Persist.Class.PersistStore
      ) where
  
  import Control.Exception (throwIO)
@@ -45,7 +8,7 @@
  import Control.Monad.IO.Class (MonadIO, liftIO)
  import Control.Monad.Reader (MonadReader (ask), runReaderT)
  import Control.Monad.Trans.Reader (ReaderT, withReaderT)
-@@ -155,7 +156,7 @@
+@@ -155,7 +156,7 @@ class
      toBackendKey :: Key record -> BackendKey backend
      fromBackendKey :: BackendKey backend -> Key record
  
@@ -54,3 +17,63 @@
      data BackendKey backend
  
  class
+--- a/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Compatible/Types.hs
+@@ -13,6 +13,7 @@ module Database.Persist.Compatible.Types
+ 
+ import Control.Monad.Trans.Reader (withReaderT)
+ import Data.Aeson
++import Data.Kind (Type)
+ import Database.Persist.Class
+ import Database.Persist.Sql.Class
+ 
+@@ -51,7 +52,7 @@ import Database.Persist.Sql.Class
+ -- @
+ --
+ -- @since 2.12
+-newtype Compatible b s = Compatible {unCompatible :: s}
++newtype Compatible (b :: Type) s = Compatible {unCompatible :: s}
+ 
+ instance
+     (BackendCompatible b s, HasPersistBackend b)
+--- a/external-packages/vendored/persistent/Database/Persist/Sql/Class.hs
++++ b/external-packages/vendored/persistent/Database/Persist/Sql/Class.hs
+@@ -231,10 +231,12 @@ instance (RawSql a, RawSql b) => RawSql (a, b) where
+             ++ rawSqlColCountReason (snd x)
+     rawSqlProcessRow =
+         let
++            x :: (a, b)
+             x = getType processRow
+             getType :: (z -> Either y x) -> x
+             getType = error "RawSql.getType"
+ 
++            colCountFst :: Int
+             colCountFst = fst $ rawSqlCols (error "RawSql.getType2") (fst x)
+             processRow row =
+                 let
+@@ -15246,6 +15248,7 @@ instance (HasResolution a) => PersistFieldSql (Fixed a) where
+       where
+         prec = round $ (log $ fromIntegral $ resolution n) / (log 10 :: Double) --  FIXME: May lead to problems with big numbers
+         long = prec + 10 --  FIXME: Is this enough ?
++        n :: Fixed a
+         n = 0
+         _mn = return n `asTypeOf` a
+ 
+--- a/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
++++ b/external-packages/vendored/persistent/Database/Persist/TH/Internal.hs
+@@ -965,7 +965,6 @@ mkPersistWith mps preexistingEntities ents' = do
+         , [GeneralizedNewtypeDeriving]
+         , [StandaloneDeriving]
+         , [UndecidableInstances]
+-        , [DataKinds]
+         , [FlexibleInstances]
+         ]
+     persistFieldDecs <- fmap mconcat $ mapM (persistFieldFromEntity mps) ents
+@@ -3567,7 +3566,6 @@ requirePersistentExtensions = requireExtensions requiredExtensions
+             , GeneralizedNewtypeDeriving
+             , StandaloneDeriving
+             , UndecidableInstances
+-            , MultiParamTypeClasses
+             ]
+ 
+ mkSymbolToFieldInstances

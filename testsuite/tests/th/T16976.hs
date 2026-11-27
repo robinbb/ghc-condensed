@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE PatternSynonyms #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module T16976 where
 

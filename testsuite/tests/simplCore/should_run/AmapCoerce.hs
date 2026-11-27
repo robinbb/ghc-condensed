@@ -19,7 +19,7 @@ same x y = case reallyUnsafePtrEquality# (unsafeCoerce x) y of
     _  -> putStrLn "no"
 
 main = do
-    let l = listArray (1,3) [1,2,3]
+    let l = listArray (1,3) [1,2,3] :: Array Int Int
     same (fooAge l) l
     same (fooCoerce l) l
     same (fooUnsafeCoerce l) l

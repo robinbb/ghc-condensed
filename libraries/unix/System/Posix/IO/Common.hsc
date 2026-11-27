@@ -343,6 +343,7 @@ setFdOption (Fd fd) opt val = do
   throwErrnoIfMinus1_ "setFdOption"
                       (Base.c_fcntl_write fd setflag (fromIntegral r'))
  where
+  getflag, setflag :: CInt
   (getflag,setflag)= case opt of
               CloseOnExec       -> ((#const F_GETFD),(#const F_SETFD))
               _                 -> ((#const F_GETFL),(#const F_SETFL))

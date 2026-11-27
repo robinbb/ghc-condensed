@@ -34,10 +34,10 @@ utimeOmit :: CTimeSpec
 utimeOmit = CTimeSpec (CTime 0) (#const UTIME_OMIT)
 
 toCTimeSpec :: POSIXTime -> CTimeSpec
-toCTimeSpec t = CTimeSpec (CTime sec) (truncate $ 10 ^ (9 :: Int) * frac)
-  where
-    (sec,  frac)  = if frac' < 0 then (sec' - 1, frac' + 1) else (sec', frac')
-    (sec', frac') = properFraction (toRational t)
+toCTimeSpec t = case properFraction (toRational t) of
+  (sec', frac') ->
+    let (sec, frac) = if frac' < 0 then (sec' - 1, frac' + 1) else (sec', frac')
+    in CTimeSpec (CTime sec) (truncate $ 10 ^ (9 :: Int) * frac)
 
 foreign import capi "sys/stat.h utimensat" c_utimensat
   :: Posix.Fd -> CString -> Ptr CTimeSpec -> CInt -> IO CInt

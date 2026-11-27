@@ -2,9 +2,7 @@
 {-# LANGUAGE
   FlexibleContexts,
   FlexibleInstances,
-  UndecidableInstances,
-  NoMonomorphismRestriction
-#-}
+  UndecidableInstances #-}
 
 module T19977b where
 

@@ -173,7 +173,8 @@ readControlMessage ctrl fd
                         let !s' = fromIntegral s
                         return $ CMsgSignal fp s'
 
-  where wakeupBufferSize =
+  where wakeupBufferSize :: Int
+        wakeupBufferSize =
 #if defined(HAVE_EVENTFD)
             8
 #else

@@ -1,5 +1,4 @@
 {-# LANGUAGE LinearTypes, TemplateHaskell #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module LinearTH1 where
 

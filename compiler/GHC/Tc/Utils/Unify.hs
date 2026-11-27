@@ -1283,7 +1283,7 @@ TcRhoType. This behaviour is controlled by the `ir_inst :: InferInstFlag`
 field of `InferResult`.
 
 If we do instantiate (ir_inst = IIF_DeepRho), and the expression is an
-application headed by a data constructor, we instantiate deeply; see (IIR4).
+application headed by a data constructor, we instantiate deeply; see (IIR3).
 
 Usually this field is `IIF_DeepRho` meaning "return a (possibly deep) rho-type".
 Why is this the common case?  See #17173 for discussion.  Here are some examples
@@ -1296,25 +1296,13 @@ of why:
      f :: forall {a}. a -> forall b. Num b => b -> b -> b
    This is surely confusing for users.
 
-   And worse, the monomorphism restriction won't work properly. The MR is
-   dealt with in simplifyInfer, and simplifyInfer has no way of
-   instantiating. This could perhaps be worked around, but it may be
-   hard to know even when instantiation should happen.
-
 (IIR2) Another reason.  Consider
        f :: (?x :: Int) => a -> a
        g y = let ?x = 3::Int in f
    Here want to instantiate f's type so that the ?x::Int constraint
   gets discharged by the enclosing implicit-parameter binding.
 
-(IIR3) Suppose one defines plus = (+). If we instantiate lazily, we will
-   infer plus :: forall a. Num a => a -> a -> a. However, the monomorphism
-   restriction compels us to infer
-      plus :: Integer -> Integer -> Integer
-   (or similar monotype). Indeed, the only way to know whether to apply
-   the monomorphism restriction at all is to instantiate
-
-(IIR4) When inferring, we must deeply instantiate the types of data
+(IIR3) When inferring, we must deeply instantiate the types of data
   constructors. E.g
         data T = MkT Int int
         f = MkT 3
@@ -1438,7 +1426,7 @@ tcSubTypeApp :: HsExpr GhcRn
              -> ExpRhoType    -- Expected type
              -> TcM HsWrapper
 tcSubTypeApp rn_expr tc_fun app_res_rho (Infer inf_res)
-  = -- Why look at the head?  See (IIR4) in
+  = -- Why look at the head?  See (IIR3) in
     -- Note [Instantiation of InferResult] in GHC.Tc.Utils.Unify.
     fillInferResult (appHeadSubsumptionFlag tc_fun) (exprCtOrigin rn_expr)
                     app_res_rho inf_res

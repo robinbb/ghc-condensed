@@ -3,7 +3,6 @@
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE ExplicitLevelImports #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module TestLevelImports where
 -- Based on test SI26 and SI01

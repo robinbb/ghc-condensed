@@ -1,0 +1,117 @@
+--- a/external-packages/vendored/crypto-api/Crypto/Classes.hs
++++ b/external-packages/vendored/crypto-api/Crypto/Classes.hs
+@@ -92,6 +92,7 @@
+   hash :: (Hash ctx d) => L.ByteString -> d
+   hash msg = res
+     where
++    res :: d
+     res = finalize ctx end
+     ctx = foldl' updateCtx initialCtx blks
+     (blks,end) = makeBlocks msg blockLen
+@@ -101,6 +102,7 @@
+   hash' :: (Hash ctx d) => B.ByteString -> d
+   hash' msg = res
+     where
++    res :: d
+     res = finalize (updateCtx initialCtx top) end
+     (top, end) = B.splitAt remlen msg
+     remlen = B.length msg - (B.length msg `rem` bLen)
+@@ -306,9 +308,10 @@
+ {-# INLINEABLE modeUnCfb #-}
+ 
+ -- |Obtain an `IV` using the provided CryptoRandomGenerator.
+-getIV :: (BlockCipher k, CryptoRandomGen g) => g -> Either GenError (IV k, g)
++getIV :: forall k g. (BlockCipher k, CryptoRandomGen g) => g -> Either GenError (IV k, g)
+ getIV g =
+-        let bytes = ivBlockSizeBytes iv
++        let iv :: IV k
++            bytes = ivBlockSizeBytes iv
+             gen = genBytes bytes g
+             fromRight (Right x) = x
+             iv  = IV (fst  . fromRight $ gen)
+@@ -466,7 +469,7 @@
+ buildKeyGen :: (BlockCipher k, CryptoRandomGen g) => g -> Either GenError (k, g)
+ buildKeyGen = runStateT (buildKeyM (StateT . genBytes) (lift . Left . GenErrorOther))
+ 
+-buildKeyM :: (BlockCipher k, Monad m) => (Int -> m B.ByteString) -> (String -> m k) -> m k
++buildKeyM :: forall k m. (BlockCipher k, Monad m) => (Int -> m B.ByteString) -> (String -> m k) -> m k
+ buildKeyM getMore err = go (0::Int)
+   where
+   go 1000 = err "Tried 1000 times to generate a key from the system entropy.\
+@@ -474,7 +477,7 @@
+                 \ or perhaps the BlockCipher instance being used has a non-flat\
+                 \ keyspace."
+   go i = do
+-    let bs = keyLength
++    let bs = keyLength :: Tagged k BitLength
+     kd <- getMore ((7 + untag bs) `div` 8)
+     case buildKey kd of
+         Nothing -> go (i+1)
+@@ -518,7 +521,7 @@
+ buildStreamKeyGen :: (StreamCipher k iv, CryptoRandomGen g) => g -> Either GenError (k, g)
+ buildStreamKeyGen = runStateT (buildStreamKeyM (StateT . genBytes) (lift . Left . GenErrorOther))
+ 
+-buildStreamKeyM :: (Monad m, StreamCipher k iv) => (Int -> m B.ByteString) -> (String -> m k) -> m k
++buildStreamKeyM :: forall m k iv. (Monad m, StreamCipher k iv) => (Int -> m B.ByteString) -> (String -> m k) -> m k
+ buildStreamKeyM getMore err = go (0::Int)
+   where
+   go 1000 = err "Tried 1000 times to generate a stream key from the system entropy.\
+@@ -526,7 +529,7 @@
+                 \ or perhaps the BlockCipher instance being used has a non-flat\
+                 \ keyspace."
+   go i = do
+-    let k = streamKeyLength
++    let k = streamKeyLength :: Tagged k BitLength
+     kd <- getMore ((untag k + 7) `div` 8)
+     case buildStreamKey kd of
+         Nothing -> go (i+1)
+@@ -672,14 +675,16 @@
+        incw i w = let nw=i+(fromIntegral w) in (shiftR nw 8, fromIntegral nw)
+ 
+ -- |Obtain an `IV` made only of zeroes
+-zeroIV :: (BlockCipher k) => IV k
++zeroIV :: forall k. (BlockCipher k) => IV k
+ zeroIV = iv
+-  where bytes = ivBlockSizeBytes iv
++  where iv :: IV k
++        bytes = ivBlockSizeBytes iv
+         iv  = IV $ B.replicate  bytes 0
+ 
+-zeroIVcwc :: BlockCipher k => IV k
++zeroIVcwc :: forall k. BlockCipher k => IV k
+ zeroIVcwc = iv
+-  where bytes = ivBlockSizeBytes iv - 5  -- a constant of cwc (4 bytes for ctr mode, 1 for a sort of header on the iv)
++  where iv :: IV k
++        bytes = ivBlockSizeBytes iv - 5  -- a constant of cwc (4 bytes for ctr mode, 1 for a sort of header on the iv)
+         iv    = IV $ B.replicate bytes 0
+ 
+ -- Break a bytestring into block size chunks.
+--- a/external-packages/vendored/crypto-api/Crypto/HMAC.hs
++++ b/external-packages/vendored/crypto-api/Crypto/HMAC.hs
+@@ -22,9 +22,10 @@
+ 
+ -- |Message authentication code calculation for lazy bytestrings.
+ -- @hmac k msg@ will compute an authentication code for @msg@ using key @k@
+-hmac :: (Hash c d) => MacKey c d -> L.ByteString -> d
++hmac :: forall c d. (Hash c d) => MacKey c d -> L.ByteString -> d
+ hmac (MacKey k) msg = res
+   where
++  res :: d
+   res = hash' . B.append ko . encode  . f . L.append ki $ msg
+   f = hashFunc res
+   keylen = B.length k
+--- a/external-packages/vendored/crypto-api/Crypto/Modes.hs
++++ b/external-packages/vendored/crypto-api/Crypto/Modes.hs
+@@ -49,10 +49,11 @@
+ {-# INLINEABLE cbcMac #-}
+ 
+ -- |Generate cmac subkeys.
+-cMacSubk :: BlockCipher k => k -> (IV k, IV k)
++cMacSubk :: forall k. BlockCipher k => k -> (IV k, IV k)
+ cMacSubk k = (k1, k2) `seq` (k1, k2)
+   where
+        bSize = blockSizeBytes `for` k
++       k1, k2 :: IV k
+        k1 = dblIV $ IV $ encryptBlock k $ B.replicate bSize 0
+        k2 = dblIV $ k1
+ 

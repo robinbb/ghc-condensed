@@ -1,0 +1,18 @@
+--- a/external-packages/vendored/Decimal/src/Data/Decimal.hs
++++ b/external-packages/vendored/Decimal/src/Data/Decimal.hs
+@@ -121,12 +121,14 @@
+ 
+ -- | Convert a @DecimalRaw@ from one base to another. Returns @Nothing@ if
+ -- this would cause arithmetic overflow.
+-decimalConvert :: (Integral a, Integral b, Bounded b) =>
++decimalConvert :: forall a b. (Integral a, Integral b, Bounded b) =>
+    DecimalRaw a -> Maybe (DecimalRaw b)
+ decimalConvert (Decimal e n) =
+    let n1 :: Integer
+        n1 = fromIntegral n
++       n2 :: b
+        n2 = fromIntegral n   -- Of type b.
++       ub, lb :: Integer
+        ub = fromIntegral $ max maxBound n2  -- Can't say "maxBound :: b", so do this instead.
+        lb = fromIntegral $ min minBound n2
+    in if lb <= n1 && n1 <= ub then Just $ Decimal e n2 else Nothing

@@ -428,9 +428,8 @@ Historical note.  We used to suppress errors arising from the interaction of two
      foo :: C Bool (Maybe a) => p -> Maybe a
      bar :: C Bool [a]       => p -> [a]
 
-   (The unused arguments suppress the monomorphism restriction.) The problem
-   is that these types can't both be correct, as they violate the functional
-   dependency. Yet reporting an error here is awkward: we must
+   The problem is that these types can't both be correct, as they violate
+   the functional dependency. Yet reporting an error here is awkward: we must
    non-deterministically choose either foo or bar to reject. We thus want
    to report this problem only when there is nothing else to report.
    See typecheck/should_fail/T13506 for an example of when to suppress

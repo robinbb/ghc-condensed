@@ -1,0 +1,11 @@
+--- a/external-packages/hspec/hspec-core/src/Test/Hspec/Core/FailureReport.hs
++++ b/external-packages/hspec/hspec-core/src/Test/Hspec/Core/FailureReport.hs
+@@ -58,7 +58,7 @@
+     if exists
+       then do
+         r <- readFile file
+-        let report = readMaybe r
++        let report = readMaybe r :: Maybe FailureReport
+         when (report == Nothing) $ do
+           hPutStrLn stderr ("WARNING: Could not read failure report from file " ++ show file ++ "!")
+         return report

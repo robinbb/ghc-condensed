@@ -1644,24 +1644,6 @@ of ``-W(no-)*``.
     ``Integer``. This may lead to differences in performance and
     behaviour, hence the usefulness of being non-silent about this.
 
-.. ghc-flag:: -Wmonomorphism-restriction
-    :shortdesc: warn when the Monomorphism Restriction is applied
-    :type: dynamic
-    :reverse: -Wno-monomorphism-restriction
-    :category:
-
-    :since: 6.8
-
-    :default: off
-
-    .. index::
-       single: monomorphism restriction, warning
-
-    Have the compiler warn/inform you where in your source the Haskell
-    Monomorphism Restriction is applied. If applied silently the MR can
-    give rise to unexpected behaviour, so it can be helpful to have an
-    explicit warning that it is being applied.
-
 .. ghc-flag:: -Wunsupported-llvm-version
     :shortdesc: Warn when using :ghc-flag:`-fllvm` with an unsupported
         version of LLVM.

@@ -235,7 +235,6 @@ docs:
        language:
          Just GHC2021
        language extensions:
-         MonomorphismRestriction
          MonoLocalBinds
          ForeignFunctionInterface
          TemplateHaskell

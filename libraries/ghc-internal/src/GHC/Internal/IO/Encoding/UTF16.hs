@@ -216,14 +216,14 @@ utf16be_decode
          | otherwise = do
               let !(# st1, c0 #) = unIO (readWord8Buf iraw  ir   ) st0
                   !(# st2, c1 #) = unIO (readWord8Buf iraw (ir+1)) st1
-              let x1 = fromIntegral c0 `shiftL` 8 + fromIntegral c1
+              let x1 = fromIntegral c0 `shiftL` 8 + fromIntegral c1 :: Word16
               if validate1 x1
                  then let !(# st3, ow' #) = unIO (writeCharBuf oraw ow (unsafeChr (fromIntegral x1))) st2
                       in loop (ir+2) ow' st3
                  else if iw - ir < 4 then done InputUnderflow ir ow st2 else do
                       let !(# st3, c2 #) = unIO (readWord8Buf iraw (ir+2)) st2
                           !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
-                          x2 = fromIntegral c2 `shiftL` 8 + fromIntegral c3
+                          x2 = fromIntegral c2 `shiftL` 8 + fromIntegral c3 :: Word16
                       if not (validate2 x1 x2) then invalid st4 else do
                         let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
                         loop (ir+4) ow' st5
@@ -255,14 +255,14 @@ utf16le_decode
          | otherwise = do
               let !(# st1, c0 #) = unIO (readWord8Buf iraw  ir   ) st0
                   !(# st2, c1 #) = unIO (readWord8Buf iraw (ir+1)) st1
-                  x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0
+                  x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0 :: Word16
               if validate1 x1
                  then let !(# st3, ow' #) = unIO (writeCharBuf oraw ow (unsafeChr (fromIntegral x1))) st2
                       in loop (ir+2) ow' st3
                  else if iw - ir < 4 then done InputUnderflow ir ow st2 else do
                       let !(# st3, c2 #) = unIO (readWord8Buf iraw (ir+2)) st2
                           !(# st4, c3 #) = unIO (readWord8Buf iraw (ir+3)) st3
-                          x2 = fromIntegral c3 `shiftL` 8 + fromIntegral c2
+                          x2 = fromIntegral c3 `shiftL` 8 + fromIntegral c2 :: Word16
                       if not (validate2 x1 x2) then invalid st4 else do
                         let !(# st5, ow' #) = unIO (writeCharBuf oraw ow (chr2 x1 x2)) st4
                         loop (ir+4) ow' st5

@@ -35,7 +35,8 @@ decodeStringUtf8 = go
     twoBytes :: Word8 -> [Word8] -> String
     twoBytes c0 (c1 : cs')
       | c1 .&. 0xC0 == 0x80 =
-          let d =
+          let d :: Int
+              d =
                 (fromIntegral (c0 .&. 0x1F) `shiftL` 6)
                   .|. fromIntegral (c1 .&. 0x3F)
            in if d >= 0x80

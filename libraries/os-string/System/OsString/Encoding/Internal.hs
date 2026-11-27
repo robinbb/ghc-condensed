@@ -79,7 +79,7 @@ ucs2le_decode
          | otherwise = do
               c0 <- readWord8Buf iraw ir
               c1 <- readWord8Buf iraw (ir+1)
-              let x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0
+              let x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0 :: Int
               ow' <- writeCharBuf oraw ow (unsafeChr x1)
               loop (ir+2) ow'
 
@@ -165,11 +165,11 @@ utf16le_b_decode
          | otherwise = do
               c0 <- readWord8Buf iraw ir
               c1 <- readWord8Buf iraw (ir+1)
-              let x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0
+              let x1 = fromIntegral c1 `shiftL` 8 + fromIntegral c0 :: Int
               if | iw - ir >= 4 -> do
                       c2 <- readWord8Buf iraw (ir+2)
                       c3 <- readWord8Buf iraw (ir+3)
-                      let x2 = fromIntegral c3 `shiftL` 8 + fromIntegral c2
+                      let x2 = fromIntegral c3 `shiftL` 8 + fromIntegral c2 :: Int
                       if | 0xd800 <= x1 && x1 <= 0xdbff
                          , 0xdc00 <= x2 && x2 <= 0xdfff -> do
                              ow' <- writeCharBuf oraw ow (unsafeChr ((x1 - 0xd800)*0x400 + (x2 - 0xdc00) + 0x10000))

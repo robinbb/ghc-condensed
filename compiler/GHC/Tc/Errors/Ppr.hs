@@ -449,10 +449,6 @@ instance Diagnostic TcRnMessage where
       -> mkSimpleDecorated $
            sep [ text "Polymorphic local binding with no type signature:"
                , nest 2 $ pprPrefixName n <+> dcolon <+> ppr ty ]
-    TcRnOverloadedSig sig
-      -> mkSimpleDecorated $
-           hang (text "Overloaded signature conflicts with monomorphism restriction")
-              2 (ppr sig)
     TcRnTupleConstraintInst _
       -> mkSimpleDecorated $ text "You can't specify an instance for a tuple constraint"
     TcRnUserTypeError ty
@@ -537,12 +533,6 @@ instance Diagnostic TcRnMessage where
                MonoTypeConstraint -> text "A constraint must be a monotype"
                _                  -> empty
          in mkSimpleDecorated $ vcat [hang herald 2 (pprType ty), extra]
-    TcRnMonomorphicBindings bindings
-      -> let pp_bndrs = pprBindings bindings
-         in mkSimpleDecorated $
-              sep [ text "The Monomorphism Restriction applies to the binding"
-                  <> plural bindings
-                  , text "for" <+> pp_bndrs ]
     TcRnOrphanInstance (Left cls_inst)
       -> mkSimpleDecorated $
            hang (text "Orphan class instance:")
@@ -2083,8 +2073,6 @@ instance Diagnostic TcRnMessage where
       -> WarningWithFlags $ missingSignatureWarningFlags what exported
     TcRnPolymorphicBinderMissingSig{}
       -> WarningWithFlag Opt_WarnMissingLocalSignatures
-    TcRnOverloadedSig{}
-      -> ErrorWithoutFlag
     TcRnTupleConstraintInst{}
       -> ErrorWithoutFlag
     TcRnUserTypeError{}
@@ -2119,8 +2107,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnForAllRankErr{}
       -> ErrorWithoutFlag
-    TcRnMonomorphicBindings{}
-      -> WarningWithFlag Opt_WarnMonomorphism
     TcRnOrphanInstance{}
       -> WarningWithFlag Opt_WarnOrphans
     TcRnFunDepConflict{}
@@ -2712,8 +2698,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnPolymorphicBinderMissingSig{}
       -> noHints
-    TcRnOverloadedSig{}
-      -> noHints
     TcRnTupleConstraintInst{}
       -> noHints
     TcRnUserTypeError{}
@@ -2753,10 +2737,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnIllegalInstance rea
       -> illegalInstanceHints rea
-    TcRnMonomorphicBindings bindings
-      -> case bindings of
-          []     -> noHints
-          (x:xs) -> [SuggestAddTypeSignatures $ NamedBindings (x NE.:| xs)]
     TcRnOrphanInstance clsOrFamInst
       -> [SuggestFixOrphanInst { isFamilyInstance = isFam }]
         where
@@ -3606,9 +3586,6 @@ ppr_opfix (op, fixity) = pp_op <+> brackets (ppr fixity)
    where
      pp_op | NegateOp <- op = text "prefix `-'"
            | otherwise      = quotes (ppr op)
-
-pprBindings :: [Name] -> SDoc
-pprBindings = pprWithCommas (quotes . ppr)
 
 
 injectivityErrorHerald :: SDoc

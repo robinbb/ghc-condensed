@@ -1,11 +1,11 @@
-foo :: Integer
+foo :: Num a => a
 main :: IO ()
 type Test :: Type -> Constraint
 class Test a where
   test :: a -> String
   {-# MINIMAL test #-}
 -- imported via E
-foo :: Integer
+foo :: Num a => a
 main :: IO ()
 type Test :: Type -> Constraint
 class Test a

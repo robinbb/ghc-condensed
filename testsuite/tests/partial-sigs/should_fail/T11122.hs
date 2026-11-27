@@ -1,4 +1,3 @@
-{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 
 module T11122 where

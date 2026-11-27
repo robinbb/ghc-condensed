@@ -1,6 +1,6 @@
 --- a/external-packages/reflection/fast/Data/Reflection.hs
 +++ b/external-packages/reflection/fast/Data/Reflection.hs
-@@ -89,6 +89,7 @@
+@@ -87,6 +87,7 @@ module Data.Reflection
      , sequenceBy
      ) where
  
@@ -8,7 +8,7 @@
  import Control.Applicative
  import Control.Exception
  
-@@ -150,10 +151,10 @@
+@@ -148,10 +149,10 @@ class Reifies s a | s -> a where
    -- reified type.
    reflect :: proxy s -> a
  
@@ -21,7 +21,7 @@
  reify a k = unsafeCoerce (Magic k :: Magic a r) (const a) Proxy
  {-# INLINE_UNSAFE_COERCE reify #-}
  
-@@ -265,11 +266,11 @@
+@@ -263,11 +264,11 @@ give a k = unsafeCoerce (Gift k :: Gift a r) a
  -- | 0
  data Z
  -- | 2/n/
@@ -36,7 +36,7 @@
  
  instance Reifies Z Int where
    reflect _ = 0
-@@ -437,7 +438,7 @@
+@@ -435,7 +436,7 @@ BYTES(GO)
  impossible :: a
  impossible = error "Data.Reflection.reifyByte: impossible"
  
@@ -45,7 +45,7 @@
  reifyByte w k = case w of {
  #define GO(Tn,n) n -> k (Proxy :: Proxy Tn);
  BYTES(GO)
-@@ -445,9 +446,9 @@
+@@ -443,9 +444,9 @@ BYTES(GO)
  _ -> impossible
  }
  
@@ -58,7 +58,15 @@
  
  data Box a = Box a
  
-@@ -532,7 +533,7 @@
+@@ -497,6 +498,7 @@ instance (B b0, B b1, B b2, B b3, B b4, B b5, B b6, B b7, w0 ~ W b0 b1 b2 b3, w1
+     => Reifies (StableBox w0 w1 a) (Box a) where
+   reflect = r where
+       r = unsafePerformIO $ const <$> deRefStablePtr p <* freeStablePtr p
++      s :: Proxy (StableBox w0 w1 a)
+       s = argument r
+       p = intPtrToStablePtr $
+         reflectByte (byte0 s) .|.
+@@ -530,7 +532,7 @@ withStableBox k p = do
  -- | Reify a value at the type level in a 'Typeable'-compatible fashion, to be recovered with 'reflect'.
  --
  -- This can be necessary to work around the changes to @Data.Typeable@ in GHC HEAD.
@@ -67,7 +75,7 @@
  reifyTypeable a k = unsafeDupablePerformIO $ do
    p <- newStablePtr (Box a)
    let n = stablePtrToIntPtr p
-@@ -565,7 +566,7 @@
+@@ -563,7 +565,7 @@ newtype ReflectedMonoid a s = ReflectedMonoid a
  unreflectedMonoid :: ReflectedMonoid a s -> proxy s -> a
  unreflectedMonoid (ReflectedMonoid a) _ = a
  
@@ -76,7 +84,7 @@
  reifyMonoid f z m xs = reify (ReifiedMonoid f z) (unreflectedMonoid (m xs))
  
  -- | Fold a value using its 'Foldable' instance using
-@@ -611,7 +612,7 @@
+@@ -609,7 +611,7 @@ reflectResult1 f = f (reflect (Proxy :: Proxy s))
  unreflectedApplicative :: ReflectedApplicative f s a -> proxy s -> f a
  unreflectedApplicative (ReflectedApplicative a) _ = a
  

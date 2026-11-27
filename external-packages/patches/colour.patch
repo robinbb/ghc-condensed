@@ -1,0 +1,33 @@
+--- a/external-packages/vendored/colour/Data/Colour/Internal.hs
++++ b/external-packages/vendored/colour/Data/Colour/Internal.hs
+@@ -187,11 +187,12 @@
+   RGBA (darken a1 c0 `mappend` darken (1-a0) c1) (Chan a1)
+ 
+ -- |'round's and then clamps @x@ between 0 and 'maxBound'.
+-quantize :: (RealFrac a1, Integral a, Bounded a) => a1 -> a
++quantize :: forall a1 a. (RealFrac a1, Integral a, Bounded a) => a1 -> a
+ quantize x | x <= fromIntegral l = l
+            | fromIntegral h <= x = h
+            | otherwise           = round x
+  where
++  l, h :: a
+   l = minBound
+   h = maxBound
+ 
+--- a/external-packages/vendored/colour/Data/Colour/SRGB.hs
++++ b/external-packages/vendored/colour/Data/Colour/SRGB.hs
+@@ -81,11 +81,13 @@
+ -- |Return the approximate sRGB colour components in the range
+ -- [0..'maxBound'].
+ -- Out of range values are clamped.
+-toSRGBBounded :: (RealFrac b, Floating b, Integral a, Bounded a) =>
++toSRGBBounded :: forall b a. (RealFrac b, Floating b, Integral a, Bounded a) =>
+                  Colour b -> RGB a
+ toSRGBBounded c = fmap f (toSRGB c)
+  where
++  f :: b -> a
+   f x' = quantize (m*x')
++  m :: b
+   m = fromIntegral $ maxBound `asTypeOf` (f undefined)
+ 
+ -- |Return the approximate 24-bit sRGB colour components as three 8-bit

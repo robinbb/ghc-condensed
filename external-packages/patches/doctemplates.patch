@@ -1,0 +1,7 @@
+--- a/external-packages/doctemplates/src/Text/DocTemplates/Parser.hs
++++ b/external-packages/doctemplates/src/Text/DocTemplates/Parser.hs
+@@ -1,3 +1,4 @@
++{-# LANGUAGE FlexibleContexts #-}
+ {-# LANGUAGE CPP #-}
+ {-# LANGUAGE OverloadedStrings #-}
+ {- |

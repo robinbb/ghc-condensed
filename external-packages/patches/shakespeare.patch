@@ -1,6 +1,6 @@
 --- a/external-packages/vendored/shakespeare/Text/Hamlet.hs
 +++ b/external-packages/vendored/shakespeare/Text/Hamlet.hs
-@@ -113,7 +113,7 @@
+@@ -113,7 +113,7 @@ docsToExp env hr scope docs = do
          [] -> [|return ()|]
          [x] -> return x
          _ -> return $ DoE
@@ -9,3 +9,54 @@
                  Nothing
  #endif
                  $ map NoBindS exps
+--- a/external-packages/vendored/shakespeare/Text/Shakespeare/Base.hs
++++ b/external-packages/vendored/shakespeare/Text/Shakespeare/Base.hs
+@@ -74,7 +74,7 @@ derefTuple = try $ do
+   _ <- char ')'
+   return $ DerefTuple x
+ 
+-parseDeref :: UserParser a Deref
++parseDeref :: forall a. UserParser a Deref
+ parseDeref = do
+     skipMany (oneOf " \t")
+     derefList <|> derefTuple <|> derefOther
+@@ -82,6 +82,7 @@ parseDeref = do
+     derefOther = do
+         x <- derefSingle
+         derefInfix x <|> derefPrefix x
++    delim :: UserParser a ()
+     delim = (many1 (char ' ') >> return())
+             <|> lookAhead (oneOf "(\"" >> return ())
+     derefOp = try $ do
+@@ -113,6 +114,7 @@ parseDeref = do
+         x <- derefTuple <|> derefList <|> derefOp <|> derefParens <|> numeric <|> strLit <|> ident
+         fields <- many recordDot
+         pure $ foldl DerefGetField x fields
++    recordDot :: UserParser a String
+     recordDot = do
+         _ <- char '.'
+         x <- lower <|> char '_'
+@@ -130,6 +132,7 @@ parseDeref = do
+         derefSingle' = do
+             x <- try $ delim >> derefSingle
+             deref' $ lhs . (:) x
++    numeric :: UserParser a Deref
+     numeric = do
+         n <- (char '-' >> return "-") <|> return ""
+         x <- many1 digit
+@@ -138,12 +141,15 @@ parseDeref = do
+             Nothing -> DerefIntegral $ read' "Integral" $ n ++ x
+             Just z -> DerefRational $ toRational
+                        (read' "Rational" $ n ++ x ++ '.' : z :: Double)
++    strLit :: UserParser a Deref
+     strLit = do
+         _ <- char '"'
+         chars <- many quotedChar
+         _ <- char '"'
+         return $ DerefString chars
++    quotedChar :: UserParser a Char
+     quotedChar = (char '\\' >> escapedChar) <|> noneOf "\""
++    escapedChar :: UserParser a Char
+     escapedChar =
+         let cecs = [('n', '\n'),  ('r', '\r'), ('b', '\b'), ('t', '\t')
+                    ,('\\', '\\'), ('"', '"'),  ('\'', '\'')]

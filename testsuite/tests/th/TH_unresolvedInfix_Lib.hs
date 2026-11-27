@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module TH_unresolvedInfix_Lib where
 

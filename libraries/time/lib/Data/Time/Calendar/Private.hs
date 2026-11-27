@@ -73,9 +73,10 @@ remBy d n = n - (fromInteger f) * d
   where
     f = quotBy d n
 
-quotRemBy :: (Real a, Integral b) => a -> a -> (b, a)
+quotRemBy :: forall a b. (Real a, Integral b) => a -> a -> (b, a)
 quotRemBy d n =
     let
+        f :: b
         f = quotBy d n
     in
         (f, n - (fromIntegral f) * d)

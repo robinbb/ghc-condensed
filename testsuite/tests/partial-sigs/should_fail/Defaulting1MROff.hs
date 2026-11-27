@@ -1,5 +1,4 @@
 {-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 module Defaulting1MROff where
 
 -- Even without the MR, this signature forces monomorphism,

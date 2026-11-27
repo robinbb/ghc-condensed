@@ -1,22 +1,17 @@
---- a/external-packages/generic-deriving/tests/T68Spec.hs
-+++ b/external-packages/generic-deriving/tests/T68Spec.hs
-@@ -3,6 +3,7 @@
+--- a/external-packages/generic-deriving/src/Generics/Deriving/Enum.hs
++++ b/external-packages/generic-deriving/src/Generics/Deriving/Enum.hs
+@@ -112,8 +112,9 @@ instance (Enum' f, Enum' g) => Enum' (f :*: g) where
+ genumDefault :: (Generic a, Enum' (Rep a)) => [a]
+ genumDefault = map to enum'
  
- module T68Spec (main, spec) where
- 
-+import Data.Kind (Type)
- import Generics.Deriving.TH
- import Test.Hspec
- 
-@@ -12,7 +13,7 @@
- spec :: Spec
- spec = return ()
- 
--type family F68 :: * -> *
-+type family F68 :: Type -> Type
- type instance F68 = Maybe
- data T68 a = MkT68 (F68 a)
- $(deriveAll1 ''T68)
+-toEnumDefault :: (Generic a, Enum' (Rep a)) => Int -> a
+-toEnumDefault i = let l = enum'
++toEnumDefault :: forall a. (Generic a, Enum' (Rep a)) => Int -> a
++toEnumDefault i = let l :: [Rep a ()]
++                      l = enum'
+                   in if (length l > i)
+                       then to (l !! i)
+                        else error "toEnum: invalid index"
 --- a/external-packages/generic-deriving/tests/ExampleSpec.hs
 +++ b/external-packages/generic-deriving/tests/ExampleSpec.hs
 @@ -14,6 +14,7 @@
@@ -27,7 +22,7 @@
  import           Generics.Deriving
  import           Generics.Deriving.TH
  
-@@ -70,7 +71,7 @@
+@@ -70,7 +71,7 @@ tree :: Tree
  tree = Branch 2 Empty (Branch 1 Empty Empty)
  
  -------------------------------------------------------------------------------
@@ -36,7 +31,7 @@
  -------------------------------------------------------------------------------
  
  data List a = Nil | Cons a (List a)
-@@ -228,9 +229,9 @@
+@@ -228,9 +229,9 @@ data PlainHash a = Hash a Addr# Char# Double# Float# Int# Word#
  data Lexeme = Lexeme
  
  data family MyType3 (a :: v) (b :: w) (c :: x) (d :: y) (e :: z)
@@ -48,3 +43,22 @@
  
  $(deriveAll0And1 ''Empty)
  $(deriveAll0And1 ''(:/:))
+--- a/external-packages/generic-deriving/tests/T68Spec.hs
++++ b/external-packages/generic-deriving/tests/T68Spec.hs
+@@ -3,6 +3,7 @@
+ 
+ module T68Spec (main, spec) where
+ 
++import Data.Kind (Type)
+ import Generics.Deriving.TH
+ import Test.Hspec
+ 
+@@ -12,7 +13,7 @@ main = hspec spec
+ spec :: Spec
+ spec = return ()
+ 
+-type family F68 :: * -> *
++type family F68 :: Type -> Type
+ type instance F68 = Maybe
+ data T68 a = MkT68 (F68 a)
+ $(deriveAll1 ''T68)

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, NoMonomorphismRestriction #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T2767a where
 

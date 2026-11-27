@@ -1,6 +1,6 @@
 --- a/external-packages/vendored/wizards/System/Console/Wizard/Internal.hs
 +++ b/external-packages/vendored/wizards/System/Console/Wizard/Internal.hs
-@@ -44,7 +44,7 @@
+@@ -44,7 +44,7 @@ class (Functor sub, Functor sup) => sub :<: sup where
     inj :: sub a -> sup a
  
  instance Functor f => f :<: f where inj = id
@@ -9,3 +9,14 @@
  instance (Functor f, Functor g, Functor h, f :<: g) => f :<: (h :+: g) where inj = Inr . inj
  
  -- | Injection function for free monads, see \"Data Types a la Carte\" from Walter Swierstra, @http:\/\/www.cs.ru.nl\/~W.Swierstra\/Publications\/DataTypesALaCarte.pdf@
+--- a/external-packages/vendored/wizards/System/Console/Wizard/Pure.hs
++++ b/external-packages/vendored/wizards/System/Console/Wizard/Pure.hs
+@@ -28,7 +28,7 @@ type PureState = ([String], Seq Char)
+ 
+ -- | Run a wizard in the Pure backend
+ runPure :: Wizard Pure a -> String -> (Maybe a, String)
+-runPure wz input = let (a,(_,o)) = runState (run wz) (lines input, empty) 
++runPure wz input = let (a,(_,o)) = runState (run wz) ((lines input, empty) :: PureState) 
+                        in (a, toList o)
+ 
+ getPureLine :: State PureState String

@@ -1669,8 +1669,7 @@ generalisation, and so we generalise it. alpha[1] does not, and so
 we leave it alone.
 
 Note that not *every* variable with a higher level will get
-generalised, either due to the monomorphism restriction or other
-quirks. See, for example, the code in GHC.Tc.Solver.decidePromotedTyVars
+generalised. See, for example, the code in GHC.Tc.Solver.decidePromotedTyVars
 and in GHC.Tc.Gen.HsType.kindGeneralizeSome, both of which exclude
 certain otherwise-eligible variables from being generalised.
 

@@ -1,26 +1,26 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 14, types: 12, coercions: 0, joins: 0/0}
+Result size of Tidy Core = {terms: 33, types: 36, coercions: 0, joins: 0/0}
 
--- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
-F15.f15f1 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 100 0}]
-F15.f15f1 = 1
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F15.f1 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F15.f1 = GHC.Internal.Bignum.Integer.IS 1#
 
--- RHS size: {terms: 4, types: 3, coercions: 0, joins: 0/0}
-f15f :: forall {t}. (Integer -> t) -> t
-[GblId, Arity=1, Str=<1C(1,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=1,unsat_ok=True,boring_ok=True)}]
-f15f = \ (@t) (h :: Integer -> t) -> h F15.f15f1
+-- RHS size: {terms: 8, types: 7, coercions: 0, joins: 0/0}
+f15f :: forall {t1} {t2}. Num t1 => (t1 -> t2) -> t2
+[GblId, Arity=2, Str=<MP(A,A,A,A,A,A,1C(1,L))><1C(1,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [90 60] 50 0}]
+f15f = \ (@t) (@t1) ($dNum :: Num t) (h :: t -> t1) -> h (fromInteger @t $dNum F15.f1)
 
--- RHS size: {terms: 4, types: 1, coercions: 0, joins: 0/0}
-f15g :: Integer -> Integer
-[GblId, Arity=1, Str=<1L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [0] 30 0}]
-f15g = \ (x :: Integer) -> GHC.Num.Integer.integerAdd x F15.f15f1
+-- RHS size: {terms: 9, types: 6, coercions: 0, joins: 0/0}
+f15g :: forall {a}. Num a => a -> a
+[GblId, Arity=2, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,MC(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [180 0] 70 0}]
+f15g = \ (@a) ($dNum :: Num a) (x :: a) -> + @a $dNum x (fromInteger @a $dNum F15.f1)
 
--- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
-f15 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 100 0}]
-f15 = 2
+-- RHS size: {terms: 10, types: 6, coercions: 0, joins: 0/0}
+f15 :: forall {t}. Num t => t
+[GblId, Arity=1, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [270] 100 0}]
+f15 = \ (@t) ($dNum :: Num t) -> + @t $dNum (fromInteger @t $dNum F15.f1) (fromInteger @t $dNum F15.f1)
 
 
 

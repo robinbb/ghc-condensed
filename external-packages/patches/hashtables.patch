@@ -1,0 +1,21 @@
+--- a/external-packages/vendored/hashtables/src/Data/HashTable/ST/Linear.hs
++++ b/external-packages/vendored/hashtables/src/Data/HashTable/ST/Linear.hs
+@@ -344,7 +344,7 @@
+ 
+ 
+ ------------------------------------------------------------------------------
+-split :: (Hashable k) =>
++split :: forall s k v. (Hashable k) =>
+          (HashTable_ s k v)
+       -> ST s (HashTable_ s k v)
+ split ht@(HashTable lvl splitptr buckets) = do
+@@ -390,7 +390,8 @@
+ 
+     -- rehash old bucket
+     debug $ "split: rehashing bucket"
+-    let f = uncurry $ primitiveInsert ht'
++    let f :: (k, v) -> ST s Int
++        f = uncurry $ primitiveInsert ht'
+     forceSameType f (uncurry $ primitiveInsert ht)
+ 
+     Bucket.mapM_ f oldBucket

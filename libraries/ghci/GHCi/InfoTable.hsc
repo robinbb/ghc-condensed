@@ -318,6 +318,7 @@ newExecConItbl tables_next_to_code obj con_desc = do
     let lcon_desc = BS.length con_desc + 1{- null terminator -}
         -- SCARY
         -- This size represents the number of bytes in an StgConInfoTable.
+        sz :: CSize
         sz = fromIntegral $ conInfoTableSizeB + sz0
             -- Note: we need to allocate the conDesc string next to the info
             -- table, because on a 64-bit platform we reference this string

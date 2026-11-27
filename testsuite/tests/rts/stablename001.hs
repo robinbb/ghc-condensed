@@ -5,7 +5,7 @@ import System.Mem
 -- to get wrong, by not following indirections properly.
 
 main = do
-  let x = [1..10]
+  let x = [1..10] :: [Integer]
   seq x (return ())
   n1 <- makeStableName x
   performGC

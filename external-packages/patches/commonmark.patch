@@ -1,6 +1,6 @@
 --- a/external-packages/commonmark-hs/commonmark/src/Commonmark/Html.hs
 +++ b/external-packages/commonmark-hs/commonmark/src/Commonmark/Html.hs
-@@ -29,12 +29,13 @@
+@@ -29,12 +29,13 @@ import qualified Data.Set as Set
  import           Unicode.Char         (ord, isAlphaNum, isAscii)
  import           Unicode.Char.General.Compat (isSpace)
  import           Data.Maybe           (fromMaybe)
@@ -15,3 +15,21 @@
      HtmlElement !ElementType {-# UNPACK #-} !Text [Attribute] (Maybe (Html a))
    | HtmlText {-# UNPACK #-} !Text
    | HtmlRaw {-# UNPACK #-} !Text
+--- a/external-packages/commonmark-hs/commonmark/src/Commonmark/Inlines.hs
++++ b/external-packages/commonmark-hs/commonmark/src/Commonmark/Inlines.hs
+@@ -145,12 +145,13 @@ defaultInlineParser =
+          Right codetoks -> return $ code . normalizeCodeSpan . untokenize $
+                                     codetoks
+ 
+-unChunks :: IsInline a => [Chunk a] -> a
++unChunks :: forall a. IsInline a => [Chunk a] -> a
+ unChunks = {-# SCC unChunks #-} foldl' mappend mempty . go
+     where
+       go []     = []
+       go (c:cs) =
+-        let (f, rest) =
++        let f :: a -> a
++            (f, rest) =
+              case cs of
+                (Chunk (AddAttributes attrs) _pos _ts : ds) ->
+                  (addAttributes attrs, ds)

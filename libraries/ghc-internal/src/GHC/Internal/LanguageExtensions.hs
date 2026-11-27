@@ -34,7 +34,6 @@ data Extension
    = Cpp
    | UndecidableInstances
    | UndecidableSuperClasses
-   | MonomorphismRestriction
    | MonoLocalBinds
    | ExtendedDefaultRules     -- Use GHC's extended rules for defaulting
    | NamedDefaults

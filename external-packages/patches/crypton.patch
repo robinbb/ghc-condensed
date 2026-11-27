@@ -1,6 +1,44 @@
+--- a/external-packages/crypton/Crypto/Cipher/AES/Primitive.hs
++++ b/external-packages/crypton/Crypto/Cipher/AES/Primitive.hs
+@@ -71,6 +71,7 @@ import Crypto.Error
+ import Crypto.Internal.ByteArray (
+     ByteArray,
+     ByteArrayAccess,
++    Bytes,
+     ScrubbedBytes,
+     withByteArray,
+  )
+@@ -912,6 +913,7 @@ ccmDecrypt ctx ccm input
+ ccmFinish :: AES -> AESCCM -> Int -> AuthTag
+ ccmFinish ctx ccm taglen = AuthTag $ if ok == 1 then B.take taglen t else B.empty
+   where
++    t :: Bytes
+     (ok, t) = unsafeDoIO $ B.allocRet 16 $ \p ->
+         fst <$> withCCMKeyAndCopySt ctx ccm (c_aes_ccm_finish (castPtr p))
+ 
+--- a/external-packages/crypton/Crypto/Cipher/AESGCMSIV.hs
++++ b/external-packages/crypton/Crypto/Cipher/AESGCMSIV.hs
+@@ -104,6 +104,7 @@ deriveKeys aes iv =
+         KeySizeFixed sz
+             | sz `mod` 8 == 0 ->
+                 let mak = buildKey [0 .. 1]
++                    key :: ScrubbedBytes
+                     key = buildKey [2 .. fromIntegral (sz `div` 8) + 1]
+                     mek = throwCryptoError (cipherInit key)
+                  in (mak, mek)
+--- a/external-packages/crypton/Crypto/Cipher/ChaChaPoly1305.hs
++++ b/external-packages/crypton/Crypto/Cipher/ChaChaPoly1305.hs
+@@ -201,6 +201,7 @@ initialize' k nonce = initFromRootState (ChaCha.initialize 20 k nonce)
+ initFromRootState :: ChaCha.State -> State
+ initFromRootState rootState = State encState polyState 0 0
+   where
++    polyKey :: ScrubbedBytes
+     (polyKey, encState) = ChaCha.generate rootState 64
+     -- 64 bytes are generated so the ChaCha state advances a whole block, and
+     -- the first 32 of them are the key, so there is no length left to check
 --- a/external-packages/crypton/Crypto/Cipher/Types/Block.hs
 +++ b/external-packages/crypton/Crypto/Cipher/Types/Block.hs
-@@ -39,6 +39,7 @@
+@@ -38,6 +38,7 @@ module Crypto.Cipher.Types.Block (
  -- , cfb8Encrypt
  -- , cfb8Decrypt
  
@@ -8,7 +46,7 @@
  import Crypto.Cipher.Types.AEAD
  import Crypto.Cipher.Types.Base
  import Crypto.Cipher.Types.GF
-@@ -60,7 +61,7 @@
+@@ -59,7 +60,7 @@ import Foreign.Ptr
  import Foreign.Storable
  
  -- | an IV parametrized by the cipher
@@ -17,37 +55,98 @@
  
  instance BlockCipher c => ByteArrayAccess (IV c) where
      withByteArray (IV z) f = withByteArray z f
---- a/external-packages/crypton/tests/PubKey/MLKEMSpec.hs
-+++ b/external-packages/crypton/tests/PubKey/MLKEMSpec.hs
-@@ -10,6 +10,7 @@
- import Data.ByteArray.Encoding (Base (Base16), convertFromBase)
- import qualified Data.ByteString as BS
- import Data.Word (Word8)
-+import Data.Kind (Type)
- import Data.Proxy (Proxy (..))
- import Test.Hspec
- import Test.Hspec.QuickCheck (prop)
-@@ -30,7 +31,7 @@
- -- turns the name back into one.
- withSet
-     :: String
--    -> (forall p. MLKEM p => Proxy p -> r)
-+    -> (forall (p :: Type). MLKEM p => Proxy p -> r)
-     -> r
- withSet "ML-KEM-512" k = k (Proxy :: Proxy MLKEM512)
- withSet "ML-KEM-768" k = k (Proxy :: Proxy MLKEM768)
-@@ -103,7 +104,7 @@
- -- first and fail the second.
- checkCase
-     :: String
--    -> (forall p. MLKEM p => Proxy p -> BS.ByteString -> Bool)
-+    -> (forall (p :: Type). MLKEM p => Proxy p -> BS.ByteString -> Bool)
-     -> KeyCheckVector
-     -> Spec
- checkCase what accepts v =
+--- a/external-packages/crypton/Crypto/KDF/HKDF.hs
++++ b/external-packages/crypton/Crypto/KDF/HKDF.hs
+@@ -119,6 +119,7 @@ tryExpand prkAt infoAt outputLength
+         | n <= 0 = []
+         | otherwise =
+             let input = B.concat [tim1, info, B.singleton i] :: ScrubbedBytes
++                ti :: ScrubbedBytes
+                 ti = B.convert $ hF input
+                 hashLen = B.length ti
+                 r = n - hashLen
+--- a/external-packages/crypton/Crypto/PubKey/RSA/PKCS15.hs
++++ b/external-packages/crypton/Crypto/PubKey/RSA/PKCS15.hs
+@@ -399,10 +399,11 @@ pad len m
+         return $ Right $ B.concat [B.pack [0, 2], padding, B.pack [0], m]
+   where
+     -- get random non-null bytes
+-    getNonNullRandom :: (ByteArray bytearray, MonadRandom m) => Int -> m bytearray
++    getNonNullRandom :: forall bytearray m. (ByteArray bytearray, MonadRandom m) => Int -> m bytearray
+     getNonNullRandom n = do
+         bs0 <- getRandomBytes n
+-        let bytes = B.pack $ filter (/= 0) $ B.unpack (bs0 :: Bytes)
++        let bytes :: bytearray
++            bytes = B.pack $ filter (/= 0) $ B.unpack (bs0 :: Bytes)
+             left = n - B.length bytes
+         if left == 0
+             then return bytes
+--- a/external-packages/crypton/Crypto/Random.hs
++++ b/external-packages/crypton/Crypto/Random.hs
+@@ -252,7 +252,8 @@ drgNewTest = initializeWords
+ -- | Generate @len random bytes and mapped the bytes to the function @f.
+ --
+ -- This is equivalent to use Control.Arrow 'first' with 'randomBytesGenerate'
+-withRandomBytes :: (ByteArray ba, DRG g) => g -> Int -> (ba -> a) -> (a, g)
++withRandomBytes :: forall ba g a. (ByteArray ba, DRG g) => g -> Int -> (ba -> a) -> (a, g)
+ withRandomBytes rng len f = (f bs, rng')
+   where
++    bs :: ba
+     (bs, rng') = randomBytesGenerate len rng
+--- a/external-packages/crypton/Crypto/Random/ChaChaDRG.hs
++++ b/external-packages/crypton/Crypto/Random/ChaChaDRG.hs
+@@ -48,9 +48,10 @@ initializeWords (a, b, c, d, e) = initialize (B.allocAndFreeze 40 fill :: Scrubb
+   where
+     fill s = mapM_ (uncurry (pokeElemOff s)) [(0, a), (1, b), (2, c), (3, d), (4, e)]
+ 
+-generate :: ByteArray output => Int -> ChaChaDRG -> (output, ChaChaDRG)
++generate :: forall output. ByteArray output => Int -> ChaChaDRG -> (output, ChaChaDRG)
+ generate nbBytes st@(ChaChaDRG prevSt)
+     | nbBytes <= 0 = (B.empty, st)
+     | otherwise =
+-        let (output, newSt) = C.generateSimple prevSt nbBytes
++        let output :: output
++            (output, newSt) = C.generateSimple prevSt nbBytes
+          in (output, ChaChaDRG newSt)
+--- a/external-packages/crypton/Crypto/Random/HmacDRG.hs
++++ b/external-packages/crypton/Crypto/Random/HmacDRG.hs
+@@ -23,7 +23,7 @@ initial algorithm = HmacDRG (constant 0x00) (constant 0x01)
+ 
+ -- | Update the DRG state with optional provided data.
+ update
+-    :: ByteArrayAccess input
++    :: forall input hash. ByteArrayAccess input
+     => HashAlgorithm hash
+     => input -> HmacDRG hash -> HmacDRG hash
+ update input state0 = if M.null input then state1 else state2
+@@ -32,6 +32,7 @@ update input state0 = if M.null input then state1 else state2
+     state2 = step 0x01 state1
+     step byte (HmacDRG key value) = HmacDRG keyNew valueNew
+       where
++        keyNew :: Digest hash
+         keyNew =
+             hmacGetDigest $
+                 hmac key $
+@@ -39,13 +40,16 @@ update input state0 = if M.null input then state1 else state2
+         valueNew = hmacGetDigest $ hmac keyNew value
+ 
+ instance HashAlgorithm hash => DRG (HmacDRG hash) where
++    randomBytesGenerate :: forall byteArray. M.ByteArray byteArray => Int -> HmacDRG hash -> (byteArray, HmacDRG hash)
+     randomBytesGenerate count (HmacDRG key value) = (output, state)
+       where
+         output = M.take count result
+         state = update @Bytes M.empty $ HmacDRG key new
++        result :: byteArray
+         (result, new) = go M.empty value
+         go buffer current
+             | M.length buffer >= count = (buffer, current)
+             | otherwise = go (buffer <> M.convert next) next
+           where
++            next :: Digest hash
+             next = hmacGetDigest $ hmac key current
 --- a/external-packages/crypton/tests/PubKey/MLDSASpec.hs
 +++ b/external-packages/crypton/tests/PubKey/MLDSASpec.hs
-@@ -9,6 +9,7 @@
+@@ -9,6 +9,7 @@ module PubKey.MLDSASpec (spec) where
  import qualified Data.ByteArray as B
  import Data.ByteArray.Encoding (Base (Base16), convertFromBase)
  import qualified Data.ByteString as BS
@@ -55,7 +154,7 @@
  import Data.Proxy (Proxy (..))
  import Control.Monad (forM_, when)
  import Data.List (nub)
-@@ -25,7 +26,7 @@
+@@ -25,7 +26,7 @@ hex s = case convertFromBase Base16 (BS.pack (map (fromIntegral . fromEnum) s))
      Left e -> error ("bad hex in a test vector: " ++ e)
      Right b -> b
  
@@ -64,3 +163,80 @@
  withSet "ML-DSA-44" k = k (Proxy :: Proxy MLDSA44)
  withSet "ML-DSA-65" k = k (Proxy :: Proxy MLDSA65)
  withSet "ML-DSA-87" k = k (Proxy :: Proxy MLDSA87)
+--- a/external-packages/crypton/tests/PubKey/MLKEMSpec.hs
++++ b/external-packages/crypton/tests/PubKey/MLKEMSpec.hs
+@@ -10,6 +10,7 @@ import qualified Data.ByteArray as B
+ import Data.ByteArray.Encoding (Base (Base16), convertFromBase)
+ import qualified Data.ByteString as BS
+ import Data.Word (Word8)
++import Data.Kind (Type)
+ import Data.Proxy (Proxy (..))
+ import Test.Hspec
+ import Test.Hspec.QuickCheck (prop)
+@@ -30,7 +31,7 @@ hex s = case convertFromBase Base16 (BS.pack (map (fromIntegral . fromEnum) s))
+ -- turns the name back into one.
+ withSet
+     :: String
+-    -> (forall p. MLKEM p => Proxy p -> r)
++    -> (forall (p :: Type). MLKEM p => Proxy p -> r)
+     -> r
+ withSet "ML-KEM-512" k = k (Proxy :: Proxy MLKEM512)
+ withSet "ML-KEM-768" k = k (Proxy :: Proxy MLKEM768)
+@@ -103,7 +104,7 @@ decapCase v =
+ -- first and fail the second.
+ checkCase
+     :: String
+-    -> (forall p. MLKEM p => Proxy p -> BS.ByteString -> Bool)
++    -> (forall (p :: Type). MLKEM p => Proxy p -> BS.ByteString -> Bool)
+     -> KeyCheckVector
+     -> Spec
+ checkCase what accepts v =
+--- a/external-packages/crypton/tests/StreamCipher/ChaChaSpec.hs
++++ b/external-packages/crypton/tests/StreamCipher/ChaChaSpec.hs
+@@ -507,7 +507,7 @@ spec = do
+         loop 0 _ _ = []
+         loop n (x : xs) chacha =
+             let len = min x n
+-                (c, next) = ChaCha.generate chacha len
++                (c, next) = ChaCha.generate chacha len :: (B.ByteString, ChaCha.State)
+              in c : loop (n - len) xs next
+ 
+     chachaGenerateCombine :: ChunkingLen0_127 -> Vector -> Int0_2901 -> Bool
+@@ -519,7 +519,7 @@ spec = do
+         loop 0 _ _ = True
+         loop n (x : xs) chacha =
+             let len = min x n
+-                (c1, next) = ChaCha.generate chacha len
++                (c1, next) = ChaCha.generate chacha len :: (B.ByteString, ChaCha.State)
+                 (c2, _) = ChaCha.combine chacha (B.replicate len 0)
+              in if c1 == c2 then loop (n - len) xs next else False
+ 
+--- a/external-packages/crypton/tests/StreamCipher/SalsaSpec.hs
++++ b/external-packages/crypton/tests/StreamCipher/SalsaSpec.hs
+@@ -85,7 +85,7 @@ spec = do
+             let (_, salsaNext) = Salsa.generate salsa (ofs - current) :: (ByteString, Salsa.State)
+              in salsaLoop ofs salsaNext (r : rs)
+         | current == ofs =
+-            let (e, salsaNext) = Salsa.generate salsa (B.length expectBs)
++            let (e, salsaNext) = Salsa.generate salsa (B.length expectBs) :: (ByteString, Salsa.State)
+              in e : salsaLoop (current + B.length expectBs) salsaNext rs
+         | otherwise = error "internal error in salsaLoop"
+ 
+@@ -98,7 +98,7 @@ spec = do
+         loop 0 _ _ = True
+         loop n (x : xs) salsa =
+             let len = min x n
+-                (c1, next) = Salsa.generate salsa len
++                (c1, next) = Salsa.generate salsa len :: (ByteString, Salsa.State)
+                 (c2, _) = Salsa.combine salsa (B.replicate len 0)
+              in if c1 == c2 then loop (n - len) xs next else False
+ 
+@@ -114,7 +114,7 @@ spec = do
+         loop 0 _ _ = []
+         loop n (x : xs) salsa =
+             let len = min x n
+-                (c, next) = Salsa.generate salsa len
++                (c, next) = Salsa.generate salsa len :: (ByteString, Salsa.State)
+              in c : loop (n - len) xs next
+ 
+     salsaCombineChunks :: ChunkingLen -> RandomVector -> ArbitraryBS0_2901 -> Bool

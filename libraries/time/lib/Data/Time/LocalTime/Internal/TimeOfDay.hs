@@ -53,7 +53,10 @@ makeTimeOfDayValid h m s = do
 timeToDaysAndTimeOfDay :: NominalDiffTime -> (Integer, TimeOfDay)
 timeToDaysAndTimeOfDay dt =
     let
+        s :: Pico
         s = realToFrac dt
+        m, h :: Int
+        d :: Integer
         (m, ms) = divMod' s 60
         (h, hm) = divMod' m 60
         (d, dh) = divMod' h 24
@@ -86,8 +89,10 @@ timeToTimeOfDay dt
     | dt >= posixDayLength = TimeOfDay 23 59 (60 + (realToFrac (dt - posixDayLength)))
 timeToTimeOfDay dt = TimeOfDay (fromInteger h) (fromInteger m) s
   where
+    s' :: Pico
     s' = realToFrac dt
     s = mod' s' 60
+    m' :: Integer
     m' = div' s' 60
     m = mod' m' 60
     h = div' m' 60

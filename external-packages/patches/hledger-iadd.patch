@@ -1,0 +1,21 @@
+--- a/external-packages/hledger-iadd/src/ConfigParser.hs
++++ b/external-packages/hledger-iadd/src/ConfigParser.hs
+@@ -116,7 +116,7 @@
+ --
+ -- Can be combined with the 'Applicative' instance for 'OptParser'. See the
+ -- module documentation for an example.
+-option :: OptionArgument a
++option :: forall a. OptionArgument a
+        => Text -- ^ The option name
+        -> a -- ^ The default value
+        -> Text
+@@ -124,7 +124,8 @@
+           -- create helpful comments.
+        -> OptParser a
+ option name def help = liftAp $ Option parser typename name help def (printArgument def)
+-  where (typename, parser) = mkParser
++  where parser :: OParser a
++        (typename, parser) = mkParser
+ 
+ customOption :: Text -- ^ The option name
+              -> a -- ^ The default Value

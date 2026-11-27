@@ -1,6 +1,26 @@
+--- a/external-packages/cryptonite/Crypto/Cipher/AESGCMSIV.hs
++++ b/external-packages/cryptonite/Crypto/Cipher/AESGCMSIV.hs
+@@ -102,6 +102,7 @@ deriveKeys aes iv =
+     case cipherKeySize aes of
+         KeySizeFixed sz | sz `mod` 8 == 0 ->
+             let mak = buildKey [0 .. 1]
++                key :: ScrubbedBytes
+                 key = buildKey [2 .. fromIntegral (sz `div` 8) + 1]
+                 mek = throwCryptoError (cipherInit key)
+              in (mak, mek)
+--- a/external-packages/cryptonite/Crypto/Cipher/ChaChaPoly1305.hs
++++ b/external-packages/cryptonite/Crypto/Cipher/ChaChaPoly1305.hs
+@@ -150,6 +150,7 @@ initialize' key nonce
+     | otherwise          = CryptoPassed $ State encState polyState 0 0
+   where
+     rootState           = ChaCha.initialize 20 key nonce
++    polyKey :: ScrubbedBytes
+     (polyKey, encState) = ChaCha.generate rootState 64
+     polyState           = throwCryptoError $ Poly1305.initialize (B.take 32 polyKey :: ScrubbedBytes)
+ 
 --- a/external-packages/cryptonite/Crypto/Cipher/Types/Block.hs
 +++ b/external-packages/cryptonite/Crypto/Cipher/Types/Block.hs
-@@ -34,6 +34,7 @@
+@@ -34,6 +34,7 @@ module Crypto.Cipher.Types.Block
      --, cfb8Decrypt
      ) where
  
@@ -8,7 +28,7 @@
  import           Data.Word
  import           Crypto.Error
  import           Crypto.Cipher.Types.Base
-@@ -48,7 +49,7 @@
+@@ -48,7 +49,7 @@ import           Foreign.Ptr
  import           Foreign.Storable
  
  -- | an IV parametrized by the cipher
@@ -17,3 +37,72 @@
  
  instance BlockCipher c => ByteArrayAccess (IV c) where
      withByteArray (IV z) f = withByteArray z f
+@@ -180,7 +181,7 @@ cbcEncryptGeneric :: (ByteArray ba, BlockCipher cipher) => cipher -> IV cipher -
+ cbcEncryptGeneric cipher ivini input = mconcat $ doEnc ivini $ chunk (blockSize cipher) input
+   where doEnc _  []     = []
+         doEnc iv (i:is) =
+-            let o = ecbEncrypt cipher $ B.xor iv i
++            let o = ecbEncrypt cipher (B.xor iv i) `asTypeOf` input
+              in o : doEnc (IV o) is
+ 
+ cbcDecryptGeneric :: (ByteArray ba, BlockCipher cipher) => cipher -> IV cipher -> ba -> ba
+@@ -196,7 +197,7 @@ cfbEncryptGeneric cipher ivini input = mconcat $ doEnc ivini $ chunk (blockSize
+   where
+         doEnc _  []     = []
+         doEnc (IV iv) (i:is) =
+-            let o = B.xor i $ ecbEncrypt cipher iv
++            let o = B.xor i (ecbEncrypt cipher iv) `asTypeOf` input
+              in o : doEnc (IV o) is
+ 
+ cfbDecryptGeneric :: (ByteArray ba, BlockCipher cipher) => cipher -> IV cipher -> ba -> ba
+--- a/external-packages/cryptonite/Crypto/KDF/HKDF.hs
++++ b/external-packages/cryptonite/Crypto/KDF/HKDF.hs
+@@ -77,6 +77,7 @@ expand prkAt infoAt outputLength =
+         | n <= 0    = []
+         | otherwise =
+             let input   = B.concat [tim1,info,B.singleton i] :: ScrubbedBytes
++                ti :: ScrubbedBytes
+                 ti      = B.convert $ hF input
+                 hashLen = B.length ti
+                 r       = n - hashLen
+--- a/external-packages/cryptonite/Crypto/PubKey/RSA/PKCS15.hs
++++ b/external-packages/cryptonite/Crypto/PubKey/RSA/PKCS15.hs
+@@ -98,10 +98,11 @@ pad len m
+ 
+   where
+     -- get random non-null bytes
+-    getNonNullRandom :: (ByteArray bytearray, MonadRandom m) => Int -> m bytearray
++    getNonNullRandom :: forall bytearray m. (ByteArray bytearray, MonadRandom m) => Int -> m bytearray
+     getNonNullRandom n = do
+         bs0 <- getRandomBytes n
+-        let bytes = B.pack $ filter (/= 0) $ B.unpack (bs0 :: Bytes)
++        let bytes :: bytearray
++            bytes = B.pack $ filter (/= 0) $ B.unpack (bs0 :: Bytes)
+             left  = n - B.length bytes
+         if left == 0
+             then return bytes
+--- a/external-packages/cryptonite/Crypto/Random.hs
++++ b/external-packages/cryptonite/Crypto/Random.hs
+@@ -93,6 +93,7 @@ drgNewTest = initializeWords
+ -- | Generate @len random bytes and mapped the bytes to the function @f.
+ --
+ -- This is equivalent to use Control.Arrow 'first' with 'randomBytesGenerate'
+-withRandomBytes :: (ByteArray ba, DRG g) => g -> Int -> (ba -> a) -> (a, g)
++withRandomBytes :: forall ba g a. (ByteArray ba, DRG g) => g -> Int -> (ba -> a) -> (a, g)
+ withRandomBytes rng len f = (f bs, rng')
+-  where (bs, rng') = randomBytesGenerate len rng
++  where bs :: ba
++        (bs, rng') = randomBytesGenerate len rng
+--- a/external-packages/cryptonite/Crypto/Random/ChaChaDRG.hs
++++ b/external-packages/cryptonite/Crypto/Random/ChaChaDRG.hs
+@@ -40,7 +40,8 @@ initializeWords :: (Word64, Word64, Word64, Word64, Word64) -> ChaChaDRG
+ initializeWords (a,b,c,d,e) = initialize (B.allocAndFreeze 40 fill :: ScrubbedBytes)
+   where fill s = mapM_ (uncurry (pokeElemOff s)) [(0,a), (1,b), (2,c), (3,d), (4,e)]
+ 
+-generate :: ByteArray output => Int -> ChaChaDRG -> (output, ChaChaDRG)
++generate :: forall output. ByteArray output => Int -> ChaChaDRG -> (output, ChaChaDRG)
+ generate nbBytes st@(ChaChaDRG prevSt)
+     | nbBytes <= 0 = (B.empty, st)
+-    | otherwise    = let (output, newSt) = C.generateSimple prevSt nbBytes in (output, ChaChaDRG newSt)
++    | otherwise    = let output :: output
++                         (output, newSt) = C.generateSimple prevSt nbBytes in (output, ChaChaDRG newSt)

@@ -1,0 +1,7 @@
+--- a/external-packages/texmath/src/Text/TeXMath/Readers/TeX.hs
++++ b/external-packages/texmath/src/Text/TeXMath/Readers/TeX.hs
+@@ -1,3 +1,4 @@
++{-# LANGUAGE FlexibleContexts #-}
+ {-# LANGUAGE TupleSections #-}
+ {-# LANGUAGE OverloadedStrings #-}
+ {-# LANGUAGE CPP #-}

@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE Safe #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 module Dep08 where
 
 import GHC.IOArray

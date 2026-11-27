@@ -231,6 +231,7 @@ versionNumbers (PV0 w)
   | v4 < 0 = [v1, v2, v3]
   | otherwise = [v1, v2, v3, v4]
   where
+    v1, v2, v3, v4 :: Int
     v1 = fromIntegral ((w `shiftR` 48) .&. 0xffff) - 1
     v2 = fromIntegral ((w `shiftR` 32) .&. 0xffff) - 1
     v3 = fromIntegral ((w `shiftR` 16) .&. 0xffff) - 1

@@ -1,0 +1,11 @@
+--- a/external-packages/attoparsec/internal/Data/Attoparsec/ByteString/Buffer.hs
++++ b/external-packages/attoparsec/internal/Data/Attoparsec/ByteString/Buffer.hs
+@@ -127,7 +127,7 @@
+           fp <- mallocPlainForeignPtrBytes (newcap + genSize)
+           withForeignPtr fp $ \ptr_ -> do
+             let ptr    = ptr_ `plusPtr` genSize
+-                newgen = 1
++                newgen = 1 :: Int
+             poke (castPtr ptr_) newgen
+             memcpy ptr (ptr0 `plusPtr` off0) (fromIntegral len0)
+             memcpy (ptr `plusPtr` len0) (ptr1 `plusPtr` off1)

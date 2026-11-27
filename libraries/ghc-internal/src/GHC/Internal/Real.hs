@@ -344,19 +344,22 @@ class  (Real a, Fractional a) => RealFrac a  where
     {-# INLINE truncate #-}
     truncate x          =  m  where (m,_) = properFraction x
 
-    round x             =  let (n,r) = properFraction x
-                               m     = if r < 0 then n - 1 else n + 1
-                           in case signum (abs r - 0.5) of
-                                -1 -> n
-                                0  -> if even n then n else m
-                                1  -> m
-                                _  -> errorWithoutStackTrace "round default defn: Bad value"
+    -- A case rather than a pattern binding for (n,r): a let-bound pair
+    -- would be generalised over the Integral constraint of n, leaving the
+    -- type of r ambiguous.
+    round x             =  case properFraction x of
+                             (n,r) -> let m = if r < 0 then n - 1 else n + 1
+                                      in case signum (abs r - 0.5) of
+                                           -1 -> n
+                                           0  -> if even n then n else m
+                                           1  -> m
+                                           _  -> errorWithoutStackTrace "round default defn: Bad value"
 
-    ceiling x           =  if r > 0 then n + 1 else n
-                           where (n,r) = properFraction x
+    ceiling x           =  case properFraction x of
+                             (n,r) -> if r > 0 then n + 1 else n
 
-    floor x             =  if r < 0 then n - 1 else n
-                           where (n,r) = properFraction x
+    floor x             =  case properFraction x of
+                             (n,r) -> if r < 0 then n - 1 else n
 
 -- These 'numeric' enumerations come straight from the Report
 
@@ -654,15 +657,14 @@ instance  (Integral a)  => RealFrac (Ratio a)  where
     properFraction (x:%y) = (fromInteger (toInteger q), r:%y)
                           where (q,r) = quotRem x y
     round r =
-      let
-        (n, f) = properFraction r
-        x = if r < 0 then -1 else 1
-      in
-        case (compare (abs f) 0.5, odd n) of
-          (LT, _) -> n
-          (EQ, False) -> n
-          (EQ, True) -> n + x
-          (GT, _) -> n + x
+      case properFraction r of
+        (n, f) ->
+          let x = if r < 0 then -1 else 1
+          in case (compare (abs f) 0.5, odd n) of
+               (LT, _) -> n
+               (EQ, False) -> n
+               (EQ, True) -> n + x
+               (GT, _) -> n + x
 
 -- | @since base-2.0.1
 instance  (Show a)  => Show (Ratio a)  where

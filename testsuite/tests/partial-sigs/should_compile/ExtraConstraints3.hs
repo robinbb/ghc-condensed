@@ -1,5 +1,4 @@
 {-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# OPTIONS_GHC -Wno-x-partial #-}
 module ExtraConstraints3 where
 

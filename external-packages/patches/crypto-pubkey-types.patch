@@ -1,0 +1,12 @@
+--- a/external-packages/hs-crypto-pubkey-types/Crypto/Types/PubKey/RSA.hs
++++ b/external-packages/hs-crypto-pubkey-types/Crypto/Types/PubKey/RSA.hs
+@@ -168,7 +168,8 @@
+   where uintOfBytes = foldl (\acc n -> (acc `shiftL` 8) + fromIntegral n) 0
+         bytesOfInt :: Integer -> [Word8]
+         bytesOfInt n = if testBit (head nints) 7 then nints else 0xff : nints
+-          where nints = reverse $ plusOne $ reverse $ map complement $ bytesOfUInt (abs n)
++          where nints :: [Word8]
++                nints = reverse $ plusOne $ reverse $ map complement $ bytesOfUInt (abs n)
+                 plusOne []     = [1]
+                 plusOne (x:xs) = if x == 0xff then 0 : plusOne xs else (x+1) : xs
+                 bytesOfUInt x = reverse (list x)

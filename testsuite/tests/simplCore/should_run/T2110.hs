@@ -20,7 +20,7 @@ same x y = case reallyUnsafePtrEquality# (unsafeCoerce x) y of
     _  -> putStrLn "no"
 
 main = do
-    let l = [1,2,3]
+    let l = [1,2,3] :: [Int]
     same (foo l) l
     same (fooAge l) l
     same (fooCoerce l) l

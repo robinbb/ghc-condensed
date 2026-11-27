@@ -3,7 +3,6 @@
 {-# LANGUAGE OverloadedLabels
            , FlexibleContexts
            , FlexibleInstances
-           , NoMonomorphismRestriction
   #-}
 
 import GHC.OverloadedLabels

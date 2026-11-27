@@ -71,9 +71,10 @@ periodLength p = succ $ fromInteger $ diffDays (periodLastDay p) (periodFirstDay
 -- @periodFromDay (periodFirstDay p) = (p,1)@
 --
 -- @since 1.12.1
-periodFromDay :: DayPeriod p => Day -> (p, Int)
+periodFromDay :: forall p. DayPeriod p => Day -> (p, Int)
 periodFromDay d =
     let
+        p :: p
         p = dayPeriod d
         dt = succ $ fromInteger $ diffDays d $ periodFirstDay p
     in

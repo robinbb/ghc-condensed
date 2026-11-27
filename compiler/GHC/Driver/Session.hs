@@ -2383,7 +2383,6 @@ wWarningFlagsDeps = [minBound..maxBound] >>= \x -> case x of
     -> subWarnSpec "missing-exported-sigs" x
                    "it is replaced by -Wmissing-exported-signatures"
        ++ warnSpec x
-  Opt_WarnMonomorphism -> warnSpec x
   Opt_WarnNameShadowing -> warnSpec x
   Opt_WarnNonCanonicalMonadInstances -> warnSpec x
   Opt_WarnNonCanonicalMonadFailInstances
@@ -2737,8 +2736,6 @@ fLangFlagsDeps = [
     (deprecatedForExtension "ImplicitPrelude"),
   depFlagSpec' "bang-patterns"                  LangExt.BangPatterns
     (deprecatedForExtension "BangPatterns"),
-  depFlagSpec' "monomorphism-restriction"       LangExt.MonomorphismRestriction
-    (deprecatedForExtension "MonomorphismRestriction"),
   depFlagSpec' "extended-default-rules"         LangExt.ExtendedDefaultRules
     (deprecatedForExtension "ExtendedDefaultRules"),
   depFlagSpec' "implicit-params"                LangExt.ImplicitParams

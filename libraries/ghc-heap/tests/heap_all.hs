@@ -230,17 +230,17 @@ main = do
     -- Closures
 
     -- Constructor
-    let !con = Just 1
+    let !con = Just (1 :: Int)
     getClosureData con >>=
         assertClosuresEq exConstrClosure
 
     -- Function
-    let !fun = \x -> x + 1
+    let !fun = \x -> x + (1 :: Int)
     getClosureData fun >>=
         assertClosuresEq exFunClosure
 
     -- Thunk
-    let thunk = map (+2) [1,2,3]
+    let thunk = map (+2) [1,2,3 :: Int]
     getClosureData thunk >>=
         assertClosuresEq exThunkClosure
 
@@ -251,7 +251,7 @@ main = do
     --     assertClosuresEq exSelectClosure
 
     -- Partial application
-    let !f = map (+2)
+    let !f = map (+ (2 :: Int))
     getClosureData f >>=
         assertClosuresEq exPAPClosure
 

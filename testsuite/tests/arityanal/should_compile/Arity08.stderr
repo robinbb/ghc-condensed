@@ -1,21 +1,26 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 24, types: 18, coercions: 0, joins: 0/0}
+Result size of Tidy Core = {terms: 30, types: 26, coercions: 0, joins: 0/0}
 
 -- RHS size: {terms: 20, types: 10, coercions: 0, joins: 0/0}
-f8f :: forall {p}. Num p => Bool -> p -> p -> p
+f8f :: forall {a}. Num a => Bool -> a -> a -> a
 [GblId, Arity=4, Str=<LP(SC(S,C(1,L)),A,MC(1,C(1,L)),A,A,A,A)><1L><L><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [270 30 0 0] 140 0}]
 f8f
-  = \ (@p) ($dNum :: Num p) (b :: Bool) (x :: p) (y :: p) ->
+  = \ (@a) ($dNum :: Num a) (b :: Bool) (x :: a) (y :: a) ->
       case b of {
-        False -> + @p $dNum (+ @p $dNum x y) (* @p $dNum x x);
+        False -> + @a $dNum (+ @a $dNum x y) (* @a $dNum x x);
         True -> y
       }
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-f8 :: Integer
+F8.f1 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-f8 = GHC.Internal.Bignum.Integer.IS 2#
+F8.f1 = GHC.Internal.Bignum.Integer.IS 2#
+
+-- RHS size: {terms: 5, types: 4, coercions: 0, joins: 0/0}
+f8 :: forall {a}. Num a => a
+[GblId, Arity=1, Str=<1P(A,A,A,A,A,A,1C(1,L))>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [90] 30 0}]
+f8 = \ (@a) ($dNum :: Num a) -> fromInteger @a $dNum F8.f1
 
 
 

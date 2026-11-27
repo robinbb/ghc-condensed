@@ -134,7 +134,6 @@ module Language.Haskell.TH where
     = Cpp
     | UndecidableInstances
     | UndecidableSuperClasses
-    | MonomorphismRestriction
     | MonoLocalBinds
     | ExtendedDefaultRules
     | NamedDefaults
@@ -701,7 +700,6 @@ module Language.Haskell.TH.LanguageExtensions where
     = Cpp
     | UndecidableInstances
     | UndecidableSuperClasses
-    | MonomorphismRestriction
     | MonoLocalBinds
     | ExtendedDefaultRules
     | NamedDefaults
@@ -1402,7 +1400,6 @@ module Language.Haskell.TH.Syntax where
     = Cpp
     | UndecidableInstances
     | UndecidableSuperClasses
-    | MonomorphismRestriction
     | MonoLocalBinds
     | ExtendedDefaultRules
     | NamedDefaults

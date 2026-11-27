@@ -112,7 +112,7 @@ type HasCallStack = (?callStack :: CallStack)
 -- 2. If there is no 'CallStack' in scope -- e.g. in the GHCi session
 --    above -- and the enclosing definition does not have an explicit
 --    type signature, GHC will infer a 'HasCallStack' constraint for the
---    enclosing definition (subject to the monomorphism restriction).
+--    enclosing definition.
 --
 -- 3. If there is no 'CallStack' in scope and the enclosing definition
 --    has an explicit type signature, GHC will solve the 'HasCallStack'

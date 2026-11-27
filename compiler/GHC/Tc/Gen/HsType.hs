@@ -537,8 +537,7 @@ Then
 
   Instead we want to default it to LiftedRep.
 
-  An alternative would be to promote it, similar to the monomorphism
-  restriction, but the MR is pretty confusing.  Defaulting seems better
+  An alternative would be to promote it, but defaulting seems better
 
 How does that defaulting happen?  Well, since we /currently/ default
 RuntimeRep variables during generalisation, it'll happen in

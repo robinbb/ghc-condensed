@@ -119,7 +119,8 @@ countDigits :: (Integral a) => a -> Int
 countDigits v0
   | fromIntegral v64 == v0 = go 1 v64
   | otherwise              = goBig 1 (toInteger v0)
-  where v64 = fromIntegral v0
+  where v64 :: Word64
+        v64 = fromIntegral v0
         goBig !k (v :: Integer)
            | v > big   = goBig (k + 19) (v `quot` big)
            | otherwise = go k (fromInteger v)
@@ -221,7 +222,8 @@ integer base i
                     (x, y)
                         | q > 0     -> int q <> pblock r <> putB ns
                         | otherwise -> int r <> putB ns
-                        where q = fromInteger x
+                        where q, r :: Int
+                              q = fromInteger x
                               r = fromInteger y
     putH _ = error "putH: the impossible happened"
 

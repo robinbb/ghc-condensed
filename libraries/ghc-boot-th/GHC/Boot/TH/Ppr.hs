@@ -311,13 +311,13 @@ pprLit i (RationalL rat)
   = parensIf (i > noPrec) $
     integer (numerator rat) <+> char '/' <+> integer (denominator rat)
   | rat /= 0 && (zeroes < -2 || zeroes > 6),
-    let (n, d) = properFraction (rat / magnitude)
+    let (n, d) = properFraction (rat / magnitude) :: (Integer, Rational)
   -- if < 0.01 or >= 100_000_000, use scientific notation
   = parensIf (i > noPrec && rat < 0)
              (integer n
               <> (if d == 0 then empty else char '.' <> decimals (abs d))
               <> char 'e' <> integer zeroes)
-  | let (n, d) = properFraction rat
+  | let (n, d) = properFraction rat :: (Integer, Rational)
   = parensIf (i > noPrec && rat < 0)
              (integer n <> char '.'
               <> if d == 0 then char '0' else decimals (abs d))
@@ -340,7 +340,7 @@ pprLit i (RationalL rat)
         decimals x
           | x == 0 = empty
           | otherwise = integer n <> decimals d
-          where (n, d) = properFraction (x * 10)
+          where (n, d) = properFraction (x * 10) :: (Integer, Rational)
 
 bytesToString :: [Word8] -> String
 bytesToString = map (chr . fromIntegral)

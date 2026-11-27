@@ -21,14 +21,6 @@ For example: ::
   u = show 4.12
     -- The type of 4.12 is ambiguous; default it to Double
 
-  -- Monomorphism restriction:
-  k = 6
-    -- Due to the monomorphism restriction, we must infer a monomorphic type, not:
-    --
-    --   k :: forall a. Num a => a
-    --
-    -- GHC defaults the type of k to Integer.
-
   -- Representation polymorphism:
   g x = x
     -- Should not quantify over the representation, as we cannot infer

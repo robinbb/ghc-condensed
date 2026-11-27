@@ -613,7 +613,7 @@ trimTrailing :: (Show a, Mantissa a) => BoundsState a -> (BoundsState a, Int32)
 trimTrailing !initial = (res, r + r')
   where
     !(d', r) = trimTrailing' initial
-    !(d'', r') = if vuIsTrailingZeros d' then trimTrailing'' d' else (d', 0)
+    !(d'', r') = if vuIsTrailingZeros d' then trimTrailing'' d' else (d', 0 :: Int32)
     res = if vvIsTrailingZeros d'' && lastRemovedDigit d'' == 5 && vv d'' `rem` 2 == 0
              -- set `{ lastRemovedDigit = 4 }` to round-even
              then d''
@@ -629,7 +629,7 @@ trimTrailing !initial = (res, r + r')
             , vuIsTrailingZeros = vuIsTrailingZeros d && vuRem == 0
             , vvIsTrailingZeros = vvIsTrailingZeros d && lastRemovedDigit d == 0
             }
-      | otherwise = (d, 0)
+      | otherwise = (d, 0 :: Int32)
       where
         !(vv', vvRem) = quotRem10 $ vv d
         !(vu', vuRem) = quotRem10 $ vu d
@@ -644,7 +644,7 @@ trimTrailing !initial = (res, r + r')
             , lastRemovedDigit = vvRem
             , vvIsTrailingZeros = vvIsTrailingZeros d && lastRemovedDigit d == 0
             }
-      | otherwise = (d, 0)
+      | otherwise = (d, 0 :: Int32)
       where
         !(vu', vuRem) = quotRem10 $ vu d
         !(vv', vvRem) = quotRem10 $ vv d
@@ -657,7 +657,7 @@ trimNoTrailing :: Mantissa a => BoundsState a -> (BoundsState a, Int32)
 trimNoTrailing !(BoundsState u v w ld _ _) =
   (BoundsState ru' rv' 0 ld' False False, c)
   where
-    !(ru', rv', ld', c) = trimNoTrailing' u v w ld 0
+    !(ru', rv', ld', c) = trimNoTrailing' u v w ld (0 :: Int32)
 
     trimNoTrailing' u' v' w' lastRemoved count
       -- Loop iterations below (approximately), without div 100 optimization:

@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, NoMonomorphismRestriction #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 data S = MkS { x :: Int }
 data T = MkT { x :: Int }

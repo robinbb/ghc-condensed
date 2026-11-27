@@ -22,7 +22,7 @@ x1 = case test of Force _ -> 10
 x2 :: Int
 x2 = case arr of _ -> 15
     where
-        Array _ _ _ arr = listArray (1::Int, 10) [1..]
+        Array _ _ _ arr = listArray (1::Int, 10) [1..] :: Array Int Int
 
 x3 :: Int
 x3 = case test of Force2 y z -> y + z

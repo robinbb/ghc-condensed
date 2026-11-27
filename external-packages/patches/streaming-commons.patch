@@ -1,0 +1,29 @@
+--- a/external-packages/streaming-commons/Data/Streaming/Process.hs
++++ b/external-packages/streaming-commons/Data/Streaming/Process.hs
+@@ -42,7 +42,7 @@
+ import           Data.Streaming.Process.Internal
+ import           Data.Typeable                   (Typeable)
+ import           System.Exit                     (ExitCode (ExitSuccess))
+-import           System.IO                       (hClose)
++import           System.IO                       (Handle, hClose)
+ import           System.Process
+ 
+ #if MIN_VERSION_process(1,2,0)
+@@ -142,12 +142,15 @@
+ -- and @std_err@ will be ignored by this function.
+ --
+ -- Since 0.1.4
+-streamingProcess :: (MonadIO m, InputSource stdin, OutputSink stdout, OutputSink stderr)
++streamingProcess :: forall m stdin stdout stderr. (MonadIO m, InputSource stdin, OutputSink stdout, OutputSink stderr)
+                => CreateProcess
+                -> m (stdin, stdout, stderr, StreamingProcessHandle)
+ streamingProcess cp = liftIO $ do
+-    let (getStdin, stdinStream) = isStdStream
++    let getStdin :: Maybe Handle -> IO stdin
++        (getStdin, stdinStream) = isStdStream
++        getStdout :: Maybe Handle -> IO stdout
+         (getStdout, stdoutStream) = osStdStream
++        getStderr :: Maybe Handle -> IO stderr
+         (getStderr, stderrStream) = osStdStream
+ 
+ #if MIN_VERSION_process(1,2,0)

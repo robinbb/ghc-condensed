@@ -1,16 +1,16 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 136, types: 75, coercions: 0, joins: 2/7}
+Result size of Tidy Core = {terms: 152, types: 111, coercions: 0, joins: 2/9}
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F11.fib3 :: Integer
+F11.f5 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F11.fib3 = GHC.Internal.Bignum.Integer.IS 1#
+F11.f5 = GHC.Internal.Bignum.Integer.IS 1#
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F11.fib2 :: Integer
+F11.f4 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F11.fib2 = GHC.Internal.Bignum.Integer.IS 2#
+F11.f4 = GHC.Internal.Bignum.Integer.IS 2#
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F11.fib1 :: Integer
@@ -25,112 +25,112 @@ fib
       let {
         lvl :: t
         [LclId]
-        lvl = fromInteger @t $dNum F11.fib3 } in
+        lvl = fromInteger @t $dNum F11.f5 } in
       let {
         lvl1 :: t
         [LclId]
-        lvl1 = fromInteger @t $dNum F11.fib2 } in
+        lvl1 = fromInteger @t $dNum F11.f4 } in
       let {
         lvl2 :: t1
         [LclId]
-        lvl2 = fromInteger @t1 $dNum1 F11.fib3 } in
+        lvl2 = fromInteger @t1 $dNum1 F11.f5 } in
       let {
         lvl3 :: t
         [LclId]
         lvl3 = fromInteger @t $dNum F11.fib1 } in
       letrec {
-        fib4 [Occ=LoopBreaker, Dmd=SC(S,L)] :: t -> t1
+        fib2 [Occ=LoopBreaker, Dmd=SC(S,L)] :: t -> t1
         [LclId, Arity=1, Str=<L>, Unf=OtherCon []]
-        fib4
+        fib2
           = \ (ds :: t) ->
               case == @t $dEq ds lvl3 of {
                 False ->
                   case == @t $dEq ds lvl of {
-                    False -> + @t1 $dNum1 (fib4 (- @t $dNum ds lvl)) (fib4 (- @t $dNum ds lvl1));
+                    False -> + @t1 $dNum1 (fib2 (- @t $dNum ds lvl)) (fib2 (- @t $dNum ds lvl1));
                     True -> lvl2
                   };
                 True -> lvl2
               }; } in
-      fib4 eta
-
-Rec {
--- RHS size: {terms: 38, types: 13, coercions: 0, joins: 2/2}
-F11.f11_fib [Occ=LoopBreaker] :: Integer -> Integer
-[GblId, Arity=1, Str=<SL>, Unf=OtherCon []]
-F11.f11_fib
-  = \ (ds :: Integer) ->
-      join {
-        $j [Dmd=ML] :: Integer
-        [LclId[JoinId(0)(Nothing)]]
-        $j
-          = join {
-              $j1 [Dmd=ML] :: Integer
-              [LclId[JoinId(0)(Nothing)]]
-              $j1 = GHC.Internal.Bignum.Integer.integerAdd (F11.f11_fib (GHC.Internal.Bignum.Integer.integerSub ds F11.fib3)) (F11.f11_fib (GHC.Internal.Bignum.Integer.integerSub ds F11.fib2)) } in
-            case ds of {
-              GHC.Internal.Bignum.Integer.IS x ->
-                case x of {
-                  __DEFAULT -> jump $j1;
-                  1# -> F11.fib3
-                };
-              GHC.Internal.Bignum.Integer.IP x -> jump $j1;
-              GHC.Internal.Bignum.Integer.IN x -> jump $j1
-            } } in
-      case ds of {
-        GHC.Internal.Bignum.Integer.IS x ->
-          case x of {
-            __DEFAULT -> jump $j;
-            0# -> F11.fib3
-          };
-        GHC.Internal.Bignum.Integer.IP x -> jump $j;
-        GHC.Internal.Bignum.Integer.IN x -> jump $j
-      }
-end Rec }
+      fib2 eta
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F11.f3 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
 F11.f3 = GHC.Internal.Bignum.Integer.IS 1000#
 
--- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F11.f11_x :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False, WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 20 0}]
-F11.f11_x = F11.f11_fib F11.f3
+-- RHS size: {terms: 53, types: 24, coercions: 0, joins: 2/4}
+F11.$wf11f [InlPrag=[2]] :: forall a p. Num a => a -> a
+[GblId[StrictWorker([!])], Arity=2, Str=<SP(SC(S,C(1,L)),A,A,A,A,A,MC(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [270 0] 360 0}]
+F11.$wf11f
+  = \ (@a) (@p) ($dNum :: Num a) (y :: a) ->
+      + @a
+        $dNum
+        (let {
+           lvl :: a
+           [LclId]
+           lvl = fromInteger @a $dNum F11.f5 } in
+         letrec {
+           fib2 [Occ=LoopBreaker, Dmd=SC(S,L)] :: Integer -> a
+           [LclId, Arity=1, Str=<SL>, Unf=OtherCon []]
+           fib2
+             = \ (ds :: Integer) ->
+                 join {
+                   $j [Dmd=ML] :: a
+                   [LclId[JoinId(0)(Nothing)]]
+                   $j
+                     = join {
+                         $j1 [Dmd=ML] :: a
+                         [LclId[JoinId(0)(Nothing)]]
+                         $j1 = + @a $dNum (fib2 (GHC.Internal.Bignum.Integer.integerSub ds F11.f5)) (fib2 (GHC.Internal.Bignum.Integer.integerSub ds F11.f4)) } in
+                       case ds of {
+                         GHC.Internal.Bignum.Integer.IS x ->
+                           case x of {
+                             __DEFAULT -> jump $j1;
+                             1# -> lvl
+                           };
+                         GHC.Internal.Bignum.Integer.IP x -> jump $j1;
+                         GHC.Internal.Bignum.Integer.IN x -> jump $j1
+                       } } in
+                 case ds of {
+                   GHC.Internal.Bignum.Integer.IS x ->
+                     case x of {
+                       __DEFAULT -> jump $j;
+                       0# -> lvl
+                     };
+                   GHC.Internal.Bignum.Integer.IP x -> jump $j;
+                   GHC.Internal.Bignum.Integer.IN x -> jump $j
+                 }; } in
+         fib2 F11.f3)
+        y
 
--- RHS size: {terms: 4, types: 1, coercions: 0, joins: 0/0}
-F11.f11f1 :: Integer -> Integer
-[GblId, Arity=1, Str=<SL>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [0] 30 0}]
-F11.f11f1 = \ (y :: Integer) -> GHC.Internal.Bignum.Integer.integerAdd F11.f11_x y
-
--- RHS size: {terms: 3, types: 2, coercions: 0, joins: 0/0}
-f11f :: forall {p}. p -> Integer -> Integer
-[GblId, Arity=2, Str=<A><SL>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=1,unsat_ok=True,boring_ok=True)}]
-f11f = \ (@p) _ [Occ=Dead] -> F11.f11f1
-
--- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F11.f5 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F11.f5 = GHC.Internal.Bignum.Integer.IS 6#
-
--- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
-F11.f4 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False, WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 30 0}]
-F11.f4 = GHC.Internal.Bignum.Integer.integerAdd F11.f11_x F11.f5
+-- RHS size: {terms: 8, types: 8, coercions: 0, joins: 0/0}
+f11f [InlPrag=[2]] :: forall {a} {p}. Num a => p -> a -> a
+[GblId,
+ Arity=3,
+ Str=<SP(SC(S,C(1,L)),A,A,A,A,A,LC(S,L))><A><L>,
+ Unf=Unf{Src=StableSystem, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=3,unsat_ok=True,boring_ok=True)
+         Tmpl= \ (@a) (@p) ($dNum [Occ=Once1] :: Num a) (z [Occ=Dead] :: p) (y [Occ=Once1] :: a) -> F11.$wf11f @a @p $dNum y}]
+f11f = \ (@a) (@p) ($dNum :: Num a) (z [Occ=Dead] :: p) (y :: a) -> F11.$wf11f @a @p $dNum y
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F11.f2 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F11.f2 = GHC.Internal.Bignum.Integer.IS 8#
+F11.f2 = GHC.Internal.Bignum.Integer.IS 6#
 
--- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F11.f1 :: Integer
-[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False, WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 30 0}]
-F11.f1 = GHC.Internal.Bignum.Integer.integerAdd F11.f11_x F11.f2
-
--- RHS size: {terms: 3, types: 2, coercions: 0, joins: 0/0}
-f11 :: (Integer, Integer)
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-f11 = (F11.f4, F11.f1)
+F11.f1 = GHC.Internal.Bignum.Integer.IS 8#
+
+-- RHS size: {terms: 15, types: 14, coercions: 0, joins: 0/0}
+f11 [InlPrag=[2]] :: forall {a} {b}. (Num a, Num b) => (a, b)
+[GblId,
+ Arity=2,
+ Str=<LP(SC(S,C(1,L)),A,A,A,A,A,L)><LP(SC(S,C(1,L)),A,A,A,A,A,L)>,
+ Cpr=1,
+ Unf=Unf{Src=StableSystem, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=2,unsat_ok=True,boring_ok=False)
+         Tmpl= \ (@a) (@b) ($dNum :: Num a) ($dNum1 :: Num b) -> (F11.$wf11f @a @Integer $dNum (fromInteger @a $dNum F11.f2), F11.$wf11f @b @Integer $dNum1 (fromInteger @b $dNum1 F11.f1))}]
+f11 = \ (@a) (@b) ($dNum :: Num a) ($dNum1 :: Num b) -> (F11.$wf11f @a @Integer $dNum (fromInteger @a $dNum F11.f2), F11.$wf11f @b @Integer $dNum1 (fromInteger @b $dNum1 F11.f1))
 
 
 

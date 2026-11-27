@@ -1,0 +1,10 @@
+--- a/external-packages/vendored/crypton-conduit/Crypto/PubKey/ECIES/Conduit.hs
++++ b/external-packages/vendored/crypton-conduit/Crypto/PubKey/ECIES/Conduit.hs
+@@ -26,6 +26,7 @@
+ getNonceKey :: ECC.SharedSecret -> (ByteString, ByteString)
+ getNonceKey shared =
+   let state1 = ChaCha.initializeSimple $ B.take 40 $ BA.convert $ hashWith SHA512 shared
++      nonce :: ByteString
+       (nonce, state2) = ChaCha.generateSimple state1 12
+       (key, _) = ChaCha.generateSimple state2 32
+    in (nonce, key)

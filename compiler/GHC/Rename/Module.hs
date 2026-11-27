@@ -722,7 +722,8 @@ rnClsInstDecl (ClsInstDecl { cid_ext = (inst_warn_ps, _)
 rnOverlapMode :: Maybe (XRec GhcPs (OverlapMode GhcPs))
               -> Maybe (XRec GhcRn (OverlapMode GhcRn))
 rnOverlapMode =
-    let advancePass = \case
+    let advancePass :: OverlapMode GhcPs -> OverlapMode GhcRn
+        advancePass = \case
           NoOverlap    s -> NoOverlap    s
           Overlappable s -> Overlappable s
           Overlapping  s -> Overlapping  s

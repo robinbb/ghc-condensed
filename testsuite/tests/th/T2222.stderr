@@ -1,4 +1,4 @@
-inside b: GHC.Internal.Bignum.Integer.Integer
+inside b: forall {a_0 :: Type} . GHC.Internal.Num.Num a_0 => a_0
 inside d: GHC.Internal.Types.Bool
 type of c: GHC.Internal.Types.Bool
 inside f: GHC.Internal.Types.Bool

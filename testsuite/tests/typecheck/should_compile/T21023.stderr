@@ -1,5 +1,5 @@
 TYPE SIGNATURES
-  f :: forall {a}. a -> (a, Integer)
-  x :: Integer
+  f :: forall {b} {a}. Num b => a -> (a, b)
+  x :: forall {a}. Num a => a
 Dependent modules: []
-Dependent packages: [(normal, base-4.21.0.0)]
+Dependent packages: [(normal, base-4.23.0.0)]

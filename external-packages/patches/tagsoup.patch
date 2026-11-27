@@ -1,0 +1,10 @@
+--- a/external-packages/tagsoup/src/Text/HTML/TagSoup/Implementation.hs
++++ b/external-packages/tagsoup/src/Text/HTML/TagSoup/Implementation.hs
+@@ -114,6 +114,7 @@
+ 
+         -- chars
+         chars x = charss False x
++        charsStr, charsEntsStr :: ((Position,[Tag str]),[Out]) -> ( ((Position,[Tag str]),[Out]) , str)
+         charsStr x = (id *** fromString) $ chars x
+         charsEntsStr x = (id *** fromString) $ charss True x
+ 

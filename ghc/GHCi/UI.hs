@@ -726,16 +726,11 @@ installInteractiveHomeUnits dflags = do
   logger <- getLogger
   hsc_env <- GHC.getSession
   -- The initial set of DynFlags used for interactive evaluation is the same
-  -- as the global DynFlags, plus:
-  -- * -XExtendedDefaultRules and
-  -- * -XNoMonomorphismRestriction.
+  -- as the global DynFlags, plus -XExtendedDefaultRules.
   -- See Note [Changing language extensions for interactive evaluation] #10857
 
   let
-    dflags0' =
-      (xopt_set_unlessExplSpec LangExt.ExtendedDefaultRules xopt_set) .
-      (xopt_set_unlessExplSpec LangExt.MonomorphismRestriction xopt_unset) $
-      dflags
+    dflags0' = xopt_set_unlessExplSpec LangExt.ExtendedDefaultRules xopt_set dflags
     -- Disable warnings about unused packages
     -- It doesn't matter for the interactive session.
     -- See Note [No unused package warnings for the interactive session]
@@ -916,14 +911,13 @@ line flags. In the function ghc/GHCi/UI.hs:interactiveUI the loading options
 are copied to the interactive options.
 
 These interactive options (but not the loading options!) are supplemented
-unconditionally by setting ExtendedDefaultRules ON and
-MonomorphismRestriction OFF. The unconditional setting of these options
-eventually overwrite settings already specified at the command line.
+unconditionally by setting ExtendedDefaultRules ON. The unconditional
+setting of this option eventually overwrites a setting already specified at
+the command line.
 
-Therefore instead of unconditionally setting ExtendedDefaultRules and
-NoMonomorphismRestriction for the interactive options, we use the function
-'xopt_set_unlessExplSpec' to first check whether the extension has already
-specified at the command line.
+Therefore instead of unconditionally setting ExtendedDefaultRules for the
+interactive options, we use the function 'xopt_set_unlessExplSpec' to first
+check whether the extension has already been specified at the command line.
 
 The ghci config file has not yet been processed.
 -}
@@ -3727,7 +3721,7 @@ unknownFlagsErr fs = mapM_ (\f -> reportError (GhciUnknownFlag f (suggestions f)
   where
     suggestions f = flagSuggestions (nubSort $ flagsForCompletion True) f
 
-unsetOptions :: GhciMonad m => String -> m ()
+unsetOptions :: forall m. GhciMonad m => String -> m ()
 unsetOptions str
   =   -- first, deal with the GHCi opts (+s, +t, etc.)
      let opts = words str
@@ -3735,6 +3729,7 @@ unsetOptions str
          (plus_opts, rest2)  = partitionWith isPlus rest1
          (other_opts, rest3) = partition (`elem` map fst defaulters) rest2
 
+         defaulters :: [(String, m ())]
          defaulters =
            [ ("args"   , setArgs default_args)
            , ("prog"   , setProg default_progname)

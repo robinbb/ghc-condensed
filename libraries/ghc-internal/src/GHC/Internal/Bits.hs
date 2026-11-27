@@ -636,12 +636,13 @@ instance Bits Natural where
 --
 -- @since base-4.8.0.0
 
-toIntegralSized :: (Integral a, Integral b, Bits a, Bits b) => a -> Maybe b
+toIntegralSized :: forall a b. (Integral a, Integral b, Bits a, Bits b) => a -> Maybe b
 toIntegralSized x                 -- See Note [toIntegralSized optimization]
   | maybe True (<= x) yMinBound
   , maybe True (x <=) yMaxBound = Just y
   | otherwise                   = Nothing
   where
+    y :: b
     y = fromIntegral x
 
     xWidth = bitSizeMaybe x

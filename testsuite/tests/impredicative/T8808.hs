@@ -1,4 +1,4 @@
-{-# LANGUAGE ImpredicativeTypes, NoMonomorphismRestriction #-}
+{-# LANGUAGE ImpredicativeTypes #-}
 
 module Test where
 

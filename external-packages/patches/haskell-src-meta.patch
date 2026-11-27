@@ -15,10 +15,11 @@
 -  Exts.RecursiveDo                -> Just TH.RecursiveDo
 -  Exts.ParallelListComp           -> Just TH.ParallelListComp
 -  Exts.MultiParamTypeClasses      -> Just TH.MultiParamTypeClasses
+-  Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
 +  Exts.RecursiveDo                -> Nothing
 +  Exts.ParallelListComp           -> Nothing
 +  Exts.MultiParamTypeClasses      -> Nothing
-   Exts.MonomorphismRestriction    -> Just TH.MonomorphismRestriction
++  Exts.MonomorphismRestriction    -> Nothing
    Exts.FunctionalDependencies     -> Just TH.FunctionalDependencies
    Exts.Rank2Types                 -> Nothing
 -  Exts.RankNTypes                 -> Just TH.RankNTypes
@@ -127,7 +128,7 @@
  #endif
    Exts.Strict                     -> Just TH.Strict
    Exts.StrictData                 -> Just TH.StrictData
-@@ -187,16 +187,13 @@ toExtension e = case e of
+@@ -187,16 +187,12 @@ toExtension e = case e of
  fromExtension :: TH.Extension -> Maybe Exts.KnownExtension
  fromExtension e = case e of
    TH.Cpp                               -> Just Exts.CPP
@@ -135,7 +136,7 @@
    TH.UndecidableInstances              -> Just Exts.UndecidableInstances
 -  TH.IncoherentInstances               -> Just Exts.IncoherentInstances
    TH.UndecidableSuperClasses           -> Nothing
-   TH.MonomorphismRestriction           -> Just Exts.MonomorphismRestriction
+-  TH.MonomorphismRestriction           -> Just Exts.MonomorphismRestriction
  #if !MIN_VERSION_template_haskell(2,18,0)
    TH.MonoPatBinds                      -> Just Exts.MonoPatBinds
  #endif
@@ -144,7 +145,7 @@
    TH.ExtendedDefaultRules              -> Just Exts.ExtendedDefaultRules
    TH.ForeignFunctionInterface          -> Just Exts.ForeignFunctionInterface
    TH.UnliftedFFITypes                  -> Just Exts.UnliftedFFITypes
-@@ -204,34 +201,22 @@ fromExtension e = case e of
+@@ -204,34 +200,22 @@ fromExtension e = case e of
    TH.CApiFFI                           -> Just Exts.CApiFFI
    TH.GHCForeignImportPrim              -> Just Exts.GHCForeignImportPrim
    TH.JavaScriptFFI                     -> Just Exts.JavaScriptFFI
@@ -179,7 +180,7 @@
    TH.UnliftedDatatypes -> Nothing
    TH.LinearTypes -> Nothing
    TH.LexicalNegation -> Nothing
-@@ -244,17 +229,10 @@ fromExtension e = case e of
+@@ -244,17 +228,10 @@ fromExtension e = case e of
    TH.ViewPatterns                      -> Just Exts.ViewPatterns
    TH.GADTs                             -> Just Exts.GADTs
    TH.GADTSyntax                        -> Nothing
@@ -197,7 +198,7 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,42 +244,25 @@ fromExtension e = case e of
+@@ -266,42 +243,25 @@ fromExtension e = case e of
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
    TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
@@ -240,7 +241,7 @@
    TH.OverloadedLabels                  -> Just Exts.OverloadedLabels
    TH.EmptyCase                         -> Just Exts.EmptyCase
    TH.PatternSynonyms                   -> Just Exts.PatternSynonyms
-@@ -317,7 +278,6 @@ fromExtension e = case e of
+@@ -317,7 +277,6 @@ fromExtension e = case e of
  
  -- 2.13.0 ----------------------------------------
  #if MIN_VERSION_template_haskell(2,13,0)
@@ -248,7 +249,7 @@
    TH.EmptyDataDeriving                 -> Nothing
  #endif
  
-@@ -345,15 +305,11 @@ fromExtension e = case e of
+@@ -345,15 +304,11 @@ fromExtension e = case e of
      Nothing
  #endif
  
@@ -264,7 +265,7 @@
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
      Just Exts.ImportQualifiedPost
-@@ -362,12 +318,6 @@ fromExtension e = case e of
+@@ -362,12 +317,6 @@ fromExtension e = case e of
  #endif
  #endif
  
@@ -277,7 +278,7 @@
  -- 2.20.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,20,0)
-@@ -391,7 +341,6 @@ fromExtension e = case e of
+@@ -391,7 +340,6 @@ fromExtension e = case e of
  -- 2.23.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,23,0)

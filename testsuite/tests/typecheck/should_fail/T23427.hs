@@ -1,4 +1,4 @@
-{-# LANGUAGE NoMonomorphismRestriction, GHC2021 #-}
+{-# LANGUAGE GHC2021 #-}
 module T23427 where
 
 class C a where

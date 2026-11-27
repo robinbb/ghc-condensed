@@ -588,7 +588,7 @@ tcRnSrcDecls explicit_mod_hdr export_ies decls
       --  * the global env exposes the instances to simplifyTop,
       --    and affects how names are rendered in error messages
       --  * the local env exposes the local Ids to simplifyTop,
-      --    so that we get better error messages (monomorphism restriction)
+      --    so that we get better error messages
       ; tcg_env <- {-# SCC "simplifyTop" #-}
                    restoreEnvs (tcg_env, tcl_env) $
                    do { lie_main <- checkMainType tcg_env
@@ -2024,9 +2024,9 @@ the moving parts:
 
 * checkMainType: when typechecking module M, we add an extra check that
     foo :: IO tau, for some type tau.
-  This avoids getting ambiguous-type errors from the monomorphism restriction
-  applying to things like
+  This fixes the type of things like
       main = return ()
+  to IO early, rather than generalising them over the monad.
   Note that checkMainType does not consult the export list because
   we have not yet done rnExports (and can't do it until later).
 

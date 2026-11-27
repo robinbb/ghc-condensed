@@ -1,0 +1,15 @@
+--- a/external-packages/safe/Safe.hs
++++ b/external-packages/safe/Safe.hs
+@@ -339,9 +339,10 @@
+ 
+ -- From http://stackoverflow.com/questions/2743858/safe-and-polymorphic-toenum
+ -- answer by C. A. McCann
+-toEnumMay :: (Enum a, Bounded a) => Int -> Maybe a
++toEnumMay :: forall a. (Enum a, Bounded a) => Int -> Maybe a
+ toEnumMay i =
+-  let r = toEnum i
++  let r :: a
++      r = toEnum i
+       max = maxBound `asTypeOf` r
+       min = minBound `asTypeOf` r
+   in if i >= fromEnum min && i <= fromEnum max

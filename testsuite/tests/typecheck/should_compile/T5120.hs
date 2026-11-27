@@ -1,6 +1,5 @@
 {-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module Test where
 

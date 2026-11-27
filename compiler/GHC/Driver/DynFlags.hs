@@ -1374,7 +1374,6 @@ languageExtensions Nothing = languageExtensions (Just defaultLanguage)
 
 languageExtensions (Just Haskell98)
     = [LangExt.ImplicitPrelude,
-       LangExt.MonomorphismRestriction,
        LangExt.FieldSelectors,
        LangExt.ListTuplePuns,
        LangExt.ImplicitStagePersistence
@@ -1382,7 +1381,6 @@ languageExtensions (Just Haskell98)
 
 languageExtensions (Just Haskell2010)
     = [LangExt.ImplicitPrelude,
-       LangExt.MonomorphismRestriction,
        LangExt.EmptyDataDecls,
        LangExt.ForeignFunctionInterface,
        LangExt.PatternGuards,
@@ -1394,7 +1392,6 @@ languageExtensions (Just Haskell2010)
 
 languageExtensions (Just GHC2021)
     = [LangExt.ImplicitPrelude,
-       LangExt.MonomorphismRestriction,
        LangExt.EmptyDataDecls,
        LangExt.ForeignFunctionInterface,
        LangExt.PatternGuards,

@@ -1,16 +1,16 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 34, types: 17, coercions: 0, joins: 0/0}
+Result size of Tidy Core = {terms: 47, types: 29, coercions: 0, joins: 0/0}
 
--- RHS size: {terms: 8, types: 3, coercions: 0, joins: 0/0}
-f4g :: Int -> Int
-[GblId,
- Arity=1,
- Str=<1!L>,
- Cpr=1,
- Unf=Unf{Src=InlineStable, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=ALWAYS_IF(arity=1,unsat_ok=True,boring_ok=False)
-         Tmpl= \ (y [Occ=Once1!] :: Int) -> case y of { GHC.Types.I# x [Occ=Once1] -> GHC.Types.I# (GHC.Prim.+# x 1#) }}]
-f4g = \ (y :: Int) -> case y of { GHC.Types.I# x -> GHC.Types.I# (GHC.Prim.+# x 1#) }
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+F4.f4g1 :: Integer
+[GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
+F4.f4g1 = GHC.Internal.Bignum.Integer.IS 1#
+
+-- RHS size: {terms: 9, types: 6, coercions: 0, joins: 0/0}
+f4g :: forall {a}. Num a => a -> a
+[GblId, Arity=2, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,MC(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [180 0] 70 0}]
+f4g = \ (@a) ($dNum :: Num a) (y :: a) -> + @a $dNum y (fromInteger @a $dNum F4.f4g1)
 
 Rec {
 -- RHS size: {terms: 17, types: 6, coercions: 0, joins: 0/0}
@@ -18,23 +18,28 @@ f4h [Occ=LoopBreaker] :: (Int -> Int) -> Int -> Int
 [GblId, Arity=2, Str=<1C(1,L)><1P(SL)>, Unf=OtherCon []]
 f4h
   = \ (f :: Int -> Int) (x :: Int) ->
-      case x of wild { GHC.Types.I# x1 ->
+      case x of wild { GHC.Internal.Types.I# x1 ->
       case x1 of wild1 {
-        __DEFAULT -> f4h f (GHC.Types.I# (GHC.Prim.-# wild1 1#));
+        __DEFAULT -> f4h f (GHC.Internal.Types.I# (GHC.Internal.Prim.-# wild1 1#));
         0# -> f wild
       }
       }
 end Rec }
 
+-- RHS size: {terms: 8, types: 3, coercions: 0, joins: 0/0}
+F4.f2 :: Int -> Int
+[GblId, Arity=1, Str=<1L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [20] 21 10}]
+F4.f2 = \ (y :: Int) -> case y of { GHC.Internal.Types.I# x -> GHC.Internal.Types.I# (GHC.Internal.Prim.+# x 1#) }
+
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
 F4.f1 :: Int
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F4.f1 = GHC.Types.I# 9#
+F4.f1 = GHC.Internal.Types.I# 9#
 
 -- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
 f4 :: Int
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False, WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 30 0}]
-f4 = f4h f4g F4.f1
+f4 = f4h F4.f2 F4.f1
 
 
 

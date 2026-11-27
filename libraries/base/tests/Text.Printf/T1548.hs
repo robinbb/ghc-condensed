@@ -1,5 +1,6 @@
 import Text.Printf
 
+main :: IO ()
 main = do
    printf "%.*f\n" (2::Int) ((1/3) :: Double)
    -- (expected: "0.33")

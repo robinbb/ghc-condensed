@@ -299,7 +299,8 @@ integerDec i
                     (x,y)
                         | q > 0     -> q :| r :  putB ns
                         | otherwise ->      r :| putB ns
-                        where q = fromInteger x
+                        where q, r :: Int
+                              q = fromInteger x
                               r = fromInteger y
 
     putB :: [Integer] -> [Int]

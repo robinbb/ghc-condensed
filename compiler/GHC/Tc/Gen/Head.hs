@@ -536,7 +536,7 @@ tcExprSig expr sig@(TcPartialSig (PSig { psig_name = name, psig_loc = loc }))
        ; let tau = sig_inst_tau sig_inst
              infer_mode | null (sig_inst_theta sig_inst)
                         , isNothing (sig_inst_wcx sig_inst)
-                        = ApplyMR
+                        = NoQuantConstraints
                         | otherwise
                         = NoRestrictions
        ; ((qtvs, givens, ev_binds, _), residual)
@@ -568,18 +568,11 @@ tcExprSig expr sig@(TcPartialSig (PSig { psig_name = name, psig_loc = loc }))
 
 {- Note [Partial expression signatures]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Partial type signatures on expressions are easy to get wrong.  But
-here is a guiding principle
-    e :: ty
-should behave like
-    let x :: ty
-        x = e
-    in x
-
-So for partial signatures we apply the MR if no context is given.  So
-   e :: IO _          apply the MR
-   e :: _ => IO _     do not apply the MR
-just like in GHC.Tc.Gen.Bind.decideGeneralisationPlan
+Partial type signatures on expressions are easy to get wrong.  The rule
+is that a partial signature with no context quantifies over no
+constraints at all (InferMode NoQuantConstraints in GHC.Tc.Solver).  So
+   e :: IO _          quantify over no constraints
+   e :: _ => IO _     quantify as usual
 
 This makes a difference (#11670):
    peek :: Ptr a -> IO CLong

@@ -1,0 +1,15 @@
+--- a/external-packages/doclayout/src/Text/DocLayout.hs
++++ b/external-packages/doclayout/src/Text/DocLayout.hs
+@@ -325,9 +325,10 @@
+        , linkTarget      :: Maybe Text -- ^ Current link target
+        }
+ 
+-setPrefix :: HasChars a => Text -> RenderState a -> RenderState a
++setPrefix :: forall a. HasChars a => Text -> RenderState a -> RenderState a
+ setPrefix p st =
+-  let pa = fromString $ T.unpack p
++  let pa :: a
++      pa = fromString $ T.unpack p
+   in st{ prefix = p
+        , prefixA = pa
+        , prefixTrimmedA = fromString $ T.unpack $ T.dropWhileEnd isSpace p

@@ -1,6 +1,22 @@
+--- a/external-packages/vector/vector/benchlib/Bench/Vector/Algo/HybCC.hs
++++ b/external-packages/vector/vector/benchlib/Bench/Vector/Algo/HybCC.hs
+@@ -18,11 +18,11 @@ hybcc (n, e1, e2) = concomp (V.zip e1 e2) n
+           ins = V.update_ p i
+               $ V.backpermute i r
+ 
+-      enumerate bs = V.prescanl' (+) 0 $ V.map (\b -> if b then 1 else 0) bs
++      enumerate bs = V.prescanl' (+) (0 :: Int) $ V.map (\b -> if b then 1 else 0) bs
+ 
+       pack_index bs = V.map fst
+                     . V.filter snd
+-                    $ V.zip (V.enumFromTo 0 (V.length bs - 1)) bs
++                    $ V.zip (V.enumFromTo (0 :: Int) (V.length bs - 1)) bs
+ 
+       shortcut_all p | p == pp   = pp
+                      | otherwise = shortcut_all pp
 --- a/external-packages/vector/vector/src/Data/Vector/Storable/Mutable.hs
 +++ b/external-packages/vector/vector/src/Data/Vector/Storable/Mutable.hs
-@@ -84,6 +84,7 @@
+@@ -82,6 +82,7 @@ import Control.DeepSeq ( NFData(rnf)
  import qualified Data.Vector.Generic.Mutable as G
  import Data.Vector.Storable.Internal
  
@@ -8,7 +24,7 @@
  import Foreign.Storable
  import Foreign.ForeignPtr
  
-@@ -128,7 +129,7 @@
+@@ -126,7 +127,7 @@ unsafeCoerceMVector :: Coercible a b => MVector s a -> MVector s b
  unsafeCoerceMVector = unsafeCoerce
  
  -- | Mutable 'Storable'-based vectors.

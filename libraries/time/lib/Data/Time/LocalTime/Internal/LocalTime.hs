@@ -60,7 +60,7 @@ ut1ToLocalTime long (ModJulianDate date) =
     LocalTime (ModifiedJulianDay localMJD) (dayFractionToTimeOfDay localToDOffset)
   where
     localTime = date + long / 360 :: Rational
-    localMJD = floor localTime
+    localMJD = floor localTime :: Integer
     localToDOffset = localTime - (fromIntegral localMJD)
 
 -- | Get the UT1 time of a local time on a particular meridian (in degrees, positive is East).

@@ -56,6 +56,7 @@ data ModuleSummary = ModuleSummary
 showModuleSummary :: (String, String, ModuleSummary) -> L.Html ()
 showModuleSummary (modName, fileName, modSummary) = L.tr_ (link <> top <> alt <> exp)
   where
+    link :: L.Html ()
     link = L.td_ (rawStr_ "&nbsp;&nbsp;" <> L.code_ ("module" <> rawStr_ "&nbsp;" <> L.a_ [L.href_ (T.pack fileName)] (L.toHtml modName)))
     top = showSummary (topFunTicked modSummary) (topFunTotal modSummary)
     alt = showSummary (altTicked modSummary) (altTotal modSummary)
@@ -65,6 +66,7 @@ showTotalSummary :: ModuleSummary -> L.Html ()
 showTotalSummary modSummary = L.tr_ [L.style_ "background: #e0e0e0"] content
   where
     content = header <> top <> alt <> exp
+    header :: L.Html ()
     header = L.th_ [align_ "left"] (rawStr_ "&nbsp;&nbsp;" <> "Program Coverage Total")
     top = showSummary (topFunTicked modSummary) (topFunTotal modSummary)
     alt = showSummary (altTicked modSummary) (altTotal modSummary)

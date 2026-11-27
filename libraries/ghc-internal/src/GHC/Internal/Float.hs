@@ -1065,6 +1065,7 @@ formatRealFloatAlt fmt decs alt x
    | x < 0 || isNegativeZero x = '-':doFmt fmt (floatToDigits (toInteger base) (-x))
    | otherwise                 = doFmt fmt (floatToDigits (toInteger base) x)
  where
+  base :: Int
   base = 10
 
   doFmt format (is, e) =
@@ -1274,9 +1275,10 @@ floatToDigits base x =
 -- be returned (i.e. IEEE roundTiesToEven).
 --
 -- The argument must be strictly positive, and @floatRadix (undefined :: a)@ must be 2.
-integerToBinaryFloat' :: RealFloat a => Integer -> a
+integerToBinaryFloat' :: forall a. RealFloat a => Integer -> a
 integerToBinaryFloat' n = result
   where
+    result :: a
     mantDigs = floatDigits result
     k = I# (word2Int# (integerLog2# n))
     result = if k < mantDigs then
@@ -1375,10 +1377,11 @@ fromRat (n :% d) | n > 0     = fromRat' (n :% d)
 -- To speed up the scaling process we compute the log2 of the number to get
 -- a first guess of the exponent.
 
-fromRat' :: (RealFloat a) => Rational -> a
+fromRat' :: forall a. (RealFloat a) => Rational -> a
 -- Invariant: argument is strictly positive
 fromRat' x = r
-  where b = floatRadix r
+  where r :: a
+        b = floatRadix r
         p = floatDigits r
         (minExp0, _) = floatRange r
         minExp = minExp0 - p            -- the real minimum exponent

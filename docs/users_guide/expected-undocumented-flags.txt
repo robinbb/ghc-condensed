@@ -42,7 +42,6 @@
 -firrefutable-tuples
 -fmax-errors
 -fmax-pmcheck-iterations
--fmonomorphism-restriction
 -fpre-inlining
 -fprint-bind-contents
 -freduction-depth

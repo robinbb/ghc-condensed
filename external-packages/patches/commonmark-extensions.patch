@@ -1,0 +1,11 @@
+--- a/external-packages/commonmark-hs/commonmark-extensions/src/Commonmark/Extensions/Footnote.hs
++++ b/external-packages/commonmark-hs/commonmark-extensions/src/Commonmark/Extensions/Footnote.hs
+@@ -98,7 +98,7 @@
+              return $! (pos, n)
+      , blockConstructor    = fmap mconcat . renderChildren . reverseSubforests
+      , blockFinalize       = \(Node root children) parent -> do
+-         let (num, lab') = fromDyn (blockData root) (1, mempty)
++         let (num, lab') = fromDyn (blockData root) (1 :: Int, mempty :: Text)
+          st <- getState
+          let mkNoteContents refmap =
+                runParserT

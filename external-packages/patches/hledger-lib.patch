@@ -1,0 +1,31 @@
+--- a/external-packages/hledger/hledger-lib/Hledger/Data/JournalChecks.hs
++++ b/external-packages/hledger/hledger-lib/Hledger/Data/JournalChecks.hs
+@@ -261,6 +261,7 @@
+ 
+ -- | The number of days allowed between an account's latest balance assertion 
+ -- and latest posting (7).
++maxlag :: Integer
+ maxlag = 7
+ 
+ -- | Check that accounts with balance assertions have no posting more
+--- a/external-packages/hledger/hledger-lib/Hledger/Read/JournalReader.hs
++++ b/external-packages/hledger/hledger-lib/Hledger/Read/JournalReader.hs
+@@ -440,7 +440,7 @@
+ 
+     -- Parse the given included file (and any deeper includes, recursively) as if it was inlined in the current (parent) file.
+     -- The offset of the start of the include directive in the parent file is provided for error messages.
+-    parseIncludedFile :: MonadIO m => InputOpts -> Int -> PrefixedFilePath -> ErroringJournalParser m ()
++    parseIncludedFile :: forall m. MonadIO m => InputOpts -> Int -> PrefixedFilePath -> ErroringJournalParser m ()
+     parseIncludedFile iopts1 off prefixedpath = do
+       let (_mprefix,filepath) = splitReaderPrefix prefixedpath
+ 
+@@ -452,7 +452,8 @@
+ 
+       -- Choose a reader based on the file path prefix or file extension,
+       -- defaulting to JournalReader. Duplicating readJournal a bit here.
+-      let r = fromMaybe reader $ findReader Nothing (Just prefixedpath)
++      let r :: Reader m
++          r = fromMaybe reader $ findReader Nothing (Just prefixedpath)
+           parser = (rParser r) iopts1
+       dbg7IO "parseIncludedFile: trying reader" (rFormat r)
+ 

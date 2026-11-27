@@ -445,7 +445,7 @@ data InferInstFlag  -- Specifies whether the inference should return an uninstan
   | IIF_DeepRho     -- Trying to infer a possibly-deep RhoType
                     -- Usually the same as IIF_ShallowRho; but for an application
                     -- headed by a data constructor, instantiate deeply before
-                    -- filling the hole (see (IIR4) in Note [Instantiation of InferResult])
+                    -- filling the hole (see (IIR3) in Note [Instantiation of InferResult])
                     -- Typically used when inferring the type of an expression
 
 type ExpSigmaType = ExpType

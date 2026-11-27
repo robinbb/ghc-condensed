@@ -1,0 +1,25 @@
+--- a/external-packages/half/src/Numeric/Half/Internal.hs
++++ b/external-packages/half/src/Numeric/Half/Internal.hs
+@@ -216,12 +216,14 @@
+ ieee754_f16_decode :: Half -> (Integer, Int)
+ ieee754_f16_decode (Half (CUShort i)) =
+   let
++      _HHIGHBIT, _HMSBIT :: Integer
+       _HHIGHBIT                       = 0x0400
+       _HMSBIT                         = 0x8000
+       _HMINEXP                        = ((_HALF_MIN_EXP) - (_HALF_MANT_DIG) - 1)
+       _HALF_MANT_DIG                  = floatDigits (undefined::Half)
+       (_HALF_MIN_EXP, _HALF_MAX_EXP)  = floatRange  (undefined::Half)
+ 
++      high1 :: Integer
+       high1 = fromIntegral i
+       high2 = high1 .&. (_HHIGHBIT - 1)
+ 
+@@ -261,6 +263,7 @@
+ pure_floatToHalf' x = let
+   (m, n) = decodeFloat x
+   -- sign bit
++  s :: Int
+   s = if signum m < 0 then 0x8000 else 0
+   m1 = fromIntegral $ abs m :: Int
+   -- bit len of m1, here m1 /= 0

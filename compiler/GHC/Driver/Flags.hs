@@ -96,7 +96,6 @@ extensionName = \case
   LangExt.Cpp -> "CPP"
   LangExt.UndecidableInstances -> "UndecidableInstances"
   LangExt.UndecidableSuperClasses -> "UndecidableSuperClasses"
-  LangExt.MonomorphismRestriction -> "MonomorphismRestriction"
   LangExt.MonoLocalBinds -> "MonoLocalBinds"
   LangExt.ExtendedDefaultRules -> "ExtendedDefaultRules"     -- Use GHC's extended rules for defaulting
   LangExt.NamedDefaults -> "NamedDefaults"
@@ -894,7 +893,6 @@ data WarningFlag =
    | Opt_WarnNameShadowing
    | Opt_WarnOverlappingPatterns
    | Opt_WarnTypeDefaults
-   | Opt_WarnMonomorphism
    | Opt_WarnUnusedTopBinds
    | Opt_WarnUnusedLocalBinds
    | Opt_WarnUnusedPatternBinds
@@ -1037,7 +1035,6 @@ warnFlagNames wflag = case wflag of
   Opt_WarnMissingKindSignatures                   -> "missing-kind-signatures" :| []
   Opt_WarnMissingPolyKindSignatures               -> "missing-poly-kind-signatures" :| []
   Opt_WarnMissingExportedSignatures               -> "missing-exported-signatures" :| []
-  Opt_WarnMonomorphism                            -> "monomorphism-restriction" :| []
   Opt_WarnNameShadowing                           -> "name-shadowing" :| []
   Opt_WarnNonCanonicalMonadInstances              -> "noncanonical-monad-instances" :| []
   Opt_WarnNonCanonicalMonadFailInstances          -> "noncanonical-monadfail-instances" :| []

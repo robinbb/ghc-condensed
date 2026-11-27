@@ -1,31 +1,42 @@
 
 ==================== Tidy Core ====================
-Result size of Tidy Core = {terms: 42, types: 44, coercions: 0, joins: 0/0}
+Result size of Tidy Core = {terms: 73, types: 68, coercions: 0, joins: 0/1}
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-F5.f5g1 :: Integer
+F5.f1 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-F5.f5g1 = GHC.Internal.Bignum.Integer.IS 1#
+F5.f1 = GHC.Internal.Bignum.Integer.IS 1#
 
 -- RHS size: {terms: 12, types: 9, coercions: 0, joins: 0/0}
 f5g :: forall {a} {t}. Num a => (t -> a) -> t -> a
 [GblId, Arity=3, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,MC(1,L))><MC(1,L)><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [180 60 0] 90 0}]
-f5g = \ (@a) (@t) ($dNum :: Num a) (h :: t -> a) (z :: t) -> + @a $dNum (h z) (fromInteger @a $dNum F5.f5g1)
+f5g = \ (@a) (@t) ($dNum :: Num a) (h :: t -> a) (z :: t) -> + @a $dNum (h z) (fromInteger @a $dNum F5.f1)
 
 -- RHS size: {terms: 17, types: 12, coercions: 0, joins: 0/0}
 f5h :: forall {a} {t}. Num a => (t -> a) -> t -> (t -> a) -> a
 [GblId, Arity=4, Str=<SP(SC(S,C(1,L)),A,A,A,A,A,MC(1,L))><MC(1,L)><L><MC(1,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [270 60 0 60] 150 0}]
-f5h = \ (@a) (@t) ($dNum :: Num a) (f :: t -> a) (x :: t) (g :: t -> a) -> + @a $dNum (f x) (+ @a $dNum (g x) (fromInteger @a $dNum F5.f5g1))
+f5h = \ (@a) (@t) ($dNum :: Num a) (f :: t -> a) (x :: t) (g :: t -> a) -> + @a $dNum (f x) (+ @a $dNum (g x) (fromInteger @a $dNum F5.f1))
 
--- RHS size: {terms: 4, types: 1, coercions: 0, joins: 0/0}
-f5y :: Integer -> Integer
-[GblId, Arity=1, Str=<1L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [0] 30 0}]
-f5y = \ (y :: Integer) -> GHC.Internal.Bignum.Integer.integerAdd y F5.f5g1
+-- RHS size: {terms: 9, types: 6, coercions: 0, joins: 0/0}
+f5y :: forall {a}. Num a => a -> a
+[GblId, Arity=2, Str=<SP(1C(1,C(1,L)),A,A,A,A,A,MC(1,L))><L>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [180 0] 70 0}]
+f5y = \ (@a) ($dNum :: Num a) (y :: a) -> + @a $dNum y (fromInteger @a $dNum F5.f1)
 
 -- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
-f5 :: Integer
+F5.f2 :: Integer
 [GblId, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 10}]
-f5 = GHC.Internal.Bignum.Integer.IS 3#
+F5.f2 = GHC.Internal.Bignum.Integer.IS 0#
+
+-- RHS size: {terms: 25, types: 12, coercions: 0, joins: 0/1}
+f5 :: forall {a}. Num a => a
+[GblId, Arity=1, Str=<SP(SC(S,C(1,L)),A,A,A,A,A,L)>, Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True, WorkFree=True, Expandable=True, Guidance=IF_ARGS [720] 290 0}]
+f5
+  = \ (@a) ($dNum :: Num a) ->
+      let {
+        x :: a
+        [LclId]
+        x = fromInteger @a $dNum F5.f2 } in
+      + @a $dNum (+ @a $dNum x (fromInteger @a $dNum F5.f1)) (+ @a $dNum (+ @a $dNum x (fromInteger @a $dNum F5.f1)) (fromInteger @a $dNum F5.f1))
 
 
 

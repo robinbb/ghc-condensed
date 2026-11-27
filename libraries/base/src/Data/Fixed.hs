@@ -112,8 +112,9 @@ div' :: (Real a,Integral b) => a -> a -> b
 div' n d = floor ((toRational n) / (toRational d))
 
 -- | Generalisation of 'divMod' to any instance of 'Real'
-divMod' :: (Real a,Integral b) => a -> a -> (b,a)
+divMod' :: forall a b. (Real a,Integral b) => a -> a -> (b,a)
 divMod' n d = (f,n - (fromIntegral f) * d) where
+    f :: b
     f = div' n d
 
 -- | Generalisation of 'mod' to any instance of 'Real'
@@ -264,8 +265,8 @@ instance (HasResolution a) => Fractional (Fixed a) where
 
 -- | @since 2.01
 instance (HasResolution a) => RealFrac (Fixed a) where
-    properFraction a = (i,a - (fromIntegral i)) where
-        i = truncate a
+    properFraction a = case truncate a of
+        i -> (i,a - (fromIntegral i))
     truncate f = truncate (toRational f)
     round f = round (toRational f)
     ceiling f = ceiling (toRational f)
@@ -303,6 +304,7 @@ showFixed chopTrailingZeros fa@(MkFixed a) = (show i) ++ (withDot (showIntegerZe
     res = resolution fa
     (i,d) = divMod a res
     -- enough digits to be unambiguous
+    digits :: Int
     digits = ceiling (logBase 10 (fromInteger res) :: Double)
     maxnum = 10 ^ digits
     -- read floors, so show must ceil for `read . show = id` to hold. See #9240
@@ -327,6 +329,7 @@ convertFixed (Number n)
           -- round 'e' up to help make the 'read . show == id' property
           -- possible also for cases where 'resolution' is not a
           -- power-of-10, such as e.g. when 'resolution = 128'
+          e :: Integer
           e = ceiling (logBase 10 (fromInteger r) :: Double)
 convertFixed _ = pfail
 

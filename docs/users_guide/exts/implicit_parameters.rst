@@ -201,11 +201,13 @@ For example::
 
 Here GHC will always take ``?f`` from the last match.
 
-Implicit parameters and monomorphism
-------------------------------------
+Implicit parameters and generalisation
+--------------------------------------
 
-GHC applies the dreaded Monomorphism Restriction (section 4.5.5 of the
-Haskell Report) to implicit parameters. For example, consider: ::
+A binding without a type signature is generalised over its implicit
+parameter constraints like any other constraint, whenever it is
+generalised at all (see :ref:`mono-local-binds`). For example,
+consider: ::
 
      f :: Int -> Int
      f v = let ?x = 0     in
@@ -213,10 +215,11 @@ Haskell Report) to implicit parameters. For example, consider: ::
            let ?x = 5     in
            y
 
-Since the binding for ``y`` falls under the Monomorphism Restriction it
-is not generalised, so the type of ``y`` is simply ``Int``, not
-``(?x::Int) => Int``. Hence, ``(f 9)`` returns result ``9``. If you add
-a type signature for ``y``, then ``y`` will get type
-``(?x::Int) => Int``, so the occurrence of ``y`` in the body of the
-``let`` will see the inner binding of ``?x``, so ``(f 9)`` will return
-``14``.
+Without :extension:`MonoLocalBinds` the binding for ``y`` is generalised,
+so the type of ``y`` is ``(?x::Int) => Int``, the occurrence of ``y`` in
+the body of the ``let`` sees the inner binding of ``?x``, and ``(f 9)``
+returns ``14``. With :extension:`MonoLocalBinds`, which is part of
+:extension:`GHC2024`, the binding mentions the lambda-bound ``v`` and so
+is not generalised: ``y`` has type ``Int``, captures the outer binding of
+``?x``, and ``(f 9)`` returns ``9``. A type signature on ``y`` fixes the
+choice either way.

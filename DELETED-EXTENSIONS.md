@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**47 language extensions deleted.**
+**48 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -270,6 +270,17 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: `\case` and `\cases` expressions are always accepted; `cases` is a
   keyword only after a backslash. Stable and in GHC2024; 113 of the 542
   corpus packages enabled it.
+
+`MonomorphismRestriction`
+
+- Category: Types.
+- Hard-coded: Off.
+- Editions: Haskell98, Haskell2010, GHC2021, GHC2024.
+- Lines: +1306 −2137, net −831.
+- Stability: Stable.
+- Notes: A binding without a type signature is generalised over its class
+  constraints whatever its shape, as GHCi has done since 7.8; `plus = (+)`
+  is polymorphic. A signature keeps a constant monomorphic and shared.
 
 `MultilineStrings`
 

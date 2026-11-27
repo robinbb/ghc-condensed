@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE Safe #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE UnboxedTuples #-}
 module Dep05 where
 

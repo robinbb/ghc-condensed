@@ -22,7 +22,6 @@ docs:
        language:
          Nothing
        language extensions:
-         MonomorphismRestriction
          MonoLocalBinds
          ForeignFunctionInterface
          ImplicitPrelude

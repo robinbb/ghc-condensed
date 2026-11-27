@@ -108,16 +108,154 @@ run it after each removal.
   `TypeInType`, `DeriveDataTypeable`, `RankNTypes`, `ParallelListComp`,
   `ScopedTypeVariables`, `NPlusKPatterns`, `NondecreasingIndentation`,
   `DisambiguateRecordFields`, `ExplicitNamespaces`, `BinaryLiterals`,
-  `Arrows` and `LambdaCase`) to `Nothing`, and drops those constructors,
-  `CUSKs`, `StarIsType`, `DeepSubsumption`, `NullaryTypeClasses`,
-  `AutoDeriveTypeable`, `ApplicativeDo`, `QualifiedDo`,
-  `StandaloneKindSignatures`, `HexFloatLiterals`, `NumDecimals`,
-  `NumericUnderscores`, `MultilineStrings`, `TraditionalRecordSyntax` and
-  the two `AlternativeLayoutRule` constructors from the reverse mapping,
-  since this compiler's template-haskell no longer has them.
-  `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without the module
-  qualifier that template-haskell dropped with `QualifiedDo`. Blocks hsx2hs,
-  jmacro, interpolatedstring-perl6 and persistent-qq.
+  `Arrows`, `LambdaCase` and `MonomorphismRestriction`) to `Nothing`, and
+  drops those constructors, `CUSKs`, `StarIsType`, `DeepSubsumption`,
+  `NullaryTypeClasses`, `AutoDeriveTypeable`, `ApplicativeDo`,
+  `QualifiedDo`, `StandaloneKindSignatures`, `HexFloatLiterals`,
+  `NumDecimals`, `NumericUnderscores`, `MultilineStrings`,
+  `TraditionalRecordSyntax` and the two `AlternativeLayoutRule` constructors
+  from the reverse mapping, since this compiler's template-haskell no longer
+  has them. `Language.Haskell.Meta.Syntax.Translate` builds `DoE` without
+  the module qualifier that template-haskell dropped with `QualifiedDo`.
+  Blocks hsx2hs, jmacro, interpolatedstring-perl6 and persistent-qq.
+- `attoparsec.patch`, `colour.patch`, `happstack-server.patch`,
+  `hspec-core.patch`, `old-time.patch`, `safe.patch`, `shake.patch`,
+  `shelly.patch`, `syb.patch`, `zlib.patch`, and the later hunks of
+  `aeson.patch`, `generic-deriving.patch`, `lens.patch`, `megaparsec.patch`,
+  `optparse-applicative.patch`, `reflection.patch`, `regex-tdfa.patch`,
+  `shakespeare.patch`, `ShellCheck.patch`, `th-abstraction.patch` and
+  `vector.patch`: bindings without type signatures that the monomorphism
+  restriction kept monomorphic and that this compiler, which has no such
+  restriction, generalises into an ambiguous type or a constraint that needs
+  FlexibleContexts. Each gets the type it had: attoparsec's buffer
+  generation counter `1 :: Int`; colour's `quantize` bounds `l, h :: a` and
+  `toSRGBBounded` scale `m :: b` with its helper `f :: b -> a`;
+  happstack-server's six `cookiesParser` sub-parsers as `GenParser Char st`
+  values; hspec-core's saved failure report at `Maybe FailureReport`;
+  old-time's month and year adjustment `tmp :: (Month, Int)`; safe's
+  `toEnumMay` value `r :: a`; shake's `unsafeBinarySplit` value `v :: a`,
+  its `(String, [String])` instance's list `:: [String]` and the `(a,b) =
+  cmdString` and `cmdResult` pairs of `Development.Shake.Command` at their
+  instance types; shelly's `shelly_dir :: FilePath`; syb's `allButString ::
+  ReadP a'` and the where-bound workers of its unit tests; zlib's test
+  length `len :: Int64`; aeson's test helper `omf :: Maybe a`;
+  generic-deriving's `toEnumDefault` enumeration `l :: [Rep a ()]`; lens's
+  hunit test module, whose 23 where-bound state actions infer `MonadState
+  Polygon m` types, enables FlexibleContexts rather than carry 23
+  signatures; megaparsec's `dbg` logger `l :: DbgItem s e a -> String` under
+  an instance signature that scopes `a`, and slicer `unfold :: s -> [Token
+  s]`; optparse-applicative's test parser `p :: Parser [String]`;
+  reflection's `s :: Proxy (StableBox w0 w1 a)`; regex-tdfa's bound counts
+  `read ... :: Int`; shakespeare's six `parseDeref` sub-parsers as
+  `UserParser a` values; ShellCheck's `minLine, maxLine :: Int`, `Array Node
+  [Node]` dominator arrays, `checkElement` with its `literalEquals` at
+  `Writer [TokenComment]`, and the executable's `printErr :: String ->
+  ExceptT Status IO ()`; th-abstraction's `renamedTyvars ::
+  [TyVarBndrUnit]`; vector's benchmark `pack_index` and `enumerate` counting
+  at `Int`. The patches of attoparsec, colour, lens, reflection, regex-tdfa,
+  safe, syb, th-abstraction, vector and zlib apply to PureScript's
+  same-version copies too. Between them they blocked 89 of tier 1's 154
+  packages. Tier 2 adds `bitvec.patch`, `brick.patch`,
+  `cabal-doctest.patch`, `cassava-megaparsec.patch`, `cgi.patch`,
+  `clientsession.patch`, `cmdargs.patch`, `commonmark-extensions.patch`,
+  `conduit.patch`, `crypto-api.patch`, `crypto-pubkey-types.patch`,
+  `Decimal.patch`, `doclayout.patch`, `doctemplates.patch`,
+  `haddock-library.patch`, `hakyll.patch`, `half.patch`, `hashtables.patch`,
+  `hledger.patch`, `hledger-flow.patch`, `hledger-iadd.patch`,
+  `hledger-lib.patch`, `hledger-web.patch`, `jira-wiki-markup.patch`,
+  `jmacro.patch`, `pandoc.patch`, `path-pieces.patch`, `sdl2.patch`,
+  `SHA.patch`, `streaming-commons.patch`, `tagsoup.patch`, `texmath.patch`,
+  `typst.patch` and `xmlhtml.patch`, and later hunks of `cassava.patch`,
+  `commonmark.patch`, `crypton.patch`, `crypton-x509.patch`,
+  `cryptonite.patch`, `encoding.patch`, `hedgehog.patch`,
+  `JuicyPixels.patch`, `lucid.patch`, `persistent.patch`, `tls.patch`,
+  `wizards.patch` and `x509.patch`. Tier 3 adds `criterion.patch`,
+  `crypton-conduit.patch`, `microstache.patch` and `statistics.patch`, and
+  later hunks to `dbus.patch` and `git-annex.patch`. Modules whose
+  where-bound parsers and actions now infer constraints with
+  non-type-variable arguments enable FlexibleContexts: brick's List,
+  cabal-doctest's Doctest, cgi's Accept, conduit's test suite, doctemplates'
+  Parser, encoding's BootString, haddock-library's Parser,
+  jira-wiki-markup's Core, Shared and Inline, jmacro's QQ, sdl2's Event,
+  texmath's TeX reader, typst's Parse, xmlhtml's XML and HTML parsers, and
+  pandoc's Caption, Txt2Tags, Pod, ExportSettings, SIunitx, BlockStarts,
+  Creole, Locator, CSV, MediaWiki, Org Inlines, ANSI, BBCode, ConTeXt,
+  LaTeX, Man, Markdown, RST, Vimdoc and Ms together with its Muse and Org
+  Meta tests, hakyll's Rules and Util Parser, dbus's Address and Types,
+  microstache's Parser, statistics' Regression, criterion's Report and
+  git-annex's Delete and Preferences forms. The rest get the types they had:
+  bitvec's words `w :: Word`; cassava's generic record parsers under
+  instance signatures that scope `p`; cassava-megaparsec's `normalChar,
+  escapedDq :: Parser Word8`; clientsession's generated bytes at
+  `(S.ByteString, ChaChaDRG)`; cmdargs' `recompose` result pinned with
+  `asTypeOf`; commonmark's attribute function `f :: a -> a`;
+  commonmark-extensions' footnote data defaulted at `(Int, Text)`; conduit's
+  mtl-instance test conduits at `ConduitT () Int (Either DummyError) ()` and
+  `ConduitT () Void (W.Writer [Int]) ()`; crypto-api's digests `res :: d`,
+  initialisation vectors `iv :: IV k`, key lengths at `Tagged k BitLength`,
+  CMAC subkeys `k1, k2 :: IV k` and HMAC digest `res :: d`;
+  crypto-pubkey-types' `nints :: [Word8]`; crypton's and cryptonite's
+  `polyKey :: ScrubbedBytes`, `ti :: ScrubbedBytes`, `output :: output`,
+  `bytes :: bytearray`, `bs :: ba` and derived `key :: ScrubbedBytes`,
+  crypton's Salsa and ChaCha test chunks at `(ByteString, State)`,
+  cryptonite's CBC and CFB blocks pinned with `asTypeOf input` as crypton's
+  already are, and crypton's CCM tag `t :: Bytes` and HMAC DRG digests at
+  `Digest hash`; crypton-conduit's `nonce :: ByteString`; criterion's
+  decoded reports at `Either String ReportFileContents`; git-annex's string
+  constants `escq`, `httpprefix` and `gitdirprefix` at `String`, test path
+  `p :: Maybe FilePath`, content length `len :: Maybe Integer`, point-free
+  config readers `getcfg :: Repo -> String` and `getmaybe :: ConfigKey ->
+  Maybe String`, prompter `run :: m a -> m a` and `cleanup :: IO ()`, WebDAV
+  export path `p :: String`, SSH `port :: Maybe Integer`, metadata log `s ::
+  S.Set (LogEntry MetaData)`, logged bytes `0 :: Integer`, simulation
+  `coinflip, notted, combineand :: Bool` and `go :: [Word8] -> Int -> StdGen
+  -> ([Word8], StdGen)`, webapp idents `ident :: Text` (three of them) and
+  `postsetup :: Remote -> Handler a`, and the test suite's sixteen
+  `conflictor`, `subdir`, `dir`, `dest` and `subfile` names at `FilePath`;
+  Decimal's `n2 :: b` and `ub, lb :: Integer`; doclayout's `pa :: a`;
+  encoding's UTF-8 code points `v :: Int`; haddock-library's `nlList ::
+  Parser [Text]`; half's decoding constants at `Integer` and sign bit `s ::
+  Int`; hashtables' `f :: (k, v) -> ST s Int`; hedgehog's `mx :: f a`;
+  jira-wiki-markup's `blockEnd :: JiraParser String`; hledger's setup
+  failure action and message at `IO ()` and `String`, rewrite counts at
+  `(Int, Int)` and compound report header row at `[Spr.Cell Spr.NumLines
+  T.Text]`; hledger-flow's test literals at `[T.Text]`, `[String]` and
+  `Map.Map String [String]`; hledger-web's register `balancelabel ::
+  String`; hledger-iadd's option parser `parser :: OParser a`; hledger-lib's
+  `maxlag :: Integer` and included-file reader `r :: Reader m`; JuicyPixels'
+  `maxVal :: a`; lucid's test documents at `Html ()`; pandoc's Docx style
+  maps at `(CharStyleNameMap, ParaStyleNameMap, TableStyleNameMap)`,
+  DocBook's `skip` at `DB m Blocks` and `DB m Inlines`, Pod's `close` at
+  `PodParser m T.Text`, Creole's `rowEnd` and `cellEnd` at `CRLParser m
+  Char`, Shared's `borderParts :: Doc Text`, Docx's `relIds :: [Int]`, the
+  DocBook writer's `mTitleBs :: Maybe (DB m (Doc Text))`, ConTeXt's
+  `section, chapter :: Doc Text`, AsciiDoc's `spanFactor :: Doc Text`,
+  ANSI's `render :: D.Doc Text -> D.Doc Text` and title block `most :: D.Doc
+  Text`, and Org's `endOfCitation :: OrgParser m Char` and include bounds
+  `startLine, endLine :: Maybe Int`; path-pieces' `n :: Maybe a`;
+  persistent's `x :: (a, b)` and `colCountFst :: Int` in RawSql's pair
+  instance and `n :: Fixed a` in PersistFieldSql's Fixed instance; SHA's
+  `lenBits :: Word64`; statistics' kernel density `h, a :: v Double`;
+  streaming-commons' stream getters at `Maybe Handle -> IO stdin`; tagsoup's
+  `charsStr` and `charsEntsStr` returning `str`; tls's MAC function `macF ::
+  BA.ScrubbedBytes -> ByteString -> BA.ScrubbedBytes` and input `msg ::
+  ByteString`; typst's regex match at `(Text, Text, Text, [Text])`; x509's
+  and crypton-x509's `nints :: [Word8]`; wizards' initial state annotated
+  `PureState`. The patches of bitvec, half, streaming-commons and tagsoup
+  apply to PureScript's same-version copies too; PureScript's cryptonite
+  copy, an sdist whose layout differs from the corpus checkout, gets the
+  same hunks through `purescript-cryptonite.patch`. In tier 2 they broke 29
+  builds and two test suites and blocked 80 more of its 340 packages on the
+  first run, ten builds and a test suite on the second, four builds and the
+  same test suite on the third, four builds and crypton's test suite on the
+  fourth, two builds on the fifth, tls twice more, on the eighth the two
+  executables that had waited behind it, hledger and pandoc, on the ninth
+  pandoc's writers and hledger-web, on the tenth pandoc's last three
+  modules, and on the eleventh pandoc's tests and hakyll. Tier 3 then broke
+  four builds (crypton-conduit, dbus, microstache, statistics) and blocked
+  criterion, fdo-notify, yesod-static and git-annex behind them, and
+  criterion and then git-annex, once reachable, needed rounds of their own;
+  PureScript's 131 packages built unchanged.
 - `persistent.patch`: `Database.Persist.TH.Internal` no longer lists
   `MultiParamTypeClasses` or `DataKinds` among the extensions its
   Template Haskell code requires, since template-haskell lost those
@@ -245,10 +383,12 @@ run it after each removal.
 - `purescript-aeson.patch`, `purescript-cryptonite.patch`: PureScript's
   private copies of aeson (2.2.5.1) and cryptonite (0.30, crypton's
   ancestor) differ in version from the corpus, so `aeson.patch` and
-  `crypton.patch` do not apply to them; these two carry the same kind
-  pins against the copies' paths under `projects/purescript/vendored/`.
-  `add.rb --fetch` applies them like any other patch, since their paths
-  are relative to the repository root.
+  `crypton.patch` do not apply to them; these two carry the same kind pins
+  against the copies' paths under `projects/purescript/vendored/`. `add.rb
+  --fetch` applies them like any other patch, since their paths are relative
+  to the repository root. `purescript-cryptonite.patch` also carries the
+  type annotations that `cryptonite.patch` adds for the removal of the
+  monomorphism restriction.
 - `servant.patch`: the kind-indexed closed family `Arity'` in
   `Servant.API.TypeErrors` gets a standalone kind signature, for the
   reason given under `barbies.patch`. Blocks servant-server,

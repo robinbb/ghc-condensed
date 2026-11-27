@@ -1,0 +1,11 @@
+--- a/external-packages/vendored/cmdargs/Data/Generics/Any.hs
++++ b/external-packages/vendored/cmdargs/Data/Generics/Any.hs
+@@ -94,7 +94,7 @@
+ recompose :: Any -> [Any] -> Any
+ recompose (Any x) cs | null s = Any $ res `asTypeOf` x
+                      | otherwise = err
+-    where (res,s) = runState (fromConstrM field $ D.toConstr x) cs
++    where (res,s) = runState (fromConstrM field (D.toConstr x) >>= \r -> return (r `asTypeOf` x)) cs
+ 
+           field :: Data d => State [Any] d
+           field = do cs <- get

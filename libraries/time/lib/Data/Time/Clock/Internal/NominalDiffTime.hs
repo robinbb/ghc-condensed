@@ -90,9 +90,8 @@ instance Fractional NominalDiffTime where
     fromRational r = MkNominalDiffTime (fromRational r)
 
 instance RealFrac NominalDiffTime where
-    properFraction (MkNominalDiffTime a) = (i, MkNominalDiffTime f)
-      where
-        (i, f) = properFraction a
+    properFraction (MkNominalDiffTime a) = case properFraction a of
+        (i, f) -> (i, MkNominalDiffTime f)
     truncate (MkNominalDiffTime a) = truncate a
     round (MkNominalDiffTime a) = round a
     ceiling (MkNominalDiffTime a) = ceiling a

@@ -254,6 +254,21 @@ same context. For example, this is fine: ::
       g :: Ord a => a -> Bool
       g y = (y <= y) || f True
 
+.. _infelicities-monomorphism-restriction:
+
+The monomorphism restriction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+GHC does not implement the monomorphism restriction (`Haskell Report,
+Section 4.5.5
+<https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-930004.5.5>`__).
+A binding group without type signatures is generalised over its class
+constraints whether or not its bindings are function bindings: ``plus =
+(+)`` has type ``Num a => a -> a -> a`` rather than a monomorphic type
+fixed by defaulting or by its uses, and a pattern binding is generalised
+too. To keep a constant applicative form shared, give it a type
+signature; see :ref:`monomorphism`.
+
 .. _infelicities-class-declarations:
 
 Class declarations

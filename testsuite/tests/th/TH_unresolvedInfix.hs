@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module Main where
 
