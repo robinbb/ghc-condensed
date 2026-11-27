@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs,
-              FlexibleContexts, TypeFamilies #-}
+              TypeFamilies #-}
 
 module T7020 where
 

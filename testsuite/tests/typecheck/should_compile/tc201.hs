@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
-             ExistentialQuantification, FlexibleContexts #-}
+             ExistentialQuantification #-}
 
 {-      Email 30 Jan 2006
 

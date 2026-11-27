@@ -1,5 +1,4 @@
 {-# LANGUAGE
-        FlexibleContexts,
         TypeFamilies,
         FlexibleInstances #-}
 

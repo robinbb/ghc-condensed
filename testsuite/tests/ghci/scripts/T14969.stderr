@@ -1,10 +1,18 @@
 
-<interactive>:2:1: error: [GHC-80003]
-    • Non type-variable argument
-        in the constraint: Num (t2 -> t1 -> t3)
-    • When checking the inferred type
+<interactive>:2:1: error: [GHC-39999]
+    • Could not deduce ‘Num t0’
+      from the context: (Num t2, Num (t3 -> t2 -> t4))
+        bound by the inferred type for ‘it’:
+                   forall {t2} {t3} {t4}. (Num t2, Num (t3 -> t2 -> t4)) => t4
+        at <interactive>:2:1-5
+      The type variable ‘t0’ is ambiguous
+      Potentially matching instances:
+        instance Num Integer -- Defined in ‘GHC.Internal.Num’
+        instance Num Double -- Defined in ‘GHC.Internal.Float’
+        ...plus three others
+        ...plus five instances involving out-of-scope types
+        (use -fprint-potential-instances to see them all)
+    • In the ambiguity check for the inferred type for ‘it’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      When checking the inferred type
         it :: forall {t1} {t2} {t3}. (Num t1, Num (t2 -> t1 -> t3)) => t3
-    Suggested fix:
-      Perhaps you intended to use the ‘FlexibleContexts’ extension
-      You may enable this language extension in GHCi with:
-        :set -XFlexibleContexts

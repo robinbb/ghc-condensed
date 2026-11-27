@@ -30,7 +30,8 @@
 +  Exts.ScopedTypeVariables        -> Nothing
    Exts.PatternSignatures          -> Nothing
    Exts.ImplicitParams             -> Just TH.ImplicitParams
-   Exts.FlexibleContexts           -> Just TH.FlexibleContexts
+-  Exts.FlexibleContexts           -> Just TH.FlexibleContexts
++  Exts.FlexibleContexts           -> Nothing
    Exts.FlexibleInstances          -> Just TH.FlexibleInstances
    Exts.EmptyDataDecls             -> Just TH.EmptyDataDecls
    Exts.CPP                        -> Just TH.Cpp
@@ -198,9 +199,11 @@
    TH.DeriveFunctor                     -> Just Exts.DeriveFunctor
    TH.DeriveTraversable                 -> Just Exts.DeriveTraversable
    TH.DeriveFoldable                    -> Just Exts.DeriveFoldable
-@@ -266,42 +243,25 @@ fromExtension e = case e of
+@@ -264,44 +241,26 @@ fromExtension e = case e of
+   TH.DeriveLift                        -> Nothing
+   TH.DerivingStrategies                -> Just Exts.DerivingStrategies
    TH.TypeSynonymInstances              -> Just Exts.TypeSynonymInstances
-   TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
+-  TH.FlexibleContexts                  -> Just Exts.FlexibleContexts
    TH.FlexibleInstances                 -> Just Exts.FlexibleInstances
 -  TH.ConstrainedClassMethods           -> Just Exts.ConstrainedClassMethods
 -  TH.MultiParamTypeClasses             -> Just Exts.MultiParamTypeClasses
@@ -241,7 +244,7 @@
    TH.OverloadedLabels                  -> Just Exts.OverloadedLabels
    TH.EmptyCase                         -> Just Exts.EmptyCase
    TH.PatternSynonyms                   -> Just Exts.PatternSynonyms
-@@ -317,7 +277,6 @@ fromExtension e = case e of
+@@ -317,7 +276,6 @@ fromExtension e = case e of
  
  -- 2.13.0 ----------------------------------------
  #if MIN_VERSION_template_haskell(2,13,0)
@@ -249,7 +252,7 @@
    TH.EmptyDataDeriving                 -> Nothing
  #endif
  
-@@ -345,15 +304,11 @@ fromExtension e = case e of
+@@ -345,15 +303,11 @@ fromExtension e = case e of
      Nothing
  #endif
  
@@ -265,7 +268,7 @@
    TH.ImportQualifiedPost               ->
  #if MIN_VERSION_haskell_src_exts(1,24,0)
      Just Exts.ImportQualifiedPost
-@@ -362,12 +317,6 @@ fromExtension e = case e of
+@@ -362,12 +316,6 @@ fromExtension e = case e of
  #endif
  #endif
  
@@ -278,7 +281,7 @@
  -- 2.20.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,20,0)
-@@ -391,7 +340,6 @@ fromExtension e = case e of
+@@ -391,7 +339,6 @@ fromExtension e = case e of
  -- 2.23.0 ---------------------------------------
  
  #if MIN_VERSION_template_haskell(2,23,0)

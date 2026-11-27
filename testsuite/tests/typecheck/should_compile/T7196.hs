@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 {-# LANGUAGE ImpredicativeTypes #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Patch (qc_prim) where

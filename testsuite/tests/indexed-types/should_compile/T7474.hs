@@ -1,5 +1,5 @@
 
-{-# LANGUAGE TypeFamilies, GADTs, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies, GADTs #-}
 
 module T7474 where
 

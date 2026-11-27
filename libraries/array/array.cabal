@@ -28,7 +28,6 @@ library
   other-extensions:
       BangPatterns,
       CPP,
-      FlexibleContexts,
       FlexibleInstances,
       MagicHash,
       Trustworthy,

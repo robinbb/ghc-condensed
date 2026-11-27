@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 module T15954 where
 
 import Data.Kind

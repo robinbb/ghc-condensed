@@ -4,7 +4,6 @@
 {-# Language GADTs             #-}
 {-# Language TypeFamilies      #-}
 {-# Language TypeApplications  #-}
-{-# Language FlexibleContexts  #-}
 {-# Language FlexibleInstances #-}
 
 module T15799 where

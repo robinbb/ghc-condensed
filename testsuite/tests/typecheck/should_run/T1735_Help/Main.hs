@@ -1,6 +1,6 @@
 
 {-# LANGUAGE TemplateHaskell, FlexibleInstances,
-             GADTs, FlexibleContexts,
+             GADTs,
              GeneralizedNewtypeDeriving,
              UndecidableInstances, CPP #-}
 

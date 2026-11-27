@@ -1,10 +1,10 @@
-T14715.hs:11:53: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
+T14715.hs:10:53: warning: [GHC-88464] [-Wpartial-type-signatures (in -Wdefault)]
     • Found extra-constraints wildcard standing for ‘Reduce z zq’
       Where: ‘z’, ‘zq’ are rigid type variables bound by
                the inferred type of
                  bench_mulPublic :: (z ~ LiftOf zq, Reduce z zq) =>
                                     Cyc zp -> Cyc z -> IO (zp, zq)
-               at T14715.hs:11:27-33
+               at T14715.hs:10:27-33
     • In the type signature:
         bench_mulPublic :: forall z zp zq. (z ~ LiftOf zq, _) =>
                                            Cyc zp -> Cyc z -> IO (zp, zq)

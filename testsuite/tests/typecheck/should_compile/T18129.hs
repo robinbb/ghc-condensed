@@ -3,7 +3,6 @@
 {-# LANGUAGE GADTs                   #-}
 {-# LANGUAGE TypeFamilies            #-}
 {-# LANGUAGE ConstraintKinds         #-}
-{-# LANGUAGE FlexibleContexts        #-}
 {-# LANGUAGE TypeOperators           #-}
 {-# LANGUAGE UndecidableInstances    #-}
 {-# LANGUAGE UndecidableSuperClasses #-}

@@ -1,7 +1,0 @@
---- a/external-packages/brick/src/Brick/Widgets/List.hs
-+++ b/external-packages/brick/src/Brick/Widgets/List.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- {-# LANGUAGE DeriveGeneric #-}
- {-# LANGUAGE DeriveTraversable #-}
- {-# LANGUAGE FlexibleInstances #-}

@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 -- #1781
 -- This one should really succeed, because 'plus' can only

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wall -fno-warn-redundant-constraints #-}
-{-# LANGUAGE GADTs, TypeFamilies, FlexibleContexts #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 
 module Absurd where
 

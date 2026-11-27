@@ -41,20 +41,6 @@
  	(port,args) = aux (Nothing, []) params
  	aux (p,ps) [] = (p,ps)
  	aux (_,ps) ("-p":p:rest) = aux (readPort p, ps) rest
---- a/external-packages/vendored/git-annex/Assistant/WebApp/Configurators/Delete.hs
-+++ b/external-packages/vendored/git-annex/Assistant/WebApp/Configurators/Delete.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- {- git-annex assistant webapp repository deletion
-  -
-  - Copyright 2013 Joey Hess <id@joeyh.name>
---- a/external-packages/vendored/git-annex/Assistant/WebApp/Configurators/Preferences.hs
-+++ b/external-packages/vendored/git-annex/Assistant/WebApp/Configurators/Preferences.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- {- git-annex assistant general preferences
-  -
-  - Copyright 2013 Joey Hess <id@joeyh.name>
 --- a/external-packages/vendored/git-annex/Assistant/WebApp/DashBoard.hs
 +++ b/external-packages/vendored/git-annex/Assistant/WebApp/DashBoard.hs
 @@ -40,6 +40,7 @@ transfersDisplay = do
@@ -207,7 +193,7 @@
  					liftIO $ outputSerialized h BeginPrompt
 --- a/external-packages/vendored/git-annex/Remote/WebDAV/DavLocation.hs
 +++ b/external-packages/vendored/git-annex/Remote/WebDAV/DavLocation.hs
-@@ -49,7 +49,7 @@ keyLocation k = keyDir k ++ fromOsPath (keyFile k)
+@@ -48,7 +48,7 @@ keyLocation k = keyDir k ++ fromOsPath (keyFile k)
   - those. -}
  exportLocation :: ExportLocation -> Either String DavLocation
  exportLocation l =
@@ -381,7 +367,7 @@
  -- | Unescapes a set of shellEscaped words or filenames.
 --- a/external-packages/vendored/git-annex/Utility/Url.hs
 +++ b/external-packages/vendored/git-annex/Utility/Url.hs
-@@ -310,7 +310,7 @@ getUrlInfo url uo = case parseURIRelaxed url of
+@@ -309,7 +309,7 @@ getUrlInfo url uo = case parseURIRelaxed url of
  	existscurl u curlparams = do
  		output <- catchDefaultIO "" $
  			readProcess "curl" $ toCommand curlparams

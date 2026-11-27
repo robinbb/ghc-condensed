@@ -1195,23 +1195,6 @@ data TcRnMessage where
   -}
   TcRnIllegalTupleConstraint :: !Type -> TcRnMessage
 
-  {-| TcRnNonTypeVarArgInConstraint is an error that occurs whenever a non type-variable
-      argument is specified in a constraint.
-
-      Examples(s):
-        data T
-        instance Eq Int => Eq T
-
-      Test cases: ghci/scripts/T13202
-                  ghci/scripts/T13202a
-                  polykinds/T12055a
-                  typecheck/should_fail/T10351
-                  typecheck/should_fail/T19187
-                  typecheck/should_fail/T6022
-                  typecheck/should_fail/T8883
-  -}
-  TcRnNonTypeVarArgInConstraint :: !Type -> TcRnMessage
-
   {-| TcRnIllegalImplicitParam is an error that occurs whenever an illegal implicit
       parameter is specified.
 

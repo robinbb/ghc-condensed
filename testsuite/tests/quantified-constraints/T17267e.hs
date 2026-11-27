@@ -1,6 +1,5 @@
 {-# LANGUAGE QuantifiedConstraints #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MonoLocalBinds #-}
 
 module Main where

@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude, TypeFamilies,
              UndecidableSuperClasses, TypeOperators,
-             FlexibleContexts, TypeSynonymInstances, FlexibleInstances,
+             TypeSynonymInstances, FlexibleInstances,
              UndecidableInstances #-}
 module Monolith where
 

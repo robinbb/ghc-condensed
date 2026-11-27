@@ -1,5 +1,4 @@
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module Main where
 

@@ -121,30 +121,27 @@ run it after each removal.
 - `attoparsec.patch`, `colour.patch`, `happstack-server.patch`,
   `hspec-core.patch`, `old-time.patch`, `safe.patch`, `shake.patch`,
   `shelly.patch`, `syb.patch`, `zlib.patch`, and the later hunks of
-  `aeson.patch`, `generic-deriving.patch`, `lens.patch`, `megaparsec.patch`,
+  `aeson.patch`, `generic-deriving.patch`, `megaparsec.patch`,
   `optparse-applicative.patch`, `reflection.patch`, `regex-tdfa.patch`,
   `shakespeare.patch`, `ShellCheck.patch`, `th-abstraction.patch` and
   `vector.patch`: bindings without type signatures that the monomorphism
   restriction kept monomorphic and that this compiler, which has no such
-  restriction, generalises into an ambiguous type or a constraint that needs
-  FlexibleContexts. Each gets the type it had: attoparsec's buffer
-  generation counter `1 :: Int`; colour's `quantize` bounds `l, h :: a` and
-  `toSRGBBounded` scale `m :: b` with its helper `f :: b -> a`;
-  happstack-server's six `cookiesParser` sub-parsers as `GenParser Char st`
-  values; hspec-core's saved failure report at `Maybe FailureReport`;
-  old-time's month and year adjustment `tmp :: (Month, Int)`; safe's
-  `toEnumMay` value `r :: a`; shake's `unsafeBinarySplit` value `v :: a`,
-  its `(String, [String])` instance's list `:: [String]` and the `(a,b) =
-  cmdString` and `cmdResult` pairs of `Development.Shake.Command` at their
-  instance types; shelly's `shelly_dir :: FilePath`; syb's `allButString ::
-  ReadP a'` and the where-bound workers of its unit tests; zlib's test
-  length `len :: Int64`; aeson's test helper `omf :: Maybe a`;
-  generic-deriving's `toEnumDefault` enumeration `l :: [Rep a ()]`; lens's
-  hunit test module, whose 23 where-bound state actions infer `MonadState
-  Polygon m` types, enables FlexibleContexts rather than carry 23
-  signatures; megaparsec's `dbg` logger `l :: DbgItem s e a -> String` under
-  an instance signature that scopes `a`, and slicer `unfold :: s -> [Token
-  s]`; optparse-applicative's test parser `p :: Parser [String]`;
+  restriction, generalises into an ambiguous type. Each gets the type it
+  had: attoparsec's buffer generation counter `1 :: Int`; colour's
+  `quantize` bounds `l, h :: a` and `toSRGBBounded` scale `m :: b` with its
+  helper `f :: b -> a`; happstack-server's six `cookiesParser` sub-parsers
+  as `GenParser Char st` values; hspec-core's saved failure report at `Maybe
+  FailureReport`; old-time's month and year adjustment `tmp :: (Month,
+  Int)`; safe's `toEnumMay` value `r :: a`; shake's `unsafeBinarySplit`
+  value `v :: a`, its `(String, [String])` instance's list `:: [String]` and
+  the `(a,b) = cmdString` and `cmdResult` pairs of
+  `Development.Shake.Command` at their instance types; shelly's `shelly_dir
+  :: FilePath`; syb's `allButString :: ReadP a'` and the where-bound workers
+  of its unit tests; zlib's test length `len :: Int64`; aeson's test helper
+  `omf :: Maybe a`; generic-deriving's `toEnumDefault` enumeration `l ::
+  [Rep a ()]`; megaparsec's `dbg` logger `l :: DbgItem s e a -> String`
+  under an instance signature that scopes `a`, and slicer `unfold :: s ->
+  [Token s]`; optparse-applicative's test parser `p :: Parser [String]`;
   reflection's `s :: Proxy (StableBox w0 w1 a)`; regex-tdfa's bound counts
   `read ... :: Int`; shakespeare's six `parseDeref` sub-parsers as
   `UserParser a` values; ShellCheck's `minLine, maxLine :: Int`, `Array Node
@@ -152,38 +149,23 @@ run it after each removal.
   `Writer [TokenComment]`, and the executable's `printErr :: String ->
   ExceptT Status IO ()`; th-abstraction's `renamedTyvars ::
   [TyVarBndrUnit]`; vector's benchmark `pack_index` and `enumerate` counting
-  at `Int`. The patches of attoparsec, colour, lens, reflection, regex-tdfa,
-  safe, syb, th-abstraction, vector and zlib apply to PureScript's
-  same-version copies too. Between them they blocked 89 of tier 1's 154
-  packages. Tier 2 adds `bitvec.patch`, `brick.patch`,
-  `cabal-doctest.patch`, `cassava-megaparsec.patch`, `cgi.patch`,
-  `clientsession.patch`, `cmdargs.patch`, `commonmark-extensions.patch`,
-  `conduit.patch`, `crypto-api.patch`, `crypto-pubkey-types.patch`,
-  `Decimal.patch`, `doclayout.patch`, `doctemplates.patch`,
-  `haddock-library.patch`, `hakyll.patch`, `half.patch`, `hashtables.patch`,
-  `hledger.patch`, `hledger-flow.patch`, `hledger-iadd.patch`,
-  `hledger-lib.patch`, `hledger-web.patch`, `jira-wiki-markup.patch`,
-  `jmacro.patch`, `pandoc.patch`, `path-pieces.patch`, `sdl2.patch`,
-  `SHA.patch`, `streaming-commons.patch`, `tagsoup.patch`, `texmath.patch`,
-  `typst.patch` and `xmlhtml.patch`, and later hunks of `cassava.patch`,
-  `commonmark.patch`, `crypton.patch`, `crypton-x509.patch`,
-  `cryptonite.patch`, `encoding.patch`, `hedgehog.patch`,
-  `JuicyPixels.patch`, `lucid.patch`, `persistent.patch`, `tls.patch`,
-  `wizards.patch` and `x509.patch`. Tier 3 adds `criterion.patch`,
-  `crypton-conduit.patch`, `microstache.patch` and `statistics.patch`, and
-  later hunks to `dbus.patch` and `git-annex.patch`. Modules whose
-  where-bound parsers and actions now infer constraints with
-  non-type-variable arguments enable FlexibleContexts: brick's List,
-  cabal-doctest's Doctest, cgi's Accept, conduit's test suite, doctemplates'
-  Parser, encoding's BootString, haddock-library's Parser,
-  jira-wiki-markup's Core, Shared and Inline, jmacro's QQ, sdl2's Event,
-  texmath's TeX reader, typst's Parse, xmlhtml's XML and HTML parsers, and
-  pandoc's Caption, Txt2Tags, Pod, ExportSettings, SIunitx, BlockStarts,
-  Creole, Locator, CSV, MediaWiki, Org Inlines, ANSI, BBCode, ConTeXt,
-  LaTeX, Man, Markdown, RST, Vimdoc and Ms together with its Muse and Org
-  Meta tests, hakyll's Rules and Util Parser, dbus's Address and Types,
-  microstache's Parser, statistics' Regression, criterion's Report and
-  git-annex's Delete and Preferences forms. The rest get the types they had:
+  at `Int`. The patches of attoparsec, colour, reflection, regex-tdfa, safe,
+  syb, th-abstraction, vector and zlib apply to PureScript's same-version
+  copies too. Between them they blocked 89 of tier 1's 154 packages. Tier 2
+  adds `bitvec.patch`, `cassava-megaparsec.patch`, `clientsession.patch`,
+  `cmdargs.patch`, `commonmark-extensions.patch`, `conduit.patch`,
+  `crypto-api.patch`, `crypto-pubkey-types.patch`, `Decimal.patch`,
+  `doclayout.patch`, `haddock-library.patch`, `half.patch`,
+  `hashtables.patch`, `hledger.patch`, `hledger-flow.patch`,
+  `hledger-iadd.patch`, `hledger-lib.patch`, `hledger-web.patch`,
+  `jira-wiki-markup.patch`, `pandoc.patch`, `path-pieces.patch`,
+  `SHA.patch`, `streaming-commons.patch`, `tagsoup.patch` and `typst.patch`,
+  and later hunks of `cassava.patch`, `commonmark.patch`, `crypton.patch`,
+  `crypton-x509.patch`, `cryptonite.patch`, `encoding.patch`,
+  `hedgehog.patch`, `JuicyPixels.patch`, `lucid.patch`, `persistent.patch`,
+  `tls.patch`, `wizards.patch` and `x509.patch`. Tier 3 adds
+  `criterion.patch`, `crypton-conduit.patch` and `statistics.patch`, and
+  later hunks to `git-annex.patch`. Their bindings get the types they had:
   bitvec's words `w :: Word`; cassava's generic record parsers under
   instance signatures that scope `p`; cassava-megaparsec's `normalChar,
   escapedDq :: Parser Word8`; clientsession's generated bytes at

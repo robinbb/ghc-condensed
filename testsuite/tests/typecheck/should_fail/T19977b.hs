@@ -1,6 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE
-  FlexibleContexts,
   FlexibleInstances,
   UndecidableInstances #-}
 

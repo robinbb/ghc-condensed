@@ -1,5 +1,5 @@
 {-# language TypeFamilies,
-  NoImplicitPrelude, FlexibleContexts,
+  NoImplicitPrelude,
   GADTs,
   ConstraintKinds, FlexibleInstances, UndecidableInstances,
   FunctionalDependencies, UndecidableSuperClasses #-}

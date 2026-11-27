@@ -145,7 +145,6 @@ extensionName = \case
   LangExt.DerivingStrategies -> "DerivingStrategies"
   LangExt.DerivingVia -> "DerivingVia"              -- Derive through equal representation
   LangExt.TypeSynonymInstances -> "TypeSynonymInstances"
-  LangExt.FlexibleContexts -> "FlexibleContexts"
   LangExt.FlexibleInstances -> "FlexibleInstances"
   LangExt.FunctionalDependencies -> "FunctionalDependencies"
   LangExt.UnicodeSyntax -> "UnicodeSyntax"
@@ -271,7 +270,6 @@ glasgowExtsFlags = [
            , LangExt.DeriveTraversable
            , LangExt.EmptyDataDecls
            , LangExt.ExistentialQuantification
-           , LangExt.FlexibleContexts
            , LangExt.FlexibleInstances
            , LangExt.ForeignFunctionInterface
            , LangExt.FunctionalDependencies

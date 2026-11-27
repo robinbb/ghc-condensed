@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies
-            ,FlexibleContexts #-}
+ #-}
 
 module T5643 where
 

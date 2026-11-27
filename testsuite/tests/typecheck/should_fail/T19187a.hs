@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module T19187a where
 

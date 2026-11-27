@@ -1,6 +1,6 @@
 {-# LANGUAGE FunctionalDependencies, FlexibleInstances, UndecidableInstances,
              TypeFamilies, TypeApplications,
-             FlexibleContexts, AllowAmbiguousTypes, ExtendedDefaultRules #-}
+             AllowAmbiguousTypes, ExtendedDefaultRules #-}
 
 module T18851 where
 

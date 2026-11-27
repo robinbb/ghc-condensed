@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, ConstraintKinds, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies, ConstraintKinds #-}
 {-# LANGUAGE UndecidableInstances #-}
 module Caller where
 

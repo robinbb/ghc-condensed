@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes, LambdaCase, ScopedTypeVariables,
-  FlexibleInstances, FlexibleContexts #-}
+  FlexibleInstances #-}
 
 {-# OPTIONS -fexpose-all-unfoldings #-}
 

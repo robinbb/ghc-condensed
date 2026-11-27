@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies #-}
 module Simple.RemovePlugin where
 
 import Control.Monad.IO.Class

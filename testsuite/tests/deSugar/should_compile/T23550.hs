@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 -- We didn't need -XMonoLocalBinds to trigger #T23550. But it is sufficient. And

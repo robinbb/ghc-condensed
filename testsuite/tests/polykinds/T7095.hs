@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE TypeOperators, FlexibleInstances #-}
 
 module T7095 where
 

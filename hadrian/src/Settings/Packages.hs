@@ -48,23 +48,25 @@ packageArgs = do
         -- KindSignatures, InstanceSigs, PolyKinds, DeriveDataTypeable,
         -- RankNTypes, ParallelListComp, ScopedTypeVariables,
         -- StandaloneKindSignatures, BinaryLiterals, NumericUnderscores,
-        -- DuplicateRecordFields, LambdaCase or MonomorphismRestriction
-        -- extension: classes may have any number of parameters, data types
-        -- are always promoted, kinds may always be given, instance methods
-        -- may carry signatures, kinds are always generalised, Data may
-        -- always be derived, types may have any rank, comprehensions may
-        -- have parallel branches, type variables are lexically scoped, a
-        -- standalone kind signature may always be given, an integer literal
-        -- may be written in binary, digits may be separated by underscores,
-        -- datatypes may share field names, \case and \cases are always
-        -- syntax and a binding without a signature is generalised whatever
-        -- its shape, so no source in the tree names them. The bootstrap
-        -- compiler still wants them all for the stage 0 packages whose
-        -- language edition lacks them (mtl, parsec, array, Cabal-syntax, the
-        -- compiler itself and others), when it compiles them and when it
-        -- computes their dependencies, which parses them (forall is a
-        -- keyword only with RankNTypes); and it must switch its monomorphism
-        -- restriction off so that stage 0 infers the types stage 1 will.
+        -- DuplicateRecordFields, LambdaCase, MonomorphismRestriction or
+        -- FlexibleContexts extension: classes may have any number of
+        -- parameters, data types are always promoted, kinds may always be
+        -- given, instance methods may carry signatures, kinds are always
+        -- generalised, Data may always be derived, types may have any rank,
+        -- comprehensions may have parallel branches, type variables are
+        -- lexically scoped, a standalone kind signature may always be
+        -- given, an integer literal may be written in binary, digits may be
+        -- separated by underscores, datatypes may share field names, \case
+        -- and \cases are always syntax, a binding without a signature is
+        -- generalised whatever its shape and a class constraint may have
+        -- any argument types, so no source in the tree names them. The
+        -- bootstrap compiler still wants them all for the stage 0 packages
+        -- whose language edition lacks them (mtl, parsec, array,
+        -- Cabal-syntax, the compiler itself and others), when it compiles
+        -- them and when it computes their dependencies, which parses them
+        -- (forall is a keyword only with RankNTypes); and it must switch
+        -- its monomorphism restriction off so that stage 0 infers the types
+        -- stage 1 will.
         [ stage0Ghc ? arg "-XMultiParamTypeClasses"
         , stage0Ghc ? arg "-XDataKinds"
         , stage0Ghc ? arg "-XKindSignatures"
@@ -80,6 +82,7 @@ packageArgs = do
         , stage0Ghc ? arg "-XNumericUnderscores"
         , stage0Ghc ? arg "-XDuplicateRecordFields"
         , stage0Ghc ? arg "-XLambdaCase"
+        , stage0Ghc ? arg "-XFlexibleContexts"
         , stage0Ghc ? arg "-XNoMonomorphismRestriction"
 
         --------------------------------- base ---------------------------------

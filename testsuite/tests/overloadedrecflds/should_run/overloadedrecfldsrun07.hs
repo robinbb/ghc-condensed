@@ -1,5 +1,4 @@
-{-# LANGUAGE FlexibleContexts
-           , FlexibleInstances
+{-# LANGUAGE FlexibleInstances
            , GADTs
            , OverloadedLabels
            , TypeApplications

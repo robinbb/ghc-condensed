@@ -1,5 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, UndecidableInstances, TypeFamilies,
-             FlexibleContexts #-}
+{-# LANGUAGE ExistentialQuantification, UndecidableInstances, TypeFamilies #-}
 
 module Test where
 

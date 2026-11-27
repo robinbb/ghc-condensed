@@ -1,7 +1,6 @@
 {-# LANGUAGE
   MonoLocalBinds,
-  FunctionalDependencies,
-  FlexibleContexts #-}
+  FunctionalDependencies #-}
 
 -- reduced version of
 -- http://code.haskell.org/~aavogt/HList_dredge_ghc802/Data/HList/Dredge.hs

@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, UndecidableInstances #-}
 
 -- This tests an aspect of functional dependencies, revealing a bug in GHC 6.0.1

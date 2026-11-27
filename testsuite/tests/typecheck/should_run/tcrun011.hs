@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, FlexibleContexts #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 -- !!! Existential data types
 -- Hugs didn't like this one

@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies, 
-    GADTs, FlexibleInstances, FlexibleContexts #-}
+    GADTs, FlexibleInstances #-}
 module T5591b where
 
 import Data.Kind (Type)

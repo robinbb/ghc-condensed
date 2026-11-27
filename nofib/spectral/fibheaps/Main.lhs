@@ -1,4 +1,3 @@
->{-# LANGUAGE FlexibleContexts #-}
 >{-# LANGUAGE NoMonoLocalBinds #-}
 
     Inferred type for 'getMin' has a constraint (MArray a (MyMaybe t) m)

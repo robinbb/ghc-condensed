@@ -1,5 +1,4 @@
 -- /tmp/panic.hs
-{-# LANGUAGE FlexibleContexts        #-}
 {-# LANGUAGE FlexibleInstances       #-}
 {-# LANGUAGE TypeFamilies            #-}
 {-# LANGUAGE TypeSynonymInstances    #-}

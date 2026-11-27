@@ -1,4 +1,4 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving, TypeFamilies, FlexibleContexts, FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, TypeFamilies, FlexibleInstances #-}
 
 module T2850 where
 

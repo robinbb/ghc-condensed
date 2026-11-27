@@ -88,7 +88,6 @@ library
   other-extensions:
     CPP
     ExistentialQuantification
-    FlexibleContexts
     FlexibleInstances
     FunctionalDependencies
     Safe

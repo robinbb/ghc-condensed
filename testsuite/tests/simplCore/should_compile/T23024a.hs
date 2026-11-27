@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fspecialize-aggressively -fexpose-all-unfoldings -Wno-missing-methods #-}
-{-# LANGUAGE FlexibleInstances, FlexibleContexts, UndecidableInstances,
+{-# LANGUAGE FlexibleInstances, UndecidableInstances,
              MonoLocalBinds #-}
 module T23024a where
 

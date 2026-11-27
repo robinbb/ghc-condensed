@@ -1,4 +1,4 @@
-T9662.hs:49:8: error: [GHC-25897]
+T9662.hs:48:8: error: [GHC-25897]
     • Couldn't match type ‘m’ with ‘Int’
       Expected: Exp (((sh :. k) :. m) :. n)
                 -> Exp (((sh :. m) :. n) :. k)
@@ -10,7 +10,7 @@ T9662.hs:49:8: error: [GHC-25897]
         the type signature for:
           test :: forall sh k m n.
                   Shape (((sh :. k) :. m) :. n) -> Shape (((sh :. m) :. n) :. k)
-        at T9662.hs:46:1-50
+        at T9662.hs:45:1-50
     • In the first argument of ‘backpermute’, namely
         ‘(modify
             (atom :. atom :. atom :. atom)
@@ -31,5 +31,5 @@ T9662.hs:49:8: error: [GHC-25897]
     • Relevant bindings include
         test :: Shape (((sh :. k) :. m) :. n)
                 -> Shape (((sh :. m) :. n) :. k)
-          (bound at T9662.hs:47:1)
+          (bound at T9662.hs:46:1)
 

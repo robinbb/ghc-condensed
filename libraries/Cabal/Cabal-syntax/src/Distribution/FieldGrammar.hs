@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 -- | This module provides a way to specify a grammar of @.cabal@ -like files.

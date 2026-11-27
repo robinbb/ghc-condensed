@@ -3,7 +3,6 @@
 {-# language DerivingStrategies #-}
 {-# language EmptyCase #-}
 {-# language ImportQualifiedPost #-}
-{-# language FlexibleContexts #-}
 {-# language FlexibleInstances #-}
 {-# language FunctionalDependencies #-}
 {-# language GADTs #-}

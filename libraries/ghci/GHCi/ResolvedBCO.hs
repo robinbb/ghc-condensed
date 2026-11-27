@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards, DeriveGeneric, GeneralizedNewtypeDeriving,
-    BangPatterns, CPP, MagicHash, FlexibleInstances, FlexibleContexts,
+    BangPatterns, CPP, MagicHash, FlexibleInstances,
     TypeApplications, UnboxedTuples, UndecidableInstances #-}
 module GHCi.ResolvedBCO
   ( ResolvedBCO(..)

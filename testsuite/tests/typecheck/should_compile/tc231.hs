@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# OPTIONS_GHC -ddump-types -dsuppress-module-prefixes #-}
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 -- See #1456
 

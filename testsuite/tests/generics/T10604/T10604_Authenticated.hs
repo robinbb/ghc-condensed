@@ -1,5 +1,4 @@
 {-# LANGUAGE DefaultSignatures #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeOperators #-}
 module T10604_Authenticated where
 

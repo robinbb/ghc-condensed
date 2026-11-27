@@ -1,4 +1,4 @@
-{-# LANGUAGE GADTs, FlexibleContexts #-}
+{-# LANGUAGE GADTs #-}
 module T9725 where
 
 import Data.Kind (Type)

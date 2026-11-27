@@ -1,4 +1,4 @@
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts, GADTs #-}
+{-# LANGUAGE FunctionalDependencies, GADTs #-}
 
 module FDsFromGivens where
 

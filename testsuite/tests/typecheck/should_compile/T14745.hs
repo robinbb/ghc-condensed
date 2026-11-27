@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, FunctionalDependencies #-}
+{-# LANGUAGE FunctionalDependencies #-}
 module T14745 where
 
 class C a b c | a -> b c

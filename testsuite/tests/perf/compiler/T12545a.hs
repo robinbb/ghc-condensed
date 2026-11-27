@@ -3,7 +3,6 @@
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module T12545a

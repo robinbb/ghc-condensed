@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeApplications, TypeFamilies,
-             RoleAnnotations, FlexibleContexts, AllowAmbiguousTypes #-}
+             RoleAnnotations, AllowAmbiguousTypes #-}
 
 -- See #19665 for commentary.
 

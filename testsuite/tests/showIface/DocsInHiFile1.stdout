@@ -113,7 +113,6 @@ docs:
          DeriveGeneric
          DeriveLift
          TypeSynonymInstances
-         FlexibleContexts
          FlexibleInstances
          ExistentialQuantification
          EmptyDataDecls

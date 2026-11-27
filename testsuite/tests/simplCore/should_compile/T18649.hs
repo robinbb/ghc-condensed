@@ -1,6 +1,5 @@
 {-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module Test where
 

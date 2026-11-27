@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE UndecidableSuperClasses, FunctionalDependencies, GADTs #-}
 
 module T21909b where

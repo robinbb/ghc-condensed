@@ -1,4 +1,4 @@
-T14845_compile.hs:14:15: error: [GHC-28374]
+T14845_compile.hs:13:15: error: [GHC-28374]
     • Data constructor ‘MkA1’ cannot be used here
         (it has an unpromotable context ‘a ~ Int’)
     • In the first argument of ‘SA’, namely ‘MkA1’

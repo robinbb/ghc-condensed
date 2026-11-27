@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies, ConstraintKinds #-}
 
 module SAKS_006 where

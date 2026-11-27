@@ -1,7 +1,6 @@
 {-# LANGUAGE DefaultSignatures          #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE GADTs                      #-}
-{-# LANGUAGE FlexibleContexts           #-}
 
 module Main where
 

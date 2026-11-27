@@ -1,5 +1,4 @@
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 -- |
 -- Module      :  Distribution.Utils.Generic

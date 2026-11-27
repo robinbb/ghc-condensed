@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module Distribution.Simple.Test.LibV09
   ( runTest

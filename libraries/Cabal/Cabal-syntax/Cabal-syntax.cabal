@@ -211,7 +211,6 @@ library
     DeriveGeneric
     DeriveTraversable
     ExistentialQuantification
-    FlexibleContexts
     FlexibleInstances
     GeneralizedNewtypeDeriving
     ImplicitParams

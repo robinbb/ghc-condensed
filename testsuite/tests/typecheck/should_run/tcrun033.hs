@@ -1,5 +1,5 @@
 
-{-# LANGUAGE FlexibleInstances, FlexibleContexts,
+{-# LANGUAGE FlexibleInstances,
              UndecidableInstances, TypeSynonymInstances #-}
 
 -- This test made GHC 6.3 build a superclass loop, in

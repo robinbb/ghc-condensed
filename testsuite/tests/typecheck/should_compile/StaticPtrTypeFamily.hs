@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE StaticPointers      #-}
 {-# LANGUAGE TypeFamilies        #-}
 

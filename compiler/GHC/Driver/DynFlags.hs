@@ -1409,7 +1409,6 @@ languageExtensions (Just GHC2021)
        LangExt.EmptyCase,
        LangExt.EmptyDataDeriving,
        LangExt.ExistentialQuantification,
-       LangExt.FlexibleContexts,
        LangExt.FlexibleInstances,
        LangExt.GADTSyntax,
        LangExt.GeneralizedNewtypeDeriving,

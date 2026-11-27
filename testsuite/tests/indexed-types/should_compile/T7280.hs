@@ -1,5 +1,4 @@
-{-# LANGUAGE FlexibleContexts,
-   TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T7280 where
 

@@ -88,7 +88,7 @@ module GHC.Tc.Utils.TcType (
   isBoolTy, isUnitTy, isAnyTy, isUnusedTypeTy, isCharTy,
   isTauTy, isTauTyCon, tcIsTyVarTy,
   isPredTy, isSimplePredTy, isTyVarClassPred,
-  checkValidClsArgs, hasTyVarHead,
+  hasTyVarHead,
   isRigidTy, anyTy_maybe,
 
 
@@ -1745,7 +1745,7 @@ tcIsTyVarTy :: Type -> Bool
 tcIsTyVarTy ty | Just ty' <- coreView ty = tcIsTyVarTy ty'
 tcIsTyVarTy (CastTy ty _) = tcIsTyVarTy ty  -- look through casts, as
                                             -- this is only used for
-                                            -- e.g., FlexibleContexts
+                                            -- e.g., hasTyVarHead
 tcIsTyVarTy (TyVarTy _)   = True
 tcIsTyVarTy _             = False
 
@@ -1811,19 +1811,6 @@ isTyVarClassPred :: PredType -> Bool
 isTyVarClassPred ty = case getClassPredTys_maybe ty of
     Just (_, tys) -> all isTyVarTy tys
     _             -> False
-
--------------------------
-checkValidClsArgs :: Bool -> Class -> [KindOrType] -> Bool
--- If the Bool is True (flexible contexts), return True (i.e. ok)
--- Otherwise, check that the type (not kind) args are all headed by a tyvar
---   E.g. (Eq a) accepted, (Eq (f a)) accepted, but (Eq Int) rejected
--- This function is here in GHC.Tc.Utils.TcType, rather than in GHC.Tc.Validity,
--- because it is called from GHC.Tc.Solver, which itself is imported by GHC.Tc.Validity
-checkValidClsArgs flexible_contexts cls kts
-  | flexible_contexts = True
-  | otherwise         = all hasTyVarHead tys
-  where
-    tys = filterOutInvisibleTypes (classTyCon cls) kts
 
 hasTyVarHead :: Type -> Bool
 -- Returns true of (a t1 .. tn), where 'a' is a type variable

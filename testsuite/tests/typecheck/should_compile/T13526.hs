@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, GHC2021 #-}
+{-# LANGUAGE FlexibleInstances, GHC2021 #-}
 
 module T13526 where
 

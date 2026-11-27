@@ -98,5 +98,6 @@ expectedCabalOnlyExtensions = ["Generics",
                                "HexFloatLiterals",
                                "NumDecimals",
                                "NumericUnderscores",
-                               "MultilineStrings"
+                               "MultilineStrings",
+                               "FlexibleContexts"
                               ]

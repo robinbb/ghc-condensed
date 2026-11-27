@@ -1,7 +1,6 @@
 {-# OPTIONS_GHC -w #-}
 {-# LANGUAGE UndecidableInstances, EmptyDataDecls #-}
-{-# LANGUAGE FlexibleInstances,
-             FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 -- Works with new constraint solver
 

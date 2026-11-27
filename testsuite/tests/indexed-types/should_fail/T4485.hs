@@ -10,7 +10,7 @@
 -- simplified the test case here.
 
 {-# LANGUAGE TypeFamilies
-  , FlexibleContexts, FlexibleInstances, UndecidableInstances
+, FlexibleInstances, UndecidableInstances
   , TypeSynonymInstances, GeneralizedNewtypeDeriving
   #-}
 module XMLGenerator where

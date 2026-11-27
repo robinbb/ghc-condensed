@@ -5,7 +5,6 @@
 {-# LANGUAGE GADTs                #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 -- Whether there are identities depends on the platform
 {-# OPTIONS_HADDOCK hide #-}
 

@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 -- We want to get the type
 --      g :: forall a b c.  C a (b,c) => a -> b

@@ -1,7 +1,6 @@
 {-# LANGUAGE ConstraintKinds             #-}
 {-# LANGUAGE FlexibleInstances           #-}
 {-# LANGUAGE TypeFamilies                #-}
-{-# LANGUAGE FlexibleContexts            #-}
 
 unit indef where
 

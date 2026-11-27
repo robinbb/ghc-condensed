@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, FlexibleContexts #-}
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE PatternGuards #-}

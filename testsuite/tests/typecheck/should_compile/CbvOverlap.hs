@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances #-}
 
 module CbvOverlap where
 

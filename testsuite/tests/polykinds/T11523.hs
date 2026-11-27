@@ -1,6 +1,5 @@
 {-# language TypeFamilies #-}
 {-# language NoImplicitPrelude #-}
-{-# language FlexibleContexts #-}
 {-# language GADTs #-}
 {-# language ConstraintKinds #-}
 {-# language FlexibleInstances #-}

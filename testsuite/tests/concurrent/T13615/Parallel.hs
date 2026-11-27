@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, MagicHash, UnboxedTuples, DefaultSignatures, TypeOperators, FlexibleContexts #-}
+{-# LANGUAGE BangPatterns, MagicHash, UnboxedTuples, DefaultSignatures, TypeOperators #-}
 
 module Parallel
     (NFData, parMap, rdeepseq) where

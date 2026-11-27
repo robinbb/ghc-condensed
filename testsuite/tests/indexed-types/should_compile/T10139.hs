@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleInstances, FlexibleContexts, UndecidableInstances,
+{-# LANGUAGE TypeFamilies, FlexibleInstances, UndecidableInstances,
              FunctionalDependencies #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 

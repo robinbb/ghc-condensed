@@ -1,4 +1,4 @@
-T17775.hs:14:5: error: [GHC-83865]
+T17775.hs:13:5: error: [GHC-83865]
     • Couldn't match type ‘Char’ with ‘Show Int => ()’
       Expected: Int -> Show Int => ()
         Actual: Int -> Char

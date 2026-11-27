@@ -1,5 +1,4 @@
 {-# LANGUAGE GADTs #-}
--- NB: NO FlexibleContexts
 
 module T19107 where
 

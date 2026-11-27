@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FunctionalDependencies, FlexibleContexts, GADTs #-}
+{-# LANGUAGE TypeFamilies, FunctionalDependencies, GADTs #-}
 
 module ExtraTcsUntch where
 

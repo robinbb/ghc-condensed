@@ -458,9 +458,8 @@ packages:
     deliberate exception to the no-modification rule:
     Happstack.Server.Internal.Cookie.cookiesParser gives its six where-bound
     sub-parsers GenParser signatures, since they generalised into Stream
-    constraints that need FlexibleContexts without the monomorphism
-    restriction, which this compiler no longer has
-    (patches/happstack-server.patch)
+    constraints without the monomorphism restriction, which this compiler no
+    longer has (patches/happstack-server.patch)
 - name: happstack-static-routing
   version: 0.7.0.1
   tier: 1
@@ -871,11 +870,7 @@ packages:
     kinds no longer being detected; Language.Haskell.TH.Lens drops the _MDoE
     and _RecS prisms and gives _DoE the one-field DoE, since
     template-haskell lost those constructors and DoE's module qualifier with
-    this compiler. Later hunk: the test suite's hunit module enables
-    FlexibleContexts, since its 23 where-bound state actions now infer
-    MonadState Polygon m types, since they are generalised without the
-    monomorphism restriction, which this compiler no longer has
-    (patches/lens.patch)
+    this compiler (patches/lens.patch)
 - name: lifted-async
   version: 0.11.0
   tier: 1
@@ -1351,9 +1346,9 @@ packages:
     unsafeBinarySplit's where-bound value its result type and the (String,
     [String]) instance's getEx list the type [String], and
     Development.Shake.Command's let- and where-bound cmdString and cmdResult
-    pairs name their instance types: both generalised into ambiguity or a
-    FlexibleContexts constraint without the monomorphism restriction, which
-    this compiler no longer has (patches/shake.patch)
+    pairs name their instance types: both generalised into ambiguity or over
+    a constraint on a concrete type without the monomorphism restriction,
+    which this compiler no longer has (patches/shake.patch)
 - name: shakespeare
   version: 2.2.0
   tier: 1
@@ -1369,8 +1364,8 @@ packages:
     DoE without the module qualifier field that template-haskell dropped
     with QualifiedDo. Later hunks: Text.Shakespeare.Base.parseDeref gives
     its six where-bound sub-parsers UserParser signatures, since they
-    generalised into Stream constraints that need FlexibleContexts without
-    the monomorphism restriction, which this compiler no longer has
+    generalised into Stream constraints without the monomorphism
+    restriction, which this compiler no longer has
     (patches/shakespeare.patch)
 - name: ShellCheck
   version: 0.11.0
@@ -1393,9 +1388,8 @@ packages:
     the monomorphism restriction, which this compiler no longer has. Later
     hunk: the executable's printErr is a String -> ExceptT Status IO (),
     since the point-free binding generalised and every function using it
-    inferred a FlexibleContexts constraint without the monomorphism
-    restriction, which this compiler no longer has
-    (patches/ShellCheck.patch)
+    inherited its constraint without the monomorphism restriction, which
+    this compiler no longer has (patches/ShellCheck.patch)
 - name: shelly
   version: 1.12.1.1
   tier: 1
@@ -2133,12 +2127,6 @@ packages:
     git: https://github.com/jtdaugherty/brick.git
     tag: '3.0'
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule: Brick.Widgets.List
-    enables FlexibleContexts, since its where-bound parsers and actions now
-    infer constraints with non-type-variable arguments without the
-    monomorphism restriction, which this compiler no longer has
-    (patches/brick.patch)
 - name: bsb-http-chunked
   version: 0.0.0.4
   tier: 2
@@ -2204,12 +2192,6 @@ packages:
     git: https://github.com/ulidtko/cabal-doctest.git
     tag: v1.0.13
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Distribution.Extra.Doctest enables FlexibleContexts, since its
-    where-bound parsers and actions now infer constraints with
-    non-type-variable arguments without the monomorphism restriction, which
-    this compiler no longer has (patches/cabal-doctest.patch)
 - name: cassava
   version: 0.5.4.1
   tier: 2
@@ -2242,9 +2224,8 @@ packages:
     deliberate exception to the no-modification rule:
     Data.Csv.Parser.Megaparsec.Internals gives normalChar and escapedDq the
     type Parser Word8, since they generalised into Num (Token s) and
-    IsString (Tokens s) constraints that need FlexibleContexts without the
-    monomorphism restriction, which this compiler no longer has
-    (patches/cassava-megaparsec.patch)
+    IsString (Tokens s) constraints without the monomorphism restriction,
+    which this compiler no longer has (patches/cassava-megaparsec.patch)
 - name: cborg
   version: 0.2.10.0
   tier: 2
@@ -2279,12 +2260,6 @@ packages:
     git: https://github.com/cheecheeo/haskell-cgi.git
     tag: 3001.5.2.0
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule: Network.CGI.Accept
-    enables FlexibleContexts, since its where-bound parsers and actions now
-    infer constraints with non-type-variable arguments without the
-    monomorphism restriction, which this compiler no longer has
-    (patches/cgi.patch)
 - name: charset
   version: 0.3.12
   tier: 2
@@ -2416,11 +2391,11 @@ packages:
   note: no tag for 1.3.6.1 in https://github.com/snoyberg/conduit.git
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: the test suite enables
-    FlexibleContexts in Spec and gives the mtl-instance conduits of main
-    their monads, since its let-bound results now infer Num (Element b) and
-    Vector v Int constraints without the monomorphism restriction, which
-    this compiler no longer has (patches/conduit.patch)
+    deliberate exception to the no-modification rule: the test suite gives
+    the mtl-instance conduits of main their monads, ConduitT () Int (Either
+    DummyError) () and ConduitT () Void (W.Writer [Int]) (), since the
+    let-bound conduits generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/conduit.patch)
 - name: conduit-extra
   version: 1.3.8
   tier: 2
@@ -2860,12 +2835,6 @@ packages:
     git: https://github.com/jgm/doctemplates.git
     tag: 0.11.1
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Text.DocTemplates.Parser enables FlexibleContexts, since its where-bound
-    parsers and actions now infer constraints with non-type-variable
-    arguments without the monomorphism restriction, which this compiler no
-    longer has (patches/doctemplates.patch)
 - name: easy-file
   version: 0.2.6
   tier: 2
@@ -2929,10 +2898,9 @@ packages:
   patched: >-
     hides Data.Sequence.toList, which containers 0.8 (shipped with GHC 10.1)
     newly exports and which clashed with the Data.Foldable import. Later
-    hunk: Data.Encoding.BootString enables FlexibleContexts and the UTF-8
-    decoders give their code points the type Int, since the bindings
-    generalised without the monomorphism restriction, which this compiler no
-    longer has (patches/encoding.patch)
+    hunk: the UTF-8 decoders give their code points the type Int, since the
+    bindings generalised without the monomorphism restriction, which this
+    compiler no longer has (patches/encoding.patch)
 - name: entropy
   version: 0.4.1.11
   tier: 2
@@ -3114,10 +3082,9 @@ packages:
   tests: false
   patched: >-
     deliberate exception to the no-modification rule:
-    Documentation.Haddock.Parser enables FlexibleContexts and gives nlList
-    the type Parser [Text], since its where-bound parsers generalised
-    without the monomorphism restriction, which this compiler no longer has
-    (patches/haddock-library.patch)
+    Documentation.Haddock.Parser gives nlList the type Parser [Text], since
+    the where-bound parser generalised without the monomorphism restriction,
+    which this compiler no longer has (patches/haddock-library.patch)
 - name: hakyll
   version: 4.17.0.0
   tier: 2
@@ -3128,12 +3095,6 @@ packages:
     git: https://github.com/jaspervdj/hakyll.git
     tag: v4.17.0.0
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule: Hakyll.Core.Rules and
-    Hakyll.Core.Util.Parser enable FlexibleContexts, since their where-bound
-    state action and parser now infer MonadState and Stream constraints with
-    non-type-variable arguments without the monomorphism restriction, which
-    this compiler no longer has (patches/hakyll.patch)
 - name: half
   version: 0.3.3
   tier: 2
@@ -3306,8 +3267,8 @@ packages:
     deliberate exception to the no-modification rule: the unit tests give
     their overloaded list literals the types [T.Text], [String] and Map.Map
     String [String], since under OverloadedLists they generalised into
-    IsString constraints that need FlexibleContexts and into ambiguity
-    without the monomorphism restriction, which this compiler no longer has
+    IsString constraints and into ambiguity without the monomorphism
+    restriction, which this compiler no longer has
     (patches/hledger-flow.patch)
 - name: hledger-iadd
   version: 1.3.23
@@ -3754,12 +3715,10 @@ packages:
   note: no tag for 1.5.1 in https://github.com/tarleb/jira-wiki-markup.git
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: Text.Jira.Parser.Core,
-    .Shared and .Inline enable FlexibleContexts, and Inline gives blockEnd
-    the type JiraParser String, since their where-bound parsers now infer
-    Stream constraints with non-type-variable arguments without the
-    monomorphism restriction, which this compiler no longer has
-    (patches/jira-wiki-markup.patch)
+    deliberate exception to the no-modification rule:
+    Text.Jira.Parser.Inline gives blockEnd the type JiraParser String, since
+    the where-bound parser generalised without the monomorphism restriction,
+    which this compiler no longer has (patches/jira-wiki-markup.patch)
 - name: jmacro
   version: 0.6.18
   tier: 2
@@ -3770,12 +3729,6 @@ packages:
     sdist: jmacro-0.6.18
   note: no tag for 0.6.18 in https://github.com/Happstack/jmacro.git
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Language.Javascript.JMacro.QQ enables FlexibleContexts, since its
-    where-bound parsers and actions now infer constraints with
-    non-type-variable arguments without the monomorphism restriction, which
-    this compiler no longer has (patches/jmacro.patch)
 - name: json
   version: '0.11'
   tier: 2
@@ -4240,14 +4193,12 @@ packages:
     2 of 4488 tests fail: citeproc punctuation placement (period inside versus
     outside quotes) differs with the newer citeproc that allow-newer admits
   patched: >-
-    deliberate exception to the no-modification rule: twenty reader and
-    writer modules and two test modules enable FlexibleContexts and
-    where-bound values get their types (the Docx style maps and relation
-    ids, DocBook's skip and admonition title, Pod's close, Creole's rowEnd
-    and cellEnd, Org's endOfCitation and include bounds, Shared's
+    deliberate exception to the no-modification rule: where-bound values of
+    the readers and writers get their types (the Docx style maps and
+    relation ids, DocBook's skip and admonition title, Pod's close, Creole's
+    rowEnd and cellEnd, Org's endOfCitation and include bounds, Shared's
     borderParts, ConTeXt's section and chapter, AsciiDoc's spanFactor,
-    ANSI's render and title block), since the where-bound parsers inferred
-    Stream constraints with non-type-variable arguments and the
+    ANSI's render and title block), since the where-bound parsers and the
     pattern-bound pairs generalised into ambiguity without the monomorphism
     restriction, which this compiler no longer has (patches/pandoc.patch)
 - name: pandoc-cli
@@ -4628,11 +4579,6 @@ packages:
   reason: >-
     sdl-space needs a working SDL video renderer, which the nix shell does not
     provide
-  patched: >-
-    deliberate exception to the no-modification rule: SDL.Event enables
-    FlexibleContexts, since its where-bound parsers and actions now infer
-    constraints with non-type-variable arguments without the monomorphism
-    restriction, which this compiler no longer has (patches/sdl2.patch)
 - name: semigroups
   version: 0.20.1
   tier: 2
@@ -5000,12 +4946,6 @@ packages:
     git: https://github.com/jgm/texmath.git
     tag: 0.13.3.4
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Text.TeXMath.Readers.TeX enables FlexibleContexts, since its where-bound
-    parsers and actions now infer constraints with non-type-variable
-    arguments without the monomorphism restriction, which this compiler no
-    longer has (patches/texmath.patch)
 - name: text-ansi
   version: 0.3.0.1
   tier: 2
@@ -5183,11 +5123,10 @@ packages:
     tag: 0.12.1
   tests: true
   patched: >-
-    deliberate exception to the no-modification rule: Typst.Parse enables
-    FlexibleContexts and Typst.Methods annotates its regex match as (Text,
-    Text, Text, [Text]), since the where-bound parsers and the pattern-bound
-    match generalised into constraints with non-type-variable arguments
-    without the monomorphism restriction, which this compiler no longer has
+    deliberate exception to the no-modification rule: Typst.Methods
+    annotates its regex match as (Text, Text, Text, [Text]), since the
+    pattern-bound match generalised over its RegexContext constraint without
+    the monomorphism restriction, which this compiler no longer has
     (patches/typst.patch)
 - name: typst-symbols
   version: '0.3'
@@ -5489,8 +5428,8 @@ packages:
     cabal file enabled OverlappingInstances, which this compiler no longer
     has. Later hunk: System.Console.Wizard.Pure.runPure annotates its
     initial state as PureState, since the pattern-bound result generalised
-    into a Run constraint that needs FlexibleContexts without the
-    monomorphism restriction, which this compiler no longer has
+    into a Run constraint without the monomorphism restriction, which this
+    compiler no longer has
 - name: wl-pprint-annotated
   version: 0.1.0.2
   tier: 2
@@ -5618,12 +5557,6 @@ packages:
     git: https://github.com/snapframework/xmlhtml.git
     tag: 0.2.5.4
   tests: true
-  patched: >-
-    deliberate exception to the no-modification rule: Text.XmlHtml.XML.Parse
-    and .HTML.Parse enable FlexibleContexts, since its where-bound parsers
-    and actions now infer constraints with non-type-variable arguments
-    without the monomorphism restriction, which this compiler no longer has
-    (patches/xmlhtml.patch)
 - name: xss-sanitize
   version: 0.3.7.2
   tier: 2
@@ -5815,11 +5748,9 @@ packages:
   patched: >-
     deliberate exception to the no-modification rule:
     Criterion.IO.readJSONReports annotates its decoded reports as Either
-    String ReportFileContents and Criterion.Report enables FlexibleContexts,
-    since the let-bound decode generalised into FromJSON ambiguity and the
-    where-bound tail trimmer inferred a Vector constraint with a
-    non-type-variable argument without the monomorphism restriction, which
-    this compiler no longer has (patches/criterion.patch)
+    String ReportFileContents, since the let-bound decode generalised into
+    FromJSON ambiguity without the monomorphism restriction, which this
+    compiler no longer has (patches/criterion.patch)
 - name: crypto-token
   version: 0.2.1
   tier: 3
@@ -5880,10 +5811,7 @@ packages:
     deliberate exception to the no-modification rule: marks the four
     instances of DBus.Client and DBus.Internal.Types that overlapped
     OVERLAPPING, since those modules enabled IncoherentInstances, which this
-    compiler no longer has. Later hunk: DBus.Internal.Address and .Types
-    enable FlexibleContexts, since their where-bound parsec parsers now
-    infer Stream constraints with non-type-variable arguments without the
-    monomorphism restriction, which this compiler no longer has
+    compiler no longer has
 - name: dense-linear-algebra
   version: 0.1.0.0
   tier: 3
@@ -5977,12 +5905,10 @@ packages:
     and Logs.Transfer its logged byte count the type Integer, Annex.Sim its
     coin flips and random words their types, the webapp its sidebar,
     repository-list and dashboard idents and remote-setup continuation
-    theirs (its deletion and preferences forms enable FlexibleContexts), and
-    the test suite its sixteen where- and let-bound file names the type
-    FilePath, since the overloaded literals and the let-bound and point-free
-    values generalised into ambiguity or into an Authored constraint with a
-    non-type-variable argument without the monomorphism restriction, which
-    this compiler no longer has (patches/git-annex.patch)
+    theirs, and the test suite its sixteen where- and let-bound file names
+    the type FilePath, since the overloaded literals and the let-bound and
+    point-free values generalised into ambiguity without the monomorphism
+    restriction, which this compiler no longer has (patches/git-annex.patch)
 - name: git-lfs
   version: 1.2.5
   tier: 3
@@ -6068,12 +5994,6 @@ packages:
     git: https://github.com/haskellari/microstache.git
     tag: v1.0.3.1
   tests: false
-  patched: >-
-    deliberate exception to the no-modification rule:
-    Text.Microstache.Parser enables FlexibleContexts, since its where-bound
-    parsers and actions now infer constraints with non-type-variable
-    arguments without the monomorphism restriction, which this compiler no
-    longer has (patches/microstache.patch)
 - name: mountpoints
   version: 1.0.2
   tier: 3
@@ -6208,13 +6128,11 @@ packages:
     tag: 0.16.5.0
   tests: false
   patched: >-
-    deliberate exception to the no-modification rule: Statistics.Regression
-    enables FlexibleContexts and Statistics.Sample.KernelDensity gives its
-    where-bound histogram and transform the type v Double, since the
-    let-bound estimates inferred a Vector constraint with a
-    non-type-variable argument and the where-bound vectors generalised into
-    ambiguity without the monomorphism restriction, which this compiler no
-    longer has (patches/statistics.patch)
+    deliberate exception to the no-modification rule:
+    Statistics.Sample.KernelDensity gives its where-bound histogram and
+    transform the type v Double, since the where-bound vectors generalised
+    into ambiguity without the monomorphism restriction, which this compiler
+    no longer has (patches/statistics.patch)
 - name: tasty-rerun
   version: 1.1.20
   tier: 3

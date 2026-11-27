@@ -1,6 +1,5 @@
 -- https://gitlab.haskell.org/ghc/ghc/-/issues/19865
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TypeFamilies #-}
 

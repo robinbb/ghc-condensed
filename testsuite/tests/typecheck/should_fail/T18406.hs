@@ -1,4 +1,4 @@
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 module Bug where
 

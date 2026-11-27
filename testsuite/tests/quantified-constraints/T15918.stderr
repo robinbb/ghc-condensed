@@ -1,4 +1,4 @@
-T15918.hs:18:19: error: [GHC-83865]
+T15918.hs:17:19: error: [GHC-83865]
     • Couldn't match kind ‘Type’ with ‘k0 -> Type’
       Expected kind ‘(k0 -> Type) -> Constraint’,
         but ‘[]’ has kind ‘Type -> Type’

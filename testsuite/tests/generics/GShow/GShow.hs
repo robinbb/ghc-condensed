@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeSynonymInstances       #-}
 {-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE FlexibleContexts           #-}
 {-# LANGUAGE TypeOperators              #-}
 {-# LANGUAGE DefaultSignatures          #-}
 {-# LANGUAGE MagicHash                  #-}

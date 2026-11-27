@@ -78,7 +78,6 @@ Library
         ConstraintKinds
         DeriveGeneric
         ExistentialQuantification
-        FlexibleContexts
         FlexibleInstances
         FunctionalDependencies
         GADTs

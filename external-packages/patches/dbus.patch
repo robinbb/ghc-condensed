@@ -1,6 +1,6 @@
 --- a/external-packages/haskell-dbus/lib/DBus/Client.hs
 +++ b/external-packages/haskell-dbus/lib/DBus/Client.hs
-@@ -1149,11 +1149,11 @@ instance IsValue a => AutoMethod (DBusR a) where
+@@ -1148,11 +1148,11 @@ instance IsValue a => AutoMethod (DBusR a) where
      apply io [] = ReplyReturn . handleTopLevelReturn <$> io
      apply _ _ = returnInvalidParameters
  
@@ -14,21 +14,9 @@
      funTypes _ = ([], outTypes) where
        aType :: Type
        aType = typeOf' (Proxy :: Proxy a)
---- a/external-packages/haskell-dbus/lib/DBus/Internal/Address.hs
-+++ b/external-packages/haskell-dbus/lib/DBus/Internal/Address.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- -- Copyright (C) 2009-2012 John Millikin <john@john-millikin.com>
- --
- -- Licensed under the Apache License, Version 2.0 (the "License");
 --- a/external-packages/haskell-dbus/lib/DBus/Internal/Types.hs
 +++ b/external-packages/haskell-dbus/lib/DBus/Internal/Types.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- {-# LANGUAGE CPP #-}
- {-# LANGUAGE DeriveGeneric #-}
- {-# LANGUAGE FlexibleInstances #-}
-@@ -506,13 +507,13 @@ instance IsAtom String where
+@@ -506,13 +506,13 @@ instance IsAtom String where
      toAtom = toAtom . Data.Text.pack
      fromAtom = fmap Data.Text.unpack . fromAtom
  

@@ -91,7 +91,6 @@ common language
     BangPatterns
     DeriveGeneric
     DeriveLift
-    FlexibleContexts
     FlexibleInstances
     MagicHash
     MultiWayIf

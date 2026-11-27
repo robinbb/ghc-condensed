@@ -1,4 +1,4 @@
-{-# LANGUAGE ImplicitParams, FlexibleContexts #-}
+{-# LANGUAGE ImplicitParams #-}
 
 module ShouldFail where
 
@@ -8,7 +8,7 @@ class (?imp :: Int) => D t where
 instance (?imp :: Int) => D Int where
     methodD x = x + ?imp
 
-test :: D Int => Int -- Requires FlexibleContexts
+test :: D Int => Int
 test = methodD ?imp
 
 -- Should get reasonable error about unbound ?imp

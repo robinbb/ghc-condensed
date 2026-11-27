@@ -2024,11 +2024,10 @@ So which of the candidates should we pick to quantify over?  It's pretty easy:
   over `a ~# b`, we actually quantify over the boxed version, `a ~ b`.
   See Note [Lift equality constraints when quantifying].
 
-Notice that we do /not/ consult -XFlexibleContexts here.  For example,
-we allow `pickQuantifiablePreds` to quantify over a constraint like
-`Num [a]`; then if we don't have `-XFlexibleContexts` we'll get an
-error from `checkValidType` but (critically) it includes the helpful
-suggestion of adding `-XFlexibleContexts`.  See #10608, #10351.
+Notice that the shape of a class constraint's arguments plays no part
+here: `pickQuantifiablePreds` quantifies over a constraint like `Num [a]`
+as readily as over `Num a`, and `checkValidType` accepts the result, since
+a class constraint may have any argument types.  See #10608, #10351.
 
 Note [Lift equality constraints when quantifying]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

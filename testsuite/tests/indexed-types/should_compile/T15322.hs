@@ -1,5 +1,4 @@
 {-# LANGUAGE GHC2021             #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeOperators       #-}
 
 module T15322 where

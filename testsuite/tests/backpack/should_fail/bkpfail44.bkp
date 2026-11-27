@@ -1,4 +1,4 @@
-{-# LANGUAGE RoleAnnotations, FlexibleContexts #-}
+{-# LANGUAGE RoleAnnotations #-}
 unit p where
     signature A where
         type role T nominal -- redundant, but just be sure!

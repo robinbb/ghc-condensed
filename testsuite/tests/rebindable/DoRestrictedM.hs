@@ -1,5 +1,5 @@
 {-# LANGUAGE RebindableSyntax,
-             FlexibleInstances, FlexibleContexts #-}
+             FlexibleInstances #-}
 
 -- Tests of the do-notation for the restricted monads
 -- We demonstrate that all ordinary monads are restricted monads,

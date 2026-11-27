@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
 {-# OPTIONS_GHC -fspec-constr -fspec-constr-count=8 #-}
 

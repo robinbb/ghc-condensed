@@ -1,5 +1,4 @@
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MagicHash, UnboxedTuples #-}
 
 module Main (enumFromCallbackCatch, consume, next, main) where

@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 
 module Foo where

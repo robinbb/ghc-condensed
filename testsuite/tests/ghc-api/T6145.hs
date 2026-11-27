@@ -1,6 +1,5 @@
 {-# LANGUAGE PatternGuards #-}
 {-# LANGUAGE ViewPatterns     #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies     #-}
 module Main where
 

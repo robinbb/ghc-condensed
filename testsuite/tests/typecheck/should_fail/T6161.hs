@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleContexts, FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances #-}
 
 module T6161 where
 

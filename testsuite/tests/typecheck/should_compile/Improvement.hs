@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, FlexibleContexts, FlexibleInstances #-}
+{-# LANGUAGE TypeFamilies, FlexibleInstances #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
 -- This one relies on doing instance reduction

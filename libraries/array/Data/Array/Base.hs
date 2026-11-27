@@ -4,7 +4,6 @@
   , MagicHash
   , UnboxedTuples
   , FlexibleInstances
-  , FlexibleContexts
   , UnliftedFFITypes
   , RoleAnnotations
  #-}

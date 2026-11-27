@@ -1,4 +1,4 @@
-{-# LANGUAGE DefaultSignatures, FlexibleContexts, DeriveGeneric #-}
+{-# LANGUAGE DefaultSignatures, DeriveGeneric #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module T7437 where

@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 type family Id x
 type instance Id Int = Int

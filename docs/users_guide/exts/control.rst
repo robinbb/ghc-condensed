@@ -80,7 +80,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`EmptyDataDeriving`
      * :extension:`ExistentialQuantification`
      * :extension:`FieldSelectors`
-     * :extension:`FlexibleContexts`
      * :extension:`FlexibleInstances`
      * :extension:`ForeignFunctionInterface`
      * :extension:`GADTs`
@@ -130,7 +129,6 @@ Similarly, language extensions can be controlled (either enabled or disabled):
      * :extension:`EmptyDataDeriving`
      * :extension:`ExistentialQuantification`
      * :extension:`FieldSelectors`
-     * :extension:`FlexibleContexts`
      * :extension:`FlexibleInstances`
      * :extension:`ForeignFunctionInterface`
      * :extension:`GADTSyntax`

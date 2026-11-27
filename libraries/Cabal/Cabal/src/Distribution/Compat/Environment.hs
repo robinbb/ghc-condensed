@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_HADDOCK hide #-}
 
 module Distribution.Compat.Environment (getEnvironment, lookupEnv, setEnv, unsetEnv)

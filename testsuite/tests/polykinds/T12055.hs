@@ -8,7 +8,7 @@
 -- but crashed the compiler with "GHC internal error"
 -- It doesn't crash now; and in this test case I've added
 -- the extensions, which makes it compile cleanly
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, UndecidableInstances, FunctionalDependencies #-}
+{-# LANGUAGE FlexibleInstances, UndecidableInstances, FunctionalDependencies #-}
 
 
 module T12055 where

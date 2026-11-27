@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE FlexibleContexts, AllowAmbiguousTypes #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 
 module Bug where
 

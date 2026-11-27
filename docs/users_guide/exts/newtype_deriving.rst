@@ -145,11 +145,7 @@ which really behave differently for the newtype and its representation.
                      deriving (AClass)
 
     However, enabling the :extension:`UnboxedTuples` extension allows the module
-    to compile. Similar errors may occur with a variety of extensions,
-    including:
-
-      * :extension:`UnboxedTuples`
-      * :extension:`FlexibleContexts`
+    to compile. Similar errors may occur with other extensions.
 
 .. _precise-gnd-specification:
 

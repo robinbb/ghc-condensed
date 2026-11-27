@@ -3,7 +3,6 @@
 {-# Language TypeFamilyDependencies #-}
 {-# Language TypeFamilies #-}
 {-# Language NoImplicitPrelude #-}
-{-# Language FlexibleContexts #-}
 {-# Language GADTs #-}
 {-# Language ConstraintKinds #-}
 {-# Language FlexibleInstances #-}

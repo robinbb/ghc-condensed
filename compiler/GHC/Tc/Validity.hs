@@ -1190,8 +1190,7 @@ check_class_pred :: TidyEnv -> DynFlags -> UserTypeCtxt
 check_class_pred env dflags ctxt pred cls tys
   | isEqualityClass cls  -- (~) and (~~) and Coercible are classified as classes,
                          -- but here we want to treat them as equalities
-  = -- Equational constraints are valid in all contexts, and
-    -- we do not need to check e.g. for FlexibleContexts here, so just do nothing
+  = -- Equational constraints are valid in all contexts, so just do nothing
     -- We used to require TypeFamilies/GADTs for equality constraints,
     -- but not anymore (GHC Proposal #371)
    return ()
@@ -1202,20 +1201,10 @@ check_class_pred env dflags ctxt pred cls tys
 
   | otherwise     -- Includes Coercible
   = do { check_arity
-       ; checkSimplifiableClassConstraint env dflags ctxt cls tys
-       ; checkTcM arg_tys_ok (env, TcRnNonTypeVarArgInConstraint (tidyType env pred)) }
+       ; checkSimplifiableClassConstraint env dflags ctxt cls tys }
   where
     check_arity = checkTc (tys `lengthIs` classArity cls)
                           (tyConArityErr (classTyCon cls) tys)
-
-    -- Check the arguments of a class constraint
-    flexible_contexts = xopt LangExt.FlexibleContexts     dflags
-    arg_tys_ok = case ctxt of
-        SpecInstCtxt -> True    -- {-# SPECIALISE instance Eq (T Int) #-} is fine
-        InstDeclCtxt {} -> checkValidClsArgs flexible_contexts cls tys
-                                -- Further checks on head and theta
-                                -- in checkInstTermination
-        _               -> checkValidClsArgs flexible_contexts cls tys
 
 checkSimplifiableClassConstraint :: TidyEnv -> DynFlags -> UserTypeCtxt
                                  -> Class -> [TcType] -> TcM ()

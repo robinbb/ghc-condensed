@@ -3,7 +3,7 @@
 -- trac #1406: Constraint doesn't reduce in the presence of quantified
 --             type variables
 
-{-# LANGUAGE FlexibleInstances, UndecidableInstances, FlexibleContexts,
+{-# LANGUAGE FlexibleInstances, UndecidableInstances,
              FunctionalDependencies #-}
 
 module Problem where

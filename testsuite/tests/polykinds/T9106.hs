@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies,
-   FlexibleInstances, FlexibleContexts,
+   FlexibleInstances,
    UndecidableInstances #-}
 
 module T9106 where

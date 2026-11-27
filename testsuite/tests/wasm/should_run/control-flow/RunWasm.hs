@@ -1,5 +1,4 @@
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ExistentialQuantification #-}
 {-# OPTIONS_GHC -Wincomplete-patterns #-}

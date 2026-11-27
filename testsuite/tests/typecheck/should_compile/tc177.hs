@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, UndecidableInstances, FlexibleContexts,
+{-# LANGUAGE FlexibleInstances, UndecidableInstances,
              FunctionalDependencies #-}
 
 -- This is a rather complicated program that uses functional

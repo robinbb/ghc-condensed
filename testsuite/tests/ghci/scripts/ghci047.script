@@ -4,7 +4,6 @@
 :set -XGADTs
 :set -XTypeFamilies
 :set -XFunctionalDependencies
-:set -XFlexibleContexts
 :set -XFlexibleInstances
 :set -XUndecidableInstances
 data A

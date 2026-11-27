@@ -1,7 +1,6 @@
 -- Using overloaded labels as strings, slightly pointlessly
 
 {-# LANGUAGE OverloadedLabels
-           , FlexibleContexts
            , FlexibleInstances
            , TypeFamilies
            , TypeSynonymInstances

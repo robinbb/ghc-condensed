@@ -7,7 +7,6 @@
 {-# Language FlexibleInstances     #-}
 {-# Language GADTs                 #-}
 {-# Language UndecidableInstances  #-}
-{-# Language FlexibleContexts      #-}
 {-# LANGUAGE UnliftedNewtypes      #-}
 
 module Bug where

@@ -511,10 +511,6 @@ instance Diagnostic TcRnMessage where
     TcRnIllegalTupleConstraint ty
       -> mkSimpleDecorated $
            text "Illegal tuple constraint:" <+> pprType ty
-    TcRnNonTypeVarArgInConstraint ty
-      -> mkSimpleDecorated $
-           hang (text "Non type-variable argument")
-              2 (text "in the constraint:" <+> pprType ty)
     TcRnIllegalImplicitParam ty
       -> mkSimpleDecorated $
            text "Illegal implicit parameter" <+> quotes (pprType ty)
@@ -2097,8 +2093,6 @@ instance Diagnostic TcRnMessage where
       -> ErrorWithoutFlag
     TcRnIllegalTupleConstraint{}
       -> ErrorWithoutFlag
-    TcRnNonTypeVarArgInConstraint{}
-      -> ErrorWithoutFlag
     TcRnIllegalImplicitParam{}
       -> ErrorWithoutFlag
     TcRnIllegalConstraintSynonymOfKind{}
@@ -2717,8 +2711,6 @@ instance Diagnostic TcRnMessage where
       -> noHints
     TcRnIllegalTupleConstraint{}
       -> [suggestExtension LangExt.ConstraintKinds]
-    TcRnNonTypeVarArgInConstraint{}
-      -> [suggestExtension LangExt.FlexibleContexts]
     TcRnIllegalImplicitParam{}
       -> noHints
     TcRnIllegalConstraintSynonymOfKind{}

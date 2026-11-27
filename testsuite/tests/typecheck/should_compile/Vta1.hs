@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeApplications,
-             TypeFamilies,
-             FlexibleContexts #-}
+             TypeFamilies #-}
 -- tests about visible type application
 
 module Vta1 where

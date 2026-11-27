@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -dcore-lint #-}
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts,
+{-# LANGUAGE FunctionalDependencies,
              FlexibleInstances, UndecidableInstances #-}
 
 -- This is a rather exotic functional-dependency test.

@@ -5,7 +5,6 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE QuantifiedConstraints #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE TypeOperators #-}

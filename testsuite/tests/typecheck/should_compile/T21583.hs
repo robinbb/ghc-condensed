@@ -1,7 +1,6 @@
 {-# LANGUAGE DeriveTraversable          #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE PatternSynonyms            #-}
-{-# LANGUAGE FlexibleContexts #-}
 module Telomare.Possible where
 
 import Data.Kind (Type)

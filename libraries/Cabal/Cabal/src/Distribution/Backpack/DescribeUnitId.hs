@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module Distribution.Backpack.DescribeUnitId where
 

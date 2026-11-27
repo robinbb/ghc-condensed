@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE UndecidableInstances, FlexibleInstances #-}
 
 module ContextStack1 where
 

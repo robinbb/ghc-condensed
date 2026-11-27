@@ -1,4 +1,4 @@
-{-# LANGUAGE ImplicitParams, FlexibleContexts #-}
+{-# LANGUAGE ImplicitParams #-}
 
 -- !!! Implicit parameter superclass constraint
 -- These examples actually crashed GHC 4.08.2
@@ -36,7 +36,7 @@ test4 :: (?imp :: Int) => Int
 test4 = methodD 20
   where ?imp = 2
 
-test5 :: D Int => Int -- Requires FlexibleContexts
+test5 :: D Int => Int
 test5 = methodD ?imp
 
 main = do

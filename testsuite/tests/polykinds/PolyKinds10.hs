@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeOperators              #-}
 {-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE FlexibleContexts           #-}
 
 module Main where
 

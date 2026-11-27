@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeOperators, TypeFamilies #-}
-{-# LANGUAGE UndecidableInstances, FlexibleContexts #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 module T11990a where
 

@@ -1,7 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude          #-}
 {-# LANGUAGE CPP                        #-}
 {-# LANGUAGE DeriveGeneric              #-}
-{-# LANGUAGE FlexibleContexts           #-}
 {-# LANGUAGE Trustworthy                #-}
 
 -----------------------------------------------------------------------------

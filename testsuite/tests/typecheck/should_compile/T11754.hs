@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeOperators, UndecidableSuperClasses,
-TypeFamilies, FlexibleContexts #-}
+TypeFamilies #-}
 
 module T11754 where
 

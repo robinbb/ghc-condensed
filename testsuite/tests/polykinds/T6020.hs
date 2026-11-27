@@ -1,6 +1,6 @@
 {-# LANGUAGE FunctionalDependencies, FlexibleInstances,
              UndecidableInstances,
-             ConstraintKinds, FlexibleContexts #-}
+             ConstraintKinds #-}
 
 module T6020 where
 

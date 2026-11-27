@@ -1,6 +1,6 @@
 {-# Language PatternSynonyms, GADTs,
              TypeOperators, TypeFamilies,
-             TypeSynonymInstances, FlexibleInstances, FlexibleContexts #-}
+             TypeSynonymInstances, FlexibleInstances #-}
 
 {-# Options_GHC -fdefer-type-errors #-}
 

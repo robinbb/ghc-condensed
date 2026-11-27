@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, FlexibleContexts, TypeFamilies #-}
+{-# LANGUAGE FlexibleInstances, TypeFamilies #-}
 module PushedInAsGivens where
 
 

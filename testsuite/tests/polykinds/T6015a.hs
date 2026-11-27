@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 {-# LANGUAGE FunctionalDependencies,  FlexibleInstances,
-              UndecidableInstances, TypeOperators,  FlexibleContexts #-}
+              UndecidableInstances, TypeOperators #-}
 
 module T6015a where
 

@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, FlexibleInstances, TypeOperators, FlexibleContexts,
+{-# LANGUAGE UndecidableInstances, FlexibleInstances, TypeOperators,
              FunctionalDependencies #-}
 
 -- This one crashed GHC 6.3 due to an error in GHC.Tc.Solver.add_ors

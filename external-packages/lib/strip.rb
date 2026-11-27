@@ -23,13 +23,13 @@ module Strip
     Arrows AutoDeriveTypeable BinaryLiterals ConstrainedClassMethods CUSKs
     DataKinds DatatypeContexts DeepSubsumption DeriveDataTypeable
     DisambiguateRecordFields DoRec DuplicateRecordFields ExplicitForAll
-    ExplicitNamespaces HexFloatLiterals IncoherentInstances InstanceSigs
-    KindSignatures LambdaCase MonomorphismRestriction MultilineStrings
-    MultiParamTypeClasses NondecreasingIndentation NPlusKPatterns
-    NullaryTypeClasses NumDecimals NumericUnderscores OverlappingInstances
-    ParallelArrays ParallelListComp PatternSignatures PolyKinds QualifiedDo
-    QualifiedStrings RankNTypes RecursiveDo RelaxedPolyRec
-    ScopedTypeVariables StandaloneKindSignatures StarIsType
+    ExplicitNamespaces FlexibleContexts HexFloatLiterals IncoherentInstances
+    InstanceSigs KindSignatures LambdaCase MonomorphismRestriction
+    MultilineStrings MultiParamTypeClasses NondecreasingIndentation
+    NPlusKPatterns NullaryTypeClasses NumDecimals NumericUnderscores
+    OverlappingInstances ParallelArrays ParallelListComp PatternSignatures
+    PolyKinds QualifiedDo QualifiedStrings RankNTypes RecursiveDo
+    RelaxedPolyRec ScopedTypeVariables StandaloneKindSignatures StarIsType
     TraditionalRecordSyntax TypeInType
   ].freeze
 

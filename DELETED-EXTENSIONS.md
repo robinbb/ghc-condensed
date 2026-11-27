@@ -1,6 +1,6 @@
 # Deleted language extensions
 
-**48 language extensions deleted.**
+**49 language extensions deleted.**
 
 This fork deletes language extensions rather than deprecating them: the flag
 disappears from the compiler, its behaviour is hard-coded, and the tests,
@@ -217,6 +217,17 @@ The entries below are alphabetical. For each extension it gives:
 - Notes: The `type` and `data` namespace keywords are always accepted in
   import and export lists, fixity declarations, pragmas, expressions and
   patterns. GHC2024 enables it, and the keywords are unambiguous.
+
+`FlexibleContexts`
+
+- Category: Classes & Instances.
+- Hard-coded: On.
+- Editions: GHC2021, GHC2024.
+- Lines: +467 −1055, net −588.
+- Stability: Stable.
+- Notes: A class constraint may have any argument types, `Eq [a]` as well
+  as `Eq a`, wherever one appears. Stable, in both editions and named by 216
+  of the 542 corpus packages; the Haskell 98 form only rejected programs.
 
 `HexFloatLiterals`
 

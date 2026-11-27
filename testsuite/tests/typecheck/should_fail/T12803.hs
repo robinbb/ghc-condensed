@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, FlexibleContexts, UndecidableInstances,
+{-# LANGUAGE FlexibleInstances, UndecidableInstances,
              TypeFamilies, FunctionalDependencies #-}
 
 module T10778 where

@@ -183,7 +183,6 @@ module Language.Haskell.TH where
     | DerivingStrategies
     | DerivingVia
     | TypeSynonymInstances
-    | FlexibleContexts
     | FlexibleInstances
     | FunctionalDependencies
     | UnicodeSyntax
@@ -749,7 +748,6 @@ module Language.Haskell.TH.LanguageExtensions where
     | DerivingStrategies
     | DerivingVia
     | TypeSynonymInstances
-    | FlexibleContexts
     | FlexibleInstances
     | FunctionalDependencies
     | UnicodeSyntax
@@ -1449,7 +1447,6 @@ module Language.Haskell.TH.Syntax where
     | DerivingStrategies
     | DerivingVia
     | TypeSynonymInstances
-    | FlexibleContexts
     | FlexibleInstances
     | FunctionalDependencies
     | UnicodeSyntax

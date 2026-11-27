@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances,
-             TypeFamilies, FlexibleContexts, AllowAmbiguousTypes #-}
+             TypeFamilies, AllowAmbiguousTypes #-}
 
 module InstanceGivenOverlap where
 

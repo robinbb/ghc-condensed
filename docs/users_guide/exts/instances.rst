@@ -182,7 +182,7 @@ syntactically allowed. Some further various observations about this grammar:
 Instance termination rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Regardless of :extension:`FlexibleInstances` and :extension:`FlexibleContexts`,
+Regardless of :extension:`FlexibleInstances`,
 instance declarations must conform to some rules that ensure that
 instance resolution will terminate. The restrictions can be lifted with
 :extension:`UndecidableInstances` (see :ref:`undecidable-instances`).
@@ -540,9 +540,7 @@ the type ::
       f :: C b [b] => [b] -> [b]
 
 That postpones the question of which instance to pick to the call site
-for ``f`` by which time more is known about the type ``b``. You
-will need the
-:extension:`FlexibleContexts` extension.
+for ``f`` by which time more is known about the type ``b``.
 
 Exactly the same situation can arise in instance declarations
 themselves. Suppose we have ::
@@ -561,8 +559,6 @@ declaration, thus: ::
 
       instance C Int [b] => Foo [b] where
          f x = ...
-
-(You need :extension:`FlexibleContexts` to do this.)
 
 As an example of the "in-scope given constraints" in the first bullet,
 consider ::

@@ -1,5 +1,4 @@
 {-# Language ConstraintKinds          #-}
-{-# Language FlexibleContexts         #-}
 {-# Language FlexibleInstances        #-}
 {-# Language GADTs                    #-}
 {-# Language ImpredicativeTypes       #-}

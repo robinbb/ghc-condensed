@@ -1,6 +1,5 @@
 {-# Language TypeFamilies          #-}
 {-# Language ConstraintKinds       #-}
-{-# Language FlexibleContexts      #-}
 {-# Language QuantifiedConstraints #-}
 {-# Language UndecidableInstances  #-}
 module T15918 where

@@ -14,8 +14,8 @@
     `BinaryLiterals`, `HexFloatLiterals`, `NumDecimals`,
     `NumericUnderscores`, `MultilineStrings`, `QualifiedStrings`,
     `DuplicateRecordFields`, `Arrows`, `LambdaCase`,
-    `TraditionalRecordSyntax` and `MonomorphismRestriction` constructors of
-    `Extension`.
+    `TraditionalRecordSyntax`, `MonomorphismRestriction` and
+    `FlexibleContexts` constructors of `Extension`.
     GHC no longer has those extensions: there is one layout rule, every type
     has a `Typeable` instance, a data type declaration never has a context
     (a `DataD` or `NewtypeD` with one is refused), class methods may always
@@ -56,9 +56,11 @@
     there is no arrow notation: `proc`, `rec`, `-<`, `>-`, `-<<`, `>>-`,
     `(|` and `|)` are not syntax, `\case` and `\cases` expressions are
     always accepted, record syntax, `C {f = x}` in declarations,
-    construction, update and patterns, is always available, and a binding
+    construction, update and patterns, is always available, a binding
     without a type signature is generalised over its class constraints
-    whatever its shape: there is no monomorphism restriction.
+    whatever its shape: there is no monomorphism restriction, and a class
+    constraint may have any types as arguments, `Eq [a]` as well as `Eq a`,
+    wherever constraints are written.
 
   * Remove the `MDoE` constructor of `Exp`, the `RecS` constructor of `Stmt`
     and the `mdoE` and `recS` functions of `Language.Haskell.TH.Lib`. With

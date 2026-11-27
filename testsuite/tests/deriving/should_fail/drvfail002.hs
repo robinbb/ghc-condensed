@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, FlexibleContexts,
+{-# LANGUAGE UndecidableInstances,
              FunctionalDependencies #-}
 
 -- The Show instance for S would have form

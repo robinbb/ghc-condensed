@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 module T7729 where
 import Data.Kind (Type)
 import Control.Monad

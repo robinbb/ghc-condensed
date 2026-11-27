@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module Distribution.Simple.GHC.EnvironmentParser (parseGhcEnvironmentFile, readGhcEnvironmentFile, ParseErrorExc (..)) where
 

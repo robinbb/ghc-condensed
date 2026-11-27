@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module ShouldCompile where
 
@@ -41,7 +40,7 @@ data Compose (f :: Type -> Type) (g :: Type -> Type) a = Compose (f (g a))
 -- it needs both (Functor (f Int)) and (Functor (f Bool))
 -- i.e.:
 --  instance (Functor (f Bool), Functor (f Int)) => Functor (ComplexConstraint f)
--- This requires FlexibleContexts and UndecidableInstances
+-- This requires UndecidableInstances
 data ComplexConstraint f a = ComplexConstraint (f Int (f Bool a,a))
 --  deriving (Functor)
 

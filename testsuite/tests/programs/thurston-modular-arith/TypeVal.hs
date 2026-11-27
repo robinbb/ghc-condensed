@@ -1,4 +1,4 @@
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts,
+{-# LANGUAGE FunctionalDependencies,
              UndecidableInstances, ExistentialQuantification #-}
 
 -- TypeVal.hs: dependent types, here we come!

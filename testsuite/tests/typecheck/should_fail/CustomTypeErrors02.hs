@@ -1,5 +1,5 @@
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE TypeFamilies, TypeOperators, FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies, TypeOperators #-}
 module T2 where
 
 import GHC.TypeLits

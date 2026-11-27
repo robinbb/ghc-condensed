@@ -1,13 +1,6 @@
---- a/external-packages/vendored/conduit/test/Spec.hs
-+++ b/external-packages/vendored/conduit/test/Spec.hs
-@@ -1,3 +1,4 @@
-+{-# LANGUAGE FlexibleContexts #-}
- {-# LANGUAGE CPP #-}
- {-# LANGUAGE OverloadedStrings #-}
- {-# LANGUAGE ViewPatterns #-}
 --- a/external-packages/vendored/conduit/test/main.hs
 +++ b/external-packages/vendored/conduit/test/main.hs
-@@ -740,7 +740,8 @@
+@@ -740,7 +740,8 @@ main = hspec $ do
  
      describe "mtl instances" $ do
          it "ErrorT" $ do
@@ -17,7 +10,7 @@
                      lift $ return ()
                      C.yield 1
                      lift $ return ()
-@@ -753,7 +754,8 @@
+@@ -753,7 +754,8 @@ main = hspec $ do
              runConduit (src .| CL.consume) `shouldBe` Right [1, 2, 4 :: Int]
          describe "WriterT" $
              it "pass" $

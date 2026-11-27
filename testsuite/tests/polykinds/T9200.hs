@@ -1,5 +1,4 @@
-{-# LANGUAGE FlexibleContexts,
-             TypeFamilies #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module T9200 where
 

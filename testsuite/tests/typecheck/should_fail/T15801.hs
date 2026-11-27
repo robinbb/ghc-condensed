@@ -7,7 +7,6 @@
 {-# Language FlexibleInstances     #-}
 {-# Language GADTs                 #-}
 {-# Language UndecidableInstances  #-}
-{-# Language FlexibleContexts      #-}
 
 module Bug where
 import Data.Coerce

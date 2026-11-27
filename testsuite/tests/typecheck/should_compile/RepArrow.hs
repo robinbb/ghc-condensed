@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module RepArrow where
 

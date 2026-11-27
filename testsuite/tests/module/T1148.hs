@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -XFlexibleContexts -fwarn-unused-imports #-}
+{-# OPTIONS_GHC -fwarn-unused-imports #-}
 
 module ArrayBoundedU
    ( T

@@ -2,7 +2,6 @@
 -- term representation using de Bruijn indices
 
 {-# LANGUAGE OverloadedLabels
-           , FlexibleContexts
            , FlexibleInstances
            , GADTs
            , StandaloneDeriving

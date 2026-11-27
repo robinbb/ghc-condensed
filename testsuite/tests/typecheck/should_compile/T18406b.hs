@@ -1,6 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
-{-# LANGUAGE FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 module Bug where
 

@@ -1,9 +1,9 @@
-T19977b.hs:19:5: error: [GHC-39999]
+T19977b.hs:18:5: error: [GHC-39999]
     • Could not deduce ‘C a’ arising from a use of ‘h’
       from the context: D a
         bound by the type signature for:
                    g :: forall a. D a => a
-        at T19977b.hs:18:1-13
+        at T19977b.hs:17:1-13
     • In the expression: h
       In an equation for ‘g’: g = h
 

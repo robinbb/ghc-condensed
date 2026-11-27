@@ -1,6 +1,5 @@
 {-# LANGUAGE BangPatterns         #-}
 {-# LANGUAGE BlockArguments       #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiWayIf           #-}

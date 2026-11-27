@@ -1,5 +1,4 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE FlexibleContexts       #-}
 {-# LANGUAGE FlexibleInstances      #-}
 {-# LANGUAGE DeriveGeneric          #-}
 {-# LANGUAGE DeriveFunctor          #-}

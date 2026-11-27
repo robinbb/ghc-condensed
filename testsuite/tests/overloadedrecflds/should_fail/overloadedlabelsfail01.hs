@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedLabels, FlexibleContexts #-}
+{-# LANGUAGE OverloadedLabels #-}
 
 import GHC.OverloadedLabels
 

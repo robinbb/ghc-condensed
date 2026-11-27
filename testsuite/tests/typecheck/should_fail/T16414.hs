@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleInstances, AllowAmbiguousTypes #-}
 {-# LANGUAGE UndecidableSuperClasses #-}
 module T16414 where
 

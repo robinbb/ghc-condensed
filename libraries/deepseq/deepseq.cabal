@@ -50,7 +50,6 @@ library
     CPP
     DefaultSignatures
     EmptyCase
-    FlexibleContexts
     FlexibleInstances
     GADTs
     Safe
@@ -80,7 +79,6 @@ test-suite test
     BangPatterns
     DefaultSignatures
     DeriveGeneric
-    FlexibleContexts
     Safe
     TupleSections
     TypeOperators

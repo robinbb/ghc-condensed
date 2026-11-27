@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, BangPatterns, FlexibleContexts, Strict #-}
+{-# LANGUAGE RankNTypes, BangPatterns, Strict #-}
 
 {- |
   Module      :  Data.Graph.Dom

@@ -1,4 +1,4 @@
-RuleEqs.hs:24:11: warning: [GHC-53522] [-Wrule-lhs-equalities (in -Wdefault)]
+RuleEqs.hs:23:11: warning: [GHC-53522] [-Wrule-lhs-equalities (in -Wdefault)]
     Discarding RULE "ointercalate list".
     The LHS of this rule gave rise to equality constraints
     that GHC was unable to quantify over:

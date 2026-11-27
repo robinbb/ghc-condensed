@@ -1,6 +1,5 @@
 
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE FlexibleContexts #-}
 module T10079 where
 
 import Control.Applicative

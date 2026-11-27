@@ -1,5 +1,4 @@
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 -- #1783
 -- Like #1781 you could argue that this one should succeed

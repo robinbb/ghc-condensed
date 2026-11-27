@@ -1,4 +1,4 @@
-T17458.hs:29:32: error: [GHC-40404]
+T17458.hs:28:32: error: [GHC-40404]
     • Reduction stack overflow; size = 201
       When simplifying the following constraint: Typeable Void
     • In the expression: eqT

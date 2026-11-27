@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies
-  , FlexibleContexts, FlexibleInstances, UndecidableInstances
+, FlexibleInstances, UndecidableInstances
   , TypeSynonymInstances, GeneralizedNewtypeDeriving
   #-}
 

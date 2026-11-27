@@ -1,5 +1,5 @@
 {-# LANGUAGE Haskell2010 #-}
-{-# LANGUAGE RoleAnnotations, FlexibleContexts #-}
+{-# LANGUAGE RoleAnnotations #-}
 unit p where
     signature A where
         type role T nominal

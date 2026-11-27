@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, MagicHash #-}
+{-# LANGUAGE MagicHash #-}
 import Data.Binary.Get
 import Data.Binary.Put
 import Data.Binary (Binary, get, put)

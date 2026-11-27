@@ -1,7 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module T12866 where
 

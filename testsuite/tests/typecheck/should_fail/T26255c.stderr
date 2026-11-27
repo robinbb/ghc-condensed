@@ -1,4 +1,4 @@
-T26255c.hs:30:30: error: [GHC-39999]
+T26255c.hs:29:30: error: [GHC-39999]
     • No instance for ‘NewEra era’
         arising from a use of ‘eraFamilySize’
       Possible fix:

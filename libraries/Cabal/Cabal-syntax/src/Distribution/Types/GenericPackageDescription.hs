@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module Distribution.Types.GenericPackageDescription
   ( GenericPackageDescription (..)

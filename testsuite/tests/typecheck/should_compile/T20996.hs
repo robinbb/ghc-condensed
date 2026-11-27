@@ -1,5 +1,4 @@
 {-# language EmptyCase #-}
-{-# language FlexibleContexts #-}
 {-# language FlexibleInstances #-}
 {-# language QuantifiedConstraints #-}
 {-# language TypeApplications #-}

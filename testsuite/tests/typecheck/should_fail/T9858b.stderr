@@ -1,5 +1,5 @@
 
-T9858b.hs:7:8: error: [GHC-39999]
+T9858b.hs:6:8: error: [GHC-39999]
     • No instance for ‘Typeable (Eq Int => Int)’
         arising from a use of ‘typeRep’
         NB: ‘Eq Int => Int’ is a qualified type

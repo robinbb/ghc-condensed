@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, FlexibleInstances,
+{-# LANGUAGE FlexibleInstances,
               UndecidableInstances,
               EmptyDataDecls, GHC2021 #-}
 

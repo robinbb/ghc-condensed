@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, TypeSynonymInstances,
+{-# LANGUAGE TypeSynonymInstances,
              FlexibleInstances, TypeFamilies,
              UndecidableSuperClasses #-}
 

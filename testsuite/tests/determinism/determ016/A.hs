@@ -1,6 +1,5 @@
 
 {-# LANGUAGE UnicodeSyntax, FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS -w #-}
 
 module A where

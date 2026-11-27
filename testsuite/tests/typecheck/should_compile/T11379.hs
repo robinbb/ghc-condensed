@@ -1,5 +1,5 @@
 {-# LANGUAGE ExistentialQuantification,
-              FunctionalDependencies, FlexibleInstances, FlexibleContexts
+              FunctionalDependencies, FlexibleInstances
  #-}
 
 module XMonad.Layout.MultiToggle where

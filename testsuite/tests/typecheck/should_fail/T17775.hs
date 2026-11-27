@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 
 module T1 where
 

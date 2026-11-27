@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts, FunctionalDependencies #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 module T20064 where
 

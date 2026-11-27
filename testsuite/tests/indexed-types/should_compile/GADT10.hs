@@ -22,7 +22,7 @@ module GADT10 where
 --     In the pattern: EQUAL
 --     In the definition of `foo': foo EQUAL t = t
 --
--- The first error can be fixed by using FlexibleContexts but I don't think that
+-- The first error can be fixed by a flexible context but I don't think that
 -- should be required here. In fact, if we remove RankNTypes, we get
 --
 --     Illegal polymorphic or qualified type: forall (co_wild_B1 :: x ~

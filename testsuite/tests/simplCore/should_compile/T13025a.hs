@@ -1,4 +1,4 @@
-{-# LANGUAGE ConstraintKinds, FlexibleContexts,
+{-# LANGUAGE ConstraintKinds,
              FlexibleInstances, GADTs,
              TypeFamilies,
              TypeOperators #-}

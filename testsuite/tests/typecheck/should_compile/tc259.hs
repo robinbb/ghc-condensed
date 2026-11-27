@@ -1,5 +1,5 @@
 -- Test we don't get a cycle for "phantom" superclasses
-{-# LANGUAGE ConstraintKinds, FlexibleContexts #-}
+{-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
     -- 'meth' is ambiguous
 

@@ -1,7 +1,17 @@
-T17563.hs:8:9: error: [GHC-80003]
-    • Non type-variable argument in the constraint: Num (T a x)
-    • In the quantified constraint ‘forall (x :: k). Num (T a x)’
+T17563.hs:8:9: error: [GHC-39999]
+    • Could not deduce ‘Num (T a x)’
+        arising (via a quantified constraint) from a type ambiguity check
+      from the context: forall (x :: k3). Num (T a x)
+        bound by the type signature for:
+                   blah :: forall {k1} {k2} {k3} (a :: k1) (b :: k2).
+                           (forall (x :: k3). Num (T a x)) =>
+                           T a b
+        at T17563.hs:8:9-40
+      When trying to solve the quantified constraint
+        forall (x :: k0). Num (T a x)
+        arising from a type ambiguity check
+      The kind variable ‘k0’ is ambiguous
+    • In the ambiguity check for ‘blah’
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
       In the type signature: blah :: (forall x. Num (T a x)) => T a b
-    Suggested fix:
-      Perhaps you intended to use the ‘FlexibleContexts’ extension
 

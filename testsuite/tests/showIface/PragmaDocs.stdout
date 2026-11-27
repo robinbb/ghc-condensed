@@ -39,7 +39,6 @@ docs:
          DeriveLift
          DerivingStrategies
          TypeSynonymInstances
-         FlexibleContexts
          FlexibleInstances
          ExistentialQuantification
          EmptyDataDecls

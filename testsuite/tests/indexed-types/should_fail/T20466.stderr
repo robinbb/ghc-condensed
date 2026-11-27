@@ -1,10 +1,10 @@
-T20466.hs:26:7: error: [GHC-43085]
+T20466.hs:25:7: error: [GHC-43085]
     • Overlapping instances for Cls (Either a (F (Either (G a) (G b))))
         arising from a use of ‘foo’
       Matching instance:
-        instance [overlappable] Cls a -- Defined at T20466.hs:18:31
+        instance [overlappable] Cls a -- Defined at T20466.hs:17:31
       Potentially matching instance:
-        instance Cls (Either Int Bool) -- Defined at T20466.hs:20:10
+        instance Cls (Either Int Bool) -- Defined at T20466.hs:19:10
       (The choice depends on the instantiation of ‘a, b’
        and the result of evaluating ‘G, F’
        To pick the first instance above, mark the other
@@ -12,13 +12,13 @@ T20466.hs:26:7: error: [GHC-43085]
     • In the expression: foo
       In an equation for ‘bar’: bar = foo
 
-T20466.hs:32:8: error: [GHC-43085]
+T20466.hs:31:8: error: [GHC-43085]
     • Overlapping instances for Cls (Either Int (F Bool))
         arising from a use of ‘foo'’
       Matching instance:
-        instance [overlappable] Cls a -- Defined at T20466.hs:18:31
+        instance [overlappable] Cls a -- Defined at T20466.hs:17:31
       Potentially matching instance:
-        instance Cls (Either Int Bool) -- Defined at T20466.hs:20:10
+        instance Cls (Either Int Bool) -- Defined at T20466.hs:19:10
       (The choice depends on the result of evaluating ‘F’
        To pick the first instance above, mark the other
        instance declarations {-# INCOHERENT #-})

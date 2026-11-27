@@ -1,6 +1,6 @@
 
 {-# LANGUAGE FunctionalDependencies,
-             FlexibleInstances, FlexibleContexts,
+             FlexibleInstances,
              UndecidableInstances #-}
 
 --

@@ -85,7 +85,6 @@ data Extension
    | DerivingVia              -- Derive through equal representation
 
    | TypeSynonymInstances
-   | FlexibleContexts
    | FlexibleInstances
    | FunctionalDependencies
    | UnicodeSyntax

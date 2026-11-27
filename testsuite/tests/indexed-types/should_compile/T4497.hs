@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
-{-# LANGUAGE FlexibleContexts, TypeFamilies #-}  
+{-# LANGUAGE TypeFamilies #-}  
 
 module T4497 where
 

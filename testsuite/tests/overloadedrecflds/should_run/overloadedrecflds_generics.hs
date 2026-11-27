@@ -5,7 +5,6 @@
 -- (http://stackoverflow.com/questions/24474581)
 -- licensed under cc by-sa 3.0
 
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeFamilies #-}

@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
 module Expr where
 
 import Data.Data

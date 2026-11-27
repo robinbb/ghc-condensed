@@ -76,7 +76,7 @@ Library
     Default-Extensions:
                 ForeignFunctionInterface, FlexibleInstances,
                 TypeSynonymInstances
-                FlexibleContexts, ExistentialQuantification
+                ExistentialQuantification
                 GeneralizedNewtypeDeriving
                 StandaloneDeriving
                 UndecidableInstances

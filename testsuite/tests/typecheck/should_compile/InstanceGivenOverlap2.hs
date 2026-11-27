@@ -1,6 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes, TypeApplications,
              TypeFamilies, FlexibleInstances,
-             FlexibleContexts, PartialTypeSignatures #-}
+             PartialTypeSignatures #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
 
 module InstanceGivenOverlap2 where

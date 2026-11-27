@@ -5,7 +5,7 @@
              GADTs, TypeFamilyDependencies,
              ConstraintKinds, UndecidableInstances,
              FlexibleInstances, FunctionalDependencies,
-             FlexibleContexts, StandaloneDeriving,
+             StandaloneDeriving,
              UndecidableSuperClasses #-}
 
 module RaeJobTalk where

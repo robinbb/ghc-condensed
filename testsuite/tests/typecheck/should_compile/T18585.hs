@@ -1,4 +1,3 @@
-{-# Language FlexibleContexts #-}
 {-# Language TypeFamilyDependencies #-}
 {-# Language UndecidableInstances #-}
 {-# Language UndecidableSuperClasses #-}

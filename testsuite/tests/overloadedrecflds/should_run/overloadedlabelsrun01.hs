@@ -1,7 +1,6 @@
 -- Basic tests of overloaded labels
 
 {-# LANGUAGE OverloadedLabels
-           , FlexibleContexts
            , FlexibleInstances
   #-}
 

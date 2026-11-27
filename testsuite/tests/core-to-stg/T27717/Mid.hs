@@ -1,4 +1,4 @@
-{-# LANGUAGE UndecidableInstances, FlexibleInstances, FlexibleContexts #-}
+{-# LANGUAGE UndecidableInstances, FlexibleInstances #-}
 {-# LANGUAGE GADTs, ConstraintKinds #-}
 module Mid where
 

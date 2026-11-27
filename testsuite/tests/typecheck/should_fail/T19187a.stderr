@@ -1,5 +1,5 @@
 
-T19187a.hs:7:10: error: [GHC-22979]
+T19187a.hs:6:10: error: [GHC-22979]
     • The constraint ‘Eq Int’
         is no smaller than the instance head ‘Eq T’
     • In the instance declaration for ‘Eq T’

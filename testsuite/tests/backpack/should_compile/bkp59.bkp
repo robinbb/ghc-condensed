@@ -1,7 +1,6 @@
 -- default method, backpack
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeApplications #-}
 unit common where
   module Class where

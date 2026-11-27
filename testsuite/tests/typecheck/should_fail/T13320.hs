@@ -1,4 +1,4 @@
-{-# language ConstraintKinds, FlexibleContexts, TypeFamilies,
+{-# language ConstraintKinds, TypeFamilies,
     UndecidableInstances, DeriveFunctor #-}
 
 module T13320 where
