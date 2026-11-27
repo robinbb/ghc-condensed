@@ -1,6 +1,5 @@
 -- Test for ticket #830, simplifier taking too long on large do expression
 
-main :: IO ()
 main = do
   return ()
   return ()

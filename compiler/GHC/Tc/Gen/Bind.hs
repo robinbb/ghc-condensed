@@ -25,6 +25,7 @@ import {-# SOURCE #-} GHC.Tc.TyCl.PatSyn ( tcPatSynDecl, tcPatSynBuilderBind )
 import GHC.Types.Tickish (CoreTickish, GenTickish (..))
 import GHC.Types.CostCentre (mkUserCC, mkDeclCCFlavour)
 import GHC.Driver.DynFlags
+import GHC.Driver.Env( HscEnv(..), hsc_HUE, mainModIs, getMainOcc )
 import GHC.Data.FastString
 import GHC.Hs
 
@@ -77,7 +78,7 @@ import GHC.Utils.Misc
 import GHC.Types.Basic
 import GHC.Utils.Outputable as Outputable
 import GHC.Utils.Panic
-import GHC.Builtin.KnownKeys( ipClassKey )
+import GHC.Builtin.KnownKeys( ipClassKey, ioTyConKey )
 import GHC.Types.Unique.Set
 import qualified GHC.LanguageExtensions as LangExt
 
@@ -723,7 +724,11 @@ tcPolyInfer
 tcPolyInfer top_lvl rec_tc prag_fn tc_sig_fn bind_list
   = do { (tclvl, wanted, (binds', mono_infos))
              <- pushLevelAndCaptureConstraints  $
-                tcMonoBinds rec_tc tc_sig_fn LetLclBndr bind_list
+                do { res@(_, mbis) <-
+                       tcMonoBinds rec_tc tc_sig_fn LetLclBndr bind_list
+                     -- See Note [Typing main without a signature]
+                   ; mapM_ tcMainMonoType mbis
+                   ; return res }
 
        -- AbsBinds which are PatBinds can't be linear.
        -- See (NVP2) in Note [Non-variable pattern bindings aren't linear]
@@ -771,6 +776,55 @@ tcPolyInfer top_lvl rec_tc prag_fn tc_sig_fn bind_list
       = tcSubMult (NonLinearPatternOrigin GeneralisedPatternReason nlWildPatName) ManyTy mult
     manyIfPat _ = return ()
     manyIfPats binds' = traverse_ manyIfPat binds'
+
+-- | If this binder is the main function of the main module and has no type
+-- signature, unify its monomorphic type with @IO alpha@ before the group is
+-- generalised.  See Note [Typing main without a signature].
+tcMainMonoType :: MonoBindInfo -> TcM ()
+tcMainMonoType (MBI { mbi_poly_name = name, mbi_sig = Nothing
+                    , mbi_mono_id = mono_id })
+  = do { hsc_env  <- getTopEnv
+       ; this_mod <- getModule
+       ; let main_mod = mainModIs (hsc_HUE hsc_env)
+             main_occ = getMainOcc (hsc_dflags hsc_env)
+       ; when (this_mod == main_mod
+               && nameModule_maybe name == Just main_mod
+               && nameOccName name == main_occ) $
+         do { io_tc  <- tcLookupKnownKeyTyCon ioTyConKey
+            ; res_ty <- newFlexiTyVarTy liftedTypeKind
+            ; let io_ty = mkTyConApp io_tc [res_ty]
+            ; _ <- setSrcSpan (getSrcSpan name) $
+                   addErrCtxt (MainCtxt name)  $
+                   unifyType Nothing (idType mono_id) io_ty
+            ; return () } }
+tcMainMonoType _ = return ()
+
+{-
+Note [Typing main without a signature]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Haskell Report fixes the type of the main function of the main module
+at IO t.  GHC.Tc.Module.checkMainType checks that once the module is
+typechecked, but by then an unannotated main has been generalised, since
+this compiler has no monomorphism restriction: `main = return ()` would
+get the type forall m. Monad m => m (), a thousand-statement do block
+would be inferred over an abstract monad at a 67-fold cost in allocation
+(#9020), and `main = printf "%d" x` would be rejected as ambiguous, since
+PrintfType is resolved at generalisation, long before checkMainType runs.
+
+So tcPolyInfer treats the main function as if it carried the partial
+signature main :: IO _.  Once tcMonoBinds has given the group its
+monomorphic types, tcMainMonoType unifies main's type with IO alpha, for a
+fresh alpha, inside the pushed level, so that the equality is among the
+constraints simplifyInfer sees and main's monad is never quantified.  The
+result type stays free to be generalised, exactly as the partial signature
+would leave it.  Only the designated main function (honouring -main-is) of
+the main module, with no signature at all, is affected: a local binder
+called main, a main in another module, and a main with a signature,
+complete or partial, are left alone, and checkMainType still catches a
+signature that is not IO t.  Under -fdefer-type-errors an ill-typed main
+is reported both here and by checkMainType; see Note [Dealing with main]
+in GHC.Tc.Module.
+-}
 
 --------------
 mkExport :: TcPragEnv

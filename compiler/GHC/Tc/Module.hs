@@ -1883,7 +1883,13 @@ checkMainType tcg_env
        ; case filter isLocalGRE main_gres of {
             []         -> return emptyWC ;
             (_:_:_)    -> return emptyWC ;
-            [main_gre] ->
+            [main_gre]
+              | greName main_gre `elemNameSet` tcg_sigs tcg_env
+                 -- No signature: inferred at IO tau already, or the
+                 -- mismatch already reported.  See
+                 -- Note [Typing main without a signature] in Tc.Gen.Bind
+              -> return emptyWC
+              | otherwise ->
 
     do { let main_name = greName main_gre
              ctxt      = FunSigCtxt main_name NoRRC
@@ -1949,11 +1955,6 @@ checkMain explicit_mod_hdr export_ies
 
 -- | Get the unqualified name of the function to use as the \"main\" for the main module.
 -- Either returns the default name or the one configured on the command line with -main-is
-getMainOcc :: DynFlags -> OccName
-getMainOcc dflags = case mainFunIs dflags of
-                      Just fn -> mkVarOccFS (mkFastString fn)
-                      Nothing -> mkVarOccFS (fsLit "main")
-
 generateMainBinding :: TcGblEnv -> Name -> TcM TcGblEnv
 -- There is a single exported 'main' function, called 'foo' (say),
 -- which may be locally defined or imported
@@ -2024,9 +2025,11 @@ the moving parts:
 
 * checkMainType: when typechecking module M, we add an extra check that
     foo :: IO tau, for some type tau.
-  This fixes the type of things like
-      main = return ()
-  to IO early, rather than generalising them over the monad.
+  An unannotated foo was already fixed to IO when its binding group was
+  inferred, and any mismatch reported then, see Note [Typing main without
+  a signature] in GHC.Tc.Gen.Bind; so the check here is made only when foo
+  has a type signature (it is not in tcg_sigs), to catch one that is not
+  IO tau without reporting an inferred mismatch twice.
   Note that checkMainType does not consult the export list because
   we have not yet done rnExports (and can't do it until later).
 

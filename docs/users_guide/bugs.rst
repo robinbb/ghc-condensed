@@ -266,8 +266,9 @@ A binding group without type signatures is generalised over its class
 constraints whether or not its bindings are function bindings: ``plus =
 (+)`` has type ``Num a => a -> a -> a`` rather than a monomorphic type
 fixed by defaulting or by its uses, and a pattern binding is generalised
-too. To keep a constant applicative form shared, give it a type
-signature; see :ref:`monomorphism`.
+too. To keep a constant applicative form shared, give it a type signature;
+see :ref:`monomorphism`. The ``main`` function of the main module is
+inferred at ``IO t``, as the Report requires, with or without a signature.
 
 .. _infelicities-class-declarations:
 

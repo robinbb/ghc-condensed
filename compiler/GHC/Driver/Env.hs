@@ -34,6 +34,7 @@ module GHC.Driver.Env
    , lookupIfaceByModule
    , lookupIfaceByModuleHsc
    , mainModIs
+   , getMainOcc
 
    , hugRulesBelow
    , hugInstancesBelow
@@ -391,6 +392,12 @@ lookupIfaceByModuleHsc hsc_env mod = do
 
 mainModIs :: HomeUnitEnv -> Module
 mainModIs hue = mkHomeModule (expectJust $ homeUnitEnv_home_unit hue) (mainModuleNameIs (homeUnitEnv_dflags hue))
+
+-- | The name of the main function: @main@, unless @-main-is@ says otherwise.
+getMainOcc :: DynFlags -> OccName
+getMainOcc dflags = case mainFunIs dflags of
+                      Just fn -> mkVarOcc fn
+                      Nothing -> mkVarOcc "main"
 
 -- | Retrieve the target code interpreter
 --

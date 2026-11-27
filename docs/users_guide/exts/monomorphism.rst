@@ -23,3 +23,11 @@ type signature::
     table = map expensive [1 .. 1000]
 
 The type of ``table`` is then fixed and its value is computed once.
+
+The ``main`` function of the main module is the one exception. The Report
+fixes its type at ``IO t``, and GHC infers an unannotated ``main`` at that
+type rather than generalising it over its monad (as if it were written with
+the partial signature ``main :: IO _``), so a ``main`` built from ``printf``
+is not ambiguous and a long ``do`` block is typed at ``IO`` directly. A
+``main`` with a type signature, a ``main`` in another module and a local
+binding called ``main`` are generalised like any other binding.

@@ -1,15 +1,10 @@
-default-fail05.hs:10:1: error: [GHC-39999]
-    • Ambiguous type variable ‘t0’
-      prevents the constraint ‘(Applicative t0)’ from being solved.
-    • When checking the type of the IO action ‘main’
-
 default-fail05.hs:11:10: error: [GHC-39999]
-    • Could not deduce ‘Foldable t1’ arising from a use of ‘toList’
+    • Could not deduce ‘Foldable t0’ arising from a use of ‘toList’
       from the context: (Applicative t, Traversable t)
         bound by the inferred type of
                    main :: (Applicative t, Traversable t) => IO (t ())
         at default-fail05.hs:(10,1)-(12,26)
-      The type variable ‘t1’ is ambiguous
+      The type variable ‘t0’ is ambiguous
       Potentially matching instances:
         instance Foldable (Either a)
           -- Defined in ‘GHC.Internal.Data.Foldable’
@@ -22,12 +17,12 @@ default-fail05.hs:11:10: error: [GHC-39999]
       In a stmt of a 'do' block: print (toList $ pure 21)
 
 default-fail05.hs:11:19: error: [GHC-39999]
-    • Could not deduce ‘Applicative t1’ arising from a use of ‘pure’
+    • Could not deduce ‘Applicative t0’ arising from a use of ‘pure’
       from the context: (Applicative t, Traversable t)
         bound by the inferred type of
                    main :: (Applicative t, Traversable t) => IO (t ())
         at default-fail05.hs:(10,1)-(12,26)
-      The type variable ‘t1’ is ambiguous
+      The type variable ‘t0’ is ambiguous
       Potentially matching instances:
         instance Applicative IO -- Defined in ‘GHC.Internal.Base’
         instance Applicative Maybe -- Defined in ‘GHC.Internal.Base’
